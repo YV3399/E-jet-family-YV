@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+
+<PropertyList>
+<sim>
+    <model>
+        <livery>
+            <name type="string">Finnair (OH-LEK)</name>
+            <texture>/../Models/Liveries/ERJ170/FIN.png</texture>
+        </livery>
+    </model>
+</sim>
+</PropertyList>

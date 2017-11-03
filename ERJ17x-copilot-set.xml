@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<PropertyList>
+
+	<sim>
+		<description>Embraer 17x Copilot</description>
+		<author>Narendran Muraleedharan</author>
+		<status>early-production</status>
+		<flight-model>null</flight-model>
+
+		<model>
+			<path>Aircraft/E-jet-family/XMLs/ERJ170-copilot.xml</path>
+		</model>
+
+		<startup>
+			<splash-texture>Aircraft/E-jet-family/splash.png</splash-texture>
+		</startup>
+
+		<view>
+			<name>Pilot View</name>
+			<internal archive="y">true</internal>
+			<config>
+				<x-offset-m archive="y">-0.53</x-offset-m>
+				<y-offset-m archive="y">1.43</y-offset-m>
+				<z-offset-m archive="y">-11.57</z-offset-m>
+				<pitch-offset-deg archive="y">-8.0</pitch-offset-deg>
+				<default-field-of-view-deg type="double">70.0</default-field-of-view-deg>
+			</config>
+		</view>
+		<view n="100">
+			<name>Gear View</name>
+			<type>lookfrom</type>
+			<internal archive="y">false</internal>
+			<config>
+				<from-model type="bool">true</from-model>
+				<x-offset-m archive="y">0</x-offset-m>
+				<y-offset-m archive="y">-1.63</y-offset-m>
+				<z-offset-m archive="y">0.99</z-offset-m>
+				<pitch-offset-deg archive="y">0</pitch-offset-deg>
+			</config>
+		</view>
+
+		<view n="101">
+			<name>Wing View</name>
+			<type>lookfrom</type>
+			<internal archive="y">true</internal>
+			<config>
+				<from-model type="bool">true</from-model>
+				<from-model-idx type="int">0</from-model-idx>
+				<ground-level-nearplane-m type="double">0.01</ground-level-nearplane-m>
+				<default-field-of-view-deg type="double">70</default-field-of-view-deg>
+				<pitch-offset-deg>-8.0</pitch-offset-deg>
+				<heading-offset-deg type="double">90</heading-offset-deg> <!-- parallel to the panel -->
+				<x-offset-m archive="y">-1.84 </x-offset-m> <!--Left/Right-->
+				<y-offset-m archive="y"> 0.99 </y-offset-m> <!--Up/Down-->
+				<z-offset-m archive="y"> 0.23 </z-offset-m> <!--Fdw/Back-->
+			</config>
+		</view>
+
+		<view n="102">
+			<name>Tail view</name>
+			<type>lookfrom</type>
+			<internal type="bool">false</internal>
+			<config>
+				<from-model type="bool">true</from-model>
+				<from-model-idx type="int">0</from-model-idx>
+				<ground-level-nearplane-m type="double">6f</ground-level-nearplane-m>
+				<x-offset-m type="double">0.00</x-offset-m>
+				<y-offset-m type="double">7.64</y-offset-m>
+				<z-offset-m type="double">13.14</z-offset-m>
+				<pitch-offset-deg>-10</pitch-offset-deg>
+				<default-field-of-view-deg type="double">65.0</default-field-of-view-deg>
+			</config>
+			<dynamic>
+				<enabled type="bool">false</enabled>
+			</dynamic>
+		</view>
+
+
+		<view n="103">
+			<name>Copilot View</name>
+			<type>lookfrom</type>
+			<internal archive="y">true</internal>
+			<config>
+				<from-model type="bool">true</from-model>
+				<x-offset-m archive="y">0.53</x-offset-m>
+				<y-offset-m archive="y">1.43</y-offset-m>
+				<z-offset-m archive="y">-11.57</z-offset-m>
+				<pitch-offset-deg archive="y">-8.0</pitch-offset-deg>
+			</config>
+		</view>
+
+		<view n="104">
+			<name>Passenger View (Economy Class)</name>
+			<type>lookfrom</type>
+			<internal archive="y">true</internal>
+			<config>
+				<from-model type="bool">true</from-model>
+				<x-offset-m archive="y">-1.09</x-offset-m>
+				<y-offset-m archive="y">1.28</y-offset-m>
+				<z-offset-m archive="y">0</z-offset-m>
+			</config>
+		</view>
+
+		<chase-distance-m>-40</chase-distance-m>
+
+		<sound>
+			<path>Aircraft/E-jet-family/ERJ-sound.xml</path>
+		</sound>
+
+		<menubar>
+			<default>
+				<menu n="100">
+					<label>Embraer E-jets Copilot</label>
+					<enabled type="bool">true</enabled>
+
+					<item>
+						<label>Select Embraer ERJ170 Pilot</label>
+						<binding>
+							<command>nasal</command>
+							<script>
+								aircraft_dual_control.pilot_type = "Aircraft/E-jet-family/XMLs/ERJ-170.xml";
+								dual_control_tools.copilot_dialog.show(aircraft_dual_control.pilot_type);
+							</script>
+						</binding>
+					</item>
+					<item>
+						<label>Select Embraer ERJ175 Pilot</label>
+						<binding>
+							<command>nasal</command>
+							<script>
+								aircraft_dual_control.pilot_type = "Aircraft/E-jet-family/XMLs/ERJ-175.xml";
+								dual_control_tools.copilot_dialog.show(aircraft_dual_control.pilot_type);
+							</script>
+						</binding>
+					</item>
+				</menu>
+			</default>
+		</menubar>
+
+		<help>
+			<title>Embraer E-jet Copilot</title>
+			<key>
+				<name>Delete</name>
+				<desc>toggle thrust reversers</desc>
+			</key>
+			<key>
+				<name>Ctrl-b</name>
+				<desc>toggle speedbrakes/spoilers</desc>
+			</key>
+			<key>
+				<name>w</name>
+				<desc>walk forward toward view direction</desc>
+			</key>
+			<key>
+				<name>W</name>
+				<desc>run forward toward view direction</desc>
+			</key>
+			<key>
+				<name>s</name>
+				<desc>walk backward from view direction</desc>
+			</key>
+		</help>
+	</sim>
+
+	<input>
+		<keyboard>
+			<key n="119">
+				<name>w</name>
+				<desc>Walk forward toward view</desc>
+				<repeatable type="bool">true</repeatable>
+				<binding>
+					<command>nasal</command>
+					<script>
+						walk.walk_about(0.1);
+					</script>
+				</binding>
+			</key>
+			<key n="87">
+				<name>W</name>
+				<desc>Run forward toward view</desc>
+				<repeatable type="bool">true</repeatable>
+				<binding>
+					<command>nasal</command>
+					<script>
+						walk.walk_about(0.25);
+					</script>
+				</binding>
+			</key>
+			<key n="115">
+				<name>s</name>
+				<desc>Walk backward from view</desc>
+				<repeatable type="bool">true</repeatable>
+				<binding>
+					<command>nasal</command>
+					<script>
+						walk.walk_about(-0.1);
+					</script>
+				</binding>
+			</key>
+		</keyboard>
+	</input>
+
+	<nasal>
+		<walk>
+			<file>Aircraft/E-jet-family/Nasal/walk.nas</file>
+		</walk>
+		<!-- Dual control -->
+		<dual_control_tools>
+			<file>Aircraft/Generic/DualControl/dual-control-tools.nas</file>
+		</dual_control_tools>
+		<aircraft_dual_control>
+			<file>Aircraft/E-jet-family/DualControl/ERJ-dual-control.nas</file>
+		</aircraft_dual_control>
+		<dual_control>
+			<file>Aircraft/Generic/DualControl/copilot-dual-control.nas</file>
+		</dual_control>
+	</nasal>
+
+</PropertyList>

@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+
+<PropertyList>
+<sim>
+    <model>
+        <livery>
+            <name type="string">Aerosuperb | Merlion Australia</name>
+            <texture>/../Models/Liveries/ERJ170/aerosuperb.png</texture>
+	    <seat-logo>MIA-AS-seat.png</seat-logo>
+        </livery>
+    </model>
+</sim>
+</PropertyList>

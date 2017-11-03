@@ -1,0 +1,115 @@
+# E-jet-family EICAS by D-ECHO based on
+# A3XX Lower ECAM Canvas
+# Joshua Davidson (it0uchpods)
+
+#sources: http://www.smartcockpit.com/docs/Embraer_190-Powerplant.pdf http://www.smartcockpit.com/docs/Embraer_190-Flight_Controls.pdf http://www.smartcockpit.com/docs/Embraer_190-APU.pdf
+
+var IESS_only = nil;
+var IESS_display = nil;
+var page = "only";
+var DC=0.01744;
+
+setprop("/systems/electrical/outputs/efis", 0);
+
+var canvas_IESS_base = {
+	init: func(canvas_group, file) {
+		var font_mapper = func(family, weight) {
+			return "LiberationFonts/LiberationSans-Regular.ttf";
+		};
+
+
+		canvas.parsesvg(canvas_group, file, {'font-mapper': font_mapper});
+
+		 var svg_keys = me.getKeys();
+		 
+		foreach(var key; svg_keys) {
+			me[key] = canvas_group.getElementById(key);
+			var svg_keys = me.getKeys();
+			foreach (var key; svg_keys) {
+			me[key] = canvas_group.getElementById(key);
+			var clip_el = canvas_group.getElementById(key ~ "_clip");
+			if (clip_el != nil) {
+				clip_el.setVisible(0);
+				var tran_rect = clip_el.getTransformedBounds();
+				var clip_rect = sprintf("rect(%d,%d, %d,%d)", 
+				tran_rect[1], # 0 ys
+				tran_rect[2], # 1 xe
+				tran_rect[3], # 2 ye
+				tran_rect[0]); #3 xs
+				#   coordinates are top,right,bottom,left (ys, xe, ye, xs) ref: l621 of simgear/canvas/CanvasElement.cxx
+				me[key].set("clip", clip_rect);
+				me[key].set("clip-frame", canvas.Element.PARENT);
+			}
+			}
+		}
+
+		#me.h_trans = me["horizon"].createTransform();
+		#me.h_rot = me["horizon"].createTransform();
+			
+		me.page = canvas_group;
+
+		return me;
+	},
+	getKeys: func() {
+		return [];
+	},
+	update: func() {
+		#if (getprop("systems/electrical/outputs/efis") >= 15) {
+		#	IESS_only.page.show();
+		#	print("ON");
+		#} else {
+		#	IESS_only.page.hide();
+		#	print("OFF");
+		#}
+		
+		settimer(func me.update(), 0.02);
+	},
+};
+
+var canvas_IESS_only = {
+	new: func(canvas_group, file) {
+		var m = { parents: [canvas_IESS_only,canvas_IESS_base] };
+		m.init(canvas_group, file);
+
+		return m;
+	},
+	getKeys: func() {
+		return [];
+	},
+	update: func() {
+	
+		
+		#var pitch = (getprop("orientation/pitch-deg") or 0);
+		#var roll =  getprop("orientation/roll-deg") or 0;
+		#var x=math.sin(-3.14/180*roll)*pitch*10.6;
+		#var y=math.cos(-3.14/180*roll)*pitch*10.6;
+		
+		
+		#me.h_trans.setTranslation(0,pitch*10.63);
+		#me.h_rot.setRotation(-roll*DC,me["horizon"].getCenter());
+		
+		
+		settimer(func me.update(), 0.02);
+	},
+};
+
+setlistener("sim/signals/fdm-initialized", func {
+	IESS_display = canvas.new({
+		"name": "IESS",
+		"size": [1024.1024],
+		"view": [1024,1024],
+		"mipmapping": 1
+	});
+	IESS_display.addPlacement({"node": "IESS_placement"});
+	var groupIESS = IESS_display.createGroup();
+
+	IESS_only = canvas_IESS_only.new(groupIESS, "Aircraft/E-jet-family/Models/Primus-Epic/IESS.svg");
+
+	IESS_only.update();
+	canvas_IESS_base.update();
+});
+
+var showIESS = func {
+	var dlg = canvas.Window.new([512, 512], "dialog").set("resize", 1);
+	dlg.setCanvas(IESS_display);
+}

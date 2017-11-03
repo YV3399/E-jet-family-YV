@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+
+<PropertyList>
+<sim>
+    <model>
+        <livery>
+            <name type="string">HOP! - For Air France</name>
+            <texture>/../Models/Liveries/ERJ170/F-HBXD.png</texture>
+        </livery>
+    </model>
+</sim>
+</PropertyList>

@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+
+<PropertyList>
+<sim>
+    <model>
+        <livery>
+            <name type="string">Satena Colombia</name>
+            <texture>/../Models/Liveries/ERJ170/NSE.png</texture>
+        </livery>
+    </model>
+</sim>
+</PropertyList>

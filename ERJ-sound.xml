@@ -1,0 +1,996 @@
+<?xml version="1.0"?>
+
+<!-- New Sounds By Gabriel Hernandez -->
+
+<PropertyList>
+
+<fx>
+    <engine>
+        <name>left engine</name>
+        <path>Aircraft/E-jet-family/Sounds/SoundPack/jet.wav</path>
+        <mode>looped</mode>
+        <condition>
+            <not>
+                <property>controls/engines/engine[0]/cutoff</property>
+            </not>
+        </condition>
+        <volume>
+            <property>engines/engine[0]/thrust-lb</property>
+            <factor>0.00004</factor>
+            <min>0.0</min>
+            <max>1</max>
+        </volume>
+        <volume>
+            <property>sim/sound/Ovolume</property>
+        </volume>
+        <position>
+            <x>0</x>
+            <y>-9.8</y>
+            <z>-3</z>
+        </position>
+        <reference-dist>200.0</reference-dist>
+        <max-dist>500.0</max-dist>
+    </engine>
+
+        <engine>
+		<name>turbine1 l</name>
+		<mode>looped</mode>
+		<path>Aircraft/E-jet-family/Sounds/turbine.wav</path>
+		<property>engines/engine[0]/n1</property>
+		<condition>
+			<property>sim/current-view/internal</property>
+			<less-than>
+				<property>sim/current-view/z-offset-m</property>
+				<value>1</value>
+			</less-than>
+		</condition>
+		<volume>
+			<property>engines/engine[0]/n1</property>
+			<factor>0.04</factor>
+			<offset>-2.0</offset>
+			<min>2.0</min>
+			<max>4.0</max>
+		</volume>
+		<pitch>
+			<property>engines/engine[0]/n1</property>
+			<offset>0</offset>
+			<factor>0.01</factor>
+		</pitch>
+	</engine>
+	
+	  <engine>
+		<name>turbine1 r</name>
+		<mode>looped</mode>
+		<path>Aircraft/E-jet-family/Sounds/turbine.wav</path>
+		<property>engines/engine[1]/n1</property>
+		<condition>
+			<property>sim/current-view/internal</property>
+			<less-than>
+				<property>sim/current-view/z-offset-m</property>
+				<value>1</value>
+			</less-than>
+		</condition>
+		<volume>
+			<property>engines/engine[1]/n1</property>
+			<factor>0.04</factor>
+			<offset>-2.0</offset>
+			<min>2.0</min>
+			<max>4.0</max>
+		</volume>
+		<pitch>
+			<property>engines/engine[1]/n1</property>
+			<offset>0</offset>
+			<factor>0.01</factor>
+		</pitch>
+         </engine>    	
+
+    <engine>
+		<name>low l out</name>
+		<mode>looped</mode>
+		<path>Aircraft/E-jet-family/Sounds/SoundPack/xlow.wav</path>
+		<property>engines/engine[0]/n1</property>
+		<condition>
+			<not><property>sim/current-view/internal</property></not>
+		</condition>
+		<volume>
+			<property>engines/engine[0]/n1</property>
+			<factor>0.044</factor>
+			<max>1</max>
+		</volume>
+		<pitch>
+			<property>engines/engine[0]/n1</property>
+			<offset>0</offset>
+			<factor>0.02</factor>
+			<max>2</max>
+		</pitch>
+	</engine>
+
+       
+    <engine>
+        <name>left reverse thrust</name>
+        <path>Aircraft/E-jet-family/Sounds/SoundPack/reverser.wav</path>
+        <mode>looped</mode>
+        <condition>
+            <and>
+                <greater-than>
+                    <property>engines/engine[0]/n1</property>
+                    <value>2</value>
+                </greater-than>
+                <greater-than>
+                    <property>engines/engine[0]/reverser-pos-norm</property>
+                    <value>0</value>
+                </greater-than>
+            </and>
+        </condition>
+        <volume>
+            <property>engines/engine[0]/n1</property>
+            <min>0.0</min>
+            <max>1.0</max>
+        </volume>
+        <volume>
+            <property>sim/sound/effects/volume</property>
+        </volume>
+        <position>
+            <x>0</x>
+            <y>9.8</y>
+            <z>-3</z>
+        </position>
+        <reference-dist>10.0</reference-dist>
+        <max-dist>30.0</max-dist>
+    </engine>
+
+    <engine>
+        <name>left engine inside</name>
+        <path>Aircraft/E-jet-family/Sounds/SoundPack/inside.wav</path>
+        <mode>looped</mode>
+        <condition>
+            <and>
+                <greater-than>
+                    <property>engines/engine[0]/n1</property>
+                    <value>2</value>
+                </greater-than>
+                <property>sim/current-view/internal</property>
+            </and>
+        </condition>
+        <pitch>
+            <property>/engines/engine[0]/n1</property>
+            <offset>0</offset>
+            <factor>0.02</factor>
+            <min>0.0</min>
+            <max>2.0</max>
+        </pitch>
+        <volume>
+            <property>engines/engine[0]/n2</property>
+            <factor>0.06</factor>
+            <min>0</min>
+            <max>1</max>
+        </volume>
+        <volume>
+            <property>sim/sound/effects/volume</property>
+        </volume>
+        <position>
+            <x>0</x>
+            <y>9.8</y>
+            <z>-3</z>
+        </position>
+        <reference-dist>200.0</reference-dist>
+        <max-dist>500.0</max-dist>
+    </engine>
+
+    <engine>
+        <name>right engine</name>
+        <path>Aircraft/E-jet-family/Sounds/SoundPack/jet.wav</path>
+        <mode>looped</mode>
+        <condition>
+            <not>
+                <property>controls/engines/engine[0]/cutoff</property>
+            </not>
+        </condition>
+        <volume>
+            <property>engines/engine[0]/thrust-lb</property>
+            <factor>0.00004</factor>
+            <min>0.0</min>
+            <max>1</max>
+        </volume>
+        <volume>
+            <property>sim/sound/Ovolume</property>
+        </volume>
+        <position>
+            <x>0</x>
+            <y>9.8</y>
+            <z>-3</z>
+        </position>
+        <reference-dist>200.0</reference-dist>
+        <max-dist>500.0</max-dist>
+    </engine>
+    <engine>
+		<name>low r out</name>
+		<mode>looped</mode>
+		<path>Aircraft/E-jet-family/Sounds/SoundPack/xlow.wav</path>
+		<property>engines/engine[1]/n1</property>
+		<condition>
+			<not><property>sim/current-view/internal</property></not>
+		</condition>
+		<volume>
+			<property>engines/engine[1]/n1</property>
+			<factor>0.044</factor>
+			<max>1</max>
+		</volume>
+		<pitch>
+			<property>engines/engine[1]/n1</property>
+			<offset>0</offset>
+			<factor>0.02</factor>
+			<max>2</max>
+		</pitch>
+	</engine>
+
+        <engine>
+        <name>right reverse thrust</name>
+        <path>Aircraft/E-jet-family/Sounds/SoundPack/reverser.wav</path>
+        <mode>looped</mode>
+        <condition>
+            <and>
+                <greater-than>
+                    <property>engines/engine[1]/n1</property>
+                    <value>2</value>
+                </greater-than>
+                <greater-than>
+                    <property>engines/engine[1]/reverser-pos-norm</property>
+                    <value>0</value>
+                </greater-than>
+            </and>
+        </condition>
+        <volume>
+            <property>engines/engine[1]/n1</property>
+            <min>0.0</min>
+            <max>1.0</max>
+        </volume>
+        <volume>
+            <property>sim/sound/effects/volume</property>
+        </volume>
+        <position>
+            <x>0</x>
+            <y>9.8</y>
+            <z>-3</z>
+        </position>
+        <reference-dist>10.0</reference-dist>
+        <max-dist>30.0</max-dist>
+    </engine>
+
+    <engine>
+        <name>right engine inside</name>
+        <path>Aircraft/E-jet-family/Sounds/SoundPack/inside.wav</path>
+        <mode>looped</mode>
+        <condition>
+            <and>
+                <greater-than>
+                    <property>engines/engine[1]/n1</property>
+                    <value>2</value>
+                </greater-than>
+                <property>sim/current-view/internal</property>
+            </and>
+        </condition>
+        <pitch>
+            <property>/engines/engine[1]/n1</property>
+            <offset>0</offset>
+            <factor>0.02</factor>
+            <min>0.0</min>
+            <max>2.0</max>
+        </pitch>
+        <volume>
+            <property>engines/engine[1]/n2</property>
+            <factor>0.06</factor>
+            <min>0</min>
+            <max>1</max>
+        </volume>
+        <volume>
+            <property>sim/sound/effects/volume</property>
+        </volume>
+        <position>
+            <x>0</x>
+            <y>-9.8</y>
+            <z>-3</z>
+        </position>
+        <reference-dist>200.0</reference-dist>
+        <max-dist>500.0</max-dist>
+    </engine>
+
+
+ <gear>
+   <name>gear</name>
+   <mode>in-transit</mode>
+   <path>Aircraft/E-jet-family/Sounds/SoundPack/gear.wav</path>
+   <property>/gear/gear[0]/position-norm</property>
+   <pitch>
+    <internal>dt_play</internal>
+    <offset>1.0</offset>
+    <factor>-0.001</factor>
+   </pitch>
+  </gear>
+
+   
+     <rumblefront>
+        <name>nose wheel rumble</name>
+        <mode>looped</mode>
+        <path>Aircraft/E-jet-family/Sounds/SoundPack/rumble.wav</path>
+        <condition>
+            <property>/gear/gear[0]/wow</property>
+        </condition>
+        <volume>
+            <property>/velocities/groundspeed-kt</property>
+            <type>log</type>
+            <factor>0.25</factor>
+        </volume>
+        <position>
+            <x>-22</x>
+            <y>0</y>
+            <z>-5</z>
+        </position>
+        <reference-dist>10.0</reference-dist>
+        <max-dist>25.0</max-dist>
+    </rumblefront>
+
+    <rumblemain>
+        <name>main gear rumble</name>
+        <mode>looped</mode>
+        <path>Aircraft/E-jet-family/Sounds/SoundPack/rumble.wav</path>
+        <condition>
+            <or>
+                <property>/gear/gear[1]/wow</property>
+                <property>/gear/gear[2]/wow</property>
+            </or>
+        </condition>
+        <volume>
+            <property>/velocities/groundspeed-kt</property>
+            <type>log</type>
+            <factor>0.25</factor>
+        </volume>
+        <position>
+            <x>-6.5</x>
+            <y>0</y>
+            <z>-5</z>
+        </position>
+        <reference-dist>10.0</reference-dist>
+        <max-dist>25.0</max-dist>
+    </rumblemain>
+
+<squeal0>
+        <name>squeal</name>
+        <path>Aircraft/E-jet-family/Sounds/SoundPack/touchdown.wav</path>
+        <condition>
+            <or>
+                <property>/gear/gear[0]/wow</property>
+                <property>/gear/gear[1]/wow</property>
+                <property>/gear/gear[2]/wow</property>
+            </or>
+        </condition>
+        <volume>
+            <property>sim/sound/Ovolume</property>
+        </volume>
+        <volume>
+            <property>/velocities/speed-down-fps</property>
+            <factor>0.05</factor>
+        </volume>
+        <volume>
+            <property>/velocities/airspeed-kt</property>
+            <factor>0.01</factor>
+        </volume>
+        <volume>
+            <internal>dt_stop</internal>
+            <factor>0.05</factor>
+            <max>1.0</max>
+        </volume>
+        <pitch>
+            <property>/velocities/airspeed-kt</property>
+            <factor>0.0025</factor>
+            <offset>1.2</offset>
+        </pitch>
+        <position>
+            <x>-6.5</x>
+            <y>0</y>
+            <z>-5</z>
+        </position>
+        <reference-dist>20.0</reference-dist>
+        <max-dist>40.0</max-dist>
+    </squeal0>
+
+    <squeal1>
+      <name>squeal</name>
+      <path>Aircraft/E-jet-family/Sounds/SoundPack/Roll.wav</path>
+      <condition>
+        <property>/gear/gear[0]/wow</property>
+      </condition>
+      <volume>
+        <property>/velocities/speed-down-fps</property>
+        <factor>0.05</factor>
+      </volume>
+      <volume>
+        <property>/velocities/airspeed-kt</property>
+        <factor>0.01</factor>
+      </volume>
+      <volume>
+        <internal>dt_stop</internal>
+        <factor>0.05</factor>
+        <max>1.0</max>
+      </volume>
+      <pitch>
+        <property>/velocities/airspeed-kt</property>
+        <factor>0.0025</factor>
+        <offset>1.2</offset>
+      </pitch>
+      <reference-dist>100</reference-dist>
+      <max-dist>1000</max-dist>
+    </squeal1>
+
+    <flap>
+        <name>flaps</name>
+        <mode>in-transit</mode>
+        <path>Aircraft/E-jet-family/Sounds/SoundPack/flaps.wav</path>
+        <property>/surface-positions/flap-pos-norm</property>
+        <volume>
+            <property>sim/sound/effects/volume</property>
+            <max>0.5</max>
+        </volume>
+        <position>
+            <x>-9</x>
+            <y>0</y>
+            <z>0</z>
+        </position>
+        <reference-dist>5.0</reference-dist>
+        <max-dist>10.0</max-dist>
+    </flap>
+
+    <wind>
+        <name>wind</name>
+        <mode>looped</mode>
+        <path>Aircraft/E-jet-family/Sounds/SoundPack/wind.wav</path>
+        <property>/velocities/airspeed-kt</property>
+        <volume>
+            <property>/position/altitude-ft</property>
+            <factor>-0.000015</factor>
+            <offset>1.0</offset>
+            <min>0.1</min>
+            <max>1.0</max>
+        </volume>
+        <volume>
+            <property>/velocities/airspeed-kt</property>
+            <factor>0.0015</factor>
+            <min>0.03</min>
+            <max>0.25</max>
+        </volume>
+        <pitch>
+            <property>/velocities/airspeed-kt</property>
+            <factor>0.01</factor>
+            <offset>1.25</offset>
+        </pitch>
+        <position>
+            <x>-24</x>
+            <y>0</y>
+            <z>0.86</z>
+        </position>
+        <reference-dist>1.0</reference-dist>
+        <max-dist>2.0</max-dist>
+    </wind>
+
+    <stall>
+        <name>stall</name>
+        <mode>looped</mode>
+        <path>Aircraft/E-jet-family/Sounds/SoundPack/stall.wav</path>
+        <condition>
+            <property>sim/sound/stall-horn</property>
+        </condition>
+        <volume>
+            <offset>0.5</offset>
+        </volume>
+        <position>
+            <x>-24</x>
+            <y>0</y>
+            <z>0.18</z>
+        </position>
+        <reference-dist>0.5</reference-dist>
+        <max-dist>1.0</max-dist>
+    </stall>
+
+    <speedbrake>
+        <name>speedbrake</name>
+        <mode>in-transit</mode>
+        <path>Aircraft/E-jet-family/Sounds/SoundPack/spd-brk.wav</path>
+        <property>/surface-positions/speedbrake-pos-norm</property>
+        <volume>
+            <property>sim/sound/effects/volume</property>
+            <factor>2.0</factor>
+        </volume>
+        <position>
+            <x>-24</x>
+            <y>0</y>
+            <z>0.18</z>
+        </position>
+        <reference-dist>0.5</reference-dist>
+        <max-dist>1.0</max-dist>
+    </speedbrake>
+
+    <engines>
+        <name>left reverse-thrust</name>
+        <mode>looped</mode>
+        <path>Aircraft/E-jet-family/Sounds/SoundPack/reverser.wav</path>
+        <condition>
+            <property>engines/engine[0]/running</property>
+        </condition>
+        <volume>
+            <property>surface-positions/reverser-norm[0]</property>
+        </volume>
+        <volume>
+            <property>sim/sound/effects/volume</property>
+        </volume>
+        <position>
+            <x>2.75</x>
+            <y>9.8</y>
+            <z>-3</z>
+        </position>
+        <reference-dist>250.0</reference-dist>
+        <max-dist>500.0</max-dist>
+    </engines>
+
+    <engines>
+        <name>right reverse-thrust</name>
+        <mode>looped</mode>
+        <path>Aircraft/E-jet-family/Sounds/SoundPack/reverser.wav</path>
+        <condition>
+            <property>engines/engine[1]/running</property>
+        </condition>
+        <volume>
+            <property>surface-positions/reverser-norm[1]</property>
+        </volume>
+        <volume>
+            <property>sim/sound/effects/volume</property>
+        </volume>
+        <position>
+            <x>2.75</x>
+            <y>-9.8</y>
+            <z>-3</z>
+        </position>
+        <reference-dist>250.0</reference-dist>
+        <max-dist>500.0</max-dist>
+    </engines>
+
+    <!-- Seatbelt/No smoking signs -->
+    <seatbelt>
+        <name>Seatbelt sign</name>
+        <path>Aircraft/E-jet-family/Sounds/cabinalert.wav</path>
+        <mode>once</mode>
+        <condition>
+            <property>sim/sound/seatbelt-sign</property>
+        </condition>
+        <volume>
+            <property>sim/sound/effects/volume</property>
+        </volume>
+        <position>
+            <x>0.00</x>
+            <y>0.00</y>
+            <z>0.00</z>
+        </position>
+        <reference-dist>10.0</reference-dist>
+        <max-dist>100.0</max-dist>
+    </seatbelt>
+    <nosmoke>
+        <name>No smoking sign</name>
+        <path>Aircraft/E-jet-family/Sounds/cabinalert.wav</path>
+        <mode>once</mode>
+        <condition>
+            <property>sim/sound/no-smoking-sign</property>
+        </condition>
+        <volume>
+            <property>sim/sound/effects/volume</property>
+        </volume>
+        <position>
+            <x>0.00</x>
+            <y>0.00</y>
+            <z>0.00</z>
+        </position>
+        <reference-dist>10.0</reference-dist>
+        <max-dist>100.0</max-dist>
+    </nosmoke>
+
+    <!-- Overspeed warning -->
+    <overspeed>
+        <name>Overspeed warning</name>
+        <path>Aircraft/E-jet-family/Sounds/SoundPack/Ovspd.wav</path>
+        <mode>looped</mode>
+        <condition>
+            <greater-than>
+                <property>velocities/airspeed-kt</property>
+                <value>563</value>
+            </greater-than>
+        </condition>
+        <volume>
+            <property>sim/sound/effects/volume</property>
+        </volume>
+        <position>
+            <x>0</x>
+            <y>0</y>
+            <z>0</z>
+        </position>
+        <reference-dist>10</reference-dist>
+        <max-dist>100</max-dist>
+    </overspeed>
+
+<!-- Announcements -->
+
+<announcement>
+<name>welcome</name>
+ <path>Aircraft/E-jet-family/Sounds/welcome.wav</path>
+ <mode>once</mode>
+ <condition>
+  <property>sim/sound/welcome</property>
+ </condition>
+        <volume>
+            <factor>8</factor>
+        </volume>
+  <position>
+      <x>0.00</x>
+      <y>0.00</y>
+      <z>0.00</z>
+ </position>
+ <reference-dist>10.0</reference-dist>
+ <max-dist>100.0</max-dist>
+</announcement>
+
+<announcement>
+<name>safety</name>
+ <path>Aircraft/E-jet-family/Sounds/safety.wav</path>
+ <mode>once</mode>
+ <condition>
+  <property>sim/sound/safety</property>
+ </condition>
+        <volume>
+            <factor>8</factor>
+        </volume>
+  <position>
+      <x>0.00</x>
+      <y>0.00</y>
+      <z>0.00</z>
+ </position>
+ <reference-dist>10.0</reference-dist>
+ <max-dist>100.0</max-dist>
+</announcement>
+
+<announcement>
+<name>cruise</name>
+ <path>Aircraft/E-jet-family/Sounds/cruise.wav</path>
+ <mode>once</mode>
+ <condition>
+  <property>sim/sound/cruise</property>
+ </condition>
+        <volume>
+            <factor>8</factor>
+        </volume>
+  <position>
+      <x>0.00</x>
+      <y>0.00</y>
+      <z>0.00</z>
+ </position>
+ <reference-dist>10.0</reference-dist>
+ <max-dist>100.0</max-dist>
+</announcement>
+
+<announcement>
+<name>climb</name>
+ <path>Aircraft/E-jet-family/Sounds/climb.wav</path>
+ <mode>once</mode>
+ <condition>
+  <property>sim/sound/climb</property>
+ </condition>
+        <volume>
+            <factor>8</factor>
+        </volume>
+  <position>
+      <x>0.00</x>
+      <y>0.00</y>
+      <z>0.00</z>
+ </position>
+ <reference-dist>10.0</reference-dist>
+ <max-dist>100.0</max-dist>
+</announcement>
+
+<announcement>
+<name>cruise-seatbelt</name>
+ <path>Aircraft/E-jet-family/Sounds/cruise-seatbelt.wav</path>
+ <mode>once</mode>
+ <condition>
+  <property>sim/sound/cruise-seatbelt</property>
+ </condition>
+        <volume>
+            <factor>8</factor>
+        </volume>
+  <position>
+      <x>0.00</x>
+      <y>0.00</y>
+      <z>0.00</z>
+ </position>
+ <reference-dist>10.0</reference-dist>
+ <max-dist>100.0</max-dist>
+</announcement>
+
+<announcement>
+<name>turbulence</name>
+ <path>Aircraft/E-jet-family/Sounds/turbulence.wav</path>
+ <mode>once</mode>
+ <condition>
+  <property>sim/sound/turbulence</property>
+ </condition>
+        <volume>
+            <factor>8</factor>
+        </volume>
+  <position>
+      <x>0.00</x>
+      <y>0.00</y>
+      <z>0.00</z>
+ </position>
+ <reference-dist>10.0</reference-dist>
+ <max-dist>100.0</max-dist>
+</announcement>
+
+<announcement>
+<name>descent</name>
+ <path>Aircraft/E-jet-family/Sounds/descent.wav</path>
+ <mode>once</mode>
+ <condition>
+  <property>sim/sound/descent</property>
+ </condition>
+        <volume>
+            <factor>8</factor>
+        </volume>
+  <position>
+      <x>0.00</x>
+      <y>0.00</y>
+      <z>0.00</z>
+ </position>
+ <reference-dist>10.0</reference-dist>
+ <max-dist>100.0</max-dist>
+</announcement>
+
+<announcement>
+<name>land</name>
+ <path>Aircraft/E-jet-family/Sounds/land.wav</path>
+ <mode>once</mode>
+ <condition>
+  <property>sim/sound/land</property>
+ </condition>
+        <volume>
+            <factor>8</factor>
+        </volume>
+  <position>
+      <x>0.00</x>
+      <y>0.00</y>
+      <z>0.00</z>
+ </position>
+ <reference-dist>10.0</reference-dist>
+ <max-dist>100.0</max-dist>
+</announcement>
+
+<announcement>
+<name>gate</name>
+ <path>Aircraft/E-jet-family/Sounds/gate.wav</path>
+ <mode>once</mode>
+ <condition>
+  <property>sim/sound/gate</property>
+ </condition>
+        <volume>
+            <factor>8</factor>
+        </volume>
+  <position>
+      <x>0.00</x>
+      <y>0.00</y>
+      <z>0.00</z>
+ </position>
+ <reference-dist>10.0</reference-dist>
+ <max-dist>100.0</max-dist>
+</announcement>
+
+<announcement>
+<name>emergency</name>
+ <path>Aircraft/E-jet-family/Sounds/emergency.wav</path>
+ <mode>once</mode>
+ <condition>
+  <property>sim/sound/emergency</property>
+ </condition>
+        <volume>
+            <factor>8</factor>
+        </volume>
+  <position>
+      <x>0.00</x>
+      <y>0.00</y>
+      <z>0.00</z>
+ </position>
+ <reference-dist>10.0</reference-dist>
+ <max-dist>100.0</max-dist>
+</announcement>
+
+<announcement>
+<name>pretakeoff</name>
+ <path>Aircraft/E-jet-family/Sounds/pretakeoff.wav</path>
+ <mode>once</mode>
+ <condition>
+  <property>sim/sound/pretakeoff</property>
+ </condition>
+        <volume>
+            <factor>8</factor>
+        </volume>
+  <position>
+      <x>0.00</x>
+      <y>0.00</y>
+      <z>0.00</z>
+ </position>
+ <reference-dist>10.0</reference-dist>
+ <max-dist>100.0</max-dist>
+</announcement>
+
+
+<announcement>
+<name>boarding2</name>
+ <path>Aircraft/E-jet-family/Sounds/music2.wav</path>
+ <mode>looped</mode>
+ <condition>
+  <property>sim/sound/music2</property>
+ </condition>
+        <volume>
+            <factor>8</factor>
+        </volume>
+  <position>
+      <x>0.00</x>
+      <y>0.00</y>
+      <z>0.00</z>
+ </position>
+ <reference-dist>10.0</reference-dist>
+ <max-dist>100.0</max-dist>
+</announcement>
+
+
+<announcement>
+<name>brace</name>
+ <path>Aircraft/E-jet-family/Sounds/brace.wav</path>
+ <mode>once</mode>
+ <condition>
+  <property>sim/sound/brace</property>
+ </condition>
+        <volume>
+            <factor>8</factor>
+        </volume>
+  <position>
+      <x>0.00</x>
+      <y>0.00</y>
+      <z>0.00</z>
+ </position>
+ <reference-dist>10.0</reference-dist>
+ <max-dist>100.0</max-dist>
+</announcement>
+
+<avionics>
+			<name>avionics</name>
+			<path>Aircraft/E-jet-family/Sounds/avionics.wav</path>
+			<mode>looped</mode>
+			<condition>
+				<property>sim/current-view/internal</property>
+				<greater-than>
+				<property>systems/electrical/outputs/efis</property>
+					<value>0</value>
+				</greater-than>
+			</condition>
+			<position>
+				<x>-17</x>
+				<y>0.01</y>
+				<z>-1.95</z>
+			</position>	
+			<volume>
+				<factor>0.2</factor>
+				<max>0.5</max>
+			</volume>
+			<reference-dist>1.2</reference-dist>
+			<max-dist>5</max-dist>
+		</avionics>
+
+<eightyknots>
+        <name>eightyknots</name>
+        <mode>once</mode>
+        <type>avionics</type>
+        <path>Aircraft/E-jet-family/Sounds/80kt.wav</path>
+        <condition>
+			<or>
+			<property>/gear/gear[0]/wow</property>
+			<property>/gear/gear[2]/wow</property>
+			</or>	
+			<greater-than>
+				<property>/velocities/airspeed-kt</property>
+				<value>80</value>
+			</greater-than>
+			<less-than>
+				<property>/velocities/airspeed-kt</property>
+				<value>88</value>
+			</less-than>			
+			</condition>	
+    </eightyknots> 
+   
+	<veeone>
+        <name>vee-one</name>
+        <mode>once</mode>
+        <type>avionics</type>
+        <path>Aircraft/E-jet-family/Sounds/v1.wav</path>
+        <condition>
+			<or>
+			<property>/gear/gear[0]/wow</property>
+			<property>/gear/gear[2]/wow</property>
+			</or>	
+			<greater-than>
+				<property>/velocities/airspeed-kt</property>
+				<value>140</value>
+			</greater-than>
+			<less-than>
+				<property>/velocities/airspeed-kt</property>
+				<value>148</value>
+			</less-than>			
+     </condition>	
+    </veeone>
+	<rotate>
+        <name>rotate</name>
+        <mode>once</mode>
+        <type>avionics</type>
+        <path>Aircraft/E-jet-family/Sounds/vr.wav</path>
+        <condition>
+			<or>
+			<property>/gear/gear[0]/wow</property>
+			<property>/gear/gear[2]/wow</property>
+			</or>
+			<greater-than>
+				<property>/velocities/airspeed-kt</property>
+				<value>150</value>
+			</greater-than>
+			<less-than>
+				<property>/velocities/airspeed-kt</property>
+				<value>160</value>
+			</less-than>			
+		</condition>	
+    </rotate>	
+
+<seatbelt>
+			<name>cabinalert</name>
+			<path>Aircraft/E-jet-family/Sounds/cabinalert.wav</path>
+			<mode>once</mode>
+			<condition>
+				<or>
+					<property>sim/sound/no-smoking-sign</property>
+					<property>sim/sound/seatbelt-sign</property>
+					
+					<not><property>sim/sound/no-smoking-sign</property></not>
+					<not><property>sim/sound/seatbelt-sign</property></not>
+				</or>
+			</condition>
+			<volume>
+				<property>sim/current-view/internal</property>
+			</volume>
+		</seatbelt>
+
+<gpws>
+        <name>appr_mins</name>
+        <mode>once</mode>
+        <type>avionics</type>		
+        <path>Aircraft/E-jet-family/Sounds/approaching-minimums.wav</path>
+        <condition>
+			<less-than>
+				<property>/position/altitude-agl-ft</property>
+				<value>380</value>
+			</less-than>
+			<greater-than>
+				<property>/position/altitude-agl-ft</property>
+				<value>300</value>
+			</greater-than>			
+			<less-than>
+				<property>/velocities/vertical-speed-fps</property>
+				<value>0</value>
+			</less-than>
+		</condition>
+          </gpws>
+
+
+</fx>
+
+</PropertyList>

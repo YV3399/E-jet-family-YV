@@ -1,0 +1,37 @@
+<?xml version = '1.0' encoding = 'UTF-8' ?>
+<PropertyList>
+  
+  <path>Aircraft/E-jet-family/Models/Cabin/erj175-cabin.ac</path>
+
+<!-- Cabin Illumination -->
+
+   <animation>
+       <type>material</type>
+       <object-name>seatback</object-name>
+       <object-name>seatcushion</object-name>
+       <property-base>sim/model/livery</property-base>
+       <texture-prop>seat-fabric</texture-prop>
+       <texture>seat.png</texture>
+   </animation>
+
+	<animation>
+		<name>Cabin Illumination</name>
+		<type>material</type>
+                <object-name>cabin.full</object-name>
+		<emission>
+			<red>0.6</red>
+			<green>0.6</green>
+			<blue>0.6</blue>
+			<factor-prop>controls/lighting/cabin</factor-prop>
+		</emission>
+	</animation>
+
+	<animation>
+		<type>select</type>
+		<object-name>FastenSeatbelts</object-name>
+		<condition>
+				<property>controls/switches/seatbelt-sign</property>
+		</condition>
+	</animation>
+
+</PropertyList>

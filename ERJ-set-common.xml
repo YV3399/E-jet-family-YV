@@ -1,0 +1,859 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<PropertyList>
+
+	<sim>
+		<author>Narendran Muraleedharan (see Thanks.txt for more info)</author>
+		<flight-model>jsb</flight-model>
+
+		<model>
+			<livery>
+				<file type="string"/>
+			</livery>
+			<E-jet-family>
+				<heading-bug-pfd-deg type="double">0</heading-bug-pfd-deg>
+				<heading-bug-deg type="double">0</heading-bug-deg>
+				<nav1-bug-deg type="double">0</nav1-bug-deg>
+				<nav2-bug-deg type="double">0</nav2-bug-deg>
+				<wp-bug-deg type="double">0</wp-bug-deg>
+				<ias-bug-kt-norm type="double">0</ias-bug-kt-norm>
+				<mach-bug-kt-norm type="double">0</mach-bug-kt-norm>
+			</E-jet-family>
+			<pushback>
+				<kp type="double">300</kp>
+				<ki type="double">0</ki>
+				<kd type="double">0</kd>
+				<position-norm type="double">0</position-norm>
+			</pushback>
+			<door n="0">
+				<position-y-m>-1.489</position-y-m>
+				<position-z-m>0.034</position-z-m>
+				<jetway-hood-deg>8</jetway-hood-deg>
+			</door>
+			<rendering>
+				<reflection-enabled type="int">1</reflection-enabled>
+				<reflection-type type="int">2</reflection-type>
+				<reflection-dynamic type="int">1</reflection-dynamic>
+				<reflection-correction type="float">0.1</reflection-correction>
+				<reflection-fresnel type="float">0.5</reflection-fresnel>
+				<reflection-fresnel-factor type="float">1.0</reflection-fresnel-factor>
+				<reflection-rainbow type="float">0.1</reflection-rainbow>
+				<reflection-noise type="float">0.05</reflection-noise>
+				<ambient-correction type="float">0.15</ambient-correction>
+			</rendering>
+		</model>
+
+		<flaps>
+			<setting>0</setting>
+			<setting>0.1</setting>
+			<setting>0.2</setting>
+			<setting>0.3</setting>
+			<setting>0.4</setting>
+			<setting>0.5</setting>
+			<setting>0.6</setting>
+		</flaps>
+
+		<startup>
+			<splash-texture>Aircraft/E-jet-family/splash.png</splash-texture>
+		</startup>
+
+		<systems>
+			<autopilot>
+				<name>Autopilot</name>
+				<path>Aircraft/E-jet-family/Systems/it-autoflight.xml</path>
+			</autopilot>
+			<autopilot>
+				<name>Autothrust</name>
+				<path>Aircraft/E-jet-family/Systems/it-autothrust.xml</path>
+			</autopilot><!--
+			<autopilot>
+				<name>Autopilot helpers</name>
+				<path>Aircraft/Generic/generic-autopilot-helper.xml</path>
+			</autopilot>-->
+			<autopilot>
+				<name>Autobrake</name>
+				<path>Aircraft/E-jet-family/Systems/ERJ-autobrake.xml</path>
+			</autopilot>
+			<autopilot>
+				<name>Spoilers</name>
+				<path>Aircraft/E-jet-family/Systems/ERJ-spoilers.xml</path>
+			</autopilot>
+			<property-rule n="100">
+				<path>Aircraft/E-jet-family/Systems/pfd.xml</path>
+			</property-rule>
+		</systems>
+
+		<chase-distance-m>-100</chase-distance-m>
+
+		<sound>
+			<path>Aircraft/E-jet-family/ERJ-sound.xml</path>
+		</sound>
+
+		<instrumentation>
+			<path>Aircraft/E-jet-family/Systems/instrumentation.xml</path>
+		</instrumentation>
+
+		<alarms>
+			<master-caution type="bool">false</master-caution>
+		</alarms>
+
+		<rendering>
+			<redout>
+				<enabled type="bool">true</enabled>
+				<parameters>
+					<blackout-complete-g type="double">7</blackout-complete-g>
+					<blackout-onset-g type="double">4.5</blackout-onset-g>
+					<redout-complete-g type="double">-4.5</redout-complete-g>
+					<redout-onset-g type="double">-2</redout-onset-g>
+				</parameters>
+			</redout>
+			<camera-group>
+				<znear type="double">0.1</znear>
+			</camera-group>
+		</rendering>
+
+		<view n="0">
+			<name>Pilot View</name>
+			<internal archive="y">true</internal>
+			<config>
+				<x-offset-m archive="y">-0.53</x-offset-m>
+				<y-offset-m archive="y">1.43</y-offset-m>
+				<pitch-offset-deg archive="y">-8.0</pitch-offset-deg>
+				<default-field-of-view-deg type="double">70.0</default-field-of-view-deg>
+			</config>
+		</view>
+
+		<view n="100">
+			<name>Gear View</name>
+			<type>lookfrom</type>
+			<internal archive="y">false</internal>
+			<config>
+				<from-model type="bool">true</from-model>
+				<x-offset-m archive="y">0</x-offset-m>
+				<y-offset-m archive="y">-1.63</y-offset-m>
+				<z-offset-m archive="y">0.99</z-offset-m>
+				<pitch-offset-deg archive="y">0</pitch-offset-deg>
+			</config>
+		</view>
+
+		<view n="101">
+			<name>Wing View</name>
+			<type>lookfrom</type>
+			<internal archive="y">true</internal>
+			<config>
+				<from-model type="bool">true</from-model>
+				<from-model-idx type="int">0</from-model-idx>
+				<ground-level-nearplane-m type="double">0.01</ground-level-nearplane-m>
+				<default-field-of-view-deg type="double">70</default-field-of-view-deg>
+				<pitch-offset-deg>-8.0</pitch-offset-deg>
+				<heading-offset-deg type="double">90</heading-offset-deg>
+				<!-- parallel to the panel -->
+				<x-offset-m archive="y">-1.84 </x-offset-m>
+				<!--Left/Right-->
+				<y-offset-m archive="y"> 0.99 </y-offset-m>
+				<!--Up/Down-->
+				<z-offset-m archive="y"> 0.23 </z-offset-m>
+				<!--Fdw/Back-->
+			</config>
+		</view>
+
+		<view n="102">
+			<name>Tail view</name>
+			<type>lookfrom</type>
+			<internal type="bool">false</internal>
+			<config>
+				<from-model type="bool">true</from-model>
+				<from-model-idx type="int">0</from-model-idx>
+				<ground-level-nearplane-m type="double">6f</ground-level-nearplane-m>
+				<x-offset-m type="double">0.00</x-offset-m>
+				<y-offset-m type="double">7.64</y-offset-m>
+				<z-offset-m type="double">13.14</z-offset-m>
+				<pitch-offset-deg>-10</pitch-offset-deg>
+				<default-field-of-view-deg type="double">65.0</default-field-of-view-deg>
+			</config>
+			<dynamic>
+				<enabled type="bool">false</enabled>
+			</dynamic>
+		</view>
+
+		<view n="103">
+			<name>Copilot View</name>
+			<type>lookfrom</type>
+			<internal archive="y">true</internal>
+			<config>
+				<from-model type="bool">true</from-model>
+				<x-offset-m archive="y">0.53</x-offset-m>
+				<y-offset-m archive="y">1.43</y-offset-m>
+				<pitch-offset-deg archive="y">-8.0</pitch-offset-deg>
+			</config>
+		</view>
+
+		<view n="104">
+			<type>lookfrom</type>
+			<internal archive="y">true</internal>
+			<config>
+				<from-model type="bool">true</from-model>
+				<x-offset-m archive="y">-1.09</x-offset-m>
+				<y-offset-m archive="y">1.28</y-offset-m>
+				<z-offset-m archive="y">0</z-offset-m>
+			</config>
+		</view>
+
+		<menubar>
+			<default>
+				<menu n="100">
+					<label>E-jet-family</label>
+					<enabled type="bool">true</enabled>
+					<item>
+						<name>autostart</name>
+						<label>Autostart</label>
+						<binding>
+							<command>property-toggle</command>
+							<property>sim/model/start-idling</property>
+						</binding>
+					</item>
+					<item>
+						<label>Select Livery</label>
+						<binding>
+							<command>nasal</command>
+							<script>
+								aircraft.livery.dialog.open()
+							</script>
+						</binding>
+					</item>
+					<item>
+						<label>Airport Operations</label>
+						<binding>
+							<command>nasal</command>
+							<script>dialogs.Dialogs.operations.open()</script>
+						</binding>
+					</item>
+					<item>
+						<label>Announcements</label>
+						<binding>
+							<command>nasal</command>
+							<script>dialogs.Dialogs.announcements.open()</script>
+						</binding>
+					</item>
+					<item>
+						<name>pushback</name>
+						<label>Pushback</label>
+						<binding>
+							<command>dialog-show</command>
+							<dialog-name>pushback</dialog-name>
+						</binding>
+					</item>
+					<item>
+						<name>lights</name>
+						<label>Aircraft Lights</label>
+						<binding>
+							<command>nasal</command>
+							<script>dialogs.Dialogs.lights.open()</script>
+						</binding>
+					</item>
+					<item>
+						<name>tiller</name>
+						<label>Tiller Steering</label>
+						<binding>
+							<command>nasal</command>
+							<script>dialogs.Dialogs.tiller.open()</script>
+						</binding>
+					</item>
+				</menu>
+			</default>
+		</menubar>
+
+		<help>
+			<title>E-jet-family</title>
+			<key>
+				<name>Delete</name>
+				<desc>toggle thrust reversers</desc>
+			</key>
+			<key>
+				<name>Ctrl-z</name>
+				<desc>toggle master autopilot switch</desc>
+			</key>
+			<key>
+				<name>Ctrl-y</name>
+				<desc>toggle autothrottle switch</desc>
+			</key>
+			<key>
+				<name>Ctrl-b</name>
+				<desc>cycle speedbrake lever setting</desc>
+			</key>
+			<key>
+				<name>Ctrl-k</name>
+				<desc>arm/disarm ground spoilers</desc>
+			</key>
+			<key>
+				<name>w</name>
+				<desc>walk forward toward view direction</desc>
+			</key>
+			<key>
+				<name>W</name>
+				<desc>run forward toward view direction</desc>
+			</key>
+			<key>
+				<name>s</name>
+				<desc>walk backward from view direction</desc>
+			</key>
+		</help>
+
+		<multiplay>
+			<generic>
+				<int n="0" alias="/systems/electrical/outputs/strobe"/>
+				<int n="1" alias="/systems/electrical/outputs/beacon"/>
+				<int n="2" alias="/systems/electrical/outputs/taxi-lights"/>
+				<int n="3" alias="/systems/electrical/outputs/logo-lights"/>
+				<int n="4" alias="/systems/electrical/outputs/landing-light[0]"/>
+				<int n="5" alias="/systems/electrical/outputs/landing-light[1]"/>
+				<int n="6" alias="/systems/electrical/outputs/landing-light[2]"/>
+				<int n="7" alias="/systems/electrical/outputs/nav-lights"/>
+				<float n="0" alias="/gear/gear[0]/compression-m"/>
+				<float n="1" alias="/gear/gear[1]/compression-m"/>
+				<float n="2" alias="/gear/gear[2]/compression-m"/>
+				<float n="3" alias="/gear/gear[1]/compression-m"/>
+				<float n="4" alias="/gear/gear[2]/compression-m"/>
+				<float n="5" alias="/surface-positions/speedbrake-norm"/>
+				<float n="6" alias="/surface-positions/reverser-norm"/>
+				<string alias="/sim/multiplay/callsign"/>
+			</generic>
+		</multiplay>
+		
+		
+		
+	</sim>
+
+	
+	<it-autoflight>
+		<config>
+			<roll>
+				<umin>-0.50</umin>
+				<umax>0.50</umax>
+				<kp>0.05</kp>
+				<kp-vloc>0.09</kp-vloc>
+				<ti>10.0</ti>
+				<td>0.00001</td>
+			</roll>
+			<pitch>
+				<umin>-0.50</umin>
+				<umax>0.50</umax>
+				<kp>-0.08</kp>
+				<ti>10.0</ti>
+				<td>0.0001</td>
+			</pitch>
+			<cmd>
+				<roll-kp>-1.5</roll-kp>
+				<roll-scale>1.2</roll-scale>
+				<vorloc>-3.0</vorloc>
+				<vs>0.01</vs>
+			</cmd>
+			<autoland>
+				<kp-pitch>0.03</kp-pitch>
+				<kp-rudder>-0.1</kp-rudder>
+			</autoland>
+		</config>
+		<settings>
+			<auto-bank-max-deg>30</auto-bank-max-deg> <!-- Maximum Auto Bank Limit -->
+			<land-enable>0</land-enable> <!-- Enable/Disable Autoland -->
+			<land-flap>0.7</land-flap> <!-- Minimum Flap used for Landing -->
+			<retard-ft>40</retard-ft> <!-- Enable Thrust Retard -->
+			<retard-enable>0</retard-enable> <!-- AGL to Thrust Retard -->
+			<togaspd>170</togaspd> <!-- V2 + 10kts -->
+			<lat-agl-ft>200</lat-agl-ft> <!-- Set to 999999 if you do not want T/O to change automatically to HDG, or LNAV -->
+			<reduc-agl-ft>1500</reduc-agl-ft> <!-- Set to 999999 if you do not want TOGA to change automatically to FLCH -->
+			<autoland-without-ap>1</autoland-without-ap> <!-- Engage LAND and FLARE Modes even if the AP is off -->
+		</settings>
+	</it-autoflight>
+		
+	
+	<consumables>
+		<fuel>
+			<tank n="0">
+				<name>Left Wing Fuel Tank</name>
+			</tank>
+			<tank n="1">
+				<name>Central Fuel Tank</name>
+			</tank>
+			<tank n="2">
+				<name>Right Wing Fuel Tank</name>
+			</tank>
+			<tank n="3">
+				<name>Tail Trimmer Fuel Tank</name>
+			</tank>
+		</fuel>
+	</consumables>
+
+	<payload>
+		<weight n="0">
+			<name>Crew</name>
+			<weight-lb alias="/fdm/jsbsim/inertia/pointmass-weight-lbs[0]"/>
+			<min-lb type="double">120</min-lb>
+			<max-lb type="double">400</max-lb>
+		</weight>
+		<weight n="1">
+			<name>Passengers</name>
+			<weight-lb alias="/fdm/jsbsim/inertia/pointmass-weight-lbs[1]"/>
+			<min-lb type="double">0</min-lb>
+		</weight>
+	</payload>
+
+	<autopilot>
+		<autobrake>
+			<config>
+				<idle-throttle type="double">0.1</idle-throttle>
+				<pilot-input type="double">0</pilot-input>
+			</config>
+			<step type="int">0</step>
+		</autobrake>
+		<settings>
+			<autothrottle type="bool">false</autothrottle>
+			<engaged type="bool">false</engaged>
+			<altitude>altitude-hold</altitude>
+			<heading>dg-heading-hold</heading>
+			<heading-mode type="int">0</heading-mode>
+			<speed-mode type="int">0</speed-mode>
+			<heading-bug-deg type="double">0</heading-bug-deg>
+			<target-speed-kt type="double">250</target-speed-kt>
+			<target-speed-mach type="double">0</target-speed-mach>
+			<target-altitude-ft type="double">33000</target-altitude-ft>
+			<vertical-speed-fpm type="double">2000</vertical-speed-fpm>
+		</settings>
+		<flight-director-serviceable type="bool">true</flight-director-serviceable>
+		<autoflight-serviceable type="bool">true</autoflight-serviceable>
+		<autothrottle-serviceable type="bool">true</autothrottle-serviceable>
+		<yaw-damper-serviceable type="bool">true</yaw-damper-serviceable>
+	</autopilot>
+
+	<controls>
+		<anti-ice>
+			<wiper type="int">0</wiper>
+			<wiper type="int">0</wiper>
+		</anti-ice>
+		<autoflight>
+			<autopilot>
+				<engage type="bool">false</engage>
+			</autopilot>
+			<flight-director>
+				<engage type="bool">false</engage>
+			</flight-director>
+			<yaw-damper>
+				<engage type="bool">false</engage>
+			</yaw-damper>
+			<yaw-damper>
+				<engage type="bool">false</engage>
+			</yaw-damper>
+			<altitude-select type="double">10000</altitude-select>
+			<autothrottle-engage type="bool">false</autothrottle-engage>
+			<basic-roll-mode type="int">0</basic-roll-mode>
+			<basic-roll-target-heading-deg type="double">0</basic-roll-target-heading-deg>
+			<basic-roll-target-roll-deg type="double">0</basic-roll-target-roll-deg>
+			<bank-angle-select type="float">30</bank-angle-select>
+			<disengage-pos-norm type="int">0</disengage-pos-norm>
+			<heading-select type="double">360</heading-select>
+			<lateral-mode type="int">-1</lateral-mode>
+			<mach-select type="double">0</mach-select>
+			<nav-mode type="int">0</nav-mode>
+			<pitch-select type="double">0</pitch-select>
+			<speed-mode type="int">0</speed-mode>
+			<speed-select type="double">200</speed-select>
+			<vertical-mode type="int">-1</vertical-mode>
+			<vertical-speed-select type="double">1800</vertical-speed-select>
+		</autoflight>
+		<APU>
+			<fire-switch type="bool">false</fire-switch>
+			<master-switch type="bool">false</master-switch>
+			<starter type="bool">false</starter>
+		</APU>
+		<electric>
+			<avionics-switch type="bool">true</avionics-switch>
+			<battery-switch n="1" type="bool">0</battery-switch>
+		</electric>
+		<engines>
+			<engine-start-switch type="int">1</engine-start-switch>
+			<engine n="0">
+				<cutoff type="bool">true</cutoff>
+				<cutoff-switch type="bool">true</cutoff-switch>
+				<starter type="bool">false</starter>
+				<starter-switch type="bool">false</starter-switch>
+			</engine>
+			<engine n="1">
+				<cutoff type="bool">true</cutoff>
+				<cutoff-switch type="bool">true</cutoff-switch>
+				<starter type="bool">false</starter>
+				<starter-switch type="bool">false</starter-switch>
+			</engine>
+		</engines>
+		<flight>
+			<ground-spoilers-armed type="bool">false</ground-spoilers-armed>
+			<speedbrake-lever type="double">0</speedbrake-lever>
+		</flight>
+		<gear>
+			<brake-parking type="bool">true</brake-parking>
+			<enable-tiller type="bool">true</enable-tiller>
+			<tiller-steer-deg type="float">0</tiller-steer-deg>
+		</gear>
+		<lighting>
+			<beacon type="bool">false</beacon>
+			<interior type="double">0</interior>
+			<cockpit type="bool">false</cockpit>
+			<cones type="bool">true</cones>
+			<dome-norm type="double">0</dome-norm>
+			<landing-lights n="0" type="bool">false</landing-lights>
+			<landing-lights n="1" type="bool">false</landing-lights>
+			<landing-lights n="2" type="bool">false</landing-lights>
+			<nav-lights-switch type="int">0</nav-lights-switch>
+			<overhead-panel-norm type="double">0.8</overhead-panel-norm>
+			<main-panel-pedestal-norm type="double">0.8</main-panel-pedestal-norm>
+			<strobe type="bool">false</strobe>
+		</lighting>
+		<switches>
+			<no-smoking-sign type="bool">true</no-smoking-sign>
+			<seatbelt-sign type="bool">false</seatbelt-sign>
+		</switches>
+	</controls>
+
+	<engines>
+		<apu>
+			<rpm type="double">0</rpm>
+			<on-fire type="bool">false</on-fire>
+			<running type="bool">false</running>
+			<serviceable type="bool">true</serviceable>
+		</apu>
+		<engine n="0">
+			<on-fire type="bool">false</on-fire>
+			<reverser-pos-norm type="double">0</reverser-pos-norm>
+			<running type="bool">false</running>
+		</engine>
+		<engine n="1">
+			<on-fire type="bool">false</on-fire>
+			<reverser-pos-norm type="double">0</reverser-pos-norm>
+			<running type="bool">false</running>
+		</engine>
+	</engines>
+
+	<gear>
+		<gear n="0">
+			<tyre-smoke type="int">0</tyre-smoke>
+			<sprayspeed-ms type="double">0</sprayspeed-ms>
+			<spray-density type="double">0</spray-density>
+			<caster-angle-deg-damped type="double">0</caster-angle-deg-damped>
+		</gear>
+		<gear n="1">
+			<tyre-smoke type="int">0</tyre-smoke>
+			<sprayspeed-ms type="double">0</sprayspeed-ms>
+			<spray-density type="double">0</spray-density>
+			<caster-angle-deg-damped type="double">0</caster-angle-deg-damped>
+		</gear>
+		<gear n="2">
+			<tyre-smoke type="int">0</tyre-smoke>
+			<sprayspeed-ms type="double">0</sprayspeed-ms>
+			<spray-density type="double">0</spray-density>
+			<caster-angle-deg-damped type="double">0</caster-angle-deg-damped>
+		</gear>
+	</gear>
+
+	<instrumentation>
+		<IESS>
+			<brightness type="float">0.5</brightness>
+		</IESS>
+		<cdu>
+			
+			<display>IDENT</display>
+			<input type="string"/>
+			<serviceable type="bool">true</serviceable>
+		</cdu>
+		<fmc>
+			<to-flap type="double">10</to-flap>
+			<vspeeds>
+				<V1 type="double">0</V1>
+				<VR type="double">0</VR>
+				<V2 type="double">0</V2>
+			</vspeeds>
+		</fmc>
+		<mfd>
+			<nav-display n="0" type="int">1</nav-display>
+			<nav-display n="1" type="int">1</nav-display>
+		</mfd>
+		<nav-compass>
+			<nav-display n="0" type="int">0</nav-display>
+			<nav-display n="1" type="int">0</nav-display>
+		</nav-compass>
+		<!-- See http://wiki.flightgear.org/index.php/GPWS -->
+
+		<mk-viii>
+			<serviceable type="bool">true</serviceable>
+			<configuration-module>
+				<category-1 type="int">255</category-1>
+				<category-3 type="int">2</category-3>
+				<category-4 type="int">13</category-4>
+				<category-5 type="int">0</category-5>
+				<category-6 type="int">1</category-6>
+				<category-7 type="int">124</category-7>
+				<category-8 type="int">2</category-8>
+				<category-9 type="int">3</category-9>
+				<category-10 type="int">6</category-10>
+				<category-13 type="int">7</category-13>
+				<category-14 type="int">0</category-14>
+			</configuration-module>
+			<inputs>
+				<arinc429>
+					<decision-height-ncd type="bool">false</decision-height-ncd>
+					<decision-height type="double">200</decision-height>
+				</arinc429>
+			</inputs>
+			<speaker>
+				<max-dist type="double">2</max-dist>
+				<reference-dist type="double">1</reference-dist>
+				<volume type="double">0.4</volume>
+			</speaker>
+			<voice>
+				<file-prefix>Aircraft/E-jet-family/Sounds/GPWS/</file-prefix>
+			</voice>
+		</mk-viii>
+	</instrumentation>
+
+	<input>
+		<keyboard>
+			<key n="127">
+				<name>Delete</name>
+				<desc>Toggle thrust reversers</desc>
+				<binding>
+					<command>nasal</command>
+					<script>
+						reversethrust.togglereverser();
+					</script>
+				</binding>
+			</key>
+			<key n="119">
+				<name>w</name>
+				<desc>Walk forward toward view</desc>
+				<repeatable type="bool">true</repeatable>
+				<binding>
+					<command>nasal</command>
+					<script>
+						walk.walk_about(0.1);
+					</script>
+				</binding>
+			</key>
+			<key n="2">
+				<name>Ctrl-b</name>
+				<desc>Cycle speedbrake setting</desc>
+				<binding>
+					<command>property-cycle</command>
+					<property>controls/flight/speedbrake-lever</property>
+					<value>0</value>
+					<value>0.5</value>
+					<value>1</value>
+				</binding>
+			</key>
+			<key n="11">
+				<name>Ctrl-k</name>
+				<desc>Arm/disarm ground spoilers</desc>
+				<binding>
+					<command>property-toggle</command>
+					<property>controls/flight/ground-spoilers-armed</property>
+				</binding>
+			</key>
+			<key n="61">
+				<name>=</name>
+				<desc>Cycle autobrake setting</desc>
+				<binding>
+					<command>property-cycle</command>
+					<property>autopilot/autobrake/step</property>
+					<value type="int">0</value>
+					<!-- OFF -->
+					<value type="int">1</value>
+					<!-- LOW -->
+					<value type="int">2</value>
+					<!-- MED -->
+					<value type="int">3</value>
+					<!-- MAX -->
+				</binding>
+			</key>
+			<key n="87">
+				<name>W</name>
+				<desc>Run forward toward view</desc>
+				<repeatable type="bool">true</repeatable>
+				<binding>
+					<command>nasal</command>
+					<script>
+						walk.walk_about(0.25);
+					</script>
+				</binding>
+			</key>
+			<key n="115">
+				<name>s</name>
+				<desc>Walk backward from view</desc>
+				<repeatable type="bool">true</repeatable>
+				<binding>
+					<command>nasal</command>
+					<script>
+						walk.walk_about(-0.1);
+					</script>
+				</binding>
+			</key>
+
+			<!-- Custom autopilot hotkeys -->
+			<key n="15">
+				<name>Ctrl-O</name>
+				<desc>Toggle TO/GA lock</desc>
+				<binding>
+					<command>nasal</command>
+					<script>input.toggleTOGA()</script>
+				</binding>
+			</key>
+			<key n="26">
+				<name>Ctrl-Z</name>
+				<desc>Toggle master autopilot switch</desc>
+				<binding>
+					<command>property-toggle</command>
+					<property>autopilot/settings/engaged</property>
+				</binding>
+			</key>
+			<key n="25">
+				<name>Ctrl-Y</name>
+				<desc>Toggle autothrottle switch</desc>
+				<binding>
+					<command>property-toggle</command>
+					<property>autopilot/settings/autothrottle</property>
+				</binding>
+			</key>
+
+			<!-- Default autopilot hotkeys -->
+			<key n="1">
+				<name>Ctrl-A</name>
+				<desc>toggle autopilot altitude lock</desc>
+				<binding>
+					<command>property-assign</command>
+					<property>autopilot/settings/altitude</property>
+					<value>altitude-hold</value>
+				</binding>
+			</key>
+			<key n="7">
+				<name>Ctrl-G</name>
+				<desc>Toggle autopilot glide slope lock</desc>
+				<binding>
+					<command>nasal</command>
+					<script>input.toggleGS()</script>
+				</binding>
+			</key>
+			<key n="8">
+				<name>Ctrl-H</name>
+				<desc>Toggle autopilot heading lock</desc>
+				<binding>
+					<command>property-assign</command>
+					<property>autopilot/settings/heading</property>
+					<value>dg-heading-hold</value>
+				</binding>
+			</key>
+			<key n="14">
+				<name>Ctrl-N</name>
+				<desc>Toggle autopilot nav1 lock</desc>
+				<binding>
+					<command>nasal</command>
+					<script>input.toggleHeadingMode("nav1-hold")</script>
+				</binding>
+			</key>
+			<key n="262">
+				<name>F6</name>
+				<desc>Toggle Autopilot Heading Mode</desc>
+				<binding>
+					<command>nasal</command>
+					<script>input.toggleHeadingMode("true-heading-hold")</script>
+				</binding>
+			</key>
+			<key n="267">
+				<name>F11</name>
+				<desc>Open autopilot dialog</desc>
+				<binding>
+					<command>nasal</command>
+					<script>dialogs.Dialogs.autopilot.open()</script>
+				</binding>
+			</key>
+			<key n="50">
+				<name>2</name>
+				<desc>Decrease flaps.</desc>
+				<binding>
+					<command>nasal</command>
+					<script>controls.flapsDown(-1)</script>
+				</binding>
+				<mod-up>
+					<binding>
+						<command>nasal</command>
+						<script>controls.flapsDown(0)</script>
+					</binding>
+				</mod-up>
+			</key>
+
+			<key n="49">
+				<name>1</name>
+				<desc>Increase flaps.</desc>
+				<binding>
+					<command>nasal</command>
+					<script>controls.flapsDown(1)</script>
+				</binding>
+				<mod-up>
+					<binding>
+						<command>nasal</command>
+						<script>controls.flapsDown(0)</script>
+					</binding>
+				</mod-up>
+			</key>
+		</keyboard>
+	</input>
+
+	<nasal>
+		<ELT>
+			<file>Aircraft/E-jet-family/Nasal/ELTmessage.nas</file>
+		</ELT>
+		
+		<!--
+		<itaf>
+			<file>Aircraft/E-jet-family/Nasal/it-autoflight.nas</file>
+		</itaf>-->
+		<canvas_chrono>
+			<file>Aircraft/E-jet-family/Models/Instruments/Chrono/chronometer.nas</file>
+		</canvas_chrono>
+		<canvas_pfd>
+			<file>Aircraft/E-jet-family/Models/Primus-Epic/PFD.nas</file>
+		</canvas_pfd>
+		<canvas_iess>
+			<file>Aircraft/E-jet-family/Models/Primus-Epic/IESS.nas</file>
+		</canvas_iess>
+		<canvas_eicas>
+			<file>Aircraft/E-jet-family/Models/Primus-Epic/EICAS.nas</file>
+		</canvas_eicas>
+		<messages>
+			<file>Aircraft/E-jet-family/Nasal/messages.nas</file>
+		</messages>
+		<systems>
+			<file>Aircraft/E-jet-family/Nasal/systems.nas</file>
+		</systems>
+		<electrical>
+			<file>Aircraft/E-jet-family/Nasal/electrical.nas</file>
+		</electrical>
+		<reversethrust>
+			<file>Aircraft/E-jet-family/Nasal/reversethrust.nas</file>
+		</reversethrust>
+		<tyresmoke>
+			<file>Aircraft/E-jet-family/Nasal/tire-smoke.nas</file>
+		</tyresmoke>
+		<walk>
+			<file>Aircraft/E-jet-family/Nasal/walk.nas</file>
+		</walk>
+		<cdu>
+			<file>Aircraft/Instruments-3d/cdu/boeing.nas</file>
+		</cdu>
+		<erj>
+			<file>Aircraft/E-jet-family/Nasal/doors.nas</file>
+		</erj>
+		<dialogs>
+			<file>Aircraft/E-jet-family/Nasal/dialogs.nas</file>
+		</dialogs>
+		<input>
+			<file>Aircraft/E-jet-family/Nasal/autopilot.nas</file><!--
+			<file>Aircraft/737-800/Nasal/engine-fire.nas</file>-->
+		</input>
+	</nasal>
+</PropertyList>

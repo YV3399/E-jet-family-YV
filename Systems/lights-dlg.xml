@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<PropertyList>
+
+	<name>lights</name>
+	<layout>vbox</layout>
+
+	<text>
+		<label>Airbus Lights Controller</label>
+	</text>
+
+	<hrule />
+
+		<checkbox>
+			<label>Landing Lights</label>
+			<property>controls/lighting/landing-lights[0]</property>
+			<property>controls/lighting/landing-lights[1]</property>
+			<property>controls/lighting/landing-lights[2]</property>
+			<binding>
+				<command>dialog-apply</command>
+			</binding>
+			<live>false</live>
+		</checkbox>
+
+		<checkbox>
+			<label>Navigation lights</label>
+			<property>controls/lighting/nav-lights</property>
+			<binding>
+				<command>dialog-apply</command>
+			</binding>
+			<live>false</live>
+		</checkbox>
+
+		<checkbox>
+			<label>Strobe lights</label>
+			<property>controls/lighting/strobe</property>
+			<binding>
+				<command>dialog-apply</command>
+			</binding>
+			<live>false</live>
+		</checkbox>
+
+		<checkbox>
+			<label>Beacon</label>
+			<property>controls/lighting/beacon</property>
+			<binding>
+				<command>dialog-apply</command>
+			</binding>
+			<live>false</live>
+		</checkbox>
+
+		<checkbox>
+			<label>Logo Lights</label>
+			<property>controls/lighting/logo</property>
+			<binding>
+				<command>dialog-apply</command>
+			</binding>
+			<live>false</live>
+		</checkbox>
+
+	<hrule />
+
+		<text>
+			<label>Cabin lighting</label>
+		</text>
+
+		<slider>
+			<width>200</width>
+			<property>controls/lighting/cabin</property>
+			<step>0.05</step>
+			<min>0</min>
+			<max>1</max>
+			<binding>
+				<command>dialog-apply</command>
+			</binding>
+		</slider>
+
+	<hrule />
+
+		<checkbox>
+			<label>Enable 3D-cones</label>
+			<property>controls/lighting/cones</property>
+			<binding>
+				<command>dialog-apply</command>
+			</binding>
+			<live>true</live>
+		</checkbox>
+
+	<hrule />
+
+		<button>
+			<legend>Close</legend>
+			<default>true</default>
+			<key>Esc</key>
+		<padding>10</padding>
+			<binding>
+				<command>dialog-apply</command>
+			</binding>
+			<binding>
+				<command>dialog-close</command>
+			</binding>
+		</button>
+
+</PropertyList>

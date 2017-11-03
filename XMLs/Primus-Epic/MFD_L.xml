@@ -1,0 +1,3675 @@
+<?xml version = '1.0' encoding = 'UTF-8' ?>
+<PropertyList>
+
+	<path>../../Models/Primus-Epic/primus_epic_mfd.ac</path>
+
+	<!-- Power on/off -->
+	<animation>
+		<name>Power on/off</name>
+		<type>select</type>
+		<object-name>off</object-name>
+		<condition>
+			<less-than>
+				<property>systems/electrical/outputs/efis</property>
+				<value>15</value>
+			</less-than>
+		</condition>
+	</animation>
+
+	<animation>
+		<type>material</type>
+		<object-name>Waypoint 1 ID</object-name>
+		<object-name>Waypoint 1 distance</object-name>
+		<object-name>Waypoint 1 course</object-name>
+		<object-name>Waypoint 1 altitude</object-name>
+		<object-name>Waypoint 1 altitude (metric)</object-name>
+		<object-name>Waypoint 2 ID</object-name>
+		<object-name>Waypoint 2 distance</object-name>
+		<object-name>Waypoint 2 course</object-name>
+		<object-name>Waypoint 2 altitude</object-name>
+		<object-name>Waypoint 2 altitude (metric)</object-name>
+		<object-name>Waypoint 3 ID</object-name>
+		<object-name>Waypoint 3 distance</object-name>
+		<object-name>Waypoint 3 course</object-name>
+		<object-name>Waypoint 3 altitude</object-name>
+		<object-name>Waypoint 3 altitude (metric)</object-name>
+		<object-name>Waypoint 4 ID</object-name>
+		<object-name>Waypoint 4 distance</object-name>
+		<object-name>Waypoint 4 course</object-name>
+		<object-name>Waypoint 4 altitude</object-name>
+		<object-name>Waypoint 4 altitude (metric)</object-name>
+		<object-name>Waypoint 5 ID</object-name>
+		<object-name>Waypoint 5 distance</object-name>
+		<object-name>Waypoint 5 course</object-name>
+		<object-name>Waypoint 5 altitude</object-name>
+		<object-name>Waypoint 5 altitude (metric)</object-name>
+		<object-name>Waypoint 6 ID</object-name>
+		<object-name>Waypoint 6 distance</object-name>
+		<object-name>Waypoint 6 course</object-name>
+		<object-name>Waypoint 6 altitude</object-name>
+		<object-name>Waypoint 6 altitude (metric)</object-name>
+		<object-name>Waypoint 7 ID</object-name>
+		<object-name>Waypoint 7 distance</object-name>
+		<object-name>Waypoint 7 course</object-name>
+		<object-name>Waypoint 7 altitude</object-name>
+		<object-name>Waypoint 7 altitude (metric)</object-name>
+		<object-name>Waypoint 8 ID</object-name>
+		<object-name>Waypoint 8 distance</object-name>
+		<object-name>Waypoint 8 course</object-name>
+		<object-name>Waypoint 8 altitude</object-name>
+		<object-name>Waypoint 8 altitude (metric)</object-name>
+		<object-name>Waypoint 9 ID</object-name>
+		<object-name>Waypoint 9 distance</object-name>
+		<object-name>Waypoint 9 course</object-name>
+		<object-name>Waypoint 9 altitude</object-name>
+		<object-name>Waypoint 9 altitude (metric)</object-name>
+		<object-name>Waypoint 10 ID</object-name>
+		<object-name>Waypoint 10 distance</object-name>
+		<object-name>Waypoint 10 course</object-name>
+		<object-name>Waypoint 10 altitude</object-name>
+		<object-name>Waypoint 10 altitude (metric)</object-name>
+		<ambient>
+			<red alias="../../../colors/blue/red" />
+			<green alias="../../../colors/blue/green" />
+			<blue alias="../../../colors/blue/blue" />
+		</ambient>
+		<diffuse>
+			<red alias="../../../colors/blue/red" />
+			<green alias="../../../colors/blue/green" />
+			<blue alias="../../../colors/blue/blue" />
+		</diffuse>
+		<emission>
+			<red alias="../../../colors/blue/red" />
+			<green alias="../../../colors/blue/green" />
+			<blue alias="../../../colors/blue/blue" />
+		</emission>
+	</animation>
+
+	<colors>
+		<blue>
+			<red>0.349</red>
+			<green>0.767</green>
+			<blue>0.808</blue>
+		</blue>
+		<green>
+			<red>0.133</red>
+			<green>0.663</green>
+			<blue>0.145</blue>
+		</green>
+		<pink>
+			<red>0.984</red>
+			<green>0.616</green>
+			<blue>0.616</blue>
+		</pink>
+		<white>
+			<red>1</red>
+			<green>1</green>
+			<blue>1</blue>
+		</white>
+	</colors>
+
+	<!-- Thunderstorm Alert -->
+
+	<animation>
+		<type>select</type>
+		<object-name>thunderstorm</object-name>
+		<condition>
+			<equals>
+				<property>/environment/thunderstorm-flag</property>
+				<value>1</value>
+			</equals>
+		</condition>
+	</animation>
+
+	<!-- Mode Select -->
+
+	<animation>
+		<type>pick</type>
+		<object-name>DOOR.button</object-name>
+		<action>
+			<button>0</button>
+			<binding>
+				<command>property-cycle</command>
+				<property>controls/lighting/mfd-mode-1</property>
+				<value>1</value>
+			</binding>
+		</action>
+	</animation>
+
+	<animation>
+		<type>pick</type>
+		<object-name>TCAS.button</object-name>
+		<action>
+			<button>0</button>
+			<binding>
+				<command>property-cycle</command>
+				<property>controls/lighting/mfd-mode-1</property>
+				<value>0</value>
+			</binding>
+		</action>
+	</animation>
+
+	<animation>
+		<type>pick</type>
+		<object-name>WEATHER.button</object-name>
+		<action>
+			<button>0</button>
+			<binding>
+				<command>property-cycle</command>
+				<property>controls/lighting/mfd-mode-1</property>
+				<value>2</value>
+			</binding>
+		</action>
+	</animation>
+
+	<animation>
+		<type>pick</type>
+		<object-name>MAP.button</object-name>
+		<action>
+			<button>0</button>
+			<binding>
+				<command>property-cycle</command>
+				<property>controls/lighting/mfd-mode-1</property>
+				<value>3</value>
+			</binding>
+		</action>
+	</animation>
+
+	<animation>
+		<type>pick</type>
+		<object-name>PLAN.button</object-name>
+		<action>
+			<button>0</button>
+			<binding>
+				<command>property-cycle</command>
+				<property>controls/lighting/mfd-mode-1</property>
+				<value>4</value>
+			</binding>
+		</action>
+	</animation>
+
+	<animation>
+		<type>select</type>
+		<object-name>DOOR</object-name>
+		<condition>
+			<equals>
+				<property>controls/lighting/mfd-mode-1</property>
+				<value>1</value>
+			</equals>
+		</condition>
+	</animation>
+
+	<animation>
+		<type>select</type>
+		<object-name>TCAS</object-name>
+		<condition>
+			<equals>
+				<property>controls/lighting/mfd-mode-1</property>
+				<value>0</value>
+			</equals>
+		</condition>
+	</animation>
+
+	<animation>
+		<type>select</type>
+		<object-name>WEATHER</object-name>
+		<condition>
+			<equals>
+				<property>controls/lighting/mfd-mode-1</property>
+				<value>2</value>
+			</equals>
+		</condition>
+	</animation>
+
+	<animation>
+		<type>select</type>
+		<object-name>MAP</object-name>
+		<condition>
+			<equals>
+				<property>controls/lighting/mfd-mode-1</property>
+				<value>3</value>
+			</equals>
+		</condition>
+	</animation>
+
+	<animation>
+		<type>select</type>
+		<object-name>PLAN</object-name>
+		<object-name>Waypoint 1 ID</object-name>
+		<object-name>Waypoint 1 distance</object-name>
+		<object-name>Waypoint 1 course</object-name>
+		<object-name>Waypoint 1 altitude</object-name>
+		<object-name>Waypoint 1 altitude (metric)</object-name>
+		<object-name>Waypoint 2 ID</object-name>
+		<object-name>Waypoint 2 distance</object-name>
+		<object-name>Waypoint 2 course</object-name>
+		<object-name>Waypoint 2 altitude</object-name>
+		<object-name>Waypoint 2 altitude (metric)</object-name>
+		<object-name>Waypoint 3 ID</object-name>
+		<object-name>Waypoint 3 distance</object-name>
+		<object-name>Waypoint 3 course</object-name>
+		<object-name>Waypoint 3 altitude</object-name>
+		<object-name>Waypoint 3 altitude (metric)</object-name>
+		<object-name>Waypoint 4 ID</object-name>
+		<object-name>Waypoint 4 distance</object-name>
+		<object-name>Waypoint 4 course</object-name>
+		<object-name>Waypoint 4 altitude</object-name>
+		<object-name>Waypoint 4 altitude (metric)</object-name>
+		<object-name>Waypoint 5 ID</object-name>
+		<object-name>Waypoint 5 distance</object-name>
+		<object-name>Waypoint 5 course</object-name>
+		<object-name>Waypoint 5 altitude</object-name>
+		<object-name>Waypoint 5 altitude (metric)</object-name>
+		<object-name>Waypoint 6 ID</object-name>
+		<object-name>Waypoint 6 distance</object-name>
+		<object-name>Waypoint 6 course</object-name>
+		<object-name>Waypoint 6 altitude</object-name>
+		<object-name>Waypoint 6 altitude (metric)</object-name>
+		<object-name>Waypoint 7 ID</object-name>
+		<object-name>Waypoint 7 distance</object-name>
+		<object-name>Waypoint 7 course</object-name>
+		<object-name>Waypoint 7 altitude</object-name>
+		<object-name>Waypoint 7 altitude (metric)</object-name>
+		<object-name>Waypoint 8 ID</object-name>
+		<object-name>Waypoint 8 distance</object-name>
+		<object-name>Waypoint 8 course</object-name>
+		<object-name>Waypoint 8 altitude</object-name>
+		<object-name>Waypoint 8 altitude (metric)</object-name>
+		<object-name>Waypoint 9 ID</object-name>
+		<object-name>Waypoint 9 distance</object-name>
+		<object-name>Waypoint 9 course</object-name>
+		<object-name>Waypoint 9 altitude</object-name>
+		<object-name>Waypoint 9 altitude (metric)</object-name>
+		<object-name>Waypoint 10 ID</object-name>
+		<object-name>Waypoint 10 distance</object-name>
+		<object-name>Waypoint 10 course</object-name>
+		<object-name>Waypoint 10 altitude</object-name>
+		<object-name>Waypoint 10 altitude (metric)</object-name>
+		<condition>
+			<equals>
+				<property>controls/lighting/mfd-mode-1</property>
+				<value>4</value>
+			</equals>
+		</condition>
+	</animation>
+
+	<!-- DOOR Mode -->
+
+	<animation>
+		<type>select</type>
+		<object-name>l1.off</object-name>
+		<condition>
+			<equals>
+				<property>sim/model/door-positions/l1/position-norm</property>
+				<value>0</value>
+			</equals>
+		</condition>
+	</animation>
+	<animation>
+		<type>select</type>
+		<object-name>l2.off</object-name>
+		<condition>
+			<equals>
+				<property>sim/model/door-positions/l2/position-norm</property>
+				<value>0</value>
+			</equals>
+		</condition>
+	</animation>
+	<animation>
+		<type>select</type>
+		<object-name>r1.off</object-name>
+		<condition>
+			<equals>
+				<property>sim/model/door-positions/r1/position-norm</property>
+				<value>0</value>
+			</equals>
+		</condition>
+	</animation>
+	<animation>
+		<type>select</type>
+		<object-name>r2.off</object-name>
+		<condition>
+			<equals>
+				<property>sim/model/door-positions/r2/position-norm</property>
+				<value>0</value>
+			</equals>
+		</condition>
+	</animation>
+	<animation>
+		<type>select</type>
+		<object-name>l1.on</object-name>
+		<condition>
+			<equals>
+				<property>sim/model/door-positions/l1/position-norm</property>
+				<value>1</value>
+			</equals>
+		</condition>
+	</animation>
+	<animation>
+		<type>select</type>
+		<object-name>l2.on</object-name>
+		<condition>
+			<equals>
+				<property>sim/model/door-positions/l2/position-norm</property>
+				<value>1</value>
+			</equals>
+		</condition>
+	</animation>
+	<animation>
+		<type>select</type>
+		<object-name>r1.on</object-name>
+		<condition>
+			<equals>
+				<property>sim/model/door-positions/r1/position-norm</property>
+				<value>1</value>
+			</equals>
+		</condition>
+	</animation>
+	<animation>
+		<type>select</type>
+		<object-name>r2.on</object-name>
+		<condition>
+			<equals>
+				<property>sim/model/door-positions/r2/position-norm</property>
+				<value>1</value>
+			</equals>
+		</condition>
+	</animation>
+
+	<animation>
+		<type>select</type>
+		<object-name>ladder.l1.on</object-name>
+		<condition>
+			<equals>
+				<property>sim/model/door-positions/l1-stairs/position-norm</property>
+				<value>1</value>
+			</equals>
+		</condition>
+	</animation>
+	<animation>
+		<type>select</type>
+		<object-name>ladder.l2.on</object-name>
+		<condition>
+			<equals>
+				<property>sim/model/door-positions/l2-stairs/position-norm</property>
+				<value>1</value>
+			</equals>
+		</condition>
+	</animation>
+
+	<animation>
+		<type>select</type>
+		<object-name>ladder.l1.off</object-name>
+		<condition>
+			<equals>
+				<property>sim/model/door-positions/l1-stairs/position-norm</property>
+				<value>0</value>
+			</equals>
+		</condition>
+	</animation>
+	<animation>
+		<type>select</type>
+		<object-name>ladder.l2.off</object-name>
+		<condition>
+			<equals>
+				<property>sim/model/door-positions/l2-stairs/position-norm</property>
+				<value>0</value>
+			</equals>
+		</condition>
+	</animation>
+
+	<!-- TCAS Mode -->
+
+	<!-- 3D TEXT -->
+
+	<text>
+		<name>Waypoint ID</name>
+		<offsets>
+			<x-m>0.0001</x-m>
+			<y-m>0.055</y-m>
+			<z-m>0.075</z-m>
+		</offsets>
+		<alignment>right-center</alignment>
+		<axis-alignment>yz-plane</axis-alignment>
+		<type type="string">text-value</type>
+		<format type="string">%s</format>
+		<property>autopilot/route-manager/wp[0]/id</property>
+		<font>courier-bold.txf</font>
+		<character-size>0.007</character-size>
+		<character-aspect-ratio type="double">1.5</character-aspect-ratio>
+		<font-resolution>
+			<width type="int">32</width>
+			<height type="int">32</height>
+		</font-resolution>
+	</text>
+	<text>
+		<name>Waypoint bearing</name>
+		<offsets>
+			<x-m>0.0001</x-m>
+			<y-m>0.07</y-m>
+			<z-m>0.075</z-m>
+		</offsets>
+		<alignment>right-center</alignment>
+		<axis-alignment>yz-plane</axis-alignment>
+		<type type="string">number-value</type>
+		<format type="string">%3.0f°</format>
+		<property>autopilot/route-manager/wp[0]/bearing-deg</property>
+		<font>courier-bold.txf</font>
+		<character-size>0.007</character-size>
+		<character-aspect-ratio type="double">1.5</character-aspect-ratio>
+		<font-resolution>
+			<width type="int">32</width>
+			<height type="int">32</height>
+		</font-resolution>
+	</text>
+	<text>
+		<name>Waypoint distance</name>
+		<offsets>
+			<x-m>0.0001</x-m>
+			<y-m>0.07</y-m>
+			<z-m>0.067</z-m>
+		</offsets>
+		<alignment>right-center</alignment>
+		<axis-alignment>yz-plane</axis-alignment>
+		<type type="string">number-value</type>
+		<format type="string">%3.1f NM</format>
+		<property>autopilot/route-manager/wp[0]/dist</property>
+		<font>courier-bold.txf</font>
+		<character-size>0.007</character-size>
+		<character-aspect-ratio type="double">1.5</character-aspect-ratio>
+		<font-resolution>
+			<width type="int">32</width>
+			<height type="int">32</height>
+		</font-resolution>
+	</text>
+
+	<text>
+		<name>Autopilot heading setting</name>
+		<offsets>
+			<x-m>0.0001</x-m>
+			<y-m>-0.075</y-m>
+			<z-m>0.037</z-m>
+			<roll-deg>39</roll-deg>
+		</offsets>
+		<alignment>left-center</alignment>
+		<axis-alignment>yz-plane</axis-alignment>
+		<type type="string">number-value</type>
+		<format type="string">%3.0f</format>
+		<property>autopilot/settings/heading-bug-deg</property>
+		<font>helvetica_bold.txf</font>
+		<character-size>0.005</character-size>
+		<character-aspect-ratio type="double">1.5</character-aspect-ratio>
+		<font-resolution>
+			<width type="int">32</width>
+			<height type="int">32</height>
+		</font-resolution>
+	</text>
+
+	<text>
+		<name>VOR 1</name>
+		<offsets>
+			<x-m>0.0002</x-m>
+			<y-m>-0.078</y-m>
+			<z-m>-0.055</z-m>
+		</offsets>
+		<alignment>left-center</alignment>
+		<axis-alignment>yz-plane</axis-alignment>
+		<type type="string">text-value</type>
+		<format type="string">VOR 1</format>
+		<property>instrumentation/nav[0]/in-range</property>
+		<font>courier-bold.txf</font>
+		<character-size>0.007</character-size>
+		<character-aspect-ratio type="double">1.5</character-aspect-ratio>
+		<font-resolution>
+			<width type="int">32</width>
+			<height type="int">32</height>
+		</font-resolution>
+	</text>
+	<text>
+		<name>VOR 1 ID</name>
+		<offsets>
+			<x-m>0.0002</x-m>
+			<y-m>-0.078</y-m>
+			<z-m>-0.063</z-m>
+		</offsets>
+		<alignment>left-center</alignment>
+		<axis-alignment>yz-plane</axis-alignment>
+		<type type="string">text-value</type>
+		<format type="string">%s</format>
+		<property>instrumentation/nav[0]/nav-id</property>
+		<font>courier-bold.txf</font>
+		<character-size>0.007</character-size>
+		<character-aspect-ratio type="double">1.5</character-aspect-ratio>
+		<font-resolution>
+			<width type="int">32</width>
+			<height type="int">32</height>
+		</font-resolution>
+	</text>
+	<text>
+		<name>VOR 1 DME</name>
+		<offsets>
+			<x-m>0.0002</x-m>
+			<y-m>-0.078</y-m>
+			<z-m>-0.071</z-m>
+		</offsets>
+		<alignment>left-center</alignment>
+		<axis-alignment>yz-plane</axis-alignment>
+		<type type="string">number-value</type>
+		<format type="string">%3.1fNM</format>
+		<property>instrumentation/nav[0]/nav-distance</property>
+		<scale>0.000539</scale>
+		<font>courier-bold.txf</font>
+		<character-size>0.007</character-size>
+		<character-aspect-ratio type="double">1.5</character-aspect-ratio>
+		<font-resolution>
+			<width type="int">32</width>
+			<height type="int">32</height>
+		</font-resolution>
+	</text>
+	<text>
+		<name>ADF 1</name>
+		<offsets>
+			<x-m>0.0002</x-m>
+			<y-m>-0.078</y-m>
+			<z-m>-0.055</z-m>
+		</offsets>
+		<alignment>left-center</alignment>
+		<axis-alignment>yz-plane</axis-alignment>
+		<type type="string">text-value</type>
+		<format type="string">ADF 1</format>
+		<property>instrumentation/adf[0]/in-range</property>
+		<font>courier-bold.txf</font>
+		<character-size>0.007</character-size>
+		<character-aspect-ratio type="double">1.5</character-aspect-ratio>
+		<font-resolution>
+			<width type="int">32</width>
+			<height type="int">32</height>
+		</font-resolution>
+	</text>
+	<text>
+		<name>ADF 1 ID</name>
+		<offsets>
+			<x-m>0.0002</x-m>
+			<y-m>-0.078</y-m>
+			<z-m>-0.063</z-m>
+		</offsets>
+		<alignment>left-center</alignment>
+		<axis-alignment>yz-plane</axis-alignment>
+		<type type="string">text-value</type>
+		<format type="string">%s</format>
+		<property>instrumentation/adf[0]/ident</property>
+		<font>courier-bold.txf</font>
+		<character-size>0.007</character-size>
+		<character-aspect-ratio type="double">1.5</character-aspect-ratio>
+		<font-resolution>
+			<width type="int">32</width>
+			<height type="int">32</height>
+		</font-resolution>
+	</text>
+	<text>
+		<name>ADF 1 bearing</name>
+		<offsets>
+			<x-m>0.0002</x-m>
+			<y-m>-0.078</y-m>
+			<z-m>-0.071</z-m>
+		</offsets>
+		<alignment>left-center</alignment>
+		<axis-alignment>yz-plane</axis-alignment>
+		<type type="string">number-value</type>
+		<format type="string">%3.0f°</format>
+		<property>instrumentation/adf[0]/indicated-bearing-deg</property>
+		<font>courier-bold.txf</font>
+		<character-size>0.007</character-size>
+		<character-aspect-ratio type="double">1.5</character-aspect-ratio>
+		<font-resolution>
+			<width type="int">32</width>
+			<height type="int">32</height>
+		</font-resolution>
+	</text>
+
+	<text>
+		<name>VOR 2</name>
+		<offsets>
+			<x-m>0.0002</x-m>
+			<y-m>0.078</y-m>
+			<z-m>-0.055</z-m>
+		</offsets>
+		<alignment>right-center</alignment>
+		<axis-alignment>yz-plane</axis-alignment>
+		<type type="string">text-value</type>
+		<format type="string">VOR 2</format>
+		<property>instrumentation/nav[1]/in-range</property>
+		<font>courier-bold.txf</font>
+		<character-size>0.007</character-size>
+		<character-aspect-ratio type="double">1.5</character-aspect-ratio>
+		<font-resolution>
+			<width type="int">32</width>
+			<height type="int">32</height>
+		</font-resolution>
+	</text>
+	<text>
+		<name>VOR 2 ID</name>
+		<offsets>
+			<x-m>0.0002</x-m>
+			<y-m>0.078</y-m>
+			<z-m>-0.063</z-m>
+		</offsets>
+		<alignment>right-center</alignment>
+		<axis-alignment>yz-plane</axis-alignment>
+		<type type="string">text-value</type>
+		<format type="string">%s</format>
+		<property>instrumentation/nav[1]/nav-id</property>
+		<font>courier-bold.txf</font>
+		<character-size>0.007</character-size>
+		<character-aspect-ratio type="double">1.5</character-aspect-ratio>
+		<font-resolution>
+			<width type="int">32</width>
+			<height type="int">32</height>
+		</font-resolution>
+	</text>
+	<text>
+		<name>VOR 2 DME</name>
+		<offsets>
+			<x-m>0.0002</x-m>
+			<y-m>0.078</y-m>
+			<z-m>-0.071</z-m>
+		</offsets>
+		<alignment>right-center</alignment>
+		<axis-alignment>yz-plane</axis-alignment>
+		<type type="string">number-value</type>
+		<format type="string">%3.1fNM</format>
+		<property>instrumentation/nav[1]/nav-distance</property>
+		<scale>0.000539</scale>
+		<font>courier-bold.txf</font>
+		<character-size>0.007</character-size>
+		<character-aspect-ratio type="double">1.5</character-aspect-ratio>
+		<font-resolution>
+			<width type="int">32</width>
+			<height type="int">32</height>
+		</font-resolution>
+	</text>
+	<text>
+		<name>ADF 2</name>
+		<offsets>
+			<x-m>0.0002</x-m>
+			<y-m>0.078</y-m>
+			<z-m>-0.055</z-m>
+		</offsets>
+		<alignment>right-center</alignment>
+		<axis-alignment>yz-plane</axis-alignment>
+		<type type="string">text-value</type>
+		<format type="string">ADF 2</format>
+		<property>instrumentation/adf[1]/in-range</property>
+		<font>courier-bold.txf</font>
+		<character-size>0.007</character-size>
+		<character-aspect-ratio type="double">1.5</character-aspect-ratio>
+		<font-resolution>
+			<width type="int">32</width>
+			<height type="int">32</height>
+		</font-resolution>
+	</text>
+	<text>
+		<name>ADF 2 ID</name>
+		<offsets>
+			<x-m>0.0002</x-m>
+			<y-m>0.078</y-m>
+			<z-m>-0.063</z-m>
+		</offsets>
+		<alignment>right-center</alignment>
+		<axis-alignment>yz-plane</axis-alignment>
+		<type type="string">text-value</type>
+		<format type="string">%s</format>
+		<property>instrumentation/adf[1]/ident</property>
+		<font>courier-bold.txf</font>
+		<character-size>0.007</character-size>
+		<character-aspect-ratio type="double">1.5</character-aspect-ratio>
+		<font-resolution>
+			<width type="int">32</width>
+			<height type="int">32</height>
+		</font-resolution>
+	</text>
+	<text>
+		<name>ADF 2 bearing</name>
+		<offsets>
+			<x-m>0.0002</x-m>
+			<y-m>0.078</y-m>
+			<z-m>-0.071</z-m>
+		</offsets>
+		<alignment>right-center</alignment>
+		<axis-alignment>yz-plane</axis-alignment>
+		<type type="string">number-value</type>
+		<format type="string">%3.0f°</format>
+		<property>instrumentation/adf[1]/indicated-bearing-deg</property>
+		<font>courier-bold.txf</font>
+		<character-size>0.007</character-size>
+		<character-aspect-ratio type="double">1.5</character-aspect-ratio>
+		<font-resolution>
+			<width type="int">32</width>
+			<height type="int">32</height>
+		</font-resolution>
+	</text>
+
+	<!-- Moving map text -->
+	<!-- Route manager -->
+	<text>
+		<name>Map waypoint ID</name>
+		<offsets>
+			<x-m>0.0003</x-m>
+			<y-m>0.01</y-m>
+			<z-m>-0.059</z-m>
+		</offsets>
+		<alignment>left-center</alignment>
+		<axis-alignment>yz-plane</axis-alignment>
+		<type type="string">text-value</type>
+		<format type="string">%s</format>
+		<property>autopilot/route-manager/wp[0]/id</property>
+		<font>courier-bold.txf</font>
+		<character-size>0.006</character-size>
+		<character-aspect-ratio type="double">1.5</character-aspect-ratio>
+		<font-resolution>
+			<width type="int">32</width>
+			<height type="int">32</height>
+		</font-resolution>
+	</text>
+
+	<!-- VORs -->
+	<text>
+		<name>Map VOR 1</name>
+		<offsets>
+			<x-m>0.0003</x-m>
+			<y-m>0.01</y-m>
+			<z-m>-0.059</z-m>
+		</offsets>
+		<alignment>left-center</alignment>
+		<axis-alignment>yz-plane</axis-alignment>
+		<type type="string">text-value</type>
+		<format type="string">%s</format>
+		<property>instrumentation/nav[0]/nav-id</property>
+		<font>courier-bold.txf</font>
+		<character-size>0.006</character-size>
+		<character-aspect-ratio type="double">1.5</character-aspect-ratio>
+		<font-resolution>
+			<width type="int">32</width>
+			<height type="int">32</height>
+		</font-resolution>
+	</text>
+	<text>
+		<name>Map VOR 2</name>
+		<offsets>
+			<x-m>0.0003</x-m>
+			<y-m>0.01</y-m>
+			<z-m>-0.059</z-m>
+		</offsets>
+		<alignment>left-center</alignment>
+		<axis-alignment>yz-plane</axis-alignment>
+		<type type="string">text-value</type>
+		<format type="string">%s</format>
+		<property>instrumentation/nav[1]/nav-id</property>
+		<font>courier-bold.txf</font>
+		<character-size>0.006</character-size>
+		<character-aspect-ratio type="double">1.5</character-aspect-ratio>
+		<font-resolution>
+			<width type="int">32</width>
+			<height type="int">32</height>
+		</font-resolution>
+	</text>
+
+	<!-- Multiplayer traffic -->
+	<text>
+		<name>Map MP 1 callsign</name>
+		<offsets>
+			<x-m>0.0003</x-m>
+			<y-m>0.01</y-m>
+			<z-m>-0.059</z-m>
+		</offsets>
+		<alignment>left-center</alignment>
+		<axis-alignment>yz-plane</axis-alignment>
+		<type type="string">text-value</type>
+		<format type="string">%s</format>
+		<property>ai/models/multiplayer[0]/callsign</property>
+		<font>courier-bold.txf</font>
+		<character-size>0.005</character-size>
+		<character-aspect-ratio type="double">1.5</character-aspect-ratio>
+		<font-resolution>
+			<width type="int">32</width>
+			<height type="int">32</height>
+		</font-resolution>
+	</text>
+	<text>
+		<name>Map MP 1 distance</name>
+		<offsets>
+			<x-m>0.0003</x-m>
+			<y-m>0.01</y-m>
+			<z-m>-0.063</z-m>
+		</offsets>
+		<alignment>left-center</alignment>
+		<axis-alignment>yz-plane</axis-alignment>
+		<type type="string">number-value</type>
+		<format type="string">%3.1f NM</format>
+		<property>sim/model/ERJ/multiplayer-distance[0]</property>
+		<scale>0.00054</scale>
+		<font>courier-bold.txf</font>
+		<character-size>0.005</character-size>
+		<character-aspect-ratio type="double">1.5</character-aspect-ratio>
+		<font-resolution>
+			<width type="int">32</width>
+			<height type="int">32</height>
+		</font-resolution>
+	</text>
+	<text>
+		<name>Map MP 1 altitude</name>
+		<offsets>
+			<x-m>0.0003</x-m>
+			<y-m>0.01</y-m>
+			<z-m>-0.067</z-m>
+		</offsets>
+		<alignment>left-center</alignment>
+		<axis-alignment>yz-plane</axis-alignment>
+		<type type="string">number-value</type>
+		<format type="string">%5.0f</format>
+		<property>ai/models/multiplayer[0]/position/altitude-ft</property>
+		<font>courier-bold.txf</font>
+		<character-size>0.005</character-size>
+		<character-aspect-ratio type="double">1.5</character-aspect-ratio>
+		<font-resolution>
+			<width type="int">32</width>
+			<height type="int">32</height>
+		</font-resolution>
+	</text>
+
+	<text>
+		<name>Map MP 2 callsign</name>
+		<offsets>
+			<x-m>0.0003</x-m>
+			<y-m>0.01</y-m>
+			<z-m>-0.059</z-m>
+		</offsets>
+		<alignment>left-center</alignment>
+		<axis-alignment>yz-plane</axis-alignment>
+		<type type="string">text-value</type>
+		<format type="string">%s</format>
+		<property>ai/models/multiplayer[1]/callsign</property>
+		<font>courier-bold.txf</font>
+		<character-size>0.005</character-size>
+		<character-aspect-ratio type="double">1.5</character-aspect-ratio>
+		<font-resolution>
+			<width type="int">32</width>
+			<height type="int">32</height>
+		</font-resolution>
+	</text>
+	<text>
+		<name>Map MP 2 distance</name>
+		<offsets>
+			<x-m>0.0003</x-m>
+			<y-m>0.01</y-m>
+			<z-m>-0.063</z-m>
+		</offsets>
+		<alignment>left-center</alignment>
+		<axis-alignment>yz-plane</axis-alignment>
+		<type type="string">number-value</type>
+		<format type="string">%3.1f NM</format>
+		<property>sim/model/ERJ/multiplayer-distance[1]</property>
+		<scale>0.00054</scale>
+		<font>courier-bold.txf</font>
+		<character-size>0.005</character-size>
+		<character-aspect-ratio type="double">1.5</character-aspect-ratio>
+		<font-resolution>
+			<width type="int">32</width>
+			<height type="int">32</height>
+		</font-resolution>
+	</text>
+	<text>
+		<name>Map MP 2 altitude</name>
+		<offsets>
+			<x-m>0.0003</x-m>
+			<y-m>0.01</y-m>
+			<z-m>-0.067</z-m>
+		</offsets>
+		<alignment>left-center</alignment>
+		<axis-alignment>yz-plane</axis-alignment>
+		<type type="string">number-value</type>
+		<format type="string">%5.0f</format>
+		<property>ai/models/multiplayer[1]/position/altitude-ft</property>
+		<font>courier-bold.txf</font>
+		<character-size>0.005</character-size>
+		<character-aspect-ratio type="double">1.5</character-aspect-ratio>
+		<font-resolution>
+			<width type="int">32</width>
+			<height type="int">32</height>
+		</font-resolution>
+	</text>
+
+	<text>
+		<name>Map MP 3 callsign</name>
+		<offsets>
+			<x-m>0.0003</x-m>
+			<y-m>0.01</y-m>
+			<z-m>-0.059</z-m>
+		</offsets>
+		<alignment>left-center</alignment>
+		<axis-alignment>yz-plane</axis-alignment>
+		<type type="string">text-value</type>
+		<format type="string">%s</format>
+		<property>ai/models/multiplayer[2]/callsign</property>
+		<font>courier-bold.txf</font>
+		<character-size>0.005</character-size>
+		<character-aspect-ratio type="double">1.5</character-aspect-ratio>
+		<font-resolution>
+			<width type="int">32</width>
+			<height type="int">32</height>
+		</font-resolution>
+	</text>
+	<text>
+		<name>Map MP 3 distance</name>
+		<offsets>
+			<x-m>0.0003</x-m>
+			<y-m>0.01</y-m>
+			<z-m>-0.063</z-m>
+		</offsets>
+		<alignment>left-center</alignment>
+		<axis-alignment>yz-plane</axis-alignment>
+		<type type="string">number-value</type>
+		<format type="string">%3.1f NM</format>
+		<property>sim/model/ERJ/multiplayer-distance[2]</property>
+		<scale>0.00054</scale>
+		<font>courier-bold.txf</font>
+		<character-size>0.005</character-size>
+		<character-aspect-ratio type="double">1.5</character-aspect-ratio>
+		<font-resolution>
+			<width type="int">32</width>
+			<height type="int">32</height>
+		</font-resolution>
+	</text>
+	<text>
+		<name>Map MP 3 altitude</name>
+		<offsets>
+			<x-m>0.0003</x-m>
+			<y-m>0.01</y-m>
+			<z-m>-0.067</z-m>
+		</offsets>
+		<alignment>left-center</alignment>
+		<axis-alignment>yz-plane</axis-alignment>
+		<type type="string">number-value</type>
+		<format type="string">%5.0f</format>
+		<property>ai/models/multiplayer[2]/position/altitude-ft</property>
+		<font>courier-bold.txf</font>
+		<character-size>0.005</character-size>
+		<character-aspect-ratio type="double">1.5</character-aspect-ratio>
+		<font-resolution>
+			<width type="int">32</width>
+			<height type="int">32</height>
+		</font-resolution>
+	</text>
+
+	<text>
+		<name>Map MP 4 callsign</name>
+		<offsets>
+			<x-m>0.0003</x-m>
+			<y-m>0.01</y-m>
+			<z-m>-0.059</z-m>
+		</offsets>
+		<alignment>left-center</alignment>
+		<axis-alignment>yz-plane</axis-alignment>
+		<type type="string">text-value</type>
+		<format type="string">%s</format>
+		<property>ai/models/multiplayer[3]/callsign</property>
+		<font>courier-bold.txf</font>
+		<character-size>0.005</character-size>
+		<character-aspect-ratio type="double">1.5</character-aspect-ratio>
+		<font-resolution>
+			<width type="int">32</width>
+			<height type="int">32</height>
+		</font-resolution>
+	</text>
+	<text>
+		<name>Map MP 4 distance</name>
+		<offsets>
+			<x-m>0.0003</x-m>
+			<y-m>0.01</y-m>
+			<z-m>-0.063</z-m>
+		</offsets>
+		<alignment>left-center</alignment>
+		<axis-alignment>yz-plane</axis-alignment>
+		<type type="string">number-value</type>
+		<format type="string">%3.1f NM</format>
+		<property>sim/model/ERJ/multiplayer-distance[3]</property>
+		<scale>0.00054</scale>
+		<font>courier-bold.txf</font>
+		<character-size>0.005</character-size>
+		<character-aspect-ratio type="double">1.5</character-aspect-ratio>
+		<font-resolution>
+			<width type="int">32</width>
+			<height type="int">32</height>
+		</font-resolution>
+	</text>
+	<text>
+		<name>Map MP 4 altitude</name>
+		<offsets>
+			<x-m>0.0003</x-m>
+			<y-m>0.01</y-m>
+			<z-m>-0.067</z-m>
+		</offsets>
+		<alignment>left-center</alignment>
+		<axis-alignment>yz-plane</axis-alignment>
+		<type type="string">number-value</type>
+		<format type="string">%5.0f</format>
+		<property>ai/models/multiplayer[3]/position/altitude-ft</property>
+
+		<font>courier-bold.txf</font>
+		<character-size>0.005</character-size>
+		<character-aspect-ratio type="double">1.5</character-aspect-ratio>
+		<font-resolution>
+			<width type="int">32</width>
+			<height type="int">32</height>
+		</font-resolution>
+	</text>
+
+	<text>
+		<name>Map MP 5 callsign</name>
+		<offsets>
+			<x-m>0.0003</x-m>
+			<y-m>0.01</y-m>
+			<z-m>-0.059</z-m>
+		</offsets>
+		<alignment>left-center</alignment>
+		<axis-alignment>yz-plane</axis-alignment>
+		<type type="string">text-value</type>
+		<format type="string">%s</format>
+		<property>ai/models/multiplayer[4]/callsign</property>
+		<font>courier-bold.txf</font>
+		<character-size>0.005</character-size>
+		<character-aspect-ratio type="double">1.5</character-aspect-ratio>
+		<font-resolution>
+			<width type="int">32</width>
+			<height type="int">32</height>
+		</font-resolution>
+	</text>
+	<text>
+		<name>Map MP 5 distance</name>
+		<offsets>
+			<x-m>0.0003</x-m>
+			<y-m>0.01</y-m>
+			<z-m>-0.063</z-m>
+		</offsets>
+		<alignment>left-center</alignment>
+		<axis-alignment>yz-plane</axis-alignment>
+		<type type="string">number-value</type>
+		<format type="string">%3.1f NM</format>
+		<property>sim/model/ERJ/multiplayer-distance[4]</property>
+		<scale>0.00054</scale>
+		<font>courier-bold.txf</font>
+		<character-size>0.005</character-size>
+		<character-aspect-ratio type="double">1.5</character-aspect-ratio>
+		<font-resolution>
+			<width type="int">32</width>
+			<height type="int">32</height>
+		</font-resolution>
+	</text>
+	<text>
+		<name>Map MP 5 altitude</name>
+		<offsets>
+			<x-m>0.0003</x-m>
+			<y-m>0.01</y-m>
+			<z-m>-0.067</z-m>
+		</offsets>
+		<alignment>left-center</alignment>
+		<axis-alignment>yz-plane</axis-alignment>
+		<type type="string">number-value</type>
+		<format type="string">%5.0f</format>
+		<property>ai/models/multiplayer[4]/position/altitude-ft</property>
+		<font>courier-bold.txf</font>
+		<character-size>0.005</character-size>
+		<character-aspect-ratio type="double">1.5</character-aspect-ratio>
+		<font-resolution>
+			<width type="int">32</width>
+			<height type="int">32</height>
+		</font-resolution>
+	</text>
+
+	<text>
+		<name>Map MP 6 callsign</name>
+		<offsets>
+			<x-m>0.0003</x-m>
+			<y-m>0.01</y-m>
+			<z-m>-0.059</z-m>
+		</offsets>
+		<alignment>left-center</alignment>
+		<axis-alignment>yz-plane</axis-alignment>
+		<type type="string">text-value</type>
+		<format type="string">%s</format>
+		<property>ai/models/multiplayer[5]/callsign</property>
+		<font>courier-bold.txf</font>
+		<character-size>0.005</character-size>
+		<character-aspect-ratio type="double">1.5</character-aspect-ratio>
+		<font-resolution>
+			<width type="int">32</width>
+			<height type="int">32</height>
+		</font-resolution>
+	</text>
+	<text>
+		<name>Map MP 6 distance</name>
+		<offsets>
+			<x-m>0.0003</x-m>
+			<y-m>0.01</y-m>
+			<z-m>-0.063</z-m>
+		</offsets>
+		<alignment>left-center</alignment>
+		<axis-alignment>yz-plane</axis-alignment>
+		<type type="string">number-value</type>
+		<format type="string">%3.1f NM</format>
+		<property>sim/model/ERJ/multiplayer-distance[5]</property>
+		<scale>0.00054</scale>
+		<font>courier-bold.txf</font>
+		<character-size>0.005</character-size>
+		<character-aspect-ratio type="double">1.5</character-aspect-ratio>
+		<font-resolution>
+			<width type="int">32</width>
+			<height type="int">32</height>
+		</font-resolution>
+	</text>
+	<text>
+		<name>Map MP 6 altitude</name>
+		<offsets>
+			<x-m>0.0003</x-m>
+			<y-m>0.01</y-m>
+			<z-m>-0.067</z-m>
+		</offsets>
+		<alignment>left-center</alignment>
+		<axis-alignment>yz-plane</axis-alignment>
+		<type type="string">number-value</type>
+		<format type="string">%5.0f</format>
+		<property>ai/models/multiplayer[5]/position/altitude-ft</property>
+		<font>courier-bold.txf</font>
+		<character-size>0.005</character-size>
+		<character-aspect-ratio type="double">1.5</character-aspect-ratio>
+		<font-resolution>
+			<width type="int">32</width>
+			<height type="int">32</height>
+		</font-resolution>
+	</text>
+
+	<animation>
+		<name>White text</name>
+		<type>material</type>
+		<object-name>Waypoint ID</object-name>
+		<object-name>VOR 1</object-name>
+		<object-name>VOR 1 ID</object-name>
+		<object-name>VOR 2</object-name>
+		<object-name>VOR 2 ID</object-name>
+		<object-name>ADF 1</object-name>
+		<object-name>ADF 1 ID</object-name>
+		<object-name>ADF 2</object-name>
+		<object-name>ADF 2 ID</object-name>
+		<object-name>Map MP 1 callsign</object-name>
+		<object-name>Map MP 1 distance</object-name>
+		<object-name>Map MP 1 altitude</object-name>
+		<object-name>Map MP 2 callsign</object-name>
+		<object-name>Map MP 2 distance</object-name>
+		<object-name>Map MP 2 altitude</object-name>
+		<object-name>Map MP 3 callsign</object-name>
+		<object-name>Map MP 3 distance</object-name>
+		<object-name>Map MP 3 altitude</object-name>
+		<object-name>Map MP 4 callsign</object-name>
+		<object-name>Map MP 4 distance</object-name>
+		<object-name>Map MP 4 altitude</object-name>
+		<object-name>Map MP 5 callsign</object-name>
+		<object-name>Map MP 5 distance</object-name>
+		<object-name>Map MP 5 altitude</object-name>
+		<object-name>Map MP 6 callsign</object-name>
+		<object-name>Map MP 6 distance</object-name>
+		<object-name>Map MP 6 altitude</object-name>
+		<emission>
+			<red>1</red>
+			<green>1</green>
+			<blue>1</blue>
+		</emission>
+	</animation>
+	<animation>
+		<name>Green text</name>
+		<type>material</type>
+		<object-name>GS</object-name>
+		<object-name>TAS</object-name>
+		<object-name>Waypoint bearing</object-name>
+		<object-name>Waypoint distance</object-name>
+		<object-name>VOR 1 DME</object-name>
+		<object-name>ADF 1 bearing</object-name>
+		<object-name>VOR 2 DME</object-name>
+		<object-name>ADF 2 bearing</object-name>
+		<object-name>Map VOR 1</object-name>
+		<emission>
+			<red>0.28</red>
+			<green>0.81</green>
+			<blue>0.21</blue>
+		</emission>
+	</animation>
+	<animation>
+		<name>Blue text</name>
+		<type>material</type>
+		<object-name>Autopilot heading setting</object-name>
+		<object-name>Map VOR 2</object-name>
+		<emission>
+			<red>0.32</red>
+			<green>0.66</green>
+			<blue>0.91</blue>
+		</emission>
+	</animation>
+	<animation>
+		<name>Pink text</name>
+		<type>material</type>
+		<object-name>Map waypoint ID</object-name>
+		<emission>
+			<red>1</red>
+			<green>0</green>
+			<blue>1</blue>
+		</emission>
+	</animation>
+
+	<!-- Select animations -->
+	<animation>
+		<name>Waypoint display</name>
+		<type>select</type>
+		<object-name>Waypoint ID</object-name>
+		<object-name>Waypoint bearing</object-name>
+		<object-name>Waypoint distance</object-name>
+		<condition>
+			<greater-than>
+				<property>autopilot/route-manager/route/num</property>
+				<value>0</value>
+			</greater-than>
+		</condition>
+	</animation>
+
+	<animation>
+		<name>VOR 1 select</name>
+		<type>select</type>
+		<object-name>VOR 1</object-name>
+		<object-name>VOR 1 ID</object-name>
+		<object-name>VOR 1 DME</object-name>
+		<condition>
+			<equals>
+				<property>instrumentation/mfd/nav-display[0]</property>
+				<value>1</value>
+			</equals>
+		</condition>
+	</animation>
+	<animation>
+		<name>ADF 1 select</name>
+		<type>select</type>
+		<object-name>ADF 1</object-name>
+		<object-name>ADF 1 ID</object-name>
+		<object-name>ADF 1 bearing</object-name>
+		<condition>
+			<equals>
+				<property>instrumentation/mfd/nav-display[0]</property>
+				<value>2</value>
+			</equals>
+		</condition>
+	</animation>
+	<animation>
+		<name>VOR 2 select</name>
+		<type>select</type>
+		<object-name>VOR 2</object-name>
+		<object-name>VOR 2 ID</object-name>
+		<object-name>VOR 2 DME</object-name>
+		<condition>
+			<equals>
+				<property>instrumentation/mfd/nav-display[1]</property>
+				<value>1</value>
+			</equals>
+		</condition>
+	</animation>
+	<animation>
+		<name>ADF 2 select</name>
+		<type>select</type>
+		<object-name>ADF 2</object-name>
+		<object-name>ADF 2 ID</object-name>
+		<object-name>ADF 2 bearing</object-name>
+		<condition>
+			<equals>
+				<property>instrumentation/mfd/nav-display[1]</property>
+				<value>2</value>
+			</equals>
+		</condition>
+	</animation>
+
+	<!-- ANIMATIONS -->
+	<!-- Lighting -->
+	<animation>
+		<name>Dome illumination</name>
+		<type>material</type>
+		<object-name>Border</object-name>
+		<object-name>Off</object-name>
+		<emission>
+			<red>0.5</red>
+			<green>0.5</green>
+			<blue>0.5</blue>
+			<factor-prop>controls/lighting/dome-norm</factor-prop>
+		</emission>
+	</animation>
+
+	<!-- Power on/off -->
+	<animation>
+		<name>Power on/off</name>
+		<type>select</type>
+		<object-name>Off</object-name>
+		<condition>
+			<less-than>
+				<property>systems/electrical/outputs/efis</property>
+				<value>15</value>
+			</less-than>
+		</condition>
+	</animation>
+
+	<!-- HSI arc -->
+	<animation>
+		<name>HSI arc</name>
+		<type>texrotate</type>
+		<object-name>HSI</object-name>
+		<property>orientation/heading-magnetic-deg</property>
+		<axis>
+			<x>0</x>
+			<y>0</y>
+			<z>-1</z>
+		</axis>
+		<center>
+			<x>0.5</x>
+			<y>0.5</y>
+		</center>
+	</animation>
+
+	<!-- HSI heading bug -->
+	<animation>
+		<name>Heading bug</name>
+		<type>rotate</type>
+		<object-name>HdgAP</object-name>
+		<property>sim/model/ERJ/heading-bug-deg</property>
+		<axis>
+			<x>1</x>
+			<y>0</y>
+			<z>0</z>
+		</axis>
+		<center>
+			<x-m>0</x-m>
+			<y-m>0</y-m>
+			<z-m>-0.05</z-m>
+		</center>
+	</animation>
+
+	<!-- MOVING MAP DISPLAY -->
+	<!-- VORs -->
+	<animation>
+		<name>Map VOR 1 select</name>
+		<type>select</type>
+		<object-name>VOR1</object-name>
+		<object-name>Map VOR 1</object-name>
+		<condition>
+			<less-than>
+				<property>instrumentation/nav[0]/nav-distance</property>
+				<value>92600</value>
+			</less-than>
+		</condition>
+	</animation>
+	<animation>
+		<name>Map VOR 1 rotate</name>
+		<type>rotate</type>
+		<object-name>VOR1</object-name>
+		<object-name>Map VOR 1</object-name>
+		<property>sim/model/ERJ/nav1-bug-deg</property>
+		<axis>
+			<x>1</x>
+			<y>0</y>
+			<z>0</z>
+		</axis>
+		<center>
+			<x-m>0</x-m>
+			<y-m>0</y-m>
+			<z-m>-0.059</z-m>
+		</center>
+	</animation>
+	<animation>
+		<name>Map VOR 1 translate</name>
+		<type>translate</type>
+		<object-name>VOR1</object-name>
+		<object-name>Map VOR 1</object-name>
+		<property>instrumentation/nav[0]/nav-distance</property>
+		<factor>0.000001199</factor>
+		<axis>
+			<x>0</x>
+			<y>0</y>
+			<z>1</z>
+		</axis>
+	</animation>
+	<animation>
+		<name>Map VOR 1 counter-rotate</name>
+		<type>rotate</type>
+		<object-name>VOR1</object-name>
+		<object-name>Map VOR 1</object-name>
+		<property>sim/model/ERJ/nav1-bug-deg</property>
+		<axis>
+			<x>-1</x>
+			<y>0</y>
+			<z>0</z>
+		</axis>
+		<center>
+			<x-m>0</x-m>
+			<y-m>0</y-m>
+			<z-m>-0.059</z-m>
+		</center>
+	</animation>
+
+	<animation>
+		<name>Map VOR 2 select</name>
+		<type>select</type>
+		<object-name>VOR1</object-name>
+		<object-name>Map VOR 2</object-name>
+		<condition>
+			<less-than>
+				<property>instrumentation/nav[1]/nav-distance</property>
+				<value>92600</value>
+			</less-than>
+		</condition>
+	</animation>
+	<animation>
+		<name>Map VOR 2 rotate</name>
+		<type>rotate</type>
+		<object-name>VOR2</object-name>
+		<object-name>Map VOR 2</object-name>
+		<property>sim/model/ERJ/nav2-bug-deg</property>
+		<axis>
+			<x>1</x>
+			<y>0</y>
+			<z>0</z>
+		</axis>
+		<center>
+			<x-m>0</x-m>
+			<y-m>0</y-m>
+			<z-m>-0.059</z-m>
+		</center>
+	</animation>
+	<animation>
+		<name>Map VOR 2 translate</name>
+		<type>translate</type>
+		<object-name>VOR2</object-name>
+		<object-name>Map VOR 2</object-name>
+		<property>instrumentation/nav[1]/nav-distance</property>
+		<factor>0.000001199</factor>
+		<axis>
+			<x>0</x>
+			<y>0</y>
+			<z>1</z>
+		</axis>
+	</animation>
+	<animation>
+		<name>Map VOR 2 counter-rotate</name>
+		<type>rotate</type>
+		<object-name>VOR2</object-name>
+		<object-name>Map VOR 2</object-name>
+		<property>sim/model/ERJ/nav2-bug-deg</property>
+		<axis>
+			<x>-1</x>
+			<y>0</y>
+			<z>0</z>
+		</axis>
+		<center>
+			<x-m>0</x-m>
+			<y-m>0</y-m>
+			<z-m>-0.059</z-m>
+		</center>
+	</animation>
+
+	<!-- Route manager waypoint -->
+	<animation>
+		<name>Map waypoint select</name>
+		<type>select</type>
+		<object-name>WP</object-name>
+		<object-name>WPCrs</object-name>
+		<object-name>Map waypoint ID</object-name>
+		<condition>
+			<greater-than>
+				<property>autopilot/route-manager/route/num</property>
+				<value>0</value>
+			</greater-than>
+		</condition>
+	</animation>
+	<animation>
+		<name>Map waypoint range select</name>
+		<type>select</type>
+		<object-name>WP</object-name>
+		<object-name>Map waypoint ID</object-name>
+		<condition>
+			<less-than>
+				<property>autopilot/route-manager/wp[0]/dist</property>
+				<value>50</value>
+			</less-than>
+		</condition>
+	</animation>
+	<animation>
+		<name>Map waypoint rotate</name>
+		<type>rotate</type>
+		<object-name>WP</object-name>
+		<object-name>WPCrs</object-name>
+		<object-name>Map waypoint ID</object-name>
+		<property>sim/model/ERJ/wp-bearing-deg</property>
+		<axis>
+			<x>1</x>
+			<y>0</y>
+			<z>0</z>
+		</axis>
+		<center>
+			<x-m>0</x-m>
+			<y-m>0</y-m>
+			<z-m>-0.059</z-m>
+		</center>
+	</animation>
+	<animation>
+		<name>Map waypoint translate</name>
+		<type>translate</type>
+		<object-name>WP</object-name>
+		<object-name>Map waypoint ID</object-name>
+		<property>autopilot/route-manager/wp[0]/dist</property>
+		<factor>0.00222</factor>
+		<axis>
+			<x>0</x>
+			<y>0</y>
+			<z>1</z>
+		</axis>
+	</animation>
+	<animation>
+		<name>Map waypoint counter-rotate</name>
+		<type>rotate</type>
+		<object-name>WP</object-name>
+		<object-name>Map waypoint ID</object-name>
+		<property>sim/model/ERJ/wp-bearing-deg</property>
+		<axis>
+			<x>-1</x>
+			<y>0</y>
+			<z>0</z>
+		</axis>
+		<center>
+			<x-m>0</x-m>
+			<y-m>0</y-m>
+			<z-m>-0.059</z-m>
+		</center>
+	</animation>
+	<animation>
+		<name>Map waypoint course scale</name>
+		<type>scale</type>
+		<object-name>WPCrs</object-name>
+		<property>autopilot/route-manager/wp[0]/dist</property>
+		<interpolation>
+			<entry>
+				<ind>0</ind>
+				<dep>0</dep>
+			</entry>
+			<entry>
+				<ind>50</ind>
+				<dep>0.942</dep>
+			</entry>
+		</interpolation>
+		<axis>
+			<x>0</x>
+			<y>1</y>
+			<z>0</z>
+		</axis>
+		<center>
+			<x-m>0</x-m>
+			<y-m>-0.012</y-m>
+			<z-m>-0.06</z-m>
+		</center>
+	</animation>
+
+	<!-- Multiplayer traffic -->
+	<animation>
+		<name>MP 1 select</name>
+		<type>select</type>
+		<object-name>MP1</object-name>
+		<object-name>Map MP 1 callsign</object-name>
+		<object-name>Map MP 1 distance</object-name>
+		<object-name>Map MP 1 altitude</object-name>
+		<condition>
+			<and>
+				<property>ai/models/multiplayer[0]/valid</property>
+				<less-than>
+					<property>sim/model/ERJ/multiplayer-distance[0]</property>
+					<value>92600</value>
+				</less-than>
+			</and>
+		</condition>
+	</animation>
+	<animation>
+		<name>MP 1 rotate</name>
+		<type>rotate</type>
+		<object-name>MP1</object-name>
+		<object-name>Map MP 1 callsign</object-name>
+		<object-name>Map MP 1 distance</object-name>
+		<object-name>Map MP 1 altitude</object-name>
+		<property>sim/model/ERJ/multiplayer-bearing[0]</property>
+		<axis>
+			<x>1</x>
+			<y>0</y>
+			<z>0</z>
+		</axis>
+		<center>
+			<x-m>0</x-m>
+			<y-m>0</y-m>
+			<z-m>-0.059</z-m>
+		</center>
+	</animation>
+	<animation>
+		<name>MP 1 translate</name>
+		<type>translate</type>
+		<object-name>MP1</object-name>
+		<object-name>Map MP 1 callsign</object-name>
+		<object-name>Map MP 1 distance</object-name>
+		<object-name>Map MP 1 altitude</object-name>
+		<property>sim/model/ERJ/multiplayer-distance[0]</property>
+		<factor>0.000001199</factor>
+		<axis>
+			<x>0</x>
+			<y>0</y>
+			<z>1</z>
+		</axis>
+	</animation>
+	<animation>
+		<name>MP 1 counter-rotate</name>
+		<type>rotate</type>
+		<object-name>MP1</object-name>
+		<object-name>Map MP 1 callsign</object-name>
+		<object-name>Map MP 1 distance</object-name>
+		<object-name>Map MP 1 altitude</object-name>
+		<property>sim/model/ERJ/multiplayer-bearing[0]</property>
+		<axis>
+			<x>-1</x>
+			<y>0</y>
+			<z>0</z>
+		</axis>
+		<center>
+			<x-m>0</x-m>
+			<y-m>0</y-m>
+
+			<z-m>-0.059</z-m>
+		</center>
+	</animation>
+
+	<animation>
+		<name>MP 2 select</name>
+		<type>select</type>
+		<object-name>MP2</object-name>
+		<object-name>Map MP 2 callsign</object-name>
+		<object-name>Map MP 2 distance</object-name>
+		<object-name>Map MP 2 altitude</object-name>
+		<condition>
+			<and>
+				<property>ai/models/multiplayer[1]/valid</property>
+				<less-than>
+					<property>sim/model/ERJ/multiplayer-distance[1]</property>
+					<value>92600</value>
+				</less-than>
+			</and>
+		</condition>
+	</animation>
+	<animation>
+		<name>MP 2 rotate</name>
+		<type>rotate</type>
+		<object-name>MP2</object-name>
+		<object-name>Map MP 2 callsign</object-name>
+		<object-name>Map MP 2 distance</object-name>
+		<object-name>Map MP 2 altitude</object-name>
+		<property>sim/model/ERJ/multiplayer-bearing[1]</property>
+		<axis>
+			<x>1</x>
+			<y>0</y>
+			<z>0</z>
+		</axis>
+		<center>
+			<x-m>0</x-m>
+			<y-m>0</y-m>
+			<z-m>-0.059</z-m>
+		</center>
+	</animation>
+	<animation>
+		<name>MP 2 translate</name>
+		<type>translate</type>
+		<object-name>MP2</object-name>
+		<object-name>Map MP 2 callsign</object-name>
+		<object-name>Map MP 2 distance</object-name>
+		<object-name>Map MP 2 altitude</object-name>
+		<property>sim/model/ERJ/multiplayer-distance[1]</property>
+		<factor>0.000001199</factor>
+		<axis>
+			<x>0</x>
+			<y>0</y>
+			<z>1</z>
+		</axis>
+	</animation>
+	<animation>
+		<name>MP 2 counter-rotate</name>
+		<type>rotate</type>
+		<object-name>MP2</object-name>
+		<object-name>Map MP 2 callsign</object-name>
+		<object-name>Map MP 2 distance</object-name>
+		<object-name>Map MP 2 altitude</object-name>
+		<property>sim/model/ERJ/multiplayer-bearing[1]</property>
+		<axis>
+			<x>-1</x>
+			<y>0</y>
+			<z>0</z>
+		</axis>
+		<center>
+			<x-m>0</x-m>
+			<y-m>0</y-m>
+			<z-m>-0.059</z-m>
+		</center>
+	</animation>
+
+	<animation>
+		<name>MP 3 select</name>
+		<type>select</type>
+		<object-name>MP3</object-name>
+		<object-name>Map MP 3 callsign</object-name>
+		<object-name>Map MP 3 distance</object-name>
+		<object-name>Map MP 3 altitude</object-name>
+		<condition>
+			<and>
+				<property>ai/models/multiplayer[2]/valid</property>
+				<less-than>
+					<property>sim/model/ERJ/multiplayer-distance[2]</property>
+					<value>92600</value>
+				</less-than>
+			</and>
+		</condition>
+	</animation>
+	<animation>
+		<name>MP 3 rotate</name>
+		<type>rotate</type>
+		<object-name>MP3</object-name>
+		<object-name>Map MP 3 callsign</object-name>
+		<object-name>Map MP 3 distance</object-name>
+		<object-name>Map MP 3 altitude</object-name>
+		<property>sim/model/ERJ/multiplayer-bearing[2]</property>
+		<axis>
+			<x>1</x>
+			<y>0</y>
+			<z>0</z>
+		</axis>
+		<center>
+			<x-m>0</x-m>
+			<y-m>0</y-m>
+			<z-m>-0.059</z-m>
+		</center>
+	</animation>
+	<animation>
+		<name>MP 3 translate</name>
+		<type>translate</type>
+		<object-name>MP3</object-name>
+		<object-name>Map MP 3 callsign</object-name>
+		<object-name>Map MP 3 distance</object-name>
+		<object-name>Map MP 3 altitude</object-name>
+		<property>sim/model/ERJ/multiplayer-distance[2]</property>
+		<factor>0.000001199</factor>
+		<axis>
+			<x>0</x>
+			<y>0</y>
+			<z>1</z>
+		</axis>
+	</animation>
+	<animation>
+		<name>MP 3 counter-rotate</name>
+		<type>rotate</type>
+		<object-name>MP3</object-name>
+		<object-name>Map MP 3 callsign</object-name>
+		<object-name>Map MP 3 distance</object-name>
+		<object-name>Map MP 3 altitude</object-name>
+		<property>sim/model/ERJ/multiplayer-bearing[2]</property>
+		<axis>
+			<x>-1</x>
+			<y>0</y>
+
+			<z>0</z>
+		</axis>
+		<center>
+			<x-m>0</x-m>
+			<y-m>0</y-m>
+			<z-m>-0.059</z-m>
+		</center>
+	</animation>
+
+	<animation>
+		<name>MP 4 select</name>
+		<type>select</type>
+		<object-name>MP4</object-name>
+		<object-name>Map MP 4 callsign</object-name>
+		<object-name>Map MP 4 distance</object-name>
+		<object-name>Map MP 4 altitude</object-name>
+		<condition>
+			<and>
+				<property>ai/models/multiplayer[3]/valid</property>
+				<less-than>
+					<property>sim/model/ERJ/multiplayer-distance[3]</property>
+					<value>92600</value>
+				</less-than>
+			</and>
+		</condition>
+	</animation>
+	<animation>
+		<name>MP 4 rotate</name>
+		<type>rotate</type>
+		<object-name>MP4</object-name>
+		<object-name>Map MP 4 callsign</object-name>
+		<object-name>Map MP 4 distance</object-name>
+		<object-name>Map MP 4 altitude</object-name>
+		<property>sim/model/ERJ/multiplayer-bearing[3]</property>
+		<axis>
+			<x>1</x>
+			<y>0</y>
+			<z>0</z>
+		</axis>
+		<center>
+			<x-m>0</x-m>
+			<y-m>0</y-m>
+			<z-m>-0.059</z-m>
+		</center>
+	</animation>
+	<animation>
+		<name>MP 4 translate</name>
+		<type>translate</type>
+		<object-name>MP4</object-name>
+		<object-name>Map MP 4 callsign</object-name>
+		<object-name>Map MP 4 distance</object-name>
+		<object-name>Map MP 4 altitude</object-name>
+		<property>sim/model/ERJ/multiplayer-distance[3]</property>
+		<factor>0.000001199</factor>
+		<axis>
+			<x>0</x>
+			<y>0</y>
+			<z>1</z>
+		</axis>
+	</animation>
+	<animation>
+		<name>MP 4 counter-rotate</name>
+		<type>rotate</type>
+		<object-name>MP4</object-name>
+		<object-name>Map MP 4 callsign</object-name>
+		<object-name>Map MP 4 distance</object-name>
+		<object-name>Map MP 4 altitude</object-name>
+		<property>sim/model/ERJ/multiplayer-bearing[3]</property>
+		<axis>
+			<x>-1</x>
+			<y>0</y>
+			<z>0</z>
+		</axis>
+		<center>
+			<x-m>0</x-m>
+			<y-m>0</y-m>
+			<z-m>-0.059</z-m>
+		</center>
+	</animation>
+
+	<animation>
+		<name>MP 5 select</name>
+		<type>select</type>
+		<object-name>MP5</object-name>
+		<object-name>Map MP 5 callsign</object-name>
+		<object-name>Map MP 5 distance</object-name>
+		<object-name>Map MP 5 altitude</object-name>
+		<condition>
+			<and>
+				<property>ai/models/multiplayer[4]/valid</property>
+				<less-than>
+					<property>sim/model/ERJ/multiplayer-distance[4]</property>
+					<value>92600</value>
+				</less-than>
+			</and>
+		</condition>
+	</animation>
+	<animation>
+		<name>MP 5 rotate</name>
+		<type>rotate</type>
+		<object-name>MP5</object-name>
+		<object-name>Map MP 5 callsign</object-name>
+		<object-name>Map MP 5 distance</object-name>
+		<object-name>Map MP 5 altitude</object-name>
+		<property>sim/model/ERJ/multiplayer-bearing[4]</property>
+		<axis>
+			<x>1</x>
+			<y>0</y>
+			<z>0</z>
+		</axis>
+		<center>
+			<x-m>0</x-m>
+			<y-m>0</y-m>
+			<z-m>-0.059</z-m>
+		</center>
+	</animation>
+	<animation>
+		<name>MP 5 translate</name>
+		<type>translate</type>
+		<object-name>MP5</object-name>
+		<object-name>Map MP 5 callsign</object-name>
+		<object-name>Map MP 5 distance</object-name>
+		<object-name>Map MP 5 altitude</object-name>
+		<property>sim/model/ERJ/multiplayer-distance[4]</property>
+		<factor>0.000001199</factor>
+		<axis>
+			<x>0</x>
+			<y>0</y>
+			<z>1</z>
+		</axis>
+	</animation>
+	<animation>
+		<name>MP 5 counter-rotate</name>
+		<type>rotate</type>
+		<object-name>MP5</object-name>
+		<object-name>Map MP 5 callsign</object-name>
+		<object-name>Map MP 5 distance</object-name>
+		<object-name>Map MP 5 altitude</object-name>
+		<property>sim/model/ERJ/multiplayer-bearing[4]</property>
+		<axis>
+			<x>-1</x>
+			<y>0</y>
+			<z>0</z>
+		</axis>
+		<center>
+			<x-m>0</x-m>
+			<y-m>0</y-m>
+			<z-m>-0.059</z-m>
+		</center>
+	</animation>
+
+	<animation>
+		<name>MP 6 select</name>
+		<type>select</type>
+		<object-name>MP6</object-name>
+		<object-name>Map MP 6 callsign</object-name>
+		<object-name>Map MP 6 distance</object-name>
+		<object-name>Map MP 6 altitude</object-name>
+		<condition>
+			<and>
+				<property>ai/models/multiplayer[5]/valid</property>
+				<less-than>
+					<property>sim/model/ERJ/multiplayer-distance[5]</property>
+					<value>92600</value>
+				</less-than>
+			</and>
+		</condition>
+	</animation>
+	<animation>
+		<name>MP 6 rotate</name>
+		<type>rotate</type>
+		<object-name>MP6</object-name>
+		<object-name>Map MP 6 callsign</object-name>
+		<object-name>Map MP 6 distance</object-name>
+		<object-name>Map MP 6 altitude</object-name>
+		<property>sim/model/ERJ/multiplayer-bearing[5]</property>
+		<axis>
+			<x>1</x>
+			<y>0</y>
+			<z>0</z>
+		</axis>
+		<center>
+			<x-m>0</x-m>
+			<y-m>0</y-m>
+			<z-m>-0.059</z-m>
+		</center>
+	</animation>
+	<animation>
+		<name>MP 6 translate</name>
+		<type>translate</type>
+		<object-name>MP6</object-name>
+		<object-name>Map MP 6 callsign</object-name>
+		<object-name>Map MP 6 distance</object-name>
+		<object-name>Map MP 6 altitude</object-name>
+		<property>sim/model/ERJ/multiplayer-distance[5]</property>
+		<factor>0.000001199</factor>
+		<axis>
+			<x>0</x>
+			<y>0</y>
+			<z>1</z>
+		</axis>
+	</animation>
+	<animation>
+		<name>MP 6 counter-rotate</name>
+		<type>rotate</type>
+		<object-name>MP6</object-name>
+		<object-name>Map MP 6 callsign</object-name>
+		<object-name>Map MP 6 distance</object-name>
+		<object-name>Map MP 6 altitude</object-name>
+		<property>sim/model/ERJ/multiplayer-bearing[5]</property>
+		<axis>
+			<x>-1</x>
+			<y>0</y>
+			<z>0</z>
+		</axis>
+		<center>
+			<x-m>0</x-m>
+			<y-m>0</y-m>
+			<z-m>-0.059</z-m>
+		</center>
+	</animation>
+
+
+	<!-- Weather Mode -->
+
+	<!-- METAR Availablity -->
+
+	<animation>
+		<type>select</type>
+		<object-name>metar.available</object-name>
+		<condition>
+			<equals>
+				<property>/environment/available-flag</property>
+				<value>1</value>
+			</equals>
+		</condition>
+	</animation>
+
+	<animation>
+		<type>select</type>
+		<object-name>metar.unavailable</object-name>
+		<condition>
+			<equals>
+				<property>/environment/available-flag</property>
+				<value>0</value>
+			</equals>
+		</condition>
+	</animation>
+
+	<!-- Temperature -->
+
+	<animation>
+		<type>select</type>
+		<object-name>Temp10</object-name>
+		<object-name>Temp1</object-name>
+		<condition>
+			<greater-than-equals>
+				<property>/environment/temperature-degc</property>
+				<value>0</value>
+			</greater-than-equals>
+		</condition>
+	</animation>
+	<animation>
+		<type>select</type>
+		<object-name>Temp-</object-name>
+		<object-name>Temp-10</object-name>
+		<object-name>Temp-1</object-name>
+		<condition>
+			<less-than>
+				<property>/environment/temperature-degc</property>
+				<value>0</value>
+			</less-than>
+		</condition>
+	</animation>
+
+	<animation>
+		<type>textranslate</type>
+		<object-name>Temp10</object-name>
+		<property>/environment/temperature-degc</property>
+		<factor>0.01</factor>
+		<step>10</step>
+		<axis>
+			<x>0</x>
+			<y>1</y>
+		</axis>
+	</animation>
+	<animation>
+		<type>textranslate</type>
+		<object-name>Temp1</object-name>
+		<property>/environment/temperature-degc</property>
+		<factor>0.1</factor>
+		<step>1</step>
+		<axis>
+			<x>0</x>
+			<y>1</y>
+		</axis>
+	</animation>
+	<animation>
+		<type>textranslate</type>
+		<object-name>Temp-10</object-name>
+		<property>/environment/temperature-degc</property>
+		<factor>0.01</factor>
+		<step>10</step>
+		<axis>
+			<x>0</x>
+			<y>-1</y>
+		</axis>
+	</animation>
+	<animation>
+		<type>textranslate</type>
+		<object-name>Temp-1</object-name>
+		<property>/environment/temperature-degc</property>
+		<factor>0.1</factor>
+		<step>1</step>
+		<axis>
+			<x>0</x>
+			<y>-1</y>
+		</axis>
+	</animation>
+
+	<!-- Wing Direction -->
+
+	<animation>
+		<type>textranslate</type>
+		<object-name>wind-dir100</object-name>
+		<property>/environment/wind-from-heading-deg</property>
+		<factor>0.001</factor>
+		<step>100</step>
+		<axis>
+			<x>0</x>
+			<y>1</y>
+		</axis>
+	</animation>
+	<animation>
+		<type>textranslate</type>
+		<object-name>wind-dir10</object-name>
+		<property>/environment/wind-from-heading-deg</property>
+		<factor>0.01</factor>
+		<step>10</step>
+		<axis>
+			<x>0</x>
+			<y>1</y>
+		</axis>
+	</animation>
+	<animation>
+		<type>textranslate</type>
+		<object-name>wind-dir1</object-name>
+		<property>/environment/wind-from-heading-deg</property>
+		<factor>0.1</factor>
+		<step>1</step>
+		<axis>
+			<x>0</x>
+			<y>1</y>
+		</axis>
+	</animation>
+
+	<!-- Wind Speed (Knots) -->
+
+	<animation>
+		<type>textranslate</type>
+		<object-name>wind10</object-name>
+		<property>/environment/wind-speed-kt</property>
+		<factor>0.01</factor>
+		<step>10</step>
+		<axis>
+			<x>0</x>
+			<y>1</y>
+		</axis>
+	</animation>
+	<animation>
+		<type>textranslate</type>
+		<object-name>wind1</object-name>
+		<property>/environment/wind-speed-kt</property>
+		<factor>0.1</factor>
+		<step>1</step>
+		<axis>
+			<x>0</x>
+			<y>1</y>
+		</axis>
+	</animation>
+
+	<!-- Rain Percentage -->
+
+	<animation>
+		<type>textranslate</type>
+		<object-name>rain100</object-name>
+		<property>/environment/rain-norm</property>
+		<factor>0.1</factor>
+		<step>100</step>
+		<axis>
+			<x>0</x>
+			<y>1</y>
+		</axis>
+	</animation>
+	<animation>
+		<type>textranslate</type>
+		<object-name>rain10</object-name>
+		<property>/environment/rain-norm</property>
+		<factor>1.0</factor>
+		<step>10</step>
+		<axis>
+			<x>0</x>
+			<y>1</y>
+		</axis>
+	</animation>
+	<animation>
+		<type>textranslate</type>
+		<object-name>rain1</object-name>
+		<property>/environment/rain-norm</property>
+		<factor>10</factor>
+		<step>1</step>
+		<axis>
+			<x>0</x>
+			<y>1</y>
+		</axis>
+	</animation>
+
+	<!-- Snow Percentage -->
+
+	<animation>
+		<type>textranslate</type>
+		<object-name>snow100</object-name>
+		<property>/environment/snow-norm</property>
+		<factor>0.1</factor>
+		<step>100</step>
+		<axis>
+			<x>0</x>
+			<y>1</y>
+		</axis>
+	</animation>
+	<animation>
+		<type>textranslate</type>
+		<object-name>snow10</object-name>
+		<property>/environment/snow-norm</property>
+		<factor>1</factor>
+		<step>10</step>
+		<axis>
+			<x>0</x>
+			<y>1</y>
+		</axis>
+	</animation>
+	<animation>
+		<type>textranslate</type>
+		<object-name>snow1</object-name>
+		<property>/environment/snow-norm</property>
+		<factor>10</factor>
+		<step>1</step>
+		<axis>
+			<x>0</x>
+			<y>1</y>
+		</axis>
+	</animation>
+
+	<!-- dewpoint -->
+
+	<animation>
+		<type>select</type>
+		<object-name>Dew10</object-name>
+		<object-name>Dew1</object-name>
+		<condition>
+			<greater-than-equals>
+				<property>/environment/dewpoint-degc</property>
+				<value>0</value>
+			</greater-than-equals>
+		</condition>
+	</animation>
+	<animation>
+		<type>select</type>
+		<object-name>Dew-</object-name>
+		<object-name>Dew-10</object-name>
+		<object-name>Dew-1</object-name>
+		<condition>
+			<less-than>
+				<property>/environment/dewpoint-degc</property>
+				<value>0</value>
+			</less-than>
+		</condition>
+	</animation>
+
+	<animation>
+		<type>textranslate</type>
+		<object-name>Dew10</object-name>
+		<property>/environment/dewpoint-degc</property>
+		<factor>0.01</factor>
+		<step>10</step>
+		<axis>
+			<x>0</x>
+			<y>1</y>
+		</axis>
+	</animation>
+	<animation>
+		<type>textranslate</type>
+		<object-name>Dew1</object-name>
+		<property>/environment/dewpoint-degc</property>
+		<factor>0.1</factor>
+		<step>1</step>
+		<axis>
+			<x>0</x>
+			<y>1</y>
+		</axis>
+	</animation>
+	<animation>
+		<type>textranslate</type>
+		<object-name>Dew-10</object-name>
+		<property>/environment/dewpoint-degc</property>
+		<factor>0.01</factor>
+		<step>10</step>
+		<axis>
+			<x>0</x>
+			<y>-1</y>
+		</axis>
+	</animation>
+	<animation>
+		<type>textranslate</type>
+		<object-name>Dew-1</object-name>
+		<property>/environment/dewpoint-degc</property>
+		<factor>0.1</factor>
+		<step>1</step>
+		<axis>
+			<x>0</x>
+			<y>-1</y>
+		</axis>
+	</animation>
+
+	<!-- Visibility -->
+
+	<animation>
+		<type>textranslate</type>
+		<object-name>Vis10000</object-name>
+		<property>/environment/visibility-m</property>
+		<factor>0.00001</factor>
+		<step>10000</step>
+		<axis>
+			<x>0</x>
+			<y>1</y>
+		</axis>
+	</animation>
+	<animation>
+		<type>textranslate</type>
+		<object-name>Vis1000</object-name>
+		<property>/environment/visibility-m</property>
+		<factor>0.0001</factor>
+		<step>1000</step>
+		<axis>
+			<x>0</x>
+			<y>1</y>
+		</axis>
+	</animation>
+	<animation>
+		<type>textranslate</type>
+		<object-name>Vis100</object-name>
+		<property>/environment/visibility-m</property>
+		<factor>0.001</factor>
+		<step>100</step>
+		<axis>
+			<x>0</x>
+			<y>1</y>
+		</axis>
+	</animation>
+	<animation>
+		<type>textranslate</type>
+		<object-name>Vis10</object-name>
+		<property>/environment/visibility-m</property>
+		<factor>0.01</factor>
+		<step>10</step>
+		<axis>
+			<x>0</x>
+			<y>1</y>
+		</axis>
+	</animation>
+	<animation>
+		<type>textranslate</type>
+		<object-name>Vis1</object-name>
+		<property>/environment/visibility-m</property>
+		<factor>0.1</factor>
+		<step>1</step>
+		<axis>
+			<x>0</x>
+			<y>1</y>
+		</axis>
+	</animation>
+
+	<!-- Pressure In Mercury -->
+
+	<animation>
+		<type>textranslate</type>
+		<object-name>Pres10</object-name>
+		<property>/environment/pressure-inhg</property>
+		<factor>0.01</factor>
+		<step>10</step>
+		<axis>
+			<x>0</x>
+			<y>1</y>
+		</axis>
+	</animation>
+	<animation>
+		<type>textranslate</type>
+		<object-name>Pres1</object-name>
+		<property>/environment/pressure-inhg</property>
+		<factor>0.1</factor>
+		<step>1</step>
+		<axis>
+			<x>0</x>
+			<y>1</y>
+		</axis>
+	</animation>
+	<animation>
+		<type>textranslate</type>
+		<object-name>Pres.1</object-name>
+		<property>/environment/pressure-inhg</property>
+		<factor>1</factor>
+		<step>10</step>
+		<axis>
+			<x>0</x>
+			<y>1</y>
+		</axis>
+	</animation>
+	<animation>
+		<type>textranslate</type>
+		<object-name>Pres.01</object-name>
+		<property>/environment/pressure-inhg</property>
+		<factor>10</factor>
+		<step>1</step>
+		<axis>
+			<x>0</x>
+			<y>1</y>
+		</axis>
+	</animation>
+
+	<!-- MAP Mode -->
+
+	<animation>
+		<type>texmultiple</type>
+		<object-name>map-disk</object-name>
+		<transform>
+			<property>/position/latitude-deg</property>
+			<subtype>textranslate</subtype>
+			<factor>0.005555556</factor>
+			<axis>
+				<x>0</x>
+				<y>1</y>
+				<z>0</z>
+			</axis>
+		</transform>
+		<transform>
+			<property>/position/longitude-deg</property>
+			<subtype>textranslate</subtype>
+			<factor>0.002777778</factor>
+			<axis>
+				<x>1</x>
+				<y>0</y>
+				<z>0</z>
+			</axis>
+		</transform>
+	</animation>
+
+	<animation>
+		<name>Compass and Map Disk Rotate</name>
+		<type>rotate</type>
+		<object-name>map-disk</object-name>
+		<object-name>compass</object-name>
+		<property>orientation/heading-magnetic-deg</property>
+		<axis>
+			<x>1</x>
+			<y>0</y>
+			<z>0</z>
+		</axis>
+		<center>
+			<z-m>0.0169</z-m>
+		</center>
+	</animation>
+
+	<!-- PLAN Mode -->
+
+	<text>
+		<name>Waypoint 1 ID</name>
+		<type>string-value</type>
+		<property>autopilot/route-manager/route/wp[0]/id</property>
+		<axis-alignment>yz-plane</axis-alignment>
+		<alignment>left-center</alignment>
+		<character-size>0.005</character-size>
+		<character-aspect-ratio>1.5</character-aspect-ratio>
+		<font>helvetica_bold.txf</font>
+		<format>%s</format>
+		<offsets>
+			<x-m>0.0002</x-m>
+			<y-m>-0.06536</y-m>
+			<z-m>0.062</z-m>
+		</offsets>
+		<font-resolution>
+			<width type="int">32</width>
+			<height type="int">32</height>
+		</font-resolution>
+	</text>
+	<text>
+		<name>Waypoint 1 distance</name>
+		<type>number-value</type>
+		<property>autopilot/route-manager/route/wp[0]/leg-distance-nm</property>
+		<axis-alignment>yz-plane</axis-alignment>
+		<alignment>left-center</alignment>
+		<character-size>0.005</character-size>
+		<character-aspect-ratio>1.5</character-aspect-ratio>
+		<font>helvetica_bold.txf</font>
+		<format>%3.fNM</format>
+		<offsets>
+			<x-m>0.0002</x-m>
+			<y-m>-0.0325</y-m>
+			<z-m>0.062</z-m>
+		</offsets>
+		<font-resolution>
+			<width type="int">32</width>
+			<height type="int">32</height>
+		</font-resolution>
+	</text>
+	<text>
+		<name>Waypoint 1 course</name>
+		<type>number-value</type>
+		<property>autopilot/route-manager/route/wp[0]/leg-bearing-true-deg</property>
+		<axis-alignment>yz-plane</axis-alignment>
+		<alignment>left-center</alignment>
+		<character-size>0.005</character-size>
+		<character-aspect-ratio>1.5</character-aspect-ratio>
+		<font>helvetica_bold.txf</font>
+		<format>CRS %03.f</format>
+		<offsets>
+			<x-m>0.0002</x-m>
+			<y-m>-0.00196</y-m>
+			<z-m>0.062</z-m>
+		</offsets>
+		<font-resolution>
+			<width type="int">32</width>
+			<height type="int">32</height>
+		</font-resolution>
+	</text>
+	<text>
+		<name>Waypoint 1 altitude</name>
+		<type>number-value</type>
+		<property>autopilot/route-manager/route/wp[0]/altitude-ft</property>
+		<axis-alignment>yz-plane</axis-alignment>
+		<alignment>left-center</alignment>
+		<character-size>0.005</character-size>
+		<character-aspect-ratio>1.5</character-aspect-ratio>
+		<font>helvetica_bold.txf</font>
+		<format>%5.fFT</format>
+		<offsets>
+			<x-m>0.0002</x-m>
+			<y-m>0.03422</y-m>
+			<z-m>0.062</z-m>
+		</offsets>
+		<font-resolution>
+			<width type="int">32</width>
+			<height type="int">32</height>
+		</font-resolution>
+	</text>
+	<text>
+		<name>Waypoint 1 altitude (metric)</name>
+		<type>number-value</type>
+		<property>autopilot/route-manager/route/wp[0]/altitude-ft</property>
+		<scale alias="../../ft-to-m" />
+		<axis-alignment>yz-plane</axis-alignment>
+		<alignment>left-center</alignment>
+		<character-size>0.005</character-size>
+		<character-aspect-ratio>1.5</character-aspect-ratio>
+		<font>helvetica_bold.txf</font>
+		<format>%5.fM</format>
+		<offsets>
+			<x-m>0.0002</x-m>
+			<y-m>0.03422</y-m>
+			<z-m>0.062</z-m>
+		</offsets>
+		<font-resolution>
+			<width type="int">32</width>
+			<height type="int">32</height>
+		</font-resolution>
+	</text>
+	<animation>
+		<type>select</type>
+		<object-name>Waypoint 1 ID</object-name>
+		<object-name>Waypoint 1 distance</object-name>
+		<object-name>Waypoint 1 course</object-name>
+		<object-name>Waypoint 1 altitude</object-name>
+		<object-name>Waypoint 1 altitude (metric)</object-name>
+		<condition>
+			<greater-than-equals>
+				<property>autopilot/route-manager/route/num</property>
+				<value>1</value>
+			</greater-than-equals>
+		</condition>
+	</animation>
+	<text>
+		<name>Waypoint 2 ID</name>
+		<type>string-value</type>
+		<property>autopilot/route-manager/route/wp[1]/id</property>
+		<axis-alignment>yz-plane</axis-alignment>
+		<alignment>left-center</alignment>
+		<character-size>0.005</character-size>
+		<character-aspect-ratio>1.5</character-aspect-ratio>
+		<font>helvetica_bold.txf</font>
+		<format>%s</format>
+		<offsets>
+			<x-m>0.0002</x-m>
+			<y-m>-0.06536</y-m>
+			<z-m>0.057</z-m>
+		</offsets>
+		<font-resolution>
+			<width type="int">32</width>
+			<height type="int">32</height>
+		</font-resolution>
+	</text>
+	<text>
+		<name>Waypoint 2 distance</name>
+		<type>number-value</type>
+		<property>autopilot/route-manager/route/wp[1]/leg-distance-nm</property>
+		<axis-alignment>yz-plane</axis-alignment>
+		<alignment>left-center</alignment>
+		<character-size>0.005</character-size>
+		<character-aspect-ratio>1.5</character-aspect-ratio>
+		<font>helvetica_bold.txf</font>
+		<format>%3.fNM</format>
+		<offsets>
+			<x-m>0.0002</x-m>
+			<y-m>-0.0325</y-m>
+			<z-m>0.057</z-m>
+		</offsets>
+		<font-resolution>
+			<width type="int">32</width>
+			<height type="int">32</height>
+		</font-resolution>
+	</text>
+	<text>
+		<name>Waypoint 2 course</name>
+		<type>number-value</type>
+		<property>autopilot/route-manager/route/wp[1]/leg-bearing-true-deg</property>
+		<axis-alignment>yz-plane</axis-alignment>
+		<alignment>left-center</alignment>
+		<character-size>0.005</character-size>
+		<character-aspect-ratio>1.5</character-aspect-ratio>
+		<font>helvetica_bold.txf</font>
+		<format>CRS %03.f</format>
+		<offsets>
+			<x-m>0.0002</x-m>
+			<y-m>-0.00196</y-m>
+			<z-m>0.057</z-m>
+		</offsets>
+		<font-resolution>
+			<width type="int">32</width>
+			<height type="int">32</height>
+		</font-resolution>
+	</text>
+	<text>
+		<name>Waypoint 2 altitude</name>
+		<type>number-value</type>
+		<property>autopilot/route-manager/route/wp[1]/altitude-ft</property>
+		<axis-alignment>yz-plane</axis-alignment>
+		<alignment>left-center</alignment>
+		<character-size>0.005</character-size>
+		<character-aspect-ratio>1.5</character-aspect-ratio>
+		<font>helvetica_bold.txf</font>
+		<format>%5.fFT</format>
+		<offsets>
+			<x-m>0.0002</x-m>
+			<y-m>0.03422</y-m>
+			<z-m>0.057</z-m>
+		</offsets>
+		<font-resolution>
+			<width type="int">32</width>
+			<height type="int">32</height>
+		</font-resolution>
+	</text>
+	<text>
+		<name>Waypoint 2 altitude (metric)</name>
+		<type>number-value</type>
+		<property>autopilot/route-manager/route/wp[1]/altitude-ft</property>
+		<scale alias="../../ft-to-m" />
+		<axis-alignment>yz-plane</axis-alignment>
+		<alignment>left-center</alignment>
+		<character-size>0.005</character-size>
+		<character-aspect-ratio>1.5</character-aspect-ratio>
+		<font>helvetica_bold.txf</font>
+		<format>%5.fM</format>
+		<offsets>
+			<x-m>0.0002</x-m>
+			<y-m>0.03422</y-m>
+			<z-m>0.057</z-m>
+		</offsets>
+		<font-resolution>
+			<width type="int">32</width>
+			<height type="int">32</height>
+		</font-resolution>
+	</text>
+	<animation>
+		<type>select</type>
+		<object-name>Waypoint 2 ID</object-name>
+		<object-name>Waypoint 2 distance</object-name>
+		<object-name>Waypoint 2 course</object-name>
+		<object-name>Waypoint 2 altitude</object-name>
+		<object-name>Waypoint 2 altitude (metric)</object-name>
+		<condition>
+			<greater-than-equals>
+				<property>autopilot/route-manager/route/num</property>
+				<value>2</value>
+			</greater-than-equals>
+		</condition>
+	</animation>
+	<text>
+		<name>Waypoint 3 ID</name>
+		<type>string-value</type>
+		<property>autopilot/route-manager/route/wp[2]/id</property>
+		<axis-alignment>yz-plane</axis-alignment>
+		<alignment>left-center</alignment>
+		<character-size>0.005</character-size>
+		<character-aspect-ratio>1.5</character-aspect-ratio>
+		<font>helvetica_bold.txf</font>
+		<format>%s</format>
+		<offsets>
+			<x-m>0.0002</x-m>
+			<y-m>-0.06536</y-m>
+			<z-m>0.052</z-m>
+		</offsets>
+		<font-resolution>
+			<width type="int">32</width>
+			<height type="int">32</height>
+		</font-resolution>
+	</text>
+	<text>
+		<name>Waypoint 3 distance</name>
+		<type>number-value</type>
+		<property>autopilot/route-manager/route/wp[2]/leg-distance-nm</property>
+		<axis-alignment>yz-plane</axis-alignment>
+		<alignment>left-center</alignment>
+		<character-size>0.005</character-size>
+		<character-aspect-ratio>1.5</character-aspect-ratio>
+		<font>helvetica_bold.txf</font>
+		<format>%3.fNM</format>
+		<offsets>
+			<x-m>0.0002</x-m>
+			<y-m>-0.0325</y-m>
+			<z-m>0.052</z-m>
+		</offsets>
+		<font-resolution>
+			<width type="int">32</width>
+			<height type="int">32</height>
+		</font-resolution>
+	</text>
+	<text>
+		<name>Waypoint 3 course</name>
+		<type>number-value</type>
+		<property>autopilot/route-manager/route/wp[2]/leg-bearing-true-deg</property>
+		<axis-alignment>yz-plane</axis-alignment>
+		<alignment>left-center</alignment>
+		<character-size>0.005</character-size>
+		<character-aspect-ratio>1.5</character-aspect-ratio>
+		<font>helvetica_bold.txf</font>
+		<format>CRS %03.f</format>
+		<offsets>
+			<x-m>0.0002</x-m>
+			<y-m>-0.00196</y-m>
+			<z-m>0.052</z-m>
+		</offsets>
+		<font-resolution>
+			<width type="int">32</width>
+			<height type="int">32</height>
+		</font-resolution>
+	</text>
+	<text>
+		<name>Waypoint 3 altitude</name>
+		<type>number-value</type>
+		<property>autopilot/route-manager/route/wp[2]/altitude-ft</property>
+		<axis-alignment>yz-plane</axis-alignment>
+		<alignment>left-center</alignment>
+		<character-size>0.005</character-size>
+		<character-aspect-ratio>1.5</character-aspect-ratio>
+		<font>helvetica_bold.txf</font>
+		<format>%5.fFT</format>
+		<offsets>
+			<x-m>0.0002</x-m>
+			<y-m>0.03422</y-m>
+			<z-m>0.052</z-m>
+		</offsets>
+		<font-resolution>
+			<width type="int">32</width>
+			<height type="int">32</height>
+		</font-resolution>
+	</text>
+	<text>
+		<name>Waypoint 3 altitude (metric)</name>
+		<type>number-value</type>
+		<property>autopilot/route-manager/route/wp[2]/altitude-ft</property>
+		<scale alias="../../ft-to-m" />
+		<axis-alignment>yz-plane</axis-alignment>
+		<alignment>left-center</alignment>
+		<character-size>0.005</character-size>
+		<character-aspect-ratio>1.5</character-aspect-ratio>
+		<font>helvetica_bold.txf</font>
+		<format>%5.fM</format>
+		<offsets>
+			<x-m>0.0002</x-m>
+			<y-m>0.03422</y-m>
+			<z-m>0.052</z-m>
+		</offsets>
+		<font-resolution>
+			<width type="int">32</width>
+			<height type="int">32</height>
+		</font-resolution>
+	</text>
+	<animation>
+		<type>select</type>
+		<object-name>Waypoint 3 ID</object-name>
+		<object-name>Waypoint 3 distance</object-name>
+		<object-name>Waypoint 3 course</object-name>
+		<object-name>Waypoint 3 altitude</object-name>
+		<object-name>Waypoint 3 altitude (metric)</object-name>
+		<condition>
+			<greater-than-equals>
+				<property>autopilot/route-manager/route/num</property>
+				<value>3</value>
+			</greater-than-equals>
+		</condition>
+	</animation>
+	<text>
+		<name>Waypoint 4 ID</name>
+		<type>string-value</type>
+		<property>autopilot/route-manager/route/wp[3]/id</property>
+		<axis-alignment>yz-plane</axis-alignment>
+		<alignment>left-center</alignment>
+		<character-size>0.005</character-size>
+		<character-aspect-ratio>1.5</character-aspect-ratio>
+		<font>helvetica_bold.txf</font>
+		<format>%s</format>
+		<offsets>
+			<x-m>0.0002</x-m>
+			<y-m>-0.06536</y-m>
+			<z-m>0.047</z-m>
+		</offsets>
+		<font-resolution>
+			<width type="int">32</width>
+			<height type="int">32</height>
+		</font-resolution>
+	</text>
+	<text>
+		<name>Waypoint 4 distance</name>
+		<type>number-value</type>
+		<property>autopilot/route-manager/route/wp[3]/leg-distance-nm</property>
+		<axis-alignment>yz-plane</axis-alignment>
+		<alignment>left-center</alignment>
+		<character-size>0.005</character-size>
+		<character-aspect-ratio>1.5</character-aspect-ratio>
+		<font>helvetica_bold.txf</font>
+		<format>%3.fNM</format>
+		<offsets>
+			<x-m>0.0002</x-m>
+			<y-m>-0.0325</y-m>
+			<z-m>0.047</z-m>
+		</offsets>
+		<font-resolution>
+			<width type="int">32</width>
+			<height type="int">32</height>
+		</font-resolution>
+	</text>
+	<text>
+		<name>Waypoint 4 course</name>
+		<type>number-value</type>
+		<property>autopilot/route-manager/route/wp[3]/leg-bearing-true-deg</property>
+		<axis-alignment>yz-plane</axis-alignment>
+		<alignment>left-center</alignment>
+		<character-size>0.005</character-size>
+		<character-aspect-ratio>1.5</character-aspect-ratio>
+		<font>helvetica_bold.txf</font>
+		<format>CRS %03.f</format>
+		<offsets>
+			<x-m>0.0002</x-m>
+			<y-m>-0.00196</y-m>
+			<z-m>0.047</z-m>
+		</offsets>
+		<font-resolution>
+			<width type="int">32</width>
+			<height type="int">32</height>
+		</font-resolution>
+	</text>
+	<text>
+		<name>Waypoint 4 altitude</name>
+		<type>number-value</type>
+		<property>autopilot/route-manager/route/wp[3]/altitude-ft</property>
+		<axis-alignment>yz-plane</axis-alignment>
+		<alignment>left-center</alignment>
+		<character-size>0.005</character-size>
+		<character-aspect-ratio>1.5</character-aspect-ratio>
+		<font>helvetica_bold.txf</font>
+		<format>%5.fFT</format>
+		<offsets>
+			<x-m>0.0002</x-m>
+			<y-m>0.03422</y-m>
+			<z-m>0.047</z-m>
+		</offsets>
+		<font-resolution>
+			<width type="int">32</width>
+			<height type="int">32</height>
+		</font-resolution>
+	</text>
+	<text>
+		<name>Waypoint 4 altitude (metric)</name>
+		<type>number-value</type>
+		<property>autopilot/route-manager/route/wp[3]/altitude-ft</property>
+		<scale alias="../../ft-to-m" />
+		<axis-alignment>yz-plane</axis-alignment>
+		<alignment>left-center</alignment>
+		<character-size>0.005</character-size>
+		<character-aspect-ratio>1.5</character-aspect-ratio>
+		<font>helvetica_bold.txf</font>
+		<format>%5.fM</format>
+		<offsets>
+			<x-m>0.0002</x-m>
+			<y-m>0.03422</y-m>
+			<z-m>0.047</z-m>
+		</offsets>
+		<font-resolution>
+			<width type="int">32</width>
+			<height type="int">32</height>
+		</font-resolution>
+	</text>
+	<animation>
+		<type>select</type>
+		<object-name>Waypoint 4 ID</object-name>
+		<object-name>Waypoint 4 distance</object-name>
+		<object-name>Waypoint 4 course</object-name>
+		<object-name>Waypoint 4 altitude</object-name>
+		<object-name>Waypoint 4 altitude (metric)</object-name>
+		<condition>
+			<greater-than-equals>
+				<property>autopilot/route-manager/route/num</property>
+				<value>4</value>
+			</greater-than-equals>
+		</condition>
+	</animation>
+	<text>
+		<name>Waypoint 5 ID</name>
+		<type>string-value</type>
+		<property>autopilot/route-manager/route/wp[4]/id</property>
+		<axis-alignment>yz-plane</axis-alignment>
+		<alignment>left-center</alignment>
+		<character-size>0.005</character-size>
+		<character-aspect-ratio>1.5</character-aspect-ratio>
+		<font>helvetica_bold.txf</font>
+		<format>%s</format>
+		<offsets>
+			<x-m>0.0002</x-m>
+			<y-m>-0.06536</y-m>
+			<z-m>0.042</z-m>
+		</offsets>
+		<font-resolution>
+			<width type="int">32</width>
+			<height type="int">32</height>
+		</font-resolution>
+	</text>
+	<text>
+		<name>Waypoint 5 distance</name>
+		<type>number-value</type>
+		<property>autopilot/route-manager/route/wp[4]/leg-distance-nm</property>
+		<axis-alignment>yz-plane</axis-alignment>
+		<alignment>left-center</alignment>
+		<character-size>0.005</character-size>
+		<character-aspect-ratio>1.5</character-aspect-ratio>
+		<font>helvetica_bold.txf</font>
+		<format>%3.fNM</format>
+		<offsets>
+			<x-m>0.0002</x-m>
+			<y-m>-0.0325</y-m>
+			<z-m>0.042</z-m>
+		</offsets>
+		<font-resolution>
+			<width type="int">32</width>
+			<height type="int">32</height>
+		</font-resolution>
+	</text>
+	<text>
+		<name>Waypoint 5 course</name>
+		<type>number-value</type>
+		<property>autopilot/route-manager/route/wp[4]/leg-bearing-true-deg</property>
+		<axis-alignment>yz-plane</axis-alignment>
+		<alignment>left-center</alignment>
+		<character-size>0.005</character-size>
+		<character-aspect-ratio>1.5</character-aspect-ratio>
+		<font>helvetica_bold.txf</font>
+		<format>CRS %03.f</format>
+		<offsets>
+			<x-m>0.0002</x-m>
+			<y-m>-0.00196</y-m>
+			<z-m>0.042</z-m>
+		</offsets>
+		<font-resolution>
+			<width type="int">32</width>
+			<height type="int">32</height>
+		</font-resolution>
+	</text>
+	<text>
+		<name>Waypoint 5 altitude</name>
+		<type>number-value</type>
+		<property>autopilot/route-manager/route/wp[4]/altitude-ft</property>
+		<axis-alignment>yz-plane</axis-alignment>
+		<alignment>left-center</alignment>
+		<character-size>0.005</character-size>
+		<character-aspect-ratio>1.5</character-aspect-ratio>
+		<font>helvetica_bold.txf</font>
+		<format>%5.fFT</format>
+		<offsets>
+			<x-m>0.0002</x-m>
+			<y-m>0.03422</y-m>
+			<z-m>0.042</z-m>
+		</offsets>
+		<font-resolution>
+			<width type="int">32</width>
+			<height type="int">32</height>
+		</font-resolution>
+	</text>
+	<text>
+		<name>Waypoint 5 altitude (metric)</name>
+		<type>number-value</type>
+		<property>autopilot/route-manager/route/wp[4]/altitude-ft</property>
+		<scale alias="../../ft-to-m" />
+		<axis-alignment>yz-plane</axis-alignment>
+		<alignment>left-center</alignment>
+		<character-size>0.005</character-size>
+		<character-aspect-ratio>1.5</character-aspect-ratio>
+		<font>helvetica_bold.txf</font>
+		<format>%5.fM</format>
+		<offsets>
+			<x-m>0.0002</x-m>
+			<y-m>0.03422</y-m>
+			<z-m>0.042</z-m>
+		</offsets>
+		<font-resolution>
+			<width type="int">32</width>
+			<height type="int">32</height>
+		</font-resolution>
+	</text>
+	<animation>
+		<type>select</type>
+		<object-name>Waypoint 5 ID</object-name>
+		<object-name>Waypoint 5 distance</object-name>
+		<object-name>Waypoint 5 course</object-name>
+		<object-name>Waypoint 5 altitude</object-name>
+		<object-name>Waypoint 5 altitude (metric)</object-name>
+		<condition>
+			<greater-than-equals>
+				<property>autopilot/route-manager/route/num</property>
+				<value>5</value>
+			</greater-than-equals>
+		</condition>
+	</animation>
+	<text>
+		<name>Waypoint 6 ID</name>
+		<type>string-value</type>
+		<property>autopilot/route-manager/route/wp[5]/id</property>
+		<axis-alignment>yz-plane</axis-alignment>
+		<alignment>left-center</alignment>
+		<character-size>0.005</character-size>
+		<character-aspect-ratio>1.5</character-aspect-ratio>
+		<font>helvetica_bold.txf</font>
+		<format>%s</format>
+		<offsets>
+			<x-m>0.0002</x-m>
+			<y-m>-0.06536</y-m>
+			<z-m>0.037</z-m>
+		</offsets>
+		<font-resolution>
+			<width type="int">32</width>
+			<height type="int">32</height>
+		</font-resolution>
+	</text>
+	<text>
+		<name>Waypoint 6 distance</name>
+		<type>number-value</type>
+		<property>autopilot/route-manager/route/wp[5]/leg-distance-nm</property>
+		<axis-alignment>yz-plane</axis-alignment>
+		<alignment>left-center</alignment>
+		<character-size>0.005</character-size>
+		<character-aspect-ratio>1.5</character-aspect-ratio>
+		<font>helvetica_bold.txf</font>
+		<format>%3.fNM</format>
+		<offsets>
+			<x-m>0.0002</x-m>
+			<y-m>-0.0325</y-m>
+			<z-m>0.037</z-m>
+		</offsets>
+		<font-resolution>
+			<width type="int">32</width>
+			<height type="int">32</height>
+		</font-resolution>
+	</text>
+	<text>
+		<name>Waypoint 6 course</name>
+		<type>number-value</type>
+		<property>autopilot/route-manager/route/wp[5]/leg-bearing-true-deg</property>
+		<axis-alignment>yz-plane</axis-alignment>
+		<alignment>left-center</alignment>
+		<character-size>0.005</character-size>
+		<character-aspect-ratio>1.5</character-aspect-ratio>
+		<font>helvetica_bold.txf</font>
+		<format>CRS %03.f</format>
+		<offsets>
+			<x-m>0.0002</x-m>
+			<y-m>-0.00196</y-m>
+			<z-m>0.037</z-m>
+		</offsets>
+		<font-resolution>
+			<width type="int">32</width>
+			<height type="int">32</height>
+		</font-resolution>
+	</text>
+	<text>
+		<name>Waypoint 6 altitude</name>
+		<type>number-value</type>
+		<property>autopilot/route-manager/route/wp[5]/altitude-ft</property>
+		<axis-alignment>yz-plane</axis-alignment>
+		<alignment>left-center</alignment>
+		<character-size>0.005</character-size>
+		<character-aspect-ratio>1.5</character-aspect-ratio>
+		<font>helvetica_bold.txf</font>
+		<format>%5.fFT</format>
+		<offsets>
+			<x-m>0.0002</x-m>
+			<y-m>0.03422</y-m>
+			<z-m>0.037</z-m>
+		</offsets>
+		<font-resolution>
+			<width type="int">32</width>
+			<height type="int">32</height>
+		</font-resolution>
+	</text>
+	<text>
+		<name>Waypoint 6 altitude (metric)</name>
+		<type>number-value</type>
+		<property>autopilot/route-manager/route/wp[5]/altitude-ft</property>
+		<scale alias="../../ft-to-m" />
+		<axis-alignment>yz-plane</axis-alignment>
+		<alignment>left-center</alignment>
+		<character-size>0.005</character-size>
+		<character-aspect-ratio>1.5</character-aspect-ratio>
+		<font>helvetica_bold.txf</font>
+		<format>%5.fM</format>
+		<offsets>
+			<x-m>0.0002</x-m>
+			<y-m>0.03422</y-m>
+			<z-m>0.037</z-m>
+		</offsets>
+		<font-resolution>
+			<width type="int">32</width>
+			<height type="int">32</height>
+		</font-resolution>
+	</text>
+	<animation>
+		<type>select</type>
+		<object-name>Waypoint 6 ID</object-name>
+		<object-name>Waypoint 6 distance</object-name>
+		<object-name>Waypoint 6 course</object-name>
+		<object-name>Waypoint 6 altitude</object-name>
+		<object-name>Waypoint 6 altitude (metric)</object-name>
+		<condition>
+			<greater-than-equals>
+				<property>autopilot/route-manager/route/num</property>
+				<value>6</value>
+			</greater-than-equals>
+		</condition>
+	</animation>
+	<text>
+		<name>Waypoint 7 ID</name>
+		<type>string-value</type>
+		<property>autopilot/route-manager/route/wp[6]/id</property>
+		<axis-alignment>yz-plane</axis-alignment>
+		<alignment>left-center</alignment>
+		<character-size>0.005</character-size>
+		<character-aspect-ratio>1.5</character-aspect-ratio>
+		<font>helvetica_bold.txf</font>
+		<format>%s</format>
+		<offsets>
+			<x-m>0.0002</x-m>
+			<y-m>-0.06536</y-m>
+			<z-m>0.032</z-m>
+		</offsets>
+		<font-resolution>
+			<width type="int">32</width>
+			<height type="int">32</height>
+		</font-resolution>
+	</text>
+	<text>
+		<name>Waypoint 7 distance</name>
+		<type>number-value</type>
+		<property>autopilot/route-manager/route/wp[6]/leg-distance-nm</property>
+		<axis-alignment>yz-plane</axis-alignment>
+		<alignment>left-center</alignment>
+		<character-size>0.005</character-size>
+		<character-aspect-ratio>1.5</character-aspect-ratio>
+		<font>helvetica_bold.txf</font>
+		<format>%3.fNM</format>
+		<offsets>
+			<x-m>0.0002</x-m>
+			<y-m>-0.0325</y-m>
+			<z-m>0.032</z-m>
+		</offsets>
+		<font-resolution>
+			<width type="int">32</width>
+			<height type="int">32</height>
+		</font-resolution>
+	</text>
+	<text>
+		<name>Waypoint 7 course</name>
+		<type>number-value</type>
+		<property>autopilot/route-manager/route/wp[6]/leg-bearing-true-deg</property>
+		<axis-alignment>yz-plane</axis-alignment>
+		<alignment>left-center</alignment>
+		<character-size>0.005</character-size>
+		<character-aspect-ratio>1.5</character-aspect-ratio>
+		<font>helvetica_bold.txf</font>
+		<format>CRS %03.f</format>
+		<offsets>
+			<x-m>0.0002</x-m>
+			<y-m>-0.00196</y-m>
+			<z-m>0.032</z-m>
+		</offsets>
+		<font-resolution>
+			<width type="int">32</width>
+			<height type="int">32</height>
+		</font-resolution>
+	</text>
+	<text>
+		<name>Waypoint 7 altitude</name>
+		<type>number-value</type>
+		<property>autopilot/route-manager/route/wp[6]/altitude-ft</property>
+		<axis-alignment>yz-plane</axis-alignment>
+		<alignment>left-center</alignment>
+		<character-size>0.005</character-size>
+		<character-aspect-ratio>1.5</character-aspect-ratio>
+		<font>helvetica_bold.txf</font>
+		<format>%5.fFT</format>
+		<offsets>
+			<x-m>0.0002</x-m>
+			<y-m>0.03422</y-m>
+			<z-m>0.032</z-m>
+		</offsets>
+		<font-resolution>
+			<width type="int">32</width>
+			<height type="int">32</height>
+		</font-resolution>
+	</text>
+	<text>
+		<name>Waypoint 7 altitude (metric)</name>
+		<type>number-value</type>
+		<property>autopilot/route-manager/route/wp[6]/altitude-ft</property>
+		<scale alias="../../ft-to-m" />
+		<axis-alignment>yz-plane</axis-alignment>
+		<alignment>left-center</alignment>
+		<character-size>0.005</character-size>
+		<character-aspect-ratio>1.5</character-aspect-ratio>
+		<font>helvetica_bold.txf</font>
+		<format>%5.fM</format>
+		<offsets>
+			<x-m>0.0002</x-m>
+			<y-m>0.03422</y-m>
+			<z-m>0.032</z-m>
+		</offsets>
+		<font-resolution>
+			<width type="int">32</width>
+			<height type="int">32</height>
+		</font-resolution>
+	</text>
+	<animation>
+		<type>select</type>
+		<object-name>Waypoint 7 ID</object-name>
+		<object-name>Waypoint 7 distance</object-name>
+		<object-name>Waypoint 7 course</object-name>
+		<object-name>Waypoint 7 altitude</object-name>
+		<object-name>Waypoint 7 altitude (metric)</object-name>
+		<condition>
+			<greater-than-equals>
+				<property>autopilot/route-manager/route/num</property>
+				<value>7</value>
+			</greater-than-equals>
+		</condition>
+	</animation>
+	<text>
+		<name>Waypoint 8 ID</name>
+		<type>string-value</type>
+		<property>autopilot/route-manager/route/wp[7]/id</property>
+		<axis-alignment>yz-plane</axis-alignment>
+		<alignment>left-center</alignment>
+		<character-size>0.005</character-size>
+		<character-aspect-ratio>1.5</character-aspect-ratio>
+		<font>helvetica_bold.txf</font>
+		<format>%s</format>
+		<offsets>
+			<x-m>0.0002</x-m>
+			<y-m>-0.06536</y-m>
+			<z-m>0.027</z-m>
+		</offsets>
+		<font-resolution>
+			<width type="int">32</width>
+			<height type="int">32</height>
+		</font-resolution>
+	</text>
+	<text>
+		<name>Waypoint 8 distance</name>
+		<type>number-value</type>
+		<property>autopilot/route-manager/route/wp[7]/leg-distance-nm</property>
+		<axis-alignment>yz-plane</axis-alignment>
+		<alignment>left-center</alignment>
+		<character-size>0.005</character-size>
+		<character-aspect-ratio>1.5</character-aspect-ratio>
+		<font>helvetica_bold.txf</font>
+		<format>%3.fNM</format>
+		<offsets>
+			<x-m>0.0002</x-m>
+			<y-m>-0.0325</y-m>
+			<z-m>0.027</z-m>
+		</offsets>
+		<font-resolution>
+			<width type="int">32</width>
+			<height type="int">32</height>
+		</font-resolution>
+	</text>
+	<text>
+		<name>Waypoint 8 course</name>
+		<type>number-value</type>
+		<property>autopilot/route-manager/route/wp[7]/leg-bearing-true-deg</property>
+		<axis-alignment>yz-plane</axis-alignment>
+		<alignment>left-center</alignment>
+		<character-size>0.005</character-size>
+		<character-aspect-ratio>1.5</character-aspect-ratio>
+		<font>helvetica_bold.txf</font>
+		<format>CRS %03.f</format>
+		<offsets>
+			<x-m>0.0002</x-m>
+			<y-m>-0.00196</y-m>
+			<z-m>0.027</z-m>
+		</offsets>
+		<font-resolution>
+			<width type="int">32</width>
+			<height type="int">32</height>
+		</font-resolution>
+	</text>
+	<text>
+		<name>Waypoint 8 altitude</name>
+		<type>number-value</type>
+		<property>autopilot/route-manager/route/wp[7]/altitude-ft</property>
+		<axis-alignment>yz-plane</axis-alignment>
+		<alignment>left-center</alignment>
+		<character-size>0.005</character-size>
+		<character-aspect-ratio>1.5</character-aspect-ratio>
+		<font>helvetica_bold.txf</font>
+		<format>%5.fFT</format>
+		<offsets>
+			<x-m>0.0002</x-m>
+			<y-m>0.03422</y-m>
+			<z-m>0.027</z-m>
+		</offsets>
+		<font-resolution>
+			<width type="int">32</width>
+			<height type="int">32</height>
+		</font-resolution>
+	</text>
+	<text>
+		<name>Waypoint 8 altitude (metric)</name>
+		<type>number-value</type>
+		<property>autopilot/route-manager/route/wp[7]/altitude-ft</property>
+		<scale alias="../../ft-to-m" />
+		<axis-alignment>yz-plane</axis-alignment>
+		<alignment>left-center</alignment>
+		<character-size>0.005</character-size>
+		<character-aspect-ratio>1.5</character-aspect-ratio>
+		<font>helvetica_bold.txf</font>
+		<format>%5.fM</format>
+		<offsets>
+			<x-m>0.0002</x-m>
+			<y-m>0.03422</y-m>
+			<z-m>0.027</z-m>
+		</offsets>
+		<font-resolution>
+			<width type="int">32</width>
+			<height type="int">32</height>
+		</font-resolution>
+	</text>
+	<animation>
+		<type>select</type>
+		<object-name>Waypoint 8 ID</object-name>
+		<object-name>Waypoint 8 distance</object-name>
+		<object-name>Waypoint 8 course</object-name>
+		<object-name>Waypoint 8 altitude</object-name>
+		<object-name>Waypoint 8 altitude (metric)</object-name>
+		<condition>
+			<greater-than-equals>
+				<property>autopilot/route-manager/route/num</property>
+				<value>8</value>
+			</greater-than-equals>
+		</condition>
+	</animation>
+	<text>
+		<name>Waypoint 9 ID</name>
+		<type>string-value</type>
+		<property>autopilot/route-manager/route/wp[8]/id</property>
+		<axis-alignment>yz-plane</axis-alignment>
+		<alignment>left-center</alignment>
+		<character-size>0.005</character-size>
+		<character-aspect-ratio>1.5</character-aspect-ratio>
+		<font>helvetica_bold.txf</font>
+		<format>%s</format>
+		<offsets>
+			<x-m>0.0002</x-m>
+			<y-m>-0.06536</y-m>
+			<z-m>0.022</z-m>
+		</offsets>
+		<font-resolution>
+			<width type="int">32</width>
+			<height type="int">32</height>
+		</font-resolution>
+	</text>
+	<text>
+		<name>Waypoint 9 distance</name>
+		<type>number-value</type>
+		<property>autopilot/route-manager/route/wp[8]/leg-distance-nm</property>
+		<axis-alignment>yz-plane</axis-alignment>
+		<alignment>left-center</alignment>
+		<character-size>0.005</character-size>
+		<character-aspect-ratio>1.5</character-aspect-ratio>
+		<font>helvetica_bold.txf</font>
+		<format>%3.fNM</format>
+		<offsets>
+			<x-m>0.0002</x-m>
+			<y-m>-0.0325</y-m>
+			<z-m>0.022</z-m>
+		</offsets>
+		<font-resolution>
+			<width type="int">32</width>
+			<height type="int">32</height>
+		</font-resolution>
+	</text>
+	<text>
+		<name>Waypoint 9 course</name>
+		<type>number-value</type>
+		<property>autopilot/route-manager/route/wp[8]/leg-bearing-true-deg</property>
+		<axis-alignment>yz-plane</axis-alignment>
+		<alignment>left-center</alignment>
+		<character-size>0.005</character-size>
+		<character-aspect-ratio>1.5</character-aspect-ratio>
+		<font>helvetica_bold.txf</font>
+		<format>CRS %03.f</format>
+		<offsets>
+			<x-m>0.0002</x-m>
+			<y-m>-0.00196</y-m>
+			<z-m>0.022</z-m>
+		</offsets>
+		<font-resolution>
+			<width type="int">32</width>
+			<height type="int">32</height>
+		</font-resolution>
+	</text>
+	<text>
+		<name>Waypoint 9 altitude</name>
+		<type>number-value</type>
+		<property>autopilot/route-manager/route/wp[8]/altitude-ft</property>
+		<axis-alignment>yz-plane</axis-alignment>
+		<alignment>left-center</alignment>
+		<character-size>0.005</character-size>
+		<character-aspect-ratio>1.5</character-aspect-ratio>
+		<font>helvetica_bold.txf</font>
+		<format>%5.fFT</format>
+		<offsets>
+			<x-m>0.0002</x-m>
+			<y-m>0.03422</y-m>
+			<z-m>0.022</z-m>
+		</offsets>
+		<font-resolution>
+			<width type="int">32</width>
+			<height type="int">32</height>
+		</font-resolution>
+	</text>
+	<text>
+		<name>Waypoint 9 altitude (metric)</name>
+		<type>number-value</type>
+		<property>autopilot/route-manager/route/wp[8]/altitude-ft</property>
+		<scale alias="../../ft-to-m" />
+		<axis-alignment>yz-plane</axis-alignment>
+		<alignment>left-center</alignment>
+		<character-size>0.005</character-size>
+		<character-aspect-ratio>1.5</character-aspect-ratio>
+		<font>helvetica_bold.txf</font>
+		<format>%5.fM</format>
+		<offsets>
+			<x-m>0.0002</x-m>
+			<y-m>0.03422</y-m>
+			<z-m>0.022</z-m>
+		</offsets>
+		<font-resolution>
+			<width type="int">32</width>
+			<height type="int">32</height>
+		</font-resolution>
+	</text>
+	<animation>
+		<type>select</type>
+		<object-name>Waypoint 9 ID</object-name>
+		<object-name>Waypoint 9 distance</object-name>
+		<object-name>Waypoint 9 course</object-name>
+		<object-name>Waypoint 9 altitude</object-name>
+		<object-name>Waypoint 9 altitude (metric)</object-name>
+		<condition>
+			<greater-than-equals>
+				<property>autopilot/route-manager/route/num</property>
+				<value>9</value>
+			</greater-than-equals>
+		</condition>
+	</animation>
+	<text>
+		<name>Waypoint 10 ID</name>
+		<type>string-value</type>
+		<property>autopilot/route-manager/route/wp[9]/id</property>
+		<axis-alignment>yz-plane</axis-alignment>
+		<alignment>left-center</alignment>
+		<character-size>0.005</character-size>
+		<character-aspect-ratio>1.5</character-aspect-ratio>
+		<font>helvetica_bold.txf</font>
+		<format>%s</format>
+		<offsets>
+			<x-m>0.0002</x-m>
+			<y-m>-0.06536</y-m>
+			<z-m>0.017</z-m>
+		</offsets>
+		<font-resolution>
+			<width type="int">32</width>
+			<height type="int">32</height>
+		</font-resolution>
+	</text>
+	<text>
+		<name>Waypoint 10 distance</name>
+		<type>number-value</type>
+		<property>autopilot/route-manager/route/wp[9]/leg-distance-nm</property>
+		<axis-alignment>yz-plane</axis-alignment>
+		<alignment>left-center</alignment>
+		<character-size>0.005</character-size>
+		<character-aspect-ratio>1.5</character-aspect-ratio>
+		<font>helvetica_bold.txf</font>
+		<format>%3.fNM</format>
+		<offsets>
+			<x-m>0.0002</x-m>
+			<y-m>-0.0325</y-m>
+			<z-m>0.017</z-m>
+		</offsets>
+		<font-resolution>
+			<width type="int">32</width>
+			<height type="int">32</height>
+		</font-resolution>
+	</text>
+	<text>
+		<name>Waypoint 10 course</name>
+		<type>number-value</type>
+		<property>autopilot/route-manager/route/wp[9]/leg-bearing-true-deg</property>
+		<axis-alignment>yz-plane</axis-alignment>
+		<alignment>left-center</alignment>
+		<character-size>0.005</character-size>
+		<character-aspect-ratio>1.5</character-aspect-ratio>
+		<font>helvetica_bold.txf</font>
+		<format>CRS %03.f</format>
+		<offsets>
+			<x-m>0.0002</x-m>
+			<y-m>-0.00196</y-m>
+			<z-m>0.017</z-m>
+		</offsets>
+		<font-resolution>
+			<width type="int">32</width>
+			<height type="int">32</height>
+		</font-resolution>
+	</text>
+	<text>
+		<name>Waypoint 10 altitude</name>
+		<type>number-value</type>
+		<property>autopilot/route-manager/route/wp[9]/altitude-ft</property>
+		<axis-alignment>yz-plane</axis-alignment>
+		<alignment>left-center</alignment>
+		<character-size>0.005</character-size>
+		<character-aspect-ratio>1.5</character-aspect-ratio>
+		<font>helvetica_bold.txf</font>
+		<format>%5.fFT</format>
+		<offsets>
+			<x-m>0.0002</x-m>
+			<y-m>0.03422</y-m>
+			<z-m>0.017</z-m>
+		</offsets>
+		<font-resolution>
+			<width type="int">32</width>
+			<height type="int">32</height>
+		</font-resolution>
+	</text>
+	<text>
+		<name>Waypoint 10 altitude (metric)</name>
+		<type>number-value</type>
+		<property>autopilot/route-manager/route/wp[9]/altitude-ft</property>
+		<scale alias="../../ft-to-m" />
+		<axis-alignment>yz-plane</axis-alignment>
+		<alignment>left-center</alignment>
+		<character-size>0.005</character-size>
+		<character-aspect-ratio>1.5</character-aspect-ratio>
+		<font>helvetica_bold.txf</font>
+		<format>%5.fM</format>
+		<offsets>
+			<x-m>0.0002</x-m>
+			<y-m>0.03422</y-m>
+			<z-m>0.017</z-m>
+		</offsets>
+		<font-resolution>
+			<width type="int">32</width>
+			<height type="int">32</height>
+		</font-resolution>
+	</text>
+	<animation>
+		<type>select</type>
+		<object-name>Waypoint 10 ID</object-name>
+		<object-name>Waypoint 10 distance</object-name>
+		<object-name>Waypoint 10 course</object-name>
+		<object-name>Waypoint 10 altitude</object-name>
+		<object-name>Waypoint 10 altitude (metric)</object-name>
+		<condition>
+			<greater-than-equals>
+				<property>autopilot/route-manager/route/num</property>
+				<value>10</value>
+			</greater-than-equals>
+		</condition>
+	</animation>
+	<animation>
+		<type>select</type>
+		<object-name>Waypoint 1 altitude</object-name>
+		<object-name>Waypoint 2 altitude</object-name>
+		<object-name>Waypoint 3 altitude</object-name>
+		<object-name>Waypoint 4 altitude</object-name>
+		<condition>
+			<not>
+				<property>instrumentation/use-metric-altitude</property>
+			</not>
+		</condition>
+	</animation>
+	<animation>
+		<type>select</type>
+		<object-name>Waypoint 1 altitude (metric)</object-name>
+		<object-name>Waypoint 2 altitude (metric)</object-name>
+		<object-name>Waypoint 3 altitude (metric)</object-name>
+		<object-name>Waypoint 4 altitude (metric)</object-name>
+		<condition>
+			<property>instrumentation/use-metric-altitude</property>
+		</condition>
+	</animation>
+
+</PropertyList>

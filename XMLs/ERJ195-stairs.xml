@@ -1,0 +1,474 @@
+<?xml version = '1.0' encoding = 'UTF-8' ?>
+<PropertyList>
+  
+  <path>Aircraft/E-jet-family/Models/erj195-stair.ac</path>
+
+	<effect>
+		<inherits-from>Effects/lightmap</inherits-from>
+		<parameters>
+			<texture n="1">
+				<image>Aircraft/E-jet-family/XMLs/Effects/lightmap190.png</image>
+			</texture>
+			<condition>
+				<use>controls/lighting/landing-lights[0]</use>
+			</condition>
+		</parameters>
+		<object-name>stairdoor.l1</object-name>
+	</effect>
+
+<!-- Livery Selection Animation -->
+
+    <animation>
+        <type>material</type>
+        <object-name>stairdoor.l1</object-name>
+        <object-name>stairdoor.l2</object-name>
+        <property-base>sim/model/livery</property-base>
+        <texture-prop>texture</texture-prop>
+        <texture>blank.png</texture>
+    </animation>
+
+<!-- Stair Door L1 Animation -->
+
+	<animation>
+		<type>pick</type>
+		<object-name>stairdoor.l1</object-name>
+		<action>
+			<button>0</button>
+			<repeatable type="bool">false</repeatable>
+			<binding>
+				<command>nasal</command>
+				<script>
+				 erj.doors.toggle("l1-stairs");
+				</script>
+			</binding>
+		</action>
+	</animation>
+
+	<animation>
+		<type>translate</type>
+		<object-name>black.l1</object-name>
+		<property>sim/model/door-positions/l1-stairs/position-norm</property>
+		<interpolation>
+			<entry><ind>0</ind><dep>0.1</dep></entry>
+			<entry><ind>0.005</ind><dep>0</dep></entry>
+			<entry><ind>1.00</ind><dep>0</dep></entry>
+		</interpolation>
+		<axis>
+			<x>0</x>
+			<y>1</y>
+			<z>0</z>
+		</axis>
+	</animation>
+
+	<animation>
+		<type>rotate</type>
+		<object-name>stairdoor.l1</object-name>
+		<property>sim/model/door-positions/l1-stairs/position-norm</property>
+		<interpolation>
+			<entry><ind>0</ind><dep>0</dep></entry>
+			<entry><ind>0.1</ind><dep>160</dep></entry>
+		</interpolation>
+		<center>
+			<x-m> 0.00</x-m>
+			<y-m>-1.23</y-m>
+			<z-m>-0.23</z-m>
+		</center>
+		<axis>
+			<x>1</x>
+			<y>0</y>
+			<z>0</z>
+		</axis>
+	</animation>
+
+	<animation>
+		<type>translate</type>
+		<object-name>stairs.l1</object-name>
+		<object-name>stairs2.l1</object-name>
+		<property>sim/model/door-positions/l1-stairs/position-norm</property>
+		<interpolation>
+			<entry><ind>0.00</ind><dep>1.4</dep></entry>
+			<entry><ind>0.32</ind><dep>1.4</dep></entry>
+			<entry><ind>0.50</ind><dep>0</dep></entry>
+			<entry><ind>1.00</ind><dep>0</dep></entry>
+		</interpolation>
+		<axis>
+			<x>0</x>
+			<y>0.7535</y>
+			<z>0</z>
+		</axis>
+	</animation>
+
+	<animation>
+		<type>translate</type>
+		<object-name>stairs2.l1</object-name>
+		<property>sim/model/door-positions/l1-stairs/position-norm</property>
+		<interpolation>
+			<entry><ind>0.00</ind><dep>1.92</dep></entry>
+			<entry><ind>0.05</ind><dep>1.92</dep></entry>
+			<entry><ind>0.35</ind><dep>0</dep></entry>
+			<entry><ind>1.00</ind><dep>0</dep></entry>
+		</interpolation>
+		<axis>
+			<x>0</x>
+			<y>0.7535</y>
+			<z>0</z>
+		</axis>
+	</animation>
+
+	<animation>
+		<type>rotate</type>
+		<object-name>stairs.l1</object-name>
+		<object-name>stairs2.l1</object-name>
+		<property>sim/model/door-positions/l1-stairs/position-norm</property>
+		<interpolation>
+			<entry><ind>0.00</ind><dep>55.3</dep></entry>
+			<entry><ind>0.45</ind><dep>55.3</dep></entry>
+			<entry><ind>1.00</ind><dep>0</dep></entry>
+		</interpolation>
+		<center>
+			<x-m> 0.00</x-m>
+			<y-m>-1.45</y-m>
+			<z-m>-0.09</z-m>
+		</center>
+		<axis>
+			<x>-1</x>
+			<y>0</y>
+			<z>0</z>
+		</axis>
+	</animation>
+
+	<animation>
+		<type>rotate</type>
+		<object-name>step.l1.1</object-name>
+		<property>sim/model/door-positions/l1-stairs/position-norm</property>
+		<interpolation>
+			<entry><ind>0.00</ind><dep>55.3</dep></entry>
+			<entry><ind>0.45</ind><dep>55.3</dep></entry>
+			<entry><ind>1.00</ind><dep>0.00</dep></entry>
+		</interpolation>
+		<center>
+			<x-m> 0.00</x-m>
+			<y-m>-1.49</y-m>
+			<z-m>-0.17</z-m>
+		</center>
+		<axis>
+			<x>1</x>
+			<y>0</y>
+			<z>0</z>
+		</axis>
+	</animation>
+
+	<animation>
+		<type>rotate</type>
+		<object-name>step.l1.2</object-name>
+		<property>sim/model/door-positions/l1-stairs/position-norm</property>
+		<interpolation>
+			<entry><ind>0.00</ind><dep>55.3</dep></entry>
+			<entry><ind>0.45</ind><dep>55.3</dep></entry>
+			<entry><ind>1.00</ind><dep>0.00</dep></entry>
+		</interpolation>
+		<center>
+			<x-m> 0.00</x-m>
+			<y-m>-1.80</y-m>
+			<z-m>-0.71</z-m>
+		</center>
+		<axis>
+			<x>1</x>
+			<y>0</y>
+			<z>0</z>
+		</axis>
+	</animation>
+
+	<animation>
+		<type>rotate</type>
+		<object-name>step.l1.3</object-name>
+		<property>sim/model/door-positions/l1-stairs/position-norm</property>
+		<interpolation>
+			<entry><ind>0.00</ind><dep>55.3</dep></entry>
+			<entry><ind>0.45</ind><dep>55.3</dep></entry>
+			<entry><ind>1.00</ind><dep>0.00</dep></entry>
+		</interpolation>
+		<center>
+			<x-m> 0.00</x-m>
+			<y-m>-2.12</y-m>
+			<z-m>-1.07</z-m>
+		</center>
+		<axis>
+			<x>1</x>
+			<y>0</y>
+			<z>0</z>
+		</axis>
+	</animation>
+
+	<animation>
+		<type>rotate</type>
+		<object-name>step.l1.4</object-name>
+		<property>sim/model/door-positions/l1-stairs/position-norm</property>
+		<interpolation>
+			<entry><ind>0.00</ind><dep>55.3</dep></entry>
+			<entry><ind>0.45</ind><dep>55.3</dep></entry>
+			<entry><ind>1.00</ind><dep>0.00</dep></entry>
+		</interpolation>
+		<center>
+			<x-m> 0.00</x-m>
+			<y-m>-2.42</y-m>
+			<z-m>-1.52</z-m>
+		</center>
+		<axis>
+			<x>1</x>
+			<y>0</y>
+			<z>0</z>
+		</axis>
+	</animation>
+
+	<animation>
+		<type>rotate</type>
+		<object-name>step.l1.5</object-name>
+		<property>sim/model/door-positions/l1-stairs/position-norm</property>
+		<interpolation>
+			<entry><ind>0.00</ind><dep>55.3</dep></entry>
+			<entry><ind>0.45</ind><dep>55.3</dep></entry>
+			<entry><ind>1.00</ind><dep>0.00</dep></entry>
+		</interpolation>
+		<center>
+			<x-m> 0.00</x-m>
+			<y-m>-2.74</y-m>
+			<z-m>-1.97</z-m>
+		</center>
+		<axis>
+			<x>1</x>
+			<y>0</y>
+			<z>0</z>
+		</axis>
+	</animation>
+
+<!-- Stair Door L2 Animation -->
+
+	<animation>
+		<type>pick</type>
+		<object-name>stairdoor.l2</object-name>
+		<action>
+			<button>0</button>
+			<repeatable type="bool">false</repeatable>
+			<binding>
+				<command>nasal</command>
+				<script>
+				 erj.doors.toggle("l2-stairs");
+				</script>
+			</binding>
+		</action>
+	</animation>
+
+	<animation>
+		<type>translate</type>
+		<object-name>black.l2</object-name>
+		<property>sim/model/door-positions/l2-stairs/position-norm</property>
+		<interpolation>
+			<entry><ind>0</ind><dep>0.1</dep></entry>
+			<entry><ind>0.005</ind><dep>0</dep></entry>
+			<entry><ind>1.00</ind><dep>0</dep></entry>
+		</interpolation>
+		<axis>
+			<x>0</x>
+			<y>1</y>
+			<z>0</z>
+		</axis>
+	</animation>
+
+	<animation>
+		<type>rotate</type>
+		<object-name>stairdoor.l2</object-name>
+		<property>sim/model/door-positions/l2-stairs/position-norm</property>
+		<interpolation>
+			<entry><ind>0</ind><dep>0</dep></entry>
+			<entry><ind>0.1</ind><dep>160</dep></entry>
+		</interpolation>
+		<axis>
+			<x1-m> 11.31</x1-m>
+			<y1-m>-1.07</y1-m>
+			<z1-m>-0.15</z1-m>
+			<x2-m> 12.16</x2-m>
+			<y2-m>-0.89</y2-m>
+			<z2-m>-0.15</z2-m>
+		</axis>
+	</animation>
+
+	<animation>
+		<type>translate</type>
+		<object-name>stairs.l2</object-name>
+		<property>sim/model/door-positions/l2-stairs/position-norm</property>
+		<interpolation>
+			<entry><ind>0.00</ind><dep>1.5</dep></entry>
+			<entry><ind>0.32</ind><dep>1.5</dep></entry>
+			<entry><ind>0.50</ind><dep>0</dep></entry>
+			<entry><ind>1.00</ind><dep>0</dep></entry>
+		</interpolation>
+		<axis>
+			<x>0</x>
+			<y>0.7535</y>
+			<z>0</z>
+		</axis>
+	</animation>
+
+	<animation>
+		<type>translate</type>
+		<object-name>stairs2.l2</object-name>
+		<property>sim/model/door-positions/l2-stairs/position-norm</property>
+		<interpolation>
+			<entry><ind>0.00</ind><dep>1.4</dep></entry>
+			<entry><ind>0.32</ind><dep>1.4</dep></entry>
+			<entry><ind>0.50</ind><dep>0</dep></entry>
+			<entry><ind>1.00</ind><dep>0</dep></entry>
+		</interpolation>
+		<axis>
+			<x>0</x>
+			<y>0.7535</y>
+			<z>0</z>
+		</axis>
+	</animation>
+
+	<animation>
+		<type>translate</type>
+		<object-name>stairs2.l2</object-name>
+		<property>sim/model/door-positions/l2-stairs/position-norm</property>
+		<interpolation>
+			<entry><ind>0.00</ind><dep>1.92</dep></entry>
+			<entry><ind>0.05</ind><dep>1.92</dep></entry>
+			<entry><ind>0.35</ind><dep>0</dep></entry>
+			<entry><ind>1.00</ind><dep>0</dep></entry>
+		</interpolation>
+		<axis>
+			<x>0</x>
+			<y>0.7535</y>
+			<z>0</z>
+		</axis>
+	</animation>
+
+	<animation>
+		<type>rotate</type>
+		<object-name>stairs.l2</object-name>
+		<object-name>stairs2.l2</object-name>
+		<property>sim/model/door-positions/l2-stairs/position-norm</property>
+		<interpolation>
+			<entry><ind>0.00</ind><dep>55.3</dep></entry>
+			<entry><ind>0.45</ind><dep>55.3</dep></entry>
+			<entry><ind>1.00</ind><dep>0</dep></entry>
+		</interpolation>
+		<center>
+			<x-m> 0.00</x-m>
+			<y-m>-1.23</y-m>
+			<z-m>-0.09</z-m>
+		</center>
+		<axis>
+			<x>-1</x>
+			<y>0</y>
+			<z>0</z>
+		</axis>
+	</animation>
+
+	<animation>
+		<type>rotate</type>
+		<object-name>step.l2.1</object-name>
+		<property>sim/model/door-positions/l2-stairs/position-norm</property>
+		<interpolation>
+			<entry><ind>0.00</ind><dep>55.3</dep></entry>
+			<entry><ind>0.45</ind><dep>55.3</dep></entry>
+			<entry><ind>1.00</ind><dep>0.00</dep></entry>
+		</interpolation>
+		<center>
+			<x-m> 0.00</x-m>
+			<y-m>-1.28</y-m>
+			<z-m>-0.17</z-m>
+		</center>
+		<axis>
+			<x>1</x>
+			<y>0</y>
+			<z>0</z>
+		</axis>
+	</animation>
+
+	<animation>
+		<type>rotate</type>
+		<object-name>step.l2.2</object-name>
+		<property>sim/model/door-positions/l2-stairs/position-norm</property>
+		<interpolation>
+			<entry><ind>0.00</ind><dep>55.3</dep></entry>
+			<entry><ind>0.45</ind><dep>55.3</dep></entry>
+			<entry><ind>1.00</ind><dep>0.00</dep></entry>
+		</interpolation>
+		<center>
+			<x-m> 0.00</x-m>
+			<y-m>-1.59</y-m>
+			<z-m>-0.71</z-m>
+		</center>
+		<axis>
+			<x>1</x>
+			<y>0</y>
+			<z>0</z>
+		</axis>
+	</animation>
+
+	<animation>
+		<type>rotate</type>
+		<object-name>step.l2.3</object-name>
+		<property>sim/model/door-positions/l2-stairs/position-norm</property>
+		<interpolation>
+			<entry><ind>0.00</ind><dep>55.3</dep></entry>
+			<entry><ind>0.45</ind><dep>55.3</dep></entry>
+			<entry><ind>1.00</ind><dep>0.00</dep></entry>
+		</interpolation>
+		<center>
+			<x-m> 0.00</x-m>
+			<y-m>-1.90</y-m>
+			<z-m>-1.07</z-m>
+		</center>
+		<axis>
+			<x>1</x>
+			<y>0</y>
+			<z>0</z>
+		</axis>
+	</animation>
+
+	<animation>
+		<type>rotate</type>
+		<object-name>step.l2.4</object-name>
+		<property>sim/model/door-positions/l2-stairs/position-norm</property>
+		<interpolation>
+			<entry><ind>0.00</ind><dep>55.3</dep></entry>
+			<entry><ind>0.45</ind><dep>55.3</dep></entry>
+			<entry><ind>1.00</ind><dep>0.00</dep></entry>
+		</interpolation>
+		<center>
+			<x-m> 0.00</x-m>
+			<y-m>-2.21</y-m>
+			<z-m>-1.52</z-m>
+		</center>
+		<axis>
+			<x>1</x>
+			<y>0</y>
+			<z>0</z>
+		</axis>
+	</animation>
+
+	<animation>
+		<type>rotate</type>
+		<object-name>step.l2.5</object-name>
+		<property>sim/model/door-positions/l2-stairs/position-norm</property>
+		<interpolation>
+			<entry><ind>0.00</ind><dep>55.3</dep></entry>
+			<entry><ind>0.45</ind><dep>55.3</dep></entry>
+			<entry><ind>1.00</ind><dep>0.00</dep></entry>
+		</interpolation>
+		<center>
+			<x-m> 0.00</x-m>
+			<y-m>-2.52</y-m>
+			<z-m>-1.97</z-m>
+		</center>
+		<axis>
+			<x>1</x>
+			<y>0</y>
+			<z>0</z>
+		</axis>
+	</animation>
+
+</PropertyList>

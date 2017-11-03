@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<PropertyList include="ERJ-set-common.xml">
+
+	<sim>
+		<description>Embraer Regional Jet 175 E2</description>
+		<variant-of>Embraer170</variant-of>
+		<aero>ERJ175-E2</aero>
+		<engine>PW1715G</engine>
+		
+		<model>
+			<path>Aircraft/E-jet-family/XMLs/ERJ-175-E2.xml</path>
+			
+			<door n="0">
+				<position-x-m>-9.443</position-x-m>
+			</door>
+		</model>
+		
+		<view n="0">
+			<config>
+				<z-offset-m archive="y">-11.57</z-offset-m>
+			</config>
+		</view>
+		<view n="103">
+			<config>
+				<z-offset-m archive="y">-11.57</z-offset-m>
+			</config>
+		</view>
+		<view n="104">
+			<name>Passenger View</name>
+		</view>
+	</sim>
+
+	<payload>
+		<weight n="1">
+			<!-- Max payload (ERJ175): 21,672lb according to http://www.embraercommercialaviation.com/AircraftPDF/E175_Weights.pdf -->
+			<max-lb type="double">12960</max-lb>
+		</weight>
+	</payload>
+
+	<instrumentation>
+		<cdu>
+			<ident>
+				<model>ERJ170-200</model>
+				<engines>GE_CF34-8E</engines>
+			</ident>
+		</cdu>
+	</instrumentation>
+</PropertyList>

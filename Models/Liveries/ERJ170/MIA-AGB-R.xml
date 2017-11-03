@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+
+<PropertyList>
+<sim>
+    <model>
+        <livery>
+            <name type="string">Merlion | Angry Birds Red</name>
+            <texture>/../Models/Liveries/ERJ170/merlion-angrybirds/red.png</texture>
+	    <seat-logo>MIA-seat.png</seat-logo>
+        </livery>
+    </model>
+</sim>
+</PropertyList>

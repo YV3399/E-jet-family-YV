@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!-- Airbus A330 speedbrake/ground spoiler configuration -->
+
+<PropertyList>
+
+	<logic>
+		<name>Ground spoilers disarm</name>
+		<enable>
+			<condition>
+				<!-- Ground spoilers can only be armed when the speedbrake lever is up -->
+				<greater-than>
+					<property>/controls/flight/speedbrake-lever</property>
+					<value>0</value>
+				</greater-than>
+			</condition>
+		</enable>
+		<input>
+			<false />
+		</input>
+		<output>/controls/flight/ground-spoilers-armed</output>
+	</logic>
+
+	<logic>
+		<name>Ground spoilers engage</name>
+		<input>
+			<and>
+				<or>
+					<!-- Spoilers armed -->
+					<and>
+						<property>/controls/flight/ground-spoilers-armed</property>
+						<less-than>
+							<property>/controls/engines/engine[0]/throttle</property>
+							<property>/autopilot/autobrake/config/idle-throttle</property>
+						</less-than>
+						<less-than>
+							<property>/controls/engines/engine[1]/throttle</property>
+							<property>/autopilot/autobrake/config/idle-throttle</property>
+						</less-than>
+					</and>
+					<!-- Spoilers not armed -->
+					<and>
+						<not>
+							<property>/controls/flight/ground-spoilers-armed</property>
+						</not>
+						<property>/controls/engines/engine[0]/reverser</property>
+						<property>/controls/engines/engine[1]/reverser</property>
+					</and>
+				</or>
+				<property>/gear/gear[1]/wow</property>
+				<property>/gear/gear[2]/wow</property>
+				<greater-than>
+					<property>/instrumentation/airspeed-indicator/indicated-speed-kt</property>
+					<value>72</value>
+				</greater-than>
+			</and>
+		</input>
+		<output>/controls/flight/ground-spoilers</output>
+	</logic>
+
+	<filter>
+		<name>Main speedbrake controller</name>
+		<type>gain</type>
+		<gain>1.0</gain>
+		<input>
+			<expression>
+				<max>
+					<property>/controls/flight/ground-spoilers</property>
+					<property>/controls/flight/speedbrake-lever</property>
+				</max>
+			</expression>
+		</input>
+		<output>/controls/flight/speedbrake</output>
+	</filter>
+
+</PropertyList>

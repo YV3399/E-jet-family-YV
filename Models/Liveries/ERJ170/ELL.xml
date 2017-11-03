@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<PropertyList>
+<sim>
+    <model>
+        <livery>
+            <name type="string">Estonian Air</name>
+            <texture>/../Models/Liveries/ERJ170/ELL.png</texture>
+        </livery>
+    </model>
+</sim>
+</PropertyList>

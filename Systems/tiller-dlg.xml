@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<PropertyList>
+
+	<name>tiller-dlg</name>
+	<layout>vbox</layout>
+	<width>200</width>
+
+	<group>
+		<layout>hbox</layout>
+
+		<empty>
+			<stretch>1</stretch>
+		</empty>
+
+		<text>
+			<label>Tiller steering</label>
+		</text>
+
+		<empty>
+			<stretch>1</stretch>
+		</empty>
+
+		<button>
+			<pref-width>16</pref-width>
+			<pref-height>16</pref-height>
+			<legend></legend>
+			<keynum>27</keynum>
+			<border>2</border>
+			<binding>
+				<command>dialog-close</command>
+			</binding>
+		</button>
+	</group>
+
+	<hrule />
+
+	<checkbox>
+		<halign>left</halign>
+		<label>Enable tiller steering</label>
+		<property>controls/gear/enable-tiller</property>
+		<binding>
+			<command>dialog-apply</command>
+		</binding>
+		<live type="bool">true</live>
+	</checkbox>
+
+	<text>
+		<label>XX.X degrees</label>
+		<visible>
+			<property>controls/gear/enable-tiller</property>
+		</visible>
+		<property>controls/gear/tiller-steer-deg</property>
+		<format>%2.1f degrees</format>
+		<live type="bool">true</live>
+	</text>
+
+	<slider>
+		<pref-width>170</pref-width>
+		<property>controls/gear/tiller-steer-deg</property>
+		<min>-80</min>
+		<max>80</max>
+		<visible>
+			<property>controls/gear/enable-tiller</property>
+		</visible>
+		<binding>
+			<command>dialog-apply</command>
+		</binding>
+		<live type="bool">true</live>
+	</slider>
+
+	<text>
+		<label>Rudder can steer up to 8 degrees</label>
+		<visible>
+			<property>controls/gear/enable-tiller</property>
+		</visible>
+	</text>
+
+	<button>
+		<legend>Center</legend>
+		<visible>
+			<property>controls/gear/enable-tiller</property>
+		</visible>
+		<binding>
+			<command>dialog-apply</command>
+		</binding>
+		<binding>
+			<command>property-assign</command>
+			<property>controls/gear/tiller-steer-deg</property>
+			<value>0</value>
+		</binding>
+	</button>
+
+</PropertyList>

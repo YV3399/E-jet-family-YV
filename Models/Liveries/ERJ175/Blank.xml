@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+
+<PropertyList>
+<sim>
+    <model>
+        <livery>
+            <name type="string">Blank White Livery</name>
+            <texture>/../Models/blank175.png</texture>
+        </livery>
+    </model>
+</sim>
+</PropertyList>

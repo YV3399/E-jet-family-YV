@@ -1,0 +1,84 @@
+<?xml version="1.0"?>
+<PropertyList>
+  
+
+<name>Airport operations</name>
+  <layout>vbox</layout>
+
+  <text>
+    <label>Airport Operations</label>
+  </text>
+
+  <hrule/>
+
+  <group>
+    <layout>vbox</layout>
+    <halign>center</halign>
+
+    <checkbox>
+      <halign>left</halign>
+      <label>Follow Me Vehicle</label>
+      <property>controls/switches/followme</property>
+      <binding>
+        <command>property-toggle</command>
+        <property>controls/switches/followme</property>
+      </binding>
+    </checkbox>
+    
+    <checkbox>
+      <halign>left</halign>
+      <label>Airport Operations</label>
+      <property>controls/switches/operations</property>
+      <binding>
+        <command>property-toggle</command>
+        <property>controls/switches/operations</property>
+      </binding>
+    </checkbox>
+
+  <hrule/>
+
+  <text>
+    <label>Emergency Operations</label>
+  </text>
+
+    <checkbox>
+      <halign>left</halign>
+      <label>Ground Emergency Operations</label>
+      <property>controls/switches/emer.ground</property>
+      <binding>
+        <command>property-toggle</command>
+        <property>controls/switches/emer.ground</property>
+      </binding>
+    </checkbox>
+
+    <checkbox>
+      <halign>left</halign>
+      <label>Water Emergency Operation</label>
+      <property>controls/switches/emer.water.left</property>
+      <binding>
+        <command>property-toggle</command>
+        <property>controls/switches/emer.water.left</property>
+      </binding>
+    </checkbox>
+
+  </group>
+
+  <hrule/>
+
+  <group>
+    <layout>hbox</layout>
+    <empty><stretch>true</stretch></empty>
+
+    <button>
+      <legend>Close</legend>
+      <default>true</default>
+      <key>Esc</key>
+      <binding>
+        <command>dialog-close</command>
+      </binding>
+    </button>
+
+    <empty><stretch>true</stretch></empty>
+  </group>
+
+</PropertyList>

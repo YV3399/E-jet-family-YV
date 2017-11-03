@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<PropertyList>
+
+<!-- Interior Cabin -->
+  <model>
+    <path>Aircraft/E-jet-family/XMLs/Cabin/erj170-cabin.xml</path>
+  </model>
+
+	<model>
+		<name>Aircraft</name>
+		<path>Aircraft/E-jet-family/XMLs/ERJ-170-Model.xml</path>
+	</model>
+
+	<model>
+		<name>Stairs</name>
+		<path>Aircraft/E-jet-family/XMLs/ERJ170-stairs.xml</path>
+	</model>
+
+	<model>
+		<name>Flightdeck</name>
+		<path>Aircraft/E-jet-family/XMLs/FlightDeck/erj.flightdeck.xml</path>
+	</model>
+
+
+	<!-- Other non-aircraft models -->
+
+	<!-- Ram Air Turbine -->
+
+	<model>
+		<name>RAT</name>
+		<path>Aircraft/E-jet-family/XMLs/RAT.xml</path>
+		<offsets>
+			<x-m>2.0</x-m>
+			<y-m>0</y-m>
+			<z-m>-1.768</z-m>
+		</offsets>
+	</model>
+
+	<!-- Airport operations -->
+
+	<model>
+		<name>Pushback</name>
+		<path>Models/Airport/Pushback/Goldhofert.xml</path>
+		<offsets>
+			<x-m>-12.4</x-m>
+			<y-m>0</y-m>
+			<z-m>-2.27</z-m>
+		</offsets>
+	</model>
+
+ 	<model>
+ 	<name>Followme</name>
+	 <path>Aircraft/E-jet-family/Models/Operations/followme.ac</path>
+	 <condition>
+	 <equals>
+			             <property>controls/switches/followme</property>
+                                            <value type="bool">true</value>
+ 	</equals>
+            <less-than>
+                <property>velocities/airspeed-kt</property>
+                <value>80</value>
+            </less-than>
+ 	 </condition>   
+	</model>
+
+
+	 <model>
+ 	<name>Operations</name>
+ 	<path>Aircraft/E-jet-family/Models/Operations/operations.ac</path>
+	  <condition>
+ 	<equals>
+			             <property>controls/switches/operations</property>
+                                            <value type="bool">true</value>
+	 </equals>
+            <less-than>
+                <property>velocities/airspeed-kt</property>
+                <value>15</value>
+            </less-than>
+	  </condition>   
+	</model>
+
+	 <model>
+ 	<name>Ground Emergency</name>
+ 	<path>Aircraft/E-jet-family/Models/Operations/emergency-land.ac</path>
+	  <condition>
+ 	<equals>
+			             <property>controls/switches/emer.ground</property>
+                                            <value type="bool">true</value>
+	 </equals>
+            <less-than>
+                <property>velocities/airspeed-kt</property>
+                <value>15</value>
+            </less-than>
+	  </condition>   
+	</model>
+
+	 <model>
+ 	<name>Ground Emergency</name>
+ 	<path>Aircraft/E-jet-family/Models/Operations/emergency-land2.ac</path>
+	  <condition>
+ 	<equals>
+			             <property>controls/switches/emer.ground</property>
+                                            <value type="bool">true</value>
+	 </equals>
+            <less-than>
+                <property>velocities/airspeed-kt</property>
+                <value>15</value>
+            </less-than>
+	  </condition>   
+	</model>
+
+	 <model>
+ 	<name>Water Emergency Left</name>
+ 	<path>Aircraft/E-jet-family/Models/Operations/emergency-water-tilt-left.ac</path>
+	  <condition>
+ 	<equals>
+			             <property>controls/switches/emer.water.left</property>
+                                            <value type="bool">true</value>
+	 </equals>
+            <less-than>
+                <property>velocities/airspeed-kt</property>
+                <value>15</value>
+            </less-than>
+	  </condition>   
+	</model>
+
+<!-- Aircraft Lighting -->
+
+<model>
+<path>Aircraft/E-jet-family/XMLs/Lights/landing-nose.xml</path>
+<name>NoseGearLandinglight</name>     
+<condition>
+ <equals>
+			             <property>gear/gear[0]/position-norm</property>
+                                            <value type="bool">true</value>
+ </equals>
+  </condition>
+
+<offsets>
+<x-m> -10.93</x-m>
+<y-m>  0.00</y-m> 
+<z-m> -1.45</z-m>      
+</offsets>
+</model>
+
+<model>
+<path>Aircraft/E-jet-family/XMLs/Lights/landing-port.xml</path>
+<name>LeftWingLandinglight</name>
+<condition>
+ <equals>
+			             <property>gear/gear[1]/position-norm</property>
+                                            <value type="bool">true</value>
+ </equals>
+  </condition>     
+<offsets>
+<x-m>-3.38</x-m>
+<y-m>-2.25</y-m>
+<z-m> -0.24</z-m>      
+</offsets>
+</model>
+
+<model>
+<path>Aircraft/E-jet-family/XMLs/Lights/landing-stbd.xml</path>
+<name>RightWingLandinglight</name>
+<condition>
+ <equals>
+			             <property>gear/gear[2]/position-norm</property>
+                                            <value type="bool">true</value>
+ </equals>
+  </condition>     
+<offsets>
+<x-m>-3.38</x-m>
+<y-m> 2.25</y-m>
+<z-m> -0.24</z-m> 
+</offsets>
+</model>
+
+<model>
+<path>Aircraft/E-jet-family/XMLs/Lights/beacon.xml</path>
+<name>Beaconlight.top</name>     
+<offsets>
+<x-m>1.18</x-m>
+<y-m>0.00</y-m>
+<z-m>2.38</z-m>      
+</offsets>
+</model>
+
+<model>
+<path>Aircraft/E-jet-family/XMLs/Lights/beacon.xml</path>
+<name>Beaconlight.bottom</name>     
+<offsets>
+<x-m>-8.62</x-m>
+<y-m> 0.00</y-m>
+<z-m>-1.10</z-m>      
+</offsets>
+</model>
+
+<!-- Tyre Smoke -->
+
+<model>
+<path>Aircraft/E-jet-family/XMLs/Effects/tyre-smoke-nose.xml</path>
+<name>Tyre-smoke-n</name>     
+<offsets>
+<x-m>-10.54</x-m>
+<y-m>0</y-m>
+<z-m>-2.26</z-m>      
+</offsets>
+</model>
+
+<model>
+<path>Aircraft/E-jet-family/XMLs/Effects/tyre-smoke-left.xml</path>
+<name>Tyre-smoke-l</name>     
+<offsets>
+<x-m>-0.88</x-m>
+<y-m>-2.55</y-m>
+<z-m>-2.26</z-m>      
+</offsets>
+</model>
+
+<model>
+<path>Aircraft/E-jet-family/XMLs/Effects/tyre-smoke-right.xml</path>
+<name>Tyre-smoke-r</name>     
+<offsets>
+<x-m>-0.88</x-m>
+<y-m> 2.55</y-m>
+<z-m>-2.26</z-m>         
+</offsets>
+</model>
+
+<!-- Lights -->
+	<animation>
+		<name>logo light illumination</name>
+		<type>material</type>
+		<object-name>winglet.l</object-name>
+                <object-name>winglet.r</object-name>
+	        <emission>
+			<red>0.25</red>
+			<green>0.25</green>
+			<blue>0.25</blue>
+			<factor-prop>controls/lighting/logo</factor-prop>
+		</emission>
+	</animation>
+
+</PropertyList>
