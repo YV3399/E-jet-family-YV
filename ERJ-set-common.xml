@@ -808,10 +808,10 @@
 			<file>Aircraft/E-jet-family/Nasal/ELTmessage.nas</file>
 		</ELT>
 		
-		<!--
 		<itaf>
 			<file>Aircraft/E-jet-family/Nasal/it-autoflight.nas</file>
-		</itaf>-->
+		</itaf>
+
 		<canvas_chrono>
 			<file>Aircraft/E-jet-family/Models/Instruments/Chrono/chronometer.nas</file>
 		</canvas_chrono>
@@ -847,6 +847,8 @@
 		</cdu>
 		<erj>
 			<file>Aircraft/E-jet-family/Nasal/doors.nas</file>
+                        <file>Aircraft/E-jet-family/Nasal/lighting.nas</file>
+
 		</erj>
 		<dialogs>
 			<file>Aircraft/E-jet-family/Nasal/dialogs.nas</file>

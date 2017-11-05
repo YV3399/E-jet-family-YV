@@ -865,7 +865,7 @@
  <max-dist>100.0</max-dist>
 </announcement>
 
-<avionics>
+                 <avionics>
 			<name>avionics</name>
 			<path>Aircraft/E-jet-family/Sounds/avionics.wav</path>
 			<mode>looped</mode>
@@ -889,69 +889,8 @@
 			<max-dist>5</max-dist>
 		</avionics>
 
-<eightyknots>
-        <name>eightyknots</name>
-        <mode>once</mode>
-        <type>avionics</type>
-        <path>Aircraft/E-jet-family/Sounds/80kt.wav</path>
-        <condition>
-			<or>
-			<property>/gear/gear[0]/wow</property>
-			<property>/gear/gear[2]/wow</property>
-			</or>	
-			<greater-than>
-				<property>/velocities/airspeed-kt</property>
-				<value>80</value>
-			</greater-than>
-			<less-than>
-				<property>/velocities/airspeed-kt</property>
-				<value>88</value>
-			</less-than>			
-			</condition>	
-    </eightyknots> 
-   
-	<veeone>
-        <name>vee-one</name>
-        <mode>once</mode>
-        <type>avionics</type>
-        <path>Aircraft/E-jet-family/Sounds/v1.wav</path>
-        <condition>
-			<or>
-			<property>/gear/gear[0]/wow</property>
-			<property>/gear/gear[2]/wow</property>
-			</or>	
-			<greater-than>
-				<property>/velocities/airspeed-kt</property>
-				<value>140</value>
-			</greater-than>
-			<less-than>
-				<property>/velocities/airspeed-kt</property>
-				<value>148</value>
-			</less-than>			
-     </condition>	
-    </veeone>
-	<rotate>
-        <name>rotate</name>
-        <mode>once</mode>
-        <type>avionics</type>
-        <path>Aircraft/E-jet-family/Sounds/vr.wav</path>
-        <condition>
-			<or>
-			<property>/gear/gear[0]/wow</property>
-			<property>/gear/gear[2]/wow</property>
-			</or>
-			<greater-than>
-				<property>/velocities/airspeed-kt</property>
-				<value>150</value>
-			</greater-than>
-			<less-than>
-				<property>/velocities/airspeed-kt</property>
-				<value>160</value>
-			</less-than>			
-		</condition>	
-    </rotate>	
 
-<seatbelt>
+                <seatbelt>
 			<name>cabinalert</name>
 			<path>Aircraft/E-jet-family/Sounds/cabinalert.wav</path>
 			<mode>once</mode>
