@@ -2,19 +2,27 @@
 <PropertyList>
   
   <path>Aircraft/E-jet-family/Models/erj190-stair.ac</path>
-
+  
+  
 	<effect>
-		<inherits-from>Effects/lightmap</inherits-from>
+		<inherits-from>../Models/Effects/reflect</inherits-from>
 		<parameters>
-			<texture n="1">
-				<image>Aircraft/E-jet-family/XMLs/Effects/lightmap190.png</image>
-			</texture>
+			<lightmap-multi>1</lightmap-multi>
+			<lightmap-factor n="0">
+				<use>controls/lighting/landing-lights[1]</use>
+			</lightmap-factor>
+			<lightmap-factor n="2">
+				<use>/systems/electrical/outputs/logo-lights-norm</use>
+			</lightmap-factor>
+			<lightmap-factor n="3">0</lightmap-factor><!--
 			<condition>
-				<use>controls/lighting/landing-lights[0]</use>
-			</condition>
+				<use>controls/lighting/logo</use>
+			</condition>-->
 		</parameters>
 		<object-name>stairdoor.l1</object-name>
+		<object-name>stairdoor.l2</object-name>
 	</effect>
+
 
 <!-- Livery Selection Animation -->
 

@@ -81,6 +81,7 @@
 			<property-rule n="100">
 				<path>Aircraft/E-jet-family/Systems/pfd.xml</path>
 			</property-rule>
+			<electrical><path></path></electrical><!--Disable XML electrical system-->
 		</systems>
 
 		<chase-distance-m>-100</chase-distance-m>
@@ -846,8 +847,8 @@
 			<file>Aircraft/Instruments-3d/cdu/boeing.nas</file>
 		</cdu>
 		<erj>
-			<file>Aircraft/E-jet-family/Nasal/doors.nas</file>
-                        <file>Aircraft/E-jet-family/Nasal/lighting.nas</file>
+			<file>Aircraft/E-jet-family/Nasal/doors.nas</file><!--
+                        <file>Aircraft/E-jet-family/Nasal/lighting.nas</file>-->
 
 		</erj>
 		<dialogs>

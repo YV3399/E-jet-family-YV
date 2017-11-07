@@ -24,7 +24,7 @@
 
 		<checkbox>
 			<label>Navigation lights</label>
-			<property>controls/lighting/nav-lights</property>
+			<property>controls/lighting/nav-lights-switch</property>
 			<binding>
 				<command>dialog-apply</command>
 			</binding>
@@ -51,7 +51,7 @@
 
 		<checkbox>
 			<label>Logo Lights</label>
-			<property>controls/lighting/logo</property>
+			<property>controls/lighting/logo-lights</property>
 			<binding>
 				<command>dialog-apply</command>
 			</binding>
