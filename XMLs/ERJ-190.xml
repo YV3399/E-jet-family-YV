@@ -135,6 +135,35 @@
 
 
 <!-- Aircraft Lighting -->
+	
+	<!--LANDING LIGHTS-->
+  <model>
+    <path>Aircraft/E-jet-family/Models/light/ALS/landinglightL.xml</path>
+<name>LeftWingLandinglight-ALS</name>
+    <offsets>
+<x-m>-3.68</x-m>
+<y-m>-2.25</y-m>
+<z-m> -0.24</z-m>  
+    </offsets>
+  </model>
+  <model>
+    <path>Aircraft/E-jet-family/Models/light/ALS/landinglightR.xml</path>
+<name>RightWingLandinglight-ALS</name>
+    <offsets>
+<x-m>-3.68</x-m>
+<y-m>2.25</y-m>
+<z-m> -0.24</z-m>  
+    </offsets>
+  </model>
+  <model>
+    <path>Aircraft/E-jet-family/Models/light/ALS/landinglightF.xml</path>
+<name>NoseGearLandinglight-ALS</name>
+    <offsets>
+<x-m> -12.93</x-m>
+<y-m>  0.00</y-m> 
+<z-m> -1.45</z-m>   
+    </offsets>
+  </model>
 
 <model>
 <path>Aircraft/E-jet-family/XMLs/Lights/landing-nose.xml</path>
@@ -185,25 +214,68 @@
 </offsets>
 </model>
 
-<model>
-<path>Aircraft/E-jet-family/XMLs/Lights/beacon.xml</path>
-<name>Beaconlight.top</name>     
-<offsets>
+  <model>
+      <name>beaconT</name>
+    <path>Aircraft/E-jet-family/Models/light/beacon.xml</path>
+    <offsets>
 <x-m>4.18</x-m>
 <y-m>0.00</y-m>
-<z-m>2.38</z-m>      
-</offsets>
-</model>
+<z-m>2.38</z-m> 
+    </offsets>
+  </model>
+  <model>
+      <name>beaconT-ALS</name>
+    <path>Aircraft/E-jet-family/Models/light/ALS/beacon.xml</path>
+    <offsets>
+<x-m>4.18</x-m>
+<y-m>0.00</y-m>
+<z-m>2.38</z-m> 
+    </offsets>
+  </model>
 
-<model>
-<path>Aircraft/E-jet-family/XMLs/Lights/beacon.xml</path>
-<name>Beaconlight.bottom</name>     
-<offsets>
+  <model>
+      <name>beaconB</name>
+    <path>Aircraft/E-jet-family/Models/light/beacon.xml</path>
+    <offsets>
 <x-m>-9.62</x-m>
 <y-m> 0.00</y-m>
-<z-m>-1.10</z-m>      
-</offsets>
-</model>
+<z-m>-1.10</z-m> 
+    </offsets>
+  </model>
+  <model>
+      <name>beaconB-ALS</name>
+    <path>Aircraft/E-jet-family/Models/light/ALS/beacon.xml</path>
+    <offsets>
+<x-m>-9.62</x-m>
+<y-m> 0.00</y-m>
+<z-m>-1.10</z-m> 
+    </offsets>
+  </model>
+  
+  <animation>
+      <type>select</type>
+      <object-name>beaconT</object-name>
+      <object-name>beaconB</object-name>
+      <object-name>LeftWingLandinglight</object-name>
+      <object-name>RightWingLandinglight</object-name>
+      <object-name>NoseGearLandinglight</object-name>
+      <condition>
+          <not>
+              <property>/sim/rendering/shaders/skydome</property>
+          </not>
+      </condition>
+  </animation>
+  <animation>
+      <type>select</type>
+      <object-name>beaconT-ALS</object-name>
+      <object-name>beaconB-ALS</object-name>
+      <object-name>LeftWingLandinglight-ALS</object-name>
+      <object-name>RightWingLandinglight-ALS</object-name>
+      <object-name>NoseGearLandinglight-ALS</object-name>
+      <condition>
+              <property>/sim/rendering/shaders/skydome</property>
+      </condition>
+  </animation>
 
 
 <!-- Tyre Smoke -->

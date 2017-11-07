@@ -17,18 +17,6 @@
         <reflection-noise type="float"><use>/sim/model/rendering/reflection-noise</use></reflection-noise>
         <reflection-dynamic type="int"><use>/sim/model/rendering/reflection-dynamic</use></reflection-dynamic>
         <ambient-correction type="float"><use>/sim/model/rendering/ambient-correction</use></ambient-correction>
-               <!-- Light Map -->
-		<lightmap-enabled type="int">1</lightmap-enabled>
-		<lightmap-multi type="int">0</lightmap-multi><!--
-		<lightmap-factor><use>systems/electrical/lighting/landing-light</use></lightmap-factor>-->
-		<lightmap-color type="vec3d"> 1 1 1 </lightmap-color>
-		<texture n="3">
-			<image>Aircraft/E-jet-family/XMLs/Effects/lightmap190.png</image>
-			<filter>linear-mipmap-linear</filter>
-			<wrap-s>clamp</wrap-s>
-			<wrap-t>clamp</wrap-t>
-			<internal-format>normalized</internal-format>
-		</texture>
 	</parameters>
 </PropertyList>
 

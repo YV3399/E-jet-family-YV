@@ -9,6 +9,9 @@ var RAT  = props.globals.initNode("/controls/electric/ram-air-turbine",0,"DOUBLE
 var XTie  = props.globals.initNode("/systems/electrical/xtie",0,"BOOL");
 var APUgen=props.globals.initNode("controls/electric/APU-generator",0,"BOOL");
 var ratpwr=props.globals.initNode("controls/electric/ram-air-turbine",0,"BOOL");
+props.globals.initNode("/systems/electrical/outputs/nav-lights-norm", 0);
+props.globals.initNode("/systems/electrical/outputs/strobe-lights-norm", 0);
+props.globals.initNode("/systems/electrical/outputs/beacon-norm", 0);
 var lbus_volts = 0.0;
 var rbus_volts = 0.0;
 
@@ -24,10 +27,8 @@ var lights_input=[];
 var lights_output=[];
 var lights_load=[];
 
-var strobe_switch = props.globals.getNode("controls/lighting/strobe", 1);
-aircraft.light.new("controls/lighting/strobe-state", [0.05, 1.30], strobe_switch);
-var beacon_switch = props.globals.getNode("controls/lighting/beacon", 1);
-aircraft.light.new("controls/lighting/beacon-state", [0.05, 2.0], beacon_switch);
+aircraft.light.new("/sim/model/lights/strobe/", [0.05, 1.30], "/systems/electrical/outputs/strobe-lights-norm");
+aircraft.light.new("controls/lighting/beacon-state", [0.05, 2.0], "/systems/electrical/outputs/strobe-norm");
 
 #var battery = Battery.new(switch-prop,volts,amps,amp_hours,charge_percent,charge_amps);
 var Battery = {
@@ -157,16 +158,16 @@ var init_switches = func{
     setprop("controls/lighting/efis-norm",0.8);
     setprop("controls/lighting/panel-norm",0.8);
 
-    append(lights_input,props.globals.initNode("controls/lighting/landing-light[0]",0,"BOOL"));
-    append(lights_output,props.globals.initNode("systems/electrical/outputs/landing-light[0]",0,"DOUBLE"));
+    append(lights_input,props.globals.initNode("controls/lighting/landing-lights[0]",0,"BOOL"));
+    append(lights_output,props.globals.initNode("systems/electrical/outputs/landing-lights[0]",0,"DOUBLE"));
     append(lights_load,1);
-    append(lights_input,props.globals.initNode("controls/lighting/landing-light[1]",0,"BOOL"));
-    append(lights_output,props.globals.initNode("systems/electrical/outputs/landing-light[1]",0,"DOUBLE"));
+    append(lights_input,props.globals.initNode("controls/lighting/landing-lights[1]",0,"BOOL"));
+    append(lights_output,props.globals.initNode("systems/electrical/outputs/landing-lights[1]",0,"DOUBLE"));
     append(lights_load,1);
-    append(lights_input,props.globals.initNode("controls/lighting/landing-light[2]",0,"BOOL"));
-    append(lights_output,props.globals.initNode("systems/electrical/outputs/landing-light[2]",0,"DOUBLE"));
+    append(lights_input,props.globals.initNode("controls/lighting/landing-lights[2]",0,"BOOL"));
+    append(lights_output,props.globals.initNode("systems/electrical/outputs/landing-lights[2]",0,"DOUBLE"));
     append(lights_load,1);
-    append(lights_input,props.globals.initNode("controls/lighting/nav-lights",0,"BOOL"));
+    append(lights_input,props.globals.initNode("controls/lighting/nav-lights-switch",0,"BOOL"));
     append(lights_output,props.globals.initNode("systems/electrical/outputs/nav-lights",0,"DOUBLE"));
     append(lights_load,1);
     append(lights_input,props.globals.initNode("controls/lighting/cabin-lights",0,"BOOL"));
@@ -187,10 +188,10 @@ var init_switches = func{
     append(lights_input,props.globals.initNode("controls/lighting/taxi-lights",0,"BOOL"));
     append(lights_output,props.globals.initNode("systems/electrical/outputs/taxi-lights",0,"DOUBLE"));
     append(lights_load,1);
-    append(lights_input,props.globals.initNode("controls/lighting/beacon-state/state",0,"BOOL"));
+    append(lights_input,props.globals.initNode("controls/lighting/beacon",0,"BOOL"));
     append(lights_output,props.globals.initNode("systems/electrical/outputs/beacon",0,"DOUBLE"));
     append(lights_load,1);
-    append(lights_input,props.globals.initNode("controls/lighting/strobe-state/state",0,"BOOL"));
+    append(lights_input,props.globals.initNode("controls/lighting/strobe",0,"BOOL"));
     append(lights_output,props.globals.initNode("systems/electrical/outputs/strobe",0,"DOUBLE"));
     append(lights_load,1);
 
@@ -313,6 +314,53 @@ update_virtual_bus = func( dt ) {
     if(rbus_volts > 5 or  lbus_volts>5) load += lighting(24);
 
     ammeter = 0.0;
+    
+    
+	if(props.globals.getNode("/systems/electrical/outputs/nav-lights").getValue() > 15){
+		props.globals.getNode("/systems/electrical/outputs/nav-lights-norm").setValue(1);
+	}else{
+		props.globals.getNode("/systems/electrical/outputs/nav-lights-norm").setValue(0);
+	}
+	
+	if(props.globals.getNode("/systems/electrical/outputs/strobe").getValue() > 15){
+		props.globals.getNode("/systems/electrical/outputs/strobe-lights-norm").setValue(1);
+	}else{
+		props.globals.getNode("/systems/electrical/outputs/strobe-lights-norm").setValue(0);
+	}
+	
+	if(props.globals.getNode("/systems/electrical/outputs/beacon").getValue() > 15){
+		props.globals.getNode("/systems/electrical/outputs/beacon-norm").setValue(1);
+	}else{
+		props.globals.getNode("/systems/electrical/outputs/beacon-norm").setValue(0);
+	}
+	
+	if(props.globals.getNode("/systems/electrical/outputs/logo-lights").getValue() > 15){
+		props.globals.getNode("/systems/electrical/outputs/logo-lights-norm").setValue(1);
+	}else{
+		props.globals.getNode("/systems/electrical/outputs/logo-lights-norm").setValue(0);
+	}
+	
+	if(props.globals.getNode("/systems/electrical/outputs/landing-lights").getValue() > 15){
+		props.globals.getNode("/systems/electrical/outputs/landing-lights-norm").setValue(1);
+		if(props.globals.getNode("/sim/current-view/internal").getBoolValue()){
+			props.globals.getNode("/sim/rendering/als-secondary-lights/use-landing-light").setBoolValue(1);
+		}else{
+			props.globals.getNode("/sim/rendering/als-secondary-lights/use-landing-light").setBoolValue(0);
+		}
+	}else{
+		props.globals.getNode("/systems/electrical/outputs/landing-lights-norm").setValue(0);
+		props.globals.getNode("/sim/rendering/als-secondary-lights/use-landing-light").setBoolValue(0);
+	}
+	if(props.globals.getNode("/systems/electrical/outputs/landing-lights[1]").getValue() > 15){
+		props.globals.getNode("/systems/electrical/outputs/landing-lights-norm[1]").setValue(1);
+	}else{
+		props.globals.getNode("/systems/electrical/outputs/landing-lights-norm[1]").setValue(0);
+	}
+	if(props.globals.getNode("/systems/electrical/outputs/landing-lights[2]").getValue() > 15){
+		props.globals.getNode("/systems/electrical/outputs/landing-lights-norm[2]").setValue(1);
+	}else{
+		props.globals.getNode("/systems/electrical/outputs/landing-lights-norm[2]").setValue(0);
+	}
 
 return load;
 }

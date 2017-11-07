@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<PropertyList>
+  
+  <path>GreenLight.ac</path>
+  
+  <animation>
+    
+    <object-name>Light</object-name>
+  </animation>
+  
+  <effect>
+    <inherits-from>Effects/model-transparent</inherits-from>
+    <object-name>Light</object-name>
+  </effect>
+  
+  <animation>
+    <type>alpha-test</type>
+    <alpha-factor>0.01</alpha-factor>
+  </animation>
+  
+  <animation>
+    <type>billboard</type>
+    <object-name>Light</object-name>
+    <spherical type="bool">true</spherical>
+  </animation>
+  
+  <animation>
+    <type>material</type>
+    <object-name>Light</object-name>
+    <emission>
+      <red>   0 </red>
+      <green> 2 </green>
+      <blue>  0 </blue>
+    </emission>
+  </animation>
+  
+  <animation>
+    <type>dist-scale</type>
+    <object-name>Light</object-name>
+    <interpolation>
+      <entry><ind>    0 </ind><dep> 0.25 </dep></entry>
+      <entry><ind>   20 </ind><dep> 0.50 </dep></entry>
+      <entry><ind> 1500 </ind><dep> 5.00 </dep></entry>
+    </interpolation>
+  </animation>
+  
+  <animation>
+    <type>select</type>
+    <object-name>Light</object-name>
+    <condition>
+      <property>systems/electrical/outputs/nav-lights-norm</property>
+    </condition>
+  </animation>
+  
+</PropertyList>

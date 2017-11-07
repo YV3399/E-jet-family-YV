@@ -23,7 +23,7 @@
 		<object-name>Cone</object-name>
 		<condition>
 			<and>
-				<property>controls/lighting/landing-lights[0]</property>
+				<property>systems/electrical/outputs/landing-lights-norm[0]</property>
 				<equals>
 					<property>gear/gear[0]/position-norm</property>
 					<value>1</value>
@@ -39,6 +39,11 @@
 			<property>controls/lighting/cones</property>
 		</condition>
 	</animation>
+	
+	<effect>
+		<inherits-from>Effects/model-transparent</inherits-from>
+		<object-name>Cone</object-name>
+	</effect>
 
 	<!-- Rotate and scale the light -->
 	<animation>

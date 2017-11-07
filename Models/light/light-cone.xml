@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<PropertyList>
+  
+  <path>light-cone.ac</path>
+  
+  <animation>
+    <object-name>Cone</object-name>
+    <object-name>Cone-texture</object-name>
+    <object-name>Light</object-name>
+  </animation> 
+  
+  <effect>
+    <inherits-from>Effects/model-transparent</inherits-from>
+    <object-name>Cone</object-name>
+    <object-name>Cone-texture</object-name>
+  </effect>
+  
+  <effect>
+    <inherits-from>Effects/light-cone</inherits-from>
+    <object-name>Cone</object-name>
+    <object-name>Cone-texture</object-name>
+  </effect>
+  
+  <animation>
+    <type>material</type>
+    <object-name>Light</object-name>
+    <object-name>Cone</object-name>
+    <object-name>Cone-texture</object-name>
+    <emission>
+      <red>   2 </red>
+      <green> 2 </green>
+      <blue>  2 </blue>
+    </emission>
+  </animation>
+
+  <animation>
+    <type>select</type>
+    <object-name>Cone</object-name>
+    <object-name>Cone-texture</object-name>
+    <object-name>Light</object-name>
+    <condition>
+      <property>controls/lighting/landing-lights</property>
+    </condition>
+  </animation>
+  
+</PropertyList>
