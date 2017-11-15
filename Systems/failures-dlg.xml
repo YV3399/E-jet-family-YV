@@ -124,7 +124,7 @@
 		<live>true</live>
 	</checkbox>
 </group>
-</group>
+<group>
 
 	<hrule />
 <button>
@@ -156,6 +156,8 @@
 				<command>dialog-close</command>
 			</binding>
 		</button>
+		
+		</group> 
 		
 		</group>
 

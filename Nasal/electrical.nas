@@ -12,6 +12,7 @@ var ratpwr=props.globals.initNode("controls/electric/ram-air-turbine",0,"BOOL");
 props.globals.initNode("/systems/electrical/outputs/nav-lights-norm", 0);
 props.globals.initNode("/systems/electrical/outputs/strobe-lights-norm", 0);
 props.globals.initNode("/systems/electrical/outputs/beacon-norm", 0);
+props.globals.initNode("/systems/electrical/outputs/logo-lights-norm", 0);
 var lbus_volts = 0.0;
 var rbus_volts = 0.0;
 
