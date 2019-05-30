@@ -3,13 +3,15 @@
 <PropertyList>
 
 	<sim>
-		<author>Narendran Muraleedharan (see Thanks.txt for more info)</author>
+		<author>Narendran Muraleedharan, Gabriel Hernandez (YV3399), D-ECHO</author>
+                <status>Version 0.5</status>
 		<flight-model>jsb</flight-model>
 
 		<model>
 			<livery>
 				<file type="string"/>
 			</livery>
+
 			<E-jet-family>
 				<heading-bug-pfd-deg type="double">0</heading-bug-pfd-deg>
 				<heading-bug-deg type="double">0</heading-bug-deg>
@@ -19,17 +21,20 @@
 				<ias-bug-kt-norm type="double">0</ias-bug-kt-norm>
 				<mach-bug-kt-norm type="double">0</mach-bug-kt-norm>
 			</E-jet-family>
+
 			<pushback>
 				<kp type="double">300</kp>
 				<ki type="double">0</ki>
 				<kd type="double">0</kd>
 				<position-norm type="double">0</position-norm>
 			</pushback>
+
 			<door n="0">
 				<position-y-m>-1.489</position-y-m>
 				<position-z-m>0.034</position-z-m>
 				<jetway-hood-deg>8</jetway-hood-deg>
 			</door>
+
 			<rendering>
 				<reflection-enabled type="int">1</reflection-enabled>
 				<reflection-type type="int">2</reflection-type>
@@ -65,11 +70,7 @@
 			<autopilot>
 				<name>Autothrust</name>
 				<path>Aircraft/E-jet-family/Systems/it-autothrust.xml</path>
-			</autopilot><!--
-			<autopilot>
-				<name>Autopilot helpers</name>
-				<path>Aircraft/Generic/generic-autopilot-helper.xml</path>
-			</autopilot>-->
+			</autopilot>
 			<autopilot>
 				<name>Autobrake</name>
 				<path>Aircraft/E-jet-family/Systems/ERJ-autobrake.xml</path>
@@ -108,6 +109,7 @@
 					<redout-onset-g type="double">-2</redout-onset-g>
 				</parameters>
 			</redout>
+
 			<camera-group>
 				<znear type="double">0.1</znear>
 			</camera-group>
@@ -430,20 +432,28 @@
 		<anti-ice>
 			<wiper type="int">0</wiper>
 			<wiper type="int">0</wiper>
+			<wing type="int">0</wing>
+			<eng0 type="int">0</eng0>
+			<eng1 type="int">0</eng1>
 		</anti-ice>
+
 		<autoflight>
 			<autopilot>
 				<engage type="bool">false</engage>
 			</autopilot>
+
 			<flight-director>
 				<engage type="bool">false</engage>
 			</flight-director>
+
 			<yaw-damper>
 				<engage type="bool">false</engage>
 			</yaw-damper>
+
 			<yaw-damper>
 				<engage type="bool">false</engage>
 			</yaw-damper>
+
 			<altitude-select type="double">10000</altitude-select>
 			<autothrottle-engage type="bool">false</autothrottle-engage>
 			<basic-roll-mode type="int">0</basic-roll-mode>
@@ -461,15 +471,18 @@
 			<vertical-mode type="int">-1</vertical-mode>
 			<vertical-speed-select type="double">1800</vertical-speed-select>
 		</autoflight>
+
 		<APU>
 			<fire-switch type="bool">false</fire-switch>
 			<master-switch type="bool">false</master-switch>
 			<starter type="bool">false</starter>
 		</APU>
+
 		<electric>
 			<avionics-switch type="bool">true</avionics-switch>
 			<battery-switch n="1" type="bool">0</battery-switch>
 		</electric>
+
 		<engines>
 			<engine-start-switch type="int">1</engine-start-switch>
 			<engine n="0">
@@ -478,6 +491,7 @@
 				<starter type="bool">false</starter>
 				<starter-switch type="bool">false</starter-switch>
 			</engine>
+
 			<engine n="1">
 				<cutoff type="bool">true</cutoff>
 				<cutoff-switch type="bool">true</cutoff-switch>
@@ -485,15 +499,18 @@
 				<starter-switch type="bool">false</starter-switch>
 			</engine>
 		</engines>
+
 		<flight>
 			<ground-spoilers-armed type="bool">false</ground-spoilers-armed>
 			<speedbrake-lever type="double">0</speedbrake-lever>
 		</flight>
+
 		<gear>
 			<brake-parking type="bool">true</brake-parking>
 			<enable-tiller type="bool">true</enable-tiller>
 			<tiller-steer-deg type="float">0</tiller-steer-deg>
 		</gear>
+
 		<lighting>
 			<beacon type="bool">false</beacon>
 			<interior type="double">0</interior>
@@ -505,9 +522,10 @@
 			<landing-lights n="2" type="bool">false</landing-lights>
 			<nav-lights-switch type="int">0</nav-lights-switch>
 			<overhead-panel-norm type="double">0.8</overhead-panel-norm>
-			<main-panel-pedestal-norm type="double">0.8</main-panel-pedestal-norm>
+		<main-panel-pedestal-norm type="double">0.8</main-panel-pedestal-norm>
 			<strobe type="bool">false</strobe>
 		</lighting>
+
 		<switches>
 			<no-smoking-sign type="bool">true</no-smoking-sign>
 			<seatbelt-sign type="bool">false</seatbelt-sign>
@@ -521,11 +539,13 @@
 			<running type="bool">false</running>
 			<serviceable type="bool">true</serviceable>
 		</apu>
+
 		<engine n="0">
 			<on-fire type="bool">false</on-fire>
 			<reverser-pos-norm type="double">0</reverser-pos-norm>
 			<running type="bool">false</running>
 		</engine>
+
 		<engine n="1">
 			<on-fire type="bool">false</on-fire>
 			<reverser-pos-norm type="double">0</reverser-pos-norm>
@@ -540,12 +560,14 @@
 			<spray-density type="double">0</spray-density>
 			<caster-angle-deg-damped type="double">0</caster-angle-deg-damped>
 		</gear>
+
 		<gear n="1">
 			<tyre-smoke type="int">0</tyre-smoke>
 			<sprayspeed-ms type="double">0</sprayspeed-ms>
 			<spray-density type="double">0</spray-density>
 			<caster-angle-deg-damped type="double">0</caster-angle-deg-damped>
 		</gear>
+
 		<gear n="2">
 			<tyre-smoke type="int">0</tyre-smoke>
 			<sprayspeed-ms type="double">0</sprayspeed-ms>
@@ -558,12 +580,14 @@
 		<IESS>
 			<brightness type="float">0.5</brightness>
 		</IESS>
+
 		<cdu>
 			
 			<display>IDENT</display>
 			<input type="string"/>
 			<serviceable type="bool">true</serviceable>
 		</cdu>
+
 		<fmc>
 			<to-flap type="double">10</to-flap>
 			<vspeeds>
@@ -572,14 +596,17 @@
 				<V2 type="double">0</V2>
 			</vspeeds>
 		</fmc>
+
 		<mfd>
 			<nav-display n="0" type="int">1</nav-display>
 			<nav-display n="1" type="int">1</nav-display>
 		</mfd>
+
 		<nav-compass>
 			<nav-display n="0" type="int">0</nav-display>
 			<nav-display n="1" type="int">0</nav-display>
 		</nav-compass>
+
 		<!-- See http://wiki.flightgear.org/index.php/GPWS -->
 
 		<mk-viii>
