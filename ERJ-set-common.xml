@@ -855,8 +855,7 @@
 			<file>Aircraft/E-jet-family/Nasal/dialogs.nas</file>
 		</dialogs>
 		<input>
-			<file>Aircraft/E-jet-family/Nasal/autopilot.nas</file><!--
-			<file>Aircraft/737-800/Nasal/engine-fire.nas</file>-->
+			<file>Aircraft/E-jet-family/Nasal/autopilot.nas</file>
 		</input>
 	</nasal>
 </PropertyList>
