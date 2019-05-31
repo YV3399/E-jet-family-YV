@@ -178,7 +178,7 @@ setlistener("controls/gear/gear-down", func {
 	}
 });
 
-setlistener("/controls/gear/gear-down", func { controls.click(8) } );
+#setlistener("/controls/gear/gear-down", func { controls.click(8) } );
 controls.gearDown = func(v) {
 	if (v < 0) {
 		if(!getprop("gear/gear[1]/wow"))setprop("/controls/gear/gear-down", 0);

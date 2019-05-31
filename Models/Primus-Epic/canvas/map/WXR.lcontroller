@@ -1,0 +1,77 @@
+##
+# See: http://wiki.flightgear.org/MapStructure
+# Class things:
+var name = 'WXR';
+var parents = [SymbolLayer.Controller];
+var __self__ = caller(0)[0];
+SymbolLayer.Controller.add(name, __self__);
+SymbolLayer.add(name, {
+	parents: [MultiSymbolLayer],
+	type: name, # Symbol type
+	df_controller: __self__, # controller to use by default -- this one
+});
+
+var new = func(layer) {
+	var m = {
+		parents: [__self__],
+		layer: layer,
+		map: layer.map,
+		listeners: [],
+		searchCmd: searchCmd_default,
+	};
+	layer.searcher._equals = func(l,r) l.equals(r);
+	m.addVisibilityListener();
+
+	return m;
+};
+var del = func() {
+	#print(name~".lcontroller.del()");
+	foreach (var l; me.listeners)
+		removelistener(l);
+};
+
+##
+# dummy/placeholder (will be overridden in ctor and set to the default callback)
+var searchCmd  = func;
+
+# FIXME: TFC/WXR seems only to be updated on range change/setPos currently ?
+var searchCmd_default = func {
+	# print("WXR running");
+	if (me.map.getRange() == nil) return;
+
+	#printlog(_MP_dbg_lvl, "Doing query: "~name);
+	var results = [];
+	foreach (var n; props.globals.getNode("/instrumentation/wxradar",1).getChildren("storm")) {
+		
+		# Model 3 degree radar beam 
+		var stormLat = n.getNode("latitude-deg").getValue();
+		var stormLon = n.getNode("longitude-deg").getValue();
+
+#		print("processing storm at:",stormLat,'/',stormLon);
+
+		# FIXME: once ported to MapStructure, these should use the encapsulated "aircraft source"/driver stuff
+		var acLat = getprop("/position/latitude-deg");
+		var acLon = getprop("/position/longitude-deg");
+		var stormGeo = geo.Coord.new();
+		var acGeo = geo.Coord.new();
+		
+		stormGeo.set_latlon(stormLat, stormLon);
+		acGeo.set_latlon(acLat, acLon);
+		
+		var directDistance = acGeo.direct_distance_to(stormGeo);
+		var beamH = 0.1719 * directDistance; # M2FT * tan(3deg)
+		var beamBase = getprop("position/altitude-ft") - beamH;
+		
+		if (n.getNode("top-altitude-ft").getValue() > beamBase) {
+			var tmp = geo.Coord.new();
+			tmp.set_latlon(stormLat, stormLon);
+			tmp.radiusNm = n.getNode("radius-nm").getValue();
+			tmp._node = n;
+			tmp.equals = func(r) me._node.equals(r._node);
+			append(results, tmp);
+		}
+	} # foreach
+
+	#print("WXR results:", size(results));
+	return results;
+} # searchCmd_default

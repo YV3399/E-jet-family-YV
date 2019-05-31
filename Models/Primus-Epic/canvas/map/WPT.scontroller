@@ -1,0 +1,30 @@
+# See: http://wiki.flightgear.org/MapStructure
+# Class things:
+var name = 'WPT_cit';
+var parents = [Symbol.Controller];
+var __self__ = caller(0)[0];
+Symbol.Controller.add(name, __self__);
+Symbol.registry[ name ].df_controller = __self__;
+var last_idx = nil;
+
+var new = func(symbol, model) {
+	var m = {
+		parents:[__self__],
+		listeners: [],
+		symbol: symbol,
+		model: model,
+	};
+	append(m.listeners, setlistener(symbol.layer.options.current_wp_node, func(n) {
+		var n = n.getValue();
+		if (m.last_idx == model.idx or n == model.idx)
+			symbol.update();
+		m.last_idx = n;
+	}, 0, 0));
+	m.last_idx = getprop(symbol.layer.options.current_wp_node);
+
+	return m;
+}
+var del = func() {
+	foreach (var l; me.listeners)
+		removelistener(l);
+}

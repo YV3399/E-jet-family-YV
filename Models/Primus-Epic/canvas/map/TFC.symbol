@@ -1,0 +1,154 @@
+# See: http://wiki.flightgear.org/MapStructure
+#
+# Traffic Symbols
+# Adapted to the Citation X by C. Le Moigne (clm76) - jan 2019
+
+var name = 'TFC';
+var parents = [DotSym];
+var __self__ = caller(0)[0];
+DotSym.makeinstance( name, __self__ );
+
+SymbolLayer.get(name).df_style = { # style to use by default
+	line_width: 3,
+	scale_factor: 1,
+	color_by_lvl: {
+		3: [1,0,0],         # resolution advisory
+		2: [0.95,0.5,0.06], # traffic advisory
+		1: [0,1,1],         # proximate traffic
+	},
+	color_default: [0,1,1]
+};
+
+var element_type = "group"; # we want a group, becomes "me.element"
+var text_tcas = nil;
+var icon_tcas = nil;
+var arrow_tcas = [nil,nil];
+var arrow_type = 0;
+var draw_tcas_arrow = nil;
+var color = nil;
+var threatLvl = nil;
+
+var draw = func {
+	if (draw_tcas_arrow == nil)
+		draw_tcas_arrow = [
+			draw_tcas_arrow_above_500,
+			draw_tcas_arrow_below_500
+		];
+
+  ### Draw only for flying traffic not for ground traffic
+  if (me.model.get_threat_lvl()!=nil and me.model.get_threat_lvl()>= 0) {
+	  var threatLvl = me.model.get_threat_lvl();
+	  var callsign = me.model.getNode("callsign").getValue();
+	  var vspeed = me.model.get_vspd();
+	  var altDiff = me.layer.controller.get_alt_diff(me.model);
+
+	  # Init
+    if (me.text_tcas == nil) {
+	    me.text_tcas = me.element.createChild("text")
+		    .setDrawMode( canvas.Text.TEXT )
+		    .setFont("LiberationFonts/LiberationSans-Bold.ttf")
+		    .setColor(0,0,0)
+		    .setFontSize(20)
+		    .setAlignment("center-center");
+	    me.text_callsign = me.element.createChild("text")
+		    .setDrawMode( canvas.Text.TEXT )
+		    .setText(callsign)
+		    .setFont("LiberationFonts/LiberationSans-Bold.ttf")
+		    .setColor(0,0,0)
+		    .setFontSize(20)
+		    .setAlignment("center-center");
+		  me.icon_tcas = me.element.createChild("path")
+			  .setStrokeLineWidth(3);
+    }
+
+	  # Update
+    me.text_tcas.setTranslation(0,30).setText(sprintf("%+02.0f",altDiff/100));
+    me.text_callsign.setTranslation(0,-35);
+	  if (threatLvl != me.threatLvl) {
+		  me.threatLvl = threatLvl;
+      me.icon_tcas.del();
+		  me.icon_tcas = me.element.createChild("path")
+			  .setStrokeLineWidth(3);
+		  if (threatLvl == 3) {
+			  # resolution advisory
+			  me.icon_tcas
+          .moveTo(-17,-17)
+				  .horiz(34)
+				  .vert(34)
+				  .horiz(-34)
+				  .close();
+		  } else if (threatLvl == 2) {
+			  # traffic advisory
+			  me.icon_tcas
+          .moveTo(-17,0)
+				  .arcSmallCW(17,17,0,34,0)
+				  .arcSmallCW(17,17,0,-34,0);
+		  } else if (threatLvl == 1) {
+			  # proximate traffic
+			  me.icon_tcas
+          .moveTo(-10,0)
+				  .lineTo(0,-17)
+				  .lineTo(10,0)
+				  .lineTo(0,17)
+				  .close();
+		  } else if (threatLvl == 0) {
+			  # other traffic
+			  me.icon_tcas
+          .moveTo(-10,0)
+				  .lineTo(0,-17)
+				  .lineTo(10,0)
+				  .lineTo(0,17)
+				  .close();
+		  }
+	  }
+
+    # Colors
+	  var color = nil;
+	  if (threatLvl != nil)
+		  if ((var c = me.style.color_by_lvl[threatLvl]) != nil)
+			  var color = canvas._getColor(c);
+	  if (color == nil)
+		  color = canvas._getColor(me.style.color_default);
+    if (me.color != color) me.color = color;
+    if (threatLvl > 0) me.icon_tcas.setColorFill(color);
+		me.icon_tcas.setColor(color);
+	  me.text_tcas.setColor(color);
+	  me.text_callsign.setColor(color);
+    if (vspeed > -500 and vspeed < 500) {
+      draw_tcas_arrow[0](me.element,color).hide();
+      draw_tcas_arrow[1](me.element,color).hide();
+    } else {
+      if (vspeed >=500) arrow_type = 1; 
+      if (vspeed <= -500) arrow_type = 0; 
+      draw_tcas_arrow[arrow_type](me.element,color).show();
+    }
+
+	  if (me.style.scale_factor != me.element.getScale())
+		  me.element.setScale(me.style.scale_factor);
+  }
+}; # end of draw
+
+var draw_tcas_arrow_above_500 = func(group,color) {
+	group.createChild("path")
+		.moveTo(0,-17)
+		.vertTo(17)
+		.lineTo(-10,0)
+		.moveTo(0,17)
+		.lineTo(10,0)
+		.setColor(color)
+		.setTranslation(25,0)
+		.setStrokeLineWidth(3);
+};
+
+var draw_tcas_arrow_below_500 = func(group,color) {
+  group.createChild("path")
+		.moveTo(0,17)
+		.vertTo(-17)
+		.lineTo(-10,0)
+		.moveTo(0,-17)
+		.lineTo(10,0)
+		.setColor(color)
+		.setTranslation(25,0)
+		.setStrokeLineWidth(3);
+};
+

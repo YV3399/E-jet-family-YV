@@ -600,6 +600,12 @@
 		<mfd>
 			<nav-display n="0" type="int">1</nav-display>
 			<nav-display n="1" type="int">1</nav-display>
+			<map type="bool">0</map>
+			<cdr0>1</cdr0>
+			<cdr1>1</cdr1>
+			<cdr2>1</cdr2>
+			<cdr3>1</cdr3>
+			<upper-page type="string">plan</upper-page>
 		</mfd>
 
 		<nav-compass>
@@ -852,6 +858,10 @@
 		<canvas_eicas>
 			<file>Aircraft/E-jet-family/Models/Primus-Epic/EICAS.nas</file>
 		</canvas_eicas>
+		<mfd>
+			<file>Aircraft/E-jet-family/Nasal/Mfd.nas</file>
+			<file>Aircraft/E-jet-family/Models/Primus-Epic/canvas/NDcanvas.nas</file>
+		</mfd>
 		<messages>
 			<file>Aircraft/E-jet-family/Nasal/messages.nas</file>
 		</messages>

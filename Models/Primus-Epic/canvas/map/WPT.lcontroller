@@ -1,0 +1,104 @@
+##
+# See: http://wiki.flightgear.org/MapStructure
+# Class things:
+var name = 'WPT_cit'; # for waypoints
+var parents = [SymbolLayer.Controller];
+var __self__ = caller(0)[0];
+SymbolLayer.Controller.add(name, __self__);
+SymbolLayer.add(name, {
+	parents: [MultiSymbolLayer],
+	type: name, # Symbol type
+	df_controller: __self__, # controller to use by default -- this one
+	df_options: { # default configuration options
+		active_node: "/autopilot/route-manager/active",
+		current_wp_node: "/autopilot/route-manager/current-wp",
+		wp_num: "/autopilot/route-manager/route/num",
+	}
+});
+var new = func(layer) {
+	var m = {
+		parents: [__self__],
+		layer: layer,
+		options: layer.options,
+		map: layer.map,
+		listeners: [],
+	};
+	layer.searcher._equals = func(l,r) l.equals(r);
+	append(m.listeners, setlistener(layer.options.active_node, func m.layer.update() ), setlistener(layer.options.wp_num, func m.layer.update() ));
+	var driver = opt_member(m.layer.options, 'route_driver');
+	if(driver == nil){
+		driver = RouteDriver.new();
+	}
+	var driver_listeners = driver.getListeners();
+	foreach(var listener; driver_listeners){
+		append(m.listeners, setlistener(listener, func m.layer.update()));
+	}
+	m.route_driver = driver;
+	m.addVisibilityListener();
+
+	return m;
+};
+var del = func() {
+	foreach (var l; me.listeners)
+		removelistener(l);
+};
+
+var WPT_model = {
+	new: func(fp, idx, offset=0) {
+		var m = { parents:[WPT_model], idx:(idx+offset) };
+		var wp = fp.getWP(idx);
+		m.name = wp.wp_name;
+		m.role = wp.wp_role;
+
+#		var alt = wp.alt_cstr;
+#		if (alt != 0)
+#			m.name ~= "\n"~alt;
+
+#		if (idx) var n = wp.path()[-1]; # supp by accek
+#		else var n = fp.getWP(1).path()[0]; # supp by accek
+#		(m.lat,m.lon) = (n.lat,n.lon); # supp by accek
+
+### add by accek for discontinuities in plans
+     var path = wp.path();
+     if (size(path) > 0) {
+       (m.lat,m.lon) = (path[-1].lat,path[-1].lon);
+       return m;
+   }
+     
+     var wp_next = fp.getWP(idx + 1);
+     if (wp_next != nil) {
+       var path_next = wp.path();
+       if (size(path_next) > 0) {
+               (m.lat,m.lon) = (path_next[0].lat,path_next[0].lon);
+               return m;
+       }
+     }
+
+     (m.lat,m.lon) = (wp.wp_lat,wp.wp_lon);
+###
+
+		return m;
+	},
+	equals: func(other) {
+		# this is set on symbol init, so use this for equality...
+		me.name == other.name
+	},
+};
+
+var searchCmd = func {
+#	printlog(_MP_dbg_lvl, "Running query: "~name);
+
+	if (!getprop(me.options.active_node)) return [];
+	var driver = me.route_driver;
+	driver.update();
+	var result = [];
+	var planCount = driver.getNumberOfFlightPlans();
+	for(var idx = 0; idx < planCount; idx += 1){
+		var fp = driver.getFlightPlan(idx);
+		var fpSize = fp.getPlanSize(idx);
+		for (var i = 0; i < fpSize; i+=1)
+			append(result, WPT_model.new(fp, i));
+	}
+	return result;
+};
+

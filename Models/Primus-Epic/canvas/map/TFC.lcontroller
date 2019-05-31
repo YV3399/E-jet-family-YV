@@ -1,0 +1,120 @@
+# See: http://wiki.flightgear.org/MapStructure
+# FIXME: this needs to be configurable via the ctor to optionally differentiate between MP and AI traffic, and exclude ground/sea traffic
+# or at least use a different, non-TCAS symbol for those (looking pretty weird ATM)
+#
+# Class things:
+var name = 'TFC';
+var parents = [SymbolLayer.Controller];
+var __self__ = caller(0)[0];
+SymbolLayer.Controller.add(name, __self__);
+SymbolLayer.add(name, {
+	parents: [MultiSymbolLayer],
+	type: name, # Symbol type
+	df_controller: __self__, # controller to use by default -- this one
+	df_style: {
+	},
+	df_options: { # default configuration options
+		floor_ft:   10000, # Display target from this height below the aircraft
+		ceiling_ft: 10000, # Display targets up to this height above the aircraft
+		display_id: 1,      # Display aircraft ID
+	},
+});
+
+var model_root = props.globals.getNode("/ai/models/");
+
+var new = func(layer) {
+	var m = {
+		parents: [__self__],
+		layer: layer,
+		map: layer.map,
+		listeners: [],
+		searchCmd: searchCmd_default,
+	};
+	layer.searcher._equals = func(l,r) l.equals(r);
+	m.addVisibilityListener();
+
+	return m;
+};
+var del = func() {
+	#print(name~".lcontroller.del()");
+	foreach (var l; me.listeners)
+		removelistener(l);
+};
+
+var TrafficModel = {
+	new: func(node, id=nil, layer=nil) {
+		if (id == nil) id = node.getValue("id");
+		var m = {
+			# Note: because this inherits from props.Node, Symbol.Controller.equals
+			# will call l.equals(r) -- the one defined below
+			parents: [TrafficModel, geo.Coord, node], # note we don't implement a full geo.Coord API
+			id: id,
+			node: node,
+			pos: node.getNode("position",1),
+			type: node.getName(),
+		};
+		return m;
+	},
+	equals: func(other) other.id == me.id,
+	latlon: func() { # this makes sure to look like a geo.Coord to MapStructure, but will internally use the AI/MP traffic properties instead
+	  return [me.pos.getValue("latitude-deg"),
+			      me.pos.getValue("longitude-deg"),
+			      me.pos.getValue("altitude-ft")];
+	},
+	# these are helper methods related to TCAS handling (TAs/RAs)
+	get_threat_lvl: func() me.getValue("tcas/threat-level"),
+	get_vspd: func() (me.getValue("velocities/vertical-speed-fps") or 0)*60,
+	get_alt:  func() (me.getValue("position/altitude-ft") or 0),
+};
+
+var get_alt_diff = func(model) {
+	# debug.dump( keys(me) );
+	var model_alt = model.get_alt();
+	var alt = me.map.getAlt();
+	if (alt == nil or model_alt == nil) return 0;
+	return model_alt - alt;
+};
+
+##
+# dummy/placeholder (will be overridden in ctor and set to the default callback)
+#var searchCmd  = func;
+
+var searchCmd_default = func {
+	# TODO: this would be a good candidate for splitting across frames
+#	printlog(_MP_dbg_lvl, "Doing query: "~name);
+
+	if (me.map.getRange() == nil) return;
+
+	var result = [];
+	var models = 0;
+
+	var alt = me.map.getAlt();
+	if (alt == nil) alt = 0;
+
+	var min_alt = alt - me.layer.options.floor_ft;
+	var max_alt = alt + me.layer.options.ceiling_ft;
+
+	# AI and Multiplayer traffic
+	foreach (var t; model_root.getChildren()) {
+		if (!t.getValue("valid")) continue;
+		var t_id = t.getNode("id");
+		if (t_id == nil or t_id.getValue() == -1) continue;
+		models += 1;
+		var (lat,lon) = (t.getValue("position/latitude-deg"),
+		                 t.getValue("position/longitude-deg"));
+		if (lat == nil or lon == nil) {
+			printlog("alert", "lat/lon was nil for AI node "~t.getPath());
+			continue;
+		}
+
+		var tm = TrafficModel.new(t, nil, me.layer);
+		if ((min_alt < tm.get_alt()) and
+		    (tm.get_alt() < max_alt) and
+			   me.map.controller.in_range(lat, lon)  ) {
+			append(result, tm);
+		}
+	}
+
+	#print("Found "~size(result)~" TrafficModel's in range out of "~models~" total.");
+	return result;
+};
