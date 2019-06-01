@@ -43,12 +43,22 @@ var wind_spd	=	props.globals.getNode("environment/wind-speed-kt", 1);
 var wind_dir	=	props.globals.getNode("environment/wind-from-heading-deg", 1);
 var heading	=	props.globals.getNode("orientation/heading-deg", 1);
 
+var cur_wp	=	props.globals.getNode("autopilot/route-manager/current-wp", 1);
+var ete		=	props.globals.getNode("autopilot/route-manager/ete", 1);
+
 #For the systems part
 var door_L1	=	props.globals.getNode("sim/model/door-positions/l1/position-norm", 1);
 var door_L2	=	props.globals.getNode("sim/model/door-positions/l2/position-norm", 1);
 var door_R1	=	props.globals.getNode("sim/model/door-positions/r1/position-norm", 1);
 var door_R2	=	props.globals.getNode("sim/model/door-positions/r2/position-norm", 1);
 
+var grossweight	=	props.globals.getNode("fdm/jsbsim/inertia/weight-lbs", 1);
+
+var batt1v	=	props.globals.getNode("systems/electrical/left-bus", 1);
+var batt2v	=	props.globals.getNode("systems/electrical/right-bus", 1);
+
+#var eng0oq	=	props.globals.getNode("engines/engine[0]/oil-quantity", 1);
+#var eng1oq	=	props.globals.getNode("engines/engine[1]/oil-quantity", 1);
 
 	var MFDDisplay = {
 		new: func(x) {
@@ -79,7 +89,8 @@ var door_R2	=	props.globals.getNode("sim/model/door-positions/r2/position-norm",
 			m.text = {};
 			m.text_val = ["wx","bank","sat","tat","tas","gspd","clock",
 										"chrono","navDist","navId","navTtw","navType",
-										"hdgAnn","main","range","distRem","windSpeed"];
+										"hdgAnn","main","range","distRem","windSpeed","sat2","tat2","gw","batt1Volts","batt2Volts",
+					"wpNext","wpNextDist","wpNextETA","wpNextFuel100","wpNextFuel1","wpDest","wpDestDist","wpDestETA","wpDestFuel100","wpDestFuel1"];
 			foreach(var element;m.text_val) {
 				m.text[element] = m.mfd.getElementById(element);
 			}
@@ -215,31 +226,67 @@ var door_R2	=	props.globals.getNode("sim/model/door-positions/r2/position-norm",
 
 		update: func(x) {
 			
-			me.text.sat.setText(sprintf("%2d",getprop(sat)));
-			me.text.tat.setText(sprintf("%2d",getprop(tat)));
-			me.text.tas.setText(sprintf("%3d",getprop(tas)));
-			#me.text.gspd.setText(sprintf("%3d",getprop(gspd)));
-			me.text.navDist.setText(sprintf("%3.1f",getprop(nav_dist))~" NM");			
-			me.text.navId.setText(getprop(nav_id));
-			#me.text.navType.setText(getprop(nav_type));
-			#me.text.hdgAnn.setText(sprintf("%03d",getprop(hdg_ann)));
+			var page = getprop("instrumentation/mfd/upper-page");
 			
-			me.text.windSpeed.setText(sprintf("%3d", math.round(wind_spd.getValue())));
-			
-			me.symbol.windArrow.setRotation((wind_dir.getValue()-heading.getValue())*D2R);
-			
-			if(getprop("instrumentation/mfd/upper-page")=="map"){
-				me.symbol.mapSelected.show();
-				me.symbol.planSelected.hide();
-				me.symbol.systemsSelected.hide();
+			if(page=="map" or page=="plan"){
+				me.text.sat.setText(sprintf("%2d",getprop(sat)));
+				me.text.tat.setText(sprintf("%2d",getprop(tat)));
+				me.text.tas.setText(sprintf("%3d",getprop(tas)));
+				#me.text.gspd.setText(sprintf("%3d",getprop(gspd)));
+				me.text.navDist.setText(sprintf("%3.1f",getprop(nav_dist))~" NM");			
+				me.text.navId.setText(getprop(nav_id));
+				#me.text.navType.setText(getprop(nav_type));
+				#me.text.hdgAnn.setText(sprintf("%03d",getprop(hdg_ann)));
+				
+				me.text.windSpeed.setText(sprintf("%3d", math.round(wind_spd.getValue())));
+				
+				me.symbol.windArrow.setRotation((wind_dir.getValue()-heading.getValue())*D2R);
+				
+				#Waypoint indication
+				var cwp = cur_wp.getValue() or 1;
+				if(cwp<1){
+					cwp=1;
+				}
+				var cwp_id = getprop("autopilot/route-manager/route/wp["~cwp~"]/id") or "";
+				var cwp_dist = getprop("autopilot/route-manager/wp["~(cwp-1)~"]/dist") or 999;
+				var cwp_eta = getprop("autopilot/route-manager/wp["~(cwp-1)~"]/eta") or "--H--";
+				me.text.wpNext.setText(cwp_id);
+				if(cwp_dist<100){
+					me.text.wpNextDist.setText(sprintf("%2.1f",cwp_dist));
+				}else{
+					me.text.wpNextDist.setText(sprintf("%3d",math.round(cwp_dist)));
+				}
+				me.text.wpNextETA.setText(cwp_eta);
+				
+				me.text.wpDest.setText(getprop("autopilot/route-manager/destination/airport"));
+				var dest_d=getprop("autopilot/route-manager/distance-remaining-nm");
+				if(dest_d<100){
+					me.text.wpDestDist.setText(sprintf("%2.1f",dest_d));
+				}else{
+					me.text.wpDestDist.setText(sprintf("%3d",math.round(dest_d)));
+				}
+				var ete=ete.getValue();
+				var ete_min=math.round(ete/60);
+				var ete_h=int(ete_min/60);
+				ete_min=ete_min-(ete_h*60);
+				if(ete_h<99){
+					me.text.wpDestETA.setText(ete_h~"H"~ete_min);
+				}else{
+					me.text.wpDestETA.setText("--H--");
+				}
+				
 				me.layer.layerMP.show();
 				me.layer.layerSystems.hide();
-			}else if(getprop("instrumentation/mfd/upper-page")=="plan"){
-				me.symbol.mapSelected.hide();
-				me.symbol.planSelected.show();
-				me.symbol.systemsSelected.hide();
-				me.layer.layerMP.show();
-				me.layer.layerSystems.hide();
+				
+				if(page=="map"){
+					me.symbol.mapSelected.show();
+					me.symbol.planSelected.hide();
+					me.symbol.systemsSelected.hide();
+				}else if(page=="plan"){
+					me.symbol.mapSelected.hide();
+					me.symbol.planSelected.show();
+					me.symbol.systemsSelected.hide();
+				}
 			}else{
 				me.symbol.mapSelected.hide();
 				me.symbol.planSelected.hide();
@@ -247,6 +294,14 @@ var door_R2	=	props.globals.getNode("sim/model/door-positions/r2/position-norm",
 				me.layer.layerMP.hide();
 				me.layer.layerSystems.show();
 				#Now the systems animation
+				#General Part
+				me.text.sat2.setText(sprintf("%2d",getprop(sat)));
+				me.text.tat2.setText(sprintf("%2d",getprop(tat)));
+				me.text.gw.setText(sprintf("%5d", math.round(grossweight.getValue())));
+				#ELEC Part
+				me.text.batt1Volts.setText(sprintf("%2.1f", batt1v.getValue()));
+				me.text.batt2Volts.setText(sprintf("%2.1f", batt2v.getValue()));
+				
 				if(door_L1.getValue()==0){
 					me.symbol.doorL1.setColorFill(0,1,0,1);
 				}else{

@@ -7,12 +7,7 @@
 var ED_only = nil;
 var ED_display = nil;
 var page = "only";
-var DC=0.01744;
 
-setprop("/engines/engine[0]/n1", 0);
-setprop("/engines/engine[1]/n1", 0);
-setprop("/engines/engine[0]/n2", 0);
-setprop("/engines/engine[1]/n2", 0);
 setprop("/engines/engine[0]/itt_degc", 0);
 setprop("/engines/engine[1]/itt_degc", 0);
 setprop("/engines/engine[0]/oil-pressure-psi", 0);
@@ -33,6 +28,14 @@ setprop("/controls/engines/engine[0]/condition-lever-state", 0);
 setprop("/controls/engines/engine[1]/condition-lever-state", 0);
 setprop("/controls/engines/engine[0]/throttle-int", 0);
 setprop("/controls/engines/engine[1]/throttle-int", 0);
+
+var engLn1	=	props.globals.getNode("engines/engine[0]/n1",1);
+var engRn1	=	props.globals.getNode("engines/engine[1]/n1",1);
+var engLn2	=	props.globals.getNode("engines/engine[0]/n2",1);
+var engRn2	=	props.globals.getNode("engines/engine[1]/n2",1);
+
+var engLoff	=	props.globals.getNode("controls/engines/engine[0]/cutoff-switch", 1);
+var engRoff	=	props.globals.getNode("controls/engines/engine[1]/cutoff-switch", 1);
 
 setprop("/systems/elecrical/outputs/efis", 0);
 
@@ -94,7 +97,7 @@ var canvas_ED_only = {
 		return m;
 	},
 	getKeys: func() {
-		return ["flaps.UP","flaps.IND","flaps.SCALE","flaps.TGT","slat.IND","slat.TGT","slat.SCALE","fs","N1L","N1R","N2L","N2R","ITTL","ITTR","FFL","FFR","FQL","FQR","FQC","OPL","OPR","OTL","OTR","revL","revR","gearL.T","gearL.C","gearR.T","gearR.C","gearF.C","gearF.T","AB","apu.PCT","apu.DEGC","N1L.needle","N1R.needle","parkbrake","space1","space2","space3","space4","lfilled1","lfilled2"];
+		return ["flaps.UP","flaps.IND","flaps.SCALE","flaps.TGT","slat.IND","slat.TGT","slat.SCALE","fs","N1L","N1R","N2L","N2R","ITTL","ITTR","FFL","FFR","FQL","FQR","FQC","OPL","OPR","OTL","OTR","revL","revR","gearL.T","gearL.C","gearR.T","gearR.C","gearF.C","gearF.T","AB","apu.PCT","apu.DEGC","N1L.needle","N1R.needle","parkbrake","space1","space2","space3","space4","lfilled1","lfilled2","engL.off","engR.off"];
 	},
 	update: func() {
 			
@@ -111,8 +114,8 @@ var canvas_ED_only = {
 			me["flaps.SCALE"].show();
 			me["flaps.TGT"].show();
 			me["flaps.UP"].hide();
-			me["flaps.TGT"].setRotation(flap_cmd*DC*44);
-			me["flaps.IND"].setRotation(flap_pos*DC*45.2);
+			me["flaps.TGT"].setRotation(flap_cmd*D2R*44);
+			me["flaps.IND"].setRotation(flap_pos*D2R*45.2);
 		}
 		
 		var slat_pos=getprop("/fdm/jsbsim/fcs/slat-pos-norm") or 0;
@@ -125,16 +128,16 @@ var canvas_ED_only = {
 			me["slat.IND"].show();
 			me["slat.SCALE"].show();
 			me["slat.TGT"].show();
-			me["slat.TGT"].setRotation(slat_cmd*(-DC)*46.4);
-			me["slat.IND"].setRotation(slat_pos*(-DC)*51.27);
+			me["slat.TGT"].setRotation(slat_cmd*(-D2R)*46.4);
+			me["slat.IND"].setRotation(slat_pos*(-D2R)*51.27);
 		}
 		
 		me["fs"].setText(sprintf("%u", math.round((getprop("/controls/flight/flaps") or 0)*10)));
 		
-		var ln1=getprop("/engines/engine[0]/n1");
-		var rn1=getprop("/engines/engine[1]/n1");
-		var ln2=getprop("/engines/engine[0]/n2");
-		var rn2=getprop("/engines/engine[1]/n2");
+		var ln1=engLn1.getValue();
+		var rn1=engRn1.getValue();
+		var ln2=engLn2.getValue();
+		var rn2=engRn2.getValue();
 		var litt=getprop("/engines/engine[0]/itt_degc");
 		var ritt=getprop("/engines/engine[1]/itt_degc");
 		var lff=getprop("/engines/engine[0]/fuel-flow_pph");
@@ -147,6 +150,15 @@ var canvas_ED_only = {
 		var lot=getprop("/engines/engine[0]/oil-temperature-degc");
 		var rot=getprop("/engines/engine[1]/oil-temperature-degc");
 		
+		#Engine off
+		if(engLoff.getBoolValue()){
+			me["engL.off"].show();
+		}else{
+			me["engL.off"].hide();
+		}
+		
+		me["engR.off"].setVisible(engRoff.getBoolValue());
+			
 		
 		#0.526
 		if(ln1<52.6){
@@ -155,16 +167,16 @@ var canvas_ED_only = {
 				me["lfilled1"].hide();
 			}else{
 				#me["lfilled1"].show();
-				me["lfilled1"].setRotation(ln1*DC*2.568);
+				me["lfilled1"].setRotation(ln1*D2R*2.568);
 			}
 		}else{
 			#me["lfilled2"].show();
-			me["lfilled1"].setRotation(0.526*DC*2.568);
-			me["lfilled2"].setRotation((ln1-0.526)*DC*2.568);
+			me["lfilled1"].setRotation(0.526*D2R*2.568);
+			me["lfilled2"].setRotation((ln1-0.526)*D2R*2.568);
 		}
 			
-		me["N1L.needle"].setRotation(ln1*DC*2.568);
-		me["N1R.needle"].setRotation(rn1*DC*2.568);
+		me["N1L.needle"].setRotation(ln1*D2R*2.568);
+		me["N1R.needle"].setRotation(rn1*D2R*2.568);
 		me["N1L"].setText(sprintf("%.1f", ln1));
 		me["N1R"].setText(sprintf("%.1f", rn1));
 		me["N2L"].setText(sprintf("%.1f", ln2));

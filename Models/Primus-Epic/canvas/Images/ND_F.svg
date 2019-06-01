@@ -181,11 +181,11 @@
      borderopacity="1.0"
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.5"
-     inkscape:cx="453.99098"
-     inkscape:cy="283.40163"
+     inkscape:zoom="1"
+     inkscape:cx="647.71099"
+     inkscape:cy="551.607"
      inkscape:document-units="px"
-     inkscape:current-layer="svg4136"
+     inkscape:current-layer="layerMP"
      showgrid="false"
      units="px"
      inkscape:window-width="1600"
@@ -629,7 +629,8 @@
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.80133057px;line-height:100%;font-family:'Liberation Mono';-inkscape-font-specification:'Liberation Mono';text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;display:inline;opacity:1;fill:#fc12fc;fill-opacity:1;stroke:none;stroke-width:0.67003334px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
        x="229.57721"
        y="978.61591"
-       id="text1053"><tspan
+       id="wpNext"
+       inkscape:label="#text1053"><tspan
          sodipodi:role="line"
          id="tspan1051"
          x="229.57721"
@@ -637,11 +638,12 @@
          style="fill:#fc12fc;fill-opacity:1;stroke-width:0.67003334px">ABCDE</tspan></text>
     <text
        transform="translate(83.085047)"
-       id="text1057"
+       id="wpDest"
        y="1012.6159"
        x="229.57721"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.80133057px;line-height:100%;font-family:'Liberation Mono';-inkscape-font-specification:'Liberation Mono';text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;display:inline;opacity:1;fill:#fcfcfc;fill-opacity:1;stroke:none;stroke-width:0.67003334px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       xml:space="preserve"><tspan
+       xml:space="preserve"
+       inkscape:label="#text1057"><tspan
          style="stroke-width:0.67003334px"
          y="1012.6159"
          x="229.57721"
@@ -674,29 +676,32 @@
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.80133057px;line-height:100%;font-family:'Liberation Mono';-inkscape-font-specification:'Liberation Mono';text-align:end;letter-spacing:0px;word-spacing:0px;text-anchor:end;display:inline;opacity:1;fill:#fcfcfc;fill-opacity:1;stroke:none;stroke-width:0.67003334px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
        x="456.01456"
        y="1012.6159"
-       id="text1069"><tspan
+       id="wpDestDist"
+       inkscape:label="#text1069"><tspan
          sodipodi:role="line"
          id="tspan1067"
          x="456.01456"
          y="1012.6159"
          style="text-align:end;text-anchor:end;stroke-width:0.67003334px">999</tspan></text>
     <text
-       id="text1073"
+       id="wpNextDist"
        y="978.61591"
        x="458.56406"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.80133057px;line-height:100%;font-family:'Liberation Mono';-inkscape-font-specification:'Liberation Mono';text-align:end;letter-spacing:0px;word-spacing:0px;text-anchor:end;display:inline;opacity:1;fill:#fc00fc;fill-opacity:1;stroke:none;stroke-width:0.67003334px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       xml:space="preserve"><tspan
+       xml:space="preserve"
+       inkscape:label="#text1073"><tspan
          style="text-align:end;text-anchor:end;fill:#fc00fc;fill-opacity:1;stroke-width:0.67003334px"
          y="978.61591"
          x="458.56406"
          id="tspan1071"
          sodipodi:role="line">99.9</tspan></text>
     <text
-       id="text1077"
+       id="wpDestETA"
        y="1012.6159"
        x="596.03363"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.80133057px;line-height:100%;font-family:'Liberation Mono';-inkscape-font-specification:'Liberation Mono';text-align:end;letter-spacing:0px;word-spacing:0px;text-anchor:end;display:inline;opacity:1;fill:#fcfcfc;fill-opacity:1;stroke:none;stroke-width:0.67003334px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       xml:space="preserve"><tspan
+       xml:space="preserve"
+       inkscape:label="#text1077"><tspan
          style="text-align:end;text-anchor:end;stroke-width:0.67003334px"
          y="1012.6159"
          x="596.03363"
@@ -707,7 +712,8 @@
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.80133057px;line-height:100%;font-family:'Liberation Mono';-inkscape-font-specification:'Liberation Mono';text-align:end;letter-spacing:0px;word-spacing:0px;text-anchor:end;display:inline;opacity:1;fill:#fc09fc;fill-opacity:1;stroke:none;stroke-width:0.67003334px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
        x="597.16888"
        y="978.61591"
-       id="text1081"><tspan
+       id="wpNextETA"
+       inkscape:label="#text1081"><tspan
          sodipodi:role="line"
          id="tspan1079"
          x="597.16888"
@@ -715,11 +721,12 @@
          style="text-align:end;text-anchor:end;fill:#fc09fc;fill-opacity:1;stroke-width:0.67003334px">00H00</tspan></text>
     <text
        transform="translate(0,32)"
-       id="text1085"
+       id="wpDestFuel100"
        y="978.61591"
        x="663.54388"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.80133057px;line-height:100%;font-family:'Liberation Mono';-inkscape-font-specification:'Liberation Mono';text-align:end;letter-spacing:0px;word-spacing:0px;text-anchor:end;display:inline;opacity:1;fill:#fcfcfc;fill-opacity:1;stroke:none;stroke-width:0.67003334px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       xml:space="preserve"><tspan
+       xml:space="preserve"
+       inkscape:label="#text1085"><tspan
          style="text-align:end;text-anchor:end;stroke-width:0.67003334px"
          y="978.61591"
          x="663.54388"
@@ -731,7 +738,8 @@
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:15.75097084px;line-height:100%;font-family:'Liberation Mono';-inkscape-font-specification:'Liberation Mono';text-align:end;letter-spacing:0px;word-spacing:0px;text-anchor:end;display:inline;opacity:1;fill:#fcfcfc;fill-opacity:1;stroke:none;stroke-width:0.3937743px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
        x="683.61945"
        y="971.72382"
-       id="text1089"><tspan
+       id="wpDestFuel1"
+       inkscape:label="#text1089"><tspan
          sodipodi:role="line"
          id="tspan1087"
          x="683.61945"
@@ -742,18 +750,20 @@
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.80133057px;line-height:100%;font-family:'Liberation Mono';-inkscape-font-specification:'Liberation Mono';text-align:end;letter-spacing:0px;word-spacing:0px;text-anchor:end;display:inline;opacity:1;fill:#fc2bfc;fill-opacity:1;stroke:none;stroke-width:0.67003334px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
        x="663.54388"
        y="978.61591"
-       id="text1093"><tspan
+       id="wpNextFuel100"
+       inkscape:label="#text1093"><tspan
          sodipodi:role="line"
          id="tspan1091"
          x="663.54388"
          y="978.61591"
          style="text-align:end;text-anchor:end;fill:#fc2bfc;fill-opacity:1;stroke-width:0.67003334px">00</tspan></text>
     <text
-       id="text1097"
+       id="wpNextFuel1"
        y="971.72382"
        x="683.61945"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:15.75097084px;line-height:100%;font-family:'Liberation Mono';-inkscape-font-specification:'Liberation Mono';text-align:end;letter-spacing:0px;word-spacing:0px;text-anchor:end;display:inline;opacity:1;fill:#fc2bfc;fill-opacity:1;stroke:none;stroke-width:0.3937743px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       xml:space="preserve"><tspan
+       xml:space="preserve"
+       inkscape:label="#text1097"><tspan
          style="text-align:end;text-anchor:end;fill:#fc2bfc;fill-opacity:1;stroke-width:0.3937743px"
          y="971.72382"
          x="683.61945"
@@ -771,12 +781,22 @@
          x="526.58691"
          y="810.39459"
          style="text-align:end;text-anchor:end;fill:#fc00fc;fill-opacity:1;stroke-width:0.60897505px">0.0R</tspan></text>
-    <path
-       inkscape:label="#path1231"
-       style="display:inline;opacity:1;fill:none;fill-rule:evenodd;stroke:#00ff00;stroke-width:0.96308076;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#marker1235)"
-       d="m 682.82795,394.8672 v 36.47379"
+    <g
        id="windArrow"
-       inkscape:connector-curvature="0" />
+       inkscape:label="#g1253">
+      <path
+         transform="translate(0,271)"
+         inkscape:connector-curvature="0"
+         id="path1234"
+         d="m 678.125,149.6875 4.75,12.875 4.75,-12.875 -4.75,1.5 z"
+         style="fill:#00fc00;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+      <path
+         inkscape:connector-curvature="0"
+         id="windArrowLine"
+         d="m 682.82795,394.8672 v 36.47379"
+         style="display:inline;opacity:1;fill:none;fill-rule:evenodd;stroke:#00ff00;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         inkscape:label="#path1231" />
+    </g>
     <text
        inkscape:label="#text1681"
        id="windSpeed"
@@ -960,8 +980,9 @@
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:30.2231102px;line-height:100%;font-family:'Liberation Sans';-inkscape-font-specification:'Liberation Sans';text-align:start;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#00ff00;fill-opacity:1;stroke:none;stroke-width:0.75557774px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
        x="933.73053"
        y="543.37109"
-       id="text1087"
-       transform="scale(0.97773923,1.0227676)"><tspan
+       id="batt1Volts"
+       transform="scale(0.97773923,1.0227676)"
+       inkscape:label="#text1087"><tspan
          sodipodi:role="line"
          id="tspan1085"
          x="933.73053"
@@ -969,11 +990,12 @@
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Liberation Sans';-inkscape-font-specification:'Liberation Sans';fill:#00ff00;fill-opacity:1;stroke-width:0.75557774px">00.0</tspan></text>
     <text
        transform="scale(0.97773923,1.0227676)"
-       id="text1091"
+       id="batt2Volts"
        y="629.901"
        x="933.73053"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:30.2231102px;line-height:100%;font-family:'Liberation Sans';-inkscape-font-specification:'Liberation Sans';text-align:start;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#00ff00;fill-opacity:1;stroke:none;stroke-width:0.75557774px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       xml:space="preserve"><tspan
+       xml:space="preserve"
+       inkscape:label="#text1091"><tspan
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Liberation Sans';-inkscape-font-specification:'Liberation Sans';fill:#00ff00;fill-opacity:1;stroke-width:0.75557774px"
          y="629.901"
          x="933.73053"
@@ -984,8 +1006,9 @@
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:30.2231102px;line-height:100%;font-family:'Liberation Sans';-inkscape-font-specification:'Liberation Sans';text-align:start;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#00ff00;fill-opacity:1;stroke:none;stroke-width:0.75557774px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
        x="1082.7675"
        y="441.19733"
-       id="text1095"
-       transform="scale(0.97773923,1.0227676)"><tspan
+       id="gw"
+       transform="scale(0.97773923,1.0227676)"
+       inkscape:label="#text1095"><tspan
          sodipodi:role="line"
          id="tspan1093"
          x="1082.7675"
@@ -1673,11 +1696,12 @@
          style="stroke-width:0.7472561px">°C</tspan></text>
     <text
        transform="scale(0.97773923,1.0227676)"
-       id="text1995"
+       id="tat2"
        y="408.44305"
        x="1050.2946"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:30.2231102px;line-height:100%;font-family:'Liberation Sans';-inkscape-font-specification:'Liberation Sans';text-align:start;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#00ff00;fill-opacity:1;stroke:none;stroke-width:0.75557774px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       xml:space="preserve"><tspan
+       xml:space="preserve"
+       inkscape:label="#text1995"><tspan
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Liberation Sans';-inkscape-font-specification:'Liberation Sans';text-align:end;text-anchor:end;fill:#00ff00;fill-opacity:1;stroke-width:0.75557774px"
          y="408.44305"
          x="1050.2946"
@@ -1748,8 +1772,9 @@
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:30.2231102px;line-height:100%;font-family:'Liberation Sans';-inkscape-font-specification:'Liberation Sans';text-align:start;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#00ff00;fill-opacity:1;stroke:none;stroke-width:0.75557774px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
        x="1309.0548"
        y="408.44305"
-       id="text2019"
-       transform="scale(0.97773923,1.0227676)"><tspan
+       id="sat2"
+       transform="scale(0.97773923,1.0227676)"
+       inkscape:label="#text2019"><tspan
          sodipodi:role="line"
          id="tspan2017"
          x="1309.0548"
