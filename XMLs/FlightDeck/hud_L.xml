@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <PropertyList>
   <path>Aircraft/E-jet-family/Models/FlightDeck/hud.ac</path>
+  <effect>
+    <object-name>Glass.001</object-name>
+    <inherits-from>Effects/model-transparent</inherits-from>
+  </effect>
   <animation>
     <type>pick</type>
     <object-name>Pedestal.001</object-name>
