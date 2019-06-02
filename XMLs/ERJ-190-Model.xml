@@ -1293,6 +1293,12 @@
 
 <!-- Effects -->
 
+<effect>
+    <inherits-from>Effects/model-transparent</inherits-from>
+    <object-name>Windscreen</object-name>
+    <object-name>PassengerWindow</object-name>
+</effect>
+
 <!-- Contrails -->
 
 <model>
