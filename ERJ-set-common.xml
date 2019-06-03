@@ -813,34 +813,28 @@
 					<script>dialogs.Dialogs.autopilot.open()</script>
 				</binding>
 			</key>
-			<key n="50">
-				<name>2</name>
+			<key n="91">
+				<name>[</name>
 				<desc>Decrease flaps.</desc>
 				<binding>
-					<command>nasal</command>
-					<script>controls.flapsDown(-1)</script>
+					<command>property-adjust</command>
+					<property>/controls/flight/flaps</property>
+					<step>-.1</step>
+					<min>0</min>
+					<max>.6</max>
 				</binding>
-				<mod-up>
-					<binding>
-						<command>nasal</command>
-						<script>controls.flapsDown(0)</script>
-					</binding>
-				</mod-up>
 			</key>
 
-			<key n="49">
-				<name>1</name>
+			<key n="93">
+				<name>]</name>
 				<desc>Increase flaps.</desc>
 				<binding>
-					<command>nasal</command>
-					<script>controls.flapsDown(1)</script>
+					<command>property-adjust</command>
+					<property>/controls/flight/flaps</property>
+					<step>.1</step>
+					<min>0</min>
+					<max>.6</max>
 				</binding>
-				<mod-up>
-					<binding>
-						<command>nasal</command>
-						<script>controls.flapsDown(0)</script>
-					</binding>
-				</mod-up>
 			</key>
 		</keyboard>
 	</input>
