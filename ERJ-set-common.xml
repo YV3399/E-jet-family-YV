@@ -235,15 +235,15 @@
 					<item>
 						<label>Airport Operations</label>
 						<binding>
-							<command>nasal</command>
-							<script>dialogs.Dialogs.operations.open()</script>
+							<command>dialog-show</command>
+							<dialog-name>Airport operations</dialog-name>
 						</binding>
 					</item>
 					<item>
 						<label>Announcements</label>
 						<binding>
-							<command>nasal</command>
-							<script>dialogs.Dialogs.announcements.open()</script>
+							<command>dialog-show</command>
+							<dialog-name>Cabin Announcements</dialog-name>
 						</binding>
 					</item>
 					<item>
@@ -258,16 +258,16 @@
 						<name>lights</name>
 						<label>Aircraft Lights</label>
 						<binding>
-							<command>nasal</command>
-							<script>dialogs.Dialogs.lights.open()</script>
+							<command>dialog-show</command>
+							<dialog-name>lights</dialog-name>
 						</binding>
 					</item>
 					<item>
 						<name>tiller</name>
 						<label>Tiller Steering</label>
 						<binding>
-							<command>nasal</command>
-							<script>dialogs.Dialogs.tiller.open()</script>
+							<command>dialog-show</command>
+							<dialog-name>tiller-dlg</dialog-name>
 						</binding>
 					</item>
 				</menu>
