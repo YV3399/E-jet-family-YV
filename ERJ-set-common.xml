@@ -805,14 +805,6 @@
 					<script>input.toggleHeadingMode("true-heading-hold")</script>
 				</binding>
 			</key>
-			<key n="267">
-				<name>F11</name>
-				<desc>Open autopilot dialog</desc>
-				<binding>
-					<command>nasal</command>
-					<script>dialogs.Dialogs.autopilot.open()</script>
-				</binding>
-			</key>
 			<key n="91">
 				<name>[</name>
 				<desc>Decrease flaps.</desc>
