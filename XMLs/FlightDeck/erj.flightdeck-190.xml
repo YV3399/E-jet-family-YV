@@ -1118,8 +1118,26 @@
 			<button>0</button>
 			<repeatable>false</repeatable>
 			<binding>
-				<command>property-toggle</command>
+				<command>property-adjust</command>
 				<property>/controls/flight/flaps</property>
+				<step>.1</step>
+				<min>0</min>
+				<max>.6</max>
+			</binding>
+		</action>
+	</animation>
+	<animation>
+		<type>pick</type>
+		<object-name>FlapLever</object-name>
+		<action>
+			<button>1</button>
+			<repeatable>false</repeatable>
+			<binding>
+				<command>property-adjust</command>
+				<property>/controls/flight/flaps</property>
+				<step>-.1</step>
+				<min>0</min>
+				<max>.6</max>
 			</binding>
 		</action>
 	</animation>
