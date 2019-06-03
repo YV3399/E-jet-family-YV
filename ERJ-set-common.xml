@@ -59,14 +59,14 @@
 		</flaps>
 
 		<startup>
-			<splash-texture>Aircraft/E-jet-family/splash.png</splash-texture>
+			<splash-texture>Aircraft/E-jet-family/Splash/splash.png</splash-texture>
 		</startup>
 
 		<previews>
 			<preview>
 				<type>exterior</type>
 				<splash type="bool">false</splash>
-				<path>splash.png</path>
+				<path>Splash/splash.png</path>
 			</preview>
 		</previews>
 
