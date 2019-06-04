@@ -6,33 +6,66 @@
 
 	<!-- Lightmap -->
 	<effect>
-		<inherits-from>Effects/lightmap</inherits-from>
+		<inherits-from>../Models/Effects/reflect</inherits-from>
 		<parameters>
-			<texture n="1">
-				<image>Aircraft/E-jet-family/XMLs/Effects/lightmap.png</image>
-			</texture>
+			<lightmap-multi>1</lightmap-multi>
+			<lightmap-factor n="0">
+				<use>controls/lighting/landing-lights[1]</use>
+			</lightmap-factor>
+			<lightmap-factor n="2">
+				<use>/systems/electrical/outputs/logo-lights-norm</use>
+			</lightmap-factor>
+			<lightmap-factor n="3">0</lightmap-factor><!--
 			<condition>
 				<use>controls/lighting/logo</use>
-			</condition>
+			</condition>-->
 		</parameters>
 		<object-name>rudder</object-name>
 		<object-name>vstab</object-name>
+		<object-name>fuselage</object-name>
+		<object-name>fuselage.001</object-name>
+		<object-name>door.l1</object-name>
+		<object-name>door.l2</object-name>
 	</effect>
+	<effect>
+		<inherits-from>../Models/Effects/reflect-nolightmap</inherits-from>
+		<object-name>winglet.l</object-name>
+		<object-name>winglet.r</object-name><!--
+		<object-name>rudder</object-name>-->
+		<object-name>geardoor.b.l</object-name>
+		<object-name>geardoor.b.r</object-name>
+		<object-name>geardoor.f.l</object-name>
+		<object-name>geardoor.f.r</object-name><!--
+		<object-name>reverser</object-name>
+		<object-name>nacelle</object-name>--><!--
+		<object-name>door.l1</object-name>
+		<object-name>door.l2</object-name>-->
+		<object-name>door.r1</object-name>
+		<object-name>door.r2</object-name><!--
+		<object-name>vstab</object-name>-->
+		<object-name>wing.l.1</object-name>
+		<object-name>wing.l.2</object-name>
+		<object-name>wing.l.3</object-name>
+		<object-name>wing.r.1</object-name>
+		<object-name>wing.r.2</object-name>
+		<object-name>wing.r.3</object-name>
+	</effect><!--
 
 	<effect>
-		<inherits-from>Effects/lightmap</inherits-from>
+		<inherits-from>Aircraft/E-jet-family/Models/Effects/reflect</inherits-from>
 		<parameters>
 			<texture n="1">
-				<image>Aircraft/E-jet-family/XMLs/Effects/lightmap.png</image>
+				<image>Aircraft/E-jet-family/XMLs/Effects/lightmap190.png</image>
 			</texture>
 			<condition>
 				<use>controls/lighting/landing-lights[0]</use>
 			</condition>
 		</parameters>
 		<object-name>fuselage</object-name>
+        <object-name>fuselage.001</object-name>
 		<object-name>door.l1</object-name>
 		<object-name>door.l2</object-name>
-	</effect>
+	</effect>-->
 
 <!-- Livery Selection Animation -->
 
@@ -1298,53 +1331,115 @@
 
 <!-- Strobe and Navigation Lights -->
 
-<!-- Green Naviagation Light -->
-
-<model>
-<path>Aircraft/E-jet-family/XMLs/Lights/greennav.xml</path>
-<name>greennav</name>     
-<offsets>
-<x-m>1.81</x-m>
-<y-m>12.42</y-m>
-<z-m>0.76</z-m>      
-</offsets>
-</model>
-
-<!-- Red Naviagation Light -->
-
-<model>
-<path>Aircraft/E-jet-family/XMLs/Lights/rednav.xml</path>
-<name>rednav</name>     
-<offsets>
-<x-m>1.81</x-m>
-<y-m>-12.42</y-m>
-<z-m>0.76</z-m>       
-</offsets>
-</model>
-
-<!-- Left Strobe light -->
-
-<model>
-<path>Aircraft/E-jet-family/XMLs/Lights/strobe.xml</path>
-<name>strobe.left</name>     
-<offsets>
+  <model>
+      <name>RedLight</name>
+    <path>Aircraft/E-jet-family/Models/light/RedLight.xml</path>
+    <offsets>
 <x-m>1.81</x-m>
 <y-m>-12.42</y-m>
 <z-m>0.76</z-m>      
 </offsets>
-</model>
+  </model>
+  <model>
+      <name>RedLight-ALS</name>
+    <path>Aircraft/E-jet-family/Models/light/ALS/red-navlight.xml</path>
+   <offsets>
+<x-m>1.81</x-m>
+<y-m>-12.42</y-m>
+<z-m>0.76</z-m>      
+</offsets>
+  </model>
 
-<!-- Right Strobe light -->
-
-<model>
-<path>Aircraft/E-jet-family/XMLs/Lights/strobe.xml</path>
-<name>strobe.right</name>     
-<offsets>
+  <model>
+      <name>GreenLight</name>
+    <path>Aircraft/E-jet-family/Models/light/GreenLight.xml</path>
+   <offsets>
 <x-m>1.81</x-m>
 <y-m>12.42</y-m>
 <z-m>0.76</z-m>      
 </offsets>
-</model>
+  </model>
+  <model>
+      <name>GreenLight-ALS</name>
+    <path>Aircraft/E-jet-family/Models/light/ALS/green-navlight.xml</path>
+    <offsets>
+<x-m>1.81</x-m>
+<y-m>12.42</y-m>
+<z-m>0.76</z-m>      
+</offsets>
+  </model>
+
+
+  <model>
+      <name>LeftStrobe</name>
+    <path>Aircraft/E-jet-family/Models/light/StrobeLight.xml</path>
+    <offsets>
+<x-m>1.81</x-m>
+<y-m>-12.42</y-m>
+<z-m>0.76</z-m>      
+</offsets>
+  </model>
+  <model>
+      <name>LeftStrobe-ALS</name>
+    <path>Aircraft/E-jet-family/Models/light/ALS/left-strobe.xml</path>
+    <offsets>
+<x-m>1.81</x-m>
+<y-m>-12.42</y-m>
+<z-m>0.76</z-m>      
+</offsets>
+  </model>
+
+  <model>
+      <name>RightStrobe</name>
+    <path>Aircraft/E-jet-family/Models/light/StrobeLight.xml</path>
+    <offsets>
+<x-m>1.81</x-m>
+<y-m>12.42</y-m>
+<z-m>0.76</z-m>      
+</offsets>
+  </model>
+  <model>
+      <name>RightStrobe-ALS</name>
+    <path>Aircraft/E-jet-family/Models/light/ALS/right-strobe.xml</path>
+    <offsets>
+<x-m>1.81</x-m>
+<y-m>12.42</y-m>
+<z-m>0.76</z-m>      
+</offsets>
+  </model>
+
+  
+  <animation>
+      <type>select</type>
+      <object-name>RedLight</object-name>
+      <object-name>GreenLight</object-name>
+      <object-name>LeftStrobe</object-name>
+      <object-name>RightStrobe</object-name>
+      <condition>
+          <not>
+              <property>/sim/rendering/shaders/skydome</property>
+          </not>
+      </condition>
+  </animation>
+  <animation>
+      <type>select</type>
+      <object-name>RedLight-ALS</object-name>
+      <object-name>GreenLight-ALS</object-name>
+      <object-name>LeftStrobe-ALS</object-name>
+      <object-name>RightStrobe-ALS</object-name>
+      <condition>
+              <property>/sim/rendering/shaders/skydome</property>
+      </condition>
+  </animation>
+
+<!-- Effects -->
+
+<effect>
+    <inherits-from>Effects/model-transparent</inherits-from>
+    <object-name>Windscreen</object-name>
+    <object-name>PassengerWindow</object-name>
+</effect>
+
 
 <!-- Effects -->
 
