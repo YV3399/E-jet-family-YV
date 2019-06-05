@@ -2,8 +2,8 @@
 ## 
 ##  Nasal for dual control of the Embraer E-jets over the multiplayer network.
 ##
-##  Copyright (C) 2009  Anders Gidenstam  (anders(at)gidenstam.org)
-##  Thanks to Skyop, this is modified from the A320 Dual-Control
+##  Copyright (C) 2009  Anders Gidenstam  (anders(at)gidenstam.org).
+##  Thanks to Skyop, this is modified from the A320 Dual-Control.
 ##  This file is licensed under the GPL license version 2 or later.
 ##
 ###############################################################################

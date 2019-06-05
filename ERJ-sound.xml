@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 
-<!-- Sounds By Gabriel Hernandez -->
+<!-- Sounds By Gabriel Hernandez(YV3399) -->
 
 <PropertyList>
 
@@ -203,6 +203,7 @@
         <reference-dist>200.0</reference-dist>
         <max-dist>500.0</max-dist>
     </engine>
+
     <engine>
 		<name>low r out</name>
 		<mode>looped</mode>
@@ -354,45 +355,81 @@
         <max-dist>25.0</max-dist>
     </rumblemain>
 
-<squeal0>
-        <name>squeal</name>
-        <path>Aircraft/E-jet-family/Sounds/SoundPack/touchdown.wav</path>
-        <condition>
-            <or>
-                <property>/gear/gear[0]/wow</property>
-                <property>/gear/gear[1]/wow</property>
-                <property>/gear/gear[2]/wow</property>
-            </or>
-        </condition>
-        <volume>
-            <property>sim/sound/Ovolume</property>
-        </volume>
-        <volume>
-            <property>/velocities/speed-down-fps</property>
-            <factor>0.05</factor>
-        </volume>
-        <volume>
-            <property>/velocities/airspeed-kt</property>
-            <factor>0.01</factor>
-        </volume>
-        <volume>
-            <internal>dt_stop</internal>
-            <factor>0.05</factor>
-            <max>1.0</max>
-        </volume>
-        <pitch>
-            <property>/velocities/airspeed-kt</property>
-            <factor>0.0025</factor>
-            <offset>1.2</offset>
-        </pitch>
-        <position>
-            <x>-6.5</x>
-            <y>0</y>
-            <z>-5</z>
-        </position>
-        <reference-dist>20.0</reference-dist>
-        <max-dist>40.0</max-dist>
-    </squeal0>
+<!-- TouchDown -->
+
+    <wow>
+    	<name>wow 0</name>
+    	<mode>once</mode>
+    	   <path>Aircraft/E-jet-family/Sounds/wow.wav</path>
+    	<condition>
+    		<property>gear/gear[0]/wow</property>
+    	</condition>
+    	<volume>
+    		<property>sim/current-view/internal</property>
+    		<offset>0</offset>
+    	</volume>
+    </wow>
+    <wow>
+    	<name>wow 1</name>
+    	<mode>once</mode>
+    	   <path>Aircraft/E-jet-family/Sounds/wow.wav</path>
+    	<condition>
+    		<property>gear/gear[1]/wow</property>
+    	</condition>
+    	<volume>
+    		<property>sim/current-view/internal</property>
+    		<offset>0</offset>
+    	</volume>
+    </wow>
+    <wow>
+    	<name>wow 2</name>
+    	<mode>once</mode>
+    	 <path>Aircraft/E-jet-family/Sounds/wow.wav</path>
+    	<condition>
+    		<property>gear/gear[2]/wow</property>
+    	</condition>
+    	<volume>
+    		<property>sim/current-view/internal</property>
+    		<offset>0</offset>
+    	</volume>
+    </wow>
+    
+    <wow>
+    	<name>wow 3</name>
+    	<mode>once</mode>
+    	   <path>Aircraft/E-jet-family/Sounds/wow.wav</path>
+    	<condition>
+    		<property>gears/gear[0]/wow</property>
+    	</condition>
+    	<volume>
+    		<property>sim/current-view/internal</property>
+    		<offset>0</offset>
+    	</volume>
+    </wow>
+    <wow>
+    	<name>wow 4</name>
+    	<mode>once</mode>
+    	   <path>Aircraft/E-jet-family/Sounds/wow.wav</path>
+    	<condition>
+    		<property>gears/gear[1]/wow</property>
+    	</condition>
+    	<volume>
+    		<property>sim/current-view/internal</property>
+    		<offset>0</offset>
+    	</volume>
+    </wow>
+    <wow>
+    	<name>wow 5</name>
+    	<mode>once</mode>
+    	   <path>Aircraft/E-jet-family/Sounds/wow.wav</path>
+    	<condition>
+    		<property>gears/gear[2]/wow</property>
+    	</condition>
+    	<volume>
+    		<property>sim/current-view/internal</property>
+    		<offset>0</offset>
+    	</volume>
+    </wow>
 
     <squeal1>
       <name>squeal</name>
@@ -592,33 +629,27 @@
     </nosmoke>
 
     <!-- Overspeed warning -->
-    <overspeed>
-        <name>Overspeed warning</name>
-        <path>Aircraft/E-jet-family/Sounds/SoundPack/Ovspd.wav</path>
-        <mode>looped</mode>
-        <condition>
-            <greater-than>
-                <property>velocities/airspeed-kt</property>
-                <value>563</value>
-            </greater-than>
-        </condition>
-        <volume>
-            <property>sim/sound/effects/volume</property>
-        </volume>
-        <position>
-            <x>0</x>
-            <y>0</y>
-            <z>0</z>
-        </position>
-        <reference-dist>10</reference-dist>
-        <max-dist>100</max-dist>
-    </overspeed>
+
+                 <overspeed>
+			<name>Overspeed warning</name>
+			<path>Aircraft/E-jet-family/Sounds/overspeed.wav</path>
+			<mode>looped</mode>
+			<condition>
+				<greater-than>
+					<property>velocities/airspeed-kt</property>
+					<value>345</value>
+				</greater-than>
+			</condition>
+			<volume>
+				<factor>1.0</factor>
+			</volume>
+		</overspeed>
 
 <!-- Announcements -->
 
 <announcement>
 <name>welcome</name>
- <path>Aircraft/E-jet-family/Sounds/welcome.wav</path>
+ <path>Aircraft/E-jet-family/Sounds/announce/welcome.wav</path>
  <mode>once</mode>
  <condition>
   <property>sim/sound/welcome</property>
@@ -637,7 +668,7 @@
 
 <announcement>
 <name>safety</name>
- <path>Aircraft/E-jet-family/Sounds/safety.wav</path>
+  <path>Aircraft/E-jet-family/Sounds/announce/safety.wav</path>
  <mode>once</mode>
  <condition>
   <property>sim/sound/safety</property>
@@ -656,7 +687,7 @@
 
 <announcement>
 <name>cruise</name>
- <path>Aircraft/E-jet-family/Sounds/cruise.wav</path>
+  <path>Aircraft/E-jet-family/Sounds/announce/cruise.wav</path>
  <mode>once</mode>
  <condition>
   <property>sim/sound/cruise</property>
@@ -675,7 +706,7 @@
 
 <announcement>
 <name>climb</name>
- <path>Aircraft/E-jet-family/Sounds/climb.wav</path>
+ <path>Aircraft/E-jet-family/Sounds/announce/climb.wav</path>
  <mode>once</mode>
  <condition>
   <property>sim/sound/climb</property>
@@ -694,7 +725,7 @@
 
 <announcement>
 <name>cruise-seatbelt</name>
- <path>Aircraft/E-jet-family/Sounds/cruise-seatbelt.wav</path>
+  <path>Aircraft/E-jet-family/Sounds/announce/cruise-seatbelt.wav</path>
  <mode>once</mode>
  <condition>
   <property>sim/sound/cruise-seatbelt</property>
@@ -713,7 +744,7 @@
 
 <announcement>
 <name>turbulence</name>
- <path>Aircraft/E-jet-family/Sounds/turbulence.wav</path>
+  <path>Aircraft/E-jet-family/Sounds/announce/turbulence.wav</path>
  <mode>once</mode>
  <condition>
   <property>sim/sound/turbulence</property>
@@ -732,7 +763,7 @@
 
 <announcement>
 <name>descent</name>
- <path>Aircraft/E-jet-family/Sounds/descent.wav</path>
+  <path>Aircraft/E-jet-family/Sounds/announce/descent.wav</path>
  <mode>once</mode>
  <condition>
   <property>sim/sound/descent</property>
@@ -751,7 +782,7 @@
 
 <announcement>
 <name>land</name>
- <path>Aircraft/E-jet-family/Sounds/land.wav</path>
+  <path>Aircraft/E-jet-family/Sounds/announce/land.wav</path>
  <mode>once</mode>
  <condition>
   <property>sim/sound/land</property>
@@ -770,7 +801,7 @@
 
 <announcement>
 <name>gate</name>
- <path>Aircraft/E-jet-family/Sounds/gate.wav</path>
+  <path>Aircraft/E-jet-family/Sounds/announce/gate.wav</path>
  <mode>once</mode>
  <condition>
   <property>sim/sound/gate</property>
@@ -789,7 +820,7 @@
 
 <announcement>
 <name>emergency</name>
- <path>Aircraft/E-jet-family/Sounds/emergency.wav</path>
+  <path>Aircraft/E-jet-family/Sounds/announce/emergency.wav</path>
  <mode>once</mode>
  <condition>
   <property>sim/sound/emergency</property>
@@ -808,7 +839,7 @@
 
 <announcement>
 <name>pretakeoff</name>
- <path>Aircraft/E-jet-family/Sounds/pretakeoff.wav</path>
+  <path>Aircraft/E-jet-family/Sounds/announce/pretakeoff.wav</path>
  <mode>once</mode>
  <condition>
   <property>sim/sound/pretakeoff</property>
@@ -828,7 +859,7 @@
 
 <announcement>
 <name>boarding2</name>
- <path>Aircraft/E-jet-family/Sounds/music2.wav</path>
+  <path>Aircraft/E-jet-family/Sounds/announce/music2.wav</path>
  <mode>looped</mode>
  <condition>
   <property>sim/sound/music2</property>
@@ -848,7 +879,7 @@
 
 <announcement>
 <name>brace</name>
- <path>Aircraft/E-jet-family/Sounds/brace.wav</path>
+  <path>Aircraft/E-jet-family/Sounds/announce/brace.wav</path>
  <mode>once</mode>
  <condition>
   <property>sim/sound/brace</property>
@@ -928,6 +959,57 @@
 			</less-than>
 		</condition>
           </gpws>
+
+
+<rain>
+    	<name>rain</name>
+    	<mode>looped</mode>
+    	<path>Aircraft/E-jet-family/Sounds/rain.wav</path>
+    	<condition>
+    		<greater-than>
+    			<property>/environment/rain-norm</property>
+    			<value>0.2</value>
+    		</greater-than>
+    	</condition>
+    	<volume>
+    		<property>/environment/rain-norm</property>
+    		<factor>1.00</factor>
+    		<offset>0.00</offset>
+    		<min>0.4</min>
+    		<max>0.9</max>
+    	</volume>
+    	<pitch>
+    		<property>/velocities/airspeed-kt</property>
+    		<factor>0.001</factor>
+    		<offset>1.0</offset>
+    	</pitch>
+    </rain>
+
+<!-- Autopilot disconnect siren -->
+
+		<ap-disconnect>
+			<name>AP Disconnect</name>
+			<mode>once</mode>
+			<path>Aircraft/E-jet-family/Sounds/Apdisco.wav</path>
+			<condition>
+				<property>/it-autoflight/sound/apoffsound</property>
+			</condition>
+			<volume>
+				<factor>1</factor>
+			</volume>
+		</ap-disconnect>
+		
+		<ap-disconnect>
+			<name>AP Disconnect 2</name>
+			<mode>once</mode>
+			<path>Aircraft/E-jet-family/Sounds/Apdisco.wav</path>
+			<condition>
+				<property>/it-autoflight/sound/apoffsound2</property>
+			</condition>
+			<volume>
+				<factor>1</factor>
+			</volume>
+		</ap-disconnect>
 
 
 </fx>

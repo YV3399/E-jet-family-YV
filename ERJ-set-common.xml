@@ -4,7 +4,7 @@
 
 	<sim>
 		<author>Narendran Muraleedharan, Gabriel Hernandez (YV3399), D-ECHO</author>
-                <status>Version 0.5</status>
+                <status>Version 0.6</status>
 		<flight-model>jsb</flight-model>
 
 		<model>
@@ -65,7 +65,7 @@
 		<previews>
 			<preview>
 				<type>exterior</type>
-				<splash type="bool">false</splash>
+				<splash type="bool">true</splash>
 				<path>Splash/splash.png</path>
 			</preview>
 		</previews>
@@ -861,6 +861,7 @@
 		</messages>
 		<systems>
 			<file>Aircraft/E-jet-family/Nasal/systems.nas</file>
+                        <file>Aircraft/E-jet-family/Nasal/limits.nas</file>
 		</systems>
 		<electrical>
 			<file>Aircraft/E-jet-family/Nasal/electrical.nas</file>

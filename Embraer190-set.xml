@@ -44,6 +44,35 @@
 		</weight>
 	</payload>
 
+        <limits>
+		<!-- values are estimations -->
+
+		<vne>370</vne>
+ 
+		<max-positive-g>4.4</max-positive-g>
+		<max-negative-g>-1.76</max-negative-g>
+ 
+		<max-flap-extension-speed n="0">
+			<flaps>0.10</flaps>
+			<speed>265</speed>
+		</max-flap-extension-speed>
+		<max-flap-extension-speed n="1">
+			<flaps>0.20</flaps>
+			<speed>240</speed>
+		</max-flap-extension-speed>
+		<max-flap-extension-speed n="2">
+			<flaps>0.03</flaps>
+			<speed>225</speed>
+		</max-flap-extension-speed>
+		<max-flap-extension-speed n="3">
+			<flaps>0.40</flaps>
+			<speed>210</speed>
+		</max-flap-extension-speed>
+
+		<max-gear-extension-speed>220</max-gear-extension-speed>
+
+	</limits>
+
 	<instrumentation>
 		<cdu>
 			<ident>
@@ -52,4 +81,5 @@
 			</ident>
 		</cdu>
 	</instrumentation>
+
 </PropertyList>
