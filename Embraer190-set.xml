@@ -4,7 +4,7 @@
 
 	<sim>
 		<description>Embraer Regional Jet 190 (190-100)</description>
-<!--		<variant-of>Embraer170</variant-of>-->
+		<variant-of>Embraer170</variant-of>
 		<aero>ERJ190</aero>
 		<engine>GE_CF34-10E</engine>
 
