@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+
+<PropertyList>
+<sim>
+    <model>
+        <livery>
+            <name type="string">Helvetic Awys (HB-JVU)</name>
+            <texture>/../Models/Liveries/ERJ190/HEL.png</texture>
+        </livery>
+    </model>
+</sim>
+</PropertyList>
