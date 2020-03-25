@@ -356,7 +356,7 @@
 			<cmd>
 				<roll-kp>-1.5</roll-kp>
 				<roll-scale>1.2</roll-scale>
-				<vorloc>-3.0</vorloc>
+				<vorloc>-1.0</vorloc>
 				<vs>0.01</vs>
 			</cmd>
 			<autoland>
