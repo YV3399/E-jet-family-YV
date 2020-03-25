@@ -36861,7 +36861,7 @@ refs 4
 2 0.011230 0.833008
 kids 0
 OBJECT poly
-name "FD-on.000"
+name "FD-on"
 loc -44.5932999 -4.0464401 -17.5328999
 crease 35.0
 kids 0
@@ -36906,7 +36906,7 @@ loc 0.0000000 20.9480000 0.0612814
 crease 35.0
 kids 0
 OBJECT poly
-name "FD.001"
+name "FD2"
 loc -12.4445000 1.2625099 0.1044990
 crease 30.0
 texture "APpanel.png"
@@ -36926,7 +36926,7 @@ refs 4
 1 0.011230 0.833008
 kids 0
 OBJECT poly
-name "FD.light"
+name "FD2.light"
 loc -12.4337997 1.2515700 -0.2187460
 crease 30.0
 texture "APpanel.png"
@@ -36946,7 +36946,7 @@ refs 4
 1 0.687500 0.794922
 kids 0
 OBJECT poly
-name "FD.light.001"
+name "FD.light"
 loc -12.4337997 1.2515700 0.2250220
 crease 30.0
 texture "APpanel.png"
