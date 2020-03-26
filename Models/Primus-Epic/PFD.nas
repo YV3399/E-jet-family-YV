@@ -108,7 +108,41 @@ var canvas_ED_only = {
 		return m;
 	},
 	getKeys: func() {
-		return ["horizon","compass","groundspeed","wind.pointer","wind.kt","heading.digital","nav1.act","nav1.sby","vhf1.act","vhf1.sby","alt.tape","altNumLow1","altNumHigh1","altNumHigh2","alt.rollingdigits","alt.10000","alt.1000","alt.100","asi.rollingdigits","asi.100","asi.10","asi.tape","roll.pointer","slip.pointer","vs.needle"];
+		return [
+			"horizon",
+			"compass",
+			"groundspeed",
+			"wind.pointer",
+			"wind.kt",
+			"heading.digital",
+			"selectedheading.digital",
+			"selectedheading.pointer",
+			"nav1.act",
+			"nav1.sby",
+			"vhf1.act",
+			"vhf1.sby",
+			"ils.locneedle",
+			"ils.gsneedle",
+			"alt.tape",
+			"altNumLow1",
+			"altNumHigh1",
+			"altNumHigh2",
+			"alt.rollingdigits",
+			"alt.10000",
+			"alt.1000",
+			"alt.100",
+			"asi.rollingdigits",
+			"asi.100",
+			"asi.10",
+			"asi.tape",
+			"selectedspeed.digital",
+			"selectedalt.digital100",
+			"selectedvspeed.digital",
+			"roll.pointer",
+			"slip.pointer",
+			"vs.needle",
+			"VS.digital"
+		];
 	},
 	update: func() {
 			
@@ -116,10 +150,10 @@ var canvas_ED_only = {
 		var roll =  getprop("orientation/roll-deg") or 0;
 		me.h_trans.setTranslation(0,pitch*8.05);
 		me.h_rot.setRotation(-roll*DC,me["horizon"].getCenter());
-		if(roll<=45){
+		if(math.abs(roll)<=45){
 			me["roll.pointer"].setRotation(roll*(-DC));
 		}
-		me["slip.pointer"].setTranslation(math.round(getprop("/instrumentation/slip-skid-ball/indicated-slip-skid") or 0)*5, 0);
+		me["slip.pointer"].setTranslation(math.round((getprop("/instrumentation/slip-skid-ball/indicated-slip-skid") or 0)*50), 0);
 		
 		
 		me["groundspeed"].setText(sprintf("%3d", getprop("/velocities/groundspeed-kt") or 0));
@@ -127,15 +161,47 @@ var canvas_ED_only = {
 		me["wind.pointer"].setRotation((getprop("/environment/wind-from-heading-deg") or 0)*DC);
 		me["wind.kt"].setText(sprintf("%u", math.round(getprop("/environment/wind-speed-kt") or 0)));
 		
-		me["compass"].setRotation((getprop("/orientation/heading-deg") or 0)*-DC);
-		me["heading.digital"].setText(sprintf("%03d", getprop("/orientation/heading-deg") or 0));
+		var heading = getprop("/orientation/heading-deg") or 0;
+		var selectedheading = getprop("/it-autoflight/input/hdg") or 0;
+
+		me["compass"].setRotation(heading * -DC);
+		me["heading.digital"].setText(sprintf("%03d", heading));
+		me["selectedheading.digital"].setText(sprintf("%03d", selectedheading));
+		me["selectedheading.pointer"].setRotation((selectedheading - heading) * DC);
+
+		me["selectedalt.digital100"].setText(sprintf("%02d", (getprop("/it-autoflight/input/alt") or 0) * 0.01));
+
+		if (getprop("/it-autoflight/input/kts-mach")) {
+			me["selectedspeed.digital"].setText(sprintf("M.%03d", (getprop("/it-autoflight/input/spd-mach") or 0) * 1000));
+		}
+		else {
+			me["selectedspeed.digital"].setText(sprintf("%03d", (getprop("/it-autoflight/input/spd-kts") or 0)));
+		}
+
+		me["selectedvspeed.digital"].setText(sprintf("%-05d", (getprop("/it-autoflight/input/vs") or 0)));
 		
 		#COMM/NAV
-		me["vhf1.act"].setText(sprintf("%.2f", getprop("/instrumentation/comm[0]/frequencies/selected-mhz")));
-		me["vhf1.sby"].setText(sprintf("%.2f", getprop("/instrumentation/comm[0]/frequencies/standby-mhz")));
-		me["nav1.act"].setText(sprintf("%.2f", getprop("/instrumentation/nav[0]/frequencies/selected-mhz")));
-		me["nav1.sby"].setText(sprintf("%.2f", getprop("/instrumentation/nav[0]/frequencies/standby-mhz")));
+		me["vhf1.act"].setText(sprintf("%.2f", getprop("/instrumentation/comm[0]/frequencies/selected-mhz") or 0));
+		me["vhf1.sby"].setText(sprintf("%.2f", getprop("/instrumentation/comm[0]/frequencies/standby-mhz") or 0));
+		me["nav1.act"].setText(sprintf("%.2f", getprop("/instrumentation/nav[0]/frequencies/selected-mhz") or 0));
+		me["nav1.sby"].setText(sprintf("%.2f", getprop("/instrumentation/nav[0]/frequencies/standby-mhz") or 0));
+		# if (getprop("/instrumentation/nav[0]/gs-in-range")) {
+			me["ils.gsneedle"].setTranslation(0, math.round((getprop("/instrumentation/nav[0]/gs-needle-deflection-norm") or 0) * -100.0));
+		# }
+		# else {
+		# 	me["ils.gsneedle"].setTranslation(0, 0);
+		# }
+		# if (getprop("/instrumentation/nav[0]/in-range")) {
+			me["ils.locneedle"].setTranslation(math.round((getprop("/instrumentation/nav[0]/heading-needle-deflection-norm") or 0) * 100.0), 0);
+		# }
+		# else {
+		# 	me["ils.locneedle"].setTranslation(0, 0);
+		# }
 		
+
+		var vspeed = getprop("/instrumentation/vertical-speed-indicator/indicated-speed-fpm") or 0;
+		me["VS.digital"].setText(sprintf("%04d", vspeed));
+		me["vs.needle"].setRotation(vspeed * math.pi * 0.25 / 4000.0);
 		
 		
 		
