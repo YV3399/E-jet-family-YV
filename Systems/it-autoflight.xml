@@ -1,21 +1,11 @@
 <?xml version="1.0"?>
 
 <!-- IT-AUTOFLIGHT -->
+<!-- Copyright (c) 2019 Joshua Davidson (Octal450) -->
 
 <PropertyList>
-
- <!-- =============================================================== -->
- <!-- Predictors                                                      -->
- <!-- =============================================================== -->
-
-	<predict-simple>
-		<name>ALTITUDE 5 SECONDS AHEAD</name>
-		<debug>false</debug>
-		<input>/instrumentation/altimeter/indicated-altitude-ft</input>
-		<output>/it-autoflight/internal/altitude-5-sec-ahead</output>
-		<seconds>5.0</seconds>
-		<filter-gain>0.0</filter-gain>
-	</predict-simple>
+	
+	<!-- Predictors -->
 	
 	<predict-simple>
 		<name>IAS 5 SECOND PREDICTOR</name>
@@ -25,7 +15,7 @@
 		<seconds>5.0</seconds>
 		<filter-gain>0.0</filter-gain>
 	</predict-simple>
-
+	
 	<predict-simple>
 		<name>IAS 10 SECOND PREDICTOR</name>
 		<debug>false</debug>
@@ -52,7 +42,7 @@
 		<seconds>5.0</seconds>
 		<filter-gain>0.0</filter-gain>
 	</predict-simple>
-
+	
 	<predict-simple>
 		<name>MACH 10 SECOND PREDICTOR</name>
 		<debug>false</debug>
@@ -70,14 +60,13 @@
 		<seconds>15.0</seconds>
 		<filter-gain>0.0</filter-gain>
 	</predict-simple>
-  
- <!-- =============================================================== -->
- <!-- Autopilot Helpers                                               -->
- <!-- =============================================================== -->
- 
+	
+	<!-- Autopilot Helpers/Calculators -->
+	
 	<filter>
 		<name>KTS INPUT FILTER</name>
 		<debug>false</debug>
+		<type>noise-spike</type>
 		<feedback-if-disabled>true</feedback-if-disabled>
 		<initialize-to>output</initialize-to>
 		<input>
@@ -99,32 +88,6 @@
 			<property>/it-autoflight/settings/togaspd</property>
 		</input>
 		<output>/it-autoflight/internal/flch-kts</output>
-		<type>noise-spike</type>
-		<max-rate-of-change>
-			<condition>
-				<or>
-					<and>
-						<not-equals>
-							<property>/it-autoflight/output/vert</property>
-							<value>4</value>
-						</not-equals>
-						<not-equals>
-							<property>/it-autoflight/output/vert</property>
-							<value>7</value>
-						</not-equals>
-					</and>
-					<equals>
-						<property>/gear/gear[1]/wow</property>
-						<value>1</value>
-					</equals>
-					<equals>
-						<property>/gear/gear[2]/wow</property>
-						<value>1</value>
-					</equals>
-				</or>
-			</condition>
-			<value>100</value>
-		</max-rate-of-change>
 		<max-rate-of-change>
 			<condition>
 				<and>
@@ -139,6 +102,10 @@
 						</equals>
 					</or>
 					<equals>
+						<property>/it-autoflight/input/kts-mach</property>
+						<value>0</value>
+					</equals>
+					<equals>
 						<property>/gear/gear[1]/wow</property>
 						<value>0</value>
 					</equals>
@@ -150,43 +117,33 @@
 			</condition>
 			<value>5</value>
 		</max-rate-of-change>
+		<max-rate-of-change>100</max-rate-of-change>
 	</filter>
 	
 	<filter>
 		<name>MACH INPUT FILTER</name>
 		<debug>false</debug>
+		<type>noise-spike</type>
 		<feedback-if-disabled>true</feedback-if-disabled>
 		<initialize-to>output</initialize-to>
-		<input>
-			<property>/it-autoflight/input/spd-mach</property>
-		</input>
+		<input>/it-autoflight/input/spd-mach</input>
 		<output>/it-autoflight/internal/flch-mach</output>
-		<type>noise-spike</type>
-		<max-rate-of-change>
-			<condition>
-				<or>
-					<not-equals>
-						<property>/it-autoflight/output/vert</property>
-						<value>4</value>
-					</not-equals>
-					<equals>
-						<property>/gear/gear[1]/wow</property>
-						<value>1</value>
-					</equals>
-					<equals>
-						<property>/gear/gear[2]/wow</property>
-						<value>1</value>
-					</equals>
-				</or>
-			</condition>
-			<value>1</value>
-		</max-rate-of-change>
 		<max-rate-of-change>
 			<condition>
 				<and>
+					<or>
+						<equals>
+							<property>/it-autoflight/output/vert</property>
+							<value>4</value>
+						</equals>
+						<equals>
+							<property>/it-autoflight/output/vert</property>
+							<value>7</value>
+						</equals>
+					</or>
 					<equals>
-						<property>/it-autoflight/output/vert</property>
-						<value>4</value>
+						<property>/it-autoflight/input/kts-mach</property>
+						<value>1</value>
 					</equals>
 					<equals>
 						<property>/gear/gear[1]/wow</property>
@@ -200,12 +157,13 @@
 			</condition>
 			<value>0.05</value>
 		</max-rate-of-change>
+		<max-rate-of-change>1</max-rate-of-change>
 	</filter>
- 
-    <filter>
-        <name>IAS SYNC</name>
-        <type>gain</type>
-        <gain>1</gain>
+	
+	<filter>
+		<name>IAS SYNC</name>
+		<type>gain</type>
+		<gain>1.0</gain>
 		<enable>
 			<condition>
 				<equals>
@@ -214,15 +172,23 @@
 				</equals>
 			</condition>
 		</enable>
-        <update-interval-secs type="double">0.5</update-interval-secs>
-        <input>/instrumentation/airspeed-indicator/indicated-speed-kt</input>
+		<input>
+			<expression>
+				<floor>
+					<sum>
+						<property>/instrumentation/airspeed-indicator/indicated-speed-kt</property>
+						<value>0.5</value>
+					</sum>
+				</floor>
+			</expression>
+		</input>
 		<output>/it-autoflight/input/spd-kts</output>
-    </filter>
+	</filter>
 	
-    <filter>
-        <name>MACH SYNC</name>
-        <type>gain</type>
-        <gain>1</gain>
+	<filter>
+		<name>MACH SYNC</name>
+		<type>gain</type>
+		<gain>1.0</gain>
 		<enable>
 			<condition>
 				<equals>
@@ -231,15 +197,91 @@
 				</equals>
 			</condition>
 		</enable>
-        <update-interval-secs type="double">0.5</update-interval-secs>
-        <input>/instrumentation/airspeed-indicator/indicated-mach</input>
+		<input>
+			<expression>
+				<div>
+					<floor>
+						<sum>
+							<product>
+								<property>/instrumentation/airspeed-indicator/indicated-mach</property>
+								<value>1000</value>
+							</product>
+							<value>0.5</value>
+						</sum>
+					</floor>
+					<value>1000</value>
+				</div>
+			</expression>
+		</input>
 		<output>/it-autoflight/input/spd-mach</output>
-    </filter>
-  
+	</filter>
+	
+	<filter>
+		<name>HEADING DEG</name>
+		<type>gain</type>
+		<gain>1.0</gain>
+		<input>
+			<condition>
+				<property>/it-autoflight/input/true-course</property>
+			</condition>
+			<property>/orientation/heading-deg</property>
+		</input>
+		<input>/orientation/heading-magnetic-deg</input>
+		<reference>0</reference>
+		<output>/it-autoflight/internal/heading-deg</output>
+	</filter>
+	
+	<filter>
+		<name>TRACK DEG</name>
+		<type>gain</type>
+		<gain>1.0</gain>
+		<input>
+			<condition>
+				<and>
+					<property>/it-autoflight/input/true-course</property>
+					<greater-than>
+						<property>/velocities/groundspeed-kt</property>
+						<value>1</value>
+					</greater-than>
+				</and>
+			</condition>
+			<property>/orientation/track-deg</property>
+		</input>
+		<input>
+			<condition>
+				<and>
+					<not><property>/it-autoflight/input/true-course</property></not>
+					<greater-than>
+						<property>/velocities/groundspeed-kt</property>
+						<value>1</value>
+					</greater-than>
+				</and>
+			</condition>
+			<property>/orientation/track-magnetic-deg</property>
+		</input>
+		<input>/it-autoflight/internal/heading-deg</input>
+		<reference>0</reference>
+		<output>/it-autoflight/internal/track-deg</output>
+	</filter>
+	
+	<filter>
+		<name>DRIFT ANGLE</name>
+		<type>gain</type>
+		<gain>1.0</gain>
+		<input>/orientation/track-magnetic-deg</input>
+		<reference>/orientation/heading-magnetic-deg</reference>
+		<output>/it-autoflight/internal/drift-angle-deg</output>
+		<period>
+			<min>-180</min>
+			<max>180</max>
+		</period>
+	</filter>
+	
 	<filter>
 		<name>HEADING ERROR DEG</name>
 		<debug>false</debug>
 		<type>gain</type>
+		<gain>1.0</gain>
 		<input>
 			<condition>
 				<and>
@@ -255,7 +297,7 @@
 			</condition>
 			<property>/it-autoflight/input/hdg</property>
 			<offset>
-				<property>/orientation/heading-magnetic-deg</property>
+				<property>/it-autoflight/internal/heading-deg</property>
 				<scale>-1.0</scale>
 			</offset>
 		</input>
@@ -274,7 +316,7 @@
 			</condition>
 			<property>/it-autoflight/input/hdg</property>
 			<offset>
-				<property>/orientation/heading-deg</property>
+				<property>/it-autoflight/internal/track-deg</property>
 				<scale>-1.0</scale>
 			</offset>
 		</input>
@@ -285,33 +327,26 @@
 					<value>1</value>
 				</equals>
 			</condition>
-			<property>/autopilot/settings/true-heading-deg</property>
-			<offset>
-				<property>/orientation/heading-deg</property>
-				<scale>-1.0</scale>
-			</offset>
+			<expression>
+				<sum>
+					<property>/autopilot/route-manager/wp[0]/true-bearing-deg</property>
+					<product>
+						<property>/it-autoflight/internal/drift-angle-deg</property>
+						<value>-1.0</value>
+					</product>
+					<product>
+						<property>/orientation/heading-deg</property>
+						<value>-1.0</value>
+					</product>
+				</sum>
+			</expression>
 		</input>
-		<input>
-			<condition>
-				<and>
-					<not-equals>
-						<property>/it-autoflight/output/lat</property>
-						<value>0</value>
-					</not-equals>
-					<not-equals>
-						<property>/it-autoflight/output/lat</property>
-						<value>1</value>
-					</not-equals>
-				</and>
-			</condition>
-			<value>0</value>
-		</input>
+		<input>0</input>
 		<output>/it-autoflight/internal/heading-error-deg</output>
 		<period>
 			<min>-180</min>
 			<max>180</max>
 		</period>
-		<gain>1.0</gain>
 	</filter>
 	
 	<filter>
@@ -330,7 +365,10 @@
 		<input>
 			<expression>
 				<floor>
-					<property>/it-autoflight/internal/vert-speed-fpm</property>
+					<sum>
+						<property>/it-autoflight/internal/vert-speed-fpm</property>
+						<value>0.5</value>
+					</sum>
 				</floor>
 			</expression>
 		</input>
@@ -340,31 +378,28 @@
 	<filter>
 		<name>VERT SPEED FILTER</name>
 		<debug>false</debug>
+		<type>noise-spike</type>
 		<feedback-if-disabled>true</feedback-if-disabled>
 		<initialize-to>output</initialize-to>
-		<input>
-			<property>/it-autoflight/input/vs</property>
-		</input>
+		<input>/it-autoflight/input/vs</input>
 		<output>/it-autoflight/internal/vs</output>
-		<type>noise-spike</type>
-		<max-rate-of-change>
-			<condition>
-				<or>
-					<equals>
-						<property>/gear/gear[1]/wow</property>
-						<value>1</value>
-					</equals>
-					<equals>
-						<property>/gear/gear[2]/wow</property>
-						<value>1</value>
-					</equals>
-				</or>
-			</condition>
-			<value>2000</value>
-		</max-rate-of-change>
 		<max-rate-of-change>
 			<condition>
 				<and>
+					<or>
+						<equals>
+							<property>/it-autoflight/output/ap1</property>
+							<value>1</value>
+						</equals>
+						<equals>
+							<property>/it-autoflight/output/ap2</property>
+							<value>1</value>
+						</equals>
+					</or>
+					<equals>
+						<property>/it-autoflight/output/vert</property>
+						<value>1</value>
+					</equals>
 					<equals>
 						<property>/gear/gear[1]/wow</property>
 						<value>0</value>
@@ -377,12 +412,14 @@
 			</condition>
 			<value>300</value>
 		</max-rate-of-change>
+		<max-rate-of-change>2000</max-rate-of-change>
 	</filter>
-
+	
 	<filter>
 		<name>NAV ERROR DEG</name>
 		<debug>false</debug>
 		<type>gain</type>
+		<gain>1.0</gain>
 		<input>
 			<condition>
 				<equals>
@@ -414,66 +451,105 @@
 			<min>-180</min>
 			<max>180</max>
 		</period>
-		<gain>1.0</gain>
 	</filter>
-
+	
 	<filter>
 		<name>INTERNAL VERTICAL SPEED COMPUTER</name>
 		<debug>false</debug>
 		<type>gain</type>
-		<input>/velocities/vertical-speed-fps</input>
+		<gain>1.0</gain>
+		<input>/instrumentation/gps/indicated-vertical-speed</input>
 		<output>/it-autoflight/internal/vert-speed-fpm</output>
-		<gain>55.5</gain>
 	</filter>
 	
 	<filter>
 		<name>INTERNAL VERTICAL SPEED COMPUTER SYNC 4</name>
 		<debug>false</debug>
 		<type>gain</type>
+		<gain>1.0</gain>
 		<enable>
 			<condition>
-				<and>
-					<not-equals>
-						<property>/it-autoflight/output/vert</property>
-						<value>4</value>
-					</not-equals>
-					<not-equals>
-						<property>/it-autoflight/output/vert</property>
-						<value>7</value>
-					</not-equals>
-				</and>
+				<not>
+					<or>
+						<equals>
+							<property>/it-autoflight/output/vert</property>
+							<value>4</value>
+						</equals>
+						<equals>
+							<property>/it-autoflight/output/vert</property>
+							<value>7</value>
+						</equals>
+					</or>
+					<or>
+						<equals>
+							<property>/it-autoflight/output/ap1</property>
+							<value>1</value>
+						</equals>
+						<equals>
+							<property>/it-autoflight/output/ap2</property>
+							<value>1</value>
+						</equals>
+						<equals>
+							<property>/it-autoflight/output/fd1</property>
+							<value>1</value>
+						</equals>
+						<equals>
+							<property>/it-autoflight/output/fd2</property>
+							<value>1</value>
+						</equals>
+					</or>
+				</not>
 			</condition>
 		</enable>
-		<input>/velocities/vertical-speed-fps</input>
+		<input>/it-autoflight/internal/vert-speed-fpm</input>
 		<output>/it-autoflight/internal/target-fpm-b</output>
-		<gain>55.5</gain>
 	</filter>
 	
 	<filter>
 		<name>INTERNAL VERTICAL SPEED COMPUTER SYNC 5</name>
 		<debug>false</debug>
 		<type>gain</type>
+		<gain>1.0</gain>
 		<enable>
 			<condition>
-				<not-equals>
-					<property>/it-autoflight/output/vert</property>
-					<value>5</value>
-				</not-equals>
+				<not>
+					<equals>
+						<property>/it-autoflight/output/vert</property>
+						<value>5</value>
+					</equals>
+					<or>
+						<equals>
+							<property>/it-autoflight/output/ap1</property>
+							<value>1</value>
+						</equals>
+						<equals>
+							<property>/it-autoflight/output/ap2</property>
+							<value>1</value>
+						</equals>
+						<equals>
+							<property>/it-autoflight/output/fd1</property>
+							<value>1</value>
+						</equals>
+						<equals>
+							<property>/it-autoflight/output/fd2</property>
+							<value>1</value>
+						</equals>
+					</or>
+				</not>
 			</condition>
 		</enable>
-		<input>/velocities/vertical-speed-fps</input>
+		<input>/it-autoflight/internal/vert-speed-fpm</input>
 		<output>/it-autoflight/internal/target-fpm-d</output>
-		<gain>55.5</gain>
 	</filter>
 	
 	<filter>
 		<name>NAV1 G/S FPM Calc</name>
 		<debug>false</debug>
 		<type>gain</type>
+		<gain>1.0</gain>
 		<input>/instrumentation/nav[0]/gs-rate-of-climb-fpm</input>
 		<output>/it-autoflight/internal/nav1-rate-of-climb-fpm</output>
-		<gain>1.0</gain>
-		<min>-1500</min>
+		<min>-1200</min>
 		<max>0</max>
 	</filter>
 	
@@ -481,20 +557,137 @@
 		<name>NAV2 G/S FPM Calc</name>
 		<debug>false</debug>
 		<type>gain</type>
+		<gain>1.0</gain>
 		<input>/instrumentation/nav[1]/gs-rate-of-climb-fpm</input>
 		<output>/it-autoflight/internal/nav2-rate-of-climb-fpm</output>
-		<gain>1.0</gain>
-		<min>-1500</min>
+		<min>-1200</min>
 		<max>0</max>
 	</filter>
-
- <!-- =============================================================== -->
- <!-- Lateral  Modes                                                  -->
- <!-- =============================================================== -->
- 
-	<pi-simple-controller>
-		<name>ROLL CONTROLLER: HDG/LNAV</name>
+	
+	<filter>
+		<name>HEADING PREDICTOR STAGE 1</name>
 		<debug>false</debug>
+		<type>gain</type>
+		<gain>1.0</gain>
+		<input>
+			<condition>
+				<equals>
+					<property>/it-autoflight/input/trk</property>
+					<value>0</value>
+				</equals>
+			</condition>
+			<expression>
+				<sum>
+					<div>
+						<property>/orientation/roll-deg</property>
+						<property>/it-autoflight/config/cmd/hdg-kp</property>
+					</div>
+					<property>/it-autoflight/internal/heading-deg</property>
+				</sum>
+			</expression>
+		</input>
+		<input>
+			<condition>
+				<equals>
+					<property>/it-autoflight/input/trk</property>
+					<value>1</value>
+				</equals>
+			</condition>
+			<expression>
+				<sum>
+					<div>
+						<property>/orientation/roll-deg</property>
+						<property>/it-autoflight/config/cmd/hdg-kp</property>
+					</div>
+					<property>/it-autoflight/internal/track-deg</property>
+				</sum>
+			</expression>
+		</input>
+		<output>/it-autoflight/internal/heading-predicted-cmd</output>
+	</filter>
+	
+	<filter>
+		<name>HEADING PREDICTOR STAGE 2</name>
+		<debug>false</debug>
+		<type>gain</type>
+		<gain>1.0</gain>
+		<input>
+			<condition>
+				<greater-than-equals>
+					<property>/it-autoflight/internal/heading-predicted-cmd</property>
+					<value>360.5</value>
+				</greater-than-equals>
+			</condition>
+			<expression>
+				<dif>
+					<property>/it-autoflight/internal/heading-predicted-cmd</property>
+					<value>360</value>
+				</dif>
+			</expression>
+		</input>
+		<input>
+			<condition>
+				<less-than>
+					<property>/it-autoflight/internal/heading-predicted-cmd</property>
+					<value>0.5</value>
+				</less-than>
+			</condition>
+			<expression>
+				<sum>
+					<property>/it-autoflight/internal/heading-predicted-cmd</property>
+					<value>360</value>
+				</sum>
+			</expression>
+		</input>
+		<input>/it-autoflight/internal/heading-predicted-cmd</input>
+		<output>/it-autoflight/internal/heading-predicted</output>
+	</filter>
+	
+	<filter>
+		<name>ALTITUDE PREDICTOR</name>
+		<debug>false</debug>
+		<type>gain</type>
+		<gain>1.0</gain>
+		<input>
+			<expression>
+				<sum>
+					<div>
+						<property>/it-autoflight/internal/vert-speed-fpm</property>
+						<product>
+							<property>/it-autoflight/config/cmd/alt-gain</property>
+							<value>-1</value>
+						</product>
+					</div>
+					<property>/instrumentation/altimeter/indicated-altitude-ft</property>
+				</sum>
+			</expression>
+		</input>
+		<output>/it-autoflight/internal/altitude-predicted</output>
+	</filter>
+	
+	<filter>
+		<name>INTERNAL FPA COMPUTER</name>
+		<debug>false</debug>
+		<type>gain</type>
+		<gain>1.0</gain>
+		<input>
+			<expression>
+				<dif>
+					<property>/orientation/pitch-deg</property>
+					<property>/orientation/alpha-deg</property>
+				</dif>
+			</expression>
+		</input>
+		<output>/it-autoflight/internal/fpa</output>
+	</filter>
+	
+	<!-- Roll Axis -->
+	
+	<filter>
+		<name>IT-CONTROLLER: HDG/LNAV ROLL</name>
+		<debug>false</debug>
+		<type>gain</type>
+		<gain>/it-autoflight/config/cmd/hdg-kp</gain>
 		<enable>
 			<condition>
 				<and>
@@ -529,36 +722,21 @@
 				</and>
 			</condition>
 		</enable>
-		<input>
-			<property>/it-autoflight/internal/heading-error-deg</property>
-			<scale>
-				<property>/it-autoflight/config/cmd/roll-scale</property>
-			</scale>
-		</input>
-		<reference>
-			<value>0</value>
-		</reference>
-		<output>
-			<property>/it-autoflight/internal/target-roll-deg</property>
-		</output>
-		<config>
-			<Kp>
-				<property>/it-autoflight/config/cmd/roll-kp</property>
-			</Kp>
-			<Ki>0.0</Ki>
-			<min>
-				<property>/it-autoflight/internal/bank-limit</property>
-				<scale>-1</scale>
-			</min>
-			<max>
-				<property>/it-autoflight/internal/bank-limit</property>
-			</max>
-		</config>
-	</pi-simple-controller>
+		<input>/it-autoflight/internal/heading-error-deg</input>
+		<reference>0</reference>
+		<output>/it-autoflight/internal/target-roll-deg</output>
+		<min>
+			<property>/it-autoflight/internal/bank-limit</property>
+			<scale>-1.0</scale>
+		</min>
+		<max>/it-autoflight/internal/bank-limit</max>
+	</filter>
 	
-	<pi-simple-controller>
-		<name>VORLOC TRK</name>
+	<filter>
+		<name>IT-CONTROLLER: VORLOC ROLL</name>
 		<debug>false</debug>
+		<type>gain</type>
+		<gain>/it-autoflight/config/cmd/vorloc</gain>
 		<enable>
 			<condition>
 				<and>
@@ -587,35 +765,21 @@
 				</and>
 			</condition>
 		</enable>
-		<input>
-			<property>/it-autoflight/internal/nav-heading-error-deg</property>
-		</input>
-		<reference>
-			<value>0.0</value>
-		</reference>
-		<output>
-			<property>/it-autoflight/internal/target-roll-deg</property>
-		</output>
-		<config>
-			<Kp>
-				<property>/it-autoflight/config/cmd/vorloc</property>
-			</Kp>
-			<Ki>-0.0001</Ki>
-			<min>
-				<property>/it-autoflight/internal/bank-limit</property>
-				<scale>-1</scale>
-			</min>
-			<max>
-				<property>/it-autoflight/internal/bank-limit</property>
-			</max>
-		</config>
-	</pi-simple-controller>
+		<input>/it-autoflight/internal/nav-heading-error-deg</input>
+		<reference>0</reference>
+		<output>/it-autoflight/internal/target-roll-deg</output>
+		<min>
+			<property>/it-autoflight/internal/bank-limit</property>
+			<scale>-1.0</scale>
+		</min>
+		<max>/it-autoflight/internal/bank-limit</max>
+	</filter>
 	
 	<filter>
 		<name>ROLL DEG SYNC</name>
 		<debug>false</debug>
 		<type>gain</type>
-		<gain>1</gain>
+		<gain>1.0</gain>
 		<enable>
 			<condition>
 				<and>
@@ -642,62 +806,16 @@
 		<output>/it-autoflight/internal/target-roll-deg</output>
 		<min>
 			<property>/it-autoflight/internal/bank-limit</property>
-			<scale>-1</scale>
+			<scale>-1.0</scale>
 		</min>
-		<max>
-			<property>/it-autoflight/internal/bank-limit</property>
-		</max>
+		<max>/it-autoflight/internal/bank-limit</max>
 	</filter>
 	
 	<filter>
 		<name>IT-CONTROLLER: TARGET ROLL CMD</name>
 		<debug>false</debug>
-		<feedback-if-disabled>true</feedback-if-disabled>
-		<initialize-to>output</initialize-to>
-		<input>
-			<property>/it-autoflight/internal/target-roll-deg</property>
-		</input>
-		<output>/it-autoflight/internal/target-roll</output>
 		<type>noise-spike</type>
-		<max-rate-of-change>6</max-rate-of-change>
-	</filter>
-	
-	<pid-controller>
-		<name>IT-CONTROLLER: ROLL</name>
-		<debug>false</debug>
-		<enable>
-			<condition>
-				<or>
-					<equals>
-						<property>/it-autoflight/output/ap1</property>
-						<value>1</value>
-					</equals>
-					<equals>
-						<property>/it-autoflight/output/ap2</property>
-						<value>1</value>
-					</equals>
-				</or>
-			</condition>
-		</enable>
 		<input>
-			<property>/orientation/roll-deg</property>
-		</input>
-		<reference>
-			<condition>
-				<and>
-					<not-equals>
-						<property>/it-autoflight/output/lat</property>
-						<value>4</value>
-					</not-equals>
-					<not-equals>
-						<property>/it-autoflight/output/lat</property>
-						<value>5</value>
-					</not-equals>
-				</and>
-			</condition>
-			<property>/it-autoflight/internal/target-roll</property>
-		</reference>
-		<reference>
 			<condition>
 				<or>
 					<equals>
@@ -711,52 +829,129 @@
 				</or>
 			</condition>
 			<value>0</value>
-		</reference>
-		<output>
-			<property>/it-autoflight/internal/aileron-cmd</property>
-		</output>
-		<config>
-			<Kp>
-				<condition>
+		</input>
+		<input>/it-autoflight/internal/target-roll-deg</input>
+		<output>/it-autoflight/internal/target-roll</output>
+		<max-rate-of-change>
+			<condition>
+				<and>
 					<not-equals>
-						<property>/it-autoflight/output/lat</property>
-						<value>2</value>
+						<property>/it-autoflight/output/ap1</property>
+						<value>1</value>
 					</not-equals>
-				</condition>
-				<property>/it-autoflight/config/roll/kp</property>
-			</Kp>
-			<Kp>
-				<condition>
+					<not-equals>
+						<property>/it-autoflight/output/ap2</property>
+						<value>1</value>
+					</not-equals>
+					<not-equals>
+						<property>/it-autoflight/output/fd1</property>
+						<value>1</value>
+					</not-equals>
+					<not-equals>
+						<property>/it-autoflight/output/fd2</property>
+						<value>1</value>
+					</not-equals>
+				</and>
+			</condition>
+			<value>50</value>
+		</max-rate-of-change>
+		<max-rate-of-change>
+			<condition>
+				<and>
+					<not-equals>
+						<property>/it-autoflight/output/ap1</property>
+						<value>1</value>
+					</not-equals>
+					<not-equals>
+						<property>/it-autoflight/output/ap2</property>
+						<value>1</value>
+					</not-equals>
+				</and>
+			</condition>
+			<value>15</value>
+		</max-rate-of-change>
+		<max-rate-of-change>6</max-rate-of-change>
+	</filter>
+	
+	<filter>
+		<name>System Command: Roll Rate</name>
+		<debug>false</debug>
+		<type>gain</type>
+		<gain>-0.84</gain>
+		<enable>
+			<condition>
+				<and>
+					<or>
+						<equals>
+							<property>/it-autoflight/output/ap1</property>
+							<value>1</value>
+						</equals>
+						<equals>
+							<property>/it-autoflight/output/ap2</property>
+							<value>1</value>
+						</equals>
+					</or>
+					<not-equals>
+						<property>/it-autoflight/config/tuning-mode</property>
+						<value>1</value>
+					</not-equals>
+				</and>
+			</condition>
+		</enable>
+		<input>/orientation/roll-deg</input>
+		<reference>/it-autoflight/internal/target-roll</reference>
+		<output>/it-autoflight/internal/roll-rate</output>
+		<min>-4.8</min>
+		<max>4.8</max>
+	</filter>
+	
+	<pid-controller>
+		<name>IT-CONTROLLER: ROLL RATE</name>
+		<debug>false</debug>
+		<enable>
+			<condition>
+				<and>
 					<equals>
-						<property>/it-autoflight/output/lat</property>
-						<value>2</value>
+						<property>/gear/gear[1]/wow</property>
+						<value>0</value>
 					</equals>
-				</condition>
-				<property>/it-autoflight/config/roll/kp-vloc</property>
-			</Kp>
-			<beta>1.0</beta>	
-			<alpha>0.1</alpha>	
-			<gamma>0.0</gamma>	
-			<Ti>
-				<property>/it-autoflight/config/roll/ti</property>
-			</Ti>    
-			<Td>
-				<property>/it-autoflight/config/roll/td</property>
-			</Td>    	
-			<u_min>
-				<property>/it-autoflight/config/roll/umin</property>
-			</u_min>
-			<u_max>
-				<property>/it-autoflight/config/roll/umax</property>
-			</u_max>
+					<equals>
+						<property>/gear/gear[2]/wow</property>
+						<value>0</value>
+					</equals>
+					<or>
+						<equals>
+							<property>/it-autoflight/output/ap1</property>
+							<value>1</value>
+						</equals>
+						<equals>
+							<property>/it-autoflight/output/ap2</property>
+							<value>1</value>
+						</equals>
+					</or>
+					<not-equals>
+						<property>/it-autoflight/settings/disable-final</property>
+						<value>1</value>
+					</not-equals>
+				</and>
+			</condition>
+		</enable>
+		<input>/orientation/roll-rate-degps</input>
+		<reference>/it-autoflight/internal/roll-rate</reference>
+		<output>/it-autoflight/internal/aileron-cmd</output>
+		<config>
+			<Kp>/it-autoflight/config/roll/kp</Kp>
+			<Ti>/it-autoflight/config/roll/ti</Ti>
+			<Td>/it-autoflight/config/roll/td</Td>
+			<u_min>-1.0</u_min>
+			<u_max>1.0</u_max>
 		</config>
 	</pid-controller>
 	
 	<filter>
-		<name>IT-CONTROLLER: ROLL CMD</name>
-		<debug>false</debug>
-		<feedback-if-disabled>true</feedback-if-disabled>
-		<initialize-to>output</initialize-to>
+		<name>IT-CONTROLLER: AILERON ROLLOUT</name>
+		<type>gain</type>
+		<gain>/it-autoflight/config/rollout/roll-kp</gain>
 		<enable>
 			<condition>
 				<or>
@@ -772,39 +967,100 @@
 			</condition>
 		</enable>
 		<input>
+			<expression>
+				<table>
+					<property>/orientation/roll-deg</property>
+					<entry><ind>-30</ind><dep>-30</dep></entry>
+					<entry><ind> -1</ind><dep>  0</dep></entry>
+					<entry><ind>  0</ind><dep>  0</dep></entry>
+					<entry><ind>  1</ind><dep>  0</dep></entry>
+					<entry><ind> 30</ind><dep> 30</dep></entry>
+				</table>
+			</expression>
+		</input>
+		<reference>0</reference>
+		<output>/it-autoflight/internal/aileron-rollout</output>
+	</filter>
+	
+	<filter>
+		<name>IT-CONTROLLER: ROLL CMD</name>
+		<debug>false</debug>
+		<type>noise-spike</type>
+		<feedback-if-disabled>true</feedback-if-disabled>
+		<initialize-to>output</initialize-to>
+		<enable>
+			<condition>
+				<and>
+					<or>
+						<equals>
+							<property>/it-autoflight/output/ap1</property>
+							<value>1</value>
+						</equals>
+						<equals>
+							<property>/it-autoflight/output/ap2</property>
+							<value>1</value>
+						</equals>
+					</or>
+					<not-equals>
+						<property>/it-autoflight/settings/disable-final</property>
+						<value>1</value>
+					</not-equals>
+				</and>
+			</condition>
+		</enable>
+		<input>
+			<condition>
+				<and>
+					<equals>
+						<property>/gear/gear[1]/wow</property>
+						<value>0</value>
+					</equals>
+					<equals>
+						<property>/gear/gear[2]/wow</property>
+						<value>0</value>
+					</equals>
+				</and>
+			</condition>
 			<property>/it-autoflight/internal/aileron-cmd</property>
 		</input>
+		<input>/it-autoflight/internal/aileron-rollout</input>
 		<output>/controls/flight/aileron</output>
-		<type>noise-spike</type>
-		<max-rate-of-change>0.5</max-rate-of-change>
+		<max-rate-of-change>1.2</max-rate-of-change>
 	</filter>
-
- <!-- =============================================================== -->
- <!-- Vertical Modes                                                  -->
- <!-- =============================================================== -->
+	
+	<!-- Pitch Axis -->
 	
 	<filter>
 		<name>ALTITUDE CAPTURE/HOLD</name>
 		<debug>false</debug>
 		<type>gain</type>
+		<gain>/it-autoflight/config/cmd/alt-gain</gain>
 		<input>
-			<property>/it-autoflight/internal/altitude-5-sec-ahead</property>
+			<expression>
+				<sum>
+					<property>/instrumentation/altimeter/indicated-altitude-ft</property>
+					<value>-2</value>
+				</sum>
+			</expression>
 		</input>
-		<reference>
-			<property>/it-autoflight/internal/alt</property>
-		</reference>
-		<gain>-8</gain>
-		<output>
-			<property>/it-autoflight/internal/target-fpm</property>
-		</output>
-		<min>
-			<property>/it-autoflight/internal/min-vs</property>
-		</min>
-		<max>
-			<property>/it-autoflight/internal/max-vs</property>
-		</max>
+		<reference>/it-autoflight/internal/alt</reference>
+		<output>/it-autoflight/internal/target-fpm</output>
+		<min>/it-autoflight/internal/min-vs</min>
+		<max>/it-autoflight/internal/max-vs</max>
 	</filter>
-
+	
+	<filter>
+		<name>FPA ERROR</name>
+		<debug>false</debug>
+		<type>gain</type>
+		<gain>1.0</gain>
+		<input>/it-autoflight/internal/fpa</input>
+		<reference>/it-autoflight/input/fpa</reference>
+		<output>/it-autoflight/internal/fpa-error</output>
+		<min>-1.5</min>
+		<max>1.5</max>
+	</filter>
+	
 	<pid-controller>
 		<name>FPA HOLD</name>
 		<debug>false</debug>
@@ -836,24 +1092,52 @@
 				</and>
 			</condition>
 		</enable>
-		<input>
-			<property>/it-autoflight/internal/fpa</property>
-		</input>
-		<reference>
-			<property>/it-autoflight/input/fpa</property>
-		</reference>
-		<output>
-			<property>/it-autoflight/internal/target-fpm-d</property>
-		</output>
+		<input>/it-autoflight/internal/fpa-error</input>
+		<reference>0</reference>
+		<output>/it-autoflight/internal/target-fpm-d</output>
 		<config>
-			<Kp>120</Kp>
-			<beta>1.0</beta>
-			<alpha>0.1</alpha>
-			<gamma>0.0</gamma>
-			<Ti>1.0</Ti>
-			<Td>0.00001</Td>
-			<u_min>-6000</u_min>
-			<u_max>8000</u_max>
+			<Kp>
+				<expression>
+					<table>
+						<property>/velocities/airspeed-kt</property>
+						<entry><ind>140</ind><dep>120</dep></entry>
+						<entry><ind>360</ind><dep>340</dep></entry>
+					</table>
+				</expression>
+			</Kp>
+			<Ti>
+				<condition>
+					<or>
+						<equals>
+							<property>/it-autoflight/output/ap1</property>
+							<value>1</value>
+						</equals>
+						<equals>
+							<property>/it-autoflight/output/ap2</property>
+							<value>1</value>
+						</equals>
+					</or>
+				</condition>
+				<value>2.0</value>
+			</Ti>
+			<Ti>10.0</Ti>
+			<Td>0.002</Td>
+			<u_min>
+				<expression>
+					<dif>
+						<property>/it-autoflight/internal/vert-speed-fpm</property>
+						<value>2500</value>
+					</dif>
+				</expression>
+			</u_min>
+			<u_max>
+				<expression>
+					<sum>
+						<property>/it-autoflight/internal/vert-speed-fpm</property>
+						<value>2500</value>
+					</sum>
+				</expression>
+			</u_max>
 		</config>
 	</pid-controller>
 	
@@ -862,16 +1146,36 @@
 		<debug>false</debug>
 		<enable>
 			<condition>
-				<or>
-					<equals>
-						<property>/it-autoflight/output/vert</property>
-						<value>4</value>
-					</equals>
-					<equals>
-						<property>/it-autoflight/output/vert</property>
-						<value>7</value>
-					</equals>
-				</or>
+				<and>
+					<or>
+						<equals>
+							<property>/it-autoflight/output/vert</property>
+							<value>4</value>
+						</equals>
+						<equals>
+							<property>/it-autoflight/output/vert</property>
+							<value>7</value>
+						</equals>
+					</or>
+					<or>
+						<equals>
+							<property>/it-autoflight/output/ap1</property>
+							<value>1</value>
+						</equals>
+						<equals>
+							<property>/it-autoflight/output/ap2</property>
+							<value>1</value>
+						</equals>
+						<equals>
+							<property>/it-autoflight/output/fd1</property>
+							<value>1</value>
+						</equals>
+						<equals>
+							<property>/it-autoflight/output/fd2</property>
+							<value>1</value>
+						</equals>
+					</or>
+				</and>
 			</condition>
 		</enable>
 		<input>
@@ -891,7 +1195,7 @@
 				</equals>
 			</condition>
 			<property>/it-autoflight/internal/lookahead-15-sec-mach</property>
-			<scale>500.0</scale>
+			<scale>750.0</scale>
 		</input>
 		<reference>
 			<condition>
@@ -910,11 +1214,9 @@
 				</equals>
 			</condition>
 			<property>/it-autoflight/internal/flch-mach</property>
-			<scale>500.0</scale>
+			<scale>750.0</scale>
 		</reference>
-		<output>
-			<property>/it-autoflight/internal/target-fpm-b</property>
-		</output>
+		<output>/it-autoflight/internal/target-fpm-b</output>
 		<config>
 			<Kp>
 				<condition>
@@ -923,7 +1225,7 @@
 						<value>4</value>
 					</equals>
 				</condition>
-				<value>-50</value>
+				<value>-55</value>
 			</Kp>
 			<Kp>
 				<condition>
@@ -934,9 +1236,6 @@
 				</condition>
 				<value>-60</value>
 			</Kp>
-			<beta>1.0</beta>    
-			<alpha>0.1</alpha>  
-			<gamma>0.0</gamma>  
 			<Ti>2.5</Ti>        
 			<Td>0.001</Td>
 			<u_min>
@@ -955,7 +1254,12 @@
 						<value>1</value>
 					</equals>
 				</condition>
-				<value>-6000</value>
+				<expression>
+					<dif>
+						<property>/it-autoflight/internal/vert-speed-fpm</property>
+						<value>2500</value>
+					</dif>
+				</expression>
 			</u_min>
 			<u_max>
 				<condition>
@@ -976,7 +1280,12 @@
 						</and>
 					</and>
 				</condition>
-				<value>10000</value>
+				<expression>
+					<sum>
+						<property>/it-autoflight/internal/vert-speed-fpm</property>
+						<value>2500</value>
+					</sum>
+				</expression>
 			</u_max>
 			<u_max>
 				<condition>
@@ -1015,7 +1324,12 @@
 						<value>0</value>
 					</equals>
 				</condition>
-				<value>-6000</value>
+				<expression>
+					<dif>
+						<property>/it-autoflight/internal/vert-speed-fpm</property>
+						<value>2500</value>
+					</dif>
+				</expression>
 			</u_min>
 			<u_max>
 				<condition>
@@ -1024,38 +1338,42 @@
 						<value>0</value>
 					</equals>
 				</condition>
-				<value>10000</value>
+				<expression>
+					<sum>
+						<property>/it-autoflight/internal/vert-speed-fpm</property>
+						<value>2500</value>
+					</sum>
+				</expression>
 			</u_max>
 		</config>
 	</pid-controller>
 	
-    <filter>
-        <name>AUTOLAND FPM</name>
-        <type>gain</type>
-        <gain>1</gain>
-        <update-interval-secs type="double">0.05</update-interval-secs>
-        <input> 
-            <expression>
-                <table>
-                    <property>/position/gear-agl-ft</property> 
-                    <entry><ind>100</ind><dep>-600</dep></entry>
-                    <entry><ind> 50</ind><dep>-500</dep></entry>
-                    <entry><ind> 40</ind><dep>-400</dep></entry>
-                    <entry><ind> 30</ind><dep>-300</dep></entry>
-                    <entry><ind> 20</ind><dep>-200</dep></entry>
-                    <entry><ind> 10</ind><dep>-150</dep></entry>
-                    <entry><ind>  5</ind><dep>-100</dep></entry>
-                </table>
-            </expression>
-        </input>
+	<filter>
+		<name>AUTOLAND FPM</name>
+		<type>gain</type>
+		<gain>1.0</gain>
+		<input> 
+			<expression>
+				<table>
+					<property>/position/gear-agl-ft</property> 
+					<entry><ind>100</ind><dep>-650</dep></entry>
+					<entry><ind> 50</ind><dep>-500</dep></entry>
+					<entry><ind> 40</ind><dep>-400</dep></entry>
+					<entry><ind> 30</ind><dep>-300</dep></entry>
+					<entry><ind> 20</ind><dep>-200</dep></entry>
+					<entry><ind> 10</ind><dep>-150</dep></entry>
+					<entry><ind>  5</ind><dep>-100</dep></entry>
+				</table>
+			</expression>
+		</input>
 		<output>/it-autoflight/internal/target-fpm-c</output>
-    </filter>
+	</filter>
 	
 	<filter>
 		<name>TARGET FPM</name>
 		<debug>false</debug>
 		<type>gain</type>
-		<gain>1</gain>
+		<gain>1.0</gain>
 		<input>
 			<condition>
 				<equals>
@@ -1072,7 +1390,7 @@
 					<value>1</value>
 				</equals>
 			</condition>
-			<property>/it-autoflight/internal/vs</property>
+			<property>/it-autoflight/input/vs</property>
 		</input>
 		<input>
 			<condition>
@@ -1189,10 +1507,7 @@
 				</and>
 			</condition>
 		</enable>
-		<input>
-			<property>/it-autoflight/internal/vert-speed-fpm</property>
-			<scale>0.16667</scale>
-		</input>
+		<input>/it-autoflight/internal/vert-speed-fpm</input>
 		<reference>
 			<condition>
 				<equals>
@@ -1201,7 +1516,6 @@
 				</equals>
 			</condition>
 			<property>/it-autoflight/internal/target-fpm</property>
-			<scale>0.16667</scale>
 		</reference>
 		<reference>
 			<condition>
@@ -1211,7 +1525,6 @@
 				</equals>
 			</condition>
 			<property>/it-autoflight/internal/vs</property>
-			<scale>0.16667</scale>
 		</reference>
 		<reference>
 			<condition>
@@ -1227,7 +1540,6 @@
 				</or>
 			</condition>
 			<property>/it-autoflight/internal/target-fpm-b</property>
-			<scale>0.16667</scale>
 		</reference>
 		<reference>
 			<condition>
@@ -1237,7 +1549,6 @@
 				</equals>
 			</condition>
 			<property>/it-autoflight/internal/target-fpm-c</property>
-			<scale>0.16667</scale>
 		</reference>
 		<reference>
 			<condition>
@@ -1247,7 +1558,6 @@
 				</equals>
 			</condition>
 			<property>/it-autoflight/internal/target-fpm-d</property>
-			<scale>0.16667</scale>
 		</reference>
 		<reference>
 			<condition>
@@ -1263,7 +1573,6 @@
 				</and>
 			</condition>
 			<property>/it-autoflight/internal/nav1-rate-of-climb-fpm</property>
-			<scale>0.16667</scale>
 		</reference>
 		<reference>
 			<condition>
@@ -1279,11 +1588,8 @@
 				</and>
 			</condition>
 			<property>/it-autoflight/internal/nav2-rate-of-climb-fpm</property>
-			<scale>0.16667</scale>
 		</reference>
-		<output>
-			<property>/it-autoflight/internal/target-pitch-deg</property>
-		</output>
+		<output>/it-autoflight/internal/target-pitch-deg</output>
 		<config>
 			<Kp>
 				<condition>
@@ -1292,7 +1598,13 @@
 						<value>6</value>
 					</not-equals>
 				</condition>
-				<property>/it-autoflight/config/cmd/vs</property>
+				<expression>
+					<table>
+						<property>/velocities/airspeed-kt</property>
+						<entry><ind>140</ind><dep>0.0029</dep></entry>
+						<entry><ind>360</ind><dep>0.0009</dep></entry>
+					</table>
+				</expression>
 			</Kp>
 			<Kp>
 				<condition>
@@ -1301,9 +1613,9 @@
 						<value>6</value>
 					</equals>
 				</condition>
-				<property>/it-autoflight/config/autoland/kp-pitch</property>
+				<property>/it-autoflight/config/autoland/pitch-kp</property>
 			</Kp>
-			<Ti>3.0</Ti>
+			<Ti>2.5</Ti>
 			<Td>0.0001</Td>
 			<u_min>
 				<condition>
@@ -1312,7 +1624,15 @@
 						<value>6</value>
 					</not-equals>
 				</condition>
-				<value>-10</value>
+				<expression>
+					<max>
+						<dif>
+							<property>/orientation/pitch-deg</property>
+							<value>5</value>
+						</dif>
+						<value>-10</value>
+					</max>
+				</expression>
 			</u_min>
 			<u_min>
 				<condition>
@@ -1336,7 +1656,15 @@
 						</equals>
 					</and>
 				</condition>
-				<value>30</value>
+				<expression>
+					<min>
+						<sum>
+							<property>/orientation/pitch-deg</property>
+							<value>5</value>
+						</sum>
+						<value>30</value>
+					</min>
+				</expression>
 			</u_max>
 			<u_max>
 				<condition>
@@ -1360,7 +1688,7 @@
 		<name>PITCH DEG SYNC</name>
 		<debug>false</debug>
 		<type>gain</type>
-		<gain>1</gain>
+		<gain>1.0</gain>
 		<enable>
 			<condition>
 				<and>
@@ -1380,256 +1708,174 @@
 		<min>-15</min>
 		<max>30</max>
 	</filter>
-
+	
+	<filter>
+		<name>System Command: Pitch Rate</name>
+		<debug>false</debug>
+		<type>gain</type>
+		<gain>-0.6</gain>
+		<enable>
+			<condition>
+				<and>
+					<or>
+						<equals>
+							<property>/it-autoflight/output/ap1</property>
+							<value>1</value>
+						</equals>
+						<equals>
+							<property>/it-autoflight/output/ap2</property>
+							<value>1</value>
+						</equals>
+					</or>
+					<not-equals>
+						<property>/it-autoflight/config/tuning-mode</property>
+						<value>1</value>
+					</not-equals>
+				</and>
+			</condition>
+		</enable>
+		<input>/orientation/pitch-deg</input>
+		<reference>/it-autoflight/internal/target-pitch-deg</reference>
+		<output>/it-autoflight/internal/pitch-rate</output>
+		<min>-1.5</min>
+		<max>1.5</max>
+	</filter>
+	
 	<pid-controller>
-		<name>IT-CONTROLLER: PITCH</name>
+		<name>IT-CONTROLLER: PITCH RATE</name>
 		<debug>false</debug>
 		<enable>
 			<condition>
-				<or>
+				<and>
 					<equals>
-						<property>/it-autoflight/output/ap1</property>
-						<value>1</value>
+						<property>/gear/gear[1]/wow</property>
+						<value>0</value>
 					</equals>
 					<equals>
-						<property>/it-autoflight/output/ap2</property>
-						<value>1</value>
+						<property>/gear/gear[2]/wow</property>
+						<value>0</value>
 					</equals>
-				</or>
+					<or>
+						<equals>
+							<property>/it-autoflight/output/ap1</property>
+							<value>1</value>
+						</equals>
+						<equals>
+							<property>/it-autoflight/output/ap2</property>
+							<value>1</value>
+						</equals>
+					</or>
+					<not-equals>
+						<property>/it-autoflight/settings/disable-final</property>
+						<value>1</value>
+					</not-equals>
+				</and>
 			</condition>
 		</enable>
-		<input>
-			<property>/orientation/pitch-deg</property>
-		</input>
-		<reference>
-			<property>/it-autoflight/internal/target-pitch-deg</property>
-		</reference>
-		<output>
-			<property>/it-autoflight/internal/elevator-cmd</property>
-		</output>
+		<input>/orientation/pitch-rate-degps</input>
+		<reference>/it-autoflight/internal/pitch-rate</reference>
+		<output>/it-autoflight/internal/elevator-cmd</output>
 		<config>
-			<Kp>
-				<property>/it-autoflight/config/pitch/kp</property>
-			</Kp>
-			<beta>1.0</beta>    
-			<alpha>0.1</alpha>  
-			<gamma>0.0</gamma>  
-			<Ti>
-				<property>/it-autoflight/config/pitch/ti</property>
-			</Ti>      
-			<Td>
-				<property>/it-autoflight/config/pitch/td</property>
-			</Td>   
-			<u_min>
-				<property>/it-autoflight/config/pitch/umin</property>
-			</u_min>
-			<u_max>
-				<property>/it-autoflight/config/pitch/umax</property>
-			</u_max>
+			<Kp>/it-autoflight/config/pitch/kp</Kp>
+			<Ti>/it-autoflight/config/pitch/ti</Ti>
+			<Td>/it-autoflight/config/pitch/td</Td>
+			<u_min>-1.0</u_min>
+			<u_max>1.0</u_max>
 		</config>
 	</pid-controller>
 	
 	<filter>
 		<name>IT-CONTROLLER: PITCH CMD</name>
 		<debug>false</debug>
+		<type>noise-spike</type>
 		<feedback-if-disabled>true</feedback-if-disabled>
 		<initialize-to>output</initialize-to>
 		<enable>
 			<condition>
-				<or>
-					<equals>
-						<property>/it-autoflight/output/ap1</property>
+				<and>
+					<or>
+						<equals>
+							<property>/it-autoflight/output/ap1</property>
+							<value>1</value>
+						</equals>
+						<equals>
+							<property>/it-autoflight/output/ap2</property>
+							<value>1</value>
+						</equals>
+					</or>
+					<not-equals>
+						<property>/it-autoflight/settings/disable-final</property>
 						<value>1</value>
-					</equals>
-					<equals>
-						<property>/it-autoflight/output/ap2</property>
-						<value>1</value>
-					</equals>
-				</or>
+					</not-equals>
+				</and>
 			</condition>
 		</enable>
 		<input>
+			<condition>
+				<and>
+					<equals>
+						<property>/gear/gear[1]/wow</property>
+						<value>0</value>
+					</equals>
+					<equals>
+						<property>/gear/gear[2]/wow</property>
+						<value>0</value>
+					</equals>
+				</and>
+			</condition>
 			<property>/it-autoflight/internal/elevator-cmd</property>
 		</input>
+		<input>
+			<condition>
+				<and>
+					<equals>
+						<property>/gear/gear[0]/wow</property>
+						<value>0</value>
+					</equals>
+					<or>
+						<equals>
+							<property>/gear/gear[1]/wow</property>
+							<value>1</value>
+						</equals>
+						<equals>
+							<property>/gear/gear[2]/wow</property>
+							<value>1</value>
+						</equals>
+					</or>
+				</and>
+			</condition>
+			<value>1</value>
+			<scale>
+				<property>/it-autoflight/config/rollout/pitch-defl</property>
+			</scale>
+		</input>
+		<input>
+			<value>0.5</value>
+			<scale>
+				<property>/it-autoflight/config/rollout/pitch-defl</property>
+			</scale>
+		</input>
 		<output>/controls/flight/elevator</output>
-		<type>noise-spike</type>
-		<max-rate-of-change>0.4</max-rate-of-change>
+		<max-rate-of-change>1.2</max-rate-of-change>
 	</filter>
 	
- <!-- =============================================================== -->
- <!-- Rudder Control                                                  -->
- <!-- =============================================================== -->
-	
-	<pi-simple-controller>
-		<name>RUDDER VORLOC TRK</name>
-		<debug>false</debug>
-		<enable>
-			<condition>
-				<equals>
-					<property>/it-autoflight/output/lat</property>
-					<value>4</value>
-				</equals>
-			</condition>
-		</enable>
-		<input>
-			<property>/it-autoflight/internal/nav-heading-error-deg</property>
-		</input>
-		<reference>
-			<value>0</value>
-		</reference>
-		<output>/it-autoflight/internal/rudder-cmd</output>
-		<config>
-			<Kp>
-				<property>/it-autoflight/config/autoland/kp-rudder</property>
-			</Kp>
-			<Ki>0</Ki>
-		</config>
-		<min>-0.25</min>
-		<max>0.25</max>
-	</pi-simple-controller>
-	
 	<filter>
-		<name>IT-CONTROLLER: RUDDER CMD</name>
+		<name>IT-CONTROLLER: PITCH TRIM</name>
 		<debug>false</debug>
-		<feedback-if-disabled>true</feedback-if-disabled>
-		<initialize-to>output</initialize-to>
-		<enable>
-			<condition>
-				<or>
-					<equals>
-						<property>/it-autoflight/output/ap1</property>
-						<value>1</value>
-					</equals>
-					<equals>
-						<property>/it-autoflight/output/ap2</property>
-						<value>1</value>
-					</equals>
-				</or>
-			</condition>
-		</enable>
-		<input>
-			<condition>
-				<not-equals>
-					<property>/it-autoflight/output/lat</property>
-					<value>4</value>
-				</not-equals>
-			</condition>
-			<value>0</value>
-		</input>
-		<input>
-			<condition>
-				<equals>
-					<property>/it-autoflight/output/lat</property>
-					<value>4</value>
-				</equals>
-			</condition>
-			<property>/it-autoflight/internal/rudder-cmd</property>
-		</input>
-		<output>/controls/flight/rudder</output>
 		<type>noise-spike</type>
-		<max-rate-of-change>0.20</max-rate-of-change>
-	</filter>
-	
- <!-- =============================================================== -->
- <!-- Autotrim                                                        -->
- <!-- =============================================================== -->
-	
-	<pid-controller>
-		<name>AP PITCH HELPER PLUS</name>
-		<debug>false</debug>
-		<enable>
-			<condition>
-				<and>
-					<greater-than>
-						<property>/it-autoflight/internal/elevator-cmd</property>
-						<value>0.01</value>
-					</greater-than>
-					<or>
-						<equals>
-							<property>/it-autoflight/output/ap1</property>
-							<value>1</value>
-						</equals>
-						<equals>
-							<property>/it-autoflight/output/ap2</property>
-							<value>1</value>
-						</equals>
-					</or>
-				</and>
-			</condition>
-		</enable>
-		<input>
-			<value>0</value>
-		</input>
-		<reference>
-			<value>1</value>
-		</reference>
-		<output>
-			<property>/it-autoflight/internal/elevator-trim-cmd</property>
-		</output>
-		<config>
-			<Kp>0.08</Kp>
-			<beta>1.0</beta>
-			<alpha>0.1</alpha>
-			<gamma>0.0</gamma>
-			<Ti>10</Ti>
-			<Td>0.00001</Td>
-			<u_min>-1.00</u_min>
-			<u_max>1.00</u_max>
-		</config>
-	</pid-controller>
-	
-	<pid-controller>
-		<name>AP PITCH HELPER MINUS</name>
-		<debug>false</debug>
-		<enable>
-			<condition>
-				<and>
-					<less-than>
-						<property>/it-autoflight/internal/elevator-cmd</property>
-						<value>-0.01</value>
-					</less-than>
-					<or>
-						<equals>
-							<property>/it-autoflight/output/ap1</property>
-							<value>1</value>
-						</equals>
-						<equals>
-							<property>/it-autoflight/output/ap2</property>
-							<value>1</value>
-						</equals>
-					</or>
-				</and>
-			</condition>
-		</enable>
-		<input>
-			<value>0</value>
-		</input>
-		<reference>
-			<value>1</value>
-		</reference>
-		<output>
-			<property>/it-autoflight/internal/elevator-trim-cmd</property>
-		</output>
-		<config>
-			<Kp>-0.08</Kp>
-			<beta>1.0</beta>
-			<alpha>0.1</alpha>
-			<gamma>0.0</gamma>
-			<Ti>10</Ti>
-			<Td>0.00001</Td>
-			<u_min>-1.00</u_min>
-			<u_max>1.00</u_max>
-		</config>
-	</pid-controller>
-		
-	<filter>
-		<name>IT-CONTROLLER: PITCH TRIM CMD</name>
-		<debug>false</debug>
 		<feedback-if-disabled>true</feedback-if-disabled>
 		<initialize-to>output</initialize-to>
 		<enable>
 			<condition>
 				<and>
+					<equals>
+						<property>/gear/gear[1]/wow</property>
+						<value>0</value>
+					</equals>
+					<equals>
+						<property>/gear/gear[2]/wow</property>
+						<value>0</value>
+					</equals>
 					<or>
 						<equals>
 							<property>/it-autoflight/output/ap1</property>
@@ -1650,59 +1896,146 @@
 							<value>-0.01</value>
 						</less-than>
 					</or>
+					<not-equals>
+						<property>/it-autoflight/settings/disable-final</property>
+						<value>1</value>
+					</not-equals>
 				</and>
 			</condition>
 		</enable>
 		<input>
-			<property>/it-autoflight/internal/elevator-trim-cmd</property>
+			<condition>
+				<greater-than>
+					<property>/it-autoflight/internal/elevator-cmd</property>
+					<value>0.01</value>
+				</greater-than>
+			</condition>
+			<value>1</value>
+		</input>
+		<input>
+			<condition>
+				<less-than>
+					<property>/it-autoflight/internal/elevator-cmd</property>
+					<value>-0.01</value>
+				</less-than>
+			</condition>
+			<value>-1</value>
 		</input>
 		<output>/controls/flight/elevator-trim</output>
-		<type>noise-spike</type>
+		<min>-1.0</min>
+		<max>1.0</max>
 		<max-rate-of-change>0.01</max-rate-of-change>
 	</filter>
 	
- <!-- =============================================================== -->
- <!-- Flight Director                                                 -->
- <!-- =============================================================== -->
+	<!-- Yaw Axis -->
+	
+	<pi-simple-controller>
+		<name>RUDDER VORLOC TRK</name>
+		<debug>false</debug>
+		<enable>
+			<condition>
+				<and>
+					<or>
+						<equals>
+							<property>/it-autoflight/output/ap1</property>
+							<value>1</value>
+						</equals>
+						<equals>
+							<property>/it-autoflight/output/ap2</property>
+							<value>1</value>
+						</equals>
+					</or>
+					<equals>
+						<property>/it-autoflight/output/lat</property>
+						<value>4</value>
+					</equals>
+				</and>
+			</condition>
+		</enable>
+		<input>/it-autoflight/internal/nav-heading-error-deg</input>
+		<reference>0</reference>
+		<output>/it-autoflight/internal/rudder-cmd</output>
+		<config>
+			<Kp>
+				<condition>
+					<and>
+						<equals>
+							<property>/gear/gear[1]/wow</property>
+							<value>0</value>
+						</equals>
+						<equals>
+							<property>/gear/gear[2]/wow</property>
+							<value>0</value>
+						</equals>
+					</and>
+				</condition>
+				<property>/it-autoflight/config/autoland/yaw-kp</property>
+			</Kp>
+			<Kp>
+				<condition>
+					<or>
+						<equals>
+							<property>/gear/gear[1]/wow</property>
+							<value>1</value>
+						</equals>
+						<equals>
+							<property>/gear/gear[2]/wow</property>
+							<value>1</value>
+						</equals>
+					</or>
+				</condition>
+				<property>/it-autoflight/config/rollout/yaw-kp</property>
+			</Kp>
+			<Ki>0</Ki>
+		</config>
+		<min>-0.15</min>
+		<max>0.15</max>
+	</pi-simple-controller>
+	
+	<filter>
+		<name>IT-CONTROLLER: RUDDER CMD</name>
+		<debug>false</debug>
+		<type>noise-spike</type>
+		<enable>
+			<condition>
+				<and>
+					<or>
+						<equals>
+							<property>/it-autoflight/output/ap1</property>
+							<value>1</value>
+						</equals>
+						<equals>
+							<property>/it-autoflight/output/ap2</property>
+							<value>1</value>
+						</equals>
+					</or>
+					<not-equals>
+						<property>/it-autoflight/settings/disable-final</property>
+						<value>1</value>
+					</not-equals>
+				</and>
+			</condition>
+		</enable>
+		<input>
+			<condition>
+				<equals>
+					<property>/it-autoflight/output/lat</property>
+					<value>4</value>
+				</equals>
+			</condition>
+			<property>/it-autoflight/internal/rudder-cmd</property>
+		</input>
+		<input>0</input>
+		<output>/controls/flight/rudder</output>
+		<max-rate-of-change>1.2</max-rate-of-change>
+	</filter>
+	
+	<!-- Flight Director -->
 	
 	<filter>
 		<name>IT-CONTROLLER: TARGET ROLL CMD</name>
 		<debug>false</debug>
-		<feedback-if-disabled>true</feedback-if-disabled>
-		<initialize-to>output</initialize-to>
-		<input>
-			<property>/it-autoflight/internal/target-roll-deg</property>
-		</input>
-		<output>/it-autoflight/internal/target-roll-fd</output>
 		<type>noise-spike</type>
-		<max-rate-of-change>15</max-rate-of-change>
-	</filter>
-	
-	<filter>
-		<name>FD: ROLL</name>
-		<debug>false</debug>
-		<type>gain</type>
-		<gain>1.0</gain>
-		<input>
-			<condition>
-				<and>
-					<not-equals>
-						<property>/it-autoflight/output/lat</property>
-						<value>4</value>
-					</not-equals>
-					<not-equals>
-						<property>/it-autoflight/output/lat</property>
-						<value>5</value>
-					</not-equals>
-				</and>
-			</condition>
-			<expression>
-				<dif>
-					<property>/it-autoflight/internal/target-roll-fd</property>
-					<property>/orientation/roll-deg</property>
-				</dif>
-			</expression>
-		</input>
 		<input>
 			<condition>
 				<or>
@@ -1716,9 +2049,37 @@
 					</equals>
 				</or>
 			</condition>
+			<value>0</value>
+		</input>
+		<input>/it-autoflight/internal/target-roll-deg</input>
+		<output>/it-autoflight/internal/target-roll-fd</output>
+		<max-rate-of-change>
+			<condition>
+				<and>
+					<not-equals>
+						<property>/it-autoflight/output/fd1</property>
+						<value>1</value>
+					</not-equals>
+					<not-equals>
+						<property>/it-autoflight/output/fd1</property>
+						<value>1</value>
+					</not-equals>
+				</and>
+			</condition>
+			<value>50</value>
+		</max-rate-of-change>
+		<max-rate-of-change>15</max-rate-of-change>
+	</filter>
+	
+	<filter>
+		<name>FD: ROLL</name>
+		<debug>false</debug>
+		<type>gain</type>
+		<gain>1.0</gain>
+		<input>
 			<expression>
 				<dif>
-					<value>0</value>
+					<property>/it-autoflight/internal/target-roll-fd</property>
 					<property>/orientation/roll-deg</property>
 				</dif>
 			</expression>
@@ -1727,7 +2088,7 @@
 		<min>-30</min>
 		<max>30</max>
 	</filter>
-
+	
 	<filter>
 		<name>FD: PITCH</name>
 		<debug>false</debug>

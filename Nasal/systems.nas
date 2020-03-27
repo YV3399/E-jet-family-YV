@@ -122,7 +122,7 @@ setlistener("sim/signals/fdm-initialized", func {
 		engineLoop(1);
 		apuLoop();
 	}, 2);
-	itaf.ap_init();
+	# itaf.ap_init();
 });
 
 # startup/shutdown functions

@@ -84,6 +84,10 @@
 				<path>Aircraft/E-jet-family/Systems/ERJ-autobrake.xml</path>
 			</autopilot>
 			<autopilot>
+				<name>Gear AGL Altitude</name>
+				<path>Aircraft/E-jet-family/Systems/gear-agl-ft.xml</path>
+			</autopilot>
+			<autopilot>
 				<name>Spoilers</name>
 				<path>Aircraft/E-jet-family/Systems/ERJ-spoilers.xml</path>
 			</autopilot>
@@ -297,6 +301,10 @@
 				<desc>arm/disarm ground spoilers</desc>
 			</key>
 			<key>
+				<name>=</name>
+				<desc>cycle autobrake setting</desc>
+			</key>
+			<key>
 				<name>w</name>
 				<desc>walk forward toward view direction</desc>
 			</key>
@@ -341,28 +349,33 @@
 			<roll>
 				<umin>-0.50</umin>
 				<umax>0.50</umax>
-				<kp>0.05</kp>
-				<kp-vloc>0.09</kp-vloc>
+				<kp-low>0.05</kp-low>
+				<kp-high>0.09</kp-high>
 				<ti>10.0</ti>
 				<td>0.00001</td>
 			</roll>
 			<pitch>
 				<umin>-0.50</umin>
 				<umax>0.50</umax>
-				<kp>-0.08</kp>
+				<kp-low>-0.08</kp-low>
+				<kp-high>-0.08</kp-high>
 				<ti>10.0</ti>
 				<td>0.0001</td>
 			</pitch>
 			<cmd>
-				<roll-kp>-1.5</roll-kp>
-				<roll-scale>1.2</roll-scale>
-				<vorloc>-1.0</vorloc>
-				<vs>0.01</vs>
+                <hdg>1.0</hdg>
+                <vorloc>1.0</vorloc>
+                <alt-gain>-5</alt-gain>
 			</cmd>
 			<autoland>
-				<kp-pitch>0.03</kp-pitch>
-				<kp-rudder>-0.1</kp-rudder>
+				<pitch-kp>0.03</pitch-kp>
+				<yaw-kp>-0.1</yaw-kp>
 			</autoland>
+			<rollout>
+                <roll-kp>0.05</roll-kp>
+				<pitch-defl>0.15</pitch-defl>
+				<yaw-kp>-0.1</yaw-kp>
+			</rollout>
 		</config>
 		<settings>
 			<auto-bank-max-deg>35</auto-bank-max-deg> <!-- Maximum Auto Bank Limit -->
@@ -750,7 +763,12 @@
 				<desc>Toggle master autopilot switch</desc>
 				<binding>
 					<command>property-toggle</command>
-					<property>autopilot/settings/engaged</property>
+					<property>it-autoflight/input/ap1</property>
+				</binding>
+				<binding>
+					<command>property-set</command>
+					<property>it-autoflight/input/ap2</property>
+					<property>it-autoflight/input/ap1</property>
 				</binding>
 			</key>
 			<key n="25">
@@ -758,7 +776,7 @@
 				<desc>Toggle autothrottle switch</desc>
 				<binding>
 					<command>property-toggle</command>
-					<property>autopilot/settings/autothrottle</property>
+					<property>it-autoflight/input/athr</property>
 				</binding>
 			</key>
 
