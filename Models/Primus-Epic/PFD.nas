@@ -141,7 +141,17 @@ var canvas_ED_only = {
 			"roll.pointer",
 			"slip.pointer",
 			"vs.needle",
-			"VS.digital"
+			"VS.digital",
+			"fma.appr",
+			"fma.apprarmed",
+			"fma.spd",
+			"fma.spdarmed",
+			"fma.ap",
+			"fma.at",
+			"fma.lat",
+			"fma.latarmed",
+			"fma.vert",
+			"fma.vertarmed"
 		];
 	},
 	update: func() {
@@ -185,18 +195,18 @@ var canvas_ED_only = {
 		me["vhf1.sby"].setText(sprintf("%.2f", getprop("/instrumentation/comm[0]/frequencies/standby-mhz") or 0));
 		me["nav1.act"].setText(sprintf("%.2f", getprop("/instrumentation/nav[0]/frequencies/selected-mhz") or 0));
 		me["nav1.sby"].setText(sprintf("%.2f", getprop("/instrumentation/nav[0]/frequencies/standby-mhz") or 0));
-		# if (getprop("/instrumentation/nav[0]/gs-in-range")) {
+		if (getprop("/instrumentation/nav[0]/gs-in-range")) {
 			me["ils.gsneedle"].setTranslation(0, math.round((getprop("/instrumentation/nav[0]/gs-needle-deflection-norm") or 0) * -100.0));
-		# }
-		# else {
-		# 	me["ils.gsneedle"].setTranslation(0, 0);
-		# }
-		# if (getprop("/instrumentation/nav[0]/in-range")) {
+		}
+		else {
+			me["ils.gsneedle"].setTranslation(0, 0);
+		}
+		if (getprop("/instrumentation/nav[0]/in-range")) {
 			me["ils.locneedle"].setTranslation(math.round((getprop("/instrumentation/nav[0]/heading-needle-deflection-norm") or 0) * 100.0), 0);
-		# }
-		# else {
-		# 	me["ils.locneedle"].setTranslation(0, 0);
-		# }
+		}
+		else {
+			me["ils.locneedle"].setTranslation(0, 0);
+		}
 		
 
 		var vspeed = getprop("/instrumentation/vertical-speed-indicator/indicated-speed-fpm") or 0;
@@ -291,6 +301,66 @@ var canvas_ED_only = {
 			me["asi.100"].hide();
 		}
 		
+# FMA
+		if (getprop("/it-autoflight/output/ap1") or getprop("/it-autoflight/output/ap2")) {
+			me["fma.ap"].show();
+		}
+		else {
+			me["fma.ap"].hide();
+		}
+		if (getprop("/it-autoflight/output/athr")) {
+			me["fma.at"].show();
+		}
+		else {
+			me["fma.at"].hide();
+		}
+
+		var latModeMap = {
+			"HDG": "HDG",
+			"LNAV": "LNAV",
+			"LOC": "LOC",
+			"ALGN": "ROLL",
+			"RLOU": "ROLL",
+			"T/O": "TRACK"
+		};
+		var vertModeMap = {
+			"ALT HLD": "ALT",
+			"V/S": "VS",
+			"G/S": "GS",
+			"ALT CAP": "ASEL",
+			"SPD DES": "FLCH",
+			"SPD CLB": "FLCH",
+			"FPA": "FPA",
+			"LAND 3": "LAND",
+			"FLARE": "FLARE",
+			"ROLLOUT": "ROLLOUT",
+			"T/O CLB": "TO",
+			"G/A CLB": "GA"
+		};
+		var spdModeMap = {
+			"THRUST": "SPDt",
+			"PITCH": "SPDe",
+			"RETARD": "SPDe"
+		};
+
+		me["fma.lat"].setText(latModeMap[getprop("it-autoflight/mode/lat") or ""] or "");
+		me["fma.vert"].setText(vertModeMap[getprop("it-autoflight/mode/vert") or ""] or "");
+		me["fma.spd"].setText(spdModeMap[getprop("it-autoflight/mode/spd") or ""] or "");
+
+		if (getprop("/it-autoflight/output/lnav-armed")) {
+			me["fma.latarmed"].setText("LNAV");
+			me["fma.latarmed"].show();
+		}
+		else if (getprop("/it-autoflight/output/loc-armed") or getprop("/it-autoflight/output/appr-armed")) {
+			me["fma.latarmed"].setText("LOC");
+			me["fma.latarmed"].show();
+		}
+		else {
+			me["fma.latarmed"].setText("");
+			me["fma.latarmed"].hide();
+		}
+
+        me["fma.vertarmed"].hide();
 		
 		settimer(func me.update(), 0.02);
 	},

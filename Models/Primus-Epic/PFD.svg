@@ -27,14 +27,14 @@
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
      inkscape:zoom="0.80705009"
-     inkscape:cx="318.51064"
-     inkscape:cy="801.92158"
+     inkscape:cx="495.68162"
+     inkscape:cy="1208.8402"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
      units="px"
-     inkscape:window-width="1280"
-     inkscape:window-height="1024"
+     inkscape:window-width="1278"
+     inkscape:window-height="1022"
      inkscape:window-x="3360"
      inkscape:window-y="0"
      inkscape:window-maximized="0" />
@@ -2377,24 +2377,24 @@
     <text
        xml:space="preserve"
        style="font-style:normal;font-weight:normal;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#00ff00;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       x="382.57385"
+       x="396.2352"
        y="-165.91693"
-       id="text4700"
-       transform="scale(0.87838893,1.1384479)"><tspan
+       id="fma.ap"
+       transform="scale(0.87838891,1.1384479)"><tspan
          sodipodi:role="line"
          id="tspan4702"
-         x="382.57385"
+         x="396.2352"
          y="-165.91693"
          style="font-size:38.44907761px;line-height:1.25">AP</tspan></text>
     <text
-       transform="scale(0.93783199,1.0662891)"
-       id="text4704"
+       transform="scale(0.93783197,1.0662891)"
+       id="fma.at"
        y="-123.92304"
-       x="358.28561"
+       x="371.08102"
        style="font-style:normal;font-weight:normal;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#00ff00;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
        xml:space="preserve"><tspan
          y="-123.92304"
-         x="358.28561"
+         x="371.08102"
          id="tspan4706"
          sodipodi:role="line"
          style="font-size:41.05103683px;line-height:1.25">AT</tspan></text>
@@ -2403,7 +2403,7 @@
        style="font-style:normal;font-weight:normal;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#00ff00;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
        x="225.68433"
        y="-171.03032"
-       id="text4708"
+       id="fma.spd"
        transform="scale(0.90523569,1.1046847)"><tspan
          sodipodi:role="line"
          id="tspan4710"
@@ -2413,18 +2413,18 @@
     <text
        xml:space="preserve"
        style="font-style:normal;font-weight:normal;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#00ff00;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       x="589.71094"
+       x="611.46021"
        y="-227.7193"
-       id="text4712"
-       transform="scale(0.91956612,1.0874694)"><tspan
+       id="fma.appr"
+       transform="scale(0.91956611,1.0874694)"><tspan
          sodipodi:role="line"
          id="tspan4714"
-         x="589.71094"
+         x="611.46021"
          y="-227.7193"
          style="font-size:39.57038116px;line-height:1.25">APPR2</tspan></text>
     <text
        transform="scale(0.91956611,1.0874694)"
-       id="text4716"
+       id="fma.lat"
        y="-173.92468"
        x="578.83624"
        style="font-style:normal;font-weight:normal;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#00ff00;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
@@ -2437,13 +2437,13 @@
     <text
        xml:space="preserve"
        style="font-style:normal;font-weight:normal;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#00ff00;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       x="735.09924"
+       x="741.84174"
        y="-168.08946"
-       id="text4720"
-       transform="scale(0.88989065,1.1237336)"><tspan
+       id="fma.vert"
+       transform="scale(0.88989063,1.1237336)"><tspan
          sodipodi:role="line"
          id="tspan4722"
-         x="735.09924"
+         x="741.84174"
          y="-168.08946"
          style="font-size:38.29339981px;line-height:1.25">GS</tspan></text>
     <text
@@ -3828,5 +3828,53 @@
        inkscape:transform-center-y="0.33430934"
        sodipodi:nodetypes="cccc"
        inkscape:label="#path4800" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;"
+       x="578.83624"
+       y="-122.42912"
+       id="fma.latarmed"
+       transform="scale(0.91956611,1.0874694)"><tspan
+         style="font-size:39.57038116px;line-height:1.25;fill:#ffffff;"
+         sodipodi:role="line"
+         id="tspan1457"
+         x="578.83624"
+         y="-122.42912">LOC</tspan></text>
+    <text
+       transform="scale(0.90523568,1.1046847)"
+       id="fma.spdarmed"
+       y="-118.52668"
+       x="225.68433"
+       style="font-style:normal;font-weight:normal;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       xml:space="preserve"><tspan
+         style="font-size:39.20155716px;line-height:1.25;fill:#ffffff"
+         y="-118.52668"
+         x="225.68433"
+         id="tspan1461"
+         sodipodi:role="line">SPD</tspan></text>
+    <text
+       transform="scale(0.91956611,1.0874694)"
+       id="fma.vertarmed"
+       y="-122.42912"
+       x="707.15692"
+       style="font-style:normal;font-weight:normal;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       xml:space="preserve"><tspan
+         y="-122.42912"
+         x="707.15692"
+         id="tspan1465"
+         sodipodi:role="line"
+         style="font-size:39.57038116px;line-height:1.25;fill:#ffffff">LOC</tspan></text>
+    <text
+       transform="scale(0.91956611,1.0874694)"
+       id="fma.apprarmed"
+       y="-227.7193"
+       x="278.69641"
+       style="font-style:normal;font-weight:normal;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;"
+       xml:space="preserve"><tspan
+         style="font-size:39.57038116px;line-height:1.25;fill:#ffffff;"
+         y="-227.7193"
+         x="278.69641"
+         id="tspan1469"
+         sodipodi:role="line">APPR2</tspan></text>
   </g>
 </svg>
