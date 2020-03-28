@@ -4,6 +4,24 @@
 
     <path>Aircraft/E-jet-family/Models/FlightDeck/erj-flightdeck.ac</path>
 
+    <!-- HUD -->
+	<model>
+		<path>hud_L.xml</path>
+		<offsets>
+			<x-m>-12.3478</x-m>
+			<y-m>-0.533936</y-m>
+			<z-m>1.41536</z-m>
+		</offsets>
+	</model>
+	<model>
+		<path>hud_R.xml</path>
+		<offsets>
+			<x-m>-12.3478</x-m>
+			<y-m>0.533936</y-m>
+			<z-m>1.41536</z-m>
+		</offsets>
+	</model>
+
     <animation>
         <type>translate</type>
         <object-name>pedal.left</object-name>
@@ -94,26 +112,6 @@
             <z2-m>1.1967</z2-m>
         </axis>
     </animation>
-
-<!-- HUD -->
-
-    <model>
-        <path>hud_L.xml</path>
-        <offsets>
-            <x-m>-12.3478</x-m>
-            <y-m>-0.533936</y-m>
-            <z-m>1.41536</z-m>
-        </offsets>
-    </model>
-
-    <model>
-        <path>hud_R.xml</path>
-        <offsets>
-            <x-m>-12.3478</x-m>
-            <y-m>0.533936</y-m>
-            <z-m>1.41536</z-m>
-        </offsets>
-    </model>
 
 <!-- Overhead Compass -->
 
@@ -368,6 +366,36 @@
             <z>0</z>
         </axis>
     </animation>
+    <model>
+        <name>LandingGear</name>
+        <path>Aircraft/E-jet-family/XMLs/Panels/lg.xml</path>
+        <offsets>
+            <x-m>-12.52</x-m>
+            <y-m>0.15</y-m>
+            <z-m>0.9</z-m>
+            <pitch-deg>-13.5</pitch-deg>
+        </offsets>
+    </model>
+    <model>
+        <name>AutoBrake</name>
+        <path>Aircraft/E-jet-family/XMLs/Panels/autobrake.xml</path>
+        <offsets>
+            <x-m>-12.52</x-m>
+            <y-m>-0.15</y-m>
+            <z-m>0.905</z-m>
+            <pitch-deg>-13.5</pitch-deg>
+        </offsets>
+    </model>
+    <model>
+        <name>ELT</name>
+        <path>Aircraft/E-jet-family/XMLs/Panels/ELT.xml</path>
+        <offsets>
+            <x-m>-12.515</x-m>
+            <y-m>0.2</y-m>
+            <z-m>0.9</z-m>
+            <pitch-deg>-13.5</pitch-deg>
+        </offsets>
+    </model>
 
 <!-- Flight Displays -->
 
@@ -377,6 +405,16 @@
         <offsets>
             <x-m>-12.5489</x-m>
             <y-m>-0.15</y-m>
+            <z-m>1.0245</z-m>
+            <pitch-deg>-13.5</pitch-deg>
+        </offsets>
+    </model>
+    <model>
+        <name>Chronometer</name>
+        <path>Aircraft/E-jet-family/XMLs/Instruments/chronometer.xml</path>
+        <offsets>
+            <x-m>-12.5489</x-m>
+            <y-m>0.17</y-m>
             <z-m>1.0245</z-m>
             <pitch-deg>-13.5</pitch-deg>
         </offsets>

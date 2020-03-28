@@ -808,7 +808,7 @@
            <property>aero/qbar-psf</property>
            <property>metrics/Sw-sqft</property>
            <property>fcs/flap-pos-deg</property>
-           <value> 0.01 </value>
+           <value> 0.005 </value>
          </product>
     </function>
 

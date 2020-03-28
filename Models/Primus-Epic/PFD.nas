@@ -141,7 +141,17 @@ var canvas_ED_only = {
 			"roll.pointer",
 			"slip.pointer",
 			"vs.needle",
-			"VS.digital"
+			"VS.digital",
+			"fma.appr",
+			"fma.apprarmed",
+			"fma.spd",
+			"fma.spdarmed",
+			"fma.ap",
+			"fma.at",
+			"fma.lat",
+			"fma.latarmed",
+			"fma.vert",
+			"fma.vertarmed"
 		];
 	},
 	update: func() {
@@ -185,18 +195,18 @@ var canvas_ED_only = {
 		me["vhf1.sby"].setText(sprintf("%.2f", getprop("/instrumentation/comm[0]/frequencies/standby-mhz") or 0));
 		me["nav1.act"].setText(sprintf("%.2f", getprop("/instrumentation/nav[0]/frequencies/selected-mhz") or 0));
 		me["nav1.sby"].setText(sprintf("%.2f", getprop("/instrumentation/nav[0]/frequencies/standby-mhz") or 0));
-		# if (getprop("/instrumentation/nav[0]/gs-in-range")) {
+		if (getprop("/instrumentation/nav[0]/gs-in-range")) {
 			me["ils.gsneedle"].setTranslation(0, math.round((getprop("/instrumentation/nav[0]/gs-needle-deflection-norm") or 0) * -100.0));
-		# }
-		# else {
-		# 	me["ils.gsneedle"].setTranslation(0, 0);
-		# }
-		# if (getprop("/instrumentation/nav[0]/in-range")) {
+		}
+		else {
+			me["ils.gsneedle"].setTranslation(0, 0);
+		}
+		if (getprop("/instrumentation/nav[0]/in-range")) {
 			me["ils.locneedle"].setTranslation(math.round((getprop("/instrumentation/nav[0]/heading-needle-deflection-norm") or 0) * 100.0), 0);
-		# }
-		# else {
-		# 	me["ils.locneedle"].setTranslation(0, 0);
-		# }
+		}
+		else {
+			me["ils.locneedle"].setTranslation(0, 0);
+		}
 		
 
 		var vspeed = getprop("/instrumentation/vertical-speed-indicator/indicated-speed-fpm") or 0;
@@ -291,7 +301,106 @@ var canvas_ED_only = {
 			me["asi.100"].hide();
 		}
 		
-		
+# FMA
+		if (getprop("/it-autoflight/output/ap1") or getprop("/it-autoflight/output/ap2")) {
+			me["fma.ap"].show();
+		}
+		else {
+			me["fma.ap"].hide();
+		}
+		if (getprop("/it-autoflight/output/athr")) {
+			me["fma.at"].show();
+		}
+		else {
+			me["fma.at"].hide();
+		}
+
+		var latModeMap = {
+			"HDG": "HDG",
+			"HDG HLD": "ROLL",
+			"HDG SEL": "HDG",
+			"LNAV": "LNAV",
+			"LOC": "LOC",
+			"ALGN": "ROLL",
+			"RLOU": "ROLL",
+			"T/O": "TRACK"
+		};
+		var latModeArmedMap = {
+			"LNV": "LNAV",
+			"LOC": "LOC",
+			"ILS": "LOC",
+			"HDG": "HDG",
+			"HDG HLD": "ROLL",
+			"HDG SEL": "HDG",
+			"T/O": "TRACK"
+		};
+		var vertModeMap = {
+			"ALT HLD": "ALT",
+			"V/S": "VS",
+			"G/S": "GS",
+			"ALT CAP": "ASEL",
+			"SPD DES": "FLCH",
+			"SPD CLB": "FLCH",
+			"FPA": "FPA",
+			"LAND 3": "LAND",
+			"FLARE": "FLARE",
+			"ROLLOUT": "ROLLOUT",
+			"T/O CLB": "TO",
+			"G/A CLB": "GA"
+		};
+		var vertModeArmedMap = {
+			"V/S": "ASEL",
+			"G/S": "ASEL",
+			"ALT CAP": "ALT",
+			"SPD DES": "ASEL",
+			"SPD CLB": "ASEL",
+			"FPA": "ASEL",
+			"T/O CLB": "FLCH",
+			"G/A CLB": "FLCH"
+		};
+		var spdModeMap = {
+			"THRUST": "SPDt",
+			"PITCH": "SPDe",
+			" PITCH": "SPDe", # yes, this is correct, ITAF 4.0 is buggy here
+			"RETARD": "SPDe",
+			"T/O CLB": "TO",
+			"G/A CLB": "GA"
+		};
+		var spdModeArmedMap = {
+			"THRUST": "",
+			"PITCH": "SPDt",
+			" PITCH": "SPDt",
+			"RETARD": "SPDt",
+			"T/O CLB": "SPDt",
+			"G/A CLB": "SPDt"
+		};
+
+		me["fma.lat"].setText(latModeMap[getprop("/it-autoflight/mode/lat") or ""] or "");
+		me["fma.vert"].setText(vertModeMap[getprop("/it-autoflight/mode/vert") or ""] or "");
+		me["fma.vertarmed"].setText(vertModeArmedMap[getprop("/it-autoflight/mode/vert") or ""] or "");
+		me["fma.spd"].setText(
+				spdModeMap[getprop("/it-autoflight/mode/vert") or ""] or
+				spdModeMap[getprop("/it-autoflight/mode/thr") or ""] or
+				"");
+		me["fma.spdarmed"].setText(
+				spdModeArmedMap[getprop("/it-autoflight/mode/vert") or ""] or
+				spdModeArmedMap[getprop("/it-autoflight/mode/thr") or ""] or
+				"");
+
+		if (getprop("/it-autoflight/output/lnav-armed")) {
+			me["fma.latarmed"].setText("LNAV");
+		}
+		else if (getprop("/it-autoflight/output/loc-armed") or getprop("/it-autoflight/output/appr-armed")) {
+			me["fma.latarmed"].setText("LOC");
+		}
+		else if (getprop("/it-autoflight/mode/lat") == "T/O") {
+			# In T/O mode, if LNAV wasn't armed, the A/P will transition to HDG mode.
+			me["fma.latarmed"].setText("HDG");
+		}
+		else {
+			me["fma.latarmed"].setText(latModeArmedMap[getprop("/it-autoflight/mode/arm")]);
+		}
+
 		settimer(func me.update(), 0.02);
 	},
 };
