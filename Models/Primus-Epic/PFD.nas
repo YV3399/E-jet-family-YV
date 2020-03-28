@@ -317,10 +317,21 @@ var canvas_ED_only = {
 
 		var latModeMap = {
 			"HDG": "HDG",
+			"HDG HLD": "ROLL",
+			"HDG SEL": "HDG",
 			"LNAV": "LNAV",
 			"LOC": "LOC",
 			"ALGN": "ROLL",
 			"RLOU": "ROLL",
+			"T/O": "TRACK"
+		};
+		var latModeArmedMap = {
+			"LNV": "LNAV",
+			"LOC": "LOC",
+			"ILS": "LOC",
+			"HDG": "HDG",
+			"HDG HLD": "ROLL",
+			"HDG SEL": "HDG",
 			"T/O": "TRACK"
 		};
 		var vertModeMap = {
@@ -337,31 +348,59 @@ var canvas_ED_only = {
 			"T/O CLB": "TO",
 			"G/A CLB": "GA"
 		};
+		var vertModeArmedMap = {
+			"V/S": "ASEL",
+			"G/S": "ASEL",
+			"ALT CAP": "ALT",
+			"SPD DES": "ASEL",
+			"SPD CLB": "ASEL",
+			"FPA": "ASEL",
+			"T/O CLB": "FLCH",
+			"G/A CLB": "FLCH"
+		};
 		var spdModeMap = {
 			"THRUST": "SPDt",
 			"PITCH": "SPDe",
-			"RETARD": "SPDe"
+			" PITCH": "SPDe", # yes, this is correct, ITAF 4.0 is buggy here
+			"RETARD": "SPDe",
+			"T/O CLB": "TO",
+			"G/A CLB": "GA"
+		};
+		var spdModeArmedMap = {
+			"THRUST": "",
+			"PITCH": "SPDt",
+			" PITCH": "SPDt",
+			"RETARD": "SPDt",
+			"T/O CLB": "SPDt",
+			"G/A CLB": "SPDt"
 		};
 
-		me["fma.lat"].setText(latModeMap[getprop("it-autoflight/mode/lat") or ""] or "");
-		me["fma.vert"].setText(vertModeMap[getprop("it-autoflight/mode/vert") or ""] or "");
-		me["fma.spd"].setText(spdModeMap[getprop("it-autoflight/mode/spd") or ""] or "");
+		me["fma.lat"].setText(latModeMap[getprop("/it-autoflight/mode/lat") or ""] or "");
+		me["fma.vert"].setText(vertModeMap[getprop("/it-autoflight/mode/vert") or ""] or "");
+		me["fma.vertarmed"].setText(vertModeArmedMap[getprop("/it-autoflight/mode/vert") or ""] or "");
+		me["fma.spd"].setText(
+				spdModeMap[getprop("/it-autoflight/mode/vert") or ""] or
+				spdModeMap[getprop("/it-autoflight/mode/thr") or ""] or
+				"");
+		me["fma.spdarmed"].setText(
+				spdModeArmedMap[getprop("/it-autoflight/mode/vert") or ""] or
+				spdModeArmedMap[getprop("/it-autoflight/mode/thr") or ""] or
+				"");
 
 		if (getprop("/it-autoflight/output/lnav-armed")) {
 			me["fma.latarmed"].setText("LNAV");
-			me["fma.latarmed"].show();
 		}
 		else if (getprop("/it-autoflight/output/loc-armed") or getprop("/it-autoflight/output/appr-armed")) {
 			me["fma.latarmed"].setText("LOC");
-			me["fma.latarmed"].show();
+		}
+		else if (getprop("/it-autoflight/mode/lat") == "T/O") {
+			# In T/O mode, if LNAV wasn't armed, the A/P will transition to HDG mode.
+			me["fma.latarmed"].setText("HDG");
 		}
 		else {
-			me["fma.latarmed"].setText("");
-			me["fma.latarmed"].hide();
+			me["fma.latarmed"].setText(latModeArmedMap[getprop("/it-autoflight/mode/arm")]);
 		}
 
-        me["fma.vertarmed"].hide();
-		
 		settimer(func me.update(), 0.02);
 	},
 };
