@@ -116,6 +116,7 @@ var canvas_ED_only = {
 			"wind.kt",
 			"heading.digital",
 			"selectedheading.digital",
+			"selectedcourse.digital",
 			"selectedheading.pointer",
 			"nav1.act",
 			"nav1.sby",
@@ -135,6 +136,11 @@ var canvas_ED_only = {
 			"asi.100",
 			"asi.10",
 			"asi.tape",
+            "hsi.nav1",
+            "hsi.nav1track",
+            "hsi.dots",
+            "hsi.to",
+            "hsi.from",
 			"selectedspeed.digital",
 			"selectedalt.digital100",
 			"selectedvspeed.digital",
@@ -178,6 +184,22 @@ var canvas_ED_only = {
 		me["heading.digital"].setText(sprintf("%03d", heading));
 		me["selectedheading.digital"].setText(sprintf("%03d", selectedheading));
 		me["selectedheading.pointer"].setRotation((selectedheading - heading) * DC);
+        
+        # HSI NAV1
+        var nav1heading = getprop("/instrumentation/nav[0]/radials/selected-deg") or 0;
+        var nav1error = getprop("/instrumentation/nav[0]/heading-needle-deflection-norm") or 0;
+        me["hsi.nav1"].setRotation((nav1heading - heading) * DC);
+        me["hsi.dots"].setRotation((nav1heading - heading) * DC);
+        me["hsi.nav1track"].setTranslation(nav1error * 120, 0);
+        if (getprop("/instrumentation/nav[0]/from-flag")) {
+            me["hsi.from"].show();
+            me["hsi.to"].hide();
+        }
+        else {
+            me["hsi.from"].hide();
+            me["hsi.to"].show();
+        }
+
 
 		me["selectedalt.digital100"].setText(sprintf("%02d", (getprop("/it-autoflight/input/alt") or 0) * 0.01));
 
