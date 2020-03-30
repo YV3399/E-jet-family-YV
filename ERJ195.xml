@@ -522,7 +522,7 @@
                 </setting>
                 <setting>
                     <position>25</position>
-                    <time>2.0000</time>
+                    <time>1.5000</time>
                 </setting>
      </traverse>
      <output>fcs/slat-pos-deg</output>
@@ -584,23 +584,23 @@
                 </setting>
                 <setting>
                     <position>10.0000</position>
-                    <time>1.0000</time>
+                    <time>0.5000</time>
                 </setting>
                 <setting>
                     <position>20.0000</position>
-                    <time>1.0000</time>
+                    <time>4.0000</time>
                 </setting>
                 <setting>
                     <position>20.0000</position>
-                    <time>1.0000</time>
+                    <time>0.0000</time>
                 </setting>
                 <setting>
                     <position>20.0000</position>
-                    <time>1.0000</time>
+                    <time>0.0000</time>
                 </setting>
                 <setting>
                     <position>37.0000</position>
-                    <time>1.0000</time>
+                    <time>5.0000</time>
                 </setting>
      </traverse>
      <output>fcs/flap-pos-deg</output>
@@ -664,18 +664,16 @@
 <!-- Lift due to ground effects to make the take off faster -->
         <function name="aero/function/kCLge">
             <description>Change_in_lift_due_to_ground_effect</description>
-            <product>
-                  <table>
-                      <independentVar>aero/h_b-mac-ft</independentVar>
-                      <tableData>
-                          0.0000	1.2000	
-                          0.1000	1.3200	
-                          0.1500	1.3600	
-                          0.2000	1.4000	
-                          1.1000	1.2000	
-                      </tableData>
-                  </table>
-            </product>
+			  <table>
+				  <independentVar>aero/h_b-mac-ft</independentVar>
+				  <tableData>
+					  0.0000	1.2000	
+					  0.1000	1.3200	
+					  0.1500	1.3600	
+					  0.2000	1.4000	
+					  1.1000	1.2000	
+				  </tableData>
+			  </table>
         </function>
 
   <axis name="LIFT">
