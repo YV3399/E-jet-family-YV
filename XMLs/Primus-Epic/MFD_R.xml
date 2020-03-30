@@ -17,6 +17,47 @@
 	</animation>
 
 	<animation>
+		<type>pick</type>
+		<object-name>pick.map</object-name>
+		<visible>0</visible>
+		<action>
+			<button>0</button>
+			<binding>
+				<command>property-assign</command>
+				<property>instrumentation/mfd/upper-page</property>
+				<value>map</value>
+			</binding>
+		</action>
+	</animation>
+	<animation>
+		<type>pick</type>
+		<object-name>pick.plan</object-name>
+		<visible>0</visible>
+		<action>
+			<button>0</button>
+			<binding>
+				<command>property-assign</command>
+				<property>instrumentation/mfd/upper-page</property>
+				<value>plan</value>
+			</binding>
+		</action>
+	</animation>
+	<animation>
+		<type>pick</type>
+		<object-name>pick.systems</object-name>
+		<visible>0</visible>
+		<action>
+			<button>0</button>
+			<binding>
+				<command>property-assign</command>
+				<property>instrumentation/mfd/upper-page</property>
+				<value>systems</value>
+			</binding>
+		</action>
+	</animation>
+
+
+	<animation>
 		<type>material</type>
 		<object-name>Waypoint 1 ID</object-name>
 		<object-name>Waypoint 1 distance</object-name>

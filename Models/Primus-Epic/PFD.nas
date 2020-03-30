@@ -116,6 +116,7 @@ var canvas_ED_only = {
 			"wind.kt",
 			"heading.digital",
 			"selectedheading.digital",
+			"selectedcourse.digital",
 			"selectedheading.pointer",
 			"nav1.act",
 			"nav1.sby",
@@ -135,6 +136,11 @@ var canvas_ED_only = {
 			"asi.100",
 			"asi.10",
 			"asi.tape",
+			"hsi.nav1",
+			"hsi.nav1track",
+			"hsi.dots",
+			"hsi.to",
+			"hsi.from",
 			"selectedspeed.digital",
 			"selectedalt.digital100",
 			"selectedvspeed.digital",
@@ -173,11 +179,29 @@ var canvas_ED_only = {
 		
 		var heading = getprop("/orientation/heading-deg") or 0;
 		var selectedheading = getprop("/it-autoflight/input/hdg") or 0;
+		var selectedcourse = getprop("/instrumentation/nav[0]/radials/selected-deg") or 0;
 
 		me["compass"].setRotation(heading * -DC);
 		me["heading.digital"].setText(sprintf("%03d", heading));
 		me["selectedheading.digital"].setText(sprintf("%03d", selectedheading));
 		me["selectedheading.pointer"].setRotation((selectedheading - heading) * DC);
+		me["selectedcourse.digital"].setText(sprintf("%03d", selectedcourse));
+		
+		# HSI NAV1
+		var nav1heading = getprop("/instrumentation/nav[0]/radials/selected-deg") or 0;
+		var nav1error = getprop("/instrumentation/nav[0]/heading-needle-deflection-norm") or 0;
+		me["hsi.nav1"].setRotation((nav1heading - heading) * DC);
+		me["hsi.dots"].setRotation((nav1heading - heading) * DC);
+		me["hsi.nav1track"].setTranslation(nav1error * 120, 0);
+		if (getprop("/instrumentation/nav[0]/from-flag")) {
+			me["hsi.from"].show();
+			me["hsi.to"].hide();
+		}
+		else {
+			me["hsi.from"].hide();
+			me["hsi.to"].show();
+		}
+
 
 		me["selectedalt.digital100"].setText(sprintf("%02d", (getprop("/it-autoflight/input/alt") or 0) * 0.01));
 
@@ -213,76 +237,72 @@ var canvas_ED_only = {
 		me["VS.digital"].setText(sprintf("%04d", vspeed));
 		me["vs.needle"].setRotation(vspeed * math.pi * 0.25 / 4000.0);
 		
-		
-		
-		var alt=getprop("/instrumentation/altimeter/indicated-altitude-ft") or 0;
-
-		me["alt.tape"].setTranslation(0,(alt - roundToNearest(alt, 1000))*0.45);
+		# Altitude
+		var alt = getprop("/instrumentation/altimeter/indicated-altitude-ft") or 0;
 		if (roundToNearest(alt, 1000) == 0) {
-			#me["altTextLowSmall1"].setText(sprintf("%0.0f",5));
-			#me["altTextHighSmall2"].setText(sprintf("%0.0f",5));
 			var altNumLow = "-1";
 			var altNumHigh = "1";
 			var altNumCenter = 0;
-		} elsif (roundToNearest(alt, 1000) > 0) {
-			#me["altTextLowSmall1"].setText(sprintf("%0.0f",5));
-			#me["altTextHighSmall2"].setText(sprintf("%0.0f",5));
+		}
+		elsif (roundToNearest(alt, 1000) > 0) {
 			var altNumLow = (roundToNearest(alt, 1000)/1000 - 1);
 			var altNumHigh = (roundToNearest(alt, 1000)/1000 + 1);
 			var altNumCenter = altNumHigh-1;
-		} elsif (roundToNearest(alt, 1000) < 0) {
-			#me["altTextLowSmall1"].setText(sprintf("%0.0f",5));
-			#me["altTextHighSmall2"].setText(sprintf("%0.0f",5));
+		}
+		elsif (roundToNearest(alt, 1000) < 0) {
 			var altNumLow = roundToNearest(alt, 1000)/1000-1;
 			var altNumHigh = (roundToNearest(alt, 1000)/1000 + 1) ;
 			var altNumCenter = altNumLow-1;
 		}
 		if ( altNumLow == 0 ) {
 			altNumLow = "";
-		}else if(altNumLow != nil){
+		}
+		elsif(altNumLow != nil) {
 			altNumLow=1000*altNumLow;
 		}
 		if ( altNumHigh == 0 and alt < 0) {
 			altNumHigh = "-";
-		}else if(altNumHigh != nil){
+		}
+		elsif(altNumHigh != nil) {
 			altNumHigh=1000*altNumHigh;
 		}
-		
 		if(altNumCenter != nil){
 			altNumCenter=1000*altNumCenter;
 		}
-		
-		
-		
-		var alt100=(getprop("/instrumentation/PFD/alt-1") or 0)/100;
+
+		me["alt.tape"].setTranslation(0,(alt - roundToNearest(alt, 1000))*0.45);
+
+		var alt100 = alt / 100;
+		var alt100Abs = math.abs(math.floor(alt100));
+		var altStr = "  0";
+		if (alt100Abs >= 1) {
+			altStr = sprintf("%3.0d", alt100Abs) or "  0";
+		}
 		me["alt.rollingdigits"].setTranslation(0,math.round((10*math.mod(alt100,1))*18, 0.1));
 		
-		me["altNumLow1"].setText(sprintf("%s", altNumLow));
-		me["altNumHigh1"].setText(sprintf("%4d", altNumCenter));
-		me["altNumHigh2"].setText(sprintf("%s", altNumHigh));
-		
-		
-		var alt10000=getprop("/instrumentation/PFD/alt-10000") or 0;
-		if(alt10000!=0){
-			me["alt.10000"].show();
-			me["alt.10000"].setText(sprintf("%s", math.round(alt10000)));
-		}else{
-			me["alt.10000"].hide();
+		me["alt.100"].setText(substr(altStr, 2, 1));
+		me["alt.1000"].setText(substr(altStr, 1, 1));
+		if (alt < 0) {
+			me["alt.10000"].setText("-" ~ substr(altStr, 0, 1));
 		}
-		
-		var alt1000=getprop("/instrumentation/PFD/alt-1000") or 0;
-		if(alt1000!=0){
-			me["alt.1000"].show();
-			me["alt.1000"].setText(sprintf("%s", math.round((10*math.mod(alt1000/10,1)))));
-		}else{
-			me["alt.1000"].hide();
+		else {
+			me["alt.10000"].setText(substr(altStr, 0, 1));
 		}
-		
-		var alt100=getprop("/instrumentation/PFD/alt-100") or 0;
-		me["alt.100"].setText(sprintf("%s", math.round((10*math.mod(alt100/10,1)))));
 
+		# if (alt100Abs >= 10000) {
+		# 	me["alt.10000"].show();
+		# 	me["alt.1000"].show();
+		# }
+		# else if (alt100Abs >= 1000) {
+		# 	me["alt.10000"].hide();
+		# 	me["alt.1000"].show();
+		# }
+		# else {
+		# 	me["alt.10000"].hide();
+		# 	me["alt.1000"].hide();
+		# }
 		
-		
+		# Airspeed
 		var airspeed=getprop("instrumentation/airspeed-indicator/indicated-speed-kt");
 		me["asi.tape"].setTranslation(0,airspeed*6.6);
 		me["asi.rollingdigits"].setTranslation(0,math.round((10*math.mod(airspeed/10,1))*50, 0.1));
@@ -301,7 +321,7 @@ var canvas_ED_only = {
 			me["asi.100"].hide();
 		}
 		
-# FMA
+		# FMA
 		if (getprop("/it-autoflight/output/ap1") or getprop("/it-autoflight/output/ap2")) {
 			me["fma.ap"].show();
 		}
