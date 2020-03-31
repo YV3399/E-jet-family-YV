@@ -34,4 +34,22 @@
 		</condition>
 	</animation>
 
+    <animation>
+        <type>touch</type>
+        <visible>true</visible>
+        <object-name>ifes_screen</object-name>
+        <action>
+            <touch>0</touch>
+            <repeatable>false</repeatable>
+            <binding>
+                <command>nasal</command>
+                <script>
+                    ifes.registerTouch(
+                        cmdarg().getNode("x").getValue(),
+                        cmdarg().getNode("y").getValue());
+                </script>
+            </binding>
+        </action>
+    </animation>
+
 </PropertyList>

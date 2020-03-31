@@ -1,6 +1,12 @@
 var ifesCanvas = nil;
 var screenWidth = 1024;
-var screenHeight = 768;
+var screenHeight = 800;
+var texSize = 1024;
+var uvBottom = 0.997109;
+var uvTop = 0.214844;
+var uvHeight = uvBottom - uvTop;
+var uvWidth = 1;
+var screenTop = (screenHeight / uvHeight) * uvTop;
 
 var Console = {
     new: func(group) {
@@ -12,10 +18,10 @@ var Console = {
     init: func(group) {
         me.textLines = [];
         me.textLineElems = [];
-        me.numLines = 48;
+        me.numLines = math.floor(screenHeight / 20);
         me.textgroup = group.createChild("group");
         for (var i = 0; i < me.numLines; i = i + 1) {
-            var y = i * 16 + 14;
+            var y = (i + 1) * 20;
             append(me.textLineElems,
                 me.textgroup.createChild("text")
                             .setTranslation(0, y)
@@ -113,7 +119,7 @@ var BootScreen = {
         [ 3.4, "Setting up dhcp ...                                                      [ OK ]" ],
         [ 4.0, "Setting up route ...                                                     [ OK ]" ],
         [ 4.4, "Going to runlevel 4" ],
-        [ 5.0, nil ],
+        [ 4.8, "Setting up locale ...                                                    [ OK ]" ],
         [ 5.5, "ifes@ifes70> _" ]
     ]
 };
@@ -128,7 +134,8 @@ var IFES = {
 
         var screenGroup = canvas.createGroup("screen");
         print(screenGroup);
-        var background = screenGroup.rect(0, 0, screenWidth, screenHeight).setColor([0,0,0]);
+        var background = screenGroup.rect(0, 0, screenWidth, screenHeight)
+                                    .setColorFill([0,0,0]);
         m.masterGroup = screenGroup.createChild("group", "master");
         m.console = Console.new(m.masterGroup.createChild("group", "console"));
         m.bootScreen = BootScreen.new(m.console);
@@ -157,14 +164,26 @@ var IFES = {
             me.powered = 0;
             me.masterGroup.hide();
         }
+    },
+
+    touch: func(x, y) {
+        if (!me.powered) return;
+        me.console.writeLine(sprintf("touch (%i, %i)", x, y));
+    }
+};
+
+var onTouch = nil;
+var registerTouch = func(x, y) {
+    if (onTouch != nil) {
+        onTouch(x, y);
     }
 };
 
 setlistener("sim/signals/fdm-initialized", func {
     ifesCanvas = canvas.new({
         "name": "IFES",
-        "size": [screenWidth, screenHeight],
-        "view": [screenWidth, screenHeight],
+        "size": [texSize, texSize],
+        "view": [texSize, texSize],
         "mipmapping": 1
     });
     ifesCanvas.addPlacement({"node": "ifes_screen"});
@@ -185,4 +204,9 @@ setlistener("sim/signals/fdm-initialized", func {
             }
         }
     });
+    onTouch = func(x, y) {
+        var sx = math.floor(x / uvWidth * screenWidth);
+        var sy = math.floor((uvBottom - y) / uvHeight * screenHeight);
+        ifes.touch(sx, sy);
+    };
 });
