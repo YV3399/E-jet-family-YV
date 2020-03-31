@@ -892,6 +892,9 @@
 			<file>Aircraft/E-jet-family/Nasal/it-autoflight.nas</file>
 		</itaf>
 
+        <ifes>
+			<file>Aircraft/E-jet-family/IFES/ifes.nas</file>
+        </ifes>
 		<canvas_chrono>
 			<file>Aircraft/E-jet-family/Models/Instruments/Chrono/chronometer.nas</file>
 		</canvas_chrono>
