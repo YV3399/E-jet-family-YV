@@ -2,16 +2,14 @@ var ifesCanvas = nil;
 var screenWidth = 1024;
 var screenHeight = 768;
 
-var TextScreen = {
+var Console = {
     new: func(group) {
-        var m = { parents: [TextScreen] };
+        var m = { parents: [Console] };
         m.init(group);
         return m;
     },
 
     init: func(group) {
-        var background = group.rect(0, 0, screenWidth, screenHeight)
-                              .setColor([0,0,0]);
         me.textLines = [];
         me.textLineElems = [];
         me.numLines = 48;
@@ -63,56 +61,36 @@ var TextScreen = {
 };
 
 var BootScreen = {
-    new: func(group) {
-        var m = { parents: [BootScreen, TextScreen] };
-        m.init(group);
+    new: func(con) {
+        var m = { parents: [BootScreen] };
+        m.con = con;
+        m.reset();
         return m;
     },
 
-    init: func(group) {
-        call(TextScreen.init, [group], me);
+    reset: func() {
         me.bootEntry = 0;
         me.bootTimer = 0.0;
-        me.powered = 0;
-    },
-
-    start: func() {
-        if (me.powered) return;
-        me.powered = 1;
-        me.bootEntry = 0;
-        me.bootTimer = 0.0;
-        me.clear();
-        me.textgroup.show();
-        print("start boot screen");
-    },
-
-    stop: func() {
-        if (!me.powered) return;
-        me.powered = 0;
-        me.textgroup.hide();
-        print("stop boot screen");
+        me.con.clear();
     },
 
     update: func() {
-        if (me.powered) {
-            me.bootTimer = me.bootTimer + 0.02;
-            while (me.bootEntry < size(BootScreen.sequence)) {
-                if (me.bootTimer > BootScreen.sequence[me.bootEntry][0]) {
-                    var line = BootScreen.sequence[me.bootEntry][1];
-                    if (line == nil) {
-                        me.clear();
-                    }
-                    else {
-                        me.writeLine(line);
-                    }
-                    me.bootEntry = me.bootEntry + 1;
+        me.bootTimer = me.bootTimer + 0.02;
+        while (me.bootEntry < size(BootScreen.sequence)) {
+            if (me.bootTimer > BootScreen.sequence[me.bootEntry][0]) {
+                var line = BootScreen.sequence[me.bootEntry][1];
+                if (line == nil) {
+                    me.con.clear();
                 }
                 else {
-                    break;
+                    me.con.writeLine(line);
                 }
+                me.bootEntry = me.bootEntry + 1;
+            }
+            else {
+                break;
             }
         }
-        call(TextScreen.update, [], me);
     },
 
     sequence: [
@@ -135,31 +113,50 @@ var BootScreen = {
         [ 3.4, "Setting up dhcp ...                                                      [ OK ]" ],
         [ 4.0, "Setting up route ...                                                     [ OK ]" ],
         [ 4.4, "Going to runlevel 4" ],
-        [ 4.9, nil ],
-        [ 4.9, "ifes@ifes70> _" ]
+        [ 5.0, nil ],
+        [ 5.5, "ifes@ifes70> _" ]
     ]
 };
 
 var IFES = {
-    new: func(group) {
+    new: func(canvas) {
         var m = { parents: [IFES] };
         var fontMapper = func(family, weight) {
             printf("FONTMAPPER: %s %s\n", family, weight);
             return "LiberationFonts/LiberationMono-Regular.ttf";
         };
 
-        canvas.parsesvg(group, "Aircraft/E-jet-family/IFES/master.svg", {'font-mapper': fontMapper});
+        var screenGroup = canvas.createGroup("screen");
+        print(screenGroup);
+        var background = screenGroup.rect(0, 0, screenWidth, screenHeight).setColor([0,0,0]);
+        m.masterGroup = screenGroup.createChild("group", "master");
+        m.console = Console.new(m.masterGroup.createChild("group", "console"));
+        m.bootScreen = BootScreen.new(m.console);
+        m.powered = 0;
 
         return m;
     },
 
     update: func() {
+        if (me.powered) {
+            me.bootScreen.update();
+            me.console.update();
+        }
     },
 
     start: func() {
+        if (!me.powered) {
+            me.bootScreen.reset();
+            me.powered = 1;
+            me.masterGroup.show();
+        }
     },
 
     stop: func() {
+        if (me.powered) {
+            me.powered = 0;
+            me.masterGroup.hide();
+        }
     }
 };
 
@@ -171,8 +168,7 @@ setlistener("sim/signals/fdm-initialized", func {
         "mipmapping": 1
     });
     ifesCanvas.addPlacement({"node": "ifes_screen"});
-    var group = ifesCanvas.createGroup();
-    var ifes = BootScreen.new(group);
+    var ifes = IFES.new(ifesCanvas);
     var update = func () {
             ifes.update();
             settimer(update, 0.02);
