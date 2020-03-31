@@ -736,8 +736,7 @@
         <property>surface-positions/flap-pos-norm</property>
 		<interpolation>
 			<entry><ind>0.00</ind><dep>0.0</dep></entry>
-			<entry><ind>0.25</ind><dep>-10.0</dep></entry>
-			<entry><ind>0.45</ind><dep>-25.0</dep></entry>
+			<entry><ind>1.00</ind><dep>-37.0</dep></entry>
 		</interpolation>
         <axis>
 	 <x1-m>0.42</x1-m>
@@ -755,8 +754,7 @@
         <property>surface-positions/flap-pos-norm</property>
 		<interpolation>
 			<entry><ind>0.00</ind><dep>0.0</dep></entry>
-			<entry><ind>0.25</ind><dep>4.0</dep></entry>
-			<entry><ind>0.45</ind><dep>15.0</dep></entry>
+			<entry><ind>1.00</ind><dep>27.0</dep></entry>
 		</interpolation>
                 <axis><y>1</y></axis>
         <center>
@@ -769,11 +767,11 @@
     <animation>
         <type>rotate</type>
         <object-name>flap.l.003</object-name> <!--flap.l.2-->
+        <object-name>flap.l.005</object-name>
         <property>surface-positions/flap-pos-norm</property>
 		<interpolation>
 			<entry><ind>0.00</ind><dep>0.0</dep></entry>
-			<entry><ind>0.25</ind><dep>-10.0</dep></entry>
-			<entry><ind>0.45</ind><dep>-25.0</dep></entry>
+			<entry><ind>1.00</ind><dep>-37.0</dep></entry>
 		</interpolation>
         <axis>
 	 <x1-m>0.54</x1-m>
@@ -791,14 +789,16 @@
         <property>surface-positions/flap-pos-norm</property>
 		<interpolation>
 			<entry><ind>0.00</ind><dep>0.0</dep></entry>
-			<entry><ind>0.25</ind><dep>4.0</dep></entry>
-			<entry><ind>0.45</ind><dep>15.0</dep></entry>
+			<entry><ind>1.00</ind><dep>-37.0</dep></entry>
 		</interpolation>
-                <axis><y>1</y></axis>
-        <center>
-            <x-m>0.36345</x-m>
-            <z-m>0.21801</z-m>
-        </center>
+          <axis>
+	 <x1-m>0.54</x1-m>
+	 <y1-m>-4.43</y1-m>
+	 <z1-m>0.03</z1-m>
+	 <x2-m>1.91</x2-m>
+	 <y2-m>-9.20</y2-m>
+	 <z2-m>0.48</z2-m>
+        </axis>
     </animation>
     <!--<animation>
         <type>rotate</type>
@@ -838,8 +838,7 @@
         <property>surface-positions/flap-pos-norm</property>
 		<interpolation>
 			<entry><ind>0.00</ind><dep>0.0</dep></entry>
-			<entry><ind>0.25</ind><dep>10.0</dep></entry>
-			<entry><ind>0.45</ind><dep>25.0</dep></entry>
+			<entry><ind>1.00</ind><dep>37.0</dep></entry>
 		</interpolation>
         <axis>
 	 <x1-m>0.42</x1-m>
@@ -857,8 +856,7 @@
         <property>surface-positions/flap-pos-norm</property>
 		<interpolation>
 			<entry><ind>0.00</ind><dep>0.0</dep></entry>
-			<entry><ind>0.25</ind><dep>4.0</dep></entry>
-			<entry><ind>0.45</ind><dep>15.0</dep></entry>
+			<entry><ind>1.00</ind><dep>27.0</dep></entry>
 		</interpolation>
                 <axis><y>1</y></axis>
         <center>
@@ -871,11 +869,11 @@
     <animation>
         <type>rotate</type>
         <object-name>flap.r.001</object-name>
+        <object-name>flap.r.004</object-name>
         <property>surface-positions/flap-pos-norm</property>
 		<interpolation>
 			<entry><ind>0.00</ind><dep>0.0</dep></entry>
-			<entry><ind>0.25</ind><dep>10.0</dep></entry>
-			<entry><ind>0.45</ind><dep>25.0</dep></entry>
+			<entry><ind>1.00</ind><dep>37.0</dep></entry>
 		</interpolation>
         <axis>
 	 <x1-m>0.54</x1-m>
@@ -893,14 +891,16 @@
         <property>surface-positions/flap-pos-norm</property>
 		<interpolation>
 			<entry><ind>0.00</ind><dep>0.0</dep></entry>
-			<entry><ind>0.25</ind><dep>4.0</dep></entry>
-			<entry><ind>0.45</ind><dep>15.0</dep></entry>
+			<entry><ind>1.00</ind><dep>37.0</dep></entry>
 		</interpolation>
-                <axis><y>1</y></axis>
-        <center>
-            <x-m>0.36345</x-m>
-            <z-m>0.21801</z-m>
-        </center>
+        <axis>
+	 <x1-m>0.54</x1-m>
+	 <y1-m>4.43</y1-m>
+	 <z1-m>0.03</z1-m>
+	 <x2-m>1.91</x2-m>
+	 <y2-m>9.20</y2-m>
+	 <z2-m>0.48</z2-m>
+        </axis>
     </animation>
     <!--<animation>
         <type>rotate</type>
@@ -1074,8 +1074,20 @@
 
     <animation>
         <type>translate</type>
-        <object-name>reverser</object-name>
+        <object-name>reverser.001</object-name>
         <property>engines/engine[0]/reverser-pos-norm</property>
+        <factor>0.35</factor>
+        <axis>
+            <x>1.0</x>
+            <y>0.0</y>
+            <z>0</z>
+        </axis>
+    </animation>
+	
+    <animation>
+        <type>translate</type>
+        <object-name>reverser</object-name>
+        <property>engines/engine[1]/reverser-pos-norm</property>
         <factor>0.35</factor>
         <axis>
             <x>1.0</x>

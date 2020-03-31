@@ -365,8 +365,7 @@
         <property>surface-positions/flap-pos-norm</property>
 		<interpolation>
 			<entry><ind>0.00</ind><dep>0.0</dep></entry>
-			<entry><ind>0.25</ind><dep>-10.0</dep></entry>
-			<entry><ind>0.45</ind><dep>-25.0</dep></entry>
+			<entry><ind>1.00</ind><dep>-37.0</dep></entry>
 		</interpolation>
         <axis>
 	 <x1-m>0.42</x1-m>
@@ -380,12 +379,11 @@
 	
 	<animation>
         <type>rotate</type>
-        <object-name>flap.l.004</object-name>
+        <object-name>flap.l.005</object-name>
         <property>surface-positions/flap-pos-norm</property>
 		<interpolation>
 			<entry><ind>0.00</ind><dep>0.0</dep></entry>
-			<entry><ind>0.25</ind><dep>4.0</dep></entry>
-			<entry><ind>0.45</ind><dep>15.0</dep></entry>
+			<entry><ind>1.00</ind><dep>30.0</dep></entry>
 		</interpolation>
                 <axis><y>1</y></axis>
         <center>
@@ -397,12 +395,13 @@
 <!-- Left Wing Outer Flaps -->
     <animation>
         <type>rotate</type>
-        <object-name>flap.l.2</object-name>
+        <object-name>flap.l.001</object-name>
+        <object-name>flap.l.003</object-name>
+        <object-name>flap.l.004</object-name>
         <property>surface-positions/flap-pos-norm</property>
 		<interpolation>
 			<entry><ind>0.00</ind><dep>0.0</dep></entry>
-			<entry><ind>0.25</ind><dep>-10.0</dep></entry>
-			<entry><ind>0.45</ind><dep>-25.0</dep></entry>
+			<entry><ind>1.00</ind><dep>-37.0</dep></entry>
 		</interpolation>
         <axis>
 	 <x1-m>0.54</x1-m>
@@ -421,8 +420,7 @@
         <property>surface-positions/flap-pos-norm</property>
 		<interpolation>
 			<entry><ind>0.00</ind><dep>0.0</dep></entry>
-			<entry><ind>0.25</ind><dep>10.0</dep></entry>
-			<entry><ind>0.45</ind><dep>25.0</dep></entry>
+			<entry><ind>1.00</ind><dep>37.0</dep></entry>
 		</interpolation>
         <axis>
 	 <x1-m>0.42</x1-m>
@@ -440,8 +438,7 @@
         <property>surface-positions/flap-pos-norm</property>
 		<interpolation>
 			<entry><ind>0.00</ind><dep>0.0</dep></entry>
-			<entry><ind>0.25</ind><dep>4.0</dep></entry>
-			<entry><ind>0.45</ind><dep>15.0</dep></entry>
+			<entry><ind>1.00</ind><dep>30.0</dep></entry>
 		</interpolation>
                 <axis><y>1</y></axis>
         <center>
@@ -453,12 +450,13 @@
 <!-- Right Wing Outer Flaps -->
     <animation>
         <type>rotate</type>
-        <object-name>flap.r.2</object-name>
+        <object-name>flap.r.000</object-name>
+        <object-name>flap.r.001</object-name>
+        <object-name>flap.r.004</object-name>
         <property>surface-positions/flap-pos-norm</property>
 		<interpolation>
 			<entry><ind>0.00</ind><dep>0.0</dep></entry>
-			<entry><ind>0.25</ind><dep>10.0</dep></entry>
-			<entry><ind>0.45</ind><dep>25.0</dep></entry>
+			<entry><ind>1.00</ind><dep>37.0</dep></entry>
 		</interpolation>
         <axis>
 	 <x1-m>0.54</x1-m>
@@ -610,8 +608,20 @@
 
     <animation>
         <type>translate</type>
-        <object-name>reverser</object-name>
+        <object-name>reverser.001</object-name>
         <property>engines/engine[0]/reverser-pos-norm</property>
+        <factor>0.35</factor>
+        <axis>
+            <x>1.0</x>
+            <y>0.0</y>
+            <z>0</z>
+        </axis>
+    </animation>
+	
+    <animation>
+        <type>translate</type>
+        <object-name>reverser</object-name>
+        <property>engines/engine[1]/reverser-pos-norm</property>
         <factor>0.35</factor>
         <axis>
             <x>1.0</x>
