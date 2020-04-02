@@ -8,6 +8,26 @@ var uvHeight = uvBottom - uvTop;
 var uvWidth = 1;
 var screenTop = (screenHeight / uvHeight) * uvTop;
 
+var slideshowUrls = [
+    "fgfs-20200125202829.jpg",
+    "fgfs-20200126202604.jpg",
+    "fgfs-20200127091009.jpg",
+    "fgfs-20200127100846.jpg",
+    "fgfs-20200127123723.jpg",
+    "fgfs-20200127141206.jpg",
+    "fgfs-20200128101905.jpg",
+    "fgfs-20200128103709.jpg",
+    "fgfs-20200128121840.jpg",
+    "fgfs-20200128124701.jpg",
+    "fgfs-20200128222141.jpg",
+    "fgfs-20200201170020.jpg",
+    "fgfs-20200208203515.jpg",
+    "fgfs-20200210123142.jpg",
+    "fgfs-20200228101512.jpg",
+    "fgfs-20200328171147.jpg",
+    "fgfs-20200328171951.jpg"
+];
+
 var Console = {
     new: func(group) {
         var m = { parents: [Console] };
@@ -99,6 +119,10 @@ var BootScreen = {
         }
     },
 
+    finished: func() {
+        return me.bootEntry >= size(BootScreen.sequence);
+    },
+
     sequence: [
         [ 0.0, "FreeFlight IFES v1.0" ],
         [ 0.0, "Starting, please wait..." ],
@@ -124,6 +148,62 @@ var BootScreen = {
     ]
 };
 
+var Slideshow = {
+    new: func(group, urls) {
+        var m = { parents: [Slideshow] };
+        m.urls = urls;
+        m.group = group;
+        m.img = nil;
+
+        m.reset();
+
+        return m;
+    },
+
+    showImage: func(src) {
+        printf("Showing: %s", src);
+        me.group.removeAllChildren();
+        me.img = me.group.createChild("image")
+                     .set("x", 0)
+                     .set("y", 0)
+                     .set("src", src)
+                     .setSize(screenWidth, screenHeight);
+                     # .setScale(2, 2);
+    },
+
+    reset: func() {
+        me.currentIndex = 0;
+        me.timer = 0.0;
+        me.slideDuration = 5.0;
+        me.urls = sort(me.urls, func(a, b) { return (rand() >= 0.5); });
+        me.showImage(me.urls[me.currentIndex]);
+    },
+
+    update: func() {
+        me.timer = me.timer + 0.02;
+        while (me.timer > me.slideDuration) {
+            me.timer = me.timer - me.slideDuration;
+            me.advance();
+        }
+    },
+
+    advance: func() {
+        me.currentIndex = me.currentIndex + 1;
+        if (me.currentIndex >= size(me.urls)) {
+            me.currentIndex = 0;
+        }
+        var url = me.urls[me.currentIndex];
+        me.showImage(url);
+    },
+
+    touch: func(x, y) {
+    },
+
+    finished: func() {
+        return 0;
+    }
+};
+
 var IFES = {
     new: func(canvas) {
         var m = { parents: [IFES] };
@@ -137,38 +217,99 @@ var IFES = {
         var background = screenGroup.rect(0, 0, screenWidth, screenHeight)
                                     .setColorFill([0,0,0]);
         m.masterGroup = screenGroup.createChild("group", "master");
-        m.console = Console.new(m.masterGroup.createChild("group", "console"));
-        m.bootScreen = BootScreen.new(m.console);
-        m.powered = 0;
+
+        m.groups = {};
+        foreach (name; ["console", "slideshow"]) {
+            m.groups[name] = m.masterGroup.createChild("group", name).hide();
+        }
+
+        m.console = Console.new(m.groups["console"]);
+
+        m.modules = {
+            "boot": BootScreen.new(m.console),
+            "slideshow": Slideshow.new(m.groups["slideshow"], slideshowUrls)
+        };
+
+        m.moduleAfter = {
+            "boot": "slideshow"
+        };
+
+        m.groupFor = {
+            "boot": "console",
+            "slideshow": "slideshow"
+        };
+
+        m.activeModule = nil;
+        m.activeGroup = nil;
 
         return m;
     },
 
-    update: func() {
-        if (me.powered) {
-            me.bootScreen.update();
-            me.console.update();
+    setGroup: func(group) {
+        me.activeGroup = group;
+        foreach (name; keys(me.groups)) {
+            if (name == group) {
+                me.groups[name].show();
+            }
+            else {
+                me.groups[name].hide();
+            }
         }
+    },
+
+    setModule: func(module) {
+        me.activeModule = module;
+        if (module == nil) {
+            me.setGroup("console");
+        }
+        else {
+            var group = me.groupFor[module] or "error";
+            if (group == "error") {
+                me.console.writeLine(sprintf("Invalid module selected: %s", module));
+                group = "console";
+            }
+            me.setGroup(group);
+        }
+        return me.getActiveModule();
+    },
+
+    getActiveModule: func() {
+        return me.modules[me.activeModule or ""];
+    },
+
+    update: func() {
+        var module = me.getActiveModule();
+        if (module != nil) {
+            module.update();
+            if (module.finished()) {
+                me.setModule(me.moduleAfter[me.activeModule or ""] or nil);
+            }
+        }
+        me.console.update();
     },
 
     start: func() {
-        if (!me.powered) {
-            me.bootScreen.reset();
-            me.powered = 1;
-            me.masterGroup.show();
+        if (me.activeModule != nil) return;
+        foreach (name; keys(me.modules)) {
+            me.modules[name].reset();
         }
+        me.setGroup("console");
+        me.setModule("boot");
+        me.masterGroup.show();
     },
 
     stop: func() {
-        if (me.powered) {
-            me.powered = 0;
-            me.masterGroup.hide();
-        }
+        me.masterGroup.hide();
+        if (me.activeModule == nil) return;
+        me.setModule(nil);
     },
 
     touch: func(x, y) {
-        if (!me.powered) return;
         me.console.writeLine(sprintf("touch (%i, %i)", x, y));
+        var module = me.getActiveModule();
+        if (module != nil) {
+            module.touch(x, y);
+        }
     }
 };
 
