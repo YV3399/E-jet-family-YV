@@ -4,9 +4,9 @@
 <!-- Copyright (c) 2019 Joshua Davidson (Octal450) -->
 
 <PropertyList>
-	
+
 	<!-- Thrust Axis -->
-	
+
 	<filter>
 		<name>KTS INPUT FILTER</name>
 		<debug>false</debug>
@@ -44,7 +44,7 @@
 		</max-rate-of-change>
 		<max-rate-of-change>200</max-rate-of-change>
 	</filter>
-	
+
 	<filter>
 		<name>MACH INPUT FILTER</name>
 		<debug>false</debug>
@@ -82,7 +82,7 @@
 		</max-rate-of-change>
 		<max-rate-of-change>2</max-rate-of-change>
 	</filter>
-	
+
 	<pid-controller>
 		<name>IT-CONTROLLER: IAS THRUST</name>
 		<debug>false</debug>
@@ -110,12 +110,12 @@
 		<config>
 			<Kp>0.06</Kp>
 			<Ti>9.0</Ti>
-			<Td>0.00001</Td>   
-			<u_min>0.02</u_min>  
-			<u_max>0.95</u_max>  
+			<Td>0.00001</Td>
+			<u_min>0.02</u_min>
+			<u_max>0.87</u_max>
 		</config>
 	</pid-controller>
-	
+
 	<pid-controller>
 		<name>IT-CONTROLLER: MACH THRUST</name>
 		<debug>false</debug>
@@ -149,12 +149,12 @@
 		<config>
 			<Kp>0.06</Kp>
 			<Ti>9.0</Ti>
-			<Td>0.00001</Td>  
-			<u_min>0.02</u_min>  
-			<u_max>0.95</u_max>  
+			<Td>0.00001</Td>
+			<u_min>0.02</u_min>
+			<u_max>0.87</u_max>
 		</config>
 	</pid-controller>
-	
+
 	<filter>
 		<name>IDLE</name>
 		<debug>false</debug>
@@ -186,7 +186,7 @@
 		<input>0.02</input>
 		<output>/controls/engines/throttle-cmd-pid</output>
 	</filter>
-	
+
 	<filter>
 		<name>CLB</name>
 		<debug>false</debug>
@@ -206,10 +206,29 @@
 				</and>
 			</condition>
 		</enable>
-		<input>0.95</input>
+		<input>
+			<condition>
+				<equals>
+					<property>/it-autoflight/mode/vert</property>
+					<value>T/O CLB</value>
+				</equals>
+			</condition>
+			<!-- T/O N1 -->
+			<value>0.98</value>
+		</input>
+		<input>
+			<condition>
+				<not-equals>
+					<property>/it-autoflight/mode/vert</property>
+					<value>T/O CLB</value>
+				</not-equals>
+			</condition>
+			<!-- CLB N1 -->
+			<value>0.87</value>
+		</input>
 		<output>/controls/engines/throttle-cmd-pid</output>
 	</filter>
-	
+
 	<filter>
 		<name>IT-CONTROLLER: THRUST CMD</name>
 		<debug>false</debug>
