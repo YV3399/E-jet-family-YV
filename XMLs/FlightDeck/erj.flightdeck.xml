@@ -1024,7 +1024,8 @@
             <repeatable type="bool">false</repeatable>
             <binding>
                 <command>property-toggle</command>
-                <property>controls/autoflight/yaw-damper[0]/engage</property>
+                <!-- <property>controls/autoflight/yaw-damper[0]/engage</property> -->
+                <property>fdm/jsbsim/fcs/yaw-damper-enable</property>
             </binding>
         </action>
     </animation>
@@ -1032,7 +1033,8 @@
         <type>select</type>
         <object-name>YD.light</object-name>
         <condition>
-            <property>controls/autoflight/yaw-damper[0]/engage</property>
+            <!-- <property>controls/autoflight/yaw-damper[0]/engage</property> -->
+            <property>fdm/jsbsim/fcs/yaw-damper-enable</property>
         </condition>
     </animation>
 
