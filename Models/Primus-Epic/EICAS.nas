@@ -97,7 +97,57 @@ var canvas_ED_only = {
 		return m;
 	},
 	getKeys: func() {
-		return ["flaps.UP","flaps.IND","flaps.SCALE","flaps.TGT","slat.IND","slat.TGT","slat.SCALE","fs","N1L","N1R","N2L","N2R","ITTL","ITTR","FFL","FFR","FQL","FQR","FQC","OPL","OPR","OTL","OTR","revL","revR","gearL.T","gearL.C","gearR.T","gearR.C","gearF.C","gearF.T","AB","apu.PCT","apu.DEGC","N1L.needle","N1R.needle","parkbrake","space1","space2","space3","space4","lfilled1","lfilled2","engL.off","engR.off"];
+		return [
+            "flaps.UP",
+            "flaps.IND",
+            "flaps.SCALE",
+            "flaps.TGT",
+            "slat.IND",
+            "slat.TGT",
+            "slat.SCALE",
+            "fs",
+            "N1L",
+            "N1R",
+            "N2L",
+            "N2R",
+            "ITTL",
+            "ITTR",
+            "FFL",
+            "FFR",
+            "FQL",
+            "FQR",
+            "FQC",
+            "OPL",
+            "OPR",
+            "OTL",
+            "OTR",
+            "revL",
+            "revR",
+            "gearL.T",
+            "gearL.C",
+            "gearR.T",
+            "gearR.C",
+            "gearF.C",
+            "gearF.T",
+            "AB",
+            "apu.PCT",
+            "apu.DEGC",
+            "N1L.needle",
+            "N1R.needle",
+            "parkbrake",
+            "space1",
+            "space2",
+            "space3",
+            "space4",
+            "lfilled1",
+            "lfilled2",
+            "engL.off",
+            "engR.off",
+            "pitchtrim.digital",
+            "pitchtrim.pointer",
+            "ailerontrim.pointer",
+            "ruddertrim.pointer"
+        ];
 	},
 	update: func() {
 			
@@ -133,6 +183,11 @@ var canvas_ED_only = {
 		}
 		
 		me["fs"].setText(sprintf("%u", math.round((getprop("/controls/flight/flaps") or 0)*10)));
+
+        me["pitchtrim.digital"].setText(sprintf("%3.1f", (getprop("/controls/flight/elevator-trim") or 0.0) * -10));
+        me["pitchtrim.pointer"].setTranslation(0, math.round((getprop("/controls/flight/elevator-trim") or 0) * 60));
+        me["ruddertrim.pointer"].setTranslation(math.round((getprop("/controls/flight/rudder-trim") or 0) * 60), 0);
+        me["ailerontrim.pointer"].setRotation(math.round((getprop("/controls/flight/aileron-trim") or 0) * 30));
 		
 		var ln1=engLn1.getValue();
 		var rn1=engRn1.getValue();
