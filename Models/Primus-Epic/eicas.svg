@@ -15,7 +15,7 @@
    viewBox="0 0 1024 1404"
    id="svg2"
    version="1.1"
-   inkscape:version="0.92.3 (2405546, 2018-03-11)"
+   inkscape:version="0.92.4 (5da689c313, 2019-01-14)"
    sodipodi:docname="eicas.svg">
   <defs
      id="defs4" />
@@ -26,18 +26,18 @@
      borderopacity="1.0"
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
-     inkscape:zoom="1.4142136"
-     inkscape:cx="291.3843"
-     inkscape:cy="1207.7676"
+     inkscape:zoom="3.3786849"
+     inkscape:cx="757.86991"
+     inkscape:cy="494.21058"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
      units="px"
-     inkscape:window-width="1600"
-     inkscape:window-height="1131"
-     inkscape:window-x="0"
+     inkscape:window-width="1920"
+     inkscape:window-height="1080"
+     inkscape:window-x="1440"
      inkscape:window-y="0"
-     inkscape:window-maximized="1" />
+     inkscape:window-maximized="0" />
   <metadata
      id="metadata7">
     <rdf:RDF>
@@ -766,7 +766,7 @@
     <path
        style="fill:#00ff00;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
        d="m 700.89847,847.74696 h 25.24838 l -12.64414,-22.55277 z"
-       id="path4805"
+       id="ailerontrim.pointer"
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="cccc"
        inkscape:transform-center-y="-83.972133" />
@@ -824,13 +824,13 @@
        inkscape:transform-center-y="78.35463"
        sodipodi:nodetypes="cccc"
        inkscape:connector-curvature="0"
-       id="path4831"
+       id="ruddertrim.pointer"
        d="m 700.64773,951.20583 h 25.24838 l -12.64414,21.04405 z"
        style="fill:#00ff00;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
     <path
        style="fill:#00ff00;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
        d="M 851.66303,886.56972 V 911.8181 L 830.61898,899.17396 Z"
-       id="path4833"
+       id="pitchtrim.pointer"
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="cccc"
        inkscape:transform-center-x="3.9993114" />
@@ -846,7 +846,7 @@
        style="font-style:normal;font-weight:normal;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#00ff00;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
        x="918.95251"
        y="861.6745"
-       id="text4837"
+       id="pitchtrim.digital"
        transform="scale(0.95171231,1.0507377)"><tspan
          sodipodi:role="line"
          id="tspan4839"
@@ -1082,9 +1082,11 @@
        inkscape:connector-curvature="0" />
     <path
        style="fill:none;fill-rule:evenodd;stroke:#00b2ff;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       d="m 269.80543,-104.28778 -9.14819,-14.58407 16.6612,-2.78424"
+       d="m 269.48031,-103.70109 -9.07071,-14.63239 16.67573,-2.69583"
        id="path4985"
-       inkscape:connector-curvature="0" />
+       inkscape:connector-curvature="0"
+       inkscape:transform-center-x="-109.71334"
+       inkscape:transform-center-y="52.925479" />
     <path
        inkscape:connector-curvature="0"
        id="path5003"
@@ -1138,7 +1140,9 @@
        inkscape:connector-curvature="0"
        id="path5021"
        d="m 543.30543,-104.28778 -9.14819,-14.58407 16.6612,-2.78424"
-       style="fill:none;fill-rule:evenodd;stroke:#00b2ff;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+       style="fill:none;fill-rule:evenodd;stroke:#00b2ff;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       inkscape:transform-center-x="-107.58594"
+       inkscape:transform-center-y="52.022771" />
     <path
        inkscape:connector-curvature="0"
        id="path5023"
