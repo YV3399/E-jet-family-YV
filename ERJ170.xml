@@ -5,10 +5,11 @@
    xsi:noNamespaceSchemaLocation="http://jsbsim.sourceforge.net/JSBSim.xsd">
 
     <fileheader>
-        <author> Narendran Muraleedharan</author>
-        <filecreationdate> 2011-08-08 </filecreationdate>
-        <version>$Revision: 1.10 $</version>
-        <description> Flight Dynamics Model for the Embraer 170 </description>
+        <author>Narendran Muraleedharan</author>
+        <author>Tobias Dammers</author>
+        <filecreationdate>2011-08-08</filecreationdate>
+        <version>$Revision: 2.0$</version>
+        <description> Flight Dynamics Model for the Embraer 170</description>
     </fileheader>
 
     <!-- UNIT CONVERSIONS :
@@ -61,7 +62,7 @@
         <ixz unit="SLUG*FT2">         0 </ixz>
         <iyz unit="SLUG*FT2">         0 </iyz>
         <!-- Operational Empty Weight = 44,600 lbs from wikipedia -->
-        <emptywt unit="KG" > 21100 </emptywt>
+        <emptywt unit="KG" > 21141 </emptywt>
 
         <location name="CG" unit="IN">
             <x>-116.93</x>
@@ -78,7 +79,8 @@
             </location>
         </pointmass>
         <pointmass name="Passengers">
-            <weight unit="LBS">10000</weight>
+            <!-- wikipedia -->
+            <weight unit="LBS">9759</weight>
             <location name="POINTMASS" unit="IN">
                 <x>0</x>
                 <y>0</y>
@@ -864,12 +866,12 @@
                     <property>aero/qbar-psf</property>
                     <property>metrics/Sw-sqft</property>
                     <property>aero/cl-squared</property>
-                    <value>0.06</value>
+                    <value>0.025</value>
                 </product>
             </function>
 
             <function name="aero/force/Drag_mach">
-                <description>Mach drag</description>
+                <description>Drag due to mach</description>
                 <product>
                     <property>aero/qbar-psf</property>
                     <property>metrics/Sw-sqft</property>
@@ -901,7 +903,7 @@
                     <property>aero/qbar-psf</property>
                     <property>metrics/Sw-sqft</property>
                     <property>gear/gear-pos-norm</property>
-                    <value>0.03</value>
+                    <value>0.003</value>
                 </product>
             </function>
 
@@ -1051,11 +1053,10 @@
                     <table>
                         <independentVar lookup="row">velocities/mach</independentVar>
                         <tableData>
-                            0.0000        -1.200
-                            2.0000        -0.300
+                            0.0000	-1.3000
+                            2.0000	-0.3250
                         </tableData>
                     </table>
-                    <value>2</value>
                 </product>
             </function>
 
