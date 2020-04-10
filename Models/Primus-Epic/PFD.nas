@@ -112,6 +112,9 @@ var canvas_ED_only = {
 			"horizon",
 			"compass",
 			"groundspeed",
+            "mach.digital",
+            "airspeed.bug",
+            "speedtrend.vector",
 			"wind.pointer",
 			"wind.kt",
 			"heading.digital",
@@ -211,15 +214,6 @@ var canvas_ED_only = {
 
 		me["selectedalt.digital100"].setText(sprintf("%02d", (getprop("/it-autoflight/input/alt") or 0) * 0.01));
 
-		if (getprop("/it-autoflight/input/kts-mach")) {
-			me["selectedspeed.digital"].setText(sprintf("M.%03d", (getprop("/it-autoflight/input/spd-mach") or 0) * 1000));
-		}
-		else {
-			me["selectedspeed.digital"].setText(sprintf("%03d", (getprop("/it-autoflight/input/spd-kts") or 0)));
-		}
-
-		me["selectedvspeed.digital"].setText(sprintf("%-05d", (getprop("/it-autoflight/input/vs") or 0)));
-		
 		#COMM/NAV
 		me["vhf1.act"].setText(sprintf("%.2f", getprop("/instrumentation/comm[0]/frequencies/selected-mhz") or 0));
 		me["vhf1.sby"].setText(sprintf("%.2f", getprop("/instrumentation/comm[0]/frequencies/standby-mhz") or 0));
@@ -309,8 +303,32 @@ var canvas_ED_only = {
 		# }
 		
 		# Airspeed
-		var airspeed=getprop("instrumentation/airspeed-indicator/indicated-speed-kt");
-		me["asi.tape"].setTranslation(0,airspeed*6.6);
+		var airspeed = getprop("instrumentation/airspeed-indicator/indicated-speed-kt");
+        var currentMach = getprop("/instrumentation/airspeed-indicator/indicated-mach") or 0;
+        var selectedKts = 0;
+
+		if (getprop("/it-autoflight/input/kts-mach")) {
+            var selectedMach = (getprop("/it-autoflight/input/spd-mach") or 0);
+			me["selectedspeed.digital"].setText(sprintf(".%03dM", selectedMach * 1000));
+            if (currentMach > 0.001) {
+                selectedKts = selectedMach * airspeed / currentMach;
+            }
+            else {
+                # this shouldn't happen in practice, but when it does, use the
+                # least objectionable default.
+                selectedKts = getprop("/it-autoflight/input/spd-kts");
+            }
+		}
+		else {
+            selectedKts = (getprop("/it-autoflight/input/spd-kts") or 0);
+			me["selectedspeed.digital"].setText(sprintf("%03d", selectedKts));
+		}
+        me["mach.digital"].setText(sprintf(".%03d", currentMach * 1000));
+
+		me["selectedvspeed.digital"].setText(sprintf("%-05d", (getprop("/it-autoflight/input/vs") or 0)));
+		
+		me["asi.tape"].setTranslation(0,airspeed * 6.42);
+        me["airspeed.bug"].setTranslation(0, (airspeed-selectedKts) * 6.42);
 		me["asi.rollingdigits"].setTranslation(0,math.round((10*math.mod(airspeed/10,1))*50, 0.1));
 		var asi10=getprop("/instrumentation/pfd/asi-10") or 0;
 		if(asi10!=0){
