@@ -178,7 +178,13 @@ var canvas_ED_only = {
 		var selectedheading = getprop("/it-autoflight/input/hdg") or 0;
 		var selectedcourse = getprop("/instrumentation/nav[0]/radials/selected-deg") or 0;
 		
-		me["wind.pointer"].setRotation(((getprop("/environment/wind-from-heading-deg") or 0) - heading) * DC);
+		me["wind.pointer"].setRotation(((getprop("/environment/wind-from-heading-deg") or 0) - heading + 180) * DC);
+        if (getprop("/environment/wind-speed-kt") > 1) {
+            me["wind.pointer"].show();
+        }
+        else {
+            me["wind.pointer"].hide();
+        }
 		me["wind.kt"].setText(sprintf("%u", math.round(getprop("/environment/wind-speed-kt") or 0)));
 
 		me["compass"].setRotation(heading * -DC);
