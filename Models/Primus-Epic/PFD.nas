@@ -163,8 +163,8 @@ var canvas_ED_only = {
 			"fma.vertarmed"
 		];
 	},
-	update: func() {
-			
+
+	update: func() { 
 		var pitch = (getprop("instrumentation/pfd/pitch-scale") or 0);
 		var roll =  getprop("orientation/roll-deg") or 0;
 		me.h_trans.setTranslation(0,pitch*8.05);
@@ -303,7 +303,8 @@ var canvas_ED_only = {
 		# }
 		
 		# Airspeed
-		var airspeed = getprop("instrumentation/airspeed-indicator/indicated-speed-kt");
+		var airspeed = getprop("instrumentation/airspeed-indicator/indicated-speed-kt") or 0;
+        var airspeedLookahead = getprop("/it-autoflight/internal/lookahead-10-sec-airspeed-kt") or 0;
         var currentMach = getprop("/instrumentation/airspeed-indicator/indicated-mach") or 0;
         var selectedKts = 0;
 
@@ -326,6 +327,10 @@ var canvas_ED_only = {
         me["mach.digital"].setText(sprintf(".%03d", currentMach * 1000));
 
 		me["selectedvspeed.digital"].setText(sprintf("%-05d", (getprop("/it-autoflight/input/vs") or 0)));
+
+        me["speedtrend.vector"].reset();
+        me["speedtrend.vector"].rect(152, 152, 15,
+            math.max(-40.0, math.min(40.0, (airspeedLookahead - airspeed))) * -6.42);
 		
 		me["asi.tape"].setTranslation(0,airspeed * 6.42);
         me["airspeed.bug"].setTranslation(0, (airspeed-selectedKts) * 6.42);
