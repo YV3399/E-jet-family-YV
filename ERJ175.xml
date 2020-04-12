@@ -623,27 +623,25 @@
             <!--Set slats according to http://www.smartcockpit.com/docs/Embraer_190-Flight_Controls.pdf page 4-->
             <fcs_function name="Slats Cmd">
                 <function>
-                    <quotient>
-                        <table>
-                            <independentVar>/controls/flight/flaps</independentVar>
-                            <tableData>
-                                0         0
-                                0.1      15
-                                0.2      15
-                                0.3      15
-                                0.4      25
-                                0.5      25
-                                0.6      25
-                            </tableData>
-                        </table>
-                        <value>25</value>
-                    </quotient>
+                    <table>
+                        <independentVar>/controls/flight/flaps</independentVar>
+                        <tableData>
+                            0.000   0
+                            0.125  15
+                            0.250  15
+                            0.375  15
+                            0.500  25
+                            0.625  25
+                            0.750  25
+                        </tableData>
+                    </table>
                 </function>
-                <output>fcs/slat-cmd-int-norm</output>
+                <output>fcs/slat-cmd-int-deg</output>
             </fcs_function>
 
             <kinematic name="Slats Control">
-                <input>fcs/slat-cmd-int-norm</input>
+                <input>fcs/slat-cmd-int-deg</input>
+                <noscale/>
                 <traverse>
                     <setting>
                         <position>0.0</position>
@@ -685,55 +683,45 @@
             <!-- Set flaps according to http://www.smartcockpit.com/docs/Embraer_190-Flight_Controls.pdf page 4-->
             <fcs_function name="Flaps Cmd">
                 <function>
-                    <quotient>
-                        <table>
-                            <independentVar>/controls/flight/flaps</independentVar>
-                            <tableData>
-                                0         0
-                                0.1       7
-                                0.2      10
-                                0.3      20
-                                0.4      20
-                                0.5      20
-                                0.6      37
-                            </tableData>
-                        </table>
-                        <value>37</value>
-                    </quotient>
+                    <table>
+                        <independentVar>/controls/flight/flaps</independentVar>
+                        <tableData>
+                            0.000   0
+                            0.125   5
+                            0.250  10
+                            0.375  20
+                            0.500  20
+                            0.625  20
+                            0.750  35
+                        </tableData>
+                    </table>
                 </function>
-                <output>fcs/flap-cmd-int-norm</output>
+                <output>fcs/flap-cmd-int-deg</output>
             </fcs_function>
 
             <kinematic name="Flaps Control">
-                <input>fcs/flap-cmd-int-norm</input>
+                <input>fcs/flap-cmd-int-deg</input>
+                <noscale/>
                 <traverse>
                     <setting>
-                        <position>0.0</position>
+                        <position>0</position>
                         <time>0.0000</time>
                     </setting>
                     <setting>
-                        <position>7</position>
-                        <time>1.0000</time>
+                        <position>5</position>
+                        <time>2.0000</time>
                     </setting>
                     <setting>
-                        <position>10.0000</position>
-                        <time>0.5000</time>
+                        <position>10</position>
+                        <time>2.0000</time>
                     </setting>
                     <setting>
-                        <position>20.0000</position>
-                        <time>4.0000</time>
+                        <position>20</position>
+                        <time>2.0000</time>
                     </setting>
                     <setting>
-                        <position>20.0000</position>
-                        <time>0.0000</time>
-                    </setting>
-                    <setting>
-                        <position>20.0000</position>
-                        <time>0.0000</time>
-                    </setting>
-                    <setting>
-                        <position>37.0000</position>
-                        <time>5.0000</time>
+                        <position>35</position>
+                        <time>3.0000</time>
                     </setting>
                 </traverse>
                 <output>fcs/flap-pos-deg</output>
@@ -743,7 +731,7 @@
                 <input>fcs/flap-pos-deg</input>
                 <domain>
                     <min>  0 </min>
-                    <max> 37 </max>
+                    <max> 35 </max>
                 </domain>
                 <range>
                     <min> 0 </min>
@@ -817,8 +805,18 @@
                 <product>
                     <property>aero/qbar-psf</property>
                     <property>metrics/Sw-sqft</property>
-                    <property>fcs/flap-pos-deg</property>
-                    <value> 0.05 </value>
+                    <property>fcs/flap-pos-norm</property>
+                    <value> 0.5 </value>
+                </product>
+            </function>
+
+            <function name="aero/force/Lift_slat">
+                <description>Delta Lift due to slats</description>
+                <product>
+                    <property>aero/qbar-psf</property>
+                    <property>metrics/Sw-sqft</property>
+                    <property>fcs/slat-pos-norm</property>
+                    <value> 0.25 </value>
                 </product>
             </function>
 
@@ -897,8 +895,18 @@
                 <product>
                     <property>aero/qbar-psf</property>
                     <property>metrics/Sw-sqft</property>
-                    <property>fcs/flap-pos-deg</property>
-                    <value> 0.005 </value>
+                    <property>fcs/flap-pos-norm</property>
+                    <value> 0.01 </value>
+                </product>
+            </function>
+
+            <function name="aero/force/Drag_slat">
+                <description>Drag due to slats</description>
+                <product>
+                    <property>aero/qbar-psf</property>
+                    <property>metrics/Sw-sqft</property>
+                    <property>fcs/slat-pos-norm</property>
+                    <value> 0.0025 </value>
                 </product>
             </function>
 

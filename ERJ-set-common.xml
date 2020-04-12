@@ -835,9 +835,9 @@
 				<binding>
 					<command>property-adjust</command>
 					<property>/controls/flight/flaps</property>
-					<step>-.1</step>
+					<step>-0.125</step>
 					<min>0</min>
-					<max>.6</max>
+					<max>0.75</max>
 				</binding>
 			</key>
 
@@ -847,9 +847,9 @@
 				<binding>
 					<command>property-adjust</command>
 					<property>/controls/flight/flaps</property>
-					<step>.1</step>
+					<step>0.125</step>
 					<min>0</min>
-					<max>.6</max>
+					<max>0.75</max>
 				</binding>
 			</key>
 		</keyboard>

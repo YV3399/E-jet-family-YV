@@ -631,12 +631,12 @@
                         <value>25</value>
                     </quotient>
                 </function>
-                <output>fcs/slat-cmd-int-norm</output>   
+                <output>fcs/slat-cmd-int-deg</output>   
             </fcs_function>
 
 
             <kinematic name="Slats Control">
-                <input>fcs/slat-cmd-int-norm</input>
+                <input>fcs/slat-cmd-int-deg</input>
                 <traverse>
                     <setting>
                         <position>0.0</position>
@@ -695,12 +695,12 @@
                         <value>37</value>
                     </quotient>
                 </function>
-                <output>fcs/flap-cmd-int-norm</output>   
+                <output>fcs/flap-cmd-int-deg</output>   
             </fcs_function>
 
 
             <kinematic name="Flaps Control">
-                <input>fcs/flap-cmd-int-norm</input>
+                <input>fcs/flap-cmd-int-deg</input>
                 <traverse>
                     <setting>
                         <position>0.0</position>
