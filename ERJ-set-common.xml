@@ -438,7 +438,7 @@
 			<heading-mode type="int">0</heading-mode>
 			<speed-mode type="int">0</speed-mode>
 			<heading-bug-deg type="double">0</heading-bug-deg>
-			<target-speed-kt type="double">250</target-speed-kt>
+			<target-speed-kt type="double">190</target-speed-kt>
 			<target-speed-mach type="double">0</target-speed-mach>
 			<target-altitude-ft type="double">33000</target-altitude-ft>
 			<vertical-speed-fpm type="double">2000</vertical-speed-fpm>
