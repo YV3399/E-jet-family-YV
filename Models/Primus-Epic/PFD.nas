@@ -57,7 +57,7 @@ var canvas_ED_base = {
 		canvas.parsesvg(canvas_group, file, {'font-mapper': font_mapper});
 
 		 var svg_keys = me.getKeys();
-		 
+
 		foreach(var key; svg_keys) {
 			me[key] = canvas_group.getElementById(key);
 			var svg_keys = me.getKeys();
@@ -67,7 +67,7 @@ var canvas_ED_base = {
 			if (clip_el != nil) {
 				clip_el.setVisible(0);
 				var tran_rect = clip_el.getTransformedBounds();
-				var clip_rect = sprintf("rect(%d,%d, %d,%d)", 
+				var clip_rect = sprintf("rect(%d,%d, %d,%d)",
 				tran_rect[1], # 0 ys
 				tran_rect[2], # 1 xe
 				tran_rect[3], # 2 ye
@@ -81,7 +81,7 @@ var canvas_ED_base = {
 
 		me.h_trans = me["horizon"].createTransform();
 		me.h_rot = me["horizon"].createTransform();
-		
+
 		me.page = canvas_group;
 
 		return me;
@@ -95,7 +95,7 @@ var canvas_ED_base = {
 		#} else {
 		#	ED_only.page.hide();
 		#}
-		
+
 		settimer(func me.update(), 0.02);
 	},
 };
@@ -112,19 +112,38 @@ var canvas_ED_only = {
 			"horizon",
 			"compass",
 			"groundspeed",
-            "mach.digital",
-            "airspeed.bug",
-            "speedtrend.vector",
+			"mach.digital",
+			"airspeed.bug",
+			"speedtrend.vector",
 			"wind.pointer",
 			"wind.kt",
 			"heading.digital",
 			"selectedheading.digital",
 			"selectedcourse.digital",
 			"selectedheading.pointer",
+			"chrono.digital",
 			"nav1.act",
 			"nav1.sby",
 			"vhf1.act",
 			"vhf1.sby",
+			"navsrc.primary",
+			"navsrc.primary.selection",
+			"navsrc.primary.id",
+			"navsrc.preview",
+			"navsrc.preview.selection",
+			"navsrc.preview.id",
+			"dme",
+			"dme.selection",
+			"dme.id",
+			"dme.dist",
+			"dme.hold",
+			"dme.ete",
+			"dme.eteunit",
+			"waypoint",
+			"waypoint.id",
+			"waypoint.dist",
+			"waypoint.ete",
+			"waypoint.eteunit",
 			"ils.locneedle",
 			"ils.gsneedle",
 			"alt.tape",
@@ -164,7 +183,7 @@ var canvas_ED_only = {
 		];
 	},
 
-	update: func() { 
+	update: func() {
 		var pitch = (getprop("instrumentation/pfd/pitch-scale") or 0);
 		var roll =  getprop("orientation/roll-deg") or 0;
 		me.h_trans.setTranslation(0,pitch*8.05);
@@ -173,21 +192,21 @@ var canvas_ED_only = {
 			me["roll.pointer"].setRotation(roll*(-DC));
 		}
 		me["slip.pointer"].setTranslation(math.round((getprop("/instrumentation/slip-skid-ball/indicated-slip-skid") or 0)*50), 0);
-		
-		
+
+
 		me["groundspeed"].setText(sprintf("%3d", getprop("/velocities/groundspeed-kt") or 0));
-		
+
 		var heading = getprop("/orientation/heading-deg") or 0;
 		var selectedheading = getprop("/it-autoflight/input/hdg") or 0;
 		var selectedcourse = getprop("/instrumentation/nav[0]/radials/selected-deg") or 0;
-		
+
 		me["wind.pointer"].setRotation(((getprop("/environment/wind-from-heading-deg") or 0) - heading + 180) * DC);
-        if (getprop("/environment/wind-speed-kt") > 1) {
-            me["wind.pointer"].show();
-        }
-        else {
-            me["wind.pointer"].hide();
-        }
+		if (getprop("/environment/wind-speed-kt") > 1) {
+			me["wind.pointer"].show();
+		}
+		else {
+			me["wind.pointer"].hide();
+		}
 		me["wind.kt"].setText(sprintf("%u", math.round(getprop("/environment/wind-speed-kt") or 0)));
 
 		me["compass"].setRotation(heading * -DC);
@@ -195,7 +214,7 @@ var canvas_ED_only = {
 		me["selectedheading.digital"].setText(sprintf("%03d", selectedheading));
 		me["selectedheading.pointer"].setRotation((selectedheading - heading) * DC);
 		me["selectedcourse.digital"].setText(sprintf("%03d", selectedcourse));
-		
+
 		# HSI NAV1
 		var nav1heading = getprop("/instrumentation/nav[0]/radials/selected-deg") or 0;
 		var nav1error = getprop("/instrumentation/nav[0]/heading-needle-deflection-norm") or 0;
@@ -231,12 +250,84 @@ var canvas_ED_only = {
 		else {
 			me["ils.locneedle"].setTranslation(0, 0);
 		}
-		
 
+
+		if (getprop("/autopilot/route-manager/active") or 0) {
+			me["waypoint"].show();
+			me["waypoint.id"].setText(getprop("/autopilot/route-manager/wp/id") or "");
+			me["waypoint.dist"].setText(
+				sprintf("%5.1f", getprop("/autopilot/route-manager/wp/dist") or 0));
+			var ete = getprop("/autopilot/route-manager/wp/eta-seconds") or 0;
+			if (ete < 60) {
+				me["waypoint.ete"].setText(sprintf("%3d", math.round(ete)));
+				me["waypoint.eteunit"].setText("SEC");
+			}
+			else {
+				me["waypoint.ete"].setText(sprintf("%3d", math.round(ete) / 60));
+				me["waypoint.eteunit"].setText("MIN");
+			}
+			me["navsrc.primary.selection"].setText("FMS");
+			me["navsrc.primary.selection"].setColor(255, 0, 255);
+			me["navsrc.preview"].show();
+
+			if (getprop("/instrumentation/nav/nav-loc") or 0) {
+				me["navsrc.preview.selection"].setText("LOC1");
+			}
+			else {
+				me["navsrc.preview.selection"].setText("VOR1");
+			}
+			me["navsrc.preview.id"].setText(getprop("/instrumentation/nav/nav-id") or "");
+			me["navsrc.primary.id"].setText("");
+		}
+		else {
+			me["waypoint"].hide();
+			me["navsrc.preview"].hide();
+			if (getprop("/instrumentation/nav/nav-loc") or 0) {
+				me["navsrc.primary.selection"].setText("LOC1");
+			}
+			else {
+				me["navsrc.primary.selection"].setText("VOR1");
+			}
+			me["navsrc.primary.id"].setText(getprop("/instrumentation/nav/nav-id") or "");
+			me["navsrc.primary.selection"].setColor(0, 255, 0);
+		}
+
+		if (getprop("/instrumentation/dme/in-range") or 0) {
+			me["dme"].show();
+			me["dme.selection"].setText("DME1");
+			me["dme.id"].setText(getprop("/instrumentation/nav/nav-id") or "");
+			me["dme.dist"].setText(
+				sprintf("%5.1f", getprop("/instrumentation/dme/indicated-distance-nm") or 0));
+			var ete = getprop("/instrumentation/dme/indicated-time-min") or 600.0;
+			if (ete >= 600) {
+				me["dme.ete"].setText("+++");
+				me["dme.eteunit"].setText("+++");
+			}
+			elsif (ete < 1) {
+				me["dme.ete"].setText(sprintf("%3d", math.round(ete * 60.0)));
+				me["dme.eteunit"].setText("SEC");
+			}
+			else {
+				me["dme.ete"].setText(sprintf("%3d", math.round(ete)));
+				me["dme.eteunit"].setText("MIN");
+			}
+			if (getprop("/instrumentation/dme/frequencies/source") == "/instrumentation/dme/frequencies/selected-mhz") {
+				me["dme.hold"].show();
+			}
+			else {
+				me["dme.hold"].hide();
+			}
+		}
+		else {
+			me["dme"].hide();
+		}
+
+
+		# V/S
 		var vspeed = getprop("/instrumentation/vertical-speed-indicator/indicated-speed-fpm") or 0;
 		me["VS.digital"].setText(sprintf("%04d", vspeed));
 		me["vs.needle"].setRotation(vspeed * math.pi * 0.25 / 4000.0);
-		
+
 		# Altitude
 		var alt = getprop("/instrumentation/altimeter/indicated-altitude-ft") or 0;
 		if (roundToNearest(alt, 1000) == 0) {
@@ -279,7 +370,7 @@ var canvas_ED_only = {
 			altStr = sprintf("%3.0d", alt100Abs) or "  0";
 		}
 		me["alt.rollingdigits"].setTranslation(0,math.round((10*math.mod(alt100,1))*18, 0.1));
-		
+
 		me["alt.100"].setText(substr(altStr, 2, 1));
 		me["alt.1000"].setText(substr(altStr, 1, 1));
 		if (alt < 0) {
@@ -301,39 +392,39 @@ var canvas_ED_only = {
 		# 	me["alt.10000"].hide();
 		# 	me["alt.1000"].hide();
 		# }
-		
+
 		# Airspeed
 		var airspeed = getprop("instrumentation/airspeed-indicator/indicated-speed-kt") or 0;
-        var airspeedLookahead = getprop("/it-autoflight/internal/lookahead-10-sec-airspeed-kt") or 0;
-        var currentMach = getprop("/instrumentation/airspeed-indicator/indicated-mach") or 0;
-        var selectedKts = 0;
+		var airspeedLookahead = getprop("/it-autoflight/internal/lookahead-10-sec-airspeed-kt") or 0;
+		var currentMach = getprop("/instrumentation/airspeed-indicator/indicated-mach") or 0;
+		var selectedKts = 0;
 
 		if (getprop("/it-autoflight/input/kts-mach")) {
-            var selectedMach = (getprop("/it-autoflight/input/spd-mach") or 0);
+			var selectedMach = (getprop("/it-autoflight/input/spd-mach") or 0);
 			me["selectedspeed.digital"].setText(sprintf(".%03dM", selectedMach * 1000));
-            if (currentMach > 0.001) {
-                selectedKts = selectedMach * airspeed / currentMach;
-            }
-            else {
-                # this shouldn't happen in practice, but when it does, use the
-                # least objectionable default.
-                selectedKts = getprop("/it-autoflight/input/spd-kts");
-            }
+			if (currentMach > 0.001) {
+				selectedKts = selectedMach * airspeed / currentMach;
+			}
+			else {
+				# this shouldn't happen in practice, but when it does, use the
+				# least objectionable default.
+				selectedKts = getprop("/it-autoflight/input/spd-kts");
+			}
 		}
 		else {
-            selectedKts = (getprop("/it-autoflight/input/spd-kts") or 0);
+			selectedKts = (getprop("/it-autoflight/input/spd-kts") or 0);
 			me["selectedspeed.digital"].setText(sprintf("%03d", selectedKts));
 		}
-        me["mach.digital"].setText(sprintf(".%03d", currentMach * 1000));
+		me["mach.digital"].setText(sprintf(".%03d", currentMach * 1000));
 
 		me["selectedvspeed.digital"].setText(sprintf("%-05d", (getprop("/it-autoflight/input/vs") or 0)));
 
-        me["speedtrend.vector"].reset();
-        me["speedtrend.vector"].rect(152, 152, 15,
-            math.max(-40.0, math.min(40.0, (airspeedLookahead - airspeed))) * -6.42);
-		
+		me["speedtrend.vector"].reset();
+		me["speedtrend.vector"].rect(152, 152, 15,
+			math.max(-40.0, math.min(40.0, (airspeedLookahead - airspeed))) * -6.42);
+
 		me["asi.tape"].setTranslation(0,airspeed * 6.42);
-        me["airspeed.bug"].setTranslation(0, (airspeed-selectedKts) * 6.42);
+		me["airspeed.bug"].setTranslation(0, (airspeed-selectedKts) * 6.42);
 		me["asi.rollingdigits"].setTranslation(0,math.round((10*math.mod(airspeed/10,1))*50, 0.1));
 		var asi10=getprop("/instrumentation/pfd/asi-10") or 0;
 		if(asi10!=0){
@@ -349,7 +440,7 @@ var canvas_ED_only = {
 		}else{
 			me["asi.100"].hide();
 		}
-		
+
 		# FMA
 		if (getprop("/it-autoflight/output/ap1") or getprop("/it-autoflight/output/ap2")) {
 			me["fma.ap"].show();
