@@ -1,33 +1,31 @@
 <?xml version="1.0"?>
 
 <!--
-  File:     GE_CF34-8E.xml
-  Author:   Narendran, Aeromatic
+  File:     GE-CF34-8E.xml
+  Author:   AeromatiC++ v 3.3.11
+
+  See: http://wiki.flightgear.org/JSBSim_Engines#FGTurbine
 
   Inputs:
-    name:           GE_CF34-8E
-    type:           turbine
-    thrust:         12500 lb
-    augmented?      no
-    injected?       no
+    name:                    GE-CF34-8E
+    type:                    Turbine Engine
+    thrust:                  14163.0 lbf
+    bypass ratio:            5.000:1
+    overall pressure ratio:  28.5:1
+    augmented?               no
+    injected?                no
+
+  Outputs
+    tsfc:                    0.6
+    engine weight:           2816.9 lbs
+    engine length:           8.2 ft
+    engine diameter:         4.7 ft
 -->
 
-<!--
-  File:     CF34-8E.xml
-  Author:   Aero-Matic v 0.83
-
-  Inputs:
-    name:           CF34-8E
-    type:           turbine
-    thrust:         14499.6 lb
-    augmented?      no
-    injected?       no
--->
-
-<turbine_engine name="GE_CF34-8E">
-  <milthrust> 14499.6 </milthrust>
-  <bypassratio>     5.0 </bypassratio>
-  <tsfc>            0.68 </tsfc>
+<turbine_engine name="GE-CF34-8E">
+  <milthrust> 14163.0 </milthrust>
+  <bypassratio>     5.000 </bypassratio>
+  <tsfc>            0.600 </tsfc>
   <bleed>           0.03</bleed>
   <idlen1>         30.0 </idlen1>
   <idlen2>         60.0 </idlen2>
@@ -41,13 +39,13 @@
     <independentVar lookup="row">velocities/mach</independentVar>
     <independentVar lookup="column">atmosphere/density-altitude</independentVar>
     <tableData>
-         -10000     0     10000   20000   30000   40000   50000   60000
+         -10000     0     10000   20000   30000   40000   50000   90000
      0.0  0.0430  0.0488  0.0528  0.0694  0.0899  0.1183  0.1467  0
      0.2  0.0500  0.0501  0.0335  0.0544  0.0797  0.1049  0.1342  0
      0.4  0.0040  0.0047  0.0020  0.0272  0.0595  0.0891  0.1203  0
-     0.6  0.0     0.0     0.0     0.0     0.0276  0.0718  0.1073  0
-     0.8  0.0     0.0     0.0     0.0     0.0474  0.0868  0.0900  0
-     1.0  0.0     0.0     0.0     0.0     0.0     0.0552  0.0800  0
+     0.6 -0.0804 -0.0804 -0.0560 -0.0237  0.0276  0.0718  0.1073  0
+     0.8 -0.2129 -0.2129 -0.1498 -0.1025  0.0474  0.0868  0.0900  0
+     1.0 -0.2839 -0.2839 -0.1104 -0.0469 -0.0270  0.0552  0.0800  0
     </tableData>
    </table>
   </function>
@@ -57,68 +55,17 @@
     <independentVar lookup="row">velocities/mach</independentVar>
     <independentVar lookup="column">atmosphere/density-altitude</independentVar>
     <tableData>
-          -10000       0   10000   20000   30000   40000   50000   60000
-     0.0   1.2600  1.0000  0.7400  0.5340  0.3720  0.2410  0.1490  0
-     0.2   1.1710  0.9340  0.6970  0.5060  0.3550  0.2310  0.1430  0
-     0.4   1.1500  0.9210  0.6920  0.5060  0.3570  0.2330  0.1450  0
-     0.6   1.1810  0.9510  0.7210  0.5320  0.3780  0.2480  0.1540  0
-     0.8   1.2580  1.0200  0.7820  0.5820  0.4170  0.2750  0.1700  0
-     1.0   1.3690  1.1200  0.8710  0.6510  0.4750  0.3150  0.1950  0
-     1.2   1.4850  1.2300  0.9750  0.7440  0.5450  0.3640  0.2250  0
-     1.4   1.5941  1.3400  1.0860  0.8450  0.6280  0.4240  0.2630  0
+          -10000       0   10000   20000   30000   40000   50000   60000   90000
+      0.0  1.2600  1.0000  0.7400  0.5340  0.3720  0.2410  0.1490  0.0580  0
+      0.2  1.0422  0.8313  0.6203  0.4503  0.3159  0.2056  0.1273  0.0356  0
+      0.4  0.8970  0.7184  0.5398  0.3947  0.2785  0.1817  0.1131  0.0335  0
+      0.6  0.7913  0.6372  0.4831  0.3564  0.2533  0.1662  0.1032  0.0315  0
+      0.8  0.7045  0.5712  0.4379  0.3259  0.2335  0.1540  0.0952  0.0297  0
+      1.0  0.6160  0.5040  0.3919  0.2930  0.2137  0.1417  0.0877  0.0284  0
+      1.2  0.5049  0.4182  0.3315  0.2530  0.1853  0.1238  0.0765  0.0252  0
+      1.4  0.3666  0.3082  0.2498  0.1944  0.1444  0.0975  0.0605  0.0207  0
     </tableData>
    </table>
   </function>
 
 </turbine_engine>
-
-
-<!--
-<turbine_engine name="GE_CF34-8E">
-  <milthrust> 13500.4 </milthrust>
-  <bypassratio>     5.0 </bypassratio>
-  <tsfc>            0.68</tsfc>
-  <bleed>           0.03</bleed>
-  <idlen1>         30.0 </idlen1>
-  <idlen2>         60.0 </idlen2>
-  <maxn1>         100.0 </maxn1>
-  <maxn2>         100.0 </maxn2>
-  <augmented>         0 </augmented>
-  <injected>          0 </injected>
-
-  <function name="IdleThrust">
-   <table>
-    <independentVar lookup="row">velocities/mach</independentVar>
-    <independentVar lookup="column">atmosphere/density-altitude</independentVar>
-    <tableData>
-         -10000     0     10000   20000   30000   40000   50000   60000
-     0.0  0.0430  0.0488  0.0528  0.0694  0.0899  0.1183  0.1467  0
-     0.2  0.0500  0.0501  0.0335  0.0544  0.0797  0.1049  0.1342  0
-     0.4  0.0040  0.0047  0.0020  0.0272  0.0595  0.0891  0.1203  0
-     0.6  0.0     0.0     0.0     0.0     0.0276  0.0718  0.1073  0
-     0.8  0.0     0.0     0.0     0.0     0.0474  0.0868  0.0900  0
-     1.0  0.0     0.0     0.0     0.0     0.0     0.0552  0.0800  0
-    </tableData>
-   </table>
-  </function>
-
-  <function name="MilThrust">
-   <table>
-    <independentVar lookup="row">velocities/mach</independentVar>
-    <independentVar lookup="column">atmosphere/density-altitude</independentVar>
-    <tableData>
-          -10000       0   10000   20000   30000   40000   50000   60000
-     0.0   1.2600  1.0000  0.7400  0.5340  0.3720  0.2410  0.1490  0
-     0.2   1.1710  0.9340  0.6970  0.5060  0.3550  0.2310  0.1430  0
-     0.4   1.1500  0.9210  0.6920  0.5060  0.3570  0.2330  0.1450  0
-     0.6   1.1810  0.9510  0.7210  0.5320  0.3780  0.2480  0.1540  0
-     0.8   1.2580  1.0200  0.7820  0.5820  0.4170  0.2750  0.1700  0
-     1.0   1.3690  1.1200  0.8710  0.6510  0.4750  0.3150  0.1950  0
-     1.2   1.4850  1.2300  0.9750  0.7440  0.5450  0.3640  0.2250  0
-     1.4   1.5941  1.3400  1.0860  0.8450  0.6280  0.4240  0.2630  0
-    </tableData>
-   </table>
-  </function>
-
-</turbine_engine>-->
-
