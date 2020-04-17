@@ -65,7 +65,8 @@
         <emptywt unit="KG" > 21141 </emptywt>
 
         <location name="CG" unit="IN">
-            <x>-116.93</x>
+            <!-- <x>-116.93</x> -->
+            <x>-40.0</x>
             <y>0.0</y>
             <z>0.0</z>
         </location>
