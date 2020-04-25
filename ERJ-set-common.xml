@@ -850,6 +850,9 @@
 	</input>
 
 	<nasal>
+        <fastercanvas>
+            <file>Aircraft/E-jet-family/Nasal/fastercanvas.nas</file>
+        </fastercanvas>
 		<ELT>
 			<file>Aircraft/E-jet-family/Nasal/ELTmessage.nas</file>
 		</ELT>
