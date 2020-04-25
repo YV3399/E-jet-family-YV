@@ -100,19 +100,12 @@ var canvas_ED_only = {
 		m.props["/autopilot/route-manager/wp/dist"] = props.globals.getNode("/autopilot/route-manager/wp/dist");
 		m.props["/autopilot/route-manager/wp/eta-seconds"] = props.globals.getNode("/autopilot/route-manager/wp/eta-seconds");
 		m.props["/autopilot/route-manager/wp/id"] = props.globals.getNode("/autopilot/route-manager/wp/id");
-		m.props["/dme.id"] = props.globals.getNode("/dme.id");
 		m.props["/environment/wind-from-heading-deg"] = props.globals.getNode("/environment/wind-from-heading-deg");
 		m.props["/environment/wind-speed-kt"] = props.globals.getNode("/environment/wind-speed-kt");
-		m.props["/fma.lat"] = props.globals.getNode("/fma.lat");
-		m.props["/fma.latarmed"] = props.globals.getNode("/fma.latarmed");
-		m.props["/fma.vert"] = props.globals.getNode("/fma.vert");
-		m.props["/fma.vertarmed"] = props.globals.getNode("/fma.vertarmed");
-		m.props["/groundspeed"] = props.globals.getNode("/groundspeed");
-		m.props["/ils.gsneedle"] = props.globals.getNode("/ils.gsneedle");
-		m.props["/ils.locneedle"] = props.globals.getNode("/ils.locneedle");
 		m.props["/instrumentation/airspeed-indicator/indicated-mach"] = props.globals.getNode("/instrumentation/airspeed-indicator/indicated-mach");
 		m.props["/instrumentation/airspeed-indicator/indicated-speed-kt"] = props.globals.getNode("/instrumentation/airspeed-indicator/indicated-speed-kt");
 		m.props["/instrumentation/altimeter/indicated-altitude-ft"] = props.globals.getNode("/instrumentation/altimeter/indicated-altitude-ft");
+		m.props["/instrumentation/chrono/elapsed_time/total"] = props.globals.getNode("/instrumentation/chrono/elapsed_time/total");
 		m.props["/instrumentation/comm[0]/frequencies/selected-mhz"] = props.globals.getNode("/instrumentation/comm[0]/frequencies/selected-mhz");
 		m.props["/instrumentation/comm[0]/frequencies/standby-mhz"] = props.globals.getNode("/instrumentation/comm[0]/frequencies/standby-mhz");
 		m.props["/instrumentation/dme/frequencies/selected-mhz"] = props.globals.getNode("/instrumentation/dme/frequencies/selected-mhz");
@@ -152,22 +145,9 @@ var canvas_ED_only = {
 		m.props["/it-autoflight/output/athr"] = props.globals.getNode("/it-autoflight/output/athr");
 		m.props["/it-autoflight/output/lnav-armed"] = props.globals.getNode("/it-autoflight/output/lnav-armed");
 		m.props["/it-autoflight/output/loc-armed"] = props.globals.getNode("/it-autoflight/output/loc-armed");
-		m.props["/nav1.act"] = props.globals.getNode("/nav1.act");
-		m.props["/nav1.sby"] = props.globals.getNode("/nav1.sby");
-		m.props["/navsrc.preview.id"] = props.globals.getNode("/navsrc.preview.id");
-		m.props["/navsrc.primary.id"] = props.globals.getNode("/navsrc.primary.id");
 		m.props["/orientation/heading-deg"] = props.globals.getNode("/orientation/heading-deg");
 		m.props["/orientation/roll-deg"] = props.globals.getNode("/orientation/roll-deg");
-		m.props["/selectedalt.digital100"] = props.globals.getNode("/selectedalt.digital100");
-		m.props["/selectedvspeed.digital"] = props.globals.getNode("/selectedvspeed.digital");
-		m.props["/slip.pointer"] = props.globals.getNode("/slip.pointer");
-		m.props["/T/O"] = props.globals.getNode("/T/O");
 		m.props["/velocities/groundspeed-kt"] = props.globals.getNode("/velocities/groundspeed-kt");
-		m.props["/vhf1.act"] = props.globals.getNode("/vhf1.act");
-		m.props["/vhf1.sby"] = props.globals.getNode("/vhf1.sby");
-		m.props["/waypoint.id"] = props.globals.getNode("/waypoint.id");
-		m.props["/wind.kt"] = props.globals.getNode("/wind.kt");
-		m.props["/wind.pointer"] = props.globals.getNode("/wind.pointer");
 		return m;
 	},
 	getKeys: func() {
@@ -175,6 +155,7 @@ var canvas_ED_only = {
 			"horizon",
 			"compass",
 			"groundspeed",
+            "chrono.digital",
 			"mach.digital",
 			"airspeed.bug",
 			"speedtrend.vector",
@@ -277,6 +258,10 @@ var canvas_ED_only = {
 		me["selectedheading.digital"].setText(sprintf("%03d", selectedheading));
 		me["selectedheading.pointer"].setRotation((selectedheading - heading) * DC);
 		me["selectedcourse.digital"].setText(sprintf("%03d", selectedcourse));
+
+        # CHR
+        var t = me.props["/instrumentation/chrono/elapsed_time/total"].getValue() or 0;
+        me["chrono.digital"].setText(sprintf("%02d:%02d", math.floor(t / 60), math.mod(t, 60)));
 
 		# HSI NAV1
 		var nav1heading = me.props["/instrumentation/nav[0]/radials/selected-deg"].getValue() or 0;
