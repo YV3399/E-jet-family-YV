@@ -294,6 +294,31 @@ setlistener("sim/signals/fdm-initialized", func {
 	settimer(instruments.loop, 2);
 });
 
+## AUTOMATIC A/T KTS/MACH SWITCHING
+###################################
+
+var prevAlt = 0;
+var atKtsMachLoop = func {
+    var alt = math.floor(getprop("instrumentation/altimeter/indicated-altitude-ft"));
+    if (alt >= 29000 and prevAlt < 29000) {
+        # switch to Mach
+        var mach = getprop("instrumentation/airspeed-indicator/indicated-mach");
+        setprop("it-autoflight/input/spd-mach", mach);
+        setprop("it-autoflight/input/kts-mach", 1);
+    }
+    if (alt < 28900 and prevAlt >= 28900) {
+        # switch to IAS
+        var kts = getprop("instrumentation/airspeed-indicator/indicated-speed-kt");
+        setprop("it-autoflight/input/spd-kts", kts);
+        setprop("it-autoflight/input/kts-mach", 0);
+    }
+    prevAlt = alt;
+    settimer(atKtsMachLoop, 2);
+};
+setlistener("sim/signals/fdm-initialized", func {
+    settimer(atKtsMachLoop, 2);
+});
+
 ## AUTOPILOT
 ############
 
