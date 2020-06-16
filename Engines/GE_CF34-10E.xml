@@ -7,15 +7,15 @@
   Inputs:
     name:           GE_CF34-10E
     type:           turbine
-    thrust:         18500 lb
+    thrust:         18500-20360 lbf
     augmented?      no
     injected?       no
 -->
 
 <turbine_engine name="GE_CF34-10E">
-  <milthrust> 18500.4 </milthrust>
-  <bypassratio>     5.4 </bypassratio>
-  <tsfc>            0.64</tsfc>
+  <milthrust> 20360.0 </milthrust>
+  <bypassratio>     5.400 </bypassratio>
+  <tsfc>            0.64 </tsfc>
   <bleed>           0.03</bleed>
   <idlen1>         30.0 </idlen1>
   <idlen2>         60.0 </idlen2>
@@ -59,4 +59,3 @@
   </function>
 
 </turbine_engine>
-

@@ -5,83 +5,85 @@
    xsi:noNamespaceSchemaLocation="http://jsbsim.sourceforge.net/JSBSim.xsd">
 
     <fileheader>
-        <author> Narendran Muraleedharan</author>
-        <filecreationdate> 2011-08-08 </filecreationdate>el
-        <version>$Revision: 1.10 $</version>
-        <description> Flight Dynamics Model for the Embraer 170 </description>
+        <author>Narendran Muraleedharan</author>
+        <author>Tobias Dammers</author>
+        <filecreationdate>2011-08-08</filecreationdate>
+        <version>$Revision: 2.0$</version>
+        <description> Flight Dynamics Model for the Embraer 170</description>
     </fileheader>
 
     <!-- UNIT CONVERSIONS :
 1 meter = 3.2 feet
+1 foot = 0.3048 m
 1 meter = 39.4 inches
 1 sq. m = 10.24 sq. ft.
-1 feet  = 12 inches -->
+1 foot  = 12 inches -->
 
     <metrics>
-
-        <!--Source http://www.flugzeuginfo.net/acdata_php/acdata_emb190_en.php-->
-
-        <wingarea  unit="FT2">996 </wingarea>
-        <wingspan  unit="FT" >  94.3 </wingspan>
-        <!-- Wing Incidence = 3 deg from Aeromatic -->
-        <wing_incidence unit="DEG"> 3 </wing_incidence>
-        <!-- Chord = 4.6 m from Ac3D -->
-        <chord     unit="FT" >   14.72 </chord>
+        <!-- Calculated Wing Area (wikipedia) -->
+        <wingarea  unit="M2">92.53</wingarea>
+        <!-- Wingspan 26 m (wikipedia/FCOM) -->
+        <wingspan  unit="FT" >94.25</wingspan>
+        <!-- Wing Incidence = 3 (pure guesswork) -->
+        <wing_incidence unit="DEG"> 3.0 </wing_incidence>
+        <!-- Chord = 4.72 m from  -->
+        <chord     unit="FT" >   17.85 </chord>
         <!-- Horizontal Tail Area = 18.9735 sq m (calculated on paper) -->
         <htailarea unit="FT2">  194.28864 </htailarea>
-        <!-- Horizontal Tail Arm = 14.2 m from Ac3D -->
-        <htailarm  unit="FT" >   45.44 </htailarm>
+        <!-- Horizontal Tail Arm 13 m from FCOM 3-view -->
+        <htailarm  unit="FT" >   51.69 </htailarm>
         <!-- Vertical Tail Area = 17.2975 sq m (calculated on paper) -->
         <vtailarea unit="FT2">  177.1264 </vtailarea>
-        <vtailarm  unit="FT" >   0 </vtailarm>
+        <!-- Vertical Tail Arm 12.6 m from FCOM 3-view -->
+        <vtailarm  unit="FT" > 15.27 </vtailarm>
         <location name="AERORP" unit="IN">
             <x> 0 </x>
             <y> 0 </y>
             <z> 0 </z>
         </location>
-        <!-- Center of AircrafT (0,0,0 in Ac3D) is taken as the Eyepoint -->
         <location name="EYEPOINT" unit="IN">
-            <x> 0 </x>
+            <x> -527.29 </x>
             <y> 0 </y>
-            <z> 0 </z>
+            <z> 1.14 </z>
         </location>
-        <!-- Center of Aircraft (in Ac3D) is taken as the Vehicle Reference Point -->
+        <!-- Nose tip in AC file is 14.82m -->
         <location name="VRP" unit="IN">
-            <x> 0 </x>
+            <x>40.16</x>
             <y> 0 </y>
             <z> 0 </z>
         </location>
     </metrics>
 
     <mass_balance>
-        <!-- I let the intertia values remain as from Aeromatic as I don't know how to calculate it. It should work out as for this is set to an idea Transonic Aircraft. If I feel that the plane needs to turn slower, or be heavier in that aspect, I can just increase the value to what I need it to be -->
-        <ixx unit="SLUG*FT2">    562000 </ixx>
-        <iyy unit="SLUG*FT2"> 1.473e+06 </iyy>
-        <izz unit="SLUG*FT2">    962000 </izz>
+        <ixx unit="SLUG*FT2">    662000 </ixx>
+        <iyy unit="SLUG*FT2">    500000 </iyy>
+        <izz unit="SLUG*FT2">    662000 </izz>
         <ixy unit="SLUG*FT2">         0 </ixy>
         <ixz unit="SLUG*FT2">         0 </ixz>
         <iyz unit="SLUG*FT2">         0 </iyz>
-        <!-- Operational Empty Weight = 44,600 lbs from wikipedia -->
-        <emptywt unit="LBS" > 61900 </emptywt>
-        <!-- Center of Gravity (Approximate) = (-4.44,0,-0.18) m -->
-        <location name="CG" unit="M">
-            <x> -1.4 </x>
-            <y>   0.00 </y>
-            <z>0.00 </z>
+        <!-- Operational Empty Weight = 61,370 lbs from wikipedia -->
+        <emptywt unit="KG" > 27837 </emptywt>
+
+        <location name="CG" unit="IN">
+            <!-- <x>-116.93</x> -->
+            <x>-40.0</x>
+            <y>0.0</y>
+            <z>0.0</z>
         </location>
 
         <pointmass name="Crew">
             <weight unit="LBS">300</weight>
             <location name="POINTMASS" unit="IN">
-                <x>-416.458</x>
+                <x>-527.29</x>
                 <y>0</y>
                 <z>1.14</z>
             </location>
         </pointmass>
         <pointmass name="Passengers">
-            <weight unit="LBS">10000</weight>
+            <!-- wikipedia -->
+            <weight unit="LBS">9759</weight>
             <location name="POINTMASS" unit="IN">
-                <x>-72.102</x>
+                <x>0</x>
                 <y>0</y>
                 <z>1.14</z>
             </location>
@@ -94,9 +96,9 @@
         <!-- Nose Gear Contact Point -->
         <contact type="BOGEY" name="NOSE_GEAR">
             <location unit="IN">
-                <x> -503.8 </x>
+                <x> -455.71</x>
                 <y> 0.00 </y>
-                <z> -92.20934 </z>
+                <z> -89.832 </z>
             </location>
             <static_friction>  1.50 </static_friction>
             <dynamic_friction> 0.50 </dynamic_friction>
@@ -152,9 +154,9 @@
         <!-- Left Main Gear Contact Point -->
         <contact type="BOGEY" name="LEFT_MAIN">
             <location unit="IN">
-                <x> -10.43 </x>
+                <x>   50.10</x>
                 <y> -101.258 </y>
-                <z> -92.58 </z>
+                <z>  -93.772 </z>
             </location>
             <static_friction>  0.40 </static_friction>
             <dynamic_friction> 0.50 </dynamic_friction>
@@ -210,9 +212,9 @@
         <!-- Right Main Gear Contact Point -->
         <contact type="BOGEY" name="RIGHT_MAIN">
             <location unit="IN">
-                <x> -10.43 </x>
+                <x>   50.10</x>
                 <y> 101.258 </y>
-                <z> -92.58 </z>
+                <z> -93.772 </z>
             </location>
             <static_friction>  0.40 </static_friction>
             <dynamic_friction> 0.50 </dynamic_friction>
@@ -268,7 +270,7 @@
         <!-- Left Wing Tip Contact Point -->
         <contact type="STRUCTURE" name="LEFT_WING_TIP">
             <location unit="IN">
-                <x> 102.44 </x>
+                <x>  206.14</x>
                 <y> -490.924 </y>
                 <z> 10.64 </z>
             </location>
@@ -283,7 +285,7 @@
         <!-- Right Wing Tip Contact Point -->
         <contact type="STRUCTURE" name="RIGHT_WING_TIP">
             <location unit="IN">
-                <x> 102.44 </x>
+                <x>  206.14</x>
                 <y> 490.924 </y>
                 <z> 10.64 </z>
             </location>
@@ -298,7 +300,7 @@
         <!-- Tail (in case of a tail strike) Contact Point -->
         <contact type="STRUCTURE" name="TAIL_STRIKE">
             <location unit="IN">
-                <x> 700 </x>
+                <x> 768.26</x>
                 <y> 0 </y>
                 <z> 45.62914 </z>
             </location>
@@ -313,7 +315,7 @@
         <!-- Nose (used for Ditching) Contact Point -->
         <contact type="STRUCTURE" name="TAIL_STRIKE">
             <location unit="IN">
-                <x> -541.75 </x>
+                <x> -658.51 </x>
                 <y> 0 </y>
                 <z> -28.762 </z>
             </location>
@@ -332,7 +334,7 @@
 
         <engine file="GE_CF34-10E">
             <location unit="IN">
-                <x> -157.6 </x>
+                <x> -95.44  </x>
                 <y> -157.6 </y>
                 <z> -43.34 </z>
             </location>
@@ -345,21 +347,21 @@
             <feed>0</feed>
             <thruster file="direct">
                 <location unit="IN">
-                    <x> -157.6 </x>
+                    <x> -95.44  </x>
                     <y> -157.6 </y>
                     <z> -43.34 </z>
                 </location>
                 <orient unit="DEG">
-                    <pitch> -2.00 </pitch>
+                    <pitch>  1.10 </pitch>
                     <roll>   0.00 </roll>
-                    <yaw>   0.00 </yaw>
+                    <yaw>   -1.00 </yaw>
                 </orient>
             </thruster>
         </engine>
 
         <engine file="GE_CF34-10E">
             <location unit="IN">
-                <x> -157.6 </x>
+                <x> -95.44  </x>
                 <y> 157.6 </y>
                 <z> -43.34 </z>
             </location>
@@ -372,14 +374,14 @@
             <feed>2</feed>
             <thruster file="direct">
                 <location unit="IN">
-                    <x> -157.6 </x>
+                    <x> -95.44  </x>
                     <y> 157.6 </y>
                     <z> -43.34 </z>
                 </location>
                 <orient unit="DEG">
-                    <pitch> -2.00 </pitch>
-                    <roll>   0.00 </roll>
-                    <yaw>   0.00 </yaw>
+                    <pitch> 1.10 </pitch>
+                    <roll>  0.00 </roll>
+                    <yaw>   1.00 </yaw>
                 </orient>
             </thruster>
         </engine>
@@ -391,8 +393,8 @@
                 <y> -133.96 </y>
                 <z> -5.91 </z>
             </location>
-            <capacity unit="KG"> 3200 </capacity>
-            <contents unit="KG"> 2700 </contents>
+            <capacity unit="KG"> 3680 </capacity>
+            <contents unit="KG"> 2000 </contents>
         </tank>
 
         <!-- Central Fuel Tank -->
@@ -402,8 +404,8 @@
                 <y> 0.00 </y>
                 <z> -36.642 </z>
             </location>
-            <capacity unit="KG"> 3600 </capacity>
-            <contents unit="KG"> 3300 </contents>
+            <capacity unit="KG"> 4400 </capacity>
+            <contents unit="KG"> 2800 </contents>
         </tank>
 
         <!-- Wing Fuel Tank RIGHT -->
@@ -413,8 +415,8 @@
                 <y> 133.96 </y>
                 <z> -5.91 </z>
             </location>
-            <capacity unit="KG"> 3200 </capacity>
-            <contents unit="KG"> 2700 </contents>
+            <capacity unit="KG"> 3680 </capacity>
+            <contents unit="KG"> 2000 </contents>
         </tank>
 
         <!-- Trim Fuel Tank -->
@@ -424,44 +426,46 @@
                 <y> 0 </y>
                 <z> 54.372 </z>
             </location>
-            <capacity unit="KG"> 1800 </capacity>
-            <contents unit="KG"> 1535 </contents>
+            <capacity unit="KG"> 1211 </capacity>
+            <contents unit="KG"> 733 </contents>
         </tank>
 
     </propulsion>
 
     <system file="pushback"/>
 
-    <flight_control name="FCS: ERJ-190">
-
+    <flight_control name="FCS: ERJ-170">
         <channel name="Pitch">
             <summer name="Pitch Trim Sum">
                 <input>fcs/elevator-cmd-norm</input>
                 <input>fcs/pitch-trim-cmd-norm</input>
                 <clipto>
-                    <min> -1 </min>
-                    <max>  1 </max>
+                    <min> -1.5 </min>
+                    <max>  1.5 </max>
                 </clipto>
             </summer>
 
             <aerosurface_scale name="Elevator Control">
                 <input>fcs/pitch-trim-sum</input>
                 <range>
-                    <min> -0.192 </min>
-                    <max>  0.3310 </max>
+                    <min> -0.5 </min>
+                    <max>  0.5 </max>
                 </range>
                 <output>fcs/elevator-pos-rad</output>
             </aerosurface_scale>
 
             <aerosurface_scale name="elevator normalization">
                 <input>fcs/elevator-pos-rad</input>
+                <domain>
+                    <min> -0.5 </min>
+                    <max>  0.5 </max>
+                </domain>
                 <range>
-                    <min> -0.336 </min>
-                    <max>  0.3865 </max>
+                    <min> -1 </min>
+                    <max>  1 </max>
                 </range>
                 <output>fcs/elevator-pos-norm</output>
             </aerosurface_scale>
-
         </channel>
 
         <channel name="Roll">
@@ -486,8 +490,8 @@
             <aerosurface_scale name="Right Aileron Control">
                 <input>fcs/roll-trim-sum</input>
                 <range>
-                    <min> -0.45 </min>
-                    <max>  0.45 </max>
+                    <min> -0.25 </min>
+                    <max>  0.25 </max>
                 </range>
                 <output>fcs/right-aileron-pos-rad</output>
             </aerosurface_scale>
@@ -525,20 +529,21 @@
                 <input>fcs/rudder-cmd-norm</input>
                 <input>fcs/yaw-trim-cmd-norm</input>
                 <clipto>
-                    <min> -0.50 </min>
-                    <max>  0.50 </max>
+                    <min> -0.55 </min>
+                    <max>  0.55 </max>
                 </clipto>
             </summer>
 
             <scheduled_gain name="Yaw Damper Rate">
                 <input>velocities/r-aero-rad_sec</input>
                 <table>
-                    <independentVar>aero/qbar-psf</independentVar>
+                    <independentVar lookup="row">velocities/ve-kts</independentVar>
                     <tableData>
-                        3.0000   0.0000   
-                        11.0000   2.0000   
+                        30     0.00
+                        60     2.00
                     </tableData>
                 </table>
+                <gain>fcs/yaw-damper-enable</gain>
             </scheduled_gain>
 
             <scheduled_gain name="Yaw Damper Beta">
@@ -546,8 +551,8 @@
                 <table>
                     <independentVar>aero/qbar-psf</independentVar>
                     <tableData>
-                        3.0000   0.0000   
-                        11.0000   0.0000   
+                        3.0000   0.0000
+                        11.0000   0.0000
                     </tableData>
                 </table>
             </scheduled_gain>
@@ -557,9 +562,9 @@
                 <table>
                     <independentVar>velocities/mach</independentVar>
                     <tableData>
-                        0.00	0.0
-                        0.10	0.0
-                        0.11	1.0
+                        0.00        0.0
+                        0.10        0.0
+                        0.11        1.0
                     </tableData>
                 </table>
             </scheduled_gain>
@@ -569,9 +574,9 @@
                 <table>
                     <independentVar>velocities/mach</independentVar>
                     <tableData>
-                        0.00	0.0
-                        0.10	0.0
-                        0.11	1.0
+                        0.00        0.0
+                        0.10        0.0
+                        0.11        1.0
                     </tableData>
                 </table>
             </scheduled_gain>
@@ -588,8 +593,8 @@
             <aerosurface_scale name="Rudder Control">
                 <input>fcs/rudder-sum</input>
                 <range>
-                    <min> -0.545 </min>
-                    <max>  0.545 </max>
+                    <min> -0.530 </min>
+                    <max>  0.530 </max>
                 </range>
                 <output>fcs/rudder-pos-rad</output>
             </aerosurface_scale>
@@ -597,8 +602,8 @@
             <aerosurface_scale name="rudder normalization">
                 <input>fcs/rudder-pos-rad</input>
                 <domain>
-                    <min> -0.545 </min>
-                    <max>  0.545 </max>
+                    <min> -0.530 </min>
+                    <max>  0.530 </max>
                 </domain>
                 <range>
                     <min> -1 </min>
@@ -614,29 +619,25 @@
             <!--Set slats according to http://www.smartcockpit.com/docs/Embraer_190-Flight_Controls.pdf page 4-->
             <fcs_function name="Slats Cmd">
                 <function>
-                    <quotient>
-                        <table>
-                            <independentVar>/controls/flight/flaps</independentVar>
-                            <tableData>
-                                0      0
-                                0.1      15
-                                0.2	   15
-                                0.3      15
-                                0.4      25
-                                0.5      25
-                                0.6      25
-                            </tableData>
-                        </table>
-
-                        <value>25</value>
-                    </quotient>
+                    <table>
+                        <independentVar>/controls/flight/flaps</independentVar>
+                        <tableData>
+                            0.000   0
+                            0.125  15
+                            0.250  15
+                            0.375  15
+                            0.500  25
+                            0.625  25
+                            0.750  25
+                        </tableData>
+                    </table>
                 </function>
-                <output>fcs/slat-cmd-int-deg</output>   
+                <output>fcs/slat-cmd-int-deg</output>
             </fcs_function>
-
 
             <kinematic name="Slats Control">
                 <input>fcs/slat-cmd-int-deg</input>
+                <noscale/>
                 <traverse>
                     <setting>
                         <position>0.0</position>
@@ -678,57 +679,45 @@
             <!-- Set flaps according to http://www.smartcockpit.com/docs/Embraer_190-Flight_Controls.pdf page 4-->
             <fcs_function name="Flaps Cmd">
                 <function>
-                    <quotient>
-                        <table>
-                            <independentVar>/controls/flight/flaps</independentVar>
-                            <tableData>
-                                0      0
-                                0.1      7
-                                0.2	   10
-                                0.3      20
-                                0.4      20
-                                0.5      20
-                                0.6      37
-                            </tableData>
-                        </table>
-
-                        <value>37</value>
-                    </quotient>
+                    <table>
+                        <independentVar>/controls/flight/flaps</independentVar>
+                        <tableData>
+                            0.000   0
+                            0.125   5
+                            0.250  10
+                            0.375  20
+                            0.500  20
+                            0.625  20
+                            0.750  35
+                        </tableData>
+                    </table>
                 </function>
-                <output>fcs/flap-cmd-int-deg</output>   
+                <output>fcs/flap-cmd-int-deg</output>
             </fcs_function>
-
 
             <kinematic name="Flaps Control">
                 <input>fcs/flap-cmd-int-deg</input>
+                <noscale/>
                 <traverse>
                     <setting>
-                        <position>0.0</position>
+                        <position>0</position>
                         <time>0.0000</time>
                     </setting>
                     <setting>
-                        <position>7</position>
-                        <time>1.0000</time>
+                        <position>5</position>
+                        <time>2.0000</time>
                     </setting>
                     <setting>
-                        <position>10.0000</position>
-                        <time>0.5000</time>
+                        <position>10</position>
+                        <time>2.0000</time>
                     </setting>
                     <setting>
-                        <position>20.0000</position>
-                        <time>4.0000</time>
+                        <position>20</position>
+                        <time>2.0000</time>
                     </setting>
                     <setting>
-                        <position>20.0000</position>
-                        <time>0.0000</time>
-                    </setting>
-                    <setting>
-                        <position>20.0000</position>
-                        <time>0.0000</time>
-                    </setting>
-                    <setting>
-                        <position>37.0000</position>
-                        <time>5.0000</time>
+                        <position>35</position>
+                        <time>3.0000</time>
                     </setting>
                 </traverse>
                 <output>fcs/flap-pos-deg</output>
@@ -738,7 +727,7 @@
                 <input>fcs/flap-pos-deg</input>
                 <domain>
                     <min>  0 </min>
-                    <max> 37 </max>
+                    <max> 35 </max>
                 </domain>
                 <range>
                     <min> 0 </min>
@@ -789,62 +778,19 @@
 
     <aerodynamics>
 
-        <!-- Lift due to ground effects to make the take off faster -->
-        <function name="aero/function/kCLge">
-            <description>Change_in_lift_due_to_ground_effect</description>
-            <table>
-                <independentVar>aero/h_b-mac-ft</independentVar>
-                <tableData>
-                    0.0000        1.2000
-                    0.1000        1.3200
-                    0.1500        1.3600
-                    0.2000        1.4000
-                    1.1000        1.2000
-                    1.2000        1.0000
-                </tableData>
-            </table>
-        </function>
-
         <axis name="LIFT">
-
             <function name="aero/coefficient/CLalpha">
                 <description>Lift_due_to_alpha</description>
                 <product>
                     <property>aero/qbar-psf</property>
                     <property>metrics/Sw-sqft</property>
-                    <property>aero/function/kCLge</property>
                     <table>
-                        <independentVar lookup="row">aero/alpha-deg</independentVar>
+                        <independentVar lookup="row">aero/alpha-wing-rad</independentVar>
                         <tableData>
-                            -43 -1.0000
-                            -33 -0.9000
-                            -23 -0.8500
-                            -18 -0.8000
-                            -13 -0.7500
-                            -12  -0.7000
-                            -11  -0.6700
-                            -10  -0.6300
-                            -9  -0.5600
-                            -8  -0.5000
-                            -7  -0.4200
-                            -6  -0.3300
-                            -5  -0.2200
-                            -4  -0.1100
-                            -3   0.0000
-                            -2   0.2000
-                            -1   0.3500
-                            0   0.5000
-                            1   0.6500
-                            2   0.9000
-                            3   1.0500
-                            4   1.1500
-                            5   1.2500
-                            6   1.3500
-                            7  1.4500
-                            12  1.5000
-                            17  1.4000
-                            27  1.3000
-                            37  0.9000
+                            -0.20 -0.680
+                            0.00  0.200
+                            0.23  1.200
+                            0.60  0.600
                         </tableData>
                     </table>
                 </product>
@@ -855,8 +801,18 @@
                 <product>
                     <property>aero/qbar-psf</property>
                     <property>metrics/Sw-sqft</property>
-                    <property>fcs/flap-pos-deg</property>
-                    <value> 0.05 </value>
+                    <property>fcs/flap-pos-norm</property>
+                    <value> 0.5 </value>
+                </product>
+            </function>
+
+            <function name="aero/force/Lift_slat">
+                <description>Delta Lift due to slats</description>
+                <product>
+                    <property>aero/qbar-psf</property>
+                    <property>metrics/Sw-sqft</property>
+                    <property>fcs/slat-pos-norm</property>
+                    <value> 0.25 </value>
                 </product>
             </function>
 
@@ -876,7 +832,7 @@
                     <property>aero/qbar-psf</property>
                     <property>metrics/Sw-sqft</property>
                     <property>fcs/elevator-pos-rad</property>
-                    <value>0.45</value>
+                    <value>0.2</value>
                 </product>
             </function>
 
@@ -885,12 +841,12 @@
         <axis name="DRAG">
 
             <function name="aero/force/Drag_basic">
-                <description>Drag at zero lift</description>
+                <description>Parasitic drag</description>
                 <product>
                     <property>aero/qbar-psf</property>
                     <property>metrics/Sw-sqft</property>
                     <table>
-                        <independentVar lookup="row">aero/alpha-rad</independentVar>
+                        <independentVar lookup="row">aero/alpha-wing-rad</independentVar>
                         <tableData>
                             -1.57       1.200
                             -0.26    0.018
@@ -899,6 +855,7 @@
                             1.57       1.200
                         </tableData>
                     </table>
+                    <value>1.4</value>
                 </product>
             </function>
 
@@ -934,7 +891,17 @@
                 <product>
                     <property>aero/qbar-psf</property>
                     <property>metrics/Sw-sqft</property>
-                    <property>fcs/flap-pos-deg</property>
+                    <property>fcs/flap-pos-norm</property>
+                    <value> 0.02 </value>
+                </product>
+            </function>
+
+            <function name="aero/force/Drag_slat">
+                <description>Drag due to slats</description>
+                <product>
+                    <property>aero/qbar-psf</property>
+                    <property>metrics/Sw-sqft</property>
+                    <property>fcs/slat-pos-norm</property>
                     <value> 0.005 </value>
                 </product>
             </function>
@@ -945,7 +912,7 @@
                     <property>aero/qbar-psf</property>
                     <property>metrics/Sw-sqft</property>
                     <property>gear/gear-pos-norm</property>
-                    <value>0.003</value>
+                    <value>0.004</value>
                 </product>
             </function>
 
@@ -955,7 +922,7 @@
                     <property>aero/qbar-psf</property>
                     <property>metrics/Sw-sqft</property>
                     <property>fcs/speedbrake-pos-norm</property>
-                    <value>0.07</value>
+                    <value>0.1</value>
                 </product>
             </function>
 
@@ -1095,11 +1062,10 @@
                     <table>
                         <independentVar lookup="row">velocities/mach</independentVar>
                         <tableData>
-                            0.0000	-1.3000	
-                            2.0000	-0.3250	
+                            0.0000	-1.3000
+                            2.0000	-0.3250
                         </tableData>
                     </table>
-                    <value>1.5</value>
                 </product>
             </function>
 
