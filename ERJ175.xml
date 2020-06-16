@@ -397,7 +397,7 @@
                 <y> -133.96 </y>
                 <z> -5.91 </z>
             </location>
-            <capacity unit="KG"> 2500 </capacity>
+            <capacity unit="KG"> 2650 </capacity>
             <contents unit="KG"> 2000 </contents>
         </tank>
 
@@ -408,7 +408,7 @@
                 <y> 0.00 </y>
                 <z> -36.642 </z>
             </location>
-            <capacity unit="KG"> 3000 </capacity>
+            <capacity unit="KG"> 3100 </capacity>
             <contents unit="KG"> 2800 </contents>
         </tank>
 
@@ -419,7 +419,7 @@
                 <y> 133.96 </y>
                 <z> -5.91 </z>
             </location>
-            <capacity unit="KG"> 2500 </capacity>
+            <capacity unit="KG"> 2650 </capacity>
             <contents unit="KG"> 2000 </contents>
         </tank>
 
@@ -430,7 +430,7 @@
                 <y> 0 </y>
                 <z> 54.372 </z>
             </location>
-            <capacity unit="KG"> 800 </capacity>
+            <capacity unit="KG"> 935 </capacity>
             <contents unit="KG"> 733 </contents>
         </tank>
 
@@ -896,7 +896,7 @@
                     <property>aero/qbar-psf</property>
                     <property>metrics/Sw-sqft</property>
                     <property>fcs/flap-pos-norm</property>
-                    <value> 0.01 </value>
+                    <value> 0.015 </value>
                 </product>
             </function>
 
@@ -906,7 +906,7 @@
                     <property>aero/qbar-psf</property>
                     <property>metrics/Sw-sqft</property>
                     <property>fcs/slat-pos-norm</property>
-                    <value> 0.0025 </value>
+                    <value> 0.003</value>
                 </product>
             </function>
 
@@ -916,7 +916,7 @@
                     <property>aero/qbar-psf</property>
                     <property>metrics/Sw-sqft</property>
                     <property>gear/gear-pos-norm</property>
-                    <value>0.003</value>
+                    <value>0.004</value>
                 </product>
             </function>
 
