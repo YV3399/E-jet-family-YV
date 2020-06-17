@@ -14,7 +14,7 @@
 			<expression>
 				<dif>
 					<property>/position/altitude-agl-ft</property>
-					<value>15.0</value> <!-- Change this value to adjust property -->
+					<value>8.0</value> <!-- Change this value to adjust property -->
 				</dif>
 			</expression>
 		</input>
