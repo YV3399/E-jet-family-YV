@@ -415,11 +415,6 @@
 			<min-lb type="double">120</min-lb>
 			<max-lb type="double">400</max-lb>
 		</weight>
-		<weight n="1">
-			<name>Passengers</name>
-			<weight-lb alias="/fdm/jsbsim/inertia/pointmass-weight-lbs[1]"/>
-			<min-lb type="double">0</min-lb>
-		</weight>
 	</payload>
 
 	<autopilot>

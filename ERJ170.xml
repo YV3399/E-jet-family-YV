@@ -62,7 +62,7 @@
         <ixz unit="SLUG*FT2">         0 </ixz>
         <iyz unit="SLUG*FT2">         0 </iyz>
         <!-- Operational Empty Weight = 44,600 lbs from wikipedia -->
-        <emptywt unit="KG" > 21141 </emptywt>
+        <emptywt unit="KG" > 21157 </emptywt>
 
         <location name="CG" unit="IN">
             <!-- <x>-116.93</x> -->
@@ -81,7 +81,7 @@
         </pointmass>
         <pointmass name="Passengers">
             <!-- wikipedia -->
-            <weight unit="LBS">9759</weight>
+            <weight unit="LBS">21515</weight>
             <location name="POINTMASS" unit="IN">
                 <x>0</x>
                 <y>0</y>

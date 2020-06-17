@@ -37,14 +37,16 @@
 		</view>
 	</sim>
 
-	<payload>
-		<weight n="1">
-			<!-- Max payload (ERJ190): 28,800lb according to http://www.embraercommercialaviation.com/AircraftPDF/E190_Weights.pdf -->
-			<max-lb type="double">12960</max-lb>
-		</weight>
-	</payload>
+    <payload>
+        <weight n="1">
+            <name>Passengers</name>
+            <weight-lb alias="/fdm/jsbsim/inertia/pointmass-weight-lbs[1]"/>
+            <min-lb type="double">0</min-lb>
+            <max-lb type="double">28764</max-lb>
+        </weight>
+    </payload>
 
-        <limits>
+    <limits>
 		<!-- values are estimations -->
 
 		<vne>370</vne>
@@ -71,6 +73,13 @@
 
 		<max-gear-extension-speed>220</max-gear-extension-speed>
 
+		<mass-and-balance>
+			<maximum-takeoff-mass-lbs>114199</maximum-takeoff-mass-lbs>
+			<maximum-landing-mass-lbs>97003</maximum-landing-mass-lbs>
+			<maximum-payload-lbs>28764</maximum-payload-lbs>
+			<maximum-ramp-mass-lbs>118765</maximum-ramp-mass-lbs>
+			<maximum-zero-fuel-mass-lbs>90169</maximum-zero-fuel-mass-lbs>
+		</mass-and-balance>
 	</limits>
 
 	<instrumentation>

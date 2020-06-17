@@ -40,12 +40,24 @@
 		</view>
 	</sim>
 
-	<payload>
-		<weight n="1">
-			<!-- Max payload (ERJ195): 30,716lb according to http://www.embraercommercialaviation.com/AircraftPDF/E195_Weights.pdf -->
-			<max-lb type="double">22960</max-lb>
-		</weight>
-	</payload>
+    <payload>
+        <weight n="1">
+            <name>Passengers</name>
+            <weight-lb alias="/fdm/jsbsim/inertia/pointmass-weight-lbs[1]"/>
+            <min-lb type="double">0</min-lb>
+            <max-lb type="double">30682</max-lb>
+        </weight>
+    </payload>
+
+	<limits>
+		<mass-and-balance>
+			<maximum-takeoff-mass-lbs>115280</maximum-takeoff-mass-lbs>
+			<maximum-landing-mass-lbs>100972</maximum-landing-mass-lbs>
+			<maximum-payload-lbs>30682</maximum-payload-lbs>
+			<maximum-ramp-mass-lbs>122513</maximum-ramp-mass-lbs>
+			<maximum-zero-fuel-mass-lbs>93917</maximum-zero-fuel-mass-lbs>
+		</mass-and-balance>
+	</limits>
 
 	<instrumentation>
 		<cdu>

@@ -33,11 +33,23 @@
             <name>Passenger View (Economy Class)</name>
         </view>
     </sim>
-    
+
+	<limits>
+		<mass-and-balance>
+			<maximum-takeoff-mass-lbs>85098</maximum-takeoff-mass-lbs>
+			<maximum-landing-mass-lbs>73414</maximum-landing-mass-lbs>
+			<maximum-payload-lbs>21515</maximum-payload-lbs>
+			<maximum-ramp-mass-lbs>88703</maximum-ramp-mass-lbs>
+			<maximum-zero-fuel-mass-lbs>68123</maximum-zero-fuel-mass-lbs>
+		</mass-and-balance>
+	</limits>
+
     <payload>
         <weight n="1">
-            <!-- Max payload (ERJ170): 19,883lb according to http://www.embraercommercialaviation.com/AircraftPDF/E170_Weights.pdf -->
-            <max-lb type="double">12960</max-lb>
+            <name>Passengers</name>
+            <weight-lb alias="/fdm/jsbsim/inertia/pointmass-weight-lbs[1]"/>
+            <min-lb type="double">0</min-lb>
+            <max-lb type="double">21515</max-lb>
         </weight>
     </payload>
     
