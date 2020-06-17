@@ -488,7 +488,7 @@
 			<nav-mode type="int">0</nav-mode>
 			<pitch-select type="double">0</pitch-select>
 			<speed-mode type="int">0</speed-mode>
-			<speed-select type="double">200</speed-select>
+			<speed-select type="double">160</speed-select>
 			<vertical-mode type="int">-1</vertical-mode>
 			<vertical-speed-select type="double">1800</vertical-speed-select>
 		</autoflight>
@@ -612,9 +612,9 @@
 		<fmc>
 			<to-flap type="double">10</to-flap>
 			<vspeeds>
-				<V1 type="double">0</V1>
-				<VR type="double">0</VR>
-				<V2 type="double">0</V2>
+				<V1 type="double">120</V1>
+				<VR type="double">130</VR>
+				<V2 type="double">145</V2>
 			</vspeeds>
 		</fmc>
 
@@ -645,12 +645,18 @@
 				<category-5 type="int">0</category-5>
 				<category-6 type="int">1</category-6>
 				<category-7 type="int">124</category-7>
-				<category-8 type="int">2</category-8>
+				<category-8 type="int">3</category-8>
 				<category-9 type="int">3</category-9>
 				<category-10 type="int">6</category-10>
 				<category-13 type="int">7</category-13>
 				<category-14 type="int">0</category-14>
 			</configuration-module>
+            <input-feeders>
+                <discretes>
+                    <!-- disable the built-in input feeder -->
+                    <landing-flaps type="bool">false</landing-flaps>
+                </discretes>
+            </input-feeders>
 			<inputs>
 				<arinc429>
 					<decision-height-ncd type="bool">false</decision-height-ncd>

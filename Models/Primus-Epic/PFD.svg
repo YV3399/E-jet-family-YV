@@ -112,8 +112,8 @@
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
      inkscape:zoom="1.7814223"
-     inkscape:cx="848.11275"
-     inkscape:cy="422.24874"
+     inkscape:cx="145.72842"
+     inkscape:cy="736.6043"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -4145,5 +4145,80 @@
          x="1040.2354"
          id="tspan2328"
          sodipodi:role="line">07:12</tspan></text>
+    <g
+       id="minimums">
+      <rect
+         y="376.9548"
+         x="665.76019"
+         height="71.852699"
+         width="83.079643"
+         id="rect2367"
+         style="fill:#000000;fill-opacity:1;stroke:#ffffff;stroke-width:3;stroke-linecap:butt;stroke-miterlimit:4;stroke-dasharray:none" />
+      <text
+         transform="scale(0.90437991,1.10573)"
+         id="minimums.barora"
+         y="370.47757"
+         x="782.6333"
+         style="font-style:normal;font-weight:normal;line-height:0%;font-family:sans-serif;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"><tspan
+           y="370.47757"
+           x="782.6333"
+           id="tspan2348"
+           sodipodi:role="line"
+           style="font-size:27.11624908px;line-height:1.25;text-align:center;text-anchor:middle">BARO</tspan></text>
+      <text
+         style="font-style:normal;font-weight:normal;line-height:0%;font-family:sans-serif;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#ffff00;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         x="782.6333"
+         y="397.60876"
+         id="minimums.digital"
+         transform="scale(0.90437991,1.10573)"><tspan
+           style="font-size:27.11624908px;line-height:1.25;text-align:center;text-anchor:middle;fill:#ffff00"
+           sodipodi:role="line"
+           id="tspan2352"
+           x="782.6333"
+           y="397.60876">200</tspan></text>
+    </g>
+    <g
+       id="radioalt">
+      <rect
+         y="324.29227"
+         x="670.25098"
+         height="39.855793"
+         width="74.659447"
+         id="rect2360"
+         style="fill:#000000;fill-opacity:1;stroke:#ffffff;stroke-width:3;stroke-linecap:butt;stroke-miterlimit:4;stroke-dasharray:none" />
+      <text
+         transform="scale(0.90437991,1.10573)"
+         id="radioalt.digital"
+         y="321.64139"
+         x="782.6333"
+         style="font-style:normal;font-weight:normal;line-height:0%;font-family:sans-serif;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#00ff00;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"><tspan
+           y="321.64139"
+           x="782.6333"
+           id="tspan2356"
+           sodipodi:role="line"
+           style="font-size:27.11624908px;line-height:1.25;text-align:center;text-anchor:middle;fill:#00ff00">9999</tspan></text>
+    </g>
+    <g
+       id="minimums.indicator"
+       transform="translate(-5.6134921,-3.9294445)">
+      <rect
+         style="fill:#000000;fill-opacity:1;stroke:#ffffff;stroke-width:3;stroke-linecap:butt;stroke-miterlimit:4;stroke-dasharray:none"
+         id="rect2376"
+         width="56.69627"
+         height="38.733116"
+         x="583.23254"
+         y="340.85361" />
+      <text
+         style="font-style:normal;font-weight:normal;line-height:0%;font-family:sans-serif;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         x="676.48322"
+         y="336.11148"
+         id="text2380"
+         transform="scale(0.90437991,1.10573)"><tspan
+           style="font-size:27.11624908px;line-height:1.25;text-align:center;text-anchor:middle;fill:#ffffff"
+           sodipodi:role="line"
+           id="tspan2378"
+           x="676.48322"
+           y="336.11148">MIN</tspan></text>
+    </g>
   </g>
 </svg>

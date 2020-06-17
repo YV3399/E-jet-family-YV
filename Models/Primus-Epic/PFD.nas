@@ -148,6 +148,9 @@ var canvas_ED_only = {
 		m.props["/orientation/heading-deg"] = props.globals.getNode("/orientation/heading-deg");
 		m.props["/orientation/roll-deg"] = props.globals.getNode("/orientation/roll-deg");
 		m.props["/velocities/groundspeed-kt"] = props.globals.getNode("/velocities/groundspeed-kt");
+		m.props["/position/gear-agl-ft"] = props.globals.getNode("/position/gear-agl-ft");
+		m.props["/instrumentation/efis/inputs/minimums-mode"] = props.globals.getNode("/instrumentation/efis/inputs/minimums-mode");
+		m.props["/instrumentation/mk-viii/inputs/arinc429/decision-height"] = props.globals.getNode("/instrumentation/mk-viii/inputs/arinc429/decision-height");
 		return m;
 	},
 	getKeys: func() {
@@ -188,6 +191,12 @@ var canvas_ED_only = {
 			"waypoint.dist",
 			"waypoint.ete",
 			"waypoint.eteunit",
+            "minimums",
+            "minimums.indicator",
+            "minimums.barora",
+            "minimums.digital",
+            "radioalt",
+            "radioalt.digital",
 			"ils.locneedle",
 			"ils.gsneedle",
 			"alt.tape",
@@ -236,7 +245,6 @@ var canvas_ED_only = {
 			me["roll.pointer"].setRotation(roll*(-DC));
 		}
 		me["slip.pointer"].setTranslation(math.round((me.props["/instrumentation/slip-skid-ball/indicated-slip-skid"].getValue() or 0)*50), 0);
-
 
 		me["groundspeed"].setText(sprintf("%3d", me.props["/velocities/groundspeed-kt"].getValue() or 0));
 
@@ -440,6 +448,37 @@ var canvas_ED_only = {
 		# 	me["alt.10000"].hide();
 		# 	me["alt.1000"].hide();
 		# }
+
+        # Minimums
+		var radarAlt = me.props["/position/gear-agl-ft"].getValue();
+		var minimumsMode = 0; # me.props["/instrumentation/efis/inputs/minimums-mode"].getValue();
+		var decisionHeight = me.props["/instrumentation/mk-viii/inputs/arinc429/decision-height"].getValue();
+
+        if (radarAlt <= 4000) {
+            me["radioalt.digital"].setText(sprintf("%04d", radarAlt));
+            if (radarAlt <= decisionHeight) {
+                me["minimums.indicator"].show();
+            }
+            else {
+                me["minimums.indicator"].hide();
+            }
+
+            if (minimumsMode) {
+                me["minimums.barora"].setText("BARO");
+                me["minimums.digital"].setColor(255, 255, 0);
+            }
+            else {
+                me["minimums.barora"].setText("RA");
+                me["minimums.digital"].setColor(0, 255, 0);
+            }
+            me["minimums.digital"].setText(sprintf("%d", decisionHeight));
+            me["radioalt"].show();
+            me["minimums"].show();
+        }
+        else {
+            me["radioalt"].hide();
+            me["minimums"].hide();
+        }
 
 		# Airspeed
 		var airspeed = me.props["/instrumentation/airspeed-indicator/indicated-speed-kt"].getValue() or 0;
