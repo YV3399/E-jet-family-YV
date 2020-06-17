@@ -97,7 +97,7 @@
 			<electrical><path></path></electrical><!--Disable XML electrical system-->
 		</systems>
 
-		<chase-distance-m>-100</chase-distance-m>
+		<chase-distance-m>-50</chase-distance-m>
 
 		<sound>
 			<path>Aircraft/E-jet-family/ERJ-sound.xml</path>
