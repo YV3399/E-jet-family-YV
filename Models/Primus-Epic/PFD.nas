@@ -469,7 +469,7 @@ var canvas_ED_only = {
             }
             else {
                 me["minimums.barora"].setText("RA");
-                me["minimums.digital"].setColor(0, 255, 0);
+                me["minimums.digital"].setColor(255, 255, 255);
             }
             me["minimums.digital"].setText(sprintf("%d", decisionHeight));
             me["radioalt"].show();
