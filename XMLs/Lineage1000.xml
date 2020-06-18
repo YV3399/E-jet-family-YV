@@ -3,12 +3,9 @@
 <PropertyList>
     
     <!-- Interior Cabin -->
-    <!-- TODO -->
-    <!--
     <model>
-        <path>Aircraft/E-jet-family/XMLs/Cabin/erj190-cabin.xml</path>
+        <path>Aircraft/E-jet-family/XMLs/Cabin/lineage1000-cabin.xml</path>
     </model>
-    -->
     
     <model>
         <name>Aircraft</name>
