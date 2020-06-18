@@ -555,7 +555,7 @@ name "armrest.083"
 data 16
 armrest.mesh.083
 crease 45.0
-texture "wall.png"
+texture "wall-lineage.png"
 texrep 1 1
 numvert 248
 -10.32954 0.69592 1.17756
@@ -2251,7 +2251,7 @@ name "base.083"
 data 13
 base.mesh.083
 crease 45.0
-texture "wall.png"
+texture "wall-lineage.png"
 texrep 1 1
 numvert 24
 -9.984 0.42108 0.65306
@@ -2425,7 +2425,7 @@ name "box.262"
 data 12
 box.mesh.262
 crease 45.0
-texture "seat.png"
+texture "seat-lineage.png"
 texrep 1 1
 numvert 8
 -9.91072 0.41346 1.13164
@@ -11195,7 +11195,7 @@ name "fuselage.001"
 data 17
 fuselage.mesh.001
 crease 45.0
-texture "wall.png"
+texture "wall-lineage.png"
 texrep 1 1
 numvert 2072
 9.82506 1.40766 -1.34886
@@ -22053,7 +22053,7 @@ name "seatback.083"
 data 17
 seatback.mesh.083
 crease 45.0
-texture "seat.png"
+texture "seat-lineage.png"
 texrep 1 1
 numvert 114
 -9.81454 0.76787 0.78184
@@ -22976,7 +22976,7 @@ name "seatcushion.083"
 data 20
 seatcushion.mesh.083
 crease 45.0
-texture "seat.png"
+texture "seat-lineage.png"
 texrep 1 1
 numvert 80
 -9.90349 0.42535 0.66029
@@ -23552,7 +23552,7 @@ name "wall"
 data 9
 wall.mesh
 crease 45.0
-texture "cabin.png"
+texture "cabin-lineage.png"
 texrep 1 1
 numvert 152
 9.95979 1.97038 0.44253
@@ -23970,7 +23970,7 @@ name "fuselage"
 data 13
 fuselage.mesh
 crease 45.0
-texture "carpet.png"
+texture "carpet-lineage.png"
 texrep 1 1
 numvert 30
 -12.58494 0.08122 -0.39082
