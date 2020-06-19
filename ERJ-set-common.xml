@@ -84,6 +84,10 @@
 				<path>Aircraft/E-jet-family/Systems/ERJ-autobrake.xml</path>
 			</autopilot>
 			<autopilot>
+				<name>Trust Rating System</name>
+				<path>Aircraft/E-jet-family/Systems/ERJ-trs.xml</path>
+			</autopilot>
+			<autopilot>
 				<name>Gear AGL Altitude</name>
 				<path>Aircraft/E-jet-family/Systems/gear-agl-ft.xml</path>
 			</autopilot>
@@ -274,6 +278,14 @@
 							<dialog-name>tiller-dlg</dialog-name>
 						</binding>
 					</item>
+					<item>
+						<name>performance</name>
+						<label>Performance Config</label>
+						<binding>
+							<command>dialog-show</command>
+							<dialog-name>performance</dialog-name>
+						</binding>
+					</item>
 				</menu>
 			</default>
 		</menubar>
@@ -382,7 +394,7 @@
 			<auto-bank-max-deg>35</auto-bank-max-deg> <!-- Maximum Auto Bank Limit -->
 			<land-enable>1</land-enable> <!-- Enable/Disable Autoland -->
 			<land-flap>0.5</land-flap> <!-- Minimum Flap used for Landing -->
-			<retard-ft>50</retard-ft> <!-- Enable Thrust Retard -->
+			<retard-ft>30</retard-ft> <!-- Enable Thrust Retard -->
 			<retard-enable>1</retard-enable> <!-- AGL to Thrust Retard -->
 			<togaspd>165</togaspd> <!-- V2 + 10kts -->
 			<lat-agl-ft>200</lat-agl-ft> <!-- Set to 999999 if you do not want T/O to change automatically to HDG, or LNAV -->
@@ -446,6 +458,10 @@
 		<autothrottle-serviceable type="bool">true</autothrottle-serviceable>
 		<yaw-damper-serviceable type="bool">true</yaw-damper-serviceable>
 	</autopilot>
+
+    <trs>
+        <phase type="int">0</phase>
+    </trs>
 
 	<controls>
 		<anti-ice>
@@ -522,6 +538,12 @@
 		<flight>
 			<ground-spoilers-armed type="bool">false</ground-spoilers-armed>
 			<speedbrake-lever type="double">0</speedbrake-lever>
+            <thrust-toga type="double">97.0</thrust-toga>
+            <thrust-flex type="bool">true</thrust-flex>
+            <thrust-climb1 type="double">87.6</thrust-climb1>
+            <thrust-climb2 type="double">78.2</thrust-climb2>
+            <thrust-con type="double">90.8</thrust-con>
+            <thrust-crz type="double">73.5</thrust-crz>
 		</flight>
 
 		<gear>

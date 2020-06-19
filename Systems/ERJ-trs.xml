@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!-- Embraer 190 AOM page 1478 -->
+
+<!-- Phases
+	0 TO
+	1 GA
+	2 CLB1
+	3 CLB2
+	4 CRZ
+	5 CON
+-->
+
+<PropertyList>
+
+<filter>
+	<name>Altitude error</name>
+	<type>gain</type>
+	<input>
+		<expression>
+			<difference>
+				<property>/instrumentation/altimeter/indicated-altitude-ft</property>
+				<property>/it-autoflight/internal/alt</property>
+			</difference>
+		</expression>
+	</input>
+	<output>/trs/altitude-error</output>
+</filter>
+
+<filter>
+	<name>Airspeed error</name>
+	<type>gain</type>
+	<gain>1</gain>
+	<input>
+		<expression>
+			<difference>
+				<property>/instrumentation/airspeed-indicator/indicated-speed-kt</property>
+				<property>/it-autoflight/input/spd-kts</property>
+			</difference>
+		</expression>
+	</input>
+	<output>/trs/airspeed-error-kts</output>
+</filter>
+
+<filter>
+	<name>Mach error</name>
+	<type>gain</type>
+	<!-- normalize such that mach .01 corresponds to 5 kts normalized -->
+	<gain>500</gain>
+	<input>
+		<expression>
+			<difference>
+				<property>/instrumentation/airspeed-indicator/indicated-mach</property>
+				<property>/it-autoflight/input/spd-mach</property>
+			</difference>
+		</expression>
+	</input>
+	<output>/trs/airspeed-error-mach</output>
+</filter>
+
+<filter>
+	<name>Normalized airspeed error</name>
+	<type>gain</type>
+	<gain>1</gain>
+	<input>
+		<condition>
+			<property>/it-autoflight/input/kts-mach</property>
+		</condition>
+		<property>/trs/airspeed-error-mach</property>
+	</input>
+	<input>
+		<property>/trs/airspeed-error-kts</property>
+	</input>
+	<output>/trs/airspeed-error</output>
+</filter>
+
+<flipflop>
+	<name>90-second cruise detection</name>
+	<type>monostable</type>
+	<inverted type="bool">true</inverted>
+	<time><value>90.0</value></time>
+	<J>
+		<and>
+			<greater-than>
+				<property>/trs/altitude-error</property>
+				<value>-10</value>
+			</greater-than>
+			<greater-than>
+				<property>/trs/airspeed-error</property>
+				<value>-5</value>
+			</greater-than>
+		</and>
+	</J>
+	<S>
+		<or>
+			<less-than>
+				<property>/trs/altitude-error</property>
+				<value>-10</value>
+			</less-than>
+			<less-than>
+				<property>/trs/airspeed-error</property>
+				<value>-5</value>
+			</less-than>
+		</or>
+	</S>
+	<output>/trs/crz-90sec</output>
+</flipflop>
+
+<filter>
+	<name>Flight phase logic</name>
+	<type>gain</type>
+	<gain>1</gain>
+	<input>
+		<condition>
+			<equals>
+				<property>/it-autoflight/mode/vert</property>
+				<value>T/O CLB</value>
+			</equals>
+		</condition>
+		<value>0</value>
+	</input>
+	<input>
+		<condition>
+			<greater-than>
+				<property>/gear/gear[1]/position-norm</property>
+				<value>0</value>
+			</greater-than>
+		</condition>
+		<value>1</value>
+	</input>
+	<input>
+		<condition>
+			<not>
+				<and>
+					<property>/engines/engine[0]/running</property>
+					<property>/engines/engine[1]/running</property>
+				</and>
+			</not>
+		</condition>
+		<value>5</value>
+	</input>
+	<input>
+		<condition>
+			<property>/trs/crz-90sec</property>
+		</condition>
+		<value>4</value>
+	</input>
+	<input>
+		<condition>
+			<and>
+				<or>
+					<and>
+						<not>
+							<equals>
+								<property>/it-autoflight/mode/vert</property>
+								<value>T/O CLB</value>
+							</equals>
+						</not>
+						<property>/it-autoflight/output/ap1</property>
+						<greater-than>
+							<property>/position/gear-agl-ft</property>
+							<value>400</value>
+						</greater-than>
+					</and>
+					<greater-than>
+						<property>/position/gear-agl-ft</property>
+						<value>3000</value>
+					</greater-than>
+				</or>
+				<equals>
+					<property>/gear/gear[0]/position-norm</property>
+					<value>0</value>
+				</equals>
+				<equals>
+					<property>/gear/gear[1]/position-norm</property>
+					<value>0</value>
+				</equals>
+				<equals>
+					<property>/gear/gear[2]/position-norm</property>
+					<value>0</value>
+				</equals>
+				<less-than>
+					<property>/trs/altitude-error</property>
+					<value>50</value>
+				</less-than>
+			</and>
+		</condition>
+		<value>2</value>
+	</input>
+	<input>
+		<value>5</value>
+	</input>
+	<output>/trs/phase</output>
+</filter>
+
+<!-- forwarding thrust limit to A/T -->
+<filter>
+	<name>Forward thrust to ITAF</name>
+	<type>gain</type>
+	<gain>0.01</gain>
+	<input>
+		<condition>
+			<equals>
+				<property>/trs/phase</property>
+				<value>0</value>
+			</equals>
+		</condition>
+		<property>/controls/flight/thrust-toga</property>
+	</input>
+	<input>
+		<condition>
+			<equals>
+				<property>/trs/phase</property>
+				<value>1</value>
+			</equals>
+		</condition>
+		<property>/controls/flight/thrust-toga</property>
+	</input>
+	<input>
+		<condition>
+			<equals>
+				<property>/trs/phase</property>
+				<value>2</value>
+			</equals>
+		</condition>
+		<property>/controls/flight/thrust-climb1</property>
+	</input>
+	<input>
+		<condition>
+			<equals>
+				<property>/trs/phase</property>
+				<value>3</value>
+			</equals>
+		</condition>
+		<property>/controls/flight/thrust-climb2</property>
+	</input>
+	<input>
+		<condition>
+			<equals>
+				<property>/trs/phase</property>
+				<value>4</value>
+			</equals>
+		</condition>
+		<property>/controls/flight/thrust-crz</property>
+	</input>
+	<input>
+		<condition>
+			<equals>
+				<property>/trs/phase</property>
+				<value>5</value>
+			</equals>
+		</condition>
+		<property>/controls/flight/thrust-con</property>
+	</input>
+	<output>/it-autoflight/settings/autothrottle-max</output>
+</filter>
+
+</PropertyList>
