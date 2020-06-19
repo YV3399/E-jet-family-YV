@@ -13,35 +13,12 @@
 	2:MED
 	3:HI
 	-->
-	
-<!--RTO conditions:
-	-Knob RTO (autopilot/autobrake/step == -1)
-	-wheel speed < 60kts (gear/gear[1]/rollspeed-ms < 30.87)
-	-WOW on ground
-	-Brakes not pressed (controls/gear/brake-left < 0.1 and controls/gear/brake-right < 0.1)
-	-Thrust lever idle or reverse (controls/engines/engine[0]/throttle < 0.05 and controls/engines/engine[1]/throttle < 0.05 or controls/engines/engine[0]/reverser == 1 and controls/engines/engine[1]/reverser == 1)
-	-->
-	
-	
 
-<PropertyList><!--
-	
-	<logic>
-		<name>RTO</name>
-		<enable>
-			<condition>
-				<equals>
-					<property>/autopilot/autobrake/step</property>
-					<value>-1</value>
-				</equals>
-			</condition>
-		</enable>
-		<input><true/></input>
-		<output>/autopilot/autobrake/rto-engaged</output>
-	</logic>-->
-	
-	<logic>
-		<name>Disabled state</name>
+<PropertyList>
+	<filter>
+		<name>Disabled</name>
+        <type>gain</type>
+        <gain>1</gain>
 		<!-- ensure output is consistent when no mode is selected-->
 		<enable>
 			<condition>
@@ -51,67 +28,77 @@
 				</equals>
 			</condition>
 		</enable>
-		<input><false/></input>
-		<output>/autopilot/autobrake/engaged</output>
-	</logic>
-	
-	<logic>
-		<name>RTO selected</name>
-		<input>
-			<equals>
-				<property>/autopilot/autobrake/step</property>
-				<value>-1</value>
-			</equals>
-		</input>
-		<output>/autopilot/autobrake/rto-selected</output>
-	</logic>
-	
-	<logic>
-		<name>Autobrake Selected</name>
-		<input>
-			<not-equals>
-				<property>/autopilot/autobrake/step</property>
-				<value>0</value>
-			</not-equals>
-		</input>
-		<output>/autopilot/autobrake/selected</output>
-	</logic>
-	
+		<input type="int">0</input>
+		<output>/autopilot/autobrake/mode</output>
+	</filter>
+
+	<filter>
+		<name>RTO mode</name>
+        <type>gain</type>
+        <gain>1</gain>
+        <enable>
+            <condition>
+                <equals>
+                    <property>/autopilot/autobrake/step</property>
+                    <value>-1</value>
+                </equals>
+            </condition>
+        </enable>
+        <input>1</input>
+		<output>/autopilot/autobrake/mode</output>
+	</filter>
+
+	<filter>
+		<name>Landing mode</name>
+        <type>gain</type>
+        <gain>1</gain>
+        <enable>
+            <condition>
+                <greater-than>
+                    <property>/autopilot/autobrake/step</property>
+                    <value>0</value>
+                </greater-than>
+            </condition>
+        </enable>
+        <input>2</input>
+		<output>/autopilot/autobrake/mode</output>
+	</filter>
+
 	<logic>
 		<name>Throttles At Idle</name>
 		<input>
 			<!-- engine 0 -->
 			<and>
-			<or>
-				<less-than>
-					<property>/controls/engines/engine[0]/throttle</property>
-					<property>/autopilot/autobrake/config/idle-throttle</property>
-				</less-than>
-				<property>/controls/engines/engine[0]/reverser</property>
-			</or>
-			<!-- engine 1 -->	
-			<or>
-				<less-than>
-					<property>/controls/engines/engine[1]/throttle</property>
-					<property>/autopilot/autobrake/config/idle-throttle</property>
-				</less-than>
-				<property>/controls/engines/engine[1]/reverser</property>
-			</or>
+				<or>
+					<less-than>
+						<property>/controls/engines/engine[0]/throttle</property>
+						<property>/autopilot/autobrake/config/idle-throttle</property>
+					</less-than>
+					<property>/controls/engines/engine[0]/reverser</property>
+				</or>
+				<!-- engine 1 -->
+				<or>
+					<less-than>
+						<property>/controls/engines/engine[1]/throttle</property>
+						<property>/autopilot/autobrake/config/idle-throttle</property>
+					</less-than>
+					<property>/controls/engines/engine[1]/reverser</property>
+				</or>
 			</and>
 		</input>
 		<output>/autopilot/autobrake/throttles-at-idle</output>
 	</logic>
 
 	<logic>
-		<name>Airborne</name>
+		<name>WOW</name>
 		<input>
-			<not><property>/gear/gear/wow</property></not>
+			<property>/gear/gear/wow</property>
 		</input>
-		<output>/autopilot/autobrake/airborne</output>
+		<output>/autopilot/autobrake/wow</output>
 	</logic>
 
 	<logic>
-		<name>RTO Engage speed</name>
+		<name>Speed</name>
 		<input>
 			<greater-than>
 				<property>/gear/gear[1]/rollspeed-ms</property>
@@ -120,21 +107,10 @@
 		</input>
 		<output>/autopilot/autobrake/above-10-kts</output>
 	</logic>
-	
+
 
 	<logic>
-		<name>Speed</name>
-		<input>
-			<greater-than>
-				<property>/instrumentation/airspeed-indicator/indicated-speed-kt</property>
-				<value>40</value>
-			</greater-than>
-		</input>
-		<output>/autopilot/autobrake/above-40-kts</output>
-	</logic>
-	
-	<logic>
-		<name>Too high speed</name>
+		<name>60 knots</name>
 		<input>
 			<greater-than>
 				<property>/gear/gear[1]/rollspeed-ms</property>
@@ -142,17 +118,6 @@
 			</greater-than>
 		</input>
 		<output>/autopilot/autobrake/above-60-kts</output>
-	</logic>
-	
-	<logic>
-		<name>Spoilers deployed</name>
-		<input>
-			<greater-than>
-				<property>/surface-positions/speedbrake-pos-norm</property>
-				<value>0</value>
-			</greater-than>
-		</input>
-		<output>/autopilot/autobrake/spoilers-deployed</output>
 	</logic>
 
 	<!-- pilot brake input -->
@@ -166,133 +131,159 @@
 						<property>/controls/gear/brake-left</property>
 						<property>/controls/gear/brake-right</property>
 					</max>
-				</expression>		  
+				</expression>
 			</less-than>
 		</input>
 		<output>/autopilot/autobrake/pilot-input</output>
 	</logic>
 
-	<flipflop>
-		<name>Autobrake Engage logic</name>
-		<debug>false</debug>
-		<type>RS</type>
-		<enable>
-			<condition>
-				<and>
-					<property>/autopilot/autobrake/selected</property>
-					<not>
-						<property>/autopilot/autobrake/rto-selected</property>
-					</not>
-				</and>
-			</condition>
-		</enable>
-		
-		<S>
-			<and>
-				<property>/autopilot/autobrake/throttles-at-idle</property>
-<!--				<property>/autopilot/autobrake/spoilers-deployed</property>-->
-				<not>
-					<property>/autopilot/autobrake/airborne</property>
-				</not>
-			</and>
-		</S>
-		<R>
-			<false/>
-		</R>
-		<output>/autopilot/autobrake/engaged</output>
-	</flipflop>
+    <!-- Arming logic -->
+    <flipflop>
+        <name>Arm landing mode</name>
+        <type>RS</type>
+        <S>
+            <!-- Landing mode arms when... -->
+            <and>
+                <!-- Selector knob in LO, MED or HI -->
+                <equals>
+                    <property>/autopilot/autobrake/mode</property>
+                    <value>2</value>
+                </equals>
+                <!-- WOW indication 'in flight' -->
+                <not><property>/autopilot/autobrake/wow</property></not>
+                <!-- Wheel speed below 60 kts -->
+                <not><property>/autopilot/autobrake/above-60-kts</property></not>
+                <!-- Brake control system: no faults -->
+                <!-- (not modelled) -->
+                <!-- No pilot brake input -->
+                <not><property>/autopilot/autobrake/pilot-input</property></not>
+                <!-- Thrust levers in any position -->
+            </and>
+        </S>
+        <R>
+            <!-- Landing mode disarms when... -->
+            <or>
+                <!-- Selector knob in OFF or RTO position -->
+                <not><equals>
+                    <property>/autopilot/autobrake/mode</property>
+                    <value>2</value>
+                </equals></not>
+                <!-- Brake control system: any faults detected -->
+                <!-- (not modelled) -->
+                <!-- Pilot brake input -->
+                <property>/autopilot/autobrake/pilot-input</property>
+                <!-- Thrust levers not in IDLE or REV position while autobrake is being applied -->
+                <and>
+                    <property>/autopilot/autobrake/engaged</property>
+                    <not><property>/autopilot/autobrake/throttles-at-idle</property></not>
+                </and>
+            </or>
+        </R>
+        <output>/autopilot/autobrake/armed-landing</output>
+    </flipflop>
+    <flipflop>
+        <name>Arm RTO mode</name>
+        <type>RS</type>
+        <S>
+            <!-- RTO mode arms when... -->
+            <and>
+                <!-- Selector knob in RTO -->
+                <equals>
+                    <property>/autopilot/autobrake/mode</property>
+                    <value>1</value>
+                </equals>
+                <!-- WOW indication 'on ground' -->
+                <property>/autopilot/autobrake/wow</property>
+                <!-- Wheel speed below 60 kts -->
+                <not><property>/autopilot/autobrake/above-60-kts</property></not>
+                <!-- Brake control system: no faults -->
+                <!-- (not modelled) -->
+                <!-- Pilot brake input or not -->
+                <!-- Thrust levers in IDLE or REV position -->
+                <property>/autopilot/autobrake/throttles-at-idle</property>
+            </and>
+        </S>
+        <R>
+            <!-- RTO mode disarms when... -->
+            <or>
+                <!-- Selector knob not in RTO position -->
+                <not><equals>
+                    <property>/autopilot/autobrake/mode</property>
+                    <value>1</value>
+                </equals></not>
+                <!-- Brake control system: any faults detected -->
+                <!-- (not modelled) -->
+                <!-- Pilot brake input while autobrake is applied -->
+                <and>
+                    <property>/autopilot/autobrake/engaged</property>
+                    <property>/autopilot/autobrake/pilot-input</property>
+                </and>
+                <!-- Thrust levers not in IDLE or REV position while autobrake is being applied -->
+                <and>
+                    <property>/autopilot/autobrake/engaged</property>
+                    <not><property>/autopilot/autobrake/throttles-at-idle</property></not>
+                </and>
+            </or>
+        </R>
+        <output>/autopilot/autobrake/armed-rto</output>
+    </flipflop>
 
-	<filter>
-		<name>RTO cancel logic</name>
-		<type>gain</type>
-		<gain>1.0</gain>
-		<debug>false</debug>
- 
-		<enable>
-			<condition>
-				<property>/autopilot/autobrake/rto-selected</property>
-				<property>/autopilot/autobrake/airborne</property>
-			</condition>
-		</enable>
-		
-		<input><value>0</value></input> <!-- switch to 'off' -->
-		<output>/autopilot/autobrake/step</output>
-	</filter>
-	
-	<flipflop>
-		<name>RTO engage logic</name>
-		<type>RS</type>
-		<debug>false</debug>
-		<enable>
-			<condition>
-				<property>/autopilot/autobrake/rto-selected</property>
-				<property>/autopilot/autobrake/above-10-kts</property>
-			</condition>
-		</enable>
-		<S>
-			<and>
-				<property>/autopilot/autobrake/throttles-at-idle</property>
-<!--				<property>/autopilot/autobrake/spoilers-deployed</property>-->
-			</and>
-		</S>
-		<R>
-			<false/>
-		</R>
-		<output>/autopilot/autobrake/engaged</output>
-	</flipflop>
-	
-	<filter>
-		<name>Disengage logic</name>
-		<debug>false</debug>
-		<type>gain</type>
-		<gain>1.0</gain>
-		<enable>
-			<condition>
-			<property>/autopilot/autobrake/engaged</property>
-			<or>
-				<!--when in RTO mode-->
-				<and>
-					<property>/autopilot/autobrake/rto-selected</property>
-					<!-- disengage on pilot input while autobrake is being applied -->
-					<property>/autopilot/autobrake/pilot-input</property>
-					<property>/autopilot/autobrake/active</property>
-				</and>
-				<!--when in landing mode-->
-				<and>
-					<not><property>/autopilot/autobrake/rto-selected</property></not>
-					<!-- disengage on pilot input > 0.2 -->
-					<or>
-						<greater-than>
-							<property>/controls/gear/brake-left</property>
-							<value>0.2</value>
-						</greater-than>
-						<greater-than>
-							<property>/controls/gear/brake-right</property>
-							<value>0.2</value>
-						</greater-than>
-					</or>
-				</and>
-				<!--in either mode-->
-				<!--Throttles above idle while autobrake is being applied-->
-				<and>
-					<not><property>/autopilot/autobrake/throttles-at-idle</property></not>
-					<property>/autopilot/autobrake/active</property>
-				</and>
-				
-				
-				<!-- disengage if the throttles are not at idle -->
-				<!--				<not><property>/autopilot/autobrake/throttles-at-idle</property></not>--><!--ONLY DON'T APPLY; NOT DISENGAGE-->
+    <!-- Engage logic -->
+    <flipflop>
+        <name>Engage</name>
+        <type>RS</type>
+        <S>
+            <!-- Autobrake engages when... -->
+            <and>
+                <or>
+                    <!-- Landing mode -->
+                    <and>
+                        <!-- Condition armed -->
+                        <property>/autopilot/autobrake/armed-landing</property>
+                        <!-- Selector knob in LO, MED or HI -->
+                        <equals>
+                            <property>/autopilot/autobrake/mode</property>
+                            <value>2</value>
+                        </equals>
+                    </and>
+                    <!-- RTO mode -->
+                    <and>
+                        <!-- Condition armed -->
+                        <property>/autopilot/autobrake/armed-rto</property>
+                        <!-- Selector knob in RTO -->
+                        <equals>
+                            <property>/autopilot/autobrake/mode</property>
+                            <value>1</value>
+                        </equals>
+                    </and>
+                </or>
+                <!-- WOW indication 'on ground' -->
+                <property>/autopilot/autobrake/wow</property>
+                <!-- Wheel speed above 60 kts -->
+                <property>/autopilot/autobrake/above-60-kts</property>
+                <!-- Brake control system: no faults -->
+                <!-- (not modelled) -->
+                <!-- No pilot brake input -->
+                <not><property>/autopilot/autobrake/pilot-input</property></not>
+                <!-- Thrust levers in IDLE or REV position -->
+                <property>/autopilot/autobrake/throttles-at-idle</property>
+            </and>
+        </S>
+        <R>
+            <!-- Landing mode disengages when neither Landing nor RTO is armed -->
+            <not>
+                <or>
+                    <property>/autopilot/autobrake/armed-landing</property>
+                    <property>/autopilot/autobrake/armed-rto</property>
+                </or>
+            </not>
+        </R>
+        <output>/autopilot/autobrake/engaged</output>
+    </flipflop>
 
-				<!-- disengage if the spoilers are retracted -->
-<!--				<not><property>/autopilot/autobrake/spoilers-deployed</property></not>-->
-			</or>
-			</condition>
-		</enable>
-		
-		<input><value>0</value></input> <!-- switch to 'off' -->
-		<output>/autopilot/autobrake/step</output>
-	</filter>
-	
+
+    <!-- Braking controller -->
+
 	<!-- model the accelerometer portion of the AB system.
 	  This could differentiate indicated-airspeed, but I suspect real-
 	  world systems use accelerometers directly. -->
@@ -306,7 +297,7 @@
 		</input>
 		<output>/autopilot/autobrake/actual-decel-ftsec2</output>
 	</filter>
-	
+
 	<!-- translate dial setting levels into target decelerations, based upon
 		information in the POH -->
 	<filter>
@@ -315,13 +306,8 @@
 		<debug>false</debug>
 		<gain>1.0</gain>
 		<output>/autopilot/autobrake/target-decel-ftsec2</output>
-		<input><!--
-			<condition>
-				<not>
-					<property>/autopilot/autobrake/rto-selected</property>
-				</not>
-			</condition> -->
-			<expression>
+		<input>
+            <expression>
 				<!-- values taken from http://www.pprune.org/tech-log/304333-a320-autoland-distance-autobrake-vs-manual-landing-distance-autobrake-2.html#post3809602 -->
 				<table>
 					<property>/autopilot/autobrake/step</property>
@@ -335,29 +321,7 @@
 		</input>
 
 	</filter>
-	
-	
-	<filter>
-		<name>Not apply logic</name>
-		<debug>false</debug>
-		<type>gain</type>
-		<gain>1.0</gain>
-		<enable>
-			<condition>
-				<property>/autopilot/autobrake/engaged</property>
-				<or>
-					<!-- dont apply if the throttles are not at idle -->
-					<not><property>/autopilot/autobrake/throttles-at-idle</property></not>
-					<!--Doesn't apply above 60 kts-->
-					<property>/autopilot/autobrake/above-60-kts</property>
-				</or>
-			</condition>
-		</enable>
-		
-		<input><value>0</value></input>
-		<output>/autopilot/autobrake/engaged</output>
-	</filter>
-	
+
 	<pi-simple-controller>
 		<name>Brake Effort Computer</name>
 		<debug>false</debug>
@@ -369,14 +333,14 @@
 		<output>/autopilot/autobrake/output-brake</output>
 		<min>0.0</min>
 		<max>1.0</max>
-		
+
 		<config>
 			<Kp>1.0</Kp>
 			<Ki>0.0</Ki>
 		</config>
 	</pi-simple-controller>
-	
-	
+
+
 	<filter>
 		<name>Autobrake active</name>
 		<debug>false</debug>
@@ -391,7 +355,7 @@
 				</greater-than>
 			</condition>
 		</enable>
-		
+
 		<input><value>1</value></input>
 		<output>/autopilot/autobrake/active</output>
 	</filter>
@@ -411,22 +375,22 @@
 				</or>
 			</condition>
 		</enable>
-		
+
 		<input><value>0</value></input>
 		<output>/autopilot/autobrake/active</output>
 	</filter>
-	
+
 	<!-- left output summer -->
 	<filter>
 		<name>Left Output Summer</name>
 		<type>gain</type>
 		<gain>1.0</gain>
-		
+
 		<input>
 			<condition>
 				<property>/autopilot/autobrake/engaged</property>
 			</condition>
-			
+
 			<expression>
 				<max>
 					<property>/controls/gear/brake-left</property>
@@ -438,21 +402,21 @@
 		<input>
 			<property>/controls/gear/brake-left</property>
 		</input>
-		
+
 		<output>/autopilot/autobrake/brake-left-output</output>
 	</filter>
-	
+
 	<!-- right output summer -->
 	<filter>
 		<name>Right Output Summer</name>
 		<type>gain</type>
 		<gain>1.0</gain>
-		
+
 		<input>
 			<condition>
 				<property>/autopilot/autobrake/engaged</property>
 			</condition>
-			
+
 			<expression>
 				<max>
 					<property>/controls/gear/brake-right</property>
@@ -464,8 +428,8 @@
 		<input>
 			<property>/controls/gear/brake-right</property>
 		</input>
-		
+
 		<output>/autopilot/autobrake/brake-right-output</output>
 	</filter>
-	
+
 </PropertyList>

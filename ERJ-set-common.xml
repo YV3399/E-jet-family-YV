@@ -363,16 +363,17 @@
 				<td>0.0001</td>
 			</pitch>
 			<cmd>
-                <hdg>1.0</hdg>
-                <vorloc>1.0</vorloc>
-                <alt-gain>-5</alt-gain>
+				<hdg>1.0</hdg>
+				<vorloc>1.0</vorloc>
+				<roll>1.6</roll>
+				<alt-gain>-5</alt-gain>
 			</cmd>
 			<autoland>
-				<pitch-kp>0.03</pitch-kp>
-				<yaw-kp>-0.1</yaw-kp>
+				<pitch-kp>0.0051</pitch-kp>
+				<yaw-kp>-0.05</yaw-kp>
 			</autoland>
 			<rollout>
-                <roll-kp>0.05</roll-kp>
+				<roll-kp>0.05</roll-kp>
 				<pitch-defl>0.15</pitch-defl>
 				<yaw-kp>-0.1</yaw-kp>
 			</rollout>
@@ -387,6 +388,8 @@
 			<lat-agl-ft>200</lat-agl-ft> <!-- Set to 999999 if you do not want T/O to change automatically to HDG, or LNAV -->
 			<reduc-agl-ft>1300</reduc-agl-ft> <!-- Set to 999999 if you do not want TOGA to change automatically to FLCH -->
 			<autoland-without-ap>1</autoland-without-ap> <!-- Engage LAND and FLARE Modes even if the AP is off -->
+			<autothrottle-max>0.907</autothrottle-max>
+			<autothrottle-min>0.0</autothrottle-min>
 		</settings>
 	</it-autoflight>
 		
@@ -414,11 +417,6 @@
 			<weight-lb alias="/fdm/jsbsim/inertia/pointmass-weight-lbs[0]"/>
 			<min-lb type="double">120</min-lb>
 			<max-lb type="double">400</max-lb>
-		</weight>
-		<weight n="1">
-			<name>Passengers</name>
-			<weight-lb alias="/fdm/jsbsim/inertia/pointmass-weight-lbs[1]"/>
-			<min-lb type="double">0</min-lb>
 		</weight>
 	</payload>
 
@@ -835,9 +833,9 @@
 				<binding>
 					<command>property-adjust</command>
 					<property>/controls/flight/flaps</property>
-					<step>-.1</step>
+					<step>-0.125</step>
 					<min>0</min>
-					<max>.6</max>
+					<max>0.75</max>
 				</binding>
 			</key>
 
@@ -847,9 +845,9 @@
 				<binding>
 					<command>property-adjust</command>
 					<property>/controls/flight/flaps</property>
-					<step>.1</step>
+					<step>0.125</step>
 					<min>0</min>
-					<max>.6</max>
+					<max>0.75</max>
 				</binding>
 			</key>
 		</keyboard>

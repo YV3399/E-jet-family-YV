@@ -1,7 +1,7 @@
-<?xml version="1.0" encoding="UTF-8" ?>
+<?xml version="1.0"?>
 
 <!-- IT-AUTOFLIGHT Autopilot Control Dialog -->
-<!-- Copyright (c) 2019 Joshua Davidson (Octal450) -->
+<!-- Copyright (c) 2020 Joshua Davidson (Octal450) -->
 
 <PropertyList>
 
@@ -140,32 +140,68 @@
 		</group>
 		
 		<group>
-			<layout>hbox</layout>
+			<layout>table</layout>
 			<text>
+				<row>0</row>
+				<col>0</col>
+				<visible>
+					<equals>
+						<property>/it-autoflight/mode/thr</property>
+						<value>PITCH</value>
+					</equals>
+				</visible>
+				<border>1</border>
+				<label> PITCH</label>
+				<valign>center</valign>
+			</text>
+			<text>
+				<row>0</row>
+				<col>0</col>
+				<visible>
+					<not-equals>
+						<property>/it-autoflight/mode/thr</property>
+						<value>PITCH</value>
+					</not-equals>
+				</visible>
 				<border>1</border>
 				<label>999999</label>
 				<valign>center</valign>
 				<property>/it-autoflight/mode/thr</property>
 				<live>1</live>
 			</text>
-			<vrule/>
+			<vrule>
+				<row>0</row>
+				<col>1</col>
+			</vrule>
 			<text>
+				<row>0</row>
+				<col>2</col>
 				<border>1</border>
 				<label>99999</label>
 				<valign>center</valign>
 				<property>/it-autoflight/mode/arm</property>
 				<live>1</live>
 			</text>
-			<vrule/>
+			<vrule>
+				<row>0</row>
+				<col>3</col>
+			</vrule>
 			<text>
+				<row>0</row>
+				<col>4</col>
 				<border>1</border>
 				<label>99999</label>
 				<valign>center</valign>
 				<property>/it-autoflight/mode/lat</property>
 				<live>1</live>
 			</text>
-			<vrule/>
+			<vrule>
+				<row>0</row>
+				<col>5</col>
+			</vrule>
 			<text>
+				<row>0</row>
+				<col>6</col>
 				<border>1</border>
 				<label>99999999</label>
 				<valign>center</valign>

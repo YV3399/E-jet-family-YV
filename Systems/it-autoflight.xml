@@ -1,12 +1,11 @@
 <?xml version="1.0"?>
 
 <!-- IT-AUTOFLIGHT -->
-<!-- Copyright (c) 2019 Joshua Davidson (Octal450) -->
+<!-- Copyright (c) 2020 Joshua Davidson (Octal450) -->
 
 <PropertyList>
 	
 	<!-- Predictors -->
-	
 	<predict-simple>
 		<name>IAS 5 SECOND PREDICTOR</name>
 		<debug>false</debug>
@@ -62,7 +61,6 @@
 	</predict-simple>
 	
 	<!-- Autopilot Helpers/Calculators -->
-	
 	<filter>
 		<name>KTS INPUT FILTER</name>
 		<debug>false</debug>
@@ -268,6 +266,15 @@
 		<name>DRIFT ANGLE</name>
 		<type>gain</type>
 		<gain>1.0</gain>
+		<input>
+			<condition>
+				<less-than-equals>
+					<property>/velocities/groundspeed-kt</property>
+					<value>1</value>
+				</less-than-equals>
+			</condition>
+			<property>/orientation/heading-magnetic-deg</property>
+		</input>
 		<input>/orientation/track-magnetic-deg</input>
 		<reference>/orientation/heading-magnetic-deg</reference>
 		<output>/it-autoflight/internal/drift-angle-deg</output>
@@ -580,7 +587,7 @@
 				<sum>
 					<div>
 						<property>/orientation/roll-deg</property>
-						<property>/it-autoflight/config/cmd/hdg-kp</property>
+						<property>/it-autoflight/config/cmd/roll-kp</property>
 					</div>
 					<property>/it-autoflight/internal/heading-deg</property>
 				</sum>
@@ -597,7 +604,7 @@
 				<sum>
 					<div>
 						<property>/orientation/roll-deg</property>
-						<property>/it-autoflight/config/cmd/hdg-kp</property>
+						<property>/it-autoflight/config/cmd/roll-kp</property>
 					</div>
 					<property>/it-autoflight/internal/track-deg</property>
 				</sum>
@@ -682,12 +689,11 @@
 	</filter>
 	
 	<!-- Roll Axis -->
-	
 	<filter>
 		<name>IT-CONTROLLER: HDG/LNAV ROLL</name>
 		<debug>false</debug>
 		<type>gain</type>
-		<gain>/it-autoflight/config/cmd/hdg-kp</gain>
+		<gain>/it-autoflight/config/cmd/roll-kp</gain>
 		<enable>
 			<condition>
 				<and>
@@ -736,7 +742,7 @@
 		<name>IT-CONTROLLER: VORLOC ROLL</name>
 		<debug>false</debug>
 		<type>gain</type>
-		<gain>/it-autoflight/config/cmd/vorloc</gain>
+		<gain>/it-autoflight/config/cmd/roll-kp</gain>
 		<enable>
 			<condition>
 				<and>
@@ -966,18 +972,7 @@
 				</or>
 			</condition>
 		</enable>
-		<input>
-			<expression>
-				<table>
-					<property>/orientation/roll-deg</property>
-					<entry><ind>-30</ind><dep>-30</dep></entry>
-					<entry><ind> -1</ind><dep>  0</dep></entry>
-					<entry><ind>  0</ind><dep>  0</dep></entry>
-					<entry><ind>  1</ind><dep>  0</dep></entry>
-					<entry><ind> 30</ind><dep> 30</dep></entry>
-				</table>
-			</expression>
-		</input>
+		<input>/orientation/roll-deg</input>
 		<reference>0</reference>
 		<output>/it-autoflight/internal/aileron-rollout</output>
 	</filter>
@@ -1029,7 +1024,6 @@
 	</filter>
 	
 	<!-- Pitch Axis -->
-	
 	<filter>
 		<name>ALTITUDE CAPTURE/HOLD</name>
 		<debug>false</debug>
@@ -1630,7 +1624,7 @@
 							<property>/orientation/pitch-deg</property>
 							<value>5</value>
 						</dif>
-						<value>-10</value>
+						<value>-15</value>
 					</max>
 				</expression>
 			</u_min>
@@ -1928,7 +1922,6 @@
 	</filter>
 	
 	<!-- Yaw Axis -->
-	
 	<pi-simple-controller>
 		<name>RUDDER VORLOC TRK</name>
 		<debug>false</debug>
@@ -2031,7 +2024,6 @@
 	</filter>
 	
 	<!-- Flight Director -->
-	
 	<filter>
 		<name>IT-CONTROLLER: TARGET ROLL CMD</name>
 		<debug>false</debug>

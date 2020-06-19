@@ -151,8 +151,8 @@ var canvas_ED_only = {
 	},
 	update: func() {
 			
-		var flap_pos=getprop("/surface-positions/flap-pos-norm");
-		var flap_cmd=getprop("/fdm/jsbsim/fcs/flap-cmd-int-norm");
+		var flap_pos=getprop("/fdm/jsbsim/fcs/flap-pos-deg") or 0;
+		var flap_cmd=getprop("/fdm/jsbsim/fcs/flap-cmd-int-deg") or 0;
 		
 		if(flap_pos==0){
 			me["flaps.IND"].hide();
@@ -164,12 +164,12 @@ var canvas_ED_only = {
 			me["flaps.SCALE"].show();
 			me["flaps.TGT"].show();
 			me["flaps.UP"].hide();
-			me["flaps.TGT"].setRotation(flap_cmd*D2R*44);
-			me["flaps.IND"].setRotation(flap_pos*D2R*45.2);
+			me["flaps.TGT"].setRotation(flap_cmd * D2R);
+			me["flaps.IND"].setRotation(flap_pos * D2R);
 		}
 		
-		var slat_pos=getprop("/fdm/jsbsim/fcs/slat-pos-norm") or 0;
-		var slat_cmd=getprop("/fdm/jsbsim/fcs/slat-cmd-int-norm") or 0;
+		var slat_pos=getprop("/fdm/jsbsim/fcs/slat-pos-deg") or 0;
+		var slat_cmd=getprop("/fdm/jsbsim/fcs/slat-cmd-int-deg") or 0;
 		if(slat_pos==0){
 			me["slat.IND"].hide();
 			me["slat.SCALE"].hide();
@@ -178,11 +178,12 @@ var canvas_ED_only = {
 			me["slat.IND"].show();
 			me["slat.SCALE"].show();
 			me["slat.TGT"].show();
-			me["slat.TGT"].setRotation(slat_cmd*(-D2R)*46.4);
-			me["slat.IND"].setRotation(slat_pos*(-D2R)*51.27);
+			me["slat.TGT"].setRotation(slat_cmd*(-D2R));
+			me["slat.IND"].setRotation(slat_pos*(-D2R));
 		}
 		
-		me["fs"].setText(sprintf("%u", math.round((getprop("/controls/flight/flaps") or 0)*10)));
+        var flap_cmd_raw = math.round((getprop("/controls/flight/flaps") or 0) / 0.125);
+		me["fs"].setText(sprintf("%u", flap_cmd_raw));
 
         me["pitchtrim.digital"].setText(sprintf("%3.1f", (getprop("/controls/flight/elevator-trim") or 0.0) * -10));
         me["pitchtrim.pointer"].setTranslation(0, math.round((getprop("/controls/flight/elevator-trim") or 0) * 60));

@@ -146,6 +146,7 @@ var canvas_ED_only = {
 		m.props["/it-autoflight/output/lnav-armed"] = props.globals.getNode("/it-autoflight/output/lnav-armed");
 		m.props["/it-autoflight/output/loc-armed"] = props.globals.getNode("/it-autoflight/output/loc-armed");
 		m.props["/orientation/heading-deg"] = props.globals.getNode("/orientation/heading-deg");
+		m.props["/orientation/heading-magnetic-deg"] = props.globals.getNode("/orientation/heading-magnetic-deg");
 		m.props["/orientation/roll-deg"] = props.globals.getNode("/orientation/roll-deg");
 		m.props["/velocities/groundspeed-kt"] = props.globals.getNode("/velocities/groundspeed-kt");
 		m.props["/position/gear-agl-ft"] = props.globals.getNode("/position/gear-agl-ft");
@@ -248,7 +249,7 @@ var canvas_ED_only = {
 
 		me["groundspeed"].setText(sprintf("%3d", me.props["/velocities/groundspeed-kt"].getValue() or 0));
 
-		var heading = me.props["/orientation/heading-deg"].getValue() or 0;
+		var heading = me.props["/orientation/heading-magnetic-deg"].getValue() or 0;
 		var selectedheading = me.props["/it-autoflight/input/hdg"].getValue() or 0;
 		var selectedcourse = me.props["/instrumentation/nav[0]/radials/selected-deg"].getValue() or 0;
 
@@ -450,7 +451,7 @@ var canvas_ED_only = {
 		# }
 
         # Minimums
-		var radarAlt = me.props["/position/gear-agl-ft"].getValue();
+		var radarAlt = me.props["/position/gear-agl-ft"].getValue() or 0.0;
 		var minimumsMode = 0; # me.props["/instrumentation/efis/inputs/minimums-mode"].getValue();
 		var decisionHeight = me.props["/instrumentation/mk-viii/inputs/arinc429/decision-height"].getValue();
 

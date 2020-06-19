@@ -455,7 +455,7 @@
 
     <model>
         <name>Main Flight Display Right</name>
-        <path>Aircraft/E-jet-family/XMLs/Primus-Epic/MFD_R.xml</path>
+        <path>Aircraft/E-jet-family/XMLs/Primus-Epic/MFD_L.xml</path>
         <offsets>
             <x-m>-12.53</x-m>
             <y-m>0.33</y-m>
@@ -466,7 +466,7 @@
 
     <model>
         <name>Main Flight Display Left</name>
-        <path>Aircraft/E-jet-family/XMLs/Primus-Epic/MFD_L.xml</path>
+        <path>Aircraft/E-jet-family/XMLs/Primus-Epic/MFD_R.xml</path>
         <offsets>
             <x-m>-12.53</x-m>
             <y-m>-0.31</y-m>
@@ -1042,7 +1042,8 @@
             <repeatable type="bool">false</repeatable>
             <binding>
                 <command>property-toggle</command>
-                <property>controls/autoflight/yaw-damper[0]/engage</property>
+                <!-- <property>controls/autoflight/yaw-damper[0]/engage</property> -->
+                <property>fdm/jsbsim/fcs/yaw-damper-enable</property>
             </binding>
         </action>
     </animation>
@@ -1050,7 +1051,8 @@
         <type>select</type>
         <object-name>YD.light</object-name>
         <condition>
-            <property>controls/autoflight/yaw-damper[0]/engage</property>
+            <!-- <property>controls/autoflight/yaw-damper[0]/engage</property> -->
+            <property>fdm/jsbsim/fcs/yaw-damper-enable</property>
         </condition>
     </animation>
 
@@ -1102,16 +1104,44 @@
 <!-- FLCH -->
 
     <animation>
+        <!-- if current mode is already FLCH, revert to FPA -->
         <type>pick</type>
         <object-name>FLCH</object-name>
+        <condition>
+            <equals>
+                <property>it-autoflight/output/vert</property>
+                <value>4</value>
+            </equals>
+        </condition>
         <action>
             <button>0</button>
             <repeatable type="bool">false</repeatable>
             <binding>
-                <command>property-cycle</command>
+                <command>property-assign</command>
+                <property>it-autoflight/input/vert</property>
+                <value>5</value>
+            </binding>
+        </action>
+    </animation>
+    <animation>
+        <!-- if current mode is not FLCH, set FLCH -->
+        <type>pick</type>
+        <object-name>FLCH</object-name>
+        <condition>
+            <not>
+                <equals>
+                    <property>it-autoflight/output/vert</property>
+                    <value>4</value>
+                </equals>
+            </not>
+        </condition>
+        <action>
+            <button>0</button>
+            <repeatable type="bool">false</repeatable>
+            <binding>
+                <command>property-assign</command>
                 <property>it-autoflight/input/vert</property>
                 <value>4</value>
-                <value>5</value>
             </binding>
         </action>
     </animation>
@@ -1120,7 +1150,7 @@
         <object-name>FLCH.light</object-name>
         <condition>
             <equals>
-                <property>it-autoflight/input/vert</property>
+                <property>it-autoflight/output/vert</property>
                 <value>4</value>
             </equals>
         </condition>
