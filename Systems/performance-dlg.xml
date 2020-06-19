@@ -155,7 +155,7 @@
                     <pref-width>60</pref-width>
                 </text>
                 <input>
-                    <property>/controls/flight/thrust-con</property>
+                    <property>/controls/flight/thrust-crz</property>
                     <label>%N1</label>
                 </input>
             </group>
