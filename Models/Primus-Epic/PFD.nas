@@ -451,7 +451,7 @@ var canvas_ED_only = {
 		# }
 
         # Minimums
-		var radarAlt = me.props["/position/gear-agl-ft"].getValue();
+		var radarAlt = me.props["/position/gear-agl-ft"].getValue() or 0.0;
 		var minimumsMode = 0; # me.props["/instrumentation/efis/inputs/minimums-mode"].getValue();
 		var decisionHeight = me.props["/instrumentation/mk-viii/inputs/arinc429/decision-height"].getValue();
 
