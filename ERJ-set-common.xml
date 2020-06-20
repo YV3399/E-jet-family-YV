@@ -544,6 +544,11 @@
             <thrust-climb2 type="double">78.2</thrust-climb2>
             <thrust-con type="double">90.8</thrust-con>
             <thrust-crz type="double">73.5</thrust-crz>
+            <vref type="double">125</vref>
+            <vappr type="double">135</vappr>
+            <vfs type="double">185</vfs>
+            <vf type="double">200</vf>
+            <vac type="double">180</vac>
 		</flight>
 
 		<gear>

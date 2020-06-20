@@ -145,6 +145,8 @@ var canvas_ED_only = {
 		m.props["/it-autoflight/output/athr"] = props.globals.getNode("/it-autoflight/output/athr");
 		m.props["/it-autoflight/output/lnav-armed"] = props.globals.getNode("/it-autoflight/output/lnav-armed");
 		m.props["/it-autoflight/output/loc-armed"] = props.globals.getNode("/it-autoflight/output/loc-armed");
+		m.props["/it-autoflight/fd/pitch-bar"] = props.globals.getNode("/it-autoflight/fd/pitch-bar");
+		m.props["/it-autoflight/fd/roll-bar"] = props.globals.getNode("/it-autoflight/fd/roll-bar");
 		m.props["/orientation/heading-deg"] = props.globals.getNode("/orientation/heading-deg");
 		m.props["/orientation/heading-magnetic-deg"] = props.globals.getNode("/orientation/heading-magnetic-deg");
 		m.props["/orientation/roll-deg"] = props.globals.getNode("/orientation/roll-deg");
@@ -152,6 +154,16 @@ var canvas_ED_only = {
 		m.props["/position/gear-agl-ft"] = props.globals.getNode("/position/gear-agl-ft");
 		m.props["/instrumentation/efis/inputs/minimums-mode"] = props.globals.getNode("/instrumentation/efis/inputs/minimums-mode");
 		m.props["/instrumentation/mk-viii/inputs/arinc429/decision-height"] = props.globals.getNode("/instrumentation/mk-viii/inputs/arinc429/decision-height");
+        m.props["/controls/flight/vfs"] = props.globals.getNode("/controls/flight/vfs");
+        m.props["/controls/flight/vf"] = props.globals.getNode("/controls/flight/vf");
+        m.props["/controls/flight/v2"] = props.globals.getNode("/controls/flight/v2");
+        m.props["/controls/flight/vac"] = props.globals.getNode("/controls/flight/vac");
+        m.props["/controls/flight/vr"] = props.globals.getNode("/controls/flight/vr");
+        m.props["/controls/flight/vap"] = props.globals.getNode("/controls/flight/vap");
+        m.props["/controls/flight/vref"] = props.globals.getNode("/controls/flight/vref");
+        m.props["/controls/flight/v1"] = props.globals.getNode("/controls/flight/v1");
+
+        m.props["/controls/flight/flaps"] = props.globals.getNode("/controls/flight/flaps");
 		return m;
 	},
 	getKeys: func() {
@@ -163,6 +175,14 @@ var canvas_ED_only = {
 			"mach.digital",
 			"airspeed.bug",
 			"speedtrend.vector",
+            "speedref.vfs",
+            "speedref.vf",
+            "speedref.v2",
+            "speedref.vac",
+            "speedref.vr",
+            "speedref.vappr",
+            "speedref.vref",
+            "speedref.v1",
 			"wind.pointer",
 			"wind.kt",
 			"heading.digital",
@@ -233,7 +253,9 @@ var canvas_ED_only = {
 			"fma.lat",
 			"fma.latarmed",
 			"fma.vert",
-			"fma.vertarmed"
+			"fma.vertarmed",
+            "fd.pitch",
+            "fd.roll"
 		];
 	},
 
@@ -267,6 +289,12 @@ var canvas_ED_only = {
 		me["selectedheading.digital"].setText(sprintf("%03d", selectedheading));
 		me["selectedheading.pointer"].setRotation((selectedheading - heading) * DC);
 		me["selectedcourse.digital"].setText(sprintf("%03d", selectedcourse));
+
+        # FD
+		var pitchBar = me.props["/it-autoflight/fd/pitch-bar"].getValue() or 0;
+		var rollBar = me.props["/it-autoflight/fd/roll-bar"].getValue() or 0;
+        me["fd.pitch"].setTranslation(0, pitchBar * 8.05);
+        me["fd.roll"].setTranslation(pitchBar * 8.05, 0);
 
         # CHR
         var t = me.props["/instrumentation/chrono/elapsed_time/total"].getValue() or 0;
@@ -528,6 +556,28 @@ var canvas_ED_only = {
 		}else{
 			me["asi.100"].hide();
 		}
+
+        # Speed ref bugs
+        var flaps = me.props["/control/flight/flaps"];
+        foreach (var spdref; ["vfs", "vf", "v2", "vac", "vr", "vappr", "vref", "v1"]) {
+            var prop = me.props["/controls/flight/" ~ spdref];
+            var elem = me["speedref." ~ spdref];
+            if (elem == nil) continue;
+            if (prop == nil) {
+                elem.hide();
+            }
+            else {
+                ktsRel = airspeed - (prop.getValue() or 0);
+                elem.setTranslation(0, ktsRel * 6.42);
+                if (ktsRel > 40 or ktsRel < -40) {
+                    elem.hide();
+                }
+                else {
+                    # TODO: detect flight phase
+                    elem.show();
+                }
+            }
+        }
 
 		# FMA
 		if (me.props["/it-autoflight/output/ap1"].getValue() or me.props["/it-autoflight/output/ap2"].getValue()) {

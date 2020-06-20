@@ -43,6 +43,9 @@
             <text>
                 <label>Speed References</label>
             </text>
+            <text>
+                <label>Takeoff</label>
+            </text>
             <group>
                 <layout>hbox</layout>
                 <text>
@@ -73,6 +76,20 @@
                 </text>
                 <input>
                     <property>/controls/flight/v2</property>
+                    <label>KIAS</label>
+                </input>
+            </group>
+            <text>
+                <label>Approach</label>
+            </text>
+            <group>
+                <layout>hbox</layout>
+                <text>
+                    <label>Vappr</label>
+                    <pref-width>30</pref-width>
+                </text>
+                <input>
+                    <property>/controls/flight/vappr</property>
                     <label>KIAS</label>
                 </input>
             </group>
