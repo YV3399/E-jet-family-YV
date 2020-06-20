@@ -89,6 +89,15 @@ var canvas_ED_base = {
 	},
 };
 
+var trsModeLabels = {
+	0: "TO-1",
+	1: "GA-1",
+	2: "CLB-1",
+	3: "CLB-2",
+	4: "CRZ",
+	5: "CON",
+};
+
 var canvas_ED_only = {
 	new: func(canvas_group, file) {
 		var m = { parents: [canvas_ED_only,canvas_ED_base] };
@@ -146,7 +155,10 @@ var canvas_ED_only = {
             "pitchtrim.digital",
             "pitchtrim.pointer",
             "ailerontrim.pointer",
-            "ruddertrim.pointer"
+            "ruddertrim.pointer",
+            "limitL.digital",
+            "limitR.digital",
+            "trsMode"
         ];
 	},
 	update: func() {
@@ -205,6 +217,14 @@ var canvas_ED_only = {
 		var rop=getprop("/engines/engine[1]/oil-pressure-psi");
 		var lot=getprop("/engines/engine[0]/oil-temperature-degc");
 		var rot=getprop("/engines/engine[1]/oil-temperature-degc");
+
+        # TRS
+        var phase = getprop("/trs/phase") or 0;
+        var phaseLabel = trsModeLabels[phase] or "---";
+        me["trsMode"].setText(phaseLabel);
+        var limit = getprop("/it-autoflight/settings/autothrottle-max");
+        me["limitL.digital"].setText(sprintf("3.1f", limit));
+        me["limitR.digital"].setText(sprintf("3.1f", limit));
 		
 		#Engine off
 		if(engLoff.getBoolValue()){
@@ -214,7 +234,7 @@ var canvas_ED_only = {
 		}
 		
 		me["engR.off"].setVisible(engRoff.getBoolValue());
-			
+
 		
 		#0.526
 		if(ln1<52.6){
