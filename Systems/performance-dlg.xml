@@ -79,9 +79,31 @@
                     <label>KIAS</label>
                 </input>
             </group>
+            <group>
+                <layout>hbox</layout>
+                <text>
+                    <label>Vfs</label>
+                    <pref-width>30</pref-width>
+                </text>
+                <input>
+                    <property>/controls/flight/vfs</property>
+                    <label>KIAS</label>
+                </input>
+            </group>
             <text>
                 <label>Approach</label>
             </text>
+            <group>
+                <layout>hbox</layout>
+                <text>
+                    <label>Vref</label>
+                    <pref-width>30</pref-width>
+                </text>
+                <input>
+                    <property>/controls/flight/vref</property>
+                    <label>KIAS</label>
+                </input>
+            </group>
             <group>
                 <layout>hbox</layout>
                 <text>
@@ -96,11 +118,11 @@
             <group>
                 <layout>hbox</layout>
                 <text>
-                    <label>Vref</label>
+                    <label>Vac</label>
                     <pref-width>30</pref-width>
                 </text>
                 <input>
-                    <property>/controls/flight/vref</property>
+                    <property>/controls/flight/vac</property>
                     <label>KIAS</label>
                 </input>
             </group>
