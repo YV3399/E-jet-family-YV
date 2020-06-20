@@ -6,6 +6,7 @@ var Dialogs = {
 	operations: gui.Dialog.new("sim/gui/dialogs/E-jet-family[0]/menu/dialog", aircraft_path~"operations-dlg.xml"),
 	radio: gui.Dialog.new("sim/gui/dialogs/radios/dialog", aircraft_path~"radio.xml"),
 	tiller: gui.Dialog.new("sim/gui/dialogs/tiller/dialog", aircraft_path~"tiller-dlg.xml"),
+	performance: gui.Dialog.new("sim/gui/dialogs/performance/dialog", aircraft_path~"performance-dlg.xml"),
 	
 };
 

@@ -1,0 +1,175 @@
+<?xml version="1.0"?>
+<PropertyList>
+    <name>performance</name>
+	<layout>vbox</layout>
+	<pref-width>600</pref-width>
+
+    <group>
+        <layout>hbox</layout>
+		<empty>
+			<stretch>1</stretch>
+		</empty>
+
+        <text>
+            <label>Performance</label>
+        </text>
+
+		<empty>
+			<stretch>1</stretch>
+		</empty>
+
+		<button>
+			<pref-width>16</pref-width>
+			<pref-height>16</pref-height>
+			<legend></legend>
+			<keynum>27</keynum>
+			<border>2</border>
+			<binding>
+				<command>dialog-close</command>
+			</binding>
+		</button>
+    </group>
+
+    <hrule/>
+
+    <group>
+        <layout>hbox</layout>
+
+        <group>
+            <layout>vbox</layout>
+            <halign>center</halign>
+            <valign>top</valign>
+
+            <text>
+                <label>Speed References</label>
+            </text>
+            <group>
+                <layout>hbox</layout>
+                <text>
+                    <label>V1</label>
+                    <pref-width>30</pref-width>
+                </text>
+                <input>
+                    <property>/controls/flight/v1</property>
+                    <label>KIAS</label>
+                </input>
+            </group>
+            <group>
+                <layout>hbox</layout>
+                <text>
+                    <label>Vr</label>
+                    <pref-width>30</pref-width>
+                </text>
+                <input>
+                    <property>/controls/flight/vr</property>
+                    <label>KIAS</label>
+                </input>
+            </group>
+            <group>
+                <layout>hbox</layout>
+                <text>
+                    <label>V2</label>
+                    <pref-width>30</pref-width>
+                </text>
+                <input>
+                    <property>/controls/flight/v2</property>
+                    <label>KIAS</label>
+                </input>
+            </group>
+            <group>
+                <layout>hbox</layout>
+                <text>
+                    <label>Vref</label>
+                    <pref-width>30</pref-width>
+                </text>
+                <input>
+                    <property>/controls/flight/vref</property>
+                    <label>KIAS</label>
+                </input>
+            </group>
+
+        </group>
+        <group>
+            <layout>vbox</layout>
+            <halign>center</halign>
+            <valign>top</valign>
+            <text>
+                <label>Thrust Ratings</label>
+            </text>
+            <group>
+                <layout>hbox</layout>
+                <text>
+                    <label>TOGA</label>
+                    <pref-width>60</pref-width>
+                </text>
+                <input>
+                    <property>/controls/flight/thrust-toga</property>
+                    <label>%N1</label>
+                </input>
+            </group>
+            <group>
+                <layout>hbox</layout>
+                <checkbox>
+                    <label>Flex T/O</label>
+                    <property>/controls/flight/thrust-flex</property>
+                    <halign>left</halign>
+                </checkbox>
+            </group>
+            <group>
+                <layout>hbox</layout>
+                <text>
+                    <label>CON</label>
+                    <pref-width>60</pref-width>
+                </text>
+                <input>
+                    <property>/controls/flight/thrust-con</property>
+                    <label>%N1</label>
+                </input>
+            </group>
+            <group>
+                <layout>hbox</layout>
+                <text>
+                    <label>CLB1</label>
+                    <pref-width>60</pref-width>
+                </text>
+                <input>
+                    <property>/controls/flight/thrust-climb1</property>
+                    <label>%N1</label>
+                </input>
+            </group>
+            <group>
+                <layout>hbox</layout>
+                <text>
+                    <label>CLB2</label>
+                    <pref-width>60</pref-width>
+                </text>
+                <input>
+                    <property>/controls/flight/thrust-climb2</property>
+                    <label>%N1</label>
+                </input>
+            </group>
+            <group>
+                <layout>hbox</layout>
+                <text>
+                    <label>CRZ</label>
+                    <pref-width>60</pref-width>
+                </text>
+                <input>
+                    <property>/controls/flight/thrust-crz</property>
+                    <label>%N1</label>
+                </input>
+            </group>
+        </group>
+
+    </group>
+    <hrule/>
+
+    <button>
+        <legend>Apply</legend>
+        <binding>
+            <command>dialog-apply</command>
+        </binding>
+    </button>
+
+</PropertyList>
+

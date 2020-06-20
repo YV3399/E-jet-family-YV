@@ -605,7 +605,12 @@ var canvas_ED_only = {
 
 		me["fma.lat"].setText(latModeMap[me.props["/it-autoflight/mode/lat"].getValue() or ""] or "");
 		me["fma.vert"].setText(vertModeMap[me.props["/it-autoflight/mode/vert"].getValue() or ""] or "");
-		me["fma.vertarmed"].setText(vertModeArmedMap[me.props["/it-autoflight/mode/vert"].getValue() or ""] or "");
+        if (me.props["/it-autoflight/output/appr-armed"].getValue() and me.props["/it-autoflight/mode/vert"].getValue != "G/S") {
+            me["fma.vertarmed"].setText("GS");
+        }
+        else {
+            me["fma.vertarmed"].setText(vertModeArmedMap[me.props["/it-autoflight/mode/vert"].getValue() or ""] or "");
+        }
 		me["fma.spd"].setText(
 				spdModeMap[me.props["/it-autoflight/mode/vert"].getValue() or ""] or
 				spdModeMap[me.props["/it-autoflight/mode/thr"].getValue() or ""] or
@@ -628,6 +633,21 @@ var canvas_ED_only = {
 		else {
 			me["fma.latarmed"].setText(latModeArmedMap[me.props["/it-autoflight/mode/arm"].getValue()]);
 		}
+        # show APPR2 arm when approach armed
+        if (me.props["/it-autoflight/output/appr-armed"].getValue() or
+            me.props["/it-autoflight/mode/lat"].getValue() == "LOC") {
+            me["fma.apprarmed"].show();
+            if (radarAlt <= 1500) {
+                me["fma.appr"].show();
+            }
+            else {
+                me["fma.appr"].hide();
+            }
+        }
+        else {
+            me["fma.appr"].hide();
+            me["fma.apprarmed"].hide();
+        }
 	},
 };
 

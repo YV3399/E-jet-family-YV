@@ -1,25 +1,50 @@
-<?xml version="1.0" encoding="UTF-8" ?>
+ml version="1.0" encoding="UTF-8" ?>
 
-<!-- Airbus A330 speedbrake/ground spoiler configuration -->
+<!-- Embraer E-Jet speedbrake/ground spoiler configuration -->
 
 <PropertyList>
 
-	<logic>
-		<name>Ground spoilers disarm</name>
-		<enable>
-			<condition>
+	<flipflop>
+		<name>Ground spoilers arm/disarm</name>
+		<debug type="bool">true</debug>
+		<type>RS</type>
+		<S>
+			<and>
+				<!-- Ground spoilers can only be armed when the speedbrake lever is up -->
+				<equals>
+					<property>/controls/flight/speedbrake-lever</property>
+					<value>0</value>
+				</equals>
+				<!-- ...and flaps are set to 5 or FULL -->
+				<greater-than>
+					<property>/controls/flight/flaps</property>
+					<value>0.5</value>
+				</greater-than>
+				<!-- ...and the aircraft is not on the ground yet. -->
+				<not><property>/gear/gear[1]/wow</property></not>
+				<not><property>/gear/gear[2]/wow</property></not>
+			</and>
+		</S>
+		<R>
+			<or>
 				<!-- Ground spoilers can only be armed when the speedbrake lever is up -->
 				<greater-than>
 					<property>/controls/flight/speedbrake-lever</property>
 					<value>0</value>
 				</greater-than>
-			</condition>
-		</enable>
-		<input>
-			<false />
-		</input>
+				<!-- ...and flaps are set to 5 or FULL -->
+				<less-than>
+					<property>/controls/flight/flaps</property>
+					<value>0.5</value>
+				</less-than>
+				<less-than>
+					<property>/instrumentation/airspeed-indicator/indicated-speed-kt</property>
+					<value>40</value>
+				</less-than>
+			</or>
+		</R>
 		<output>/controls/flight/ground-spoilers-armed</output>
-	</logic>
+	</flipflop>
 
 	<logic>
 		<name>Ground spoilers engage</name>
