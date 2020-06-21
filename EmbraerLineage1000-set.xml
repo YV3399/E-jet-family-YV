@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<PropertyList include="ERJ-set-common.xml">
+
+	<sim>
+		<description>Embraer Lineage 1000</description>
+		<variant-of>Embraer170</variant-of>
+		<aero>Lineage1000</aero>
+		<engine>GE_CF34-10E</engine>
+
+		<model>
+			<path>Aircraft/E-jet-family/XMLs/Lineage1000.xml</path>
+			<door n="0">
+				<position-x-m>-11.443</position-x-m>
+			</door>
+		</model>
+
+                <rating>
+			<FDM type="int">3</FDM>
+			<systems type="int">3</systems>
+			<cockpit type="int">4</cockpit>
+			<model type="int">5</model>
+		</rating>
+
+		<view>
+			<config>
+				<z-offset-m archive="y">-13.57</z-offset-m>
+			</config>
+		</view>
+		<view n="103">
+			<config>
+				<z-offset-m archive="y">-13.57</z-offset-m>
+			</config>
+		</view>
+		<view n="104">
+			<name>Passenger View</name>
+		</view>
+	</sim>
+
+    <payload>
+        <weight n="1">
+            <name>Passengers</name>
+            <weight-lb alias="/fdm/jsbsim/inertia/pointmass-weight-lbs[1]"/>
+            <min-lb type="double">0</min-lb>
+            <max-lb type="double">9921</max-lb>
+        </weight>
+    </payload>
+
+	<consumables>
+		<fuel>
+			<tank n="4">
+				<name>Lower Deck Tank</name>
+			</tank>
+		</fuel>
+	</consumables>
+
+    <limits>
+		<!-- values are estimations -->
+
+		<vne>370</vne>
+ 
+		<max-positive-g>4.4</max-positive-g>
+		<max-negative-g>-1.76</max-negative-g>
+ 
+		<max-flap-extension-speed n="0">
+			<flaps>0.10</flaps>
+			<speed>265</speed>
+		</max-flap-extension-speed>
+		<max-flap-extension-speed n="1">
+			<flaps>0.20</flaps>
+			<speed>240</speed>
+		</max-flap-extension-speed>
+		<max-flap-extension-speed n="2">
+			<flaps>0.03</flaps>
+			<speed>225</speed>
+		</max-flap-extension-speed>
+		<max-flap-extension-speed n="3">
+			<flaps>0.40</flaps>
+			<speed>210</speed>
+		</max-flap-extension-speed>
+
+		<max-gear-extension-speed>220</max-gear-extension-speed>
+
+		<mass-and-balance>
+			<maximum-takeoff-mass-lbs>120152</maximum-takeoff-mass-lbs>
+			<maximum-landing-mass-lbs>100972</maximum-landing-mass-lbs>
+			<maximum-payload-lbs>9625</maximum-payload-lbs>
+			<maximum-ramp-mass-lbs>120647</maximum-ramp-mass-lbs>
+			<maximum-zero-fuel-mass-lbs>80525</maximum-zero-fuel-mass-lbs>
+		</mass-and-balance>
+	</limits>
+
+	<instrumentation>
+		<cdu>
+			<ident>
+				<model>ERJ190-100</model>
+				<engines>GE_CF34-10E</engines>
+			</ident>
+		</cdu>
+	</instrumentation>
+
+</PropertyList>

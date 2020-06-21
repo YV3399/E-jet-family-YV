@@ -4,7 +4,7 @@
 
 	<sim>
 		<author>Gabriel Hernandez (YV3399), D-ECHO</author>
-                <status>Version 0.6</status>
+        <status>Version 0.6</status>
 		<flight-model>jsb</flight-model>
 
 		<model>
@@ -59,7 +59,14 @@
 		</flaps>
 
 		<startup>
-			<splash-texture>Aircraft/E-jet-family/Splash/splash.png</splash-texture>
+			<splash-texture>Aircraft/E-jet-family/Splash/splash00.jpg</splash-texture>
+			<splash-texture>Aircraft/E-jet-family/Splash/splash01.jpg</splash-texture>
+			<splash-texture>Aircraft/E-jet-family/Splash/splash02.jpg</splash-texture>
+			<splash-texture>Aircraft/E-jet-family/Splash/splash03.jpg</splash-texture>
+			<splash-texture>Aircraft/E-jet-family/Splash/splash04.jpg</splash-texture>
+			<splash-texture>Aircraft/E-jet-family/Splash/splash05.jpg</splash-texture>
+			<splash-texture>Aircraft/E-jet-family/Splash/splash06.jpg</splash-texture>
+			<splash-texture>Aircraft/E-jet-family/Splash/splash07.jpg</splash-texture>
 		</startup>
 
 		<previews>
