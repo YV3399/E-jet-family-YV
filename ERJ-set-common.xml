@@ -316,8 +316,8 @@
 				<desc>cycle speedbrake lever setting</desc>
 			</key>
 			<key>
-				<name>Ctrl-k</name>
-				<desc>arm/disarm ground spoilers</desc>
+				<name>q</name>
+				<desc>TO/GA button</desc>
 			</key>
 			<key>
 				<name>=</name>
@@ -729,6 +729,16 @@
 					</script>
 				</binding>
 			</key>
+			<key n="113">
+				<name>q</name>
+				<desc>TO/GA button</desc>
+				<repeatable type="bool">true</repeatable>
+				<binding>
+					<command>property-assign</command>
+                    <property>/it-autoflight/input/toga</property>
+                    <value type="bool">true</value>
+				</binding>
+			</key>
 			<key n="2">
 				<name>Ctrl-b</name>
 				<desc>Cycle speedbrake setting</desc>
@@ -738,14 +748,6 @@
 					<value>0</value>
 					<value>0.5</value>
 					<value>1</value>
-				</binding>
-			</key>
-			<key n="11">
-				<name>Ctrl-k</name>
-				<desc>Arm/disarm ground spoilers</desc>
-				<binding>
-					<command>property-toggle</command>
-					<property>controls/flight/ground-spoilers-armed</property>
 				</binding>
 			</key>
 			<key n="61">
