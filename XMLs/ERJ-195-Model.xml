@@ -89,6 +89,11 @@
     <animation>
         <type>material</type>
         <object-name>fuselage</object-name>
+		<object-name>fuselage.001</object-name>
+		<object-name>reverser.001</object-name>
+        <object-name>nacelle.001</object-name>
+		<object-name>reverser</object-name>
+		<object-name>nacelle</object-name>
         <object-name>winglet.l</object-name>
         <object-name>winglet.r</object-name>
         <object-name>rudder</object-name>
