@@ -448,7 +448,7 @@
 		</floor>
 	</expression>
       </input>
-      <output>instrumentation/PFD/alt-10000</output>
+      <output>instrumentation/pfd/alt-10000</output>
   </filter>
   <filter>
       <name>Altitude 1000</name> 
@@ -464,7 +464,7 @@
 		</floor>
 	</expression>
       </input>
-      <output>instrumentation/PFD/alt-1000</output>
+      <output>instrumentation/pfd/alt-1000</output>
   </filter>
   <filter>
       <name>Altitude 100</name> 
@@ -480,7 +480,7 @@
 		</floor>
 	</expression>
       </input>
-      <output>instrumentation/PFD/alt-100</output>
+      <output>instrumentation/pfd/alt-100</output>
   </filter>
   <filter>
       <name>Altitude 1</name> 
@@ -493,7 +493,7 @@
 		</floor>
 	</expression>
       </input>
-      <output>instrumentation/PFD/alt-1</output>
+      <output>instrumentation/pfd/alt-1</output>
   </filter>
   
   
@@ -610,7 +610,7 @@
           <expression>
 		<dif>
 			<property>/instrumentation/airspeed-indicator/indicated-speed-kt</property> 
-			<property>/instrumentation/PFD/ias-bugs/bug1</property> 
+			<property>/instrumentation/pfd/ias-bugs/bug1</property> 
 		</dif>
           </expression>
       </input>
@@ -626,7 +626,7 @@
           <expression>
 		<dif>
 			<property>/instrumentation/airspeed-indicator/indicated-speed-kt</property> 
-			<property>/instrumentation/PFD/ias-bugs/bug2</property> 
+			<property>/instrumentation/pfd/ias-bugs/bug2</property> 
 		</dif>
           </expression>
       </input>

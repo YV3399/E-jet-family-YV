@@ -179,7 +179,7 @@ var canvas_ED_only = {
 			altNumHigh = "-";
 		}
 		
-		var alt100=(getprop("/instrumentation/PFD/alt-1") or 0)/100;
+		var alt100=(getprop("/instrumentation/pfd/alt-1") or 0)/100;
 		
 		me["alt.rollingdigits"].setTranslation(0,math.round((10*math.mod(alt100,1))*getprop("/test"), 0.1));
 		
@@ -189,7 +189,7 @@ var canvas_ED_only = {
 		
 		me["qnh"].setText(sprintf("%u", (getprop("/instrumentation/altimeter/setting-hpa") or 0)));
 		
-		var alt10000=getprop("/instrumentation/PFD/alt-10000") or 0;
+		var alt10000=getprop("/instrumentation/pfd/alt-10000") or 0;
 		if(alt10000!=0){
 			me["alt.10000"].show();
 			me["alt.10000"].setText(sprintf("%s", math.round(alt10000)));
@@ -197,7 +197,7 @@ var canvas_ED_only = {
 			me["alt.10000"].hide();
 		}
 		
-		var alt1000=getprop("/instrumentation/PFD/alt-1000") or 0;
+		var alt1000=getprop("/instrumentation/pfd/alt-1000") or 0;
 		if(alt1000!=0){
 			me["alt.1000"].show();
 			me["alt.1000"].setText(sprintf("%s", math.round((10*math.mod(alt1000/10,1)))));
@@ -205,7 +205,7 @@ var canvas_ED_only = {
 			me["alt.1000"].hide();
 		}
 		
-		var alt100=getprop("/instrumentation/PFD/alt-100") or 0;
+		var alt100=getprop("/instrumentation/pfd/alt-100") or 0;
 		if(alt100!=0){
 			me["alt.100"].show();
 			me["alt.100"].setText(sprintf("%s", math.round((10*math.mod(alt100/10,1)))));
