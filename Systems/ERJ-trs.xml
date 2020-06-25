@@ -5,8 +5,8 @@
 <!-- Phases
 	0 TO
 	1 GA
-	2 CLB1
-	3 CLB2
+	2 CLB
+	3 ** not used **
 	4 CRZ
 	5 CON
 -->
@@ -193,6 +193,206 @@
 	<output>/trs/phase</output>
 </filter>
 
+<!-- selecting specific TO, GA, and CLB settings -->
+<filter>
+    <!-- TODO: FLEX-TO -->
+    <name>Select TO thrust</name>
+    <type>gain</type>
+    <gain>1</gain>
+    <input>
+        <condition>
+            <equals>
+                <property>/controls/flight/trs/to</property>
+                <value>1</value>
+            </equals>
+        </condition>
+        <property>/trs/thrust/to1</property>
+    </input>
+    <input>
+        <condition>
+            <equals>
+                <property>/controls/flight/trs/to</property>
+                <value>2</value>
+            </equals>
+        </condition>
+        <property>/trs/thrust/to2</property>
+    </input>
+    <input>
+        <condition>
+            <equals>
+                <property>/controls/flight/trs/to</property>
+                <value>3</value>
+            </equals>
+        </condition>
+        <property>/trs/thrust/to3</property>
+    </input>
+    <output>/trs/thrust/to</output>
+</filter>
+
+<filter>
+    <!-- TODO: FLEX-TO -->
+    <name>Select TO thrust label</name>
+    <type>gain</type>
+    <gain>1</gain>
+    <input>
+        <condition>
+            <equals>
+                <property>/controls/flight/trs/to</property>
+                <value>1</value>
+            </equals>
+        </condition>
+        <value>1</value>
+    </input>
+    <input>
+        <condition>
+            <equals>
+                <property>/controls/flight/trs/to</property>
+                <value>2</value>
+            </equals>
+        </condition>
+        <value>2</value>
+    </input>
+    <input>
+        <condition>
+            <equals>
+                <property>/controls/flight/trs/to</property>
+                <value>3</value>
+            </equals>
+        </condition>
+        <value>3</value>
+    </input>
+    <output>/trs/thrust/to-submode</output>
+</filter>
+
+<filter>
+    <name>Select GA thrust</name>
+    <type>gain</type>
+    <gain>1</gain>
+    <input>
+        <condition>
+            <equals>
+                <property>/controls/flight/trs/to</property>
+                <value>1</value>
+            </equals>
+        </condition>
+        <property>/trs/thrust/to1</property>
+    </input>
+    <input>
+        <condition>
+            <equals>
+                <property>/controls/flight/trs/to</property>
+                <value>2</value>
+            </equals>
+        </condition>
+        <property>/trs/thrust/to2</property>
+    </input>
+    <input>
+        <condition>
+            <equals>
+                <property>/controls/flight/trs/to</property>
+                <value>3</value>
+            </equals>
+        </condition>
+        <property>/trs/thrust/to3</property>
+    </input>
+    <output>/trs/thrust/ga</output>
+</filter>
+
+<filter>
+    <name>Select CLB thrust submode</name>
+    <type>gain</type>
+    <gain>1</gain>
+    <input>
+        <condition>
+            <less-than>
+                <property>/trs/thrust/to</property>
+                <property>/trs/thrust/climb1</property>
+            </less-than>
+        </condition>
+        <value>2</value>
+    </input>
+    <input>
+        <value>1</value>
+    </input>
+    <output>/trs/thrust/climb-submode</output>
+</filter>
+
+<filter>
+    <name>Select CLB thrust</name>
+    <type>gain</type>
+    <gain>1</gain>
+    <input>
+        <condition>
+            <equals>
+                <property>/trs/thrust/climb-submode</property>
+                <value>2</value>
+            </equals>
+        </condition>
+        <property>/trs/thrust/climb2</property>
+    </input>
+    <input>
+        <property>/trs/thrust/climb1</property>
+    </input>
+    <output>/trs/thrust/climb</output>
+</filter>
+
+<!-- Actual mode selection -->
+<filter>
+    <name>Set effective mode</name>
+    <type>gain</type>
+    <gain>1</gain>
+    <input>
+        <condition>
+            <equals>
+                <property>/controls/flight/trs/mode</property>
+                <value>TO</value>
+            </equals>
+        </condition>
+        <value>0</value>
+    </input>
+    <input>
+        <condition>
+            <equals>
+                <property>/controls/flight/trs/mode</property>
+                <value>GA</value>
+            </equals>
+        </condition>
+        <value>1</value>
+    </input>
+    <input>
+        <condition>
+            <equals>
+                <property>/controls/flight/trs/mode</property>
+                <value>CLB</value>
+            </equals>
+        </condition>
+        <value>2</value>
+    </input>
+    <input>
+        <condition>
+            <equals>
+                <property>/controls/flight/trs/mode</property>
+                <value>CRZ</value>
+            </equals>
+        </condition>
+        <value>4</value>
+    </input>
+    <input>
+        <condition>
+            <equals>
+                <property>/controls/flight/trs/mode</property>
+                <value>CON</value>
+            </equals>
+        </condition>
+        <value>5</value>
+    </input>
+    <input>
+        <property>/trs/phase</property>
+    </input>
+    <output>/trs/mode</output>
+</filter>
+
+
 <!-- forwarding thrust limit to A/T -->
 <filter>
 	<name>Forward thrust to ITAF</name>
@@ -201,56 +401,47 @@
 	<input>
 		<condition>
 			<equals>
-				<property>/trs/phase</property>
+				<property>/trs/mode</property>
 				<value>0</value>
 			</equals>
 		</condition>
-		<property>/controls/flight/thrust-toga</property>
+		<property>/trs/thrust/to</property>
 	</input>
 	<input>
 		<condition>
 			<equals>
-				<property>/trs/phase</property>
+				<property>/trs/mode</property>
 				<value>1</value>
 			</equals>
 		</condition>
-		<property>/controls/flight/thrust-toga</property>
+		<property>/trs/thrust/ga</property>
 	</input>
 	<input>
 		<condition>
 			<equals>
-				<property>/trs/phase</property>
+				<property>/trs/mode</property>
 				<value>2</value>
 			</equals>
 		</condition>
-		<property>/controls/flight/thrust-climb1</property>
+		<property>/trs/thrust/climb</property>
 	</input>
 	<input>
 		<condition>
 			<equals>
-				<property>/trs/phase</property>
-				<value>3</value>
-			</equals>
-		</condition>
-		<property>/controls/flight/thrust-climb2</property>
-	</input>
-	<input>
-		<condition>
-			<equals>
-				<property>/trs/phase</property>
+				<property>/trs/mode</property>
 				<value>4</value>
 			</equals>
 		</condition>
-		<property>/controls/flight/thrust-crz</property>
+		<property>/trs/thrust/crz</property>
 	</input>
 	<input>
 		<condition>
 			<equals>
-				<property>/trs/phase</property>
+				<property>/trs/mode</property>
 				<value>5</value>
 			</equals>
 		</condition>
-		<property>/controls/flight/thrust-con</property>
+		<property>/trs/thrust/con</property>
 	</input>
 	<output>/it-autoflight/settings/autothrottle-max</output>
 </filter>

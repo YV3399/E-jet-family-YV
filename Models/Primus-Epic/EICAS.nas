@@ -90,10 +90,9 @@ var canvas_ED_base = {
 };
 
 var trsModeLabels = {
-	0: "TO-1",
-	1: "GA-1",
-	2: "CLB-1",
-	3: "CLB-2",
+	0: "TO",
+	1: "GA",
+	2: "CLB",
 	4: "CRZ",
 	5: "CON",
 };
@@ -219,12 +218,25 @@ var canvas_ED_only = {
 		var rot=getprop("/engines/engine[1]/oil-temperature-degc");
 
         # TRS
-        var phase = getprop("/trs/phase") or 0;
-        var phaseLabel = trsModeLabels[phase] or "---";
-        me["trsMode"].setText(phaseLabel);
-        var limit = getprop("/it-autoflight/settings/autothrottle-max");
-        me["limitL.digital"].setText(sprintf("3.1f", limit));
-        me["limitR.digital"].setText(sprintf("3.1f", limit));
+        var mode = getprop("/trs/mode") or 0;
+        var modeLabel = trsModeLabels[mode] or "---";
+        if (modeLabel == "TO" or modeLabel == "GA") {
+            if (modeLabel == "TO") {
+                if (getprop("/controls/flight/trs/flex-to")) {
+                    modeLabel = "FLEX-TO";
+                }
+            }
+            var submode = getprop("/trs/thrust/to-submode") or 1;
+            modeLabel = modeLabel ~ "-" ~ submode;
+        }
+        else if (modeLabel == "CLB") {
+            var submode = getprop("/trs/thrust/climb-submode") or 1;
+            modeLabel = modeLabel ~ "-" ~ submode;
+        }
+        me["trsMode"].setText(modeLabel);
+        var limit = (getprop("/it-autoflight/settings/autothrottle-max") or 1.0) * 100.0;
+        me["limitL.digital"].setText(sprintf("%3.1f", limit));
+        me["limitR.digital"].setText(sprintf("%3.1f", limit));
 		
 		#Engine off
 		if(engLoff.getBoolValue()){

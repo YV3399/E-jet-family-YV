@@ -468,7 +468,21 @@
 
     <trs>
         <phase type="int">0</phase>
+        <mode type="int">0</mode>
+        <thrust>
+            <to1 type="double">97.0</to1>
+            <to2 type="double">91.0</to2>
+            <to3 type="double">85.0</to3>
+            <climb1 type="double">87.6</climb1>
+            <climb2 type="double">78.2</climb2>
+            <con type="double">90.8</con>
+            <crz type="double">73.5</crz>
+        </thrust>
     </trs>
+
+    <fms>
+        <!-- TODO -->
+    </fms>
 
 	<controls>
 		<anti-ice>
@@ -545,17 +559,22 @@
 		<flight>
 			<ground-spoilers-armed type="bool">false</ground-spoilers-armed>
 			<speedbrake-lever type="double">0</speedbrake-lever>
-            <thrust-toga type="double">97.0</thrust-toga>
-            <thrust-flex type="bool">true</thrust-flex>
-            <thrust-climb1 type="double">87.6</thrust-climb1>
-            <thrust-climb2 type="double">78.2</thrust-climb2>
-            <thrust-con type="double">90.8</thrust-con>
-            <thrust-crz type="double">73.5</thrust-crz>
-            <vref type="double">125</vref>
-            <vappr type="double">135</vappr>
+            <v1 type="double">100</v1>
+            <vr type="double">130</vr>
+            <v2 type="double">140</v2>
+            <vref type="double">130</vref>
+            <vappr type="double">140</vappr>
             <vfs type="double">185</vfs>
             <vf type="double">200</vf>
-            <vac type="double">180</vac>
+            <vac type="double">160</vac>
+
+            <trs>
+                <!-- 1 = TO-1, 2 = TO-2, 3 = TO-3 -->
+                <to type="int">1</to>
+                <!-- true = FLEX-TO-n, false = TO-n -->
+                <flex-to type="bool">true</flex-to>
+                <mode>AUTO</mode>
+            </trs>
 		</flight>
 
 		<gear>

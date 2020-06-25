@@ -55,6 +55,9 @@
                 <input>
                     <property>/controls/flight/v1</property>
                     <label>KIAS</label>
+                    <binding>
+                        <command>dialog-apply</command>
+                    </binding>
                 </input>
             </group>
             <group>
@@ -66,6 +69,9 @@
                 <input>
                     <property>/controls/flight/vr</property>
                     <label>KIAS</label>
+                    <binding>
+                        <command>dialog-apply</command>
+                    </binding>
                 </input>
             </group>
             <group>
@@ -77,6 +83,9 @@
                 <input>
                     <property>/controls/flight/v2</property>
                     <label>KIAS</label>
+                    <binding>
+                        <command>dialog-apply</command>
+                    </binding>
                 </input>
             </group>
             <group>
@@ -88,6 +97,9 @@
                 <input>
                     <property>/controls/flight/vfs</property>
                     <label>KIAS</label>
+                    <binding>
+                        <command>dialog-apply</command>
+                    </binding>
                 </input>
             </group>
             <text>
@@ -102,6 +114,9 @@
                 <input>
                     <property>/controls/flight/vref</property>
                     <label>KIAS</label>
+                    <binding>
+                        <command>dialog-apply</command>
+                    </binding>
                 </input>
             </group>
             <group>
@@ -113,6 +128,9 @@
                 <input>
                     <property>/controls/flight/vappr</property>
                     <label>KIAS</label>
+                    <binding>
+                        <command>dialog-apply</command>
+                    </binding>
                 </input>
             </group>
             <group>
@@ -124,6 +142,9 @@
                 <input>
                     <property>/controls/flight/vac</property>
                     <label>KIAS</label>
+                    <binding>
+                        <command>dialog-apply</command>
+                    </binding>
                 </input>
             </group>
 
@@ -138,77 +159,52 @@
             <group>
                 <layout>hbox</layout>
                 <text>
-                    <label>TOGA</label>
-                    <pref-width>60</pref-width>
+                    <label>TO-</label>
                 </text>
-                <input>
-                    <property>/controls/flight/thrust-toga</property>
-                    <label>%N1</label>
-                </input>
+                <select>
+                    <property>/controls/flight/trs/to</property>
+                    <value>1</value>
+                    <value>2</value>
+                    <value>3</value>
+                    <binding>
+                        <command>dialog-apply</command>
+                    </binding>
+                </select>
             </group>
             <group>
                 <layout>hbox</layout>
                 <checkbox>
                     <label>Flex T/O</label>
-                    <property>/controls/flight/thrust-flex</property>
+                    <property>/controls/flight/trs/flex-to</property>
                     <halign>left</halign>
+                    <binding>
+                        <command>dialog-apply</command>
+                    </binding>
                 </checkbox>
             </group>
             <group>
-                <layout>hbox</layout>
                 <text>
-                    <label>CON</label>
-                    <pref-width>60</pref-width>
+                    <label>TRS mode</label>
                 </text>
-                <input>
-                    <property>/controls/flight/thrust-con</property>
-                    <label>%N1</label>
-                </input>
-            </group>
-            <group>
-                <layout>hbox</layout>
-                <text>
-                    <label>CLB1</label>
-                    <pref-width>60</pref-width>
-                </text>
-                <input>
-                    <property>/controls/flight/thrust-climb1</property>
-                    <label>%N1</label>
-                </input>
-            </group>
-            <group>
-                <layout>hbox</layout>
-                <text>
-                    <label>CLB2</label>
-                    <pref-width>60</pref-width>
-                </text>
-                <input>
-                    <property>/controls/flight/thrust-climb2</property>
-                    <label>%N1</label>
-                </input>
-            </group>
-            <group>
-                <layout>hbox</layout>
-                <text>
-                    <label>CRZ</label>
-                    <pref-width>60</pref-width>
-                </text>
-                <input>
-                    <property>/controls/flight/thrust-crz</property>
-                    <label>%N1</label>
-                </input>
+                <layout>vbox</layout>
+                <combo>
+                    <pref-width>200</pref-width>
+                    <pref-height>130</pref-height>
+                    <property>/controls/flight/trs/mode</property>
+                    <value>AUTO</value>
+                    <value>TO</value>
+                    <value>GA</value>
+                    <value>CLB</value>
+                    <value>CRZ</value>
+                    <value>CON</value>
+                    <binding>
+                        <command>dialog-apply</command>
+                    </binding>
+                </combo>
             </group>
         </group>
 
     </group>
-    <hrule/>
-
-    <button>
-        <legend>Apply</legend>
-        <binding>
-            <command>dialog-apply</command>
-        </binding>
-    </button>
 
 </PropertyList>
 
