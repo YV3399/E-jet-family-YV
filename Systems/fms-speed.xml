@@ -1,0 +1,561 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!-- Embraer 190 AOM page 1894 -->
+
+<!-- Phases
+
+# name         from  cond                   target
+0 TO           *     A/P TO                 V2
+1 TO CLB       0     >=V2                   V2 + 10
+2 Departure    0,1   A/P FLCH               Vdep
+3 Climb        2     >=2500 ft              Vclimb<10k/Vclimb/Mclimb
+4 Cruise       3     ~= Cruise FL           Vcrz/Mcrz
+5 Descent      2,3   FLCH, target < current Vdesc<10k/Vdesc/Mdesc
+6 Approach     2,3,5 15nm dest or 4nm IAF   Vappr/Vf[n]
+
+
+-->
+
+<PropertyList>
+
+    <filter>
+        <name>Current target altitude</name>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <property>/it-autoflight/internal/alt</property>
+        </input>
+        <output>/fms/internal/target-alt</output>
+    </filter>
+
+    <filter>
+        <name>altitude + 50</name>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <expression>
+                <sum>
+                    <property>/instrumentation/altimeter/indicated-altitude-ft</property>
+                    <value>50</value>
+                </sum>
+            </expression>
+        </input>
+        <output>/fms/internal/current-alt-plus-50</output>
+    </filter>
+
+    <filter>
+        <name>altitude - 50</name>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <expression>
+                <sum>
+                    <property>/instrumentation/altimeter/indicated-altitude-ft</property>
+                    <value>-50</value>
+                </sum>
+            </expression>
+        </input>
+        <output>/fms/internal/current-alt-minus-50</output>
+    </filter>
+
+
+    <filter>
+        <name>altitude + 5000</name>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <expression>
+                <sum>
+                    <property>/instrumentation/altimeter/indicated-altitude-ft</property>
+                    <value>5000</value>
+                </sum>
+            </expression>
+        </input>
+        <output>/fms/internal/current-alt-plus-5000</output>
+    </filter>
+
+    <!-- Top-of-descent -->
+    <filter>
+        <type>gain</type>
+        <gain>0.003149385628695797</gain>
+        <input>
+            <property>/autopilot/route-manager/cruise/altitude-ft</property>
+        </input>
+        <output>/fms/internal/tod</output>
+    </filter>
+
+    <filter>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <expression>
+                <sum>
+                    <property>/fms/internal/tod</property>
+                    <value>50</value>
+                </sum>
+            </expression>
+        </input>
+        <output>/fms/internal/tod-plus-50</output>
+    </filter>
+
+    <logic>
+        <name>TOD in range</name>
+        <input>
+            <less-than>
+                <property>/autopilot/route-manager/distance-remaining-nm</property>
+                <property>/fms/internal/tod-plus-50</property>
+            </less-than>
+        </input>
+        <output>/fms/internal/tod-in-range</output>
+    </logic>
+
+    <logic>
+        <name>Levelled off</name>
+        <input>
+            <and>
+                <greater-than>
+                    <property>/fms/internal/current-alt-plus-50</property>
+                    <property>/it-autoflight/internal/alt</property>
+                </greater-than>
+                <less-than>
+                    <property>/fms/internal/current-alt-minus-50</property>
+                    <property>/it-autoflight/internal/alt</property>
+                </less-than>
+            </and>
+        </input>
+        <output>/fms/internal/levelled-off</output>
+    </logic>
+
+    <logic>
+        <name>At TOC</name>
+        <input>
+            <and>
+                <greater-than>
+                    <!-- avoid triggering "at TOC" condition before route manager is set up -->
+                    <property>/autopilot/route-manager/cruise/altitude-ft</property>
+                    <value>2000</value>
+                </greater-than>
+                <greater-than>
+                    <property>/fms/internal/current-alt-plus-50</property>
+                    <property>/autopilot/route-manager/cruise/altitude-ft</property>
+                </greater-than>
+            </and>
+        </input>
+        <output>/fms/internal/at-toc</output>
+    </logic>
+
+    <flipflop>
+        <name>TOC reached</name>
+        <type>D</type>
+        <D><value>1</value></D>
+        <clock>
+            <property>/fms/internal/at-toc</property>
+        </clock>
+        <output>/fms/internal/toc-reached</output>
+    </flipflop>
+
+    <filter>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <!-- flaps 5 or FULL -->
+            <condition>
+                <greater-than>
+                    <property>/controls/flight/flaps</property>
+                    <value>0.6</value>
+                </greater-than>
+            </condition>
+            <property>/controls/flight/vaf6</property>
+        </input>
+        <input>
+            <!-- flaps 4 -->
+            <condition>
+                <greater-than>
+                    <property>/controls/flight/flaps</property>
+                    <value>0.475</value>
+                </greater-than>
+            </condition>
+            <property>/controls/flight/vaf5</property>
+        </input>
+        <input>
+            <!-- flaps 3 -->
+            <condition>
+                <greater-than>
+                    <property>/controls/flight/flaps</property>
+                    <value>0.35</value>
+                </greater-than>
+            </condition>
+            <property>/controls/flight/vaf4</property>
+        </input>
+        <input>
+            <!-- flaps 2 -->
+            <condition>
+                <greater-than>
+                    <property>/controls/flight/flaps</property>
+                    <value>0.225</value>
+                </greater-than>
+            </condition>
+            <property>/controls/flight/vaf3</property>
+        </input>
+        <input>
+            <!-- flaps 1 -->
+            <condition>
+                <greater-than>
+                    <property>/controls/flight/flaps</property>
+                    <value>0.1</value>
+                </greater-than>
+            </condition>
+            <property>/controls/flight/vaf2</property>
+        </input>
+        <input>
+            <!-- clean config -->
+            <property>/controls/flight/speed-schedule/initial-approach</property>
+        </input>
+        <output>/fms/internal/approach-speed</output>
+    </filter>
+
+    <!-- Flight phase logic -->
+
+    <logic>
+        <name>TO CLB condition</name>
+        <input>
+            <and>
+                <greater-than>
+                    <property>/instrumentation/airspeed-indicator/indicated-speed-kt</property>
+                    <property>/controls/flight/v2</property>
+                </greater-than>
+            </and>
+        </input>
+        <output>/fms/internal/cond/to-clb</output>
+    </logic>
+
+    <logic>
+        <name>TOGA condition</name>
+        <input>
+            <or>
+                <equals>
+                    <property>/it-autoflight/mode/vert</property>
+                    <value>T/O CLB</value>
+                </equals>
+                <equals>
+                    <property>/it-autoflight/mode/vert</property>
+                    <value>G/A CLB</value>
+                </equals>
+            </or>
+        </input>
+        <output>/fms/internal/cond/toga</output>
+    </logic>
+
+    <logic>
+        <name>Departure condition</name>
+        <!-- triggers when in TO or GA mode, and autopilot vertical mode
+             switches to something other than T/O CLB or GA CLB.
+             -->
+        <input>
+            <not>
+                <or>
+                    <equals>
+                        <property>/it-autoflight/mode/vert</property>
+                        <value>T/O CLB</value>
+                    </equals>
+                    <equals>
+                        <property>/it-autoflight/mode/vert</property>
+                        <value>G/A CLB</value>
+                    </equals>
+                </or>
+            </not>
+        </input>
+        <output>/fms/internal/cond/departure</output>
+    </logic>
+
+    <logic>
+        <name>Climb condition</name>
+        <input>
+            <and>
+                <!-- must be in a climb -->
+                <less-than>
+                    <property>/fms/internal/current-alt-plus-50</property>
+                    <property>/fms/internal/target-alt</property>
+                </less-than>
+                <or>
+                    <!-- ...or step climb of 5000 ft or more -->
+                    <greater-than>
+                        <property>/it-autoflight/internal/alt</property>
+                        <property>/fms/internal/current-alt-plus-5000</property>
+                    </greater-than>
+                    <!-- ...or cruise altitude not reached yet -->
+                    <not>
+                        <property>/fms/internal/toc-reached</property>
+                    </not>
+                </or>
+            </and>
+        </input>
+        <output>/fms/internal/cond/climb</output>
+    </logic>
+
+    <logic>
+        <name>Cruise condition</name>
+        <input>
+            <and>
+                <property>/fms/internal/levelled-off</property>
+                <property>/fms/internal/toc-reached</property>
+                <not><property>/fms/internal/tod-in-range</property></not>
+            </and>
+        </input>
+        <output>/fms/internal/cond/cruise</output>
+    </logic>
+
+    <logic>
+        <name>Descent condition</name>
+        <input>
+            <and>
+                <less-than>
+                    <property>/it-autoflight/internal/alt</property>
+                    <property>/fms/internal/current-alt-minus-50</property>
+                </less-than>
+            </and>
+        </input>
+        <output>/fms/internal/cond/descent</output>
+    </logic>
+
+    <logic>
+        <name>Approach condition</name>
+        <input>
+            <and>
+                <less-than>
+                    <property>/autopilot/route-manager/distance-remaining-nm</property>
+                    <value>15</value>
+                </less-than>
+            </and>
+        </input>
+        <output>/fms/internal/cond/approach</output>
+    </logic>
+
+    <!-- set scheduled speeds -->
+    <filter>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <!-- TOGA -->
+            <condition>
+                <equals>
+                    <property>/fms/phase</property>
+                    <value>0</value>
+                </equals>
+            </condition>
+            <property>/controls/flight/v2</property>
+        </input>
+        <input>
+            <!-- TO CLB -->
+            <condition>
+                <equals>
+                    <property>/fms/phase</property>
+                    <value>1</value>
+                </equals>
+            </condition>
+            <expression>
+                <sum>
+                    <property>/controls/flight/v2</property>
+                    <value>10</value>
+                </sum>
+            </expression>
+        </input>
+        <input>
+            <!-- Departure -->
+            <condition>
+                <equals>
+                    <property>/fms/phase</property>
+                    <value>2</value>
+                </equals>
+            </condition>
+            <property>/controls/flight/speed-schedule/departure</property>
+        </input>
+        <input>
+            <condition>
+                <equals>
+                    <property>/fms/phase</property>
+                    <value>3</value>
+                </equals>
+            </condition>
+            <expression>
+                <sum>
+                    <property>/controls/flight/speed-schedule/climb-below-10k</property>
+                    <product>
+                        <difference>
+                            <property>/controls/flight/speed-schedule/climb-kts</property>
+                            <property>/controls/flight/speed-schedule/climb-below-10k</property>
+                        </difference>
+                        <min>
+                            <value>1</value>
+                            <max>
+                                <value>0</value>
+                                <div>
+                                    <difference>
+                                        <property>/instrumentation/altimeter/indicated-altitude-ft</property>
+                                        <value>10000</value>
+                                    </difference>
+                                    <value>2000</value>
+                                </div>
+                            </max>
+                        </min>
+                    </product>
+                </sum>
+            </expression>
+        </input>
+        <input>
+            <condition>
+                <equals>
+                    <property>/fms/phase</property>
+                    <value>4</value>
+                </equals>
+            </condition>
+            <property>/controls/flight/speed-schedule/cruise-kts</property>
+        </input>
+        <input>
+            <condition>
+                <equals>
+                    <property>/fms/phase</property>
+                    <value>5</value>
+                </equals>
+            </condition>
+            <expression>
+                <sum>
+                    <property>/controls/flight/speed-schedule/descent-below-10k</property>
+                    <product>
+                        <difference>
+                            <property>/controls/flight/speed-schedule/descent-kts</property>
+                            <property>/controls/flight/speed-schedule/descent-below-10k</property>
+                        </difference>
+                        <min>
+                            <value>1</value>
+                            <max>
+                                <value>0</value>
+                                <div>
+                                    <difference>
+                                        <property>/instrumentation/altimeter/indicated-altitude-ft</property>
+                                        <value>10000</value>
+                                    </difference>
+                                    <value>2000</value>
+                                </div>
+                            </max>
+                        </min>
+                    </product>
+                </sum>
+            </expression>
+        </input>
+        <input>
+            <condition>
+                <equals>
+                    <property>/fms/phase</property>
+                    <value>6</value>
+                </equals>
+            </condition>
+            <expression>
+                <max>
+                    <property>/fms/internal/approach-speed</property>
+                    <property>/controls/flight/vappr</property>
+                </max>
+            </expression>
+        </input>
+        <output>/fms/scheduled-speed</output>
+    </filter>
+    <filter>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <condition>
+                <equals>
+                    <property>/fms/phase</property>
+                    <value>3</value>
+                </equals>
+            </condition>
+            <property>/controls/flight/speed-schedule/climb-mach</property>
+        </input>
+        <input>
+            <condition>
+                <equals>
+                    <property>/fms/phase</property>
+                    <value>4</value>
+                </equals>
+            </condition>
+            <property>/controls/flight/speed-schedule/cruise-mach</property>
+        </input>
+        <input>
+            <condition>
+                <equals>
+                    <property>/fms/phase</property>
+                    <value>5</value>
+                </equals>
+            </condition>
+            <property>/controls/flight/speed-schedule/descent-mach</property>
+        </input>
+        <input>
+            <value>0.6</value>
+        </input>
+        <output>/fms/scheduled-mach</output>
+    </filter>
+
+    <filter>
+        <name>Forward TOGA speed to ITAF</name>
+        <type>gain</type>
+        <input>
+            <condition>
+                <equals>
+                    <property>/fms/phase</property>
+                    <value>0</value>
+                </equals>
+            </condition>
+            <property>/controls/flight/v2</property>
+        </input>
+        <input>
+            <expression>
+                <sum>
+                    <property>/controls/flight/v2</property>
+                    <value>10</value>
+                </sum>
+            </expression>
+        </input>
+        <output>/it-autoflight/settings/togaspd</output>
+    </filter>
+
+    <filter>
+        <name>Forward managed speed to ITAF</name>
+        <type>gain</type>
+        <input>
+            <property>/fms/scheduled-speed</property>
+        </input>
+        <enable>
+            <condition>
+                <equals>
+                    <property>/controls/flight/speed-mode</property>
+                    <value>1</value>
+                </equals>
+            </condition>
+        </enable>
+        <output>/it-autoflight/input/spd-kts</output>
+    </filter>
+    <filter>
+        <name>Forward managed mach to ITAF</name>
+        <type>gain</type>
+        <input>
+            <property>/fms/scheduled-mach</property>
+        </input>
+        <enable>
+            <condition>
+                <and>
+                    <equals>
+                        <property>/controls/flight/speed-mode</property>
+                        <value>1</value>
+                    </equals>
+                    <greater-than>
+                        <property>/instrumentation/altimeter/indicated-altitude-ft</property>
+                        <value>28950</value>
+                    </greater-than>
+                </and>
+            </condition>
+        </enable>
+        <output>/it-autoflight/input/spd-mach</output>
+    </filter>
+
+
+</PropertyList>

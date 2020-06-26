@@ -95,6 +95,10 @@
 				<path>Aircraft/E-jet-family/Systems/ERJ-trs.xml</path>
 			</autopilot>
 			<autopilot>
+				<name>FMS managed speed</name>
+				<path>Aircraft/E-jet-family/Systems/fms-speed.xml</path>
+			</autopilot>
+			<autopilot>
 				<name>Gear AGL Altitude</name>
 				<path>Aircraft/E-jet-family/Systems/gear-agl-ft.xml</path>
 			</autopilot>
@@ -481,7 +485,11 @@
     </trs>
 
     <fms>
-        <!-- TODO -->
+        <!-- flight phase -->
+        <phase type="int">0</phase>
+        <internal>
+            <toc-reached type="bool">false</toc-reached>
+        </internal>
     </fms>
 
 	<controls>
@@ -559,6 +567,7 @@
 		<flight>
 			<ground-spoilers-armed type="bool">false</ground-spoilers-armed>
 			<speedbrake-lever type="double">0</speedbrake-lever>
+            
             <v1 type="double">100</v1>
             <vr type="double">130</vr>
             <v2 type="double">140</v2>
@@ -566,6 +575,12 @@
             <vappr type="double">140</vappr>
             <vfs type="double">185</vfs>
             <vf type="double">200</vf>
+            <vaf1 type="double">180</vaf1>
+            <vaf2 type="double">160</vaf2>
+            <vaf3 type="double">150</vaf3>
+            <vaf4 type="double">140</vaf4>
+            <vaf5 type="double">140</vaf5>
+            <vaf6 type="double">130</vaf6>
             <vac type="double">160</vac>
 
             <trs>
@@ -575,6 +590,21 @@
                 <flex-to type="bool">true</flex-to>
                 <mode>AUTO</mode>
             </trs>
+
+            <!-- FMS speed mode: 0 = manual, 1 = managed -->
+            <speed-mode type="int">0</speed-mode>
+            <speed-schedule>
+                <departure type="double">200</departure>
+                <climb-below-10k type="double">250</climb-below-10k>
+                <climb-kts type="double">280</climb-kts>
+                <climb-mach type="double">0.73</climb-mach>
+                <cruise-kts type="double">300</cruise-kts>
+                <cruise-mach type="double">0.76</cruise-mach>
+                <descent-mach type="double">0.76</descent-mach>
+                <descent-kts type="double">290</descent-kts>
+                <descent-below-10k type="double">250</descent-below-10k>
+                <initial-approach type="double">210</initial-approach>
+            </speed-schedule>
 		</flight>
 
 		<gear>
@@ -969,5 +999,8 @@
 		<input>
 			<file>Aircraft/E-jet-family/Nasal/autopilot.nas</file>
 		</input>
+        <fmsspeed>
+            <file>Aircraft/E-jet-family/Nasal/fms-speed.nas</file>
+        </fmsspeed>
 	</nasal>
 </PropertyList>

@@ -735,6 +735,25 @@
         </shift-action>
     </animation>
 
+    <animation>
+        <type>knob</type>
+        <object-name>SPD.ring</object-name>
+        <axis>
+            <x>  1 </x>
+            <y>  0 </y>
+            <z>  0 </z>
+        </axis>
+        <action>
+            <binding>
+                <command>property-cycle</command>
+                <property>controls/flight/speed-mode</property>
+                <value>1</value>
+                <value>0</value>
+                <wrap>0</wrap>
+            </binding>
+        </action>
+    </animation>
+
 <!-- ALT Knob Pick Animations -->
 
     <animation>

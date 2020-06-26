@@ -162,6 +162,7 @@ var canvas_ED_only = {
         m.props["/controls/flight/vap"] = props.globals.getNode("/controls/flight/vap");
         m.props["/controls/flight/vref"] = props.globals.getNode("/controls/flight/vref");
         m.props["/controls/flight/v1"] = props.globals.getNode("/controls/flight/v1");
+        m.props["/controls/flight/speed-mode"] = props.globals.getNode("/controls/flight/speed-mode");
 
         m.props["/controls/flight/flaps"] = props.globals.getNode("/controls/flight/flaps");
 		return m;
@@ -531,6 +532,12 @@ var canvas_ED_only = {
 			selectedKts = (me.props["/it-autoflight/input/spd-kts"].getValue() or 0);
 			me["selectedspeed.digital"].setText(sprintf("%03d", selectedKts));
 		}
+        if (me.props["/controls/flight/speed-mode"].getValue() == 1) {
+            me["selectedspeed.digital"].setColor(255, 0, 255);
+        }
+        else {
+            me["selectedspeed.digital"].setColor(0, 128, 255);
+        }
 		me["mach.digital"].setText(sprintf(".%03d", currentMach * 1000));
 
 		me["selectedvspeed.digital"].setText(sprintf("%-05d", (me.props["/it-autoflight/input/vs"].getValue() or 0)));

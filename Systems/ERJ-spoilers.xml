@@ -6,7 +6,7 @@
 
 	<flipflop>
 		<name>Ground spoilers arm/disarm</name>
-		<debug type="bool">true</debug>
+		<debug type="bool">false</debug>
 		<type>RS</type>
 		<S>
 			<and>
