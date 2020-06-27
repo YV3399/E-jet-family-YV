@@ -1,3 +1,5 @@
+# FMS speed calculations for the Embraer E-Jet family
+
 var phase_to = 0;
 var phase_toclb = 1;
 var phase_departure = 2;
@@ -6,8 +8,55 @@ var phase_cruise = 4;
 var phase_descent = 5;
 var phase_approach = 6;
 
+var update_speed_restrictions = func (fp, phase) {
+    var i = fp.current;
+    var wp = fp.getWP(i);
+    var climbLimit = 400;
+    var descentLimit = 400;
+    var distanceRemaining = getprop("/autopilot/route-manager/distance-remaining-nm");
+    var totalDistance = getprop("/autopilot/route-manager/total-distance");
+    var routeProgress = totalDistance - distanceRemaining;
+
+    # Search ahead for speed limits for the descent and cruise
+    var maxLookahead = 4.0; # look 4 miles ahead
+    while (wp != nil and wp.distance_along_route < routeProgress + maxLookahead) {
+        if (wp.speed_cstr_type == "at" or wp.speed_cstr_type == "below") {
+            descentLimit = wp.speed_cstr;
+        }
+        i += 1;
+        wp = fp.getWP(i);
+    }
+    setprop("/fms/internal/speed-limit-descent", descentLimit);
+
+    # Search ahead for speed limits for the climb
+    i = fp.current;
+    wp = fp.getWP(i);
+    while (wp != nil and wp.wp_parent != nil and wp.wp_parent.tp_type == "sid") {
+        if (wp.speed_cstr_type == "at" or wp.speed_cstr_type == "below") {
+            climbLimit = wp.speed_cstr;
+        }
+        i += 1;
+        wp = fp.getWP(i);
+    }
+    setprop("/fms/internal/speed-limit-climb", climbLimit);
+};
+
+var clear_speed_restrictions = func () {
+    # Set an arbitrary high limit
+    setprop("/fms/speed-limit-climb", 400);
+    setprop("/fms/speed-limit-descent", 400);
+};
+
 var update_fms_speed = func () {
     var phase = getprop("/fms/phase");
+
+    var fp = flightplan();
+    if (fp != nil) {
+        update_speed_restrictions(fp, phase);
+    }
+    else {
+        clear_speed_restrictions();
+    }
 
     if (phase == phase_to) {
         if (getprop("/fms/internal/cond/departure")) {

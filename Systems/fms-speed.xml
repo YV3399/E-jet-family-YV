@@ -354,10 +354,13 @@
                 </equals>
             </condition>
             <expression>
-                <sum>
-                    <property>/controls/flight/v2</property>
-                    <value>10</value>
-                </sum>
+                <min>
+                    <sum>
+                        <property>/controls/flight/v2</property>
+                        <value>10</value>
+                    </sum>
+                    <property>/fms/internal/speed-limit-climb</property>
+                </min>
             </expression>
         </input>
         <input>
@@ -368,9 +371,15 @@
                     <value>2</value>
                 </equals>
             </condition>
-            <property>/controls/flight/speed-schedule/departure</property>
+            <expression>
+                <min>
+                    <property>/controls/flight/speed-schedule/departure</property>
+                    <property>/fms/internal/speed-limit-climb</property>
+                </min>
+            </expression>
         </input>
         <input>
+            <!-- Climb -->
             <condition>
                 <equals>
                     <property>/fms/phase</property>
@@ -378,40 +387,51 @@
                 </equals>
             </condition>
             <expression>
-                <sum>
-                    <property>/controls/flight/speed-schedule/climb-below-10k</property>
-                    <product>
-                        <difference>
-                            <property>/controls/flight/speed-schedule/climb-kts</property>
-                            <property>/controls/flight/speed-schedule/climb-below-10k</property>
-                        </difference>
-                        <min>
-                            <value>1</value>
-                            <max>
-                                <value>0</value>
-                                <div>
-                                    <difference>
-                                        <property>/instrumentation/altimeter/indicated-altitude-ft</property>
-                                        <value>10000</value>
-                                    </difference>
-                                    <value>2000</value>
-                                </div>
-                            </max>
-                        </min>
-                    </product>
-                </sum>
+                <min>
+                    <sum>
+                        <property>/controls/flight/speed-schedule/climb-below-10k</property>
+                        <product>
+                            <difference>
+                                <property>/controls/flight/speed-schedule/climb-kts</property>
+                                <property>/controls/flight/speed-schedule/climb-below-10k</property>
+                            </difference>
+                            <min>
+                                <value>1</value>
+                                <max>
+                                    <value>0</value>
+                                    <div>
+                                        <difference>
+                                            <property>/instrumentation/altimeter/indicated-altitude-ft</property>
+                                            <value>10000</value>
+                                        </difference>
+                                        <value>2000</value>
+                                    </div>
+                                </max>
+                            </min>
+                        </product>
+                    </sum>
+                    <property>/fms/internal/speed-limit-climb</property>
+                </min>
             </expression>
         </input>
         <input>
+            <!-- cruise -->
             <condition>
                 <equals>
                     <property>/fms/phase</property>
                     <value>4</value>
                 </equals>
             </condition>
-            <property>/controls/flight/speed-schedule/cruise-kts</property>
+            <expression>
+                <min>
+                    <property>/controls/flight/speed-schedule/cruise-kts</property>
+                    <property>/fms/internal/speed-limit-climb</property>
+                    <property>/fms/internal/speed-limit-descent</property>
+                </min>
+            </expression>
         </input>
         <input>
+            <!-- descent -->
             <condition>
                 <equals>
                     <property>/fms/phase</property>
@@ -419,28 +439,31 @@
                 </equals>
             </condition>
             <expression>
-                <sum>
-                    <property>/controls/flight/speed-schedule/descent-below-10k</property>
-                    <product>
-                        <difference>
-                            <property>/controls/flight/speed-schedule/descent-kts</property>
-                            <property>/controls/flight/speed-schedule/descent-below-10k</property>
-                        </difference>
-                        <min>
-                            <value>1</value>
-                            <max>
-                                <value>0</value>
-                                <div>
-                                    <difference>
-                                        <property>/instrumentation/altimeter/indicated-altitude-ft</property>
-                                        <value>10000</value>
-                                    </difference>
-                                    <value>2000</value>
-                                </div>
-                            </max>
-                        </min>
-                    </product>
-                </sum>
+                <min>
+                    <sum>
+                        <property>/controls/flight/speed-schedule/descent-below-10k</property>
+                        <product>
+                            <difference>
+                                <property>/controls/flight/speed-schedule/descent-kts</property>
+                                <property>/controls/flight/speed-schedule/descent-below-10k</property>
+                            </difference>
+                            <min>
+                                <value>1</value>
+                                <max>
+                                    <value>0</value>
+                                    <div>
+                                        <difference>
+                                            <property>/instrumentation/altimeter/indicated-altitude-ft</property>
+                                            <value>10000</value>
+                                        </difference>
+                                        <value>2000</value>
+                                    </div>
+                                </max>
+                            </min>
+                        </product>
+                    </sum>
+                    <property>/fms/internal/speed-limit-descent</property>
+                </min>
             </expression>
         </input>
         <input>
@@ -451,10 +474,13 @@
                 </equals>
             </condition>
             <expression>
-                <max>
-                    <property>/fms/internal/approach-speed</property>
-                    <property>/controls/flight/vappr</property>
-                </max>
+                <min>
+                    <max>
+                        <property>/fms/internal/approach-speed</property>
+                        <property>/controls/flight/vappr</property>
+                    </max>
+                    <property>/fms/internal/speed-limit-descent</property>
+                </min>
             </expression>
         </input>
         <output>/fms/scheduled-speed</output>
