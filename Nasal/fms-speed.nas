@@ -20,14 +20,17 @@ var update_speed_restrictions = func (fp, phase) {
     # Search ahead for speed limits for the descent and cruise
     var maxLookahead = 4.0; # look 4 miles ahead
     # First, find the end of the departure
-    i = 0;
+    i = 1;
     wp = fp.getWP(i);
     while (wp != nil and wp.wp_parent != nil and wp.wp_parent.tp_type == "sid") {
         i += 1;
         wp = fp.getWP(i);
     }
+    i += 1;
+    wp = fp.getWP(i);
     # now move forward to the current waypoint
     while (wp != nil and wp.distance_along_route <= routeProgress + maxLookahead) {
+        print(wp.distance_along_route, " <= ", routeProgress + maxLookahead);
         if (wp.speed_cstr_type == "at" or wp.speed_cstr_type == "below") {
             if (wp.speed_cstr < descentLimit) {
                 descentLimit = wp.speed_cstr;
@@ -54,15 +57,15 @@ var update_speed_restrictions = func (fp, phase) {
 
 var clear_speed_restrictions = func () {
     # Set an arbitrary high limit
-    setprop("/fms/speed-limit-climb", 400);
-    setprop("/fms/speed-limit-descent", 400);
+    setprop("/fms/internal/speed-limit-climb", 400);
+    setprop("/fms/internal/speed-limit-descent", 400);
 };
 
 var update_fms_speed = func () {
     var phase = getprop("/fms/phase");
 
     var fp = flightplan();
-    if (fp != nil) {
+    if (fp != nil and getprop("/autopilot/route-manager/active")) {
         update_speed_restrictions(fp, phase);
     }
     else {
