@@ -44,6 +44,7 @@ var update_speed_restrictions = func (fp, phase) {
     while (wp != nil and wp.wp_parent != nil and wp.wp_parent.tp_type == "sid") {
         if (wp.speed_cstr_type == "at" or wp.speed_cstr_type == "below") {
             climbLimit = wp.speed_cstr;
+            break;
         }
         i += 1;
         wp = fp.getWP(i);
