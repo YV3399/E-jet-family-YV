@@ -19,9 +19,19 @@ var update_speed_restrictions = func (fp, phase) {
 
     # Search ahead for speed limits for the descent and cruise
     var maxLookahead = 4.0; # look 4 miles ahead
-    while (wp != nil and wp.distance_along_route < routeProgress + maxLookahead) {
+    # First, find the end of the departure
+    i = 0;
+    wp = fp.getWP(i);
+    while (wp != nil and wp.wp_parent != nil and wp.wp_parent.tp_type == "sid") {
+        i += 1;
+        wp = fp.getWP(i);
+    }
+    # now move forward to the current waypoint
+    while (wp != nil and wp.distance_along_route <= routeProgress + maxLookahead) {
         if (wp.speed_cstr_type == "at" or wp.speed_cstr_type == "below") {
-            descentLimit = wp.speed_cstr;
+            if (wp.speed_cstr < descentLimit) {
+                descentLimit = wp.speed_cstr;
+            }
         }
         i += 1;
         wp = fp.getWP(i);
