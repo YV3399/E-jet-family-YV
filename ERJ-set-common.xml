@@ -568,11 +568,23 @@
 			<ground-spoilers-armed type="bool">false</ground-spoilers-armed>
 			<speedbrake-lever type="double">0</speedbrake-lever>
             
-            <v1 type="double">100</v1>
-            <vr type="double">130</vr>
-            <v2 type="double">140</v2>
-            <vref type="double">130</vref>
-            <vappr type="double">140</vappr>
+            <!-- preconfigured for the following parameters:
+                TYPE: E190
+                FOB: 16607.4 lbs
+                DISTANCE: 1377 nm
+                FUEL BURN: 11856 lbs
+                TAKEOFF: flaps 2
+                RAMP WEIGHT: 107077 lbs
+                TAKEOFF WEIGHT: 106877 lbs / 48479 kg
+                APPROACH: flaps 4
+                LANDING: flaps full
+                LANDING WEIGHT: 95021 lbs / 43101 kg
+            -->
+            <v1 type="double">142</v1>
+            <vr type="double">144</vr>
+            <v2 type="double">147</v2>
+            <vref type="double">123</vref>
+            <vappr type="double">133</vappr>
             <vfs type="double">185</vfs>
             <vf type="double">200</vf>
             <vaf1 type="double">180</vaf1>
@@ -581,7 +593,7 @@
             <vaf4 type="double">140</vaf4>
             <vaf5 type="double">140</vaf5>
             <vaf6 type="double">130</vaf6>
-            <vac type="double">160</vac>
+            <vac type="double">142</vac>
 
             <trs>
                 <!-- 1 = TO-1, 2 = TO-2, 3 = TO-3 -->
