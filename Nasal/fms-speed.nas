@@ -30,7 +30,6 @@ var update_speed_restrictions = func (fp, phase) {
     wp = fp.getWP(i);
     # now move forward to the current waypoint
     while (wp != nil and wp.distance_along_route <= routeProgress + maxLookahead) {
-        print(wp.distance_along_route, " <= ", routeProgress + maxLookahead);
         if (wp.speed_cstr_type == "at" or wp.speed_cstr_type == "below") {
             if (wp.speed_cstr < descentLimit) {
                 descentLimit = wp.speed_cstr;
