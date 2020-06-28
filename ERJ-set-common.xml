@@ -487,6 +487,9 @@
     <fms>
         <!-- flight phase -->
         <phase type="int">0</phase>
+        <alt-target type="double">35000</alt-target>
+        <climb-gradient type="double">0</climb-gradient>
+        <descent-gradient type="double">0</descent-gradient>
         <internal>
             <toc-reached type="bool">false</toc-reached>
         </internal>
@@ -617,6 +620,7 @@
                 <descent-below-10k type="double">250</descent-below-10k>
                 <initial-approach type="double">210</initial-approach>
             </speed-schedule>
+            <cleared-altitude type="double">5000</cleared-altitude>
 		</flight>
 
 		<gear>
@@ -1011,8 +1015,9 @@
 		<input>
 			<file>Aircraft/E-jet-family/Nasal/autopilot.nas</file>
 		</input>
-        <fmsspeed>
+        <fms>
             <file>Aircraft/E-jet-family/Nasal/fms-speed.nas</file>
-        </fmsspeed>
+            <file>Aircraft/E-jet-family/Nasal/vnav.nas</file>
+        </fms>
 	</nasal>
 </PropertyList>

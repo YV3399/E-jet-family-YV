@@ -110,6 +110,17 @@
     </logic>
 
     <logic>
+        <name>TOD in range</name>
+        <input>
+            <less-than>
+                <property>/autopilot/route-manager/distance-remaining-nm</property>
+                <property>/fms/internal/tod-plus</property>
+            </less-than>
+        </input>
+        <output>/fms/internal/tod-reached</output>
+    </logic>
+
+    <logic>
         <name>Levelled off</name>
         <input>
             <and>
