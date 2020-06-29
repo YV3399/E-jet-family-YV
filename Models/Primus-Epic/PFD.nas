@@ -565,7 +565,7 @@ var canvas_ED_only = {
 		}
 
         # Speed ref bugs
-        var flaps = me.props["/control/flight/flaps"];
+        var flaps = me.props["/controls/flight/flaps"].getValue();
         foreach (var spdref; ["vfs", "vf", "v2", "vac", "vr", "vappr", "vref", "v1"]) {
             var prop = me.props["/controls/flight/" ~ spdref];
             var elem = me["speedref." ~ spdref];
@@ -576,12 +576,47 @@ var canvas_ED_only = {
             else {
                 ktsRel = airspeed - (prop.getValue() or 0);
                 elem.setTranslation(0, ktsRel * 6.42);
-                if (ktsRel > 40 or ktsRel < -40) {
+                if (ktsRel > 50 or ktsRel < -50) {
                     elem.hide();
                 }
                 else {
                     # TODO: detect flight phase
-                    elem.show();
+                    var phase = getprop("/fms/phase");
+                    if (spdref == "vfs" or
+                        spdref == "v1" or
+                        spdref == "v2" or
+                        spdref == "vr") {
+                        if (phase == 0 or phase == 1) {
+                            # takeoff / departure
+                            elem.show();
+                        }
+                        else {
+                            elem.hide();
+                        }
+                    }
+                    else if (spdref == "vappr" or
+                             spdref == "vref" or
+                             spdref == "vac") {
+                        if (phase == 6) {
+                            # approach
+                            elem.show();
+                        }
+                        else {
+                            elem.hide();
+                        }
+                    }
+                    else if (spdref == "vf") {
+                        # show flap speed while flaps extended
+                        if (flaps > 0.01) {
+                            elem.show();
+                        }
+                        else {
+                            elem.hide();
+                        }
+                    }
+                    else {
+                        elem.show();
+                    }
                 }
             }
         }
