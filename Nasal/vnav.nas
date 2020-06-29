@@ -11,7 +11,7 @@ var phase_approach = 6;
 var nm_to_feet = 6076.0;
 var feet_to_nm = 1.0 / nm_to_feet;
 var climb_feet_per_nm = 318.0; # 3° climb
-var descent_feet_per_nm = 318.0;
+var descent_feet_per_nm = -318.0;
 
 var findFirstEnroute = func (fp) {
     var i = 0;
@@ -170,7 +170,7 @@ var make_profile = func () {
     ############################# descent ############################# 
 
     var destElev = fp.destination.elevation * M2FT;
-    var topOfDescent = totalDistance - (cruiseAltitude - destElev) / descent_feet_per_nm;
+    var topOfDescent = totalDistance - (destElev - cruiseAltitude) / descent_feet_per_nm;
 
     i = findFirstArrival(fp);
     wp = fp.getWP(i);
@@ -183,7 +183,7 @@ var make_profile = func () {
             }
             var upperBound = wpUpperBound(wp);
             if (upperBound < cruiseAltitude) {
-                topOfDescent = wp.distance_along_route - (cruiseAltitude - upperBound) / descent_feet_per_nm;
+                topOfDescent = math.min(wp.distance_along_route - (upperBound - cruiseAltitude) / descent_feet_per_nm, topOfDescent);
                 break;
             }
         }
@@ -212,7 +212,7 @@ var make_profile = func () {
             # keep cruising
             continue;
         }
-        var a = (wp.distance_along_route - dist) * gradient;
+        var a = alt + (wp.distance_along_route - dist) * gradient;
         var upperBound = wpUpperBound(wp);
         var lowerBound = wpLowerBound(wp);
         if (wp.wp_type == "runway") {
@@ -228,18 +228,19 @@ var make_profile = func () {
                     });
             break;
         }
-        else if (upperBound < lowerBound) {
-            print("Impossible profile at ", wp.wp_name, ": ", upperBound, " < ", lowerBound);
-            return nil;
-        }
-        else if (upperBound < a) {
-            # Current trajectory is too high for an "at or below" restriction,
-            # adjust it.
+
+        printf("%-5s %.0f <= %.0f <= %.0f?",
+            wp.wp_name, lowerBound, a, upperBound);
+
+        if (lowerBound > -1000 or upperBound < 60000) {
+            # Current trajectory is out of bound, let's adjust it.
+            a = math.min(upperBound, math.max(lowerBound, a));
+            printf("Out of bounds. New a = %.0f", a);
             var deltaDist = wp.distance_along_route - dist;
-            var deltaAlt = upperBound - alt;
+            var deltaAlt = a - alt;
             gradient = deltaAlt / deltaDist;
             fpa = math.atan2(deltaAlt * feet_to_nm, deltaDist) * R2D;
-            alt = upperBound;
+            alt = a;
             dist = wp.distance_along_route;
             append(profile,
                     {
@@ -249,26 +250,8 @@ var make_profile = func () {
                         "fpa": fpa,
                         "alt": alt,
                     });
-            gradient = (totalDistance - wp.distance_along_route) / (destElev - alt);
-        }
-        else if (lowerBound > a) {
-            # Current trajectory is too low for an "at or above" restriction,
-            # adjust it.
-            var deltaDist = wp.distance_along_route - dist;
-            var deltaAlt = lowerBound - alt;
-            gradient = deltaAlt / deltaDist;
-            fpa = math.atan2(deltaAlt * feet_to_nm, deltaDist) * R2D;
-            alt = lowerBound;
-            dist = wp.distance_along_route;
-            append(profile,
-                    {
-                        "name": wp.wp_name,
-                        "dist": wp.distance_along_route,
-                        "mode": "fpa",
-                        "fpa": fpa,
-                        "alt": alt,
-                    });
-            gradient = (totalDistance - wp.distance_along_route) / (destElev - alt);
+            gradient = (destElev - alt) / (totalDistance - wp.distance_along_route);
+            printf("New gradient = %3.1f", gradient);
         }
     }
 
