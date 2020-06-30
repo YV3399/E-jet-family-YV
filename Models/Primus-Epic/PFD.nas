@@ -159,7 +159,7 @@ var canvas_ED_only = {
         m.props["/it-autoflight/input/spd-mach"] = props.globals.getNode("/it-autoflight/input/spd-mach");
         m.props["/it-autoflight/input/vs"] = props.globals.getNode("/it-autoflight/input/vs");
         m.props["/it-autoflight/input/fpa"] = props.globals.getNode("/it-autoflight/input/fpa");
-        m.props["/it-autoflight/internal/lookahead-10-sec-airspeed-kt"] = props.globals.getNode("/it-autoflight/internal/lookahead-10-sec-airspeed-kt");
+        m.props["/instrumentation/pfd/airspeed-lookahead-10s"] = props.globals.getNode("/instrumentation/pfd/airspeed-lookahead-10s");
         m.props["/it-autoflight/mode/arm"] = props.globals.getNode("/it-autoflight/mode/arm");
         m.props["/it-autoflight/mode/lat"] = props.globals.getNode("/it-autoflight/mode/lat");
         m.props["/it-autoflight/mode/thr"] = props.globals.getNode("/it-autoflight/mode/thr");
@@ -571,7 +571,7 @@ var canvas_ED_only = {
 
         # Airspeed
         var airspeed = me.props["/instrumentation/airspeed-indicator/indicated-speed-kt"].getValue() or 0;
-        var airspeedLookahead = me.props["/it-autoflight/internal/lookahead-10-sec-airspeed-kt"].getValue() or 0;
+        var airspeedLookahead = me.props["/instrumentation/pfd/airspeed-lookahead-10s"].getValue() or 0;
         var currentMach = me.props["/instrumentation/airspeed-indicator/indicated-mach"].getValue() or 0;
         var selectedKts = 0;
 

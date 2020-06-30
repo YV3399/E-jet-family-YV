@@ -6,13 +6,29 @@
 <PropertyList>
 	
 	<filter>
-		<name>KTS INPUT FILTER</name>
+		<name>A/THR Knots Input Filter</name>
 		<debug>false</debug>
 		<type>noise-spike</type>
 		<feedback-if-disabled>true</feedback-if-disabled>
 		<initialize-to>output</initialize-to>
 		<input>/it-autoflight/input/spd-kts</input>
-		<output>/it-autoflight/internal/kts</output>
+		<output>/it-autoflight/internal/athr-kts</output>
+		<min>
+			<expression>
+				<difference>
+					<property>/instrumentation/airspeed-indicator/indicated-speed-kt</property>
+					<value>25</value>
+				</difference>
+			</expression>
+		</min>
+		<max>
+			<expression>
+				<sum>
+					<property>/instrumentation/airspeed-indicator/indicated-speed-kt</property>
+					<value>25</value>
+				</sum>
+			</expression>
+		</max>
 		<max-rate-of-change>
 			<condition>
 				<and>
@@ -44,13 +60,29 @@
 	</filter>
 	
 	<filter>
-		<name>MACH INPUT FILTER</name>
+		<name>A/THR Mach Input Filter</name>
 		<debug>false</debug>
 		<type>noise-spike</type>
 		<feedback-if-disabled>true</feedback-if-disabled>
 		<initialize-to>output</initialize-to>
 		<input>/it-autoflight/input/spd-mach</input>
-		<output>/it-autoflight/internal/mach</output>
+		<output>/it-autoflight/internal/athr-mach</output>
+		<min>
+			<expression>
+				<difference>
+					<property>/instrumentation/airspeed-indicator/indicated-mach</property>
+					<value>0.045</value>
+				</difference>
+			</expression>
+		</min>
+		<max>
+			<expression>
+				<sum>
+					<property>/instrumentation/airspeed-indicator/indicated-mach</property>
+					<value>0.045</value>
+				</sum>
+			</expression>
+		</max>
 		<max-rate-of-change>
 			<condition>
 				<and>
@@ -76,13 +108,13 @@
 					</equals>
 				</and>
 			</condition>
-			<value>0.1</value>
+			<value>0.08</value>
 		</max-rate-of-change>
 		<max-rate-of-change>2</max-rate-of-change>
 	</filter>
 	
 	<pid-controller>
-		<name>IT-CONTROLLER: IAS THRUST</name>
+		<name>IT-CONTROLLER: Knots</name>
 		<debug>false</debug>
 		<enable>
 			<condition>
@@ -103,7 +135,7 @@
 			</condition>
 		</enable>
 		<input>/instrumentation/airspeed-indicator/indicated-speed-kt</input>
-		<reference>/it-autoflight/internal/kts</reference>
+		<reference>/it-autoflight/internal/athr-kts</reference>
 		<output>/controls/engines/throttle-cmd-pid</output>
 		<config>
 			<Kp>0.06</Kp>
@@ -115,7 +147,7 @@
 	</pid-controller>
 	
 	<pid-controller>
-		<name>IT-CONTROLLER: MACH THRUST</name>
+		<name>IT-CONTROLLER: Mach</name>
 		<debug>false</debug>
 		<enable>
 			<condition>
@@ -137,11 +169,11 @@
 		</enable>
 		<input>
 			<property>/instrumentation/airspeed-indicator/indicated-mach</property>
-			<scale>1000.0</scale>
+			<scale>1000</scale>
 		</input>
 		<reference>
-			<property>/it-autoflight/internal/mach</property>
-			<scale>1000.0</scale>
+			<property>/it-autoflight/internal/athr-mach</property>
+			<scale>1000</scale>
 		</reference>
 		<output>/controls/engines/throttle-cmd-pid</output>
 		<config>
@@ -154,7 +186,7 @@
 	</pid-controller>
 	
 	<filter>
-		<name>IDLE</name>
+		<name>IT-CONTROLLER: Idle Limit</name>
 		<debug>false</debug>
 		<type>gain</type>
 		<gain>1.0</gain>
@@ -186,7 +218,7 @@
 	</filter>
 	
 	<filter>
-		<name>CLB</name>
+		<name>IT-CONTROLLER: Thrust Limit</name>
 		<debug>false</debug>
 		<type>gain</type>
 		<gain>1.0</gain>
@@ -209,7 +241,7 @@
 	</filter>
 	
 	<filter>
-		<name>IT-CONTROLLER: THRUST CMD</name>
+		<name>System Command: Throttle</name>
 		<debug>false</debug>
 		<type>noise-spike</type>
 		<feedback-if-disabled>true</feedback-if-disabled>
@@ -233,6 +265,27 @@
 			<property>/controls/engines/engine[6]/throttle</property>
 			<property>/controls/engines/engine[7]/throttle</property>
 		</output>
+		<max-rate-of-change>
+			<condition>
+				<and>
+					<equals>
+						<property>/it-autoflight/mode/thr</property>
+						<value>RETARD</value>
+					</equals>
+					<or>
+						<equals>
+							<property>/gear/gear[1]/wow</property>
+							<value>1</value>
+						</equals>
+						<equals>
+							<property>/gear/gear[2]/wow</property>
+							<value>1</value>
+						</equals>
+					</or>
+				</and>
+			</condition>
+			<value>0.3</value>
+		</max-rate-of-change>
 		<max-rate-of-change>
 			<condition>
 				<or>

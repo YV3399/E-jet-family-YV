@@ -13,6 +13,15 @@
     <filter-gain>0.05</filter-gain>
   </predict-simple>
 
+  <predict-simple>
+    <name>airspeed predictor</name>
+    <update-interval-secs type="double">0.1</update-interval-secs>
+    <input>instrumentation/airspeed-indicator/indicated-speed-kt</input>
+    <output>instrumentation/pfd/airspeed-lookahead-10s</output>
+    <seconds>10.0</seconds>
+    <filter-gain>0.0</filter-gain>
+  </predict-simple>
+
   <filter>
     <name>ALT preprocessor (alt trend up)</name>
     <type>gain</type>
