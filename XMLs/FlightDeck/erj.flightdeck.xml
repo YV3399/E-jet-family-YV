@@ -805,9 +805,19 @@
                 <min>-30</min>
                 <max>30</max>
                 <wrap>false</wrap>
-                <factor>1</factor>
+                <factor>0.1</factor>
             </binding>
         </action>
+        <shift-action>
+            <binding>
+                <command>property-adjust</command>
+                <property>it-autoflight/input/fpa</property>
+                <min>-30</min>
+                <max>30</max>
+                <wrap>false</wrap>
+                <factor>1</factor>
+            </binding>
+        </shift-action>
     </animation>
 
 <!-- Buttons and Lights Animations -->

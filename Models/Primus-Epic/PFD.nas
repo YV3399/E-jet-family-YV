@@ -158,6 +158,7 @@ var canvas_ED_only = {
 		m.props["/it-autoflight/input/spd-kts"] = props.globals.getNode("/it-autoflight/input/spd-kts");
 		m.props["/it-autoflight/input/spd-mach"] = props.globals.getNode("/it-autoflight/input/spd-mach");
 		m.props["/it-autoflight/input/vs"] = props.globals.getNode("/it-autoflight/input/vs");
+		m.props["/it-autoflight/input/fpa"] = props.globals.getNode("/it-autoflight/input/fpa");
 		m.props["/it-autoflight/internal/lookahead-10-sec-airspeed-kt"] = props.globals.getNode("/it-autoflight/internal/lookahead-10-sec-airspeed-kt");
 		m.props["/it-autoflight/mode/arm"] = props.globals.getNode("/it-autoflight/mode/arm");
 		m.props["/it-autoflight/mode/lat"] = props.globals.getNode("/it-autoflight/mode/lat");
@@ -566,7 +567,19 @@ var canvas_ED_only = {
         }
 		me["mach.digital"].setText(sprintf(".%03d", currentMach * 1000));
 
-		me["selectedvspeed.digital"].setText(sprintf("%-05d", (me.props["/it-autoflight/input/vs"].getValue() or 0)));
+        
+        var vertMode = me.props["/it-autoflight/mode/vert"].getValue();
+        if (vertMode == "V/S") {
+            me["selectedvspeed.digital"].setText(sprintf("%-04d", (me.props["/it-autoflight/input/vs"].getValue() or 0)));
+            me["selectedvspeed.digital"].show();
+        }
+        else if (vertMode == "FPA") {
+            me["selectedvspeed.digital"].setText(sprintf("%+4.1f", (me.props["/it-autoflight/input/fpa"].getValue() or 0)));
+            me["selectedvspeed.digital"].show();
+        }
+        else {
+            me["selectedvspeed.digital"].hide();
+        }
 
 		me["speedtrend.vector"].reset();
 		me["speedtrend.vector"].rect(152, 152, 15,
