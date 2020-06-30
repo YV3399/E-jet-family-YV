@@ -251,6 +251,9 @@ var canvas_ED_only = {
             "altNumHigh1",
             "altNumHigh2",
             "alt.rollingdigits",
+            "alt.rollingdigits.pos",
+            "alt.rollingdigits.zero",
+            "alt.rollingdigits.neg",
             "alt.10000",
             "alt.1000",
             "alt.100",
@@ -476,35 +479,38 @@ var canvas_ED_only = {
 
         me["alt.tape"].setTranslation(0,(alt - roundToNearest(alt, 1000))*0.45);
 
+
         var alt100 = alt / 100;
         var alt100Abs = math.abs(math.floor(alt100));
         var altStr = "  0";
         if (alt100Abs >= 1) {
             altStr = sprintf("%3.0d", alt100Abs) or "  0";
         }
-        me["alt.rollingdigits"].setTranslation(0,math.round((10*math.mod(alt100,1))*18, 0.1));
 
-        me["alt.100"].setText(substr(altStr, 2, 1));
-        me["alt.1000"].setText(substr(altStr, 1, 1));
-        if (alt < 0) {
-            me["alt.10000"].setText("-" ~ substr(altStr, 0, 1));
+        var o = odoDigit(alt / 10, 0);
+        me["alt.rollingdigits"].setTranslation(0, o * 18);
+        if (alt >= 100) {
+            me["alt.rollingdigits.pos"].show();
+            me["alt.rollingdigits.zero"].hide();
+            me["alt.rollingdigits.neg"].hide();
+        }
+        else if (alt <= -100) {
+            me["alt.rollingdigits.pos"].hide();
+            me["alt.rollingdigits.zero"].hide();
+            me["alt.rollingdigits.neg"].show();
         }
         else {
-            me["alt.10000"].setText(substr(altStr, 0, 1));
+            me["alt.rollingdigits.pos"].hide();
+            me["alt.rollingdigits.zero"].show();
+            me["alt.rollingdigits.neg"].hide();
         }
 
-        # if (alt100Abs >= 10000) {
-        #     me["alt.10000"].show();
-        #     me["alt.1000"].show();
-        # }
-        # else if (alt100Abs >= 1000) {
-        #     me["alt.10000"].hide();
-        #     me["alt.1000"].show();
-        # }
-        # else {
-        #     me["alt.10000"].hide();
-        #     me["alt.1000"].hide();
-        # }
+        var o = odoDigit(alt / 10, 1);
+        me["alt.100"].setTranslation(0, o * 42.6);
+        var o = odoDigit(alt / 10, 2);
+        me["alt.1000"].setTranslation(0, o * 42.6);
+        var o = odoDigit(alt / 10, 3);
+        me["alt.10000"].setTranslation(0, o * 42.6);
 
         # Minimums
         var radarAlt = me.props["/position/gear-agl-ft"].getValue() or 0.0;
@@ -588,7 +594,7 @@ var canvas_ED_only = {
         me["asi.tape"].setTranslation(0,airspeed * 6.42);
         me["airspeed.bug"].setTranslation(0, (airspeed-selectedKts) * 6.42);
 
-        var o = odoDigit(airspeed, 0);
+        o = odoDigit(airspeed, 0);
 
         me["asi.1"].setTranslation(0, o * 53.25);
 
