@@ -46,6 +46,30 @@ var roundToNearest = func(n, m) {
 	return x;
 }
 
+var odoDigitRaw = func(v, p) {
+    if (p == 0) {
+        var dy = math.fmod(v, 1.0);
+        var n = math.floor(math.fmod(v, 10.0));
+        return [dy, n];
+    }
+    else {
+        var parent = odoDigitRaw(v, p - 1);
+        var e = math.pow(10.0, p);
+        var dyp = parent[0];
+        var np = parent[1];
+        var dy = 0.0;
+        if (np == 9) {
+            dy = dyp;
+        }
+        var n = math.floor(math.fmod(v / e, 10.0));
+        return [dy, n]
+    }
+};
+
+var odoDigit = func(v, p) {
+    var o = odoDigitRaw(v, p);
+    return o[0] + o[1];
+};
 
 var canvas_ED_base = {
 	init: func(canvas_group, file) {
@@ -229,9 +253,11 @@ var canvas_ED_only = {
 			"alt.10000",
 			"alt.1000",
 			"alt.100",
-			"asi.rollingdigits",
 			"asi.100",
 			"asi.10",
+			"asi.10.0",
+			"asi.10.9",
+			"asi.1",
 			"asi.tape",
 			"hsi.nav1",
 			"hsi.nav1track",
@@ -548,21 +574,25 @@ var canvas_ED_only = {
 
 		me["asi.tape"].setTranslation(0,airspeed * 6.42);
 		me["airspeed.bug"].setTranslation(0, (airspeed-selectedKts) * 6.42);
-		me["asi.rollingdigits"].setTranslation(0,math.round((10*math.mod(airspeed/10,1))*50, 0.1));
-		var asi10=me.props["/instrumentation/pfd/asi-10"].getValue() or 0;
-		if(asi10!=0){
-			me["asi.10"].show();
-			me["asi.10"].setText(sprintf("%s", math.round((10*math.mod(asi10/10,1)))));
-		}else{
-			me["asi.10"].hide();
-		}
-		var asi100=me.props["/instrumentation/pfd/asi-100"].getValue() or 0;
-		if(asi100!=0){
-			me["asi.100"].show();
-			me["asi.100"].setText(sprintf("%s", math.round(asi100)));
-		}else{
-			me["asi.100"].hide();
-		}
+
+        var o = odoDigit(airspeed, 0);
+
+        me["asi.1"].setTranslation(0, o * 53.25);
+
+        o = odoDigit(airspeed, 1);
+        me["asi.10"].setTranslation(0, o * 53.25);
+
+        o = odoDigit(airspeed, 2);
+        me["asi.100"].setTranslation(0, o * 53.25);
+
+        if (airspeed < 90.0) {
+            me["asi.10.0"].hide();
+            me["asi.10.9"].hide();
+        }
+        else {
+            me["asi.10.0"].show();
+            me["asi.10.9"].show();
+        }
 
         # Speed ref bugs
         var flaps = me.props["/controls/flight/flaps"].getValue();
