@@ -255,8 +255,11 @@ var canvas_ED_only = {
             "alt.rollingdigits.zero",
             "alt.rollingdigits.neg",
             "alt.10000",
+            "alt.10000.z",
             "alt.1000",
+            "alt.1000.z",
             "alt.100",
+            "alt.100.z",
             "asi.100",
             "asi.10",
             "asi.10.0",
@@ -511,6 +514,29 @@ var canvas_ED_only = {
         me["alt.1000"].setTranslation(0, o * 42.6);
         var o = odoDigit(alt / 10, 3);
         me["alt.10000"].setTranslation(0, o * 42.6);
+
+        if (alt < 0) {
+            me["alt.100"].hide();
+            me["alt.1000"].hide();
+            me["alt.10000"].hide();
+        }
+        else {
+            me["alt.100"].show();
+            me["alt.1000"].show();
+            me["alt.10000"].show();
+        }
+        if (alt < 5000) {
+            me["alt.1000.z"].hide();
+        }
+        else {
+            me["alt.1000.z"].show();
+        }
+        if (alt < 50000) {
+            me["alt.10000.z"].hide();
+        }
+        else {
+            me["alt.10000.z"].show();
+        }
 
         # Minimums
         var radarAlt = me.props["/position/gear-agl-ft"].getValue() or 0.0;
