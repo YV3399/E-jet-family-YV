@@ -12,5 +12,73 @@
 -->
 
 <PropertyList>
+    <!-- Forward either manually selected altitude or VNAV-driven altitude to
+         ITAF -->
+    <filter>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <!-- VNAV climb -->
+            <condition>
+                <and>
+                    <property>/controls/flight/vnav-enabled</property>
+                    <greater-than>
+                        <property>/fms/vnav/selected-alt</property>
+                        <property>/instrumentation/altimeter/indicated-altitude-ft</property>
+                    </greater-than>
+                </and>
+            </condition>
+            <expression>
+                <!-- Do not climb above pilot-selected altitude -->
+                <min>
+                    <property>/fms/vnav/selected-alt</property>
+                    <property>/controls/flight/selected-alt</property>
+                </min>
+            </expression>
+        </input>
+        <input>
+            <!-- VNAV descent -->
+            <condition>
+                <and>
+                    <property>/controls/flight/vnav-enabled</property>
+                    <less-than>
+                        <property>/fms/vnav/selected-alt</property>
+                        <property>/instrumentation/altimeter/indicated-altitude-ft</property>
+                    </less-than>
+                </and>
+            </condition>
+            <expression>
+                <!-- Do not descend below pilot-selected altitude -->
+                <max>
+                    <property>/fms/vnav/selected-alt</property>
+                    <property>/controls/flight/selected-alt</property>
+                </max>
+            </expression>
+        </input>
+        <input>
+            <property>/controls/flight/selected-alt</property>
+        </input>
+        <output>/it-autoflight/input/alt</output>
+    </filter>
+
+    <!-- set ITAF FPA input when VPATH active -->
+    <filter>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <!-- VNAV climb -->
+            <condition>
+                <and>
+                    <property>/controls/flight/vnav-enabled</property>
+                    <equals>
+                        <property>/fms/vnav/selected-mode</property>
+                        <value>fpa</value>
+                    </equals>
+                </and>
+            </condition>
+            <property>/fms/vnav/selected-fpa</property>
+        </input>
+        <output>/it-autoflight/input/fpa</output>
+    </filter>
 
 </PropertyList>

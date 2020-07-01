@@ -99,6 +99,10 @@
 				<path>Aircraft/E-jet-family/Systems/fms-speed.xml</path>
 			</autopilot>
 			<autopilot>
+				<name>FMS VNAV</name>
+				<path>Aircraft/E-jet-family/Systems/vnav.xml</path>
+			</autopilot>
+			<autopilot>
 				<name>Gear AGL Altitude</name>
 				<path>Aircraft/E-jet-family/Systems/gear-agl-ft.xml</path>
 			</autopilot>
@@ -493,6 +497,20 @@
         <internal>
             <toc-reached type="bool">false</toc-reached>
         </internal>
+        <vnav>
+            <selected-alt type="double">0</selected-alt>
+            <selected-mode type="string">off</selected-mode>
+            <selected-fpa type="double">0.0</selected-fpa>
+            <current type="int"></current>
+            <currentWP>
+                <name type="string"></name>
+                <dist type="double">0</dist>
+                <alt type="double">0</alt>
+                <mode type="string">flch</mode>
+            </currentWP>
+            <available type="bool">false</available>
+            <profile-alt type="double">0</profile-alt>
+        </vnav>
     </fms>
 
 	<controls>
@@ -620,7 +638,8 @@
                 <descent-below-10k type="double">250</descent-below-10k>
                 <initial-approach type="double">210</initial-approach>
             </speed-schedule>
-            <cleared-altitude type="double">5000</cleared-altitude>
+            <selected-alt type="double">5000</selected-alt>
+            <vnav-enabled type="bool">false</vnav-enabled>
 		</flight>
 
 		<gear>

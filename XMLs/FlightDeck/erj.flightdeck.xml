@@ -885,7 +885,7 @@
         <action>
             <binding>
                 <command>property-adjust</command>
-                <property>it-autoflight/input/alt</property>
+                <property>/controls/flight/selected-alt</property>
                 <min>0</min>
                 <max>50000</max>
                 <wrap>false</wrap>
@@ -895,7 +895,7 @@
         <shift-action>
             <binding>
                 <command>property-adjust</command>
-                <property>it-autoflight/input/alt</property>
+                <property>/controls/flight/selected-alt</property>
                 <min>0</min>
                 <max>50000</max>
                 <wrap>false</wrap>
@@ -1246,7 +1246,29 @@
     </animation>
 
 <!-- VNAV -->
-<!-- TODO -->
+    <animation>
+        <type>pick</type>
+        <object-name>VNAV</object-name>
+        <action>
+            <button>0</button>
+            <repeatable type="bool">false</repeatable>
+            <binding>
+                <command>property-toggle</command>
+                <property>controls/flight/vnav-enabled</property>
+            </binding>
+        </action>
+    </animation>
+
+    <!-- TODO -->
+    <!--
+    <animation>
+        <type>select</type>
+        <object-name>VNAV.light</object-name>
+        <condition>
+            <property>controls/flight/vnav-enabled</property>
+        </condition>
+    </animation>
+    -->
 
 <!-- FLCH -->
 

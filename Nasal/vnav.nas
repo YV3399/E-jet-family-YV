@@ -13,6 +13,26 @@ var feet_to_nm = 1.0 / nm_to_feet;
 var climb_feet_per_nm = 318.0; # 3° climb
 var descent_feet_per_nm = -318.0;
 
+# Calculate FPA in degrees from a distance in nmi and an altitude difference
+# in ft.
+
+var calcFPA = func (deltaAlt, dist) {
+    return math.atan2(deltaAlt * feet_to_nm, dist) * R2D;
+}
+
+# Convert climb/descent gradient in ft/nmi to flight path angle in degrees.
+var gradientToFPA = func (gradient) {
+    return math.atan2(gradient * feet_to_nm, 1.0) * R2D;
+};
+
+# Convert flight path angle in degrees to climb/descent gradient in ft/nmi.
+var fpaToGradient = func (fpa) {
+    # Limit to -45° <= fpa <= 45° to avoid numeric instability due to large
+    # tan() outputs
+    fpa = math.min(45, math.max(-45, fpa));
+    return math.tan(fpa * D2R) * nm_to_feet;
+};
+
 var findFirstEnroute = func (fp) {
     var i = 0;
     var wp = nil;
@@ -58,7 +78,7 @@ var wpLowerBound = func(wp) {
 var make_profile = func () {
     var fp = flightplan();
     if (fp == nil) {
-        print("No flightplan");
+        print("VNAV: No flightplan");
         return nil;
     }
     var totalDistance = getprop("/autopilot/route-manager/total-distance");
@@ -66,7 +86,7 @@ var make_profile = func () {
     var wp = fp.getWP(firstEnroute);
 
     if (wp == nil) {
-        print("Flightplan not closed");
+        print("VNAV: Flightplan not closed");
         return nil; # flightplan is not closed
     }
 
@@ -100,7 +120,7 @@ var make_profile = func () {
         var upperBound = wpUpperBound(wp);
         var lowerBound = wpLowerBound(wp);
         if (upperBound < lowerBound) {
-            print("Impossible profile at ", wp.wp_name, ": ", upperBound, " < ", lowerBound);
+            print("VNAV: Impossible profile at ", wp.wp_name, ": ", upperBound, " < ", lowerBound);
             return nil;
         }
         else if (upperBound < a) {
@@ -136,8 +156,8 @@ var make_profile = func () {
                 var deltaDist = s["dist"] - dist;
                 var deltaAlt = s["alt"] - alt;
                 gradient = deltaAlt / deltaDist;
-                print("delta dist: ", deltaDist, ", delta alt: ", deltaAlt * feet_to_nm);
-                fpa = math.atan2(deltaAlt * feet_to_nm, deltaDist) * R2D;
+                # print("VNAV: delta dist: ", deltaDist, ", delta alt: ", deltaAlt * feet_to_nm);
+                fpa = calcFPA(deltaAlt, deltaDist);
             }
             else {
                 gradient = 0.0;
@@ -229,17 +249,16 @@ var make_profile = func () {
             break;
         }
 
-        printf("%-5s %.0f <= %.0f <= %.0f?",
-            wp.wp_name, lowerBound, a, upperBound);
+        # printf("%-5s %.0f <= %.0f <= %.0f?",
+        #     wp.wp_name, lowerBound, a, upperBound);
 
         if (lowerBound > -1000 or upperBound < 60000) {
-            # Current trajectory is out of bound, let's adjust it.
             a = math.min(upperBound, math.max(lowerBound, a));
-            printf("Out of bounds. New a = %.0f", a);
+            # printf("New a = %.0f", a);
             var deltaDist = wp.distance_along_route - dist;
             var deltaAlt = a - alt;
             gradient = deltaAlt / deltaDist;
-            fpa = math.atan2(deltaAlt * feet_to_nm, deltaDist) * R2D;
+            fpa = calcFPA(deltaAlt, deltaDist);
             alt = a;
             dist = wp.distance_along_route;
             append(profile,
@@ -251,7 +270,7 @@ var make_profile = func () {
                         "alt": alt,
                     });
             gradient = (destElev - alt) / (totalDistance - wp.distance_along_route);
-            printf("New gradient = %3.1f", gradient);
+            # printf("New gradient = %3.1f", gradient);
         }
     }
 
@@ -281,29 +300,230 @@ var print_profile = func (profile) {
     }
 };
 
-var update_vnav = func () {
-    var distanceRemaining = getprop("/autopilot/route-manager/distance-remaining-nm");
-    var totalDistance = getprop("/autopilot/route-manager/total-distance");
-    var routeProgress = totalDistance - distanceRemaining;
-    var altitude = getprop("/instrumentation/altimeter/indicated-altitude-ft");
-    var fp = flightplan();
-}
+var VNAV = {
+    new: func () {
+        var m = { parents: [VNAV] };
+        m.profile = nil;
+        m.current = 0;
+        m.tocReached = 0;
+        return m;
+    },
+
+    loadProfile: func (profile) {
+        me.profile = profile;
+        if (profile == nil) {
+            setprop("/fms/vnav/available", 0);
+            me.reset();
+        }
+        else {
+            setprop("/fms/vnav/available", 1);
+            me.reposition();
+        }
+    },
+
+    reset: func () {
+        me.current = 0;
+        me.tocReached = 0;
+        setprop("/fms/vnav/selected-alt", 0.0);
+        setprop("/fms/vnav/selected-mode", "flch");
+        setprop("/fms/vnav/selected-fpa", 0.0);
+        setprop("/fms/vnav/current", 0);
+        setprop("/fms/vnav/currentWP/name", "");
+        setprop("/fms/vnav/currentWP/dist", 0.0);
+        setprop("/fms/vnav/currentWP/alt", 0.0);
+        setprop("/fms/vnav/currentWP/mode", "flch");
+    },
+
+    jumpTo: func () {
+        if (me.profile == nil) {
+            return;
+        }
+        wp = me.profile[me.current];
+        setprop("/fms/vnav/selected-alt", wp["alt"]);
+        setprop("/fms/vnav/selected-mode", wp["mode"]);
+        setprop("/fms/vnav/selected-fpa", wp["fpa"] or 0);
+        setprop("/fms/vnav/current", me.current);
+        setprop("/fms/vnav/currentWP/name", wp["name"]);
+        setprop("/fms/vnav/currentWP/dist", wp["dist"] or 9999);
+        setprop("/fms/vnav/currentWP/alt", wp["alt"]);
+        setprop("/fms/vnav/currentWP/mode", wp["mode"]);
+        if (getprop("/controls/flight/vnav-enabled")) {
+            # delay activation by half a second, to make sure the selected
+            # altitude has been forwarded to ITAF.
+            settimer(func () { me.activate(); }, 0.5);
+        }
+    },
+
+    reposition: func () {
+        if (me.profile == nil) {
+            me.reset();
+            return;
+        }
+        var i = 0;
+        var distanceRemaining = getprop("/autopilot/route-manager/distance-remaining-nm");
+        var totalDistance = getprop("/autopilot/route-manager/total-distance");
+        var routeProgress = totalDistance - distanceRemaining;
+        if (me.tocReached) {
+            # fast forward to first point after TOC
+            while (i < size(me.profile) and me.profile[i]["name"] != "TOC") {
+                i += 1;
+            }
+        }
+        me.current = i;
+    },
+
+    update: func () {
+        var profile = me.profile;
+        if (profile == nil or me.current >= size(profile)) {
+            # No VNAV profile loaded, or we're past the end.
+            setprop("/fms/vnav/available", 0);
+            return;
+        }
+        var distanceRemaining = getprop("/autopilot/route-manager/distance-remaining-nm");
+        var totalDistance = getprop("/autopilot/route-manager/total-distance");
+        var routeProgress = totalDistance - distanceRemaining;
+        var altitude = getprop("/instrumentation/altimeter/indicated-altitude-ft");
+
+        var done = 0;
+        var advanced = 0;
+        var wp = nil;
+
+        # printf("Route progress: %3.1f nm, %1.0f ft", routeProgress, altitude);
+        while (done == 0) {
+            wp = profile[me.current];
+            # print_vnav_wp(wp);
+            if (wp["name"] == "TOC") {
+                if (me.tocReached or (altitude + 50 >= wp["alt"])) {
+                    # We've reached cruise altitude
+                    me.current += 1;
+                    me.tocReached = 1;
+                    advanced = 1;
+                }
+                else {
+                    # Next waypoint is TOC, but we haven't reached cruise altitude
+                    # yet.
+                    done = 1;
+                }
+            }
+            else {
+                if (routeProgress >= (wp["dist"] or 0)) {
+                    me.current += 1;
+                    advanced = 1;
+                }
+                else {
+                    done = 1;
+                }
+            }
+        }
+        if (advanced) {
+            # New waypoint has been selected, so update our targets.
+            me.jumpTo();
+        }
+        wp = profile[me.current];
+        # update actual VNAV availability
+        setprop("/fms/vnav/available", wp != nil);
+        # default to trying to capture the target ASAP
+        var profileAlt = wp["alt"];
+        if (wp["dist"] != nil and wp["mode"] == "fpa" and wp["fpa"] != nil) {
+            # WP is a regular FPA waypoint, and has an FPA associated
+            # with it
+            var gradient = fpaToGradient(wp["fpa"]);
+            if (wp["dist"] - routeProgress > 0.1) {
+                profileAlt = wp["alt"] - (gradient * (wp["dist"] - routeProgress));
+            }
+            # printf("FPA: %3.1f° / %4.0f ft/nmi over %3.1f nmi to reach %5.0f ft -> %5.0f ft",
+            #     wp["fpa"], gradient, wp["dist"] - routeProgress, wp["alt"], profileAlt);
+
+            # Off by more than 50 feet? Adjust FPA.
+            if (altitude > profileAlt + 50) {
+                # If above, expedite descent by up to -1.5°.
+                var correction = math.max(0, math.min(1.5, (altitude - profileAlt) * 1.5 / 1000.0));
+                setprop("/fms/vnav/selected-fpa", math.min(0, wp["fpa"] - correction));
+            }
+            else if (altitude < profileAlt - 50) {
+                # If below, expedite climb by up to 1.5°.
+                var correction = math.max(0, math.min(1.5, -(altitude - profileAlt) * 1.5 / 1000.0));
+                setprop("/fms/vnav/selected-fpa", math.max(0, wp["fpa"] + 1.5));
+            }
+        }
+        setprop("/fms/vnav/profile-alt", profileAlt);
+        setprop("/fms/vnav/route-progress", routeProgress);
+        # TODO: switch to VFLCH (and back!) when path cannot be captured before
+        # next waypoint.
+    },
+
+    activate: func () {
+        if (getprop("/controls/flight/vnav-enabled") and me.profile != nil) {
+            var wp = me.profile[me.current];
+            if (wp == nil) {
+                print("VNAV: No waypoint");
+                return;
+            }
+            printf("VNAV: activate %s", wp["name"]);
+            if (wp["mode"] == "flch") {
+                # 4 = FLCH
+                setprop("/it-autoflight/input/vert", 4);
+            }
+            else if (wp["mode"] == "fpa") {
+                # 5 = FPA
+                # Just follow the vertical path.
+                setprop("/it-autoflight/input/vert", 5);
+            }
+        }
+        else {
+            print("VNAV: No profile or VNAV disabled");
+        }
+    }
+
+};
+
+var vnav = VNAV.new();
 
 setlistener("sim/signals/fdm-initialized", func {
-	var timer = maketimer(1, func () { update_vnav(); });
+    vnav.reset();
+	var timer = maketimer(1, func () { vnav.update(); });
     timer.simulatedTime = 1;
     timer.singleShot = 0;
 	timer.start();
 });
 
+setlistener("controls/flight/vnav-enabled", func {
+    vnav.activate();
+});
+
 setlistener("autopilot/route-manager/signals/edited", func {
-    print("Flightplan edited");
-    var profile = make_profile(flightplan());
-    print_profile(profile);
+    print("VNAV: Flightplan edited");
+    if (getprop("autopilot/route-manager/active")) {
+        var profile = make_profile(flightplan());
+        print_profile(profile);
+        vnav.loadProfile(profile);
+    }
+    else {
+        vnav.reset();
+    }
 });
 
 setlistener("autopilot/route-manager/cruise/altitude-ft", func {
-    print("Cruise altitude changed");
-    var profile = make_profile(flightplan());
-    print_profile(profile);
+    print("VNAV: Cruise altitude changed");
+    if (getprop("autopilot/route-manager/active")) {
+        var profile = make_profile(flightplan());
+        print_profile(profile);
+        vnav.loadProfile(profile);
+    }
+    else {
+        vnav.reset();
+    }
 });
+
+setlistener("autopilot/route-manager/active", func {
+    print("VNAV: Flightplan activated or closed");
+    if (getprop("autopilot/route-manager/active")) {
+        var profile = make_profile(flightplan());
+        print_profile(profile);
+        vnav.loadProfile(profile);
+    }
+    else {
+        vnav.reset();
+    }
+});
+

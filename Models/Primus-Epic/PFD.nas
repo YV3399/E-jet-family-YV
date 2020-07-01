@@ -160,6 +160,8 @@ var canvas_ED_only = {
         m.props["/instrumentation/altimeter/setting-inhg"] = props.globals.getNode("/instrumentation/altimeter/setting-inhg");
         m.props["/instrumentation/pfd/qnh-mode"] = props.globals.getNode("/instrumentation/pfd/qnh-mode");
         m.props["/it-autoflight/input/alt"] = props.globals.getNode("/it-autoflight/input/alt");
+        m.props["/controls/flight/selected-alt"] = props.globals.getNode("/controls/flight/selected-alt");
+        m.props["/controls/flight/vnav-enabled"] = props.globals.getNode("/controls/flight/vnav-enabled");
         m.props["/it-autoflight/input/hdg"] = props.globals.getNode("/it-autoflight/input/hdg");
         m.props["/it-autoflight/input/kts-mach"] = props.globals.getNode("/it-autoflight/input/kts-mach");
         m.props["/it-autoflight/input/spd-kts"] = props.globals.getNode("/it-autoflight/input/spd-kts");
@@ -384,7 +386,7 @@ var canvas_ED_only = {
         }
 
 
-        me["selectedalt.digital100"].setText(sprintf("%02d", (me.props["/it-autoflight/input/alt"].getValue() or 0) * 0.01));
+        me["selectedalt.digital100"].setText(sprintf("%02d", (me.props["/controls/flight/selected-alt"].getValue() or 0) * 0.01));
 
         #COMM/NAV
         me["vhf1.act"].setText(sprintf("%.2f", me.props["/instrumentation/comm[0]/frequencies/selected-mhz"].getValue() or 0));
@@ -798,7 +800,7 @@ var canvas_ED_only = {
             "ALT CAP": "ASEL",
             "SPD DES": "FLCH",
             "SPD CLB": "FLCH",
-            "FPA": "FPA",
+            "FPA": "PATH",
             "LAND 3": "LAND",
             "FLARE": "FLARE",
             "ROLLOUT": "ROLLOUT",
@@ -833,7 +835,11 @@ var canvas_ED_only = {
         };
 
         me["fma.lat"].setText(latModeMap[me.props["/it-autoflight/mode/lat"].getValue() or ""] or "");
-        me["fma.vert"].setText(vertModeMap[me.props["/it-autoflight/mode/vert"].getValue() or ""] or "");
+        var vertModeLabel = vertModeMap[me.props["/it-autoflight/mode/vert"].getValue() or ""] or "";
+        if (me.props["/controls/flight/vnav-enabled"].getValue()) {
+            vertModeLabel = "V" ~ vertModeLabel;
+        }
+        me["fma.vert"].setText(vertModeLabel);
         if (me.props["/it-autoflight/output/appr-armed"].getValue() and me.props["/it-autoflight/mode/vert"].getValue != "G/S") {
             me["fma.vertarmed"].setText("GS");
         }
