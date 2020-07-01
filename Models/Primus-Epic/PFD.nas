@@ -1,4 +1,4 @@
-# E-jet-family EICAS by D-ECHO based on
+# E-jet-family PFD by D-ECHO based on
 # A3XX Lower ECAM Canvas
 # Joshua Davidson (it0uchpods)
 
@@ -33,6 +33,7 @@ setprop("/controls/engines/engine[0]/condition-lever-state", 0);
 setprop("/controls/engines/engine[1]/condition-lever-state", 0);
 setprop("/controls/engines/engine[0]/throttle-int", 0);
 setprop("/controls/engines/engine[1]/throttle-int", 0);
+setprop("/instrumentation/pfd/qnh-mode", 0);
 
 setprop("/systems/elecrical/outputs/efis", 0);
 
@@ -152,6 +153,9 @@ var canvas_ED_only = {
         m.props["/instrumentation/pfd/pitch-scale"] = props.globals.getNode("/instrumentation/pfd/pitch-scale");
         m.props["/instrumentation/slip-skid-ball/indicated-slip-skid"] = props.globals.getNode("/instrumentation/slip-skid-ball/indicated-slip-skid");
         m.props["/instrumentation/vertical-speed-indicator/indicated-speed-fpm"] = props.globals.getNode("/instrumentation/vertical-speed-indicator/indicated-speed-fpm");
+        m.props["/instrumentation/altimeter/setting-hpa"] = props.globals.getNode("/instrumentation/altimeter/setting-hpa");
+        m.props["/instrumentation/altimeter/setting-inhg"] = props.globals.getNode("/instrumentation/altimeter/setting-inhg");
+        m.props["/instrumentation/pfd/qnh-mode"] = props.globals.getNode("/instrumentation/pfd/qnh-mode");
         m.props["/it-autoflight/input/alt"] = props.globals.getNode("/it-autoflight/input/alt");
         m.props["/it-autoflight/input/hdg"] = props.globals.getNode("/it-autoflight/input/hdg");
         m.props["/it-autoflight/input/kts-mach"] = props.globals.getNode("/it-autoflight/input/kts-mach");
@@ -194,102 +198,128 @@ var canvas_ED_only = {
     },
     getKeys: func() {
         return [
-            "horizon",
-            "compass",
-            "groundspeed",
-            "chrono.digital",
-            "mach.digital",
+            "QNH.digital",
+            "QNH.unit",
+            "VNAV.constraints1",
+            "VNAV.constraints1.abovebar",
+            "VNAV.constraints1.belowbar",
+            "VNAV.constraints1.text",
+            "VNAV.constraints2",
+            "VNAV.constraints2.above",
+            "VNAV.constraints2.bars",
+            "VNAV.constraints2.below",
+            "VNAV.constraints2.text",
+            "VS.digital",
             "airspeed.bug",
-            "speedtrend.vector",
-            "speedref.vfs",
-            "speedref.vf",
-            "speedref.v2",
-            "speedref.vac",
-            "speedref.vr",
-            "speedref.vappr",
-            "speedref.vref",
-            "speedref.v1",
-            "wind.pointer",
-            "wind.kt",
-            "heading.digital",
-            "selectedheading.digital",
-            "selectedcourse.digital",
-            "selectedheading.pointer",
-            "chrono.digital",
-            "nav1.act",
-            "nav1.sby",
-            "vhf1.act",
-            "vhf1.sby",
-            "navsrc.primary",
-            "navsrc.primary.selection",
-            "navsrc.primary.id",
-            "navsrc.preview",
-            "navsrc.preview.selection",
-            "navsrc.preview.id",
-            "dme",
-            "dme.selection",
-            "dme.id",
-            "dme.dist",
-            "dme.hold",
-            "dme.ete",
-            "dme.eteunit",
-            "waypoint",
-            "waypoint.id",
-            "waypoint.dist",
-            "waypoint.ete",
-            "waypoint.eteunit",
-            "minimums",
-            "minimums.indicator",
-            "minimums.barora",
-            "minimums.digital",
-            "radioalt",
-            "radioalt.digital",
-            "ils.locneedle",
-            "ils.gsneedle",
-            "alt.tape",
-            "altNumLow1",
-            "altNumHigh1",
-            "altNumHigh2",
-            "alt.rollingdigits",
-            "alt.rollingdigits.pos",
-            "alt.rollingdigits.zero",
-            "alt.rollingdigits.neg",
-            "alt.10000",
-            "alt.10000.z",
-            "alt.1000",
-            "alt.1000.z",
+            "airspeed.bug_clip",
             "alt.100",
             "alt.100.z",
-            "asi.100",
+            "alt.1000",
+            "alt.1000.z",
+            "alt.10000",
+            "alt.10000.z",
+            "alt.10000_clip",
+            "alt.1000_clip",
+            "alt.100_clip",
+            "alt.rollingdigits",
+            "alt.rollingdigits.neg",
+            "alt.rollingdigits.pos",
+            "alt.rollingdigits.zero",
+            "alt.rollingdigits_clip",
+            "alt.tape",
+            "alt.tape_clip",
+            "altNumHigh1",
+            "altNumHigh2",
+            "altNumLow1",
+            "asi.1",
             "asi.10",
             "asi.10.0",
             "asi.10.9",
-            "asi.1",
+            "asi.10.z",
+            "asi.100",
+            "asi.100_clip",
+            "asi.10_clip",
+            "asi.1_clip",
             "asi.tape",
-            "hsi.nav1",
-            "hsi.nav1track",
-            "hsi.dots",
-            "hsi.to",
-            "hsi.from",
-            "selectedspeed.digital",
-            "selectedalt.digital100",
-            "selectedvspeed.digital",
-            "roll.pointer",
-            "slip.pointer",
-            "vs.needle",
-            "VS.digital",
+            "asi.tape_clip",
+            "base",
+            "chrono.digital",
+            "compass",
+            "dme",
+            "dme.dist",
+            "dme.ete",
+            "dme.eteunit",
+            "dme.hold",
+            "dme.id",
+            "dme.selection",
+            "false",
+            "fd.pitch",
+            "fd.roll",
+            "fma.ap",
             "fma.appr",
             "fma.apprarmed",
-            "fma.spd",
-            "fma.spdarmed",
-            "fma.ap",
             "fma.at",
             "fma.lat",
             "fma.latarmed",
+            "fma.spd",
+            "fma.spdarmed",
             "fma.vert",
             "fma.vertarmed",
-            "fd.pitch",
-            "fd.roll"
+            "groundspeed",
+            "heading.digital",
+            "horizon",
+            "horizon.ground",
+            "horizon_clip",
+            "hsi.dots",
+            "hsi.from",
+            "hsi.nav1",
+            "hsi.nav1track",
+            "hsi.to",
+            "ils.gsneedle",
+            "ils.locneedle",
+            "mach.digital",
+            "minimums",
+            "minimums.barora",
+            "minimums.digital",
+            "minimums.indicator",
+            "nav1.act",
+            "nav1.sby",
+            "navsrc.preview",
+            "navsrc.preview.id",
+            "navsrc.preview.selection",
+            "navsrc.primary",
+            "navsrc.primary.id",
+            "navsrc.primary.selection",
+            "radioalt",
+            "radioalt.digital",
+            "roll.pointer",
+            "selectedalt.digital100",
+            "selectedcourse.digital",
+            "selectedheading.digital",
+            "selectedheading.pointer",
+            "selectedspeed.digital",
+            "selectedvspeed.digital",
+            "slip.pointer",
+            "speedref.v1",
+            "speedref.v2",
+            "speedref.vac",
+            "speedref.vappr",
+            "speedref.vf",
+            "speedref.vfs",
+            "speedref.vr",
+            "speedref.vref",
+            "speedtrend.vector",
+            "vhf1.act",
+            "vhf1.sby",
+            "vs.needle",
+            "vs.needle_clip",
+            "waypoint",
+            "waypoint.dist",
+            "waypoint.ete",
+            "waypoint.eteunit",
+            "waypoint.id",
+            "wind.kt",
+            "wind.pointer"
         ];
     },
 
@@ -386,7 +416,7 @@ var canvas_ED_only = {
                 me["waypoint.eteunit"].setText("MIN");
             }
             me["navsrc.primary.selection"].setText("FMS");
-            me["navsrc.primary.selection"].setColor(255, 0, 255);
+            me["navsrc.primary.selection"].setColor(1, 0, 1);
             me["navsrc.preview"].show();
 
             if (me.props["/instrumentation/nav/nav-loc"].getValue() or 0) {
@@ -408,7 +438,7 @@ var canvas_ED_only = {
                 me["navsrc.primary.selection"].setText("VOR1");
             }
             me["navsrc.primary.id"].setText(me.props["/instrumentation/nav/nav-id"].getValue() or "");
-            me["navsrc.primary.selection"].setColor(0, 255, 0);
+            me["navsrc.primary.selection"].setColor(0, 1, 0);
         }
 
         if (me.props["/instrumentation/dme/in-range"].getValue() or 0) {
@@ -538,6 +568,25 @@ var canvas_ED_only = {
             me["alt.10000.z"].show();
         }
 
+        # VNAV annunciations
+        # TODO
+        me["VNAV.constraints1"].hide();
+        me["VNAV.constraints2"].hide();
+
+        # QNH
+        if (me.props["/instrumentation/pfd/qnh-mode"].getValue()) {
+            # 1 = inhg
+            me["QNH.digital"].setText(
+                sprintf("%5.2f", me.props["/instrumentation/altimeter/setting-inhg"].getValue()));
+            me["QNH.unit"].setText("IN");
+        }
+        else {
+            # 0 = hpa
+            me["QNH.digital"].setText(
+                sprintf("%4.0f", me.props["/instrumentation/altimeter/setting-hpa"].getValue()));
+            me["QNH.unit"].setText("hPa");
+        }
+
         # Minimums
         var radarAlt = me.props["/position/gear-agl-ft"].getValue() or 0.0;
         var minimumsMode = 0; # me.props["/instrumentation/efis/inputs/minimums-mode"].getValue();
@@ -554,11 +603,11 @@ var canvas_ED_only = {
 
             if (minimumsMode) {
                 me["minimums.barora"].setText("BARO");
-                me["minimums.digital"].setColor(255, 255, 0);
+                me["minimums.digital"].setColor(1, 1, 0);
             }
             else {
                 me["minimums.barora"].setText("RA");
-                me["minimums.digital"].setColor(255, 255, 255);
+                me["minimums.digital"].setColor(1, 1, 1);
             }
             me["minimums.digital"].setText(sprintf("%d", decisionHeight));
             me["radioalt"].show();
@@ -592,10 +641,10 @@ var canvas_ED_only = {
             me["selectedspeed.digital"].setText(sprintf("%03d", selectedKts));
         }
         if (me.props["/controls/flight/speed-mode"].getValue() == 1) {
-            me["selectedspeed.digital"].setColor(255, 0, 255);
+            me["selectedspeed.digital"].setColor(1, 0, 1);
         }
         else {
-            me["selectedspeed.digital"].setColor(0, 128, 255);
+            me["selectedspeed.digital"].setColor(0, 0.75, 1);
         }
         me["mach.digital"].setText(sprintf(".%03d", currentMach * 1000));
 

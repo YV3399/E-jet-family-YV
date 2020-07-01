@@ -500,6 +500,83 @@
 
 <!-- Knobs Pick Animations -->
 
+<!-- MINIMUMS -->
+
+<!-- QNH -->
+
+    <animation>
+        <type>pick</type>
+        <object-name>QNH.knob</object-name>
+        <action>
+            <button>0</button>
+            <binding>
+                <command>property-assign</command>
+                <property>instrumentation/altimeter/setting-inhg</property>
+                <value>29.92</value>
+            </binding>
+        </action>
+    </animation>
+
+    <animation>
+        <type>knob</type>
+        <object-name>QNH.knob</object-name>
+        <axis>
+            <x>  1 </x>
+            <y>  0 </y>
+            <z>  0 </z>
+        </axis>
+        <action>
+            <binding>
+                <condition>
+                    <equals>
+                        <property>instrumentation/pfd/qnh-mode</property>
+                        <value>0</value>
+                    </equals>
+                </condition>
+                <command>property-adjust</command>
+                <property>instrumentation/altimeter/setting-hpa</property>
+                <min>880</min>
+                <max>1050</max>
+                <wrap>false</wrap>
+                <factor>1</factor>
+            </binding>
+            <binding>
+                <condition>
+                    <equals>
+                        <property>instrumentation/pfd/qnh-mode</property>
+                        <value>1</value>
+                    </equals>
+                </condition>
+                <command>property-adjust</command>
+                <property>instrumentation/altimeter/setting-inhg</property>
+                <min>26.0</min>
+                <max>31.0</max>
+                <wrap>false</wrap>
+                <factor>0.01</factor>
+            </binding>
+        </action>
+    </animation>
+
+    <animation>
+        <type>knob</type>
+        <object-name>QNH.ring</object-name>
+        <axis>
+            <x>  1 </x>
+            <y>  0 </y>
+            <z>  0 </z>
+        </axis>
+        <action>
+            <binding>
+                <command>property-cycle</command>
+                <property>instrumentation/pfd/qnh-mode</property>
+                <value>1</value>
+                <value>0</value>
+                <wrap>0</wrap>
+            </binding>
+        </action>
+    </animation>
+
+
 <!-- CRS Knob 1 Pick Animation -->
     <animation>
         <type>pick</type>
@@ -631,7 +708,6 @@
     </animation>
 
 <!-- SPD Knob Pick Animations -->
-
 
     <animation>
         <type>pick</type>
