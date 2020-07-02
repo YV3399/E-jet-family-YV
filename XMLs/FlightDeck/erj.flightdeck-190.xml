@@ -520,6 +520,66 @@
 
 <!-- MINIMUMS -->
 
+    <animation>
+        <type>knob</type>
+        <object-name>MINIMUMS.knob</object-name>
+        <axis>
+            <x>  1 </x>
+            <y>  0 </y>
+            <z>  0 </z>
+        </axis>
+        <action>
+            <binding>
+                <condition>
+                    <equals>
+                        <property>instrumentation/pfd/minimums-mode</property>
+                        <value>0</value>
+                    </equals>
+                </condition>
+                <command>property-adjust</command>
+                <property>instrumentation/pfd/minimums-radio</property>
+                <min>0</min>
+                <max>2000</max>
+                <wrap>false</wrap>
+                <factor>1</factor>
+            </binding>
+            <binding>
+                <condition>
+                    <equals>
+                        <property>instrumentation/pfd/minimums-mode</property>
+                        <value>1</value>
+                    </equals>
+                </condition>
+                <command>property-adjust</command>
+                <property>instrumentation/pfd/minimums-baro</property>
+                <min>0</min>
+                <max>2000</max>
+                <wrap>false</wrap>
+                <factor>1</factor>
+            </binding>
+        </action>
+    </animation>
+
+    <animation>
+        <type>knob</type>
+        <object-name>MINIMUMS.ring</object-name>
+        <axis>
+            <x>  1 </x>
+            <y>  0 </y>
+            <z>  0 </z>
+        </axis>
+        <action>
+            <binding>
+                <command>property-cycle</command>
+                <property>instrumentation/pfd/minimums-mode</property>
+                <value>0</value>
+                <value>1</value>
+                <wrap>0</wrap>
+            </binding>
+        </action>
+    </animation>
+
+
 <!-- QNH -->
 
     <animation>

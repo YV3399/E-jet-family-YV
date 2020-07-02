@@ -94,51 +94,52 @@
 
 <!-- MINIMUMS -->
 
-	<filter>
-		<name>Baro altitude Minimum</name> 
-		<type>gain</type>
-		<update-interval-secs type="double">0.05</update-interval-secs>
-		<gain>1.0</gain>
-		<input>
-			<condition>
-				<equals>
-					<property>autopilot/settings/minimums-mode</property>
-					<value>BA</value>
-				</equals>
-			</condition>
-			<property>instrumentation/pfd/minimums-baro</property>
-		</input>
-		<input>
-			<condition>
-				<equals>
-					<property>autopilot/settings/minimums-mode</property>
-					<value>RA</value>
-				</equals>
-			</condition>
-					<property>instrumentation/pfd/minimums-radio</property>
-		</input>
-		<reference>
-			<condition>
-				<equals>
-					<property>autopilot/settings/minimums-mode</property>
-					<value>BA</value>
-				</equals>
-			</condition>
-			<property>instrumentation/altimeter/indicated-altitude-ft</property>
-		</reference>
-		<reference>
-			<condition>
-				<equals>
-					<property>autopilot/settings/minimums-mode</property>
-					<value>RA</value>
-				</equals>
-			</condition>
-			<property>position/altitude-agl-ft</property>
-		</reference>
-		<output>instrumentation/pfd/minimum-diff</output>
-		<min>-610</min>
-		<max>610</max>
-	</filter>
+    <!-- mk-viii does not support actual baro minimums, so we provide fake
+         radio minimums based on configured baro minimums, current barometric
+         altitude, and current radar altimeter reading. -->
+    <filter>
+        <name>Fake baro minimums</name>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <expression>
+                <dif>
+                    <property>/instrumentation/pfd/minimums-baro</property>
+                    <dif>
+                        <property>/instrumentation/altimeter/indicated-altitude-ft</property>
+                        <property>/position/gear-agl-ft</property>
+                    </dif>
+                </dif>
+            </expression>
+        </input>
+        <output>/instrumentation/pfd/minimums-fake-baro</output>
+    </filter>
+
+    <!-- forward either fake-baro or radio minimums to mk-viii -->
+    <filter>
+        <name>Forward minimums</name>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <condition>
+                <equals>
+                    <property>/instrumentation/pfd/minimums-mode</property>
+                    <value>0</value>
+                </equals>
+            </condition>
+            <property>/instrumentation/pfd/minimums-radio</property>
+        </input>
+        <input>
+            <condition>
+                <equals>
+                    <property>/instrumentation/pfd/minimums-mode</property>
+                    <value>1</value>
+                </equals>
+            </condition>
+            <property>/instrumentation/pfd/minimums-fake-baro</property>
+        </input>
+        <output>/instrumentation/mk-viii/inputs/arinc429/decision-height</output>
+    </filter>
 
 <!-- SPEED CURSOR -->
 

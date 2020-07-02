@@ -34,6 +34,9 @@ setprop("/controls/engines/engine[1]/condition-lever-state", 0);
 setprop("/controls/engines/engine[0]/throttle-int", 0);
 setprop("/controls/engines/engine[1]/throttle-int", 0);
 setprop("/instrumentation/pfd/qnh-mode", 0);
+setprop("/instrumentation/pfd/minimums-mode", 0);
+setprop("/instrumentation/pfd/minimums-radio", 200);
+setprop("/instrumentation/pfd/minimums-baro", 400);
 
 setprop("/systems/elecrical/outputs/efis", 0);
 
@@ -181,8 +184,9 @@ var canvas_ED_only = {
         m.props["/orientation/roll-deg"] = props.globals.getNode("/orientation/roll-deg");
         m.props["/velocities/groundspeed-kt"] = props.globals.getNode("/velocities/groundspeed-kt");
         m.props["/position/gear-agl-ft"] = props.globals.getNode("/position/gear-agl-ft");
-        m.props["/instrumentation/efis/inputs/minimums-mode"] = props.globals.getNode("/instrumentation/efis/inputs/minimums-mode");
-        m.props["/instrumentation/mk-viii/inputs/arinc429/decision-height"] = props.globals.getNode("/instrumentation/mk-viii/inputs/arinc429/decision-height");
+        m.props["/instrumentation/pfd/minimums-mode"] = props.globals.getNode("/instrumentation/pfd/minimums-mode");
+        m.props["/instrumentation/pfd/minimums-radio"] = props.globals.getNode("/instrumentation/pfd/minimums-radio");
+        m.props["/instrumentation/pfd/minimums-baro"] = props.globals.getNode("/instrumentation/pfd/minimums-baro");
         m.props["/controls/flight/vfs"] = props.globals.getNode("/controls/flight/vfs");
         m.props["/controls/flight/vf"] = props.globals.getNode("/controls/flight/vf");
         m.props["/controls/flight/v2"] = props.globals.getNode("/controls/flight/v2");
@@ -589,12 +593,21 @@ var canvas_ED_only = {
 
         # Minimums
         var radarAlt = me.props["/position/gear-agl-ft"].getValue() or 0.0;
-        var minimumsMode = 0; # me.props["/instrumentation/efis/inputs/minimums-mode"].getValue();
-        var decisionHeight = me.props["/instrumentation/mk-viii/inputs/arinc429/decision-height"].getValue();
+        var minimumsMode = me.props["/instrumentation/pfd/minimums-mode"].getValue();
+        var decisionHeight = 0;
+        var comparisonAlt = radarAlt;
+        if (minimumsMode) {
+            decisionHeight = me.props["/instrumentation/pfd/minimums-baro"].getValue();
+            comparisonAlt = alt;
+        }
+        else {
+            decisionHeight = me.props["/instrumentation/pfd/minimums-radio"].getValue();
+            comparisonAlt = radarAlt;
+        }
 
         if (radarAlt <= 4000) {
             me["radioalt.digital"].setText(sprintf("%04d", radarAlt));
-            if (radarAlt <= decisionHeight) {
+            if (comparisonAlt <= decisionHeight) {
                 me["minimums.indicator"].show();
             }
             else {
