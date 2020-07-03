@@ -10,8 +10,8 @@ This aircraft was modified and updated in a joint effort by the following people
 
 - Gabriel Hernandez (YV3399)
 - D-ECHO
-- Tobias Dammers (Tdammers)
-
+- Tobias Dammers (tdammers)
+ 
 Present pack includes the following Embraer Family variants:
 
 - Emraer 170
