@@ -173,13 +173,13 @@
             <condition>
                 <greater-than>
                     <property>/controls/flight/flaps</property>
-                    <value>0.6</value>
+                    <value>0.7</value>
                 </greater-than>
             </condition>
             <property>/controls/flight/vaf6</property>
         </input>
         <input>
-            <!-- flaps 4 -->
+            <!-- flaps 4/5 -->
             <condition>
                 <greater-than>
                     <property>/controls/flight/flaps</property>
@@ -196,7 +196,7 @@
                     <value>0.35</value>
                 </greater-than>
             </condition>
-            <property>/controls/flight/vaf4</property>
+            <property>/controls/flight/vaf3</property>
         </input>
         <input>
             <!-- flaps 2 -->
@@ -206,7 +206,7 @@
                     <value>0.225</value>
                 </greater-than>
             </condition>
-            <property>/controls/flight/vaf3</property>
+            <property>/controls/flight/vaf2</property>
         </input>
         <input>
             <!-- flaps 1 -->
@@ -216,7 +216,7 @@
                     <value>0.1</value>
                 </greater-than>
             </condition>
-            <property>/controls/flight/vaf2</property>
+            <property>/controls/flight/vaf1</property>
         </input>
         <input>
             <!-- clean config -->
