@@ -103,8 +103,8 @@
             <static_friction>  1.50 </static_friction>
             <dynamic_friction> 0.50 </dynamic_friction>
             <rolling_friction> 0.01 </rolling_friction>
-            <spring_coeff unit="LBS/FT"> 180000 </spring_coeff>
-            <damping_coeff unit="LBS/FT/SEC"> 33957 </damping_coeff>
+            <spring_coeff unit="LBS/FT"> 33000 </spring_coeff>
+            <damping_coeff unit="LBS/FT/SEC"> 6600 </damping_coeff>
             <max_steer unit="DEG"> 70 </max_steer>
             <brake_group>NONE</brake_group>
             <retractable>1</retractable>
@@ -161,8 +161,8 @@
             <static_friction>  0.40 </static_friction>
             <dynamic_friction> 0.50 </dynamic_friction>
             <rolling_friction> 0.01 </rolling_friction>
-            <spring_coeff unit="LBS/FT"> 180000 </spring_coeff>
-            <damping_coeff unit="LBS/FT/SEC"> 33957 </damping_coeff>
+            <spring_coeff unit="LBS/FT"> 100000 </spring_coeff>
+            <damping_coeff unit="LBS/FT/SEC"> 20000 </damping_coeff>
             <max_steer unit="DEG">0</max_steer>
             <table name="CORNERING_COEFF" type="internal">
                 <tableData> <!-- jsbsim-pacejka.py 3.0 0.06 2.8 0.4 1.03 0.4 -->
@@ -219,8 +219,8 @@
             <static_friction>  0.40 </static_friction>
             <dynamic_friction> 0.50 </dynamic_friction>
             <rolling_friction> 0.01 </rolling_friction>
-            <spring_coeff unit="LBS/FT"> 180000 </spring_coeff>
-            <damping_coeff unit="LBS/FT/SEC"> 33957 </damping_coeff>
+            <spring_coeff unit="LBS/FT"> 100000 </spring_coeff>
+            <damping_coeff unit="LBS/FT/SEC"> 20000 </damping_coeff>
             <max_steer unit="DEG">0</max_steer>
             <table name="CORNERING_COEFF" type="internal">
                 <tableData> <!-- jsbsim-pacejka.py 3.0 0.06 2.8 0.4 1.03 0.4 -->
@@ -405,7 +405,7 @@
                 <z> -36.642 </z>
             </location>
             <capacity unit="KG"> 3100 </capacity>
-            <contents unit="KG"> 2800 </contents>
+            <contents unit="KG"> 0 </contents>
         </tank>
 
         <!-- Wing Fuel Tank RIGHT -->
@@ -427,7 +427,7 @@
                 <z> 54.372 </z>
             </location>
             <capacity unit="KG"> 935 </capacity>
-            <contents unit="KG"> 733 </contents>
+            <contents unit="KG"> 100 </contents>
         </tank>
 
     </propulsion>
