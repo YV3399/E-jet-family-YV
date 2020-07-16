@@ -394,7 +394,7 @@
 				<yaw-kp>-0.05</yaw-kp>
 			</autoland>
 			<rollout>
-				<roll-kp>-0.05</roll-kp>
+				<roll-kp>0.05</roll-kp>
 				<pitch-nose>0.1</pitch-nose>
 				<pitch-rate>-1.5</pitch-rate>
 				<yaw-kp>-0.02</yaw-kp>
