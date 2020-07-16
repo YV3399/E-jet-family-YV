@@ -574,10 +574,10 @@
               <table>
 			<property>/orientation/pitch-deg</property>
                   <entry><ind>90</ind><dep>90</dep></entry>
-                  <entry><ind>10</ind><dep>22.222</dep></entry>
+                  <entry><ind>10</ind><dep>16.666</dep></entry>
                   <entry><ind>0</ind><dep>0</dep></entry>
-                  <entry><ind>-10</ind><dep>-22.222</dep></entry>
-		  <entry><ind>-90</ind><dep>-90</dep></entry>
+                  <entry><ind>-10</ind><dep>-16.666</dep></entry>
+                  <entry><ind>-90</ind><dep>-90</dep></entry>
               </table>
           </expression>
       </input>

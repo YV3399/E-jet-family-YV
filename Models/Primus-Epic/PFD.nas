@@ -364,7 +364,7 @@ var canvas_ED_only = {
         var pitchBar = me.props["/it-autoflight/fd/pitch-bar"].getValue() or 0;
         var rollBar = me.props["/it-autoflight/fd/roll-bar"].getValue() or 0;
         me["fd.pitch"].setTranslation(0, pitchBar * 8.05);
-        me["fd.roll"].setTranslation(pitchBar * 8.05, 0);
+        me["fd.roll"].setTranslation(rollBar * 8.05, 0);
 
         # CHR
         var t = me.props["/instrumentation/chrono/elapsed_time/total"].getValue() or 0;
