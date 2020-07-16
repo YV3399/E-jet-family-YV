@@ -163,8 +163,8 @@
             <static_friction>  0.40 </static_friction>
             <dynamic_friction> 0.50 </dynamic_friction>
             <rolling_friction> 0.01 </rolling_friction>
-            <spring_coeff unit="LBS/FT"> 180000 </spring_coeff>
-            <damping_coeff unit="LBS/FT/SEC"> 33957 </damping_coeff>
+            <spring_coeff unit="LBS/FT"> 100000 </spring_coeff>
+            <damping_coeff unit="LBS/FT/SEC"> 20000 </damping_coeff>
             <max_steer unit="DEG">0</max_steer>
             <table name="CORNERING_COEFF" type="internal">
                 <tableData> <!-- jsbsim-pacejka.py 3.0 0.06 2.8 0.4 1.03 0.4 -->
@@ -221,8 +221,8 @@
             <static_friction>  0.40 </static_friction>
             <dynamic_friction> 0.50 </dynamic_friction>
             <rolling_friction> 0.01 </rolling_friction>
-            <spring_coeff unit="LBS/FT"> 180000 </spring_coeff>
-            <damping_coeff unit="LBS/FT/SEC"> 33957 </damping_coeff>
+            <spring_coeff unit="LBS/FT"> 100000 </spring_coeff>
+            <damping_coeff unit="LBS/FT/SEC"> 20000 </damping_coeff>
             <max_steer unit="DEG">0</max_steer>
             <table name="CORNERING_COEFF" type="internal">
                 <tableData> <!-- jsbsim-pacejka.py 3.0 0.06 2.8 0.4 1.03 0.4 -->
@@ -409,7 +409,7 @@
                 <z> -36.642 </z>
             </location>
             <capacity unit="KG"> 3100 </capacity>
-            <contents unit="KG"> 2800 </contents>
+            <contents unit="KG"> 0 </contents>
         </tank>
 
         <!-- Wing Fuel Tank RIGHT -->
@@ -431,7 +431,7 @@
                 <z> 54.372 </z>
             </location>
             <capacity unit="KG"> 935 </capacity>
-            <contents unit="KG"> 733 </contents>
+            <contents unit="KG"> 100 </contents>
         </tank>
 
     </propulsion>
@@ -791,12 +791,19 @@
                     <table>
                         <independentVar lookup="row">aero/alpha-wing-rad</independentVar>
                         <tableData>
-                            -0.20 -0.680
-                            0.00  0.200
-                            0.23  1.200
-                            0.60  0.600
+                           -0.20   -0.80
+                            0.00    0.20
+                            0.10    0.80
+                            0.18    1.10
+                            0.26    1.40
+                            0.60    0.70
+                            0.80    0.45
+                            1.00    0.10
+                            1.20    0.02
+                            1.60    0.00
                         </tableData>
                     </table>
+                    <value>0.8</value>
                 </product>
             </function>
 
@@ -806,7 +813,7 @@
                     <property>aero/qbar-psf</property>
                     <property>metrics/Sw-sqft</property>
                     <property>fcs/flap-pos-norm</property>
-                    <value> 0.5 </value>
+                    <value> 0.75 </value>
                 </product>
             </function>
 
@@ -852,14 +859,14 @@
                     <table>
                         <independentVar lookup="row">aero/alpha-wing-rad</independentVar>
                         <tableData>
-                            -1.57       1.200
-                            -0.26    0.018
-                            0.00    0.012
-                            0.26    0.020
-                            1.57       1.200
+                            -1.57  1.3083
+                            -0.20  0.0301
+                             0.00  0.0000
+                             0.20  0.0301
+                             1.57  1.3083
                         </tableData>
                     </table>
-                    <value>1.4</value>
+                    <value>1.6</value>
                 </product>
             </function>
 
@@ -869,7 +876,7 @@
                     <property>aero/qbar-psf</property>
                     <property>metrics/Sw-sqft</property>
                     <property>aero/cl-squared</property>
-                    <value>0.05</value>
+                    <value>0.1</value>
                 </product>
             </function>
 
@@ -882,11 +889,12 @@
                         <independentVar lookup="row">velocities/mach</independentVar>
                         <tableData>
                             0.00      0.000
-                            0.79      0.001
+                            0.79      0.002
                             1.10      0.043
                             1.80      0.055
                         </tableData>
                     </table>
+                    <value>2.0</value>
                 </product>
             </function>
 
@@ -896,7 +904,7 @@
                     <property>aero/qbar-psf</property>
                     <property>metrics/Sw-sqft</property>
                     <property>fcs/flap-pos-norm</property>
-                    <value> 0.015 </value>
+                    <value> 0.02 </value>
                 </product>
             </function>
 
@@ -906,7 +914,7 @@
                     <property>aero/qbar-psf</property>
                     <property>metrics/Sw-sqft</property>
                     <property>fcs/slat-pos-norm</property>
-                    <value> 0.003</value>
+                    <value> 0.005 </value>
                 </product>
             </function>
 
@@ -926,7 +934,7 @@
                     <property>aero/qbar-psf</property>
                     <property>metrics/Sw-sqft</property>
                     <property>fcs/speedbrake-pos-norm</property>
-                    <value>0.07</value>
+                    <value>0.1</value>
                 </product>
             </function>
 

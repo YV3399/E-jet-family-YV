@@ -374,24 +374,18 @@
 	<it-autoflight>
 		<config>
 			<roll>
-				<umin>-0.50</umin>
-				<umax>0.50</umax>
 				<kp-low>0.05</kp-low>
 				<kp-high>0.09</kp-high>
 				<ti>10.0</ti>
 				<td>0.00001</td>
 			</roll>
 			<pitch>
-				<umin>-0.50</umin>
-				<umax>0.50</umax>
-				<kp-low>-0.08</kp-low>
-				<kp-high>-0.08</kp-high>
-				<ti>10.0</ti>
-				<td>0.0001</td>
+				<kp-low>-0.12</kp-low>
+				<kp-high>-0.06</kp-high>
+				<ti>0.5</ti>
+				<td>0.001</td>
 			</pitch>
 			<cmd>
-				<hdg>1.0</hdg>
-				<vorloc>1.0</vorloc>
 				<roll>1.6</roll>
 				<alt-gain>-5</alt-gain>
 			</cmd>
@@ -400,9 +394,10 @@
 				<yaw-kp>-0.05</yaw-kp>
 			</autoland>
 			<rollout>
-				<roll-kp>0.05</roll-kp>
-				<pitch-defl>0.15</pitch-defl>
-				<yaw-kp>-0.1</yaw-kp>
+				<roll-kp>-0.05</roll-kp>
+				<pitch-nose>0.1</pitch-nose>
+				<pitch-rate>-1.5</pitch-rate>
+				<yaw-kp>-0.02</yaw-kp>
 			</rollout>
 		</config>
 		<settings>

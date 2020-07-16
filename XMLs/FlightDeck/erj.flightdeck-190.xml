@@ -818,7 +818,7 @@
                     </equals>
                 </condition>
                 <command>property-adjust</command>
-                <property>it-autoflight/input/spd-kts</property>
+                <property>it-autoflight/input/kts</property>
                 <min>0</min>
                 <max>400</max>
                 <wrap>false</wrap>
@@ -832,7 +832,7 @@
                     </equals>
                 </condition>
                 <command>property-adjust</command>
-                <property>it-autoflight/input/spd-mach</property>
+                <property>it-autoflight/input/mach</property>
                 <min>0</min>
                 <max>0.99</max>
                 <wrap>false</wrap>
@@ -848,7 +848,7 @@
                     </equals>
                 </condition>
                 <command>property-adjust</command>
-                <property>it-autoflight/input/spd-kts</property>
+                <property>it-autoflight/input/kts</property>
                 <min>0</min>
                 <max>400</max>
                 <wrap>false</wrap>
@@ -862,7 +862,7 @@
                     </equals>
                 </condition>
                 <command>property-adjust</command>
-                <property>it-autoflight/input/spd-mach</property>
+                <property>it-autoflight/input/mach</property>
                 <min>0</min>
                 <max>0.99</max>
                 <wrap>false</wrap>

@@ -303,13 +303,13 @@ var atKtsMachLoop = func {
     if (alt >= 29000 and prevAlt < 29000) {
         # switch to Mach
         var mach = getprop("instrumentation/airspeed-indicator/indicated-mach");
-        setprop("it-autoflight/input/spd-mach", mach);
+        setprop("it-autoflight/input/mach", mach);
         setprop("it-autoflight/input/kts-mach", 1);
     }
     if (alt < 28900 and prevAlt >= 28900) {
         # switch to IAS
         var kts = getprop("instrumentation/airspeed-indicator/indicated-speed-kt");
-        setprop("it-autoflight/input/spd-kts", kts);
+        setprop("it-autoflight/input/kts", kts);
         setprop("it-autoflight/input/kts-mach", 0);
     }
     prevAlt = alt;

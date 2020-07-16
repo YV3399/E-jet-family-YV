@@ -281,7 +281,7 @@
 				</enable>
 				<binding>
 					<command>property-adjust</command>
-					<property>/it-autoflight/input/spd-kts</property>
+					<property>/it-autoflight/input/kts</property>
 					<min>100</min>
 					<max>350</max>
 					<step>-10</step>
@@ -302,7 +302,7 @@
 				</enable>
 				<binding>
 					<command>property-adjust</command>
-					<property>/it-autoflight/input/spd-kts</property>
+					<property>/it-autoflight/input/kts</property>
 					<min>100</min>
 					<max>350</max>
 					<step>-1</step>
@@ -314,7 +314,7 @@
 				<row>0</row>
 				<col>3</col>
 				<pref-width>50</pref-width>
-				<property>/it-autoflight/input/spd-kts</property>
+				<property>/it-autoflight/input/kts</property>
 				<live type="bool">true</live>
 				<enable>
 					<equals>
@@ -341,7 +341,7 @@
 				</enable>
 				<binding>
 					<command>property-adjust</command>
-					<property>/it-autoflight/input/spd-kts</property>
+					<property>/it-autoflight/input/kts</property>
 					<min>100</min>
 					<max>350</max>
 					<step>1</step>
@@ -363,7 +363,7 @@
 				</enable>
 				<binding>
 					<command>property-adjust</command>
-					<property>/it-autoflight/input/spd-kts</property>
+					<property>/it-autoflight/input/kts</property>
 					<min>100</min>
 					<max>350</max>
 					<step>10</step>
@@ -396,7 +396,7 @@
 				</enable>
 				<binding>
 					<command>property-adjust</command>
-					<property>/it-autoflight/input/spd-mach</property>
+					<property>/it-autoflight/input/mach</property>
 					<min>0.50</min>
 					<max>0.90</max>
 					<step>-0.01</step>
@@ -417,7 +417,7 @@
 				</enable>
 				<binding>
 					<command>property-adjust</command>
-					<property>/it-autoflight/input/spd-mach</property>
+					<property>/it-autoflight/input/mach</property>
 					<min>0.50</min>
 					<max>0.90</max>
 					<step>-0.001</step>
@@ -429,7 +429,7 @@
 				<row>0</row>
 				<col>3</col>
 				<pref-width>50</pref-width>
-				<property>/it-autoflight/input/spd-mach</property>
+				<property>/it-autoflight/input/mach</property>
 				<live type="bool">true</live>
 				<enable>
 					<equals>
@@ -456,7 +456,7 @@
 				</enable>
 				<binding>
 					<command>property-adjust</command>
-					<property>/it-autoflight/input/spd-mach</property>
+					<property>/it-autoflight/input/mach</property>
 					<min>0.50</min>
 					<max>0.90</max>
 					<step>0.001</step>
@@ -478,7 +478,7 @@
 				</enable>
 				<binding>
 					<command>property-adjust</command>
-					<property>/it-autoflight/input/spd-mach</property>
+					<property>/it-autoflight/input/mach</property>
 					<min>0.50</min>
 					<max>0.90</max>
 					<step>0.01</step>

@@ -35,7 +35,7 @@
 		<expression>
 			<difference>
 				<property>/instrumentation/airspeed-indicator/indicated-speed-kt</property>
-				<property>/it-autoflight/input/spd-kts</property>
+				<property>/it-autoflight/input/kts</property>
 			</difference>
 		</expression>
 	</input>
@@ -51,7 +51,7 @@
 		<expression>
 			<difference>
 				<property>/instrumentation/airspeed-indicator/indicated-mach</property>
-				<property>/it-autoflight/input/spd-mach</property>
+				<property>/it-autoflight/input/mach</property>
 			</difference>
 		</expression>
 	</input>

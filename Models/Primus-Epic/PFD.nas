@@ -164,8 +164,8 @@ var canvas_ED_only = {
         m.props["/controls/flight/vnav-enabled"] = props.globals.getNode("/controls/flight/vnav-enabled");
         m.props["/it-autoflight/input/hdg"] = props.globals.getNode("/it-autoflight/input/hdg");
         m.props["/it-autoflight/input/kts-mach"] = props.globals.getNode("/it-autoflight/input/kts-mach");
-        m.props["/it-autoflight/input/spd-kts"] = props.globals.getNode("/it-autoflight/input/spd-kts");
-        m.props["/it-autoflight/input/spd-mach"] = props.globals.getNode("/it-autoflight/input/spd-mach");
+        m.props["/it-autoflight/input/kts"] = props.globals.getNode("/it-autoflight/input/kts");
+        m.props["/it-autoflight/input/mach"] = props.globals.getNode("/it-autoflight/input/mach");
         m.props["/it-autoflight/input/vs"] = props.globals.getNode("/it-autoflight/input/vs");
         m.props["/it-autoflight/input/fpa"] = props.globals.getNode("/it-autoflight/input/fpa");
         m.props["/instrumentation/pfd/airspeed-lookahead-10s"] = props.globals.getNode("/instrumentation/pfd/airspeed-lookahead-10s");
@@ -640,7 +640,7 @@ var canvas_ED_only = {
         var selectedKts = 0;
 
         if (me.props["/it-autoflight/input/kts-mach"].getValue()) {
-            var selectedMach = (me.props["/it-autoflight/input/spd-mach"].getValue() or 0);
+            var selectedMach = (me.props["/it-autoflight/input/mach"].getValue() or 0);
             me["selectedspeed.digital"].setText(sprintf(".%03dM", selectedMach * 1000));
             if (currentMach > 0.001) {
                 selectedKts = selectedMach * airspeed / currentMach;
@@ -648,11 +648,11 @@ var canvas_ED_only = {
             else {
                 # this shouldn't happen in practice, but when it does, use the
                 # least objectionable default.
-                selectedKts = me.props["/it-autoflight/input/spd-kts"].getValue();
+                selectedKts = me.props["/it-autoflight/input/kts"].getValue();
             }
         }
         else {
-            selectedKts = (me.props["/it-autoflight/input/spd-kts"].getValue() or 0);
+            selectedKts = (me.props["/it-autoflight/input/kts"].getValue() or 0);
             me["selectedspeed.digital"].setText(sprintf("%03d", selectedKts));
         }
         if (me.props["/controls/flight/speed-mode"].getValue() == 1) {
