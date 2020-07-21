@@ -28,10 +28,10 @@
   <!-- real aircraft: 0.68; nerfed to get more realistic fuel burn -->
   <tsfc>            0.425 </tsfc>
   <bleed>           0.03</bleed>
-  <idlen1>         30.0 </idlen1>
-  <idlen2>         60.0 </idlen2>
-  <maxn1>         100.0 </maxn1>
-  <maxn2>         100.0 </maxn2>
+  <idlen1>         25.0 </idlen1>
+  <idlen2>         60.5 </idlen2>
+  <maxn1>          99.5 </maxn1>
+  <maxn2>          99.4 </maxn2>
   <augmented>         0 </augmented>
   <injected>          0 </injected>
 
