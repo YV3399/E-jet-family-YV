@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!-- Embraer 190 AOM page 1894 -->
+
+<PropertyList>
+
+    <filter>
+        <name>Zero-fuel weight</name>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <expression>
+                <difference>
+                    <property>/fdm/jsbsim/inertia/weight-lbs</property>
+                    <property>/consumables/fuel/total-fuel-lbs</property>
+                </difference>
+            </expression>
+        </input>
+        <output>/fms/fuel/zfw-lbs</output>
+    </filter>
+
+    <filter>
+        <name>Zero-fuel weight (kg)</name>
+        <type>gain</type>
+        <gain>0.4535924</gain>
+        <input>
+            <property>/fms/fuel/zfw-lbs</property>
+        </input>
+        <output>/fms/fuel/zfw-kg</output>
+    </filter>
+
+</PropertyList>

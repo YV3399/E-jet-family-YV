@@ -7,6 +7,7 @@
             <name type="string">British Airways (700th aircraft)</name>
             <texture>/../Models/Liveries/ERJ170/G-LCYN.png</texture>
         </livery>
+        <tail-number>G-LCYN</tail-number>
     </model>
 </sim>
 </PropertyList>

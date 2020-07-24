@@ -7,6 +7,7 @@
             <name type="string">KLM Cityhopper</name>
             <texture>/../Models/Liveries/ERJ190/KLM.png</texture>
         </livery>
+        <tail-number>PH-EZI</tail-number>
     </model>
 </sim>
 </PropertyList>

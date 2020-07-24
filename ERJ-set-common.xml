@@ -11,7 +11,7 @@
             <livery>
                 <file type="string"/>
             </livery>
-
+            <tail-number>PP-EMB</tail-number>
             <E-jet-family>
                 <heading-bug-pfd-deg type="double">0</heading-bug-pfd-deg>
                 <heading-bug-deg type="double">0</heading-bug-deg>
@@ -58,13 +58,13 @@
         </aircraft-data>
 
         <flaps>
-            <setting>0</setting>
-            <setting>0.1</setting>
-            <setting>0.2</setting>
-            <setting>0.3</setting>
-            <setting>0.4</setting>
-            <setting>0.5</setting>
-            <setting>0.6</setting>
+            <setting>0</setting> <!-- clean -->
+            <setting>0.125</setting> <!-- 1 -->
+            <setting>0.250</setting> <!-- 2 -->
+            <setting>0.375</setting> <!-- 3 -->
+            <setting>0.500</setting> <!-- 4 -->
+            <setting>0.625</setting> <!-- 5 -->
+            <setting>0.750</setting> <!-- full / 6 -->
         </flaps>
 
         <startup>
@@ -126,10 +126,14 @@
             <property-rule n="100">
                 <path>Aircraft/E-jet-family/Systems/pfd.xml</path>
             </property-rule>
+            <property-rule n="101">
+                <path>Aircraft/E-jet-family/Systems/fms.xml</path>
+            </property-rule>
+
+            <!--Disable XML electrical system-->
             <electrical>
                 <path></path>
             </electrical>
-            <!--Disable XML electrical system-->
         </systems>
 
         <chase-distance-m>-50</chase-distance-m>
@@ -170,6 +174,31 @@
                 <y-offset-m archive="y">1.43</y-offset-m>
                 <pitch-offset-deg archive="y">-8.0</pitch-offset-deg>
                 <default-field-of-view-deg type="double">70.0</default-field-of-view-deg>
+            </config>
+        </view>
+
+        <view n="199">
+            <name>Center Pedestal</name>
+            <type>lookfrom</type>
+            <internal archive="y">true</internal>
+            <config>
+                <from-model type="bool">true</from-model>
+                <x-offset-m>-0.15</x-offset-m>
+                <y-offset-m>1.129</y-offset-m>
+                <pitch-offset-deg>-36</pitch-offset-deg>
+                <default-field-of-view-deg type="double">70.0</default-field-of-view-deg>
+            </config>
+        </view>
+
+        <view n="198">
+            <name>Overhead Panel</name>
+            <type>lookfrom</type>
+            <internal archive="y">true</internal>
+            <config>
+                <from-model type="bool">true</from-model>
+                <x-offset-m>0</x-offset-m>
+                <y-offset-m>1.1625</y-offset-m>
+                <pitch-offset-deg>45</pitch-offset-deg>
             </config>
         </view>
 
@@ -317,6 +346,14 @@
                             <dialog-name>performance</dialog-name>
                         </binding>
                     </item>
+                    <item>
+                        <name>mcdu1</name>
+                        <label>MCDU 1</label>
+                        <binding>
+                            <command>dialog-show</command>
+                            <dialog-name>mcdu1</dialog-name>
+                        </binding>
+                    </item>
                 </menu>
             </default>
         </menubar>
@@ -431,7 +468,6 @@
         </settings>
     </it-autoflight>
 
-
     <consumables>
         <fuel>
             <tank n="0">
@@ -489,11 +525,11 @@
         <phase type="int">0</phase>
         <mode type="int">0</mode>
         <thrust>
-            <to1 type="double">97.0</to1>
-            <to2 type="double">91.0</to2>
-            <to3 type="double">85.0</to3>
+            <to1 type="double">97.1</to1>
+            <to2 type="double">91.4</to2>
+            <to3 type="double">83.0</to3>
             <climb1 type="double">87.6</climb1>
-            <climb2 type="double">78.2</climb2>
+            <climb2 type="double">78.3</climb2>
             <con type="double">90.8</con>
             <crz type="double">73.5</crz>
         </thrust>
@@ -505,6 +541,7 @@
         <alt-target type="double">35000</alt-target>
         <climb-gradient type="double">0</climb-gradient>
         <descent-gradient type="double">0</descent-gradient>
+        <performance-initialized type="bool">0</performance-initialized>
         <internal>
             <toc-reached type="bool">false</toc-reached>
         </internal>
@@ -522,6 +559,70 @@
             <available type="bool">false</available>
             <profile-alt type="double">0</profile-alt>
         </vnav>
+        <radio>
+            <nav-auto type="bool">false</nav-auto>
+            <nav-auto type="bool">false</nav-auto>
+            <tcas-xpdr>
+                <enabled type="bool">true</enabled>
+                <!--
+                                 TCAS XPDR
+                    0 = STBY     OFF  1 (standby)
+                    1 = ALT-OFF  OFF  4 (on, no altitude)
+                    2 = ALT-ON   OFF  5 (alt, on + altitude)
+                    3 = TA       TA   5
+                    4 = TA/RA    TARA 5
+                -->
+                <mode>4</mode>
+            </tcas-xpdr>
+            <position-loaded type="bool">false</position-loaded>
+            <position-loaded type="bool">false</position-loaded>
+            <position-loaded type="bool">false</position-loaded>
+        </radio>
+
+        <takeoff-conditions>
+            <flaps type="double">0.250</flaps>
+            <pitch type="double">9.2</pitch>
+            <runway-heading type="double">0</runway-heading>
+            <runway-slope type="double">0</runway-slope>
+            <!--
+                0 = dry
+                1 = wet
+                2 = snow
+                3 = ice
+            -->
+            <runway-condition>0</runway-condition>
+            <runway-elevation type="double">0</runway-elevation>
+            <qnh type="double">1013</qnh>
+            <pressure-alt type="double">0</pressure-alt>
+            <oat type="double">20</oat>
+            <wind-dir type="double">0</wind-dir>
+            <wind-speed type="double">0</wind-speed>
+        </takeoff-conditions>
+
+        <landing-conditions>
+            <approach-flaps type="double">0.500</approach-flaps>
+            <landing-flaps type="double">0.750</landing-flaps>
+            <ice-accretion type="bool">false</ice-accretion>
+            <!--
+                0 = non-precision
+                1 = CAT I
+                2 = CAT II
+                3 = CAT III
+            -->
+            <approach-cat>1</approach-cat>
+        </landing-conditions>
+
+        <fuel>
+            <!-- fuel budgetting for performance planning -->
+            <!-- ALL FIGURES IN KG! -->
+            <reserve type="double">800</reserve>
+            <takeoff type="double">100</takeoff>
+            <landing type="double">70</landing>
+            <contingency type="double">300</contingency>
+
+            <tow type="double"></tow>
+        </fuel>
+
     </fms>
 
     <controls>
@@ -640,17 +741,22 @@
             <speed-schedule>
                 <departure type="double">200</departure>
                 <climb-below-10k type="double">250</climb-below-10k>
+                <climb-limit-alt type="double">10000</climb-limit-alt>
                 <climb-kts type="double">280</climb-kts>
                 <climb-mach type="double">0.73</climb-mach>
                 <cruise-kts type="double">300</cruise-kts>
                 <cruise-mach type="double">0.76</cruise-mach>
+                <cruise-mode type="int">0</cruise-mode>
                 <descent-mach type="double">0.76</descent-mach>
                 <descent-kts type="double">290</descent-kts>
                 <descent-below-10k type="double">250</descent-below-10k>
+                <descent-fpa type="double">3.0</descent-fpa>
                 <initial-approach type="double">210</initial-approach>
             </speed-schedule>
             <selected-alt type="double">5000</selected-alt>
+            <transition-alt type="double">5000</transition-alt>
             <vnav-enabled type="bool">false</vnav-enabled>
+            <perf-mode>0</perf-mode>
         </flight>
 
         <gear>
@@ -729,12 +835,20 @@
             <brightness type="float">0.5</brightness>
         </IESS>
 
-        <cdu>
-
+        <mcdu>
             <display>IDENT</display>
             <input type="string"/>
             <serviceable type="bool">true</serviceable>
-        </cdu>
+            <command type="string"></command>
+            <brightness>0.8</brightness>
+        </mcdu>
+        <mcdu>
+            <display>IDENT</display>
+            <input type="string"/>
+            <serviceable type="bool">true</serviceable>
+            <command type="string"></command>
+            <brightness>0.8</brightness>
+        </mcdu>
 
         <fmc>
             <to-flap type="double">10</to-flap>
@@ -760,6 +874,19 @@
             <nav-display n="0" type="int">0</nav-display>
             <nav-display n="1" type="int">0</nav-display>
         </nav-compass>
+
+        <tcas>
+            <serviceable type="bool">true</serviceable>
+            <inputs>
+                <mode type="int">3</mode>
+            </inputs>
+
+            <speaker>
+                <max-dist>2</max-dist>
+                <reference-dist>1</reference-dist>
+                <volume>1.0</volume>
+            </speaker>
+        </tcas>
 
         <!-- See http://wiki.flightgear.org/index.php/GPWS -->
 
@@ -1031,9 +1158,6 @@
         <walk>
             <file>Aircraft/E-jet-family/Nasal/walk.nas</file>
         </walk>
-        <cdu>
-            <file>Aircraft/Instruments-3d/cdu/boeing.nas</file>
-        </cdu>
         <erj>
             <file>Aircraft/E-jet-family/Nasal/doors.nas</file><!--
                         <file>Aircraft/E-jet-family/Nasal/lighting.nas</file>-->
@@ -1046,8 +1170,11 @@
             <file>Aircraft/E-jet-family/Nasal/autopilot.nas</file>
         </input>
         <fms>
-            <file>Aircraft/E-jet-family/Nasal/fms-speed.nas</file>
-            <file>Aircraft/E-jet-family/Nasal/vnav.nas</file>
+            <file>Aircraft/E-jet-family/Nasal/fms/speed.nas</file>
+            <file>Aircraft/E-jet-family/Nasal/fms/vnav.nas</file>
+            <file>Aircraft/E-jet-family/Nasal/fms/radios.nas</file>
+            <file>Aircraft/E-jet-family/Nasal/fms/main.nas</file>
+            <file>Aircraft/E-jet-family/Nasal/fms/route.nas</file>
         </fms>
 
         <autopush>
@@ -1063,6 +1190,16 @@
             <file>Nasal/Autopush/route.nas</file>
         </autopush_route>
 
+        <mcdu>
+            <file>Aircraft/E-jet-family/Models/Instruments/MCDU/util.nas</file>
+            <file>Aircraft/E-jet-family/Models/Instruments/MCDU/defs.nas</file>
+            <file>Aircraft/E-jet-family/Models/Instruments/MCDU/mcdu-models.nas</file>
+            <file>Aircraft/E-jet-family/Models/Instruments/MCDU/mcdu-views.nas</file>
+            <file>Aircraft/E-jet-family/Models/Instruments/MCDU/mcdu-controllers.nas</file>
+            <file>Aircraft/E-jet-family/Models/Instruments/MCDU/mcdu-modules.nas</file>
+            <file>Aircraft/E-jet-family/Models/Instruments/MCDU/mcdu-mcdu.nas</file>
+            <file>Aircraft/E-jet-family/Models/Instruments/MCDU/mcdu-main.nas</file>
+        </mcdu>
     </nasal>
 
     <fdm>

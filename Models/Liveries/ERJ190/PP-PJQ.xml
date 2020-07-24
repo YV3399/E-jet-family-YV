@@ -7,6 +7,7 @@
             <name type="string">Azul (PP-PJQ)</name>
             <texture>/../Models/Liveries/ERJ190/PP-PJQ.png</texture>
         </livery>
+        <tail-number>PP-PJQ</tail-number>
     </model>
 </sim>
 </PropertyList>

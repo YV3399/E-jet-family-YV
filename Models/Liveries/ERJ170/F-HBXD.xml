@@ -7,6 +7,7 @@
             <name type="string">HOP! - For Air France</name>
             <texture>/../Models/Liveries/ERJ170/F-HBXD.png</texture>
         </livery>
+        <tail-number>F-HBXD</tail-number>
     </model>
 </sim>
 </PropertyList>

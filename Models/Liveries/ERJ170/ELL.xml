@@ -6,6 +6,7 @@
             <name type="string">Estonian Air</name>
             <texture>/../Models/Liveries/ERJ170/ELL.png</texture>
         </livery>
+        <tail-number>ES-AEC</tail-number>
     </model>
 </sim>
 </PropertyList>

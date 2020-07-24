@@ -7,6 +7,7 @@
             <name type="string">Flybe</name>
             <texture>/../Models/Liveries/ERJ175/flybe.png</texture>
         </livery>
+        <tail-number>C-FBEG</tail-number>
     </model>
 </sim>
 </PropertyList>

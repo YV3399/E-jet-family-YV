@@ -42,11 +42,10 @@
 		<number>0</number>
 	</dme>
 
-
-        <dme>
-                <name>dme</name>
-                <number>1</number>
-        </dme>
+	<dme>
+		<name>dme</name>
+		<number>1</number>
+	</dme>
 
 	<altimeter>
 		<name>encoder</name>
@@ -96,7 +95,13 @@
 		<name>transponder</name>
 		<number>0</number>
 		<mode-c-altitude>/instrumentation/encoder/mode-c-alt-ft</mode-c-altitude>
+        <standby-id type="string">1200</standby-id>
 	</transponder>
+
+    <tcas>
+        <name>tcas</name>
+        <number>0</number>
+    </tcas>
 
 	<turn-indicator>
 		<name>turn-indicator</name>

@@ -7,6 +7,7 @@
             <name type="string">JetBlue | "Blue Streak" (N265JB)</name>
             <texture>/../Models/Liveries/ERJ190/N265JB.png</texture>
         </livery>
+        <tail-number>N265JB</tail-number>
     </model>
 </sim>
 </PropertyList>

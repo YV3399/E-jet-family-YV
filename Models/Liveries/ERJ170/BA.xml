@@ -7,6 +7,7 @@
             <name type="string">British Airways</name>
             <texture>/../Models/Liveries/ERJ170/BritishAirways.png</texture>
         </livery>
+        <tail-number>G-LCTE</tail-number>
     </model>
 </sim>
 </PropertyList>

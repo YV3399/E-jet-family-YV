@@ -7,6 +7,7 @@
             <name type="string">United Express</name>
             <texture>/../Models/Liveries/ERJ175/UnitedExpress.png</texture>
         </livery>
+        <tail-number>N82333</tail-number>
     </model>
 </sim>
 </PropertyList>

@@ -7,6 +7,7 @@
             <name type="string">AirEuropa</name>
             <texture>/../Models/Liveries/ERJ195/AirEuropa.png</texture>
         </livery>
+        <tail-number>EC-KVJ</tail-number>
     </model>
 </sim>
 </PropertyList>

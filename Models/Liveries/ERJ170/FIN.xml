@@ -7,6 +7,7 @@
             <name type="string">Finnair (OH-LEK)</name>
             <texture>/../Models/Liveries/ERJ170/FIN.png</texture>
         </livery>
+        <tail-number>OH-LEK</tail-number>
     </model>
 </sim>
 </PropertyList>

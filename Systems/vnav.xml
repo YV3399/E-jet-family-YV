@@ -65,7 +65,7 @@
     <filter>
         <type>gain</type>
         <gain>1</gain>
-        <input>
+        <enable>
             <!-- VNAV climb -->
             <condition>
                 <and>
@@ -76,6 +76,8 @@
                     </equals>
                 </and>
             </condition>
+        </enable>
+        <input>
             <property>/fms/vnav/selected-fpa</property>
         </input>
         <output>/it-autoflight/input/fpa</output>

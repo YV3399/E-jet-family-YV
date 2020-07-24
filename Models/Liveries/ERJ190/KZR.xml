@@ -7,6 +7,7 @@
             <name type="string">Air Astana</name>
             <texture>/../Models/Liveries/ERJ190/KZR.png</texture>
         </livery>
+        <tail-number>P4-KCJ</tail-number>
     </model>
 </sim>
 </PropertyList>

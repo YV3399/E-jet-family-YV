@@ -27,6 +27,16 @@
 				<z-offset-m archive="y">-13.57</z-offset-m>
 			</config>
 		</view>
+        <view n="199">
+            <config>
+                <z-offset-m archive="y">-14.0</z-offset-m>
+            </config>
+        </view>
+        <view n="198">
+            <config>
+                <z-offset-m archive="y">-13.57</z-offset-m>
+            </config>
+        </view>
 		<view n="103">
 			<config>
 				<z-offset-m archive="y">-13.57</z-offset-m>
@@ -83,12 +93,12 @@
 	</limits>
 
 	<instrumentation>
-		<cdu>
+		<mcdu>
 			<ident>
-				<model>ERJ190-100</model>
+				<model>E190-100LR</model>
 				<engines>GE_CF34-10E</engines>
 			</ident>
-		</cdu>
+		</mcdu>
 	</instrumentation>
 
 </PropertyList>

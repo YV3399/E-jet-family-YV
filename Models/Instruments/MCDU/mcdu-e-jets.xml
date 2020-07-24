@@ -1,0 +1,1138 @@
+<PropertyList>
+
+<params>
+    <command-target>/instrumentation/mcdu[0]/command</command-target>
+    <brightness-source>/instrumentation/mcdu[0]/brightness</brightness-source>
+    <index>0</index>
+</params>
+
+<path>mcdu-td.ac</path>
+
+<animation> 
+	<type>select</type> 
+    <object-name>MCDU0</object-name>
+    <condition>
+        <equals>
+            <value alias="../../../../params/index" />
+            <value>0</value>
+        </equals>
+    </condition>
+</animation>
+
+<animation> 
+	<type>select</type> 
+    <object-name>MCDU1</object-name>
+    <condition>
+        <equals>
+            <value alias="../../../../params/index" />
+            <value>1</value>
+        </equals>
+    </condition>
+</animation>
+
+<effect>
+	<inherits-from>Effects/lightmap</inherits-from>
+	<parameters>
+		<texture n="1">
+			<image>Aircraft/E-jet-family/Models/Instruments/MCDU/MCDU_lightmap.png</image>
+		</texture>
+		<condition><use>/instrumentation/mcdu/serviceable</use></condition>
+        <!-- TODO: below does not work, so for now, both MCDUs will feed off
+             of the brightness control for the captain's MCDU. -->
+        <!--
+		<factor><use alias="../../../params/brightness-source" /></factor>
+        -->
+        <factor><use>/instrumentation/mcdu[0]/brightness</use></factor>
+	</parameters>
+    <object-name>Btn.A</object-name>
+    <object-name>Btn.B</object-name>
+    <object-name>Btn.brightness</object-name>
+    <object-name>Btn.C</object-name>
+    <object-name>Btn.CB</object-name>
+    <object-name>Btn.CLR</object-name>
+    <object-name>Btn.D</object-name>
+    <object-name>Btn.DEL</object-name>
+    <object-name>Btn.DLK</object-name>
+    <object-name>Btn.Dot</object-name>
+    <object-name>Btn.E</object-name>
+    <object-name>Btn.F</object-name>
+    <object-name>Btn.FPL</object-name>
+    <object-name>Btn.G</object-name>
+    <object-name>Btn.H</object-name>
+    <object-name>Btn.I</object-name>
+    <object-name>Btn.J</object-name>
+    <object-name>Btn.K</object-name>
+    <object-name>Btn.L</object-name>
+    <object-name>Btn.L1</object-name>
+    <object-name>Btn.L2</object-name>
+    <object-name>Btn.L3</object-name>
+    <object-name>Btn.L4</object-name>
+    <object-name>Btn.L5</object-name>
+    <object-name>Btn.L6</object-name>
+    <object-name>Btn.M</object-name>
+    <object-name>Btn.MENU</object-name>
+    <object-name>Btn.N</object-name>
+    <object-name>Btn.NAV</object-name>
+    <object-name>Btn.NEXT</object-name>
+    <object-name>Btn.Num0</object-name>
+    <object-name>Btn.Num1</object-name>
+    <object-name>Btn.Num2</object-name>
+    <object-name>Btn.Num3</object-name>
+    <object-name>Btn.Num4</object-name>
+    <object-name>Btn.Num5</object-name>
+    <object-name>Btn.Num6</object-name>
+    <object-name>Btn.Num7</object-name>
+    <object-name>Btn.Num8</object-name>
+    <object-name>Btn.Num9</object-name>
+    <object-name>Btn.O</object-name>
+    <object-name>Btn.P</object-name>
+    <object-name>Btn.PERF</object-name>
+    <object-name>Btn.PlusMinus</object-name>
+    <object-name>Btn.PREV</object-name>
+    <object-name>Btn.PROG</object-name>
+    <object-name>Btn.Q</object-name>
+    <object-name>Btn.R</object-name>
+    <object-name>Btn.R1</object-name>
+    <object-name>Btn.R2</object-name>
+    <object-name>Btn.R3</object-name>
+    <object-name>Btn.R4</object-name>
+    <object-name>Btn.R5</object-name>
+    <object-name>Btn.R6</object-name>
+    <object-name>Btn.RADIO</object-name>
+    <object-name>Btn.RTE</object-name>
+    <object-name>Btn.S</object-name>
+    <object-name>Btn.Slash</object-name>
+    <object-name>Btn.SP</object-name>
+    <object-name>Btn.T</object-name>
+    <object-name>Btn.TRS</object-name>
+    <object-name>Btn.U</object-name>
+    <object-name>Btn.unused001</object-name>
+    <object-name>Btn.V</object-name>
+    <object-name>Btn.W</object-name>
+    <object-name>Btn.X</object-name>
+    <object-name>Btn.Y</object-name>
+    <object-name>Btn.Z</object-name>
+</effect>
+
+<animation>
+    <type>knob</type>
+    <object-name>Btn.brightness</object-name>
+    <action>
+        <binding>
+            <command>property-adjust</command>
+            <property alias="../../../../params/brightness-source" />
+            <min>0</min>
+            <max>1</max>
+            <factor>0.1</factor>
+            <wrap>false</wrap>
+        </binding>
+    </action>
+</animation>
+
+<animation>
+	<type>pick</type>
+	<object-name>Btn.A</object-name>
+	<action>
+		<button>0</button>
+		<repeatable>false</repeatable>  
+		<binding>
+			<command>property-assign</command>
+            <property alias="../../../../params/command-target" />
+            <value>A</value>
+		</binding>
+	</action>
+</animation>
+
+<animation>
+	<type>pick</type>
+	<object-name>Btn.B</object-name>
+	<action>
+		<button>0</button>
+		<repeatable>false</repeatable>  
+		<binding>
+			<command>property-assign</command>
+            <property alias="../../../../params/command-target" />
+            <value>B</value>
+		</binding>
+	</action>
+</animation>
+
+
+<animation>
+    <type>pick</type>
+    <object-name>Btn.C</object-name>
+    <action>
+        <button>0</button>
+        <repeatable>false</repeatable>
+        <binding>
+            <command>property-assign</command>
+            <property alias="../../../../params/command-target" />
+            <value>C</value>
+        </binding>
+    </action>
+</animation>
+
+<animation>
+    <type>pick</type>
+    <object-name>Btn.CB</object-name>
+    <action>
+        <button>0</button>
+        <repeatable>false</repeatable>
+        <binding>
+            <command>property-assign</command>
+            <property alias="../../../../params/command-target" />
+            <value>CB</value>
+        </binding>
+    </action>
+</animation>
+
+<animation>
+    <type>pick</type>
+    <object-name>Btn.CLR</object-name>
+    <action>
+        <button>0</button>
+        <repeatable>false</repeatable>
+        <binding>
+            <command>property-assign</command>
+            <property alias="../../../../params/command-target" />
+            <value>CLR</value>
+        </binding>
+    </action>
+</animation>
+
+<animation>
+    <type>pick</type>
+    <object-name>Btn.D</object-name>
+    <action>
+        <button>0</button>
+        <repeatable>false</repeatable>
+        <binding>
+            <command>property-assign</command>
+            <property alias="../../../../params/command-target" />
+            <value>D</value>
+        </binding>
+    </action>
+</animation>
+
+<animation>
+    <type>pick</type>
+    <object-name>Btn.DEL</object-name>
+    <action>
+        <button>0</button>
+        <repeatable>false</repeatable>
+        <binding>
+            <command>property-assign</command>
+            <property alias="../../../../params/command-target" />
+            <value>DEL</value>
+        </binding>
+    </action>
+</animation>
+
+<animation>
+    <type>pick</type>
+    <object-name>Btn.DLK</object-name>
+    <action>
+        <button>0</button>
+        <repeatable>false</repeatable>
+        <binding>
+            <command>property-assign</command>
+            <property alias="../../../../params/command-target" />
+            <value>DLK</value>
+        </binding>
+    </action>
+</animation>
+
+<animation>
+    <type>pick</type>
+    <object-name>Btn.Dot</object-name>
+    <action>
+        <button>0</button>
+        <repeatable>false</repeatable>
+        <binding>
+            <command>property-assign</command>
+            <property alias="../../../../params/command-target" />
+            <value>.</value>
+        </binding>
+    </action>
+</animation>
+
+<animation>
+    <type>pick</type>
+    <object-name>Btn.E</object-name>
+    <action>
+        <button>0</button>
+        <repeatable>false</repeatable>
+        <binding>
+            <command>property-assign</command>
+            <property alias="../../../../params/command-target" />
+            <value>E</value>
+        </binding>
+    </action>
+</animation>
+
+<animation>
+    <type>pick</type>
+    <object-name>Btn.F</object-name>
+    <action>
+        <button>0</button>
+        <repeatable>false</repeatable>
+        <binding>
+            <command>property-assign</command>
+            <property alias="../../../../params/command-target" />
+            <value>F</value>
+        </binding>
+    </action>
+</animation>
+
+<animation>
+    <type>pick</type>
+    <object-name>Btn.FPL</object-name>
+    <action>
+        <button>0</button>
+        <repeatable>false</repeatable>
+        <binding>
+            <command>property-assign</command>
+            <property alias="../../../../params/command-target" />
+            <value>FPL</value>
+        </binding>
+    </action>
+</animation>
+
+<animation>
+    <type>pick</type>
+    <object-name>Btn.G</object-name>
+    <action>
+        <button>0</button>
+        <repeatable>false</repeatable>
+        <binding>
+            <command>property-assign</command>
+            <property alias="../../../../params/command-target" />
+            <value>G</value>
+        </binding>
+    </action>
+</animation>
+
+<animation>
+    <type>pick</type>
+    <object-name>Btn.H</object-name>
+    <action>
+        <button>0</button>
+        <repeatable>false</repeatable>
+        <binding>
+            <command>property-assign</command>
+            <property alias="../../../../params/command-target" />
+            <value>H</value>
+        </binding>
+    </action>
+</animation>
+
+<animation>
+    <type>pick</type>
+    <object-name>Btn.I</object-name>
+    <action>
+        <button>0</button>
+        <repeatable>false</repeatable>
+        <binding>
+            <command>property-assign</command>
+            <property alias="../../../../params/command-target" />
+            <value>I</value>
+        </binding>
+    </action>
+</animation>
+
+<animation>
+    <type>pick</type>
+    <object-name>Btn.J</object-name>
+    <action>
+        <button>0</button>
+        <repeatable>false</repeatable>
+        <binding>
+            <command>property-assign</command>
+            <property alias="../../../../params/command-target" />
+            <value>J</value>
+        </binding>
+    </action>
+</animation>
+
+<animation>
+    <type>pick</type>
+    <object-name>Btn.K</object-name>
+    <action>
+        <button>0</button>
+        <repeatable>false</repeatable>
+        <binding>
+            <command>property-assign</command>
+            <property alias="../../../../params/command-target" />
+            <value>K</value>
+        </binding>
+    </action>
+</animation>
+
+<animation>
+    <type>pick</type>
+    <object-name>Btn.L</object-name>
+    <action>
+        <button>0</button>
+        <repeatable>false</repeatable>
+        <binding>
+            <command>property-assign</command>
+            <property alias="../../../../params/command-target" />
+            <value>L</value>
+        </binding>
+    </action>
+</animation>
+
+<animation>
+    <type>pick</type>
+    <object-name>Btn.L1</object-name>
+    <action>
+        <button>0</button>
+        <repeatable>false</repeatable>
+        <binding>
+            <command>property-assign</command>
+            <property alias="../../../../params/command-target" />
+            <value>L1</value>
+        </binding>
+    </action>
+</animation>
+
+<animation>
+    <type>pick</type>
+    <object-name>Btn.L2</object-name>
+    <action>
+        <button>0</button>
+        <repeatable>false</repeatable>
+        <binding>
+            <command>property-assign</command>
+            <property alias="../../../../params/command-target" />
+            <value>L2</value>
+        </binding>
+    </action>
+</animation>
+
+<animation>
+    <type>pick</type>
+    <object-name>Btn.L3</object-name>
+    <action>
+        <button>0</button>
+        <repeatable>false</repeatable>
+        <binding>
+            <command>property-assign</command>
+            <property alias="../../../../params/command-target" />
+            <value>L3</value>
+        </binding>
+    </action>
+</animation>
+
+<animation>
+    <type>pick</type>
+    <object-name>Btn.L4</object-name>
+    <action>
+        <button>0</button>
+        <repeatable>false</repeatable>
+        <binding>
+            <command>property-assign</command>
+            <property alias="../../../../params/command-target" />
+            <value>L4</value>
+        </binding>
+    </action>
+</animation>
+
+<animation>
+    <type>pick</type>
+    <object-name>Btn.L5</object-name>
+    <action>
+        <button>0</button>
+        <repeatable>false</repeatable>
+        <binding>
+            <command>property-assign</command>
+            <property alias="../../../../params/command-target" />
+            <value>L5</value>
+        </binding>
+    </action>
+</animation>
+
+<animation>
+    <type>pick</type>
+    <object-name>Btn.L6</object-name>
+    <action>
+        <button>0</button>
+        <repeatable>false</repeatable>
+        <binding>
+            <command>property-assign</command>
+            <property alias="../../../../params/command-target" />
+            <value>L6</value>
+        </binding>
+    </action>
+</animation>
+
+<animation>
+    <type>pick</type>
+    <object-name>Btn.M</object-name>
+    <action>
+        <button>0</button>
+        <repeatable>false</repeatable>
+        <binding>
+            <command>property-assign</command>
+            <property alias="../../../../params/command-target" />
+            <value>M</value>
+        </binding>
+    </action>
+</animation>
+
+<animation>
+    <type>pick</type>
+    <object-name>Btn.MENU</object-name>
+    <action>
+        <button>0</button>
+        <repeatable>false</repeatable>
+        <binding>
+            <command>property-assign</command>
+            <property alias="../../../../params/command-target" />
+            <value>MENU</value>
+        </binding>
+    </action>
+</animation>
+
+<animation>
+    <type>pick</type>
+    <object-name>Btn.N</object-name>
+    <action>
+        <button>0</button>
+        <repeatable>false</repeatable>
+        <binding>
+            <command>property-assign</command>
+            <property alias="../../../../params/command-target" />
+            <value>N</value>
+        </binding>
+    </action>
+</animation>
+
+<animation>
+    <type>pick</type>
+    <object-name>Btn.NAV</object-name>
+    <action>
+        <button>0</button>
+        <repeatable>false</repeatable>
+        <binding>
+            <command>property-assign</command>
+            <property alias="../../../../params/command-target" />
+            <value>NAV</value>
+        </binding>
+    </action>
+</animation>
+
+<animation>
+    <type>pick</type>
+    <object-name>Btn.NEXT</object-name>
+    <action>
+        <button>0</button>
+        <repeatable>false</repeatable>
+        <binding>
+            <command>property-assign</command>
+            <property alias="../../../../params/command-target" />
+            <value>NEXT</value>
+        </binding>
+    </action>
+</animation>
+
+<animation>
+    <type>pick</type>
+    <object-name>Btn.Num0</object-name>
+    <action>
+        <button>0</button>
+        <repeatable>false</repeatable>
+        <binding>
+            <command>property-assign</command>
+            <property alias="../../../../params/command-target" />
+            <value>0</value>
+        </binding>
+    </action>
+</animation>
+
+<animation>
+    <type>pick</type>
+    <object-name>Btn.Num1</object-name>
+    <action>
+        <button>0</button>
+        <repeatable>false</repeatable>
+        <binding>
+            <command>property-assign</command>
+            <property alias="../../../../params/command-target" />
+            <value>1</value>
+        </binding>
+    </action>
+</animation>
+
+<animation>
+    <type>pick</type>
+    <object-name>Btn.Num2</object-name>
+    <action>
+        <button>0</button>
+        <repeatable>false</repeatable>
+        <binding>
+            <command>property-assign</command>
+            <property alias="../../../../params/command-target" />
+            <value>2</value>
+        </binding>
+    </action>
+</animation>
+
+<animation>
+    <type>pick</type>
+    <object-name>Btn.Num3</object-name>
+    <action>
+        <button>0</button>
+        <repeatable>false</repeatable>
+        <binding>
+            <command>property-assign</command>
+            <property alias="../../../../params/command-target" />
+            <value>3</value>
+        </binding>
+    </action>
+</animation>
+
+<animation>
+    <type>pick</type>
+    <object-name>Btn.Num4</object-name>
+    <action>
+        <button>0</button>
+        <repeatable>false</repeatable>
+        <binding>
+            <command>property-assign</command>
+            <property alias="../../../../params/command-target" />
+            <value>4</value>
+        </binding>
+    </action>
+</animation>
+
+<animation>
+    <type>pick</type>
+    <object-name>Btn.Num5</object-name>
+    <action>
+        <button>0</button>
+        <repeatable>false</repeatable>
+        <binding>
+            <command>property-assign</command>
+            <property alias="../../../../params/command-target" />
+            <value>5</value>
+        </binding>
+    </action>
+</animation>
+
+<animation>
+    <type>pick</type>
+    <object-name>Btn.Num6</object-name>
+    <action>
+        <button>0</button>
+        <repeatable>false</repeatable>
+        <binding>
+            <command>property-assign</command>
+            <property alias="../../../../params/command-target" />
+            <value>6</value>
+        </binding>
+    </action>
+</animation>
+
+<animation>
+    <type>pick</type>
+    <object-name>Btn.Num7</object-name>
+    <action>
+        <button>0</button>
+        <repeatable>false</repeatable>
+        <binding>
+            <command>property-assign</command>
+            <property alias="../../../../params/command-target" />
+            <value>7</value>
+        </binding>
+    </action>
+</animation>
+
+<animation>
+    <type>pick</type>
+    <object-name>Btn.Num8</object-name>
+    <action>
+        <button>0</button>
+        <repeatable>false</repeatable>
+        <binding>
+            <command>property-assign</command>
+            <property alias="../../../../params/command-target" />
+            <value>8</value>
+        </binding>
+    </action>
+</animation>
+
+<animation>
+    <type>pick</type>
+    <object-name>Btn.Num9</object-name>
+    <action>
+        <button>0</button>
+        <repeatable>false</repeatable>
+        <binding>
+            <command>property-assign</command>
+            <property alias="../../../../params/command-target" />
+            <value>9</value>
+        </binding>
+    </action>
+</animation>
+
+<animation>
+    <type>pick</type>
+    <object-name>Btn.O</object-name>
+    <action>
+        <button>0</button>
+        <repeatable>false</repeatable>
+        <binding>
+            <command>property-assign</command>
+            <property alias="../../../../params/command-target" />
+            <value>O</value>
+        </binding>
+    </action>
+</animation>
+
+<animation>
+    <type>pick</type>
+    <object-name>Btn.P</object-name>
+    <action>
+        <button>0</button>
+        <repeatable>false</repeatable>
+        <binding>
+            <command>property-assign</command>
+            <property alias="../../../../params/command-target" />
+            <value>P</value>
+        </binding>
+    </action>
+</animation>
+
+<animation>
+    <type>pick</type>
+    <object-name>Btn.PERF</object-name>
+    <action>
+        <button>0</button>
+        <repeatable>false</repeatable>
+        <binding>
+            <command>property-assign</command>
+            <property alias="../../../../params/command-target" />
+            <value>PERF</value>
+        </binding>
+    </action>
+</animation>
+
+<animation>
+    <type>pick</type>
+    <object-name>Btn.PlusMinus</object-name>
+    <action>
+        <button>0</button>
+        <repeatable>false</repeatable>
+        <binding>
+            <command>property-assign</command>
+            <property alias="../../../../params/command-target" />
+            <value>-</value>
+        </binding>
+    </action>
+</animation>
+
+<animation>
+    <type>pick</type>
+    <object-name>Btn.PREV</object-name>
+    <action>
+        <button>0</button>
+        <repeatable>false</repeatable>
+        <binding>
+            <command>property-assign</command>
+            <property alias="../../../../params/command-target" />
+            <value>PREV</value>
+        </binding>
+    </action>
+</animation>
+
+<animation>
+    <type>pick</type>
+    <object-name>Btn.PROG</object-name>
+    <action>
+        <button>0</button>
+        <repeatable>false</repeatable>
+        <binding>
+            <command>property-assign</command>
+            <property alias="../../../../params/command-target" />
+            <value>PROG</value>
+        </binding>
+    </action>
+</animation>
+
+<animation>
+    <type>pick</type>
+    <object-name>Btn.Q</object-name>
+    <action>
+        <button>0</button>
+        <repeatable>false</repeatable>
+        <binding>
+            <command>property-assign</command>
+            <property alias="../../../../params/command-target" />
+            <value>Q</value>
+        </binding>
+    </action>
+</animation>
+
+<animation>
+    <type>pick</type>
+    <object-name>Btn.R</object-name>
+    <action>
+        <button>0</button>
+        <repeatable>false</repeatable>
+        <binding>
+            <command>property-assign</command>
+            <property alias="../../../../params/command-target" />
+            <value>R</value>
+        </binding>
+    </action>
+</animation>
+
+<animation>
+    <type>pick</type>
+    <object-name>Btn.R1</object-name>
+    <action>
+        <button>0</button>
+        <repeatable>false</repeatable>
+        <binding>
+            <command>property-assign</command>
+            <property alias="../../../../params/command-target" />
+            <value>R1</value>
+        </binding>
+    </action>
+</animation>
+
+<animation>
+    <type>pick</type>
+    <object-name>Btn.R2</object-name>
+    <action>
+        <button>0</button>
+        <repeatable>false</repeatable>
+        <binding>
+            <command>property-assign</command>
+            <property alias="../../../../params/command-target" />
+            <value>R2</value>
+        </binding>
+    </action>
+</animation>
+
+<animation>
+    <type>pick</type>
+    <object-name>Btn.R3</object-name>
+    <action>
+        <button>0</button>
+        <repeatable>false</repeatable>
+        <binding>
+            <command>property-assign</command>
+            <property alias="../../../../params/command-target" />
+            <value>R3</value>
+        </binding>
+    </action>
+</animation>
+
+<animation>
+    <type>pick</type>
+    <object-name>Btn.R4</object-name>
+    <action>
+        <button>0</button>
+        <repeatable>false</repeatable>
+        <binding>
+            <command>property-assign</command>
+            <property alias="../../../../params/command-target" />
+            <value>R4</value>
+        </binding>
+    </action>
+</animation>
+
+<animation>
+    <type>pick</type>
+    <object-name>Btn.R5</object-name>
+    <action>
+        <button>0</button>
+        <repeatable>false</repeatable>
+        <binding>
+            <command>property-assign</command>
+            <property alias="../../../../params/command-target" />
+            <value>R5</value>
+        </binding>
+    </action>
+</animation>
+
+<animation>
+    <type>pick</type>
+    <object-name>Btn.R6</object-name>
+    <action>
+        <button>0</button>
+        <repeatable>false</repeatable>
+        <binding>
+            <command>property-assign</command>
+            <property alias="../../../../params/command-target" />
+            <value>R6</value>
+        </binding>
+    </action>
+</animation>
+
+<animation>
+    <type>pick</type>
+    <object-name>Btn.RADIO</object-name>
+    <action>
+        <button>0</button>
+        <repeatable>false</repeatable>
+        <binding>
+            <command>property-assign</command>
+            <property alias="../../../../params/command-target" />
+            <value>RADIO</value>
+        </binding>
+    </action>
+</animation>
+
+<animation>
+    <type>pick</type>
+    <object-name>Btn.RTE</object-name>
+    <action>
+        <button>0</button>
+        <repeatable>false</repeatable>
+        <binding>
+            <command>property-assign</command>
+            <property alias="../../../../params/command-target" />
+            <value>RTE</value>
+        </binding>
+    </action>
+</animation>
+
+<animation>
+    <type>pick</type>
+    <object-name>Btn.S</object-name>
+    <action>
+        <button>0</button>
+        <repeatable>false</repeatable>
+        <binding>
+            <command>property-assign</command>
+            <property alias="../../../../params/command-target" />
+            <value>S</value>
+        </binding>
+    </action>
+</animation>
+
+<animation>
+    <type>pick</type>
+    <object-name>Btn.Slash</object-name>
+    <action>
+        <button>0</button>
+        <repeatable>false</repeatable>
+        <binding>
+            <command>property-assign</command>
+            <property alias="../../../../params/command-target" />
+            <value>/</value>
+        </binding>
+    </action>
+</animation>
+
+<animation>
+    <type>pick</type>
+    <object-name>Btn.SP</object-name>
+    <action>
+        <button>0</button>
+        <repeatable>false</repeatable>
+        <binding>
+            <command>property-assign</command>
+            <property alias="../../../../params/command-target" />
+            <value>SP</value>
+        </binding>
+    </action>
+</animation>
+
+<animation>
+    <type>pick</type>
+    <object-name>Btn.T</object-name>
+    <action>
+        <button>0</button>
+        <repeatable>false</repeatable>
+        <binding>
+            <command>property-assign</command>
+            <property alias="../../../../params/command-target" />
+            <value>T</value>
+        </binding>
+    </action>
+</animation>
+
+<animation>
+    <type>pick</type>
+    <object-name>Btn.TRS</object-name>
+    <action>
+        <button>0</button>
+        <repeatable>false</repeatable>
+        <binding>
+            <command>property-assign</command>
+            <property alias="../../../../params/command-target" />
+            <value>TRS</value>
+        </binding>
+    </action>
+</animation>
+
+<animation>
+    <type>pick</type>
+    <object-name>Btn.U</object-name>
+    <action>
+        <button>0</button>
+        <repeatable>false</repeatable>
+        <binding>
+            <command>property-assign</command>
+            <property alias="../../../../params/command-target" />
+            <value>U</value>
+        </binding>
+    </action>
+</animation>
+
+<animation>
+    <type>pick</type>
+    <object-name>Btn.V</object-name>
+    <action>
+        <button>0</button>
+        <repeatable>false</repeatable>
+        <binding>
+            <command>property-assign</command>
+            <property alias="../../../../params/command-target" />
+            <value>V</value>
+        </binding>
+    </action>
+</animation>
+
+<animation>
+    <type>pick</type>
+    <object-name>Btn.W</object-name>
+    <action>
+        <button>0</button>
+        <repeatable>false</repeatable>
+        <binding>
+            <command>property-assign</command>
+            <property alias="../../../../params/command-target" />
+            <value>W</value>
+        </binding>
+    </action>
+</animation>
+
+<animation>
+    <type>pick</type>
+    <object-name>Btn.X</object-name>
+    <action>
+        <button>0</button>
+        <repeatable>false</repeatable>
+        <binding>
+            <command>property-assign</command>
+            <property alias="../../../../params/command-target" />
+            <value>X</value>
+        </binding>
+    </action>
+</animation>
+
+<animation>
+    <type>pick</type>
+    <object-name>Btn.Y</object-name>
+    <action>
+        <button>0</button>
+        <repeatable>false</repeatable>
+        <binding>
+            <command>property-assign</command>
+            <property alias="../../../../params/command-target" />
+            <value>Y</value>
+        </binding>
+    </action>
+</animation>
+
+<animation>
+    <type>pick</type>
+    <object-name>Btn.Z</object-name>
+    <action>
+        <button>0</button>
+        <repeatable>false</repeatable>
+        <binding>
+            <command>property-assign</command>
+            <property alias="../../../../params/command-target" />
+            <value>Z</value>
+        </binding>
+    </action>
+</animation>
+
+<animation>
+    <type>pick</type>
+    <object-name>Btn.unused001</object-name>
+    <action>
+        <button>0</button>
+        <repeatable>false</repeatable>
+        <binding>
+            <command>property-assign</command>
+            <property alias="../../../../params/command-target" />
+            <value>EASTEREGG</value>
+        </binding>
+    </action>
+</animation>
+
+<animation>
+    <type>knob</type>
+    <object-name>Value.Knob</object-name>
+    <increase>
+        <binding>
+            <command>property-assign</command>
+            <property alias="../../../../params/command-target" />
+            <value>INC1</value>
+        </binding>
+    </increase>
+    <decrease>
+        <binding>
+            <command>property-assign</command>
+            <property alias="../../../../params/command-target" />
+            <value>DEC1</value>
+        </binding>
+    </decrease>
+    <shift-increase>
+        <binding>
+            <command>property-assign</command>
+            <property alias="../../../../params/command-target" />
+            <value>INC2</value>
+        </binding>
+    </shift-increase>
+    <shift-decrease>
+        <binding>
+            <command>property-assign</command>
+            <property alias="../../../../params/command-target" />
+            <value>DEC2</value>
+        </binding>
+    </shift-decrease>
+</animation>
+
+<animation>
+    <type>knob</type>
+    <object-name>Value.Ring</object-name>
+    <increase>
+        <binding>
+            <command>property-assign</command>
+            <property alias="../../../../params/command-target" />
+            <value>INC3</value>
+        </binding>
+    </increase>
+    <decrease>
+        <binding>
+            <command>property-assign</command>
+            <property alias="../../../../params/command-target" />
+            <value>DEC3</value>
+        </binding>
+    </decrease>
+    <shift-increase>
+        <binding>
+            <command>property-assign</command>
+            <property alias="../../../../params/command-target" />
+            <value>INC4</value>
+        </binding>
+    </shift-increase>
+    <shift-decrease>
+        <binding>
+            <command>property-assign</command>
+            <property alias="../../../../params/command-target" />
+            <value>DEC4</value>
+        </binding>
+    </shift-decrease>
+</animation>
+
+
+</PropertyList>

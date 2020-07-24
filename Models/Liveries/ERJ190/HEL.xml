@@ -7,6 +7,7 @@
             <name type="string">Helvetic Awys (HB-JVU)</name>
             <texture>/../Models/Liveries/ERJ190/HEL.png</texture>
         </livery>
+        <tail-number>HB-JVU</tail-number>
     </model>
 </sim>
 </PropertyList>

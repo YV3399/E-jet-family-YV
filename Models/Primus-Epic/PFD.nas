@@ -38,7 +38,7 @@ setprop("/instrumentation/pfd/minimums-mode", 0);
 setprop("/instrumentation/pfd/minimums-radio", 200);
 setprop("/instrumentation/pfd/minimums-baro", 400);
 
-setprop("/systems/elecrical/outputs/efis", 0);
+setprop("/systems/electrical/outputs/efis", 0);
 
 
 var roundToNearest = func(n, m) {

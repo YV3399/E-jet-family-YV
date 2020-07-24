@@ -7,6 +7,7 @@
             <name type="string">Lufthansa Regional (Old)</name>
             <texture>/../Models/Liveries/ERJ190/Lufthansa.png</texture>
         </livery>
+        <tail-number>D-AECE</tail-number>
     </model>
 </sim>
 </PropertyList>

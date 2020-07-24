@@ -75,9 +75,17 @@
     </filter>
 
     <!-- Top-of-descent -->
+    <!-- Only used when there is no VNAV profile -->
     <filter>
         <type>gain</type>
         <gain>0.003149385628695797</gain>
+        <enable>
+            <not>
+                <condition>
+                    <property>/fms/vnav/available</property>
+                </condition>
+            </not>
+        </enable>
         <input>
             <property>/autopilot/route-manager/cruise/altitude-ft</property>
         </input>
@@ -591,7 +599,7 @@
                 </and>
             </condition>
         </enable>
-        <output>/it-autoflight/input/kts</output>
+        <output>/it-autoflight/input/mach</output>
     </filter>
 
 

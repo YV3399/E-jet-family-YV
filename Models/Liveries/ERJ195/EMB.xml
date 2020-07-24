@@ -7,6 +7,7 @@
             <name type="string">Embraer House</name>
             <texture>/../Models/Liveries/ERJ195/Embraer195.png</texture>
         </livery>
+        <tail-number>PP-XMA</tail-number>
     </model>
 </sim>
 </PropertyList>

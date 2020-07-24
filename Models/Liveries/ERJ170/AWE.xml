@@ -7,6 +7,7 @@
             <name type="string">US Airways (Star Alliance)</name>
             <texture>/../Models/Liveries/ERJ170/USAirways.png</texture>
         </livery>
+        <tail-number>N828MD</tail-number>
     </model>
 </sim>
 </PropertyList>

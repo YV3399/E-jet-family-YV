@@ -7,6 +7,7 @@
             <name type="string">Azul Linhas Aereas Brasileiras</name>
             <texture>/../Models/Liveries/ERJ190/Azul.png</texture>
         </livery>
+        <tail-number>PR-AYE</tail-number>
     </model>
 </sim>
 </PropertyList>

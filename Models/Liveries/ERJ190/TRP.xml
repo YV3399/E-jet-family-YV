@@ -7,6 +7,7 @@
             <name type="string">TRIP Linhas Aereas</name>
             <texture>/../Models/Liveries/ERJ190/TRIP.png</texture>
         </livery>
+        <tail-number>PP-PJL</tail-number>
     </model>
 </sim>
 </PropertyList>

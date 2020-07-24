@@ -7,6 +7,7 @@
             <name type="string">US Airways</name>
             <texture>/../Models/Liveries/ERJ190/USAirways.png</texture>
         </livery>
+        <tail-number>N951UW</tail-number>
     </model>
 </sim>
 </PropertyList>

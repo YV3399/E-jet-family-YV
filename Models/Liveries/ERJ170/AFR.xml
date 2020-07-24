@@ -7,6 +7,7 @@
             <name type="string">Air France Regional</name>
             <texture>/../Models/Liveries/ERJ170/AirFrance.png</texture>
         </livery>
+    <tail-number>F-HBXI</tail-number>
     </model>
 </sim>
 </PropertyList>

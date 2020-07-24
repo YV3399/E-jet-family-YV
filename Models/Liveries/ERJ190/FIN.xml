@@ -7,6 +7,7 @@
             <name type="string">FINNAIR (OH-LKI)</name>
             <texture>/../Models/Liveries/ERJ190/Finnair.png</texture>
         </livery>
+        <tail-number>OH-LKI</tail-number>
     </model>
 </sim>
 </PropertyList>

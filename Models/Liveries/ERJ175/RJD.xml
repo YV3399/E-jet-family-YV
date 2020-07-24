@@ -7,6 +7,7 @@
             <name type="string">Royal Jordanian Airlines</name>
             <texture>/../Models/Liveries/ERJ175/RoyalJordanian.png</texture>
         </livery>
+        <tail-number>JY-EMC</tail-number>
     </model>
 </sim>
 </PropertyList>

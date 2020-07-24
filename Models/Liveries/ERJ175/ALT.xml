@@ -7,6 +7,7 @@
             <name type="string">Alitalia</name>
             <texture>/../Models/Liveries/ERJ175/Alitalia.png</texture>
         </livery>
+        <tail-number>EI-DFH</tail-number>
     </model>
 </sim>
 </PropertyList>

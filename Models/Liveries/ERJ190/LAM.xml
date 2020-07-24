@@ -7,6 +7,7 @@
             <name type="string">LAM - Linhas Aéreas de Mocambique</name>
             <texture>/../Models/Liveries/ERJ190/LAM.png</texture>
         </livery>
+        <tail-number>C9-EMB</tail-number>
     </model>
 </sim>
 </PropertyList>

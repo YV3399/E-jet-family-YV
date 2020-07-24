@@ -7,6 +7,7 @@
             <name type="string">Lufthansa CityLine</name>
             <texture>/../Models/Liveries/ERJ195/CityLine.png</texture>
         </livery>
+        <tail-number>D-AEBG</tail-number>
     </model>
 </sim>
 </PropertyList>

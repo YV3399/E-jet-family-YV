@@ -7,6 +7,7 @@
             <name type="string">JetBlue | "Bluesmobile" (N267JB)</name>
             <texture>/../Models/Liveries/ERJ190/N267JB.png</texture>
         </livery>
+        <tail-number>N267JB</tail-number>
     </model>
 </sim>
 </PropertyList>

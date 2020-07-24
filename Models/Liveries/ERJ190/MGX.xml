@@ -7,6 +7,7 @@
             <name type="string">Montenegro Airlines</name>
             <texture>/../Models/Liveries/ERJ190/MGX.png</texture>
         </livery>
+        <tail-number>4O-AOD</tail-number>
     </model>
 </sim>
 </PropertyList>

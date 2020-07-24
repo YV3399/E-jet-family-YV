@@ -7,6 +7,7 @@
             <name type="string">Embraer (N981EE)</name>
             <texture>/../Models/Liveries/Lineage1000/N981EE.png</texture>
         </livery>
+        <tail-number>N981EE</tail-number>
     </model>
 </sim>
 </PropertyList>

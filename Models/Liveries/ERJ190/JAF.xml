@@ -7,6 +7,7 @@
             <name type="string">Jetairfly</name>
             <texture>/../Models/Liveries/ERJ190/JAF.png</texture>
         </livery>
+        <tail-number>OO-JEM</tail-number>
     </model>
 </sim>
 </PropertyList>

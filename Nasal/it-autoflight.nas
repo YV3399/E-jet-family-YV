@@ -480,7 +480,10 @@ var ITAF = {
 				}
 				Internal.lnavAdvanceNm.setValue(FPLN.turnDist);
 				
-				if (FPLN.wp0Dist.getValue() <= FPLN.turnDist) {
+                var curWP = flightplan().getWP(FPLN.currentWp.getValue());
+				if (FPLN.wp0Dist.getValue() <= FPLN.turnDist and
+                    # Don't care unless we are flyBy-ing
+                    (curWP == nil or curWP.fly_type == "flyBy")) {
 					FPLN.currentWp.setValue(FPLN.currentWpTemp + 1);
 				}
 			}

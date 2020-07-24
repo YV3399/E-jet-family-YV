@@ -7,6 +7,7 @@
             <name type="string">FRONTIER Airlines</name>
             <texture>/../Models/Liveries/ERJ170/Frontier.png</texture>
         </livery>
+        <tail-number>N874RW</tail-number>
     </model>
 </sim>
 </PropertyList>

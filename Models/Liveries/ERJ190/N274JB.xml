@@ -7,6 +7,7 @@
             <name type="string">JetBlue | "Good, Better, Blue" (N274JB)</name>
             <texture>/../Models/Liveries/ERJ190/N274JB.png</texture>
         </livery>
+        <tail-number>N274JB</tail-number>
     </model>
 </sim>
 </PropertyList>

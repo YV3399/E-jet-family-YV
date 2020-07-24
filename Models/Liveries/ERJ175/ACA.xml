@@ -7,6 +7,7 @@
             <name type="string">Air Canada</name>
             <texture>/../Models/Liveries/ERJ175/AirCanada.png</texture>
         </livery>
+        <tail-number>C-FEKS</tail-number>
     </model>
 </sim>
 </PropertyList>

@@ -7,6 +7,7 @@
             <name type="string">JetBlue | "It's A Blue Thing" (N178JB)</name>
             <texture>/../Models/Liveries/ERJ190/N178JB.png</texture>
         </livery>
+        <tail-number>N178JB</tail-number>
     </model>
 </sim>
 </PropertyList>

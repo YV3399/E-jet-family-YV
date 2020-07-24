@@ -7,6 +7,7 @@
             <name type="string">Aurigny Air Services</name>
             <texture>/../Models/Liveries/ERJ195/AUR.png</texture>
         </livery>
+        <tail-number>G-NSEY</tail-number>
     </model>
 </sim>
 </PropertyList>

@@ -46,11 +46,11 @@
 	</payload>
 
 	<instrumentation>
-		<cdu>
+		<mcdu>
 			<ident>
 				<model>ERJ170-200</model>
 				<engines>GE_CF34-8E</engines>
 			</ident>
-		</cdu>
+		</mcdu>
 	</instrumentation>
 </PropertyList>
