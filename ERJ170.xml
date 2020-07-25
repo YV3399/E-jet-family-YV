@@ -432,8 +432,6 @@
 
     </propulsion>
 
-    <system file="pushback"/>
-
     <flight_control name="FCS: ERJ-170">
         <channel name="Pitch">
             <summer name="Pitch Trim Sum">
@@ -1155,16 +1153,16 @@
     </aerodynamics>
 
     <external_reactions>
-        <force name="pushback" frame="BODY">
+        <force name="tractor" frame="BODY">
             <location unit="IN">
-                <x>294</x>
-                <y>0</y>
-                <z>-149</z>
+                <x> -376.0</x>
+                <y> 0.00 </y>
+                <z> -89.832 </z>
             </location>
             <direction>
-                <x>1</x>
-                <y>0</y>
-                <z>0</z>
+                <x>1.0</x>
+                <y>0.0</y>
+                <z>0.0</z>
             </direction>
         </force>
     </external_reactions>

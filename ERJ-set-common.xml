@@ -22,12 +22,16 @@
                 <mach-bug-kt-norm type="double">0</mach-bug-kt-norm>
             </E-jet-family>
 
+            <!--
             <pushback>
                 <kp type="double">300</kp>
                 <ki type="double">0</ki>
                 <kd type="double">0</kd>
                 <position-norm type="double">0</position-norm>
             </pushback>
+            -->
+
+            <autopush include="XMLs/autopush-config.xml" />
 
             <door n="0">
                 <position-y-m>-1.489</position-y-m>
@@ -47,6 +51,11 @@
                 <ambient-correction type="float">0.15</ambient-correction>
             </rendering>
         </model>
+
+        <aircraft-data>
+            <path>/sim/model/autopush/route/show</path>
+            <path>/sim/model/autopush/route/show-wingtip</path>
+        </aircraft-data>
 
         <flaps>
             <setting>0</setting>
@@ -273,11 +282,11 @@
                         </binding>
                     </item>
                     <item>
-                        <name>pushback</name>
+                        <name>autopush</name>
                         <label>Pushback</label>
                         <binding>
                             <command>dialog-show</command>
-                            <dialog-name>pushback</dialog-name>
+                            <dialog-name>autopush</dialog-name>
                         </binding>
                     </item>
                     <item>
@@ -1036,5 +1045,32 @@
             <file>Aircraft/E-jet-family/Nasal/fms-speed.nas</file>
             <file>Aircraft/E-jet-family/Nasal/vnav.nas</file>
         </fms>
+
+        <autopush>
+            <file>Nasal/Autopush/autopush.nas</file>
+        </autopush>
+        <autopush_driver>
+            <file>Nasal/Autopush/driver.nas</file>
+        </autopush_driver>
+        <dynarr>
+            <file>Nasal/Autopush/dynarr.nas</file>
+        </dynarr>
+        <autopush_route>
+            <file>Nasal/Autopush/route.nas</file>
+        </autopush_route>
+
     </nasal>
+
+    <fdm>
+        <jsbsim>
+            <external_reactions>
+                <tractor>
+                    <magnitude alias="/sim/model/autopush/force-lbf"/>
+                    <x alias="/sim/model/autopush/force-x"/>
+                    <y alias="/sim/model/autopush/force-y"/>
+                    <z alias="/sim/model/autopush/force-z"/>
+                </tractor>
+            </external_reactions>
+        </jsbsim>
+    </fdm>
 </PropertyList>

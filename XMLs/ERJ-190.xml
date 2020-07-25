@@ -40,11 +40,11 @@
 
 	<model>
 		<name>Pushback</name>
-		<path>Models/Airport/Pushback/Goldhofert.xml</path>
+		<path>Models/Autopush/Goldhofert.xml</path>
 		<offsets>
-			<x-m>-16.4</x-m>
-			<y-m>0</y-m>
-			<z-m>-2.27</z-m>
+            <x-m>-12.7</x-m>
+            <y-m> 0.00 </y-m>
+            <z-m>-2.0</z-m>
 		</offsets>
 	</model>
 

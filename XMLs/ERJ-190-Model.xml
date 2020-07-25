@@ -20,14 +20,14 @@
 				<use>controls/lighting/logo</use>
 			</condition>-->
 		</parameters>
+		<object-name>rudder</object-name>
+		<object-name>vstab</object-name>
+		<object-name>fuselage</object-name>
 		<object-name>fuselage.001</object-name>
 		<object-name>reverser.001</object-name>
         <object-name>nacelle.001</object-name>
 		<object-name>reverser</object-name>
 		<object-name>nacelle</object-name>
-		<object-name>rudder</object-name>
-		<object-name>vstab</object-name>
-		<object-name>fuselage</object-name>
 		<object-name>door.l1</object-name>
 		<object-name>door.l2</object-name>
 	</effect>
@@ -107,7 +107,7 @@
         <object-name>door.l2</object-name>
         <object-name>door.r1</object-name>
         <object-name>door.r2</object-name>
-	<object-name>vstab</object-name>
+        <object-name>vstab</object-name>
         <property-base>sim/model/livery</property-base>
         <texture-prop>texture</texture-prop>
         <texture>blank.png</texture>
@@ -712,7 +712,7 @@
         <property>gear/gear[0]/compression-norm</property>
         <interpolation>
             <entry><ind>0.00</ind><dep>0</dep></entry>
-            <entry><ind>3</ind><dep>1</dep></entry>
+            <entry><ind>3</ind><dep>0.75</dep></entry>
         </interpolation>
         <axis>
             <x>0</x>
