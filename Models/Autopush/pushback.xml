@@ -38,38 +38,33 @@ Distribute under the terms of GPLv2.
 
 
 <PropertyList>
-  <path>Models/Autopush/towbar.ac</path>
-
   <model>
-    <path>Models/Airport/Pushback/Goldhofert.ac</path>
+    <path>Models/Autopush/Kalmar_FB250.ac</path>
     <offsets>
-      <x-m>-10</x-m>
+      <x-m>0</x-m>
       <y-m>0</y-m>
       <z-m>-0.3</z-m>
-      <heading-deg>180</heading-deg>
-    </offsets>
-  </model>
-
-  <!-- Trucks models and artworks courtesy of XPGoodWay Team
-(http://www.xpgoodwayteam.org/site_xpushback/) -->
-
-  <model>
-    <path>Models/Airport/Pushback/Goldhofert-warning-light.xml</path>
-    <offsets>
-      <x-m>-2.908</x-m>
-      <y-m>0.260</y-m>
-      <z-m>1.326</z-m>
       <heading-deg>0</heading-deg>
     </offsets>
   </model>
 
   <model>
     <path>Models/Airport/Pushback/Goldhofert-warning-light.xml</path>
+    <name>WarningLight1</name>
     <offsets>
-      <x-m>-1.781</x-m>
-      <y-m>0.260</y-m>
-      <z-m>1.326</z-m>
-      <heading-deg>90</heading-deg>
+	<x-m>-5.839</x-m>
+	<y-m>0.941</y-m>
+	<z-m>2.407</z-m>
+    </offsets>
+  </model>
+  
+  <model>
+    <path>Models/Airport/Pushback/Goldhofert-warning-light.xml</path>
+    <name>WarningLight2</name>
+    <offsets>
+	<x-m>-5.839</x-m>
+	<y-m>-0.941</y-m>
+	<z-m>2.407</z-m>
     </offsets>
   </model>
 
@@ -131,6 +126,26 @@ Distribute under the terms of GPLv2.
      <z>-1</z>
    </axis>
  </animation>
+
+ <animation>
+   <type>rotate</type>
+   <object-name>Pushback</object-name>
+   <object-name>WarningLight1</object-name>
+   <object-name>WarningLight2</object-name>
+   <property>&YAW-PROP;</property>
+   <factor>&YAW-MULT;</factor>
+   <center>
+     <x-m>-4.9</x-m>
+     <y-m>0</y-m>
+     <z-m>0</z-m>
+   </center>
+   <axis>
+     <x>0</x>
+     <y>0</y>
+     <z>-1</z>
+   </axis>
+ </animation>
+
 
  <animation>
    <type>translate</type>

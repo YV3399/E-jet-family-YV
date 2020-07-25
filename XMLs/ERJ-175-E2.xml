@@ -37,7 +37,7 @@
 
 	<model>
 		<name>Pushback</name>
-		<path>Models/Airport/Pushback/Goldhofert.xml</path>
+		<path>Models/Airport/Pushback/pushback.xml</path>
 		<offsets>
 			<x-m>-12.4</x-m>
 			<y-m>0</y-m>

@@ -41,7 +41,7 @@
 
 	<model>
 		<name>Pushback</name>
-		<path>Aircraft/E-jet-family/Models/Autopush/Goldhofert.xml</path>
+		<path>Aircraft/E-jet-family/Models/Autopush/pushback.xml</path>
 		<offsets>
 			<x-m>-11.2</x-m>
 			<y-m>0</y-m>
