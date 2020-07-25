@@ -12,7 +12,9 @@
  <!ENTITY YAW-PROP "sim/model/autopush/yaw-filtered">
  <!-- Scaling factor for the steering property, must be equal to /sim/model/autopush/yaw-mult. -->
  <!ENTITY YAW-MULT "60.0">
- <!ENTITY YAW-MULT2 "75.0">
+ <!ENTITY COUNTER-PROP "sim/model/autopush/yaw-error-filtered">
+ <!ENTITY STEER-PROP "sim/model/autopush/steer">
+ <!ENTITY STEER-MULT "30.0">
  <!-- Property for gear compression in ft. -->
  <!ENTITY COMPRESSION-PROP "gear/gear[0]/compression-ft">
  <!-- Property for aircraft pitch in degrees, or pushback's pitch if it is variable. -->
@@ -70,42 +72,6 @@ Distribute under the terms of GPLv2.
   </model>
 
  <animation>
-   <type>spin</type>
-   <object-name>wheelfl</object-name>
-   <object-name>wheelfr</object-name>
-   <property>&ROLLSPEED-PROP;</property>
-   <factor>-16.3</factor>
-   <center>
-     <x-m>-2.8976</x-m>
-     <y-m>0</y-m>
-     <z-m>0.5809</z-m>
-   </center>
-   <axis>
-     <x>0</x>
-     <y>1</y>
-     <z>0</z>
-   </axis>
- </animation>
-
- <animation>
-   <type>spin</type>
-   <object-name>wheelrl</object-name>
-   <object-name>wheelrr</object-name>
-   <property>&ROLLSPEED-PROP;</property>
-   <factor>-16.3</factor>
-   <center>
-     <x-m>2.0501</x-m>
-     <y-m>0</y-m>
-     <z-m>0.5735</z-m>
-   </center>
-   <axis>
-     <x>0</x>
-     <y>1</y>
-     <z>0</z>
-   </axis>
- </animation>
-
- <animation>
    <type>select</type>
    <condition>
      <property>&CONNECTED-PROP;</property>
@@ -133,8 +99,12 @@ Distribute under the terms of GPLv2.
    <object-name>Pushback</object-name>
    <object-name>WarningLight1</object-name>
    <object-name>WarningLight2</object-name>
-   <property>&YAW-PROP;</property>
-   <factor>&YAW-MULT2;</factor>
+   <object-name>wheel.fl</object-name>
+   <object-name>wheel.fr</object-name>
+   <object-name>wheel.rl</object-name>
+   <object-name>wheel.rr</object-name>
+   <property>&COUNTER-PROP;</property>
+   <factor>&YAW-MULT;</factor>
    <center>
      <x-m>-4.9</x-m>
      <y-m>0</y-m>
@@ -168,6 +138,110 @@ Distribute under the terms of GPLv2.
      <x-m>0</x-m>
      <y-m>0</y-m>
      <z-m>0</z-m>
+   </center>
+   <axis>
+     <x>0</x>
+     <y>1</y>
+     <z>0</z>
+   </axis>
+ </animation>
+
+ <!--
+ <animation>
+    <type>rotate</type>
+    <object-name>wheel.fr</object-name>
+    <property>&STEER-PROP;</property>
+    <factor>&STEER-MULT;</factor>
+    <center>
+        <x-m>-8.51984</x-m>
+        <y-m>-0.868919</y-m>
+        <z-m>0</z-m>
+    </center>
+    <axis>
+        <x>0</x>
+        <y>0</y>
+        <z>1</z>
+    </axis>
+ </animation>
+ <animation>
+    <type>rotate</type>
+    <object-name>wheel.fl</object-name>
+    <property>&STEER-PROP;</property>
+    <factor>&STEER-MULT;</factor>
+    <center>
+        <x-m>-8.51984</x-m>
+        <y-m>0.868919</y-m>
+        <z-m>0</z-m>
+    </center>
+    <axis>
+        <x>0</x>
+        <y>0</y>
+        <z>1</z>
+    </axis>
+ </animation>
+ -->
+ <animation>
+    <type>rotate</type>
+    <object-name>wheel.rr</object-name>
+    <property>&STEER-PROP;</property>
+    <factor>&STEER-MULT;</factor>
+    <center>
+        <x-m>-11.78438</x-m>
+        <y-m>-0.868919</y-m>
+        <z-m>0</z-m>
+    </center>
+    <axis>
+        <x>0</x>
+        <y>0</y>
+        <z>1</z>
+    </axis>
+ </animation>
+ <animation>
+    <type>rotate</type>
+    <object-name>wheel.rl</object-name>
+    <property>&STEER-PROP;</property>
+    <factor>&STEER-MULT;</factor>
+    <center>
+        <x-m>-11.78438</x-m>
+        <y-m>0.868919</y-m>
+        <z-m>0</z-m>
+    </center>
+    <axis>
+        <x>0</x>
+        <y>0</y>
+        <z>1</z>
+    </axis>
+ </animation>
+
+
+ <animation>
+   <type>spin</type>
+   <object-name>wheel.fl</object-name>
+   <object-name>wheel.fr</object-name>
+   <property>&ROLLSPEED-PROP;</property>
+   <factor>-12</factor>
+   <center>
+     <x-m>-8.51984</x-m>
+     <y-m>0</y-m>
+     <z-m>0.69259</z-m>
+   </center>
+   <axis>
+     <x>0</x>
+     <y>1</y>
+     <z>0</z>
+   </axis>
+ </animation>
+
+ <animation>
+   <type>spin</type>
+   <object-name>wheel.rl</object-name>
+   <object-name>wheel.rr</object-name>
+   <property>&ROLLSPEED-PROP;</property>
+   <factor>-12</factor>
+   <center>
+     <x-m>-11.78438</x-m>
+     <y-m>0</y-m>
+     <z-m>0.69259</z-m>
    </center>
    <axis>
      <x>0</x>

@@ -2,17 +2,135 @@
 
 <PropertyList>
 	<filter>
-		<name>Pushback steering angle</name>
+		<name>Pushback turn angle</name>
+        <enable>
+            <property>sim/model/autopush/connected</property>
+        </enable>
         <type>noise-spike</type>
         <max-rate-of-change>
             <expression>
                 <product>
                     <property>/velocities/groundspeed-kt</property>
-                    <value>0.01</value>
+                    <value>0.05</value>
                 </product>
             </expression>
         </max-rate-of-change>
         <input>sim/model/autopush/yaw</input>
         <output>sim/model/autopush/yaw-filtered</output>
 	</filter>
+
+    <filter>
+        <name>Pushback counter-turn angle</name>
+        <enable>
+            <property>sim/model/autopush/connected</property>
+        </enable>
+        <type>gain</type>
+        <input>
+            <condition>
+                <greater-than>
+                    <property>/velocities/uBody-fps</property>
+                    <value>0.001</value>
+                </greater-than>
+            </condition>
+            <expression>
+                <property>sim/model/autopush/yaw</property>
+            </expression>
+        </input>
+        <input>
+            <expression>
+                <difference>
+                    <product>
+                        <property>sim/model/autopush/yaw-filtered</property>
+                        <value>2</value>
+                    </product>
+                    <property>sim/model/autopush/yaw</property>
+                </difference>
+            </expression>
+        </input>
+        <output>sim/model/autopush/yaw-error</output>
+    </filter>
+
+	<filter>
+		<name>Pushback counter-turn angle (filtered)</name>
+        <enable>
+            <property>sim/model/autopush/connected</property>
+        </enable>
+        <type>noise-spike</type>
+        <max-rate-of-change>
+            <expression>
+                <product>
+                    <property>/velocities/groundspeed-kt</property>
+                    <value>0.2</value>
+                </product>
+            </expression>
+        </max-rate-of-change>
+        <input>sim/model/autopush/yaw-error</input>
+        <output>sim/model/autopush/yaw-error-filtered</output>
+	</filter>
+
+    <filter>
+        <name>Pushback counter-yaw rate of change</name>
+        <enable>
+            <property>sim/model/autopush/connected</property>
+        </enable>
+        <type>derivative</type>
+        <input>
+            <expression>
+                <sum>
+                    <div>
+                        <property>orientation/heading-deg</property>
+                        <value>60</value>
+                    </div>
+                    <sum>
+                        <property>sim/model/autopush/yaw-error-filtered</property>
+                        <property>sim/model/autopush/yaw-filtered</property>
+                    </sum>
+                </sum>
+            </expression>
+        </input>
+        <output>sim/model/autopush/counter-yaw-rate</output>
+        <filter-time>1</filter-time>
+    </filter>
+
+    <filter>
+        <name>Pushback steer</name>
+        <enable>
+            <property>sim/model/autopush/connected</property>
+        </enable>
+        <type>gain</type>
+        <gain>-20</gain>
+        <enable>
+            <condition>
+                <greater-than>
+                    <property>/velocities/groundspeed-kt</property>
+                    <value>1</value>
+                </greater-than>
+            </condition>
+        </enable>
+        <input>
+            <expression>
+                <div>
+                    <property>sim/model/autopush/counter-yaw-rate</property>
+                    <property>velocities/uBody-fps</property>
+                </div>
+            </expression>
+        </input>
+        <output>sim/model/autopush/steer-raw</output>
+    </filter>
+
+	<filter>
+		<name>Pushback steer (filtered)</name>
+        <enable>
+            <property>sim/model/autopush/connected</property>
+        </enable>
+        <type>noise-spike</type>
+        <max-rate-of-change>10</max-rate-of-change>
+        <input>
+            <property>sim/model/autopush/steer-raw</property>
+            <min>-1.5</min>
+            <max>1.5</max>
+        </input>
+        <output>sim/model/autopush/steer</output>
+	</filter>
+
 </PropertyList>
