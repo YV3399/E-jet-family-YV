@@ -9,9 +9,10 @@
  <!-- Property for aircraft's front wheel rollspeed in m/s. -->
  <!ENTITY ROLLSPEED-PROP "gear/gear[0]/rollspeed-ms">
  <!-- Property for front wheel steering. -->
- <!ENTITY YAW-PROP "sim/model/autopush/yaw">
+ <!ENTITY YAW-PROP "sim/model/autopush/yaw-filtered">
  <!-- Scaling factor for the steering property, must be equal to /sim/model/autopush/yaw-mult. -->
  <!ENTITY YAW-MULT "60.0">
+ <!ENTITY YAW-MULT2 "75.0">
  <!-- Property for gear compression in ft. -->
  <!ENTITY COMPRESSION-PROP "gear/gear[0]/compression-ft">
  <!-- Property for aircraft pitch in degrees, or pushback's pitch if it is variable. -->
@@ -133,7 +134,7 @@ Distribute under the terms of GPLv2.
    <object-name>WarningLight1</object-name>
    <object-name>WarningLight2</object-name>
    <property>&YAW-PROP;</property>
-   <factor>&YAW-MULT;</factor>
+   <factor>&YAW-MULT2;</factor>
    <center>
      <x-m>-4.9</x-m>
      <y-m>0</y-m>

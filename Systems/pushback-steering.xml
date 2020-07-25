@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<PropertyList>
+	<filter>
+		<name>Pushback steering angle</name>
+        <type>noise-spike</type>
+        <max-rate-of-change>
+            <expression>
+                <product>
+                    <property>/velocities/groundspeed-kt</property>
+                    <value>0.01</value>
+                </product>
+            </expression>
+        </max-rate-of-change>
+        <input>sim/model/autopush/yaw</input>
+        <output>sim/model/autopush/yaw-filtered</output>
+	</filter>
+</PropertyList>
