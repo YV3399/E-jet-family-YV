@@ -1170,6 +1170,7 @@
             <file>Aircraft/E-jet-family/Nasal/autopilot.nas</file>
         </input>
         <fms>
+            <file>Aircraft/E-jet-family/Nasal/fms/vspeeds.nas</file>
             <file>Aircraft/E-jet-family/Nasal/fms/speed.nas</file>
             <file>Aircraft/E-jet-family/Nasal/fms/vnav.nas</file>
             <file>Aircraft/E-jet-family/Nasal/fms/radios.nas</file>

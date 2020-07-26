@@ -906,7 +906,7 @@ var TakeoffPerfModule = {
                 StaticView.new(1, 1, "FLAPS", mcdu_white),
                 CycleView.new(0, 2, mcdu_large | mcdu_green, "TO-FLAPS",
                     [0.125, 0.250, 0.375, 0.500],
-                    { 0.124: "FLAP-1", 0.250: "FLAP-2", 0.375: "FLAP-3", 0.500: "FLAP-4" }, 1),
+                    { 0: "CLEAN", 0.125: "FLAP-1", 0.250: "FLAP-2", 0.375: "FLAP-3", 0.500: "FLAP-4" }, 1),
                 StaticView.new(1, 3, "MODE", mcdu_white),
                 CycleView.new(0, 4, mcdu_large | mcdu_green, "TO-TRS-MODE",
                     [1, 2, 3], ['----', 'TO-1', 'TO-2', 'TO-3']),

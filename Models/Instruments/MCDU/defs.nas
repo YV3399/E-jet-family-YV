@@ -194,7 +194,6 @@ var keyProps = {
 
     # Takeoff parameters
     "TO-FLAPS": "/fms/takeoff-conditions/flaps",
-    "TO-FLAPS": "/fms/takeoff-conditions/flaps",
     "TO-PITCH": "/fms/takeoff-conditions/pitch",
     "TO-RUNWAY-HEADING": "/fms/takeoff-conditions/runway-heading",
     "TO-RUNWAY-SLOPE": "/fms/takeoff-conditions/runway-slope",
