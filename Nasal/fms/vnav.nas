@@ -89,7 +89,13 @@ var make_profile = func () {
     ############################# departure ############################# 
     var gradient = 0;
     var a = cruiseAltitude;
-    var a0 = fp.departure.elevation * M2FT;
+    var a0 = 0;
+    if (fp.departure != nil and fp.departure.elevation != nil) {
+        a0 = fp.departure.elevation * M2FT;
+    }
+    else {
+        printf("No departure set, vertical profile may be incorrect");
+    }
     var waypointStack = [];
     var i = 0;
     # find the last waypoint on the departure that has an altitude restriction
@@ -127,7 +133,13 @@ var make_profile = func () {
     
     var s = nil;
     var dist = 0.0;
-    var alt = fp.departure.elevation * M2FT;
+    var alt = 0;
+    if (fp.departure != nil and fp.departure.elevation != nil) {
+        alt = fp.departure.elevation * M2FT;
+    }
+    else {
+        printf("No departure set, vertical profile may be incorrect");
+    }
     var fpa = 0.0;
 
     append(profile.waypoints,
@@ -181,7 +193,13 @@ var make_profile = func () {
 
     ############################# descent ############################# 
 
-    var destElev = fp.destination.elevation * M2FT;
+    var destElev = 0;
+    if (fp.destination != nil and fp.destination.elevation != nil) {
+        destElev = fp.destination.elevation * M2FT;
+    }
+    else {
+        printf("No destination set, vertical profile may be incorrect");
+    }
     var topOfDescent = totalDistance - (destElev - cruiseAltitude) / descent_feet_per_nm;
     profile.topOfDescent = topOfDescent;
 
