@@ -163,20 +163,6 @@ var keyProps = {
     "POSLOADED3": "/fms/radio/position-loaded[2]",
 
     # Speed schedule
-    "VREF": "/controls/flight/vref",
-    "VAP": "/controls/flight/vappr",
-    "VAC": "/controls/flight/vac",
-    "V1": "/controls/flight/v1",
-    "V2": "/controls/flight/v2",
-    "VR": "/controls/flight/vr",
-    "VFS": "/controls/flight/vfs",
-    "VF": "/controls/flight/vf",
-    "VF1": "/controls/flight/vf1",
-    "VF2": "/controls/flight/vf2",
-    "VF3": "/controls/flight/vf3",
-    "VF4": "/controls/flight/vf4",
-    "VF5": "/controls/flight/vf5",
-    "VF6": "/controls/flight/vf6",
     "VDEP": "/controls/flight/speed-schedule/departure",
     "VCLBLO": "/controls/flight/speed-schedule/climb-below-10k",
     "CLBLOALT": "/controls/flight/speed-schedule/climb-limit-alt",
@@ -191,6 +177,52 @@ var keyProps = {
     "VDESLO": "/controls/flight/speed-schedule/descent-below-10k",
     "DES-FPA": "/controls/flight/speed-schedule/descent-fpa",
     "PERF-MODE": "/controls/flight/perf-mode",
+
+    # Pilot-selected vspeeds - departure
+    "DEP-SEL-V1": "/controls/flight/vspeeds/departure/v1",
+    "DEP-SEL-VR": "/controls/flight/vspeeds/departure/vr",
+    "DEP-SEL-V2": "/controls/flight/vspeeds/departure/v2",
+    "DEP-SEL-VFS": "/controls/flight/vspeeds/departure/vfs",
+    "DEP-SEL-VF": "/controls/flight/vspeeds/departure/vf",
+    "DEP-SEL-VF1": "/controls/flight/vspeeds/departure/vf1",
+    "DEP-SEL-VF2": "/controls/flight/vspeeds/departure/vf2",
+    "DEP-SEL-VF3": "/controls/flight/vspeeds/departure/vf3",
+    "DEP-SEL-VF4": "/controls/flight/vspeeds/departure/vf4",
+
+    # Pilot-selected vspeeds - approach
+    "APP-SEL-VREF": "/controls/flight/vspeeds/approach/vref",
+    "APP-SEL-VAPPR": "/controls/flight/vspeeds/approach/vappr",
+    "APP-SEL-VAF1": "/controls/flight/vspeeds/approach/vaf1",
+    "APP-SEL-VAF2": "/controls/flight/vspeeds/approach/vaf2",
+    "APP-SEL-VAF3": "/controls/flight/vspeeds/approach/vaf3",
+    "APP-SEL-VAF4": "/controls/flight/vspeeds/approach/vaf4",
+    "APP-SEL-VAF5": "/controls/flight/vspeeds/approach/vaf5",
+    "APP-SEL-VAF6": "/controls/flight/vspeeds/approach/vaf6",
+    "APP-SEL-VAC": "/controls/flight/vspeeds/approach/vac",
+    "APP-SEL-VFS": "/controls/flight/vspeeds/approach/vfs",
+
+    # Effective vspeeds - departure
+    "DEP-EFF-V1": "/fms/vspeeds-effective/departure/v1",
+    "DEP-EFF-VR": "/fms/vspeeds-effective/departure/vr",
+    "DEP-EFF-V2": "/fms/vspeeds-effective/departure/v2",
+    "DEP-EFF-VFS": "/fms/vspeeds-effective/departure/vfs",
+    "DEP-EFF-VF": "/fms/vspeeds-effective/departure/vf",
+    "DEP-EFF-VF1": "/fms/vspeeds-effective/departure/vf1",
+    "DEP-EFF-VF2": "/fms/vspeeds-effective/departure/vf2",
+    "DEP-EFF-VF3": "/fms/vspeeds-effective/departure/vf3",
+    "DEP-EFF-VF4": "/fms/vspeeds-effective/departure/vf4",
+
+    # Effective vspeeds - approach
+    "APP-EFF-VREF": "/fms/vspeeds-effective/approach/vref",
+    "APP-EFF-VAPPR": "/fms/vspeeds-effective/approach/vappr",
+    "APP-EFF-VAF1": "/fms/vspeeds-effective/approach/vaf1",
+    "APP-EFF-VAF2": "/fms/vspeeds-effective/approach/vaf2",
+    "APP-EFF-VAF3": "/fms/vspeeds-effective/approach/vaf3",
+    "APP-EFF-VAF4": "/fms/vspeeds-effective/approach/vaf4",
+    "APP-EFF-VAF5": "/fms/vspeeds-effective/approach/vaf5",
+    "APP-EFF-VAF6": "/fms/vspeeds-effective/approach/vaf6",
+    "APP-EFF-VAC": "/fms/vspeeds-effective/approach/vac",
+    "APP-EFF-VFS": "/fms/vspeeds-effective/approach/vfs",
 
     # Takeoff parameters
     "TO-FLAPS": "/fms/takeoff-conditions/flaps",
@@ -207,10 +239,11 @@ var keyProps = {
     "TO-TRS-MODE": "/controls/flight/trs/to",
 
     # Landing parameters
+    "APPROACH-CAT": "/fms/landing-conditions/approach-cat",
     "APPR-FLAPS": "/fms/landing-conditions/approach-flaps",
     "LANDING-FLAPS": "/fms/landing-conditions/landing-flaps",
     "LANDING-ICE": "/fms/landing-conditions/ice-accretion",
-    "APPROACH-CAT": "/fms/landing-conditions/approach-cat",
+    "LANDING-OAT": "/fms/landing-conditions/oat",
 
     # Route
     "DEPARTURE-AIRPORT": "/autopilot/route-manager/departure/airport",
@@ -229,4 +262,49 @@ var keyDefs = {
         if (size(apts) == 0) return nil;
         return apts[0].id;
     },
+    # Pilot-selected vspeeds - departure
+    "DEP-SEL-V1": 0,
+    "DEP-SEL-VR": 0,
+    "DEP-SEL-V2": 0,
+    "DEP-SEL-VFS": 0,
+    "DEP-SEL-VF": 0,
+    "DEP-SEL-VF1": 0,
+    "DEP-SEL-VF2": 0,
+    "DEP-SEL-VF3": 0,
+    "DEP-SEL-VF4": 0,
+
+    # Pilot-selected vspeeds - approach
+    "APP-SEL-VREF": 0,
+    "APP-SEL-VAPPR": 0,
+    "APP-SEL-VAF1": 0,
+    "APP-SEL-VAF2": 0,
+    "APP-SEL-VAF3": 0,
+    "APP-SEL-VAF4": 0,
+    "APP-SEL-VAF5": 0,
+    "APP-SEL-VAF6": 0,
+    "APP-SEL-VAC": 0,
+    "APP-SEL-VFS": 0,
+
+    # Effective vspeeds - departure
+    "DEP-EFF-V1": 0,
+    "DEP-EFF-VR": 0,
+    "DEP-EFF-V2": 0,
+    "DEP-EFF-VFS": 0,
+    "DEP-EFF-VF": 0,
+    "DEP-EFF-VF1": 0,
+    "DEP-EFF-VF2": 0,
+    "DEP-EFF-VF3": 0,
+    "DEP-EFF-VF4": 0,
+
+    # Effective vspeeds - approach
+    "APP-EFF-VREF": 0,
+    "APP-EFF-VAPPR": 0,
+    "APP-EFF-VAF1": 0,
+    "APP-EFF-VAF2": 0,
+    "APP-EFF-VAF3": 0,
+    "APP-EFF-VAF4": 0,
+    "APP-EFF-VAF5": 0,
+    "APP-EFF-VAF6": 0,
+    "APP-EFF-VAC": 0,
+    "APP-EFF-VFS": 0,
 };

@@ -204,7 +204,7 @@
 		<update-interval-secs type="double">0.05</update-interval-secs>
 		<gain>1.1</gain>
 		<input>
-			<property>controls/flight/v1</property>
+			<property>fms/vspeeds-effective/departure/v1</property>
 		</input>
 		<reference>
 			<property>instrumentation/airspeed-indicator/indicated-speed-kt</property>
@@ -222,7 +222,7 @@
 		<update-interval-secs type="double">0.05</update-interval-secs>
 		<gain>1.1</gain>
 		<input>
-			<property>controls/flight/vr</property>
+			<property>fms/vspeeds-effective/departure/vr</property>
 		</input>
 		<reference>
 			<property>instrumentation/airspeed-indicator/indicated-speed-kt</property>
@@ -240,7 +240,7 @@
 		<update-interval-secs type="double">0.05</update-interval-secs>
 		<gain>1.1</gain>
 		<input>
-			<property>controls/flight/v2</property>
+			<property>fms/vspeeds-effective/departure/v2</property>
 		</input>
 		<reference>
 			<property>instrumentation/airspeed-indicator/indicated-speed-kt</property>
@@ -286,60 +286,6 @@
 		<max>60</max>
 	</filter>
 
-<!-- Vf5 marker -->
-
-	<filter>
-    <name>V5 marker positioning</name> 
-		<type>gain</type>
-		<update-interval-secs type="double">0.05</update-interval-secs>
-		<gain>1.1</gain>
-		<input>
-			<property>controls/flight/vf5</property>
-		</input>
-		<reference>
-			<property>instrumentation/airspeed-indicator/indicated-speed-kt</property>
-		</reference>
-		<output>instrumentation/pfd/vf5-diff</output>
-		<min>-60</min>
-		<max>60</max>
-	</filter>
-
-<!-- Vf15 marker -->
-
-	<filter>
-    <name>V15 marker positioning</name> 
-		<type>gain</type>
-		<update-interval-secs type="double">0.05</update-interval-secs>
-		<gain>1.1</gain>
-		<input>
-			<property>controls/flight/vf15</property>
-		</input>
-		<reference>
-			<property>instrumentation/airspeed-indicator/indicated-speed-kt</property>
-		</reference>
-		<output>instrumentation/pfd/vf15-diff</output>
-		<min>-60</min>
-		<max>60</max>
-	</filter>
-
-<!-- Vf35 marker -->
-
-	<filter>
-    <name>V35 marker positioning</name> 
-		<type>gain</type>
-		<update-interval-secs type="double">0.05</update-interval-secs>
-		<gain>1.1</gain>
-		<input>
-			<property>controls/flight/vf35</property>
-		</input>
-		<reference>
-			<property>instrumentation/airspeed-indicator/indicated-speed-kt</property>
-		</reference>
-		<output>instrumentation/pfd/vf35-diff</output>
-		<min>-60</min>
-		<max>60</max>
-	</filter>
-
 <!-- Vref marker -->
 
 	<filter>
@@ -357,71 +303,6 @@
 		<min>-60</min>
 		<max>60</max>
 	</filter>
-
-<!-- VMO --><!--
-
-  <filter>
-      <name>IAS speed limit</name>
-      <type>gain</type>
-      <gain>1.0</gain>
-      <input>
-          <condition>
-              <greater-than>
-                  <property>controls/flight/flaps</property>
-                  <value>0.0</value>
-              </greater-than>
-          </condition>
-          <expression>
-              <table>
-                  <property>controls/flight/flaps</property> 
-                  <entry><ind>0.0428</ind><dep>250</dep></entry>
-                  <entry><ind>0.142</ind><dep>250</dep></entry>
-                  <entry><ind>0.428</ind><dep>210</dep></entry>
-                  <entry><ind>1.0</ind><dep>180</dep></entry>
-              </table>
-          </expression>
-      </input>
-      <input>
-          <condition>
-              <greater-than>
-                  <property>gear/gear/position-norm</property>
-                  <value>0.0</value>
-              </greater-than>
-          </condition>
-          <value>210</value>
-      </input>
-      <input> 
-          <expression>
-              <table>
-                  <property>instrumentation/altimeter/indicated-altitude-ft</property> 
-                  <entry><ind>0</ind><dep>270</dep></entry>
-                  <entry><ind>6000</ind><dep>270</dep></entry>
-                  <entry><ind>7800</ind><dep>350</dep></entry>
-									<entry><ind>30650</ind><dep>350</dep></entry>
-                  <entry><ind>41000</ind><dep>277</dep></entry>
-                  <entry><ind>51000</ind><dep>220</dep></entry>
-              </table>
-          </expression>
-      </input>    
-      <output>instrumentation/pfd/max-airspeed-kts</output>
-	</filter>-->
-<!--
-  <filter>
-      <name>Vmo tape</name> 
-      <type>gain</type>
-      <update-interval-secs type="double">0.05</update-interval-secs>
-			<gain>-1</gain> 
-     <input>
-          <property>instrumentation/pfd/max-airspeed-kts</property>
-      </input>
-      <reference>
-          <property>velocities/airspeed-kt</property>
-          <offset>-60</offset>
-      </reference>
-      <output>instrumentation/pfd/vmo-diff</output>
-      <min>-140</min>
-      <max>-10</max>
-  </filter>-->
 
 <!-- Stall -->
 

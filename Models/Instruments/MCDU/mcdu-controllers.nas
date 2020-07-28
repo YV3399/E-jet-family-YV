@@ -76,6 +76,12 @@ var ModelController = {
         return val;
     },
 
+    delete: func (owner, boxed) {
+        if (me.model != nil) {
+            me.model.reset();
+        }
+    },
+
     send: func (owner, val) {
         if (me.set(val) == nil) {
             # TODO: issue error message on scratchpad

@@ -25,19 +25,9 @@ var nav_type = "autopilot/internal/nav-type";
 var hdg_ann = "autopilot/settings/heading-bug-deg";
 var dist_rem = "autopilot/route-manager/distance-remaining-nm";
 var Wtot = nil;
-var Flaps = nil;
-var v1 = nil;
-var vr = nil;
-var v2 = nil;
-var vref = nil;
 var chronH = nil;
 var chronM = nil;
 var chronS = nil;
-var v1_m = "controls/flight/v1";
-var vr_m = "controls/flight/vr";
-var v2_m = "controls/flight/v2";
-var vref_m = "controls/flight/vref";
-var va = "controls/flight/va";
 
 var wind_spd	=	props.globals.getNode("environment/wind-speed-kt", 1);
 var wind_dir	=	props.globals.getNode("environment/wind-from-heading-deg", 1);
@@ -184,42 +174,15 @@ var batt2v	=	props.globals.getNode("systems/electrical/right-bus", 1);
       setlistener(me.menu[x], func {
         me.razMenu();
         me.selectMenu(x);
-        me.VspeedMenu(x);
       },0,0);
 
       setlistener(me.s_menu[x], func {
         me.razMenu();
         me.selectMenu(x);
-        me.VspeedMenu(x);
       },0,0);
 
       setlistener("instrumentation/mfd["~x~"]/cdr-tot", func {
         me.showRect(x);
-      },0,0);
-
-      setlistener("/controls/flight/flaps", func {
-        me.VspeedUpdate();
-        me.VspeedMenu(x);
-      },0,0);
-
-      setlistener("/controls/flight/v1", func {
-        me.VspeedMenu(x);
-      },0,0);
-
-      setlistener("/controls/flight/v2", func {
-        me.VspeedMenu(x);
-      },0,0);
-
-      setlistener("/controls/flight/vr", func {
-        me.VspeedMenu(x);
-      },0,0);
-
-      setlistener("/controls/flight/vref", func {
-        me.VspeedMenu(x);
-      },0,0);
-
-      setlistener("/controls/flight/va", func {
-        me.VspeedMenu();
       },0,0);
 
 		}, # end of listen
@@ -336,51 +299,6 @@ var batt2v	=	props.globals.getNode("systems/electrical/right-bus", 1);
 		}, # end of update
 
 
-    VspeedUpdate : func {
-	    # Wtot = getprop("fdm/jsbsim/inertia/weight-lbs");
-	    # Flaps = getprop("controls/flight/flaps");
-	    # if (Flaps > 0.142) {
-		#     if (Wtot <31000) {v1=115;vr=118;v2=129}
-		#     if (Wtot >=31000 and Wtot <33000) {v1=116;vr=120;v2=128}
-		#     if (Wtot >=33000 and Wtot <34000) {v1=121;vr=126;v2=131}
-		#     if (Wtot >=34000 and Wtot <35000) {v1=124;vr=128;v2=133}
-		#     if (Wtot >=35000 and Wtot <36100) {v1=126;vr=131;v2=135}
-		#     if (Wtot >=36100) {v1=129;vr=133;v2=137}
-	    # }
-	    # else {
-		#     if (Wtot <27000) {v1=122;vr=126;v2=139}
-		#     if (Wtot >=27000 and Wtot <29000) {v1=123;vr=126;v2=139}
-		#     if (Wtot >=29000 and Wtot <31000) {v1=125;vr=126;v2=138}
-		#     if (Wtot >=31000 and Wtot <33000) {v1=126;vr=126;v2=138}
-		#     if (Wtot >=33000 and Wtot <34000) {v1=127;vr=127;v2=138}
-		#     if (Wtot >=34000 and Wtot <35000) {v1=130;vr=130;v2=140}
-		#     if (Wtot >=35000 and Wtot <36100) {v1=132;vr=132;v2=143}
-		#     if (Wtot >=36100) {v1=134;vr=134;v2=144}
-	    # }
-	    # setprop("controls/flight/v1",v1);
-	    # setprop("controls/flight/vr",vr);
-	    # setprop("controls/flight/v2",v2);
-	    # setprop("controls/flight/vf5",180);
-	    # setprop("controls/flight/vf15",160);
-	    # setprop("controls/flight/vf35",140);
-    }, # end of VspeedUpdate
-
-    VspeedMenu : func(x) {      
-			if (getprop(me.menu[x]) == 0 and getprop(me.s_menu[x]) == 5) {
-				me.menus.menu1.setText("V1");
-				me.menus.menu1b.setText(sprintf("%03d",getprop(v1_m)));
-				me.menus.menu2.setText("Vr");
-				me.menus.menu2b.setText(sprintf("%03d",getprop(vr_m)));
-				me.menus.menu3.setText("V2");
-				me.menus.menu3b.setText(sprintf("%03d",getprop(v2_m)));
-				me.menus.menu4.setText("Vref");
-				me.menus.menu4b.setText(sprintf("%03d",getprop(vref_m)));
-				me.menus.menu5.setText("Vapp");
-				me.menus.menu5b.setText(sprintf("%03d",getprop(va)));
-        me.setColor(me.blue);
-			}
-    }, # end of VspeedMenu
-
     setColor : func(color) {
       for (var n=5;n<10;n+=1) {
         me.menus[me.menu_val[n]].setColor(color);
@@ -413,14 +331,6 @@ var mfd_setl = setlistener("sim/signals/fdm-initialized", func() {
     #mfd.showRect(x);
 	  mfd.update(x);
   }
-	var v_speed = func {		
-		mfd.VspeedUpdate();
-    mfd.VspeedMenu(0);
-    mfd.VspeedMenu(1);
-	}
-	var timer = maketimer(10,v_speed);
-	timer.singleShot = 1;
-	timer.start();
 	print('MFD Canvas ... Ok');
 	removelistener(mfd_setl); 
 },0,0);

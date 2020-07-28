@@ -177,14 +177,14 @@
         <type>gain</type>
         <gain>1</gain>
         <input>
-            <!-- flaps 5 or FULL -->
+            <!-- flaps 6 = FULL -->
             <condition>
                 <greater-than>
                     <property>/controls/flight/flaps</property>
                     <value>0.7</value>
                 </greater-than>
             </condition>
-            <property>/controls/flight/vaf6</property>
+            <property>/fms/vspeeds-effective/approach/vaf6</property>
         </input>
         <input>
             <!-- flaps 4/5 -->
@@ -194,7 +194,7 @@
                     <value>0.475</value>
                 </greater-than>
             </condition>
-            <property>/controls/flight/vaf5</property>
+            <property>/fms/vspeeds-effective/approach/vaf5</property>
         </input>
         <input>
             <!-- flaps 3 -->
@@ -204,7 +204,7 @@
                     <value>0.35</value>
                 </greater-than>
             </condition>
-            <property>/controls/flight/vaf3</property>
+            <property>/fms/vspeeds-effective/approach/vaf3</property>
         </input>
         <input>
             <!-- flaps 2 -->
@@ -214,7 +214,7 @@
                     <value>0.225</value>
                 </greater-than>
             </condition>
-            <property>/controls/flight/vaf2</property>
+            <property>/fms/vspeeds-effective/approach/vaf2</property>
         </input>
         <input>
             <!-- flaps 1 -->
@@ -224,7 +224,7 @@
                     <value>0.1</value>
                 </greater-than>
             </condition>
-            <property>/controls/flight/vaf1</property>
+            <property>/fms/vspeeds-effective/approach/vaf1</property>
         </input>
         <input>
             <!-- clean config -->
@@ -241,7 +241,7 @@
             <and>
                 <greater-than>
                     <property>/instrumentation/airspeed-indicator/indicated-speed-kt</property>
-                    <property>/controls/flight/v2</property>
+                    <property>/fms/vspeeds-calculated/departure/v2</property>
                 </greater-than>
             </and>
         </input>
@@ -362,7 +362,7 @@
                     <value>0</value>
                 </equals>
             </condition>
-            <property>/controls/flight/v2</property>
+            <property>/fms/vspeeds-calculated/departure/v2</property>
         </input>
         <input>
             <!-- TO CLB -->
@@ -375,7 +375,7 @@
             <expression>
                 <min>
                     <sum>
-                        <property>/controls/flight/v2</property>
+                        <property>/fms/vspeeds-calculated/departure/v2</property>
                         <value>10</value>
                     </sum>
                     <property>/fms/internal/speed-limit-climb</property>
@@ -496,7 +496,7 @@
                 <min>
                     <max>
                         <property>/fms/internal/approach-speed</property>
-                        <property>/controls/flight/vappr</property>
+                        <property>/fms/vspeeds-calculated/approach/vappr</property>
                     </max>
                     <property>/fms/internal/speed-limit-descent</property>
                 </min>
@@ -550,12 +550,12 @@
                     <value>0</value>
                 </equals>
             </condition>
-            <property>/controls/flight/v2</property>
+            <property>/fms/vspeeds-calculated/departure/v2</property>
         </input>
         <input>
             <expression>
                 <sum>
-                    <property>/controls/flight/v2</property>
+                    <property>/fms/vspeeds-calculated/departure/v2</property>
                     <value>10</value>
                 </sum>
             </expression>

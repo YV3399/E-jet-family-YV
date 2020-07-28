@@ -1,3 +1,450 @@
 <PropertyList>
 
+    <!-- TAKEOFF / DEPARTURE -->
+    <filter>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <condition>
+                <greater-than>
+                    <property>/controls/flight/vspeeds/departure/v1</property>
+                    <value>0</value>
+                </greater-than>
+            </condition>
+            <property>/controls/flight/vspeeds/departure/v1</property>
+        </input>
+        <input><property>/fms/vspeeds-calculated/departure/v1</property></input>
+        <output>/fms/vspeeds-effective/departure/v1</output>
+    </filter>
+
+    <filter>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <condition>
+                <greater-than>
+                    <property>/controls/flight/vspeeds/departure/vr</property>
+                    <value>0</value>
+                </greater-than>
+            </condition>
+            <property>/controls/flight/vspeeds/departure/vr</property>
+        </input>
+        <input><property>/fms/vspeeds-calculated/departure/vr</property></input>
+        <output>/fms/vspeeds-effective/departure/vr</output>
+    </filter>
+
+    <filter>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <condition>
+                <greater-than>
+                    <property>/controls/flight/vspeeds/departure/v2</property>
+                    <value>0</value>
+                </greater-than>
+            </condition>
+            <property>/controls/flight/vspeeds/departure/v2</property>
+        </input>
+        <input><property>/fms/vspeeds-calculated/departure/v2</property></input>
+        <output>/fms/vspeeds-effective/departure/v2</output>
+    </filter>
+
+    <filter>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <condition>
+                <greater-than>
+                    <property>/controls/flight/vspeeds/departure/vfs</property>
+                    <value>0</value>
+                </greater-than>
+            </condition>
+            <property>/controls/flight/vspeeds/departure/vfs</property>
+        </input>
+        <input><property>/fms/vspeeds-calculated/departure/vfs</property></input>
+        <output>/fms/vspeeds-effective/departure/vfs</output>
+    </filter>
+
+
+    <!-- APPROACH / LANDING -->
+    <filter>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <condition>
+                <greater-than>
+                    <property>/controls/flight/vspeeds/approach/vref</property>
+                    <value>0</value>
+                </greater-than>
+            </condition>
+            <property>/controls/flight/vspeeds/approach/vref</property>
+        </input>
+        <input><property>/fms/vspeeds-calculated/approach/vref</property></input>
+        <output>/fms/vspeeds-effective/approach/vref</output>
+    </filter>
+
+    <filter>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <condition>
+                <greater-than>
+                    <property>/controls/flight/vspeeds/approach/vappr</property>
+                    <value>0</value>
+                </greater-than>
+            </condition>
+            <property>/controls/flight/vspeeds/approach/vappr</property>
+        </input>
+        <input><property>/fms/vspeeds-calculated/approach/vappr</property></input>
+        <output>/fms/vspeeds-effective/approach/vappr</output>
+    </filter>
+
+    <filter>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <condition>
+                <greater-than>
+                    <property>/controls/flight/vspeeds/approach/vac</property>
+                    <value>0</value>
+                </greater-than>
+            </condition>
+            <property>/controls/flight/vspeeds/approach/vac</property>
+        </input>
+        <input><property>/fms/vspeeds-calculated/approach/vac</property></input>
+        <output>/fms/vspeeds-effective/approach/vac</output>
+    </filter>
+
+    <filter>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <condition>
+                <greater-than>
+                    <property>/controls/flight/vspeeds/approach/vfs</property>
+                    <value>0</value>
+                </greater-than>
+            </condition>
+            <property>/controls/flight/vspeeds/approach/vfs</property>
+        </input>
+        <input><property>/fms/vspeeds-calculated/approach/vfs</property></input>
+        <output>/fms/vspeeds-effective/approach/vfs</output>
+    </filter>
+
+    <!-- Flap retraction schedule -->
+    <filter>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <condition>
+                <greater-than>
+                    <property>/controls/flight/vspeeds/departure/vf</property>
+                    <value>0</value>
+                </greater-than>
+            </condition>
+            <property>/controls/flight/vspeeds/departure/vf</property>
+        </input>
+        <input><property>/fms/vspeeds-calculated/departure/vf</property></input>
+        <output>/fms/vspeeds-effective/departure/vf</output>
+    </filter>
+
+    <filter>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <condition>
+                <greater-than>
+                    <property>/controls/flight/vspeeds/departure/vf1</property>
+                    <value>0</value>
+                </greater-than>
+            </condition>
+            <property>/controls/flight/vspeeds/departure/vf1</property>
+        </input>
+        <input><property>/fms/vspeeds-calculated/departure/vf1</property></input>
+        <output>/fms/vspeeds-effective/departure/vf1</output>
+    </filter>
+
+    <filter>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <condition>
+                <greater-than>
+                    <property>/controls/flight/vspeeds/departure/vf2</property>
+                    <value>0</value>
+                </greater-than>
+            </condition>
+            <property>/controls/flight/vspeeds/departure/vf2</property>
+        </input>
+        <input><property>/fms/vspeeds-calculated/departure/vf2</property></input>
+        <output>/fms/vspeeds-effective/departure/vf2</output>
+    </filter>
+
+    <filter>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <condition>
+                <greater-than>
+                    <property>/controls/flight/vspeeds/departure/vf3</property>
+                    <value>0</value>
+                </greater-than>
+            </condition>
+            <property>/controls/flight/vspeeds/departure/vf3</property>
+        </input>
+        <input><property>/fms/vspeeds-calculated/departure/vf3</property></input>
+        <output>/fms/vspeeds-effective/departure/vf3</output>
+    </filter>
+
+    <filter>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <condition>
+                <greater-than>
+                    <property>/controls/flight/vspeeds/departure/vf4</property>
+                    <value>0</value>
+                </greater-than>
+            </condition>
+            <property>/controls/flight/vspeeds/departure/vf4</property>
+        </input>
+        <input><property>/fms/vspeeds-calculated/departure/vf4</property></input>
+        <output>/fms/vspeeds-effective/departure/vf4</output>
+    </filter>
+
+    <!-- Flap extension schedule -->
+    <filter>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <condition>
+                <greater-than>
+                    <property>/controls/flight/vspeeds/approach/vaf1</property>
+                    <value>0</value>
+                </greater-than>
+            </condition>
+            <property>/controls/flight/vspeeds/approach/vaf1</property>
+        </input>
+        <input><property>/fms/vspeeds-calculated/approach/vaf1</property></input>
+        <output>/fms/vspeeds-effective/approach/vaf1</output>
+    </filter>
+
+    <filter>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <condition>
+                <greater-than>
+                    <property>/controls/flight/vspeeds/approach/vaf2</property>
+                    <value>0</value>
+                </greater-than>
+            </condition>
+            <property>/controls/flight/vspeeds/approach/vaf2</property>
+        </input>
+        <input><property>/fms/vspeeds-calculated/approach/vaf2</property></input>
+        <output>/fms/vspeeds-effective/approach/vaf2</output>
+    </filter>
+
+    <filter>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <condition>
+                <greater-than>
+                    <property>/controls/flight/vspeeds/approach/vaf3</property>
+                    <value>0</value>
+                </greater-than>
+            </condition>
+            <property>/controls/flight/vspeeds/approach/vaf3</property>
+        </input>
+        <input><property>/fms/vspeeds-calculated/approach/vaf3</property></input>
+        <output>/fms/vspeeds-effective/approach/vaf3</output>
+    </filter>
+
+    <filter>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <condition>
+                <greater-than>
+                    <property>/controls/flight/vspeeds/approach/vaf5</property>
+                    <value>0</value>
+                </greater-than>
+            </condition>
+            <property>/controls/flight/vspeeds/approach/vaf5</property>
+        </input>
+        <input><property>/fms/vspeeds-calculated/approach/vaf5</property></input>
+        <output>/fms/vspeeds-effective/approach/vaf5</output>
+    </filter>
+
+    <filter>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <condition>
+                <greater-than>
+                    <property>/controls/flight/vspeeds/approach/vaf6</property>
+                    <value>0</value>
+                </greater-than>
+            </condition>
+            <property>/controls/flight/vspeeds/approach/vaf6</property>
+        </input>
+        <input><property>/fms/vspeeds-calculated/approach/vaf6</property></input>
+        <output>/fms/vspeeds-effective/approach/vaf6</output>
+    </filter>
+
+    <!--
+    0     = 0
+    0.125 = 1
+    0.250 = 2
+    0.375 = 3
+    0.500 = 4
+    0.625 = 5
+    0.750 = 6
+    -->
+    <!-- Flap speed calculator -->
+    <filter>
+        <!-- flaps 6 is always set to landing speed: vref + 5 -->
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <expression>
+                <sum>
+                    <property>/fms/vspeeds-effective/approach/vref</property>
+                    <value>5</value>
+                </sum>
+            </expression>
+        </input>
+        <output>/fms/vspeeds-calculated/approach/vaf6</output>
+    </filter>
+    <filter>
+        <!-- flaps 5 is set to landing speed: vref + 5 if flaps 5 landing,
+             otherwise same as flaps 4
+          -->
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <!-- flaps 5 landing -->
+            <condition>
+                <less-than>
+                    <property>/fms/landing-conditions/landing-flaps</property>
+                    <value>0.7</value>
+                </less-than>
+            </condition>
+            <expression>
+                <sum>
+                    <property>/fms/vspeeds-effective/approach/vref</property>
+                    <value>5</value>
+                </sum>
+            </expression>
+        </input>
+        <input>
+            <!-- flaps 6 landing -->
+            <property>/fms/vspeeds-effective/approach/vappr</property>
+        </input>
+        <output>/fms/vspeeds-calculated/approach/vaf5</output>
+    </filter>
+    <filter>
+        <!-- flaps 4 uses:
+                - approach speed if flaps 4 approach selected
+                - same as flaps 5 if flaps 2 approach selected
+          -->
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <!-- flaps 4 approach -->
+            <condition>
+                <greater-than>
+                    <property>/fms/landing-conditions/approach-flaps</property>
+                    <value>0.4</value>
+                </greater-than>
+            </condition>
+            <property>/fms/vspeeds-effective/approach/vappr</property>
+        </input>
+        <input>
+            <!-- flaps 2 approach -->
+            <property>/fms/vspeeds-calculated/approach/vaf5</property>
+        </input>
+        <output>/fms/vspeeds-calculated/approach/vaf4</output>
+    </filter>
+
+    <filter>
+        <!-- flaps 3 uses:
+                - 150 kts or approach speed, whichever is greater, if flaps 4
+                  approach selected
+                - landing speed + 10 kts (Vref + 20 kts) or approach speed,
+                  whichever is less, if flaps 2 approach selected
+          -->
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <!-- flaps 4 approach -->
+            <condition>
+                <greater-than>
+                    <property>/fms/landing-conditions/approach-flaps</property>
+                    <value>0.4</value>
+                </greater-than>
+            </condition>
+            <expression>
+                <max>
+                    <property>/fms/vspeeds-effective/approach/vappr</property>
+                    <value>150</value>
+                </max>
+            </expression>
+        </input>
+        <input>
+            <!-- flaps 2 approach -->
+            <expression>
+                <min>
+                    <sum>
+                        <property>/fms/vspeeds-effective/approach/vref</property>
+                        <value>20</value>
+                    </sum>
+                    <property>/fms/vspeeds-calculated/approach/vappr</property>
+                </min>
+            </expression>
+        </input>
+        <output>/fms/vspeeds-calculated/approach/vaf3</output>
+    </filter>
+
+    <filter>
+        <!-- flaps 2 uses:
+                - 160 kts or approach speed, whichever is greater, if flaps 4
+                  approach selected
+                - approach speed if flaps 2 approach selected
+          -->
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <!-- flaps 4 approach -->
+            <condition>
+                <greater-than>
+                    <property>/fms/landing-conditions/approach-flaps</property>
+                    <value>0.4</value>
+                </greater-than>
+            </condition>
+            <expression>
+                <max>
+                    <property>/fms/vspeeds-effective/approach/vappr</property>
+                    <value>160</value>
+                </max>
+            </expression>
+        </input>
+        <input>
+            <!-- flaps 2 approach -->
+            <property>/fms/vspeeds-calculated/approach/vappr</property>
+        </input>
+        <output>/fms/vspeeds-calculated/approach/vaf2</output>
+    </filter>
+
+    <filter>
+        <!-- flaps 1 uses 180 kts. -->
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <value>180</value>
+        </input>
+        <output>/fms/vspeeds-calculated/approach/vaf1</output>
+    </filter>
+
 </PropertyList>

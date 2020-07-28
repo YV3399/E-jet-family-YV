@@ -919,20 +919,20 @@ var TakeoffPerfModule = {
         else if (n == 2) {
             me.views = [
                 StaticView.new(1, 1, "V1", mcdu_white),
-                FormatView.new(0, 2, mcdu_large | mcdu_magenta, "V1", 3),
+                FormatView.new(0, 2, mcdu_large | mcdu_magenta, "DEP-EFF-V1", 3),
                 StaticView.new(1, 3, "VR", mcdu_white),
-                FormatView.new(0, 4, mcdu_large | mcdu_cyan, "VR", 3),
+                FormatView.new(0, 4, mcdu_large | mcdu_cyan, "DEP-EFF-VR", 3),
                 StaticView.new(1, 5, "V2", mcdu_white),
-                FormatView.new(0, 6, mcdu_large | mcdu_yellow, "V2", 3),
+                FormatView.new(0, 6, mcdu_large | mcdu_yellow, "DEP-EFF-V2", 3),
                 StaticView.new(1, 7, "VFS", mcdu_white),
-                FormatView.new(0, 8, mcdu_large | mcdu_green, "VFS", 3),
+                FormatView.new(0, 8, mcdu_large | mcdu_green, "DEP-EFF-VFS", 3),
                 StaticView.new(0, 10,left_triangle ~ "LANDING", mcdu_large | mcdu_white),
             ];
             me.controllers = {
-                "L1": ValueController.new("V1"),
-                "L2": ValueController.new("VR"),
-                "L3": ValueController.new("V2"),
-                "L4": ValueController.new("VFS"),
+                "L1": ValueController.new("DEP-SEL-V1"),
+                "L2": ValueController.new("DEP-SEL-VR"),
+                "L3": ValueController.new("DEP-SEL-V2"),
+                "L4": ValueController.new("DEP-SEL-VFS"),
                 "L5": SubmodeController.new("PERF-LANDING"),
             };
         }
@@ -953,8 +953,7 @@ var LandingPerfModule = {
         if (n == 0) {
             me.views = [
                 StaticView.new(1, 1, "RWY OAT", mcdu_white),
-                # TemperatureView.new(0, 2, "OAT-TO", mcdu_white),
-                StaticView.new(0, 2, "+??°C/+??°F", mcdu_white),
+                TemperatureView.new(0, 2, mcdu_large | mcdu_green, "LANDING-OAT"),
                 StaticView.new(cells_x - 8, 1, "LND WGT", mcdu_white),
                 FormatView.new(15, 2, mcdu_white, "WGT-LND", 8, "%6.0fLB"),
                 StaticView.new(1, 3, "APPROACH FLAP", mcdu_white),
@@ -973,6 +972,7 @@ var LandingPerfModule = {
                 StaticView.new(14, 12, "T.O. DATA" ~ right_triangle, mcdu_white | mcdu_large),
             ];
             me.controllers = {
+                "L1": ModelController.new("LANDING-OAT"),
                 "R2": CycleController.new("APPR-FLAPS", [0.250, 0.500]),
                 "R3": CycleController.new("LANDING-FLAPS", [0.625, 0.750]),
                 "R4": CycleController.new("LANDING-ICE"),
@@ -982,19 +982,19 @@ var LandingPerfModule = {
         else if (n == 1) {
             me.views = [
                 StaticView.new(1, 1, "VREF", mcdu_white),
-                FormatView.new(0, 2, mcdu_large | mcdu_yellow, "VREF", 3),
+                FormatView.new(0, 2, mcdu_large | mcdu_yellow, "APP-EFF-VREF", 3),
                 StaticView.new(1, 3, "VAP", mcdu_white),
-                FormatView.new(0, 4, mcdu_large | mcdu_cyan, "VAP", 3),
+                FormatView.new(0, 4, mcdu_large | mcdu_cyan, "APP-EFF-VAPPR", 3),
                 StaticView.new(1, 5, "VAC", mcdu_white),
-                FormatView.new(0, 6, mcdu_large | mcdu_magenta, "VAC", 3),
+                FormatView.new(0, 6, mcdu_large | mcdu_magenta, "APP-EFF-VAC", 3),
                 StaticView.new(1, 7, "VFS", mcdu_white),
-                FormatView.new(0, 8, mcdu_large | mcdu_green, "VFS", 3),
+                FormatView.new(0, 8, mcdu_large | mcdu_green, "APP-EFF-VFS", 3),
             ];
             me.controllers = {
-                "L1": ValueController.new("VREF"),
-                "L2": ValueController.new("VAP"),
-                "L3": ValueController.new("VAC"),
-                "L4": ValueController.new("VFS"),
+                "L1": ValueController.new("APP-SEL-VREF"),
+                "L2": ValueController.new("APP-SEL-VAPPR"),
+                "L3": ValueController.new("APP-SEL-VAC"),
+                "L4": ValueController.new("APP-SEL-VFS"),
             };
         }
     },

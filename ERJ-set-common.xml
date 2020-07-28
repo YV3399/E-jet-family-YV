@@ -129,6 +129,9 @@
             <property-rule n="101">
                 <path>Aircraft/E-jet-family/Systems/fms.xml</path>
             </property-rule>
+            <autopilot>
+                <path>Aircraft/E-jet-family/Systems/vspeeds.xml</path>
+            </autopilot>
 
             <!--Disable XML electrical system-->
             <electrical>
@@ -602,6 +605,7 @@
         <landing-conditions>
             <approach-flaps type="double">0.500</approach-flaps>
             <landing-flaps type="double">0.750</landing-flaps>
+            <oat type="double">20</oat>
             <ice-accretion type="bool">false</ice-accretion>
             <!--
                 0 = non-precision
@@ -611,6 +615,111 @@
             -->
             <approach-cat>1</approach-cat>
         </landing-conditions>
+
+        <!--
+            These are effective v-speeds, as displayed on the PFD, and used
+            by the FMS-managed speed mode.
+
+            If a pilot-selected speed is available, it takes precedence
+            over calculated V-speeds.
+        -->
+        <vspeeds-effective>
+            <departure>
+                <!-- takeoff V1/VR/V2 -->
+                <v1 type="double">0</v1>
+                <vr type="double">0</vr>
+                <v2 type="double">0</v2>
+                <!-- final segment speed -->
+                <vfs type="double">0</vfs>
+                <!-- flap retraction schedule -->
+                <vf type="double">200</vf>
+                <vf1 type="double">180</vf1>
+                <vf2 type="double">160</vf2>
+                <vf3 type="double">150</vf3>
+                <vf4 type="double">140</vf4>
+            </departure>
+
+            <approach>
+                <!-- landing reference speed -->
+                <vref type="double">0</vref>
+                <!-- final approach speed -->
+                <vappr type="double">0</vappr>
+                <!-- flap extension schedule -->
+                <vaf1 type="double">0</vaf1>
+                <vaf2 type="double">0</vaf2>
+                <vaf3 type="double">0</vaf3>
+                <!-- 4 does not exist: same as 5 -->
+                <vaf5 type="double">0</vaf5>
+                <vaf6 type="double">0</vaf6>
+                <!-- approach climb speed -->
+                <vac type="double">0</vac>
+                <!-- final segment speed -->
+                <vfs type="double">0</vfs>
+            </approach>
+        </vspeeds-effective>
+
+        <!--
+            These are calculated v-speeds, set automatically by the FMS based
+            on inferred and pilot-entered takeoff / landing conditions.
+
+            Note that this only works if the required data tables are available
+            (found in ./Data/{model}/, where {model} is E170 for the E170 and
+            E175, and E190 for the E190, E195, and Lineage 1000.
+
+            Default values are selected based on the following situations:
+            - E190
+            - Weight: 99509 lbs (full payload, 9039 lbs FOB)
+            - Takeoff conditions:
+                - 20°C
+                - No wind
+                - QNH 1013.25
+                - Sea level
+                - No slope
+                - Dry runway
+                - Flaps 2
+                - TO-1
+            - Landing conditions:
+                - 20°C
+                - No wind
+                - No ice accretion
+                - Approach flaps 4
+                - Landing flaps 6
+                - CAT-I approach (NB: CAT-II landing with flaps 6 is prohibited)
+        -->
+        <vspeeds-calculated>
+            <departure>
+                <!-- takeoff V1/VR/V2 -->
+                <v1 type="double">129</v1>
+                <vr type="double">132</vr>
+                <v2 type="double">137</v2>
+                <!-- final segment speed -->
+                <vfs type="double">191</vfs>
+                <!-- flap retraction schedule -->
+                <vf type="double">200</vf>
+                <vf1 type="double">180</vf1>
+                <vf2 type="double">160</vf2>
+                <vf3 type="double">150</vf3>
+                <vf4 type="double">140</vf4>
+            </departure>
+
+            <approach>
+                <!-- landing reference speed -->
+                <vref type="double">127</vref>
+                <!-- final approach speed -->
+                <vappr type="double">137</vappr>
+                <!-- flap extension schedule -->
+                <vaf1 type="double">180</vaf1>
+                <vaf2 type="double">160</vaf2>
+                <vaf3 type="double">150</vaf3>
+                <vaf4 type="double">137</vaf4>
+                <vaf5 type="double">137</vaf5>
+                <vaf6 type="double">132</vaf6>
+                <!-- approach climb speed -->
+                <vac type="double">147</vac>
+                <!-- final segment speed -->
+                <vfs type="double">200</vfs>
+            </approach>
+        </vspeeds-calculated>
 
         <fuel>
             <!-- fuel budgetting for performance planning -->
@@ -701,32 +810,45 @@
             <ground-spoilers-armed type="bool">false</ground-spoilers-armed>
             <speedbrake-lever type="double">0</speedbrake-lever>
 
-            <!-- preconfigured for the following parameters:
-                TYPE: E190
-                FOB: 16607.4 lbs
-                DISTANCE: 1377 nm
-                FUEL BURN: 11856 lbs
-                TAKEOFF: flaps 2
-                RAMP WEIGHT: 107077 lbs
-                TAKEOFF WEIGHT: 106877 lbs / 48479 kg
-                APPROACH: flaps 4
-                LANDING: flaps full
-                LANDING WEIGHT: 95021 lbs / 43101 kg
+            <!--
+                These are the pilot-selected v-speeds; any non-zero setting
+                here overrides the automatically calculated values from the
+                FMS.
             -->
-            <v1 type="double">142</v1>
-            <vr type="double">144</vr>
-            <v2 type="double">147</v2>
-            <vref type="double">123</vref>
-            <vappr type="double">133</vappr>
-            <vfs type="double">185</vfs>
-            <vf type="double">200</vf>
-            <vaf1 type="double">180</vaf1>
-            <vaf2 type="double">160</vaf2>
-            <vaf3 type="double">150</vaf3>
-            <vaf4 type="double">140</vaf4>
-            <vaf5 type="double">140</vaf5>
-            <vaf6 type="double">130</vaf6>
-            <vac type="double">200</vac>
+            <vspeeds>
+                <departure>
+                    <!-- takeoff V1/VR/V2 -->
+                    <v1 type="double">0</v1>
+                    <vr type="double">0</vr>
+                    <v2 type="double">0</v2>
+                    <!-- final segment speed -->
+                    <vfs type="double">0</vfs>
+                    <!-- flap retraction schedule -->
+                    <vf type="double">0</vf>
+                    <vf1 type="double">0</vf1>
+                    <vf2 type="double">0</vf2>
+                    <vf3 type="double">0</vf3>
+                    <vf4 type="double">0</vf4>
+                </departure>
+
+                <approach>
+                    <!-- landing reference speed -->
+                    <vref type="double">0</vref>
+                    <!-- final approach speed -->
+                    <vappr type="double">0</vappr>
+                    <!-- flap extension schedule -->
+                    <vaf1 type="double">0</vaf1>
+                    <vaf2 type="double">0</vaf2>
+                    <vaf3 type="double">0</vaf3>
+                    <vaf4 type="double">0</vaf4>
+                    <vaf5 type="double">0</vaf5>
+                    <vaf6 type="double">0</vaf6>
+                    <!-- approach climb speed -->
+                    <vac type="double">0</vac>
+                    <!-- final segment speed -->
+                    <vfs type="double">0</vfs>
+                </approach>
+            </vspeeds>
 
             <trs>
                 <!-- 1 = TO-1, 2 = TO-2, 3 = TO-3 -->
@@ -849,6 +971,8 @@
             <command type="string"></command>
             <brightness>0.8</brightness>
         </mcdu>
+
+    
 
         <fmc>
             <to-flap type="double">10</to-flap>

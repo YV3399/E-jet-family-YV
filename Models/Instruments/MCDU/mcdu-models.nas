@@ -131,7 +131,7 @@ var PropModel = {
         }
     },
 
-    reset: func (val) {
+    reset: func () {
         var val = me.defval;
         if (typeof(me.defval) == 'func') {
             val = me.defval();
@@ -187,6 +187,7 @@ var makeAirportModel = func(owner, key) {
             }
         },
         func () {
+            var lens = fpLenses[key];
             owner.startEditing();
             lens.set(owner.fp, nil);
             owner.fullRedraw();

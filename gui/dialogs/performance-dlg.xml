@@ -57,7 +57,7 @@
                         <pref-width>15</pref-width>
                     </text>
                     <input>
-                        <property>/controls/flight/v1</property>
+                        <property>/controls/flight/vspeeds/departure/v1</property>
                         <label>KIAS</label>
                         <binding>
                             <command>dialog-apply</command>
@@ -71,7 +71,7 @@
                         <pref-width>15</pref-width>
                     </text>
                     <input>
-                        <property>/controls/flight/vr</property>
+                        <property>/controls/flight/vspeeds/departure/vr</property>
                         <label>KIAS</label>
                         <binding>
                             <command>dialog-apply</command>
@@ -85,7 +85,7 @@
                         <pref-width>15</pref-width>
                     </text>
                     <input>
-                        <property>/controls/flight/v2</property>
+                        <property>/controls/flight/vspeeds/departure/v2</property>
                         <label>KIAS</label>
                         <binding>
                             <command>dialog-apply</command>
@@ -99,7 +99,7 @@
                         <pref-width>15</pref-width>
                     </text>
                     <input>
-                        <property>/controls/flight/vfs</property>
+                        <property>/controls/flight/vspeeds/departure/vfs</property>
                         <label>KIAS</label>
                         <binding>
                             <command>dialog-apply</command>
@@ -272,7 +272,7 @@
                         <pref-width>15</pref-width>
                     </text>
                     <input>
-                        <property>/controls/flight/vref</property>
+                        <property>/controls/flight/vspeeds/approach/vref</property>
                         <label>KIAS</label>
                         <binding>
                             <command>dialog-apply</command>
@@ -300,7 +300,7 @@
                         <pref-width>15</pref-width>
                     </text>
                     <input>
-                        <property>/controls/flight/vappr</property>
+                        <property>/controls/flight/vspeeds/approach/vappr</property>
                         <label>KIAS</label>
                         <binding>
                             <command>dialog-apply</command>
@@ -314,7 +314,7 @@
                         <pref-width>15</pref-width>
                     </text>
                     <input>
-                        <property>/controls/flight/vac</property>
+                        <property>/controls/flight/vspeeds/approach/vac</property>
                         <label>KIAS</label>
                         <binding>
                             <command>dialog-apply</command>

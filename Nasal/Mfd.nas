@@ -64,67 +64,6 @@ var set_range = func(inc,x){
     if(wx_index<0) {wx_index=0}
     setprop("instrumentation/mfd["~x~"]/range-nm",wx_range[wx_index]);
 	}
-	# if (getprop(s_menu[x]) == 5 ) {
-	# 	if (getprop(path[x],cdr[0])) {
-	# 		spd_range = getprop("controls/flight/v1");
-	# 		spd_range += inc;
-	# 		if(spd_range<100) {spd_range=100}
-	# 		if(spd_range>200) {spd_range=200}
-	# 		setprop("controls/flight/v1",spd_range);
-	# 		if (getprop("controls/flight/vr") < spd_range) {
-	# 			setprop("controls/flight/vr",spd_range);
-	# 		}
-	# 		if(getprop("controls/flight/v2")< getprop("controls/flight/vr")+3) {
-	# 			setprop("controls/flight/v2",getprop("controls/flight/vr")+3);
-	# 		}
-	# 	}
-	# 	if (getprop(path[x],cdr[1])) {		
-	# 		spd_range = getprop("controls/flight/vr");
-	# 		spd_range += inc;
-	# 		if(spd_range<100) {spd_range=100}
-	# 		if(spd_range>200) {spd_range=200}
-	# 		setprop("controls/flight/vr",spd_range);
-	# 		if (getprop("controls/flight/v1") > spd_range) {
-	# 			setprop("controls/flight/v1",spd_range);
-	# 		}
-	# 		if(getprop("controls/flight/v2")< getprop("controls/flight/vr")+4) {
-	# 			setprop("controls/flight/v2",getprop("controls/flight/vr")+4);
-	# 		}
-	# 	}
-	# 	if (getprop(path[x],cdr[2])) {		
-	# 		spd_range = getprop("controls/flight/v2");
-	# 		spd_range += inc;
-	# 		if(spd_range<100) {spd_range=100}
-	# 		if(spd_range>200) {spd_range=200}
-	# 		setprop("controls/flight/v2",spd_range);
-	# 		if (getprop("controls/flight/vr") > spd_range-4) {
-	# 			setprop("controls/flight/vr",spd_range-4);
-	# 		}
-	# 		if(getprop("controls/flight/vr")< getprop("controls/flight/v1")) {
-	# 			setprop("controls/flight/v1",getprop("controls/flight/vr"));
-	# 		}
-	# 	}
-	# 	if (getprop(path[x],cdr[3])) {		
-	# 		spd_range = getprop("controls/flight/vref");
-	# 		spd_range += inc;
-	# 		if(spd_range<100) {spd_range=100}
-	# 		if(spd_range>250) {spd_range=250}
-	# 		setprop("controls/flight/vref",spd_range);
-	# 		if (getprop("controls/flight/va") < spd_range+4) {
-	# 			setprop("controls/flight/va",spd_range+4);
-	# 		}
-	# 	}
-	# 	if (getprop(path[x],cdr[4])) {		
-	# 		spd_range = getprop("controls/flight/va");
-	# 		spd_range += inc;
-	# 		if(spd_range<100) {spd_range=100}
-	# 		if(spd_range>250) {spd_range=250}
-	# 		setprop("controls/flight/va",spd_range);
-	# 		if (getprop("controls/flight/vr") > spd_range-4) {
-	# 			setprop("controls/flight/vr",spd_range-4);
-	# 		}
-	# 	}
-	# }
 }
 
 var menu = func(x) {

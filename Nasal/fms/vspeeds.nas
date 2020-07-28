@@ -78,6 +78,38 @@ var loadTable2D = func (tablekey) {
     io.close(file);
 };
 
+var loadTable2DH = func (tablekey) {
+    var path = resolvepath("Aircraft/E-jet-family/Data/" ~ tablekey ~ ".table");
+    if (path == nil or path == '') { return nil; }
+    var file = io.open(path, "r");
+    var result = {};
+    var columnHeaders = nil;
+    while (1) {
+        var ln = io.readln(file);
+        if (ln == nil) { break; }
+        ln = strip(stripComment(ln));
+        if (ln == "") {
+            continue;
+        }
+        if (columnHeaders == nil) {
+            columnHeaders = [];
+            foreach (var k; split(" ", ln)) {
+                append(columnHeaders, num(k));
+            }
+        }
+        else {
+            var row = split(" ", ln);
+            var rowKey = num(row[0]);
+            result[rowKey] = {};
+            forindex (var i; columnHeaders) {
+                result[rowKey][columnHeaders[i]] = num(row[i+1]);
+            }
+        }
+    }
+    return result;
+    io.close(file);
+};
+
 var loadTable3DH = func (tablekey) {
     var path = resolvepath("Aircraft/E-jet-family/Data/" ~ tablekey ~ ".table");
     if (path == nil or path == '') { return nil; }
@@ -267,20 +299,57 @@ var calcVFS = func (weight = nil) {
     return lookupTable(table, [ weight ]);
 };
 
-var update_vspeeds = func () {
-    var v1 = calcV('V1');
-    var vR = calcV('VR');
-    var v2 = calcV('V2');
-    var vFS = calcVFS();
-    printf("V1: %3.0f", (v1 == nil) ? "9999" : v1);
-    printf("VR: %3.0f", (vR == nil) ? "9999" : vR);
-    printf("V2: %3.0f", (v2 == nil) ? "9999" : v2);
-    printf("VFS: %3.0f", (vFS == nil) ? "9999" : vFS);
-    setprop('/controls/flight/v1', v1 or 0);
-    setprop('/controls/flight/vr', vR or 0);
-    setprop('/controls/flight/v2', v2 or 0);
-    setprop('/controls/flight/vfs', vFS or 0);
+var calcVAC = func (weight = nil) {
+    var model = getModel();
+    if (model == nil) { return nil; }
+    if (weight == nil) {
+        weight = (getprop('/fdm/jsbsim/inertia/weight-lbs') or 60000) * LB2KG;
+    }
+    var tablekey = sprintf("%s/VAC", model);
+    var table = loadTable2DH(tablekey);
+    var flapSetting = math.round(getprop('/fms/landing-conditions/approach-flaps') * 8);
+    return lookupTable(table, [ weight, flapSetting ]);
 };
 
-setlistener('/fms/takeoff-conditions', func () { update_vspeeds(); }, 1, 2);
-setlistener('/controls/flight/trs/to', func () { update_vspeeds(); }, 1, 0);
+var calcVref = func (weight = nil) {
+    var model = getModel();
+    if (model == nil) { return nil; }
+    if (weight == nil) {
+        weight = (getprop('/fdm/jsbsim/inertia/weight-lbs') or 60000) * LB2KG;
+    }
+    var icing = getprop('/fms/landing-conditions/ice-accretion');
+    var tablekey = sprintf("%s/Vref-%s", model, icing ? 'ice' : 'noice');
+    var table = loadTable2DH(tablekey);
+    var flapSetting = math.round(getprop('/fms/landing-conditions/landing-flaps') * 8);
+    return lookupTable(table, [ weight, flapSetting ]);
+};
+
+var update_departure_vspeeds = func () {
+    var v1 = calcV('V1');
+    var vr = calcV('VR');
+    var v2 = calcV('V2');
+    var vfs = calcVFS();
+    printf("V1: %3.0f", (v1 == nil) ? "9999" : v1);
+    printf("VR: %3.0f", (vr == nil) ? "9999" : vr);
+    printf("V2: %3.0f", (v2 == nil) ? "9999" : v2);
+    printf("VFS: %3.0f", (vfs == nil) ? "9999" : vfs);
+    if (v1 != nil and v1 > 0) { setprop('/fms/vspeeds-calculated/departure/v1', v1); }
+    if (vr != nil and vr > 0) { setprop('/fms/vspeeds-calculated/departure/vr', vr); }
+    if (v2 != nil and v2 > 0) { setprop('/fms/vspeeds-calculated/departure/v2', v2); }
+    if (vfs != nil and vfs > 0) { setprop('/fms/vspeeds-calculated/departure/vfs', vfs); }
+};
+
+var update_approach_vspeeds = func () {
+    var vac = calcVAC();
+    var vref = calcVref();
+    var vfs = calcVFS();
+    var vappr = vref + 10;
+    if (vac != nil and vac > 0) { setprop('/fms/vspeeds-calculated/approach/vac', vac); }
+    if (vref != nil and vref > 0) { setprop('/fms/vspeeds-calculated/approach/vref', vref); }
+    if (vappr != nil and vappr > 0) { setprop('/fms/vspeeds-calculated/approach/vappr', vappr); }
+    if (vfs != nil and vfs > 0) { setprop('/fms/vspeeds-calculated/approach/vfs', vfs); }
+};
+
+setlistener('/fms/takeoff-conditions', func () { update_departure_vspeeds(); }, 1, 2);
+setlistener('/controls/flight/trs/to', func () { update_departure_vspeeds(); }, 1, 0);
+setlistener('/fms/landing-conditions', func () { update_approach_vspeeds(); }, 1, 2);

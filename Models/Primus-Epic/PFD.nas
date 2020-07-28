@@ -189,14 +189,18 @@ var canvas_ED_only = {
         m.props["/instrumentation/pfd/minimums-mode"] = props.globals.getNode("/instrumentation/pfd/minimums-mode");
         m.props["/instrumentation/pfd/minimums-radio"] = props.globals.getNode("/instrumentation/pfd/minimums-radio");
         m.props["/instrumentation/pfd/minimums-baro"] = props.globals.getNode("/instrumentation/pfd/minimums-baro");
-        m.props["/controls/flight/vfs"] = props.globals.getNode("/controls/flight/vfs");
-        m.props["/controls/flight/vf"] = props.globals.getNode("/controls/flight/vf");
-        m.props["/controls/flight/v2"] = props.globals.getNode("/controls/flight/v2");
-        m.props["/controls/flight/vac"] = props.globals.getNode("/controls/flight/vac");
-        m.props["/controls/flight/vr"] = props.globals.getNode("/controls/flight/vr");
-        m.props["/controls/flight/vap"] = props.globals.getNode("/controls/flight/vap");
-        m.props["/controls/flight/vref"] = props.globals.getNode("/controls/flight/vref");
-        m.props["/controls/flight/v1"] = props.globals.getNode("/controls/flight/v1");
+        m.props["/fms/vspeeds-effective/departure/v1"] = props.globals.getNode("/fms/vspeeds-effective/departure/v1");
+        m.props["/fms/vspeeds-effective/departure/vr"] = props.globals.getNode("/fms/vspeeds-effective/departure/vr");
+        m.props["/fms/vspeeds-effective/departure/v2"] = props.globals.getNode("/fms/vspeeds-effective/departure/v2");
+        m.props["/fms/vspeeds-effective/departure/vfs"] = props.globals.getNode("/fms/vspeeds-effective/departure/vfs");
+        m.props["/fms/vspeeds-effective/departure/vf"] = props.globals.getNode("/fms/vspeeds-effective/departure/vf");
+        m.props["/fms/vspeeds-effective/departure/vf1"] = props.globals.getNode("/fms/vspeeds-effective/departure/vf1");
+        m.props["/fms/vspeeds-effective/departure/vf2"] = props.globals.getNode("/fms/vspeeds-effective/departure/vf2");
+        m.props["/fms/vspeeds-effective/departure/vf3"] = props.globals.getNode("/fms/vspeeds-effective/departure/vf3");
+        m.props["/fms/vspeeds-effective/departure/vf4"] = props.globals.getNode("/fms/vspeeds-effective/departure/vf4");
+        m.props["/fms/vspeeds-effective/approach/vac"] = props.globals.getNode("/fms/vspeeds-effective/approach/vac");
+        m.props["/fms/vspeeds-effective/approach/vap"] = props.globals.getNode("/fms/vspeeds-effective/approach/vap");
+        m.props["/fms/vspeeds-effective/approach/vref"] = props.globals.getNode("/fms/vspeeds-effective/approach/vref");
         m.props["/controls/flight/speed-mode"] = props.globals.getNode("/controls/flight/speed-mode");
 
         m.props["/controls/flight/flaps"] = props.globals.getNode("/controls/flight/flaps");
@@ -704,9 +708,8 @@ var canvas_ED_only = {
         }
 
         # Speed ref bugs
-        var flaps = me.props["/controls/flight/flaps"].getValue();
-        foreach (var spdref; ["vfs", "vf", "v2", "vac", "vr", "vappr", "vref", "v1"]) {
-            var prop = me.props["/controls/flight/" ~ spdref];
+        foreach (var spdref; ["v1", "vr", "v2", "vfs"]) {
+            var prop = me.props["/fms/vspeeds-effective/departure/" ~ spdref];
             var elem = me["speedref." ~ spdref];
             if (elem == nil) continue;
             if (prop == nil) {
@@ -715,49 +718,55 @@ var canvas_ED_only = {
             else {
                 ktsRel = airspeed - (prop.getValue() or 0);
                 elem.setTranslation(0, ktsRel * 6.42);
-                if (ktsRel > 50 or ktsRel < -50) {
-                    elem.hide();
+                var phase = getprop("/fms/phase");
+                if ((phase == 0 or phase == 1) and ktsRel < 50 and ktsRel > -50) {
+                    # takeoff / departure
+                    elem.show();
                 }
                 else {
-                    # TODO: detect flight phase
-                    var phase = getprop("/fms/phase");
-                    if (spdref == "vfs" or
-                        spdref == "v1" or
-                        spdref == "v2" or
-                        spdref == "vr") {
-                        if (phase == 0 or phase == 1) {
-                            # takeoff / departure
-                            elem.show();
-                        }
-                        else {
-                            elem.hide();
-                        }
-                    }
-                    else if (spdref == "vappr" or
-                             spdref == "vref" or
-                             spdref == "vac") {
-                        if (phase == 6) {
-                            # approach
-                            elem.show();
-                        }
-                        else {
-                            elem.hide();
-                        }
-                    }
-                    else if (spdref == "vf") {
-                        # show flap speed while flaps extended
-                        if (flaps > 0.01) {
-                            elem.show();
-                        }
-                        else {
-                            elem.hide();
-                        }
-                    }
-                    else {
-                        elem.show();
-                    }
+                    elem.hide();
                 }
             }
+        }
+        foreach (var spdref; ["vref", "vappr", "vap", "vac"]) {
+            var prop = me.props["/fms/vspeeds-effective/approach/" ~ spdref];
+            var elem = me["speedref." ~ spdref];
+            if (elem == nil) continue;
+            if (prop == nil) {
+                elem.hide();
+            }
+            else {
+                ktsRel = airspeed - (prop.getValue() or 0);
+                elem.setTranslation(0, ktsRel * 6.42);
+                var phase = getprop("/fms/phase");
+                if ((phase == 6) and ktsRel < 50 and ktsRel > -50) {
+                    # approach
+                    elem.show();
+                }
+                else {
+                    elem.hide();
+                }
+            }
+        }
+
+        # Flaps-up markers
+        var flaps = me.props["/controls/flight/flaps"].getValue();
+        var flapsElem = me["speedref.vf"];
+        if (flaps <= 0.000001) {
+            flapsElem.hide();
+        }
+        else {
+            # vf0 = vf; and then vf1 through vf4.
+            var nextFlapIndex = math.max(0, math.min(4, math.round(flaps * 8) - 1));
+            var prop = me.props["/fms/vspeeds-effective/departure/vf"];
+            if (nextFlapIndex > 0) {
+                var propname = sprintf("/fms/vspeeds-effective/departure/vf%1.0f", nextFlapIndex);
+                print(propname);
+                prop = me.props[propname];
+            }
+            ktsRel = airspeed - (prop.getValue() or 0);
+            flapsElem.setTranslation(0, ktsRel * 6.42);
+            flapsElem.show();
         }
 
         # FMA
