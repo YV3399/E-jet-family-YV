@@ -101,12 +101,6 @@ var discardFlightplan = func () {
     return flightplan();
 };
 
-setlistener("autopilot/route-manager/signals/edited", func {
-    var fp = flightplan();
-    modifiedRoute = nil;
-    activeRoute = Route.new(fp);
-});
-
 setlistener("/autopilot/route-manager/departure/runway", func () { updateTakeoffRunway(); });
 setlistener("fms/takeoff-conditions/qnh", func () { updateTakeoffPressureAlt(); });
 setlistener("fms/takeoff-conditions/runway-elevation", func () { updateTakeoffPressureAlt(); });
