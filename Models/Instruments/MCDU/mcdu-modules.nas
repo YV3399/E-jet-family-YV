@@ -347,6 +347,7 @@ var FlightPlanModule = {
         debug.dump(s);
         var newWaypoints = [];
         var appendIndex = (appendAfter == nil) ? me.findLastEnrouteWP() : appendAfter;
+        var targetFix = nil;
         var refWP = me.fp.getWP(appendIndex);
         var ref = geo.aircraft_position();
         printf("Append after: %i (%s)", appendIndex, (refWP == nil) ? "<nil>" : refWP.id);
@@ -372,6 +373,9 @@ var FlightPlanModule = {
                 }
             }
             if (size(candidates) > 0) {
+                targetFix = candidates[0];
+            }
+            if (targetFix != nil) {
                 me.startEditing();
                 var wp = createWP(candidates[0], candidates[0].id);
                 me.fp.insertWP(wp, appendIndex + 1);
@@ -382,8 +386,14 @@ var FlightPlanModule = {
             }
         }
         else if (size(s) == 2) {
-            # TODO: figure out via-to routing
-            var awy = airway(s[0], ref);
+            var wp = createViaTo(s[0], s[1]);
+            if (wp != nil) {
+                me.startEditing();
+                me.fp.insertWP(wp, appendIndex + 1);
+            }
+            else {
+                me.mcdu.setScratchpadMsg("NO WAYPOINT", mcdu_yellow);
+            }
         }
     },
 
