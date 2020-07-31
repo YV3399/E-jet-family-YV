@@ -38,7 +38,7 @@ var findFirstEnroute = func (fp) {
     var wp = nil;
     for (i = 1; i < fp.getPlanSize(); i += 1) {
         wp = fp.getWP(i);
-        if (wp == nil or wp.wp_parent == nil or wp.wp_parent.tp_type != "sid") {
+        if (wp == nil or wp.wp_role != 'sid') {
             return i;
         }
     }
@@ -50,7 +50,7 @@ var findFirstArrival = func (fp) {
     var wp = nil;
     for (i = 1; i < fp.getPlanSize(); i += 1) {
         wp = fp.getWP(i);
-        if (wp == nil or (wp.wp_parent != nil and (wp.wp_parent.tp_type == "star" or wp.wp_parent.tp_type == "IAP"))) {
+        if (wp == nil or wp.wp_role == 'star' or wp.wp_role == 'approach' or wp.wp_role == 'missed' or wp.wp_role == 'runway') {
             return i;
         }
     }
