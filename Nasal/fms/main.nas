@@ -101,11 +101,21 @@ var discardFlightplan = func () {
     return flightplan();
 };
 
+var initDeparture = func () {
+    var fp = flightplan();
+    var apts = findAirportsWithinRange(4.0);
+    if (size(apts) > 0) {
+        fp.departure = apts[0];
+    }
+};
+
 setlistener("/autopilot/route-manager/departure/runway", func () { updateTakeoffRunway(); });
 setlistener("fms/takeoff-conditions/qnh", func () { updateTakeoffPressureAlt(); });
 setlistener("fms/takeoff-conditions/runway-elevation", func () { updateTakeoffPressureAlt(); });
 
 setlistener("sim/signals/fdm-initialized", func {
+    initDeparture();
+
 	var tfast = maketimer(0.1, func () { fast_update(); });
     tfast.simulatedTime = 1;
     tfast.singleShot = 0;
