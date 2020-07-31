@@ -761,7 +761,6 @@ var canvas_ED_only = {
             var prop = me.props["/fms/vspeeds-effective/departure/vf"];
             if (nextFlapIndex > 0) {
                 var propname = sprintf("/fms/vspeeds-effective/departure/vf%1.0f", nextFlapIndex);
-                print(propname);
                 prop = me.props[propname];
             }
             ktsRel = airspeed - (prop.getValue() or 0);
