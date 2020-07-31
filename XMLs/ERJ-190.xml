@@ -277,6 +277,19 @@
       </condition>
   </animation>
 
+    <animation>
+        <type>noshadow</type>
+        <object-name>RedLight-ALS</object-name>
+        <object-name>GreenLight-ALS</object-name>
+        <object-name>LeftStrobe-ALS</object-name>
+        <object-name>RightStrobe-ALS</object-name>
+        <object-name>beaconT-ALS</object-name>
+        <object-name>beaconB-ALS</object-name>
+        <object-name>LeftWingLandinglight-ALS</object-name>
+        <object-name>RightWingLandinglight-ALS</object-name>
+        <object-name>NoseGearLandinglight-ALS</object-name>
+    </animation>
+
 
 <!-- Tyre Smoke -->
 
