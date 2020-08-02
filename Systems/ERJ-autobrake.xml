@@ -177,6 +177,11 @@
                     <property>/autopilot/autobrake/engaged</property>
                     <not><property>/autopilot/autobrake/throttles-at-idle</property></not>
                 </and>
+                <!-- wheel speed below 60 kts while WOW -->
+                <and>
+                    <not><property>/autopilot/autobrake/above-60-kts</property></not>
+                    <property>/autopilot/autobrake/wow</property>
+                </and>
             </or>
         </R>
         <output>/autopilot/autobrake/armed-landing</output>
