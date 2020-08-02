@@ -1,0 +1,198 @@
+<PropertyList>
+    <!--
+        Optimal AoA (alpha_opt): 0.26 RAD.
+        Optimal cl (cl_opt): 1.40 * 0.8 * Sw-sqft
+        Current cl: lift / qbar-psf
+        Optimal lift (lift_opt): cl_opt * qbar-psf
+        Optimal lift at vcrit = cl_opt * qbar-psf * vcrit^2 / v^2 = weight
+        cl_opt * qbar-psf * vcrit^2 / v^2 = weight
+        cl_opt * qbar-psf * vcrit^2 = weight * v^2
+        vcrit^2 = weight * v^2 / (cl_opt * qbar-psf)
+    -->
+    <filter>
+        <name>Optimal cl</name>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <expression>
+                <product>
+                    <property>/fdm/jsbsim/metrics/Sw-sqft</property>
+                    <sum>
+                        <value>1.12</value>
+                        <product>
+                            <property>/fdm/jsbsim/fcs/slat-pos-norm</property>
+                            <value> 0.25 </value>
+                        </product>
+                        <product>
+                            <property>/fdm/jsbsim/fcs/flap-pos-norm</property>
+                            <value> 0.75 </value>
+                        </product>
+                        <product>
+                            <property>/fdm/jsbsim/fcs/speedbrake-pos-norm</property>
+                            <value>-0.2</value>
+                        </product>
+                    </sum>
+                </product>
+            </expression>
+        </input>
+        <output>/fms/speed-limits/cl-opt</output>
+    </filter>
+    <filter>
+        <name>Optimal lift</name>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <expression>
+                <product>
+                    <property>/fms/speed-limits/cl-opt</property>
+                    <property>/fdm/jsbsim/aero/qbar-psf</property>
+                </product>
+            </expression>
+        </input>
+        <output>/fms/speed-limits/lift-opt</output>
+    </filter>
+    <filter>
+        <name>Vstall raw</name>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <condition>
+                <expression>
+                    <greater-than>
+                        <property>/fms/speed-limits/lift-opt</property>
+                        <value>0.00001</value>
+                    </greater-than>
+                </expression>
+            </condition>
+            <expression>
+                <!--
+                  vcrit^2 = weight * v^2 / (cl_opt * qbar-psf)
+                  vcrit = sqrt(weight * v^2 / lift_opt)
+                  -->
+                <sqrt>
+                    <div>
+                        <product>
+                            <property>/fdm/jsbsim/inertia/weight-lbs</property>
+                            <sqr><property>/instrumentation/airspeed-indicator/indicated-speed-kt</property></sqr>
+                        </product>
+                        <property>/fms/speed-limits/lift-opt</property>
+                    </div>
+                </sqrt>
+            </expression>
+        </input>
+        <output>/fms/speed-limits/vstall-raw-kt</output>
+    </filter>
+    <filter>
+        <name>Vstall 40 deg</name>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <condition>
+                <expression>
+                    <greater-than>
+                        <property>/fms/speed-limits/lift-opt</property>
+                        <value>0.00001</value>
+                    </greater-than>
+                </expression>
+            </condition>
+            <expression>
+                <!--
+                  vcrit^2 = weight * v^2 / (cl_opt * qbar-psf)
+                  vcrit = sqrt(weight * v^2 / lift_opt)
+                  -->
+                <sqrt>
+                    <div>
+                        <product>
+                            <property>/fdm/jsbsim/inertia/weight-lbs</property>
+                            <sqr><property>/instrumentation/airspeed-indicator/indicated-speed-kt</property></sqr>
+                        </product>
+                        <product>
+                            <property>/fms/speed-limits/lift-opt</property>
+                            <!-- cos 40° -->
+                            <value>0.766044443118978</value>
+                        </product>
+                    </div>
+                </sqrt>
+            </expression>
+        </input>
+        <output>/fms/speed-limits/vstall-40-kt</output>
+    </filter>
+    <filter>
+        <name>Green Dot speed</name>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <condition>
+                <expression>
+                    <greater-than>
+                        <property>/fms/speed-limits/lift-opt</property>
+                        <value>0.00001</value>
+                    </greater-than>
+                </expression>
+            </condition>
+            <expression>
+                <!--
+                  vcrit^2 = weight * v^2 / (cl_opt * qbar-psf)
+                  vcrit = sqrt(weight * v^2 / lift_opt)
+                  -->
+                <sqrt>
+                    <div>
+                        <product>
+                            <!-- 1.3g margin -->
+                            <value>1.3</value>
+                            <property>/fdm/jsbsim/inertia/weight-lbs</property>
+                            <sqr><property>/instrumentation/airspeed-indicator/indicated-speed-kt</property></sqr>
+                        </product>
+                        <product>
+                            <property>/fms/speed-limits/lift-opt</property>
+                            <!-- cos 40° -->
+                            <value>0.766044443118978</value>
+                        </product>
+                    </div>
+                </sqrt>
+            </expression>
+        </input>
+        <output>/fms/speed-limits/green-dot-kt</output>
+    </filter>
+    <filter>
+        <name>Vstall</name>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <condition>
+                <expression>
+                    <greater-than>
+                        <property>/fms/speed-limits/lift-opt</property>
+                        <value>0.00001</value>
+                    </greater-than>
+                </expression>
+            </condition>
+            <expression>
+                <!--
+                  vcrit^2 = weight * v^2 / (cl_opt * qbar-psf)
+                  vcrit = sqrt(weight * v^2 / lift_opt)
+                  -->
+                <sqrt>
+                    <div>
+                        <product>
+                            <property>/fdm/jsbsim/inertia/weight-lbs</property>
+                            <sqr><property>/instrumentation/airspeed-indicator/indicated-speed-kt</property></sqr>
+                        </product>
+                        <product>
+                            <property>/fms/speed-limits/lift-opt</property>
+                            <cos>
+                                <product>
+                                    <property>/orientation/roll-deg</property>
+                                    <!-- convert to radians -->
+                                    <value>0.017453292519943295</value>
+                                </product>
+                            </cos>
+                        </product>
+                    </div>
+                </sqrt>
+            </expression>
+        </input>
+        <output>/fms/speed-limits/vstall-kt</output>
+    </filter>
+
+</PropertyList>

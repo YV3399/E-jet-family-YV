@@ -132,6 +132,9 @@
             <autopilot>
                 <path>Aircraft/E-jet-family/Systems/vspeeds.xml</path>
             </autopilot>
+            <autopilot>
+                <path>Aircraft/E-jet-family/Systems/speed-limits.xml</path>
+            </autopilot>
 
             <!--Disable XML electrical system-->
             <electrical>
