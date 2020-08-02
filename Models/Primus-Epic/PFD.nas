@@ -201,6 +201,9 @@ var canvas_ED_only = {
         m.props["/fms/vspeeds-effective/approach/vac"] = props.globals.getNode("/fms/vspeeds-effective/approach/vac");
         m.props["/fms/vspeeds-effective/approach/vap"] = props.globals.getNode("/fms/vspeeds-effective/approach/vap");
         m.props["/fms/vspeeds-effective/approach/vref"] = props.globals.getNode("/fms/vspeeds-effective/approach/vref");
+        m.props["/fms/speed-limits/vstall-kt"] = props.globals.getNode("/fms/speed-limits/vstall-kt");
+        m.props["/fms/speed-limits/vwarn-kt"] = props.globals.getNode("/fms/speed-limits/vwarn-kt");
+        m.props["/fms/speed-limits/green-dot-kt"] = props.globals.getNode("/fms/speed-limits/green-dot-kt");
         m.props["/controls/flight/speed-mode"] = props.globals.getNode("/controls/flight/speed-mode");
 
         m.props["/controls/flight/flaps"] = props.globals.getNode("/controls/flight/flaps");
@@ -319,6 +322,9 @@ var canvas_ED_only = {
             "speedref.vr",
             "speedref.vref",
             "speedtrend.vector",
+            "speedbar.amber",
+            "speedbar.red",
+            "greendot",
             "vhf1.act",
             "vhf1.sby",
             "vs.needle",
@@ -687,6 +693,19 @@ var canvas_ED_only = {
 
         me["asi.tape"].setTranslation(0,airspeed * 6.42);
         me["airspeed.bug"].setTranslation(0, (airspeed-selectedKts) * 6.42);
+
+        var redSpeed = me.props["/fms/speed-limits/vstall-kt"].getValue() or 0;
+        var amberSpeed = me.props["/fms/speed-limits/vwarn-kt"].getValue() or 0;
+        var greenSpeed = me.props["/fms/speed-limits/green-dot-kt"].getValue() or 0;
+        me["speedbar.red"].setTranslation(0, math.max(-41, (airspeed-redSpeed)) * 6.42);
+        me["speedbar.amber"].setTranslation(0, math.max(-41, (airspeed-amberSpeed)) * 6.42);
+        me["greendot"].setTranslation(0, (airspeed-greenSpeed) * 6.42);
+        if (greenSpeed > airspeed + 40 or greenSpeed < airspeed - 40) {
+            me["greendot"].hide();
+        }
+        else {
+            me["greendot"].show();
+        }
 
         o = odoDigit(airspeed, 0);
 

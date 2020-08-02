@@ -194,5 +194,14 @@
         </input>
         <output>/fms/speed-limits/vstall-kt</output>
     </filter>
+    <filter>
+        <name>Vwarn</name>
+        <type>gain</type>
+        <gain>1.13</gain>
+        <input>
+            <property>/fms/speed-limits/vstall-kt</property>
+        </input>
+        <output>/fms/speed-limits/vwarn-kt</output>
+    </filter>
 
 </PropertyList>

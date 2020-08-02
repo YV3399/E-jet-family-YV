@@ -117,16 +117,16 @@
      borderopacity="1.0"
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
-     inkscape:zoom="1.1994985"
-     inkscape:cx="725.09418"
-     inkscape:cy="1083.6403"
+     inkscape:zoom="1.6427269"
+     inkscape:cx="237.24997"
+     inkscape:cy="997.95217"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
      units="px"
-     inkscape:window-width="1920"
-     inkscape:window-height="1080"
-     inkscape:window-x="1440"
+     inkscape:window-width="1280"
+     inkscape:window-height="1024"
+     inkscape:window-x="3360"
      inkscape:window-y="0"
      inkscape:window-maximized="0"
      showguides="true"
@@ -5079,5 +5079,41 @@
          id="tspan6217"
          sodipodi:role="line"
          style="font-size:37.33333206px;line-height:1.25;text-align:end;text-anchor:end;fill:#ffffff">IN</tspan></text>
+    <rect
+       style="opacity:1;fill:#ffff00;fill-opacity:1;stroke:none;stroke-width:0.94488192;stroke-linecap:butt;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="speedbar.amber"
+       width="20.559387"
+       height="516.75885"
+       x="130.05435"
+       y="149.75735" />
+    <rect
+       y="149.75735"
+       x="130.05435"
+       height="516.75885"
+       width="20.559387"
+       id="speedbar.red"
+       style="opacity:1;fill:#ff0000;fill-opacity:1;stroke:none;stroke-width:0.94488192;stroke-linecap:butt;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+    <circle
+       style="opacity:1;fill:#00ff00;fill-opacity:1;stroke:none;stroke-width:0.71476346;stroke-linecap:butt;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="greendot"
+       cx="168.20546"
+       cy="150.22115"
+       r="12.94736" />
+    <rect
+       style="opacity:0.98999999;fill:none;fill-opacity:1;stroke:#ff0000;stroke-width:1;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="speedbar.red_clip"
+       width="127.93276"
+       height="516.84149"
+       x="22.6542"
+       y="-111.50877"
+       inkscape:label="#rect5484" />
+    <rect
+       inkscape:label="#rect5484"
+       y="-111.50877"
+       x="22.6542"
+       height="516.84149"
+       width="127.93276"
+       id="speedbar.amber_clip"
+       style="opacity:0.98999999;fill:none;fill-opacity:1;stroke:#ff0000;stroke-width:1;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
   </g>
 </svg>
