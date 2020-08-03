@@ -205,6 +205,7 @@ var canvas_ED_only = {
         m.props["/fms/speed-limits/vwarn-kt"] = props.globals.getNode("/fms/speed-limits/vwarn-kt");
         m.props["/fms/speed-limits/green-dot-kt"] = props.globals.getNode("/fms/speed-limits/green-dot-kt");
         m.props["/controls/flight/speed-mode"] = props.globals.getNode("/controls/flight/speed-mode");
+        m.props["/gear/gear/wow"] = props.globals.getNode("/gear/gear/wow");
 
         m.props["/controls/flight/flaps"] = props.globals.getNode("/controls/flight/flaps");
         return m;
@@ -644,7 +645,8 @@ var canvas_ED_only = {
         }
 
         # Airspeed
-        var airspeed = me.props["/instrumentation/airspeed-indicator/indicated-speed-kt"].getValue() or 0;
+        var airspeedRaw = me.props["/instrumentation/airspeed-indicator/indicated-speed-kt"].getValue() or 0;
+        var airspeed = math.max(40, airspeedRaw);
         var airspeedLookahead = me.props["/instrumentation/pfd/airspeed-lookahead-10s"].getValue() or 0;
         var currentMach = me.props["/instrumentation/airspeed-indicator/indicated-mach"].getValue() or 0;
         var selectedKts = 0;
@@ -705,6 +707,14 @@ var canvas_ED_only = {
         }
         else {
             me["greendot"].show();
+        }
+        if (me.props["/gear/gear/wow"].getValue()) {
+            me["speedbar.red"].hide();
+            me["speedbar.amber"].hide();
+        }
+        else {
+            me["speedbar.red"].show();
+            me["speedbar.amber"].show();
         }
 
         o = odoDigit(airspeed, 0);

@@ -119,15 +119,15 @@
      inkscape:pageshadow="2"
      inkscape:zoom="1.6427269"
      inkscape:cx="237.24997"
-     inkscape:cy="997.95217"
+     inkscape:cy="1146.5637"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
      units="px"
-     inkscape:window-width="1280"
-     inkscape:window-height="1024"
-     inkscape:window-x="3360"
-     inkscape:window-y="0"
+     inkscape:window-width="1440"
+     inkscape:window-height="886"
+     inkscape:window-x="0"
+     inkscape:window-y="14"
      inkscape:window-maximized="0"
      showguides="true"
      inkscape:guide-bbox="true">
@@ -2624,16 +2624,6 @@
            inkscape:connector-curvature="0" />
         <path
            inkscape:connector-curvature="0"
-           id="path4871"
-           d="m 150.5,823.7216 h -40"
-           style="fill:none;fill-rule:evenodd;stroke:#ffffff;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
-        <path
-           style="fill:none;fill-rule:evenodd;stroke:#ffffff;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-           d="m 150.5,759.55166 h -40"
-           id="path4873"
-           inkscape:connector-curvature="0" />
-        <path
-           inkscape:connector-curvature="0"
            id="path4875"
            d="m 150.5,695.39958 h -40"
            style="fill:none;fill-rule:evenodd;stroke:#ffffff;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
@@ -2657,11 +2647,6 @@
            d="m 150.5,438.76579 h -40"
            id="path4883"
            inkscape:connector-curvature="0" />
-        <path
-           inkscape:connector-curvature="0"
-           id="path4889"
-           d="m 150.5,887.86416 h -40"
-           style="fill:none;fill-rule:evenodd;stroke:#ffffff;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
         <path
            style="fill:none;fill-rule:evenodd;stroke:#ffffff;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
            d="m 150.5,-202.84359 h -40"
@@ -3317,51 +3302,21 @@
            id="tspan5315"
            sodipodi:role="line"
            style="font-size:33.91253662px;line-height:1.25">40</tspan></text>
-      <text
-         transform="scale(0.94985027,1.0527975)"
-         id="text5317"
-         y="730.32892"
-         x="58.085747"
-         style="font-style:normal;font-weight:normal;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"><tspan
-           y="730.32892"
-           x="58.085747"
-           id="tspan5319"
-           sodipodi:role="line"
-           style="font-size:33.91253662px;line-height:1.25">30</tspan></text>
-      <text
-         transform="scale(0.94985027,1.0527975)"
-         id="text5321"
-         y="792.54413"
-         x="58.085747"
-         style="font-style:normal;font-weight:normal;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"><tspan
-           y="792.54413"
-           x="58.085747"
-           id="tspan5323"
-           sodipodi:role="line"
-           style="font-size:33.91253662px;line-height:1.25">20</tspan></text>
-      <text
-         transform="scale(0.94985027,1.0527975)"
-         id="text5325"
-         y="852.85962"
-         x="58.085747"
-         style="font-style:normal;font-weight:normal;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"><tspan
-           y="852.85962"
-           x="58.085747"
-           id="tspan5327"
-           sodipodi:role="line"
-           style="font-size:33.91253662px;line-height:1.25">10</tspan></text>
-      <text
-         transform="scale(0.94985027,1.0527975)"
-         id="text5329"
-         y="914.12494"
-         x="80.194496"
-         style="font-style:normal;font-weight:normal;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"><tspan
-           y="914.12494"
-           x="80.194496"
-           id="tspan5331"
-           sodipodi:role="line"
-           style="font-size:33.91253662px;line-height:1.25">0</tspan></text>
     </g>
+    <rect
+       style="opacity:1;fill:#ffff00;fill-opacity:1;stroke:none;stroke-width:0.94488192;stroke-linecap:butt;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="speedbar.amber"
+       width="20.559387"
+       height="516.75885"
+       x="130.05435"
+       y="149.75735" />
+    <rect
+       y="149.75735"
+       x="130.05435"
+       height="516.75885"
+       width="20.559387"
+       id="speedbar.red"
+       style="opacity:1;fill:#ff0000;fill-opacity:1;stroke:none;stroke-width:0.94488192;stroke-linecap:butt;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
     <rect
        style="opacity:0.98999999;fill:none;fill-opacity:1;stroke:#ff0000;stroke-width:1;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        id="asi.tape_clip"
@@ -5079,20 +5034,6 @@
          id="tspan6217"
          sodipodi:role="line"
          style="font-size:37.33333206px;line-height:1.25;text-align:end;text-anchor:end;fill:#ffffff">IN</tspan></text>
-    <rect
-       style="opacity:1;fill:#ffff00;fill-opacity:1;stroke:none;stroke-width:0.94488192;stroke-linecap:butt;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       id="speedbar.amber"
-       width="20.559387"
-       height="516.75885"
-       x="130.05435"
-       y="149.75735" />
-    <rect
-       y="149.75735"
-       x="130.05435"
-       height="516.75885"
-       width="20.559387"
-       id="speedbar.red"
-       style="opacity:1;fill:#ff0000;fill-opacity:1;stroke:none;stroke-width:0.94488192;stroke-linecap:butt;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
     <circle
        style="opacity:1;fill:#00ff00;fill-opacity:1;stroke:none;stroke-width:0.71476346;stroke-linecap:butt;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        id="greendot"
