@@ -197,7 +197,7 @@
     <filter>
         <name>Vwarn</name>
         <type>gain</type>
-        <gain>1.13</gain>
+        <gain>1.06</gain>
         <input>
             <property>/fms/speed-limits/vstall-kt</property>
         </input>
