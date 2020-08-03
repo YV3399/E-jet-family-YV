@@ -19,3 +19,4 @@ Present pack includes the following Embraer Family variants:
 - Embraer 175E2
 - Embraer 190
 - Embraer 195
+- Embraer Lineage 1000
