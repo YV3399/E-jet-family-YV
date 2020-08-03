@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+
+<PropertyList>
+<sim>
+    <model>
+        <livery>
+            <name type="string">Air X</name>
+            <texture>/../Models/Liveries/Lineage1000/AXY.png</texture>
+        </livery>
+    </model>
+</sim>
+</PropertyList>
