@@ -343,7 +343,7 @@ var update_approach_vspeeds = func () {
     var vac = calcVAC();
     var vref = calcVref();
     var vfs = calcVFS();
-    var vappr = vref + 10;
+    var vappr = (vref == nil) ? nil : (vref + 10);
     if (vac != nil and vac > 0) { setprop('/fms/vspeeds-calculated/approach/vac', vac); }
     if (vref != nil and vref > 0) { setprop('/fms/vspeeds-calculated/approach/vref', vref); }
     if (vappr != nil and vappr > 0) { setprop('/fms/vspeeds-calculated/approach/vappr', vappr); }
