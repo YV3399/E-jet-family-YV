@@ -1208,6 +1208,7 @@ var ArrivalSelectModule = {
 
     selectRunway: func (rwyID) {
         var fp = fms.getModifyableFlightplan();
+        var current = fp.current;
         var airport = fp.destination;
         if (airport == nil) {
             me.mcdu.setScratchpadMsg("NO AIRPORT", mcdu_yellow);
@@ -1224,11 +1225,13 @@ var ArrivalSelectModule = {
                 fp.destination_runway = runway;
             }
         }
+        if (fp.current <= 1) { fp.current = current; }
         me.fullRedraw();
     },
 
     selectApproach: func (approachID) {
         var fp = fms.getModifyableFlightplan();
+        var current = fp.current;
         if (fp.destination == nil) {
             me.mcdu.setScratchpadMsg("NO DESTINATION", mcdu_yellow);
         }
@@ -1244,11 +1247,13 @@ var ArrivalSelectModule = {
                 fp.approach = approach;
             }
         }
+        if (fp.current <= 1) { fp.current = current; }
         me.fullRedraw();
     },
 
     selectApproachTransition: func (transitionID) {
         var fp = fms.getModifyableFlightplan();
+        var current = fp.current;
         if (fp.destination == nil) {
             me.mcdu.setScratchpadMsg("NO DESTINATION", mcdu_yellow);
         }
@@ -1261,11 +1266,13 @@ var ArrivalSelectModule = {
         else {
             fp.approach_trans = transitionID;
         }
+        if (fp.current <= 1) { fp.current = current; }
         me.fullRedraw();
     },
 
     selectStar: func (starID) {
         var fp = fms.getModifyableFlightplan();
+        var current = fp.current;
         if (fp.destination == nil) {
             me.mcdu.setScratchpadMsg("NO DESTINATION", mcdu_yellow);
         }
@@ -1281,11 +1288,13 @@ var ArrivalSelectModule = {
                 fp.star = star;
             }
         }
+        if (fp.current <= 1) { fp.current = current; }
         me.fullRedraw();
     },
 
     selectStarTransition: func (transitionID) {
         var fp = fms.getModifyableFlightplan();
+        var current = fp.current;
         if (fp.destination == nil) {
             me.mcdu.setScratchpadMsg("NO DESTINATION", mcdu_yellow);
         }
@@ -1298,6 +1307,7 @@ var ArrivalSelectModule = {
         else {
             fp.star_trans = transitionID;
         }
+        if (fp.current <= 1) { fp.current = current; }
         me.fullRedraw();
     },
 
