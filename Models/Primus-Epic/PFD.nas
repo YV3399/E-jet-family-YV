@@ -120,7 +120,7 @@ var canvas_ED_base = {
 };
 
 var canvas_ED_only = {
-    new: func(canvas_group, file) {
+    new: func(canvas_group, file, index=0) {
         var m = { parents: [canvas_ED_only,canvas_ED_base] };
         m.init(canvas_group, file);
         m.props = {};
@@ -136,11 +136,16 @@ var canvas_ED_only = {
         m.props["/instrumentation/chrono/elapsed_time/total"] = props.globals.getNode("/instrumentation/chrono/elapsed_time/total");
         m.props["/instrumentation/comm[0]/frequencies/selected-mhz"] = props.globals.getNode("/instrumentation/comm[0]/frequencies/selected-mhz");
         m.props["/instrumentation/comm[0]/frequencies/standby-mhz"] = props.globals.getNode("/instrumentation/comm[0]/frequencies/standby-mhz");
-        m.props["/instrumentation/dme/frequencies/selected-mhz"] = props.globals.getNode("/instrumentation/dme/frequencies/selected-mhz");
-        m.props["/instrumentation/dme/frequencies/source"] = props.globals.getNode("/instrumentation/dme/frequencies/source");
-        m.props["/instrumentation/dme/indicated-distance-nm"] = props.globals.getNode("/instrumentation/dme/indicated-distance-nm");
-        m.props["/instrumentation/dme/indicated-time-min"] = props.globals.getNode("/instrumentation/dme/indicated-time-min");
-        m.props["/instrumentation/dme/in-range"] = props.globals.getNode("/instrumentation/dme/in-range");
+        m.props["/instrumentation/dme[0]/frequencies/selected-mhz"] = props.globals.getNode("/instrumentation/dme[0]/frequencies/selected-mhz");
+        m.props["/instrumentation/dme[0]/frequencies/source"] = props.globals.getNode("/instrumentation/dme[0]/frequencies/source");
+        m.props["/instrumentation/dme[0]/indicated-distance-nm"] = props.globals.getNode("/instrumentation/dme[0]/indicated-distance-nm");
+        m.props["/instrumentation/dme[0]/indicated-time-min"] = props.globals.getNode("/instrumentation/dme[0]/indicated-time-min");
+        m.props["/instrumentation/dme[0]/in-range"] = props.globals.getNode("/instrumentation/dme[0]/in-range");
+        m.props["/instrumentation/dme[1]/frequencies/selected-mhz"] = props.globals.getNode("/instrumentation/dme[1]/frequencies/selected-mhz");
+        m.props["/instrumentation/dme[1]/frequencies/source"] = props.globals.getNode("/instrumentation/dme[1]/frequencies/source");
+        m.props["/instrumentation/dme[1]/indicated-distance-nm"] = props.globals.getNode("/instrumentation/dme[1]/indicated-distance-nm");
+        m.props["/instrumentation/dme[1]/indicated-time-min"] = props.globals.getNode("/instrumentation/dme[1]/indicated-time-min");
+        m.props["/instrumentation/dme[1]/in-range"] = props.globals.getNode("/instrumentation/dme[1]/in-range");
         m.props["/instrumentation/nav[0]/frequencies/selected-mhz"] = props.globals.getNode("/instrumentation/nav[0]/frequencies/selected-mhz");
         m.props["/instrumentation/nav[0]/frequencies/standby-mhz"] = props.globals.getNode("/instrumentation/nav[0]/frequencies/standby-mhz");
         m.props["/instrumentation/nav[0]/from-flag"] = props.globals.getNode("/instrumentation/nav[0]/from-flag");
@@ -149,16 +154,28 @@ var canvas_ED_only = {
         m.props["/instrumentation/nav[0]/heading-needle-deflection-norm"] = props.globals.getNode("/instrumentation/nav[0]/heading-needle-deflection-norm");
         m.props["/instrumentation/nav[0]/in-range"] = props.globals.getNode("/instrumentation/nav[0]/in-range");
         m.props["/instrumentation/nav[0]/radials/selected-deg"] = props.globals.getNode("/instrumentation/nav[0]/radials/selected-deg");
-        m.props["/instrumentation/nav/nav-id"] = props.globals.getNode("/instrumentation/nav/nav-id");
-        m.props["/instrumentation/nav/nav-loc"] = props.globals.getNode("/instrumentation/nav/nav-loc");
-        m.props["/instrumentation/pfd/asi-10"] = props.globals.getNode("/instrumentation/pfd/asi-10");
-        m.props["/instrumentation/pfd/asi-100"] = props.globals.getNode("/instrumentation/pfd/asi-100");
-        m.props["/instrumentation/pfd/pitch-scale"] = props.globals.getNode("/instrumentation/pfd/pitch-scale");
+        m.props["/instrumentation/nav[0]/nav-id"] = props.globals.getNode("/instrumentation/nav[0]/nav-id");
+        m.props["/instrumentation/nav[0]/nav-loc"] = props.globals.getNode("/instrumentation/nav[0]/nav-loc");
+        m.props["/instrumentation/nav[1]/frequencies/selected-mhz"] = props.globals.getNode("/instrumentation/nav[1]/frequencies/selected-mhz");
+        m.props["/instrumentation/nav[1]/frequencies/standby-mhz"] = props.globals.getNode("/instrumentation/nav[1]/frequencies/standby-mhz");
+        m.props["/instrumentation/nav[1]/from-flag"] = props.globals.getNode("/instrumentation/nav[1]/from-flag");
+        m.props["/instrumentation/nav[1]/gs-in-range"] = props.globals.getNode("/instrumentation/nav[1]/gs-in-range");
+        m.props["/instrumentation/nav[1]/gs-needle-deflection-norm"] = props.globals.getNode("/instrumentation/nav[1]/gs-needle-deflection-norm");
+        m.props["/instrumentation/nav[1]/heading-needle-deflection-norm"] = props.globals.getNode("/instrumentation/nav[1]/heading-needle-deflection-norm");
+        m.props["/instrumentation/nav[1]/in-range"] = props.globals.getNode("/instrumentation/nav[1]/in-range");
+        m.props["/instrumentation/nav[1]/radials/selected-deg"] = props.globals.getNode("/instrumentation/nav[1]/radials/selected-deg");
+        m.props["/instrumentation/nav[1]/nav-id"] = props.globals.getNode("/instrumentation/nav[1]/nav-id");
+        m.props["/instrumentation/nav[1]/nav-loc"] = props.globals.getNode("/instrumentation/nav[1]/nav-loc");
+        m.props["/instrumentation/gps/cdi-deflection"] = props.globals.getNode("/instrumentation/gps/cdi-deflection");
+        m.props["/instrumentation/gps/desired-course-deg"] = props.globals.getNode("/instrumentation/gps/desired-course-deg");
+        m.props["/instrumentation/pfd/asi-10"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/asi-10");
+        m.props["/instrumentation/pfd/asi-100"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/asi-100");
+        m.props["/instrumentation/pfd/pitch-scale"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/pitch-scale");
         m.props["/instrumentation/slip-skid-ball/indicated-slip-skid"] = props.globals.getNode("/instrumentation/slip-skid-ball/indicated-slip-skid");
         m.props["/instrumentation/vertical-speed-indicator/indicated-speed-fpm"] = props.globals.getNode("/instrumentation/vertical-speed-indicator/indicated-speed-fpm");
         m.props["/instrumentation/altimeter/setting-hpa"] = props.globals.getNode("/instrumentation/altimeter/setting-hpa");
         m.props["/instrumentation/altimeter/setting-inhg"] = props.globals.getNode("/instrumentation/altimeter/setting-inhg");
-        m.props["/instrumentation/pfd/qnh-mode"] = props.globals.getNode("/instrumentation/pfd/qnh-mode");
+        m.props["/instrumentation/pfd/qnh-mode"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/qnh-mode");
         m.props["/it-autoflight/input/alt"] = props.globals.getNode("/it-autoflight/input/alt");
         m.props["/controls/flight/selected-alt"] = props.globals.getNode("/controls/flight/selected-alt");
         m.props["/controls/flight/vnav-enabled"] = props.globals.getNode("/controls/flight/vnav-enabled");
@@ -168,7 +185,7 @@ var canvas_ED_only = {
         m.props["/it-autoflight/input/mach"] = props.globals.getNode("/it-autoflight/input/mach");
         m.props["/it-autoflight/input/vs"] = props.globals.getNode("/it-autoflight/input/vs");
         m.props["/it-autoflight/input/fpa"] = props.globals.getNode("/it-autoflight/input/fpa");
-        m.props["/instrumentation/pfd/airspeed-lookahead-10s"] = props.globals.getNode("/instrumentation/pfd/airspeed-lookahead-10s");
+        m.props["/instrumentation/pfd/airspeed-lookahead-10s"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/airspeed-lookahead-10s");
         m.props["/it-autoflight/mode/arm"] = props.globals.getNode("/it-autoflight/mode/arm");
         m.props["/it-autoflight/mode/lat"] = props.globals.getNode("/it-autoflight/mode/lat");
         m.props["/it-autoflight/mode/thr"] = props.globals.getNode("/it-autoflight/mode/thr");
@@ -186,9 +203,11 @@ var canvas_ED_only = {
         m.props["/orientation/roll-deg"] = props.globals.getNode("/orientation/roll-deg");
         m.props["/velocities/groundspeed-kt"] = props.globals.getNode("/velocities/groundspeed-kt");
         m.props["/position/gear-agl-ft"] = props.globals.getNode("/position/gear-agl-ft");
-        m.props["/instrumentation/pfd/minimums-mode"] = props.globals.getNode("/instrumentation/pfd/minimums-mode");
-        m.props["/instrumentation/pfd/minimums-radio"] = props.globals.getNode("/instrumentation/pfd/minimums-radio");
-        m.props["/instrumentation/pfd/minimums-baro"] = props.globals.getNode("/instrumentation/pfd/minimums-baro");
+        m.props["/instrumentation/pfd/minimums-mode"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/minimums-mode");
+        m.props["/instrumentation/pfd/minimums-radio"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/minimums-radio");
+        m.props["/instrumentation/pfd/minimums-baro"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/minimums-baro");
+        m.props["/instrumentation/pfd/nav-src"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/nav-src");
+        m.props["/instrumentation/pfd/preview"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/preview");
         m.props["/fms/vspeeds-effective/departure/v1"] = props.globals.getNode("/fms/vspeeds-effective/departure/v1");
         m.props["/fms/vspeeds-effective/departure/vr"] = props.globals.getNode("/fms/vspeeds-effective/departure/vr");
         m.props["/fms/vspeeds-effective/departure/v2"] = props.globals.getNode("/fms/vspeeds-effective/departure/v2");
@@ -382,11 +401,27 @@ var canvas_ED_only = {
         me["chrono.digital"].setText(sprintf("%02d:%02d", math.floor(t / 60), math.mod(t, 60)));
 
         # HSI NAV1
-        var nav1heading = me.props["/instrumentation/nav[0]/radials/selected-deg"].getValue() or 0;
-        var nav1error = me.props["/instrumentation/nav[0]/heading-needle-deflection-norm"].getValue() or 0;
-        me["hsi.nav1"].setRotation((nav1heading - heading) * DC);
-        me["hsi.dots"].setRotation((nav1heading - heading) * DC);
-        me["hsi.nav1track"].setTranslation(nav1error * 120, 0);
+        var navsrc = me.props["/instrumentation/pfd/nav-src"].getValue() or 0;
+        var preview = me.props["/instrumentation/pfd/preview"].getValue() or 0;
+        var dmesrc = navsrc or preview;
+
+        var hsiHeading = 0;
+        var hsiDeflection = 0;
+        var hsiColor = [0, 1, 0];
+        if (navsrc == 0) {
+            # FMS
+            hsiHeading = me.props["/instrumentation/gps/desired-course-deg"].getValue() or 0;
+            hsiDeflection = (me.props["/instrumentation/gps/cdi-deflection"].getValue() or 0) * 0.1;
+            hsiColor = [1, 0, 1];
+        }
+        else {
+            hsiHeading = me.props["/instrumentation/nav[" ~ (navsrc - 1) ~ "]/radials/selected-deg"].getValue() or 0;
+            hsiDeflection = me.props["/instrumentation/nav[" ~ (navsrc - 1) ~ "]/heading-needle-deflection-norm"].getValue() or 0;
+        }
+        me["hsi.nav1"].setColor(hsiColor[0], hsiColor[1], hsiColor[2]);
+        me["hsi.nav1"].setRotation((hsiHeading - heading) * DC);
+        me["hsi.dots"].setRotation((hsiHeading - heading) * DC);
+        me["hsi.nav1track"].setTranslation(hsiDeflection * 120, 0);
         if (me.props["/instrumentation/nav[0]/from-flag"].getValue()) {
             me["hsi.from"].show();
             me["hsi.to"].hide();
@@ -417,6 +452,38 @@ var canvas_ED_only = {
             me["ils.locneedle"].setTranslation(0, 0);
         }
 
+        if (navsrc == 0) {
+            me["navsrc.primary.selection"].setText("FMS");
+            me["navsrc.primary.selection"].setColor(1, 0, 1);
+            me["navsrc.primary.id"].setText("");
+
+            if (preview) {
+                me["navsrc.preview"].show();
+                if (me.props["/instrumentation/nav[" ~ (preview - 1) ~ "]/nav-loc"].getValue() or 0) {
+                    me["navsrc.preview.selection"].setText("LOC" ~ preview);
+                }
+                else {
+                    me["navsrc.preview.selection"].setText("VOR" ~ preview);
+                }
+                me["navsrc.preview.id"].setText(me.props["/instrumentation/nav[" ~ (preview - 1) ~ "]/nav-id"].getValue() or "");
+            }
+            else {
+                me["navsrc.preview"].hide();
+            }
+        }
+        else {
+            me["navsrc.primary"].show();
+            if (me.props["/instrumentation/nav[" ~ (navsrc - 1) ~ "]/nav-loc"].getValue() or 0) {
+                me["navsrc.primary.selection"].setText("LOC" ~ navsrc);
+            }
+            else {
+                me["navsrc.primary.selection"].setText("VOR" ~ navsrc);
+            }
+            me["navsrc.primary.selection"].setColor(0, 1, 0);
+            me["navsrc.primary.id"].setText(me.props["/instrumentation/nav[" ~ (navsrc - 1) ~ "]/nav-id"].getValue() or "");
+            me["navsrc.primary.id"].setColor(0, 1, 0);
+            me["navsrc.preview"].hide();
+        }
 
         if (me.props["/autopilot/route-manager/active"].getValue() or 0) {
             me["waypoint"].show();
@@ -432,39 +499,19 @@ var canvas_ED_only = {
                 me["waypoint.ete"].setText(sprintf("%3d", math.round(ete) / 60));
                 me["waypoint.eteunit"].setText("MIN");
             }
-            me["navsrc.primary.selection"].setText("FMS");
-            me["navsrc.primary.selection"].setColor(1, 0, 1);
-            me["navsrc.preview"].show();
 
-            if (me.props["/instrumentation/nav/nav-loc"].getValue() or 0) {
-                me["navsrc.preview.selection"].setText("LOC1");
-            }
-            else {
-                me["navsrc.preview.selection"].setText("VOR1");
-            }
-            me["navsrc.preview.id"].setText(me.props["/instrumentation/nav/nav-id"].getValue() or "");
-            me["navsrc.primary.id"].setText("");
         }
         else {
             me["waypoint"].hide();
-            me["navsrc.preview"].hide();
-            if (me.props["/instrumentation/nav/nav-loc"].getValue() or 0) {
-                me["navsrc.primary.selection"].setText("LOC1");
-            }
-            else {
-                me["navsrc.primary.selection"].setText("VOR1");
-            }
-            me["navsrc.primary.id"].setText(me.props["/instrumentation/nav/nav-id"].getValue() or "");
-            me["navsrc.primary.selection"].setColor(0, 1, 0);
         }
 
-        if (me.props["/instrumentation/dme/in-range"].getValue() or 0) {
+        if (dmesrc and (me.props["/instrumentation/dme[" ~ (dmesrc - 1) ~ "]/in-range"].getValue() or 0)) {
             me["dme"].show();
-            me["dme.selection"].setText("DME1");
-            me["dme.id"].setText(me.props["/instrumentation/nav/nav-id"].getValue() or "");
+            me["dme.selection"].setText("DME" ~ dmesrc);
+            me["dme.id"].setText(me.props["/instrumentation/nav[" ~ (dmesrc - 1) ~ "]/nav-id"].getValue() or "");
             me["dme.dist"].setText(
-                sprintf("%5.1f", me.props["/instrumentation/dme/indicated-distance-nm"].getValue() or 0));
-            var ete = me.props["/instrumentation/dme/indicated-time-min"].getValue() or 600.0;
+                sprintf("%5.1f", me.props["/instrumentation/dme[" ~ (dmesrc - 1) ~ "]/indicated-distance-nm"].getValue() or 0));
+            var ete = me.props["/instrumentation/dme[" ~ (dmesrc - 1) ~ "]/indicated-time-min"].getValue() or 600.0;
             if (ete >= 600) {
                 me["dme.ete"].setText("+++");
                 me["dme.eteunit"].setText("+++");
@@ -477,7 +524,7 @@ var canvas_ED_only = {
                 me["dme.ete"].setText(sprintf("%3d", math.round(ete)));
                 me["dme.eteunit"].setText("MIN");
             }
-            if (me.props["/instrumentation/dme/frequencies/source"].getValue() == "/instrumentation/dme/frequencies/selected-mhz") {
+            if (me.props["/instrumentation/dme[" ~ (dmesrc - 1) ~ "]/frequencies/source"].getValue() == "/instrumentation/dme[" ~ (dmesrc - 1) ~ "]/frequencies/selected-mhz") {
                 me["dme.hold"].show();
             }
             else {

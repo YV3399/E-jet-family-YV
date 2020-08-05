@@ -882,6 +882,10 @@
             <transition-alt type="double">5000</transition-alt>
             <vnav-enabled type="bool">false</vnav-enabled>
             <perf-mode>0</perf-mode>
+            <nav-src>
+                <!-- 0 = captain, 1 = FO -->
+                <side type="int">0</side>
+            </nav-src>
         </flight>
 
         <gear>
@@ -985,6 +989,18 @@
                 <V2 type="double">145</V2>
             </vspeeds>
         </fmc>
+
+        <pfd>
+            <!-- 0 = VOR/LOC, 1 = FMS -->
+            <nav-src type="int">1</nav-src>
+            <preview type="int">0</preview>
+        </pfd>
+
+        <pfd>
+            <!-- 0 = VOR/LOC, 1 = FMS -->
+            <nav-src type="int">2</nav-src>
+            <preview type="int">0</preview>
+        </pfd>
 
         <mfd>
             <nav-display n="0" type="int">1</nav-display>

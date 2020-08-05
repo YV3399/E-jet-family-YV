@@ -1215,23 +1215,161 @@
 
 <!-- SRC -->
 
-    <!-- TODO: the SRC button in the real E190 does NOT select "nav source".
     <animation>
         <type>pick</type>
         <object-name>SRC</object-name>
         <action>
             <button>0</button>
             <repeatable type="bool">false</repeatable>
-                    <binding>
-                        <command>property-cycle</command>
-                        <property>controls/autoflight/nav-mode</property>
-                        <value>0</value>
-                        <value>1</value>
-                        <value>2</value>
-                    </binding>
+            <binding>
+                <command>property-cycle</command>
+                <property>controls/flight/nav-src/side</property>
+                <value>0</value>
+                <value>1</value>
+            </binding>
         </action>
     </animation>
-    -->
+    <animation>
+        <type>select</type>
+        <object-name>SRC.left.light</object-name>
+        <condition>
+            <equals>
+                <property>controls/flight/nav-src/side</property>
+                <value>0</value>
+            </equals>
+        </condition>
+    </animation>
+    <animation>
+        <type>select</type>
+        <object-name>SRC.right.light</object-name>
+        <condition>
+            <equals>
+                <property>controls/flight/nav-src/side</property>
+                <value>1</value>
+            </equals>
+        </condition>
+    </animation>
+
+<!-- Captain-side PFD controls -->
+    <animation>
+        <type>pick</type>
+        <object-name>PREV.left.btn</object-name>
+        <action>
+            <button>0</button>
+            <repeatable type="bool">false</repeatable>
+            <binding>
+                <command>property-cycle</command>
+                <property>/instrumentation/pfd[0]/preview</property>
+                <value>0</value>
+                <value>1</value>
+                <value>2</value>
+            </binding>
+        </action>
+    </animation>
+    <animation>
+        <type>pick</type>
+        <object-name>FMS.left.btn</object-name>
+        <action>
+            <button>0</button>
+            <repeatable type="bool">false</repeatable>
+            <binding>
+                <command>property-assign</command>
+                <property>/instrumentation/pfd[0]/preview</property>
+                <property>/instrumentation/pfd[0]/nav-src</property>
+            </binding>
+            <binding>
+                <command>property-assign</command>
+                <property>/instrumentation/pfd[0]/nav-src</property>
+                <value>0</value>
+            </binding>
+        </action>
+        <condition>
+            <not>
+                <equals>
+                    <property>/instrumentation/pfd[0]/nav-src</property>
+                    <value>0</value>
+                </equals>
+            </not>
+        </condition>
+    </animation>
+    <animation>
+        <type>pick</type>
+        <object-name>FMS.left.btn</object-name>
+        <action>
+            <button>0</button>
+            <repeatable type="bool">false</repeatable>
+            <binding>
+                <command>property-assign</command>
+                <property>/instrumentation/pfd[0]/nav-src</property>
+                <value>0</value>
+            </binding>
+        </action>
+        <condition>
+            <equals>
+                <property>/instrumentation/pfd[0]/nav-src</property>
+                <value>0</value>
+            </equals>
+        </condition>
+    </animation>
+    <animation>
+        <type>pick</type>
+        <object-name>VL.left.btn</object-name>
+        <action>
+            <button>0</button>
+            <repeatable type="bool">false</repeatable>
+            <binding>
+                <command>property-assign</command>
+                <property>/instrumentation/pfd[0]/nav-src</property>
+                <property>/instrumentation/pfd[0]/preview</property>
+            </binding>
+        </action>
+        <condition>
+            <and>
+                <equals>
+                    <property>/instrumentation/pfd[0]/nav-src</property>
+                    <value>0</value>
+                </equals>
+                <not>
+                    <equals>
+                        <property>/instrumentation/pfd[0]/preview</property>
+                        <value>0</value>
+                    </equals>
+                </not>
+            </and>
+        </condition>
+    </animation>
+    <animation>
+        <type>pick</type>
+        <object-name>VL.left.btn</object-name>
+        <action>
+            <button>0</button>
+            <repeatable type="bool">false</repeatable>
+            <binding>
+                <command>property-cycle</command>
+                <property>/instrumentation/pfd[0]/nav-src</property>
+                <value>1</value>
+                <value>2</value>
+            </binding>
+        </action>
+        <condition>
+            <not>
+                <and>
+                    <equals>
+                        <property>/instrumentation/pfd[0]/nav-src</property>
+                        <value>0</value>
+                    </equals>
+                    <not>
+                        <equals>
+                            <property>/instrumentation/pfd[0]/preview</property>
+                            <value>0</value>
+                        </equals>
+                    </not>
+                </and>
+            </not>
+        </condition>
+    </animation>
+
+<!-- FO-side PFD controls -->
 
 <!-- A/T -->
 
