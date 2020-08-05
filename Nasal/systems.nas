@@ -322,42 +322,44 @@ setlistener("sim/signals/fdm-initialized", func {
 ## AUTOPILOT
 ############
 
-# Basic roll mode controller
-var set_ap_basic_roll = func {
-	var roll = getprop("instrumentation/attitude-indicator[0]/indicated-roll-deg");
-	if (math.abs(roll) > 5) {
-		setprop("controls/autoflight/basic-roll-mode", 0);
-		setprop("controls/autoflight/basic-roll-select", roll);
-	} else {
-		var heading = getprop("instrumentation/heading-indicator[0]/indicated-heading-deg");
-		setprop("controls/autoflight/basic-roll-mode", 1);
-		setprop("controls/autoflight/basic-roll-heading-select", heading);
-	}
+# Selecting a different nav source on the active side, or switching sides,
+# when the autopilot is in LNAV or NAV mode, reverts the autopilot to HDG
+# mode.
+
+var checkNavDisengage = func () {
+    var side = getprop("/controls/flight/nav-src/side");
+    var navsrc = getprop("/instrumentation/pfd[" ~ side ~ "]/nav-src");
+    var apLat = getprop("/it-autoflight/output/lat");
+    var apNav2 = getprop("/it-autoflight/input/use-nav2-radio");
+    var apNavsrc = navsrc;
+    setprop("/controls/flight/nav-src/lat-mode", (navsrc == 0) ? 1 : 2);
+    setprop("/controls/flight/nav-src/nav2", (navsrc == 2) ? 1 : 0);
+    if (apLat == 1) {
+        # LNAV
+        apNavsrc = 0;
+    }
+    else if (apLat == 2) {
+        # VOR/LOC
+        if (apNav2) {
+            apNavsrc = 2;
+        }
+        else {
+            apNavsrc = 1;
+        }
+    }
+    else {
+        # Some other mode - no need to disengage anything
+        return;
+    }
+    if (apNavsrc != navsrc) {
+        # disengage!
+        # (select HDG HOLD)
+        setprop("/it-autoflight/input/lat", 3);
+    }
 };
-# Basic pitch mode controller
-var set_ap_basic_pitch = func {
-	var pitch = getprop("instrumentation/attitude-indicator[0]/indicated-pitch-deg");
-	setprop("controls/autoflight/pitch-select", int((pitch / 0.5) + 0.5) * 0.5);
-};
-setlistener("controls/autoflight/lateral-mode", func(v) {
-	if (v.getValue() == 0) set_ap_basic_roll();
-}, 0, 0);
-setlistener("controls/autoflight/vertical-mode", func(v) {
-	if (v.getValue() == 0 and getprop("controls/autoflight/lateral-mode") != 2) set_ap_basic_pitch();
-}, 0, 0);
-setlistener("controls/autoflight/autopilot/engage", func(v) {
-	if (v.getBoolValue()) {
-		var lat = getprop("controls/autoflight/lateral-mode");
-		var ver = getprop("controls/autoflight/vertical-mode");
-		if (lat == 0) set_ap_basic_roll();
-		if (ver == 0 and lat != 2) set_ap_basic_pitch();
-	}
-}, 0, 0);
-setlistener("controls/autoflight/flight-director/engage", func(v) {
-	if (v.getBoolValue()) {
-		var lat = getprop("controls/autoflight/lateral-mode");
-		var ver = getprop("controls/autoflight/vertical-mode");
-		if (lat == 0) set_ap_basic_roll();
-		if (ver == 0 and lat != 2) set_ap_basic_pitch();
-	}
-}, 0, 0);
+
+# once to initialize, and then on each change of any of the inputs.
+checkNavDisengage();
+setlistener("/controls/flight/nav-src/side", checkNavDisengage);
+setlistener("/instrumentation/pfd[0]/nav-src", checkNavDisengage);
+setlistener("/instrumentation/pfd[1]/nav-src", checkNavDisengage);

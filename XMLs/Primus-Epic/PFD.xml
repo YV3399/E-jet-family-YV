@@ -1,7 +1,35 @@
 <?xml version = '1.0' encoding = 'UTF-8' ?>
 <PropertyList>
   
-  <path>../../Models/Primus-Epic/primus_epic_pfd.ac</path>
+    <path>../../Models/Primus-Epic/primus_epic_pfd.ac</path>
+
+    <params>
+        <index>0</index>
+    </params>
+
+    <path>mcdu-td.ac</path>
+
+    <animation> 
+        <type>select</type> 
+        <object-name>PFD0</object-name>
+        <condition>
+            <equals>
+                <value alias="../../../../params/index" />
+                <value>0</value>
+            </equals>
+        </condition>
+    </animation>
+
+    <animation> 
+        <type>select</type> 
+        <object-name>PFD1</object-name>
+        <condition>
+            <equals>
+                <value alias="../../../../params/index" />
+                <value>1</value>
+            </equals>
+        </condition>
+    </animation>
 
 	<!-- Power on/off -->
 	<animation>

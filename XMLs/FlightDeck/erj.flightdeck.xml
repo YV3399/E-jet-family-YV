@@ -416,6 +416,11 @@
     <model>
         <name>Primary Flight Display Left</name>
         <path>Aircraft/E-jet-family/XMLs/Primus-Epic/PFD.xml</path>
+        <overlay>
+            <params>
+                <index>0</index>
+            </params>
+        </overlay>
         <offsets>
             <x-m>-12.53</x-m>
             <y-m>-0.53</y-m>
@@ -427,6 +432,11 @@
     <model>
         <name>Primary Flight Display Right</name>
         <path>Aircraft/E-jet-family/XMLs/Primus-Epic/PFD.xml</path>
+        <overlay>
+            <params>
+                <index>1</index>
+            </params>
+        </overlay>
         <offsets>
             <x-m>-12.53</x-m>
             <y-m>0.55</y-m>
@@ -514,7 +524,7 @@
 
     <animation>
         <type>knob</type>
-        <object-name>MINIMUMS.knob</object-name>
+        <object-name>MINIMUMS.left.knob</object-name>
         <axis>
             <x>  1 </x>
             <y>  0 </y>
@@ -524,12 +534,12 @@
             <binding>
                 <condition>
                     <equals>
-                        <property>instrumentation/pfd/minimums-mode</property>
+                        <property>instrumentation/pfd[0]/minimums-mode</property>
                         <value>0</value>
                     </equals>
                 </condition>
                 <command>property-adjust</command>
-                <property>instrumentation/pfd/minimums-radio</property>
+                <property>instrumentation/pfd[0]/minimums-radio</property>
                 <min>0</min>
                 <max>2000</max>
                 <wrap>false</wrap>
@@ -538,12 +548,12 @@
             <binding>
                 <condition>
                     <equals>
-                        <property>instrumentation/pfd/minimums-mode</property>
+                        <property>instrumentation/pfd[0]/minimums-mode</property>
                         <value>1</value>
                     </equals>
                 </condition>
                 <command>property-adjust</command>
-                <property>instrumentation/pfd/minimums-baro</property>
+                <property>instrumentation/pfd[0]/minimums-baro</property>
                 <min>0</min>
                 <max>2000</max>
                 <wrap>false</wrap>
@@ -554,7 +564,7 @@
 
     <animation>
         <type>knob</type>
-        <object-name>MINIMUMS.ring</object-name>
+        <object-name>MINIMUMS.left.ring</object-name>
         <axis>
             <x>  1 </x>
             <y>  0 </y>
@@ -563,7 +573,7 @@
         <action>
             <binding>
                 <command>property-cycle</command>
-                <property>instrumentation/pfd/minimums-mode</property>
+                <property>instrumentation/pfd[0]/minimums-mode</property>
                 <value>0</value>
                 <value>1</value>
                 <wrap>0</wrap>
@@ -572,11 +582,71 @@
     </animation>
 
 
+    <animation>
+        <type>knob</type>
+        <object-name>MINIMUMS.right.knob</object-name>
+        <axis>
+            <x>  1 </x>
+            <y>  0 </y>
+            <z>  0 </z>
+        </axis>
+        <action>
+            <binding>
+                <condition>
+                    <equals>
+                        <property>instrumentation/pfd[1]/minimums-mode</property>
+                        <value>0</value>
+                    </equals>
+                </condition>
+                <command>property-adjust</command>
+                <property>instrumentation/pfd[1]/minimums-radio</property>
+                <min>0</min>
+                <max>2000</max>
+                <wrap>false</wrap>
+                <factor>1</factor>
+            </binding>
+            <binding>
+                <condition>
+                    <equals>
+                        <property>instrumentation/pfd[1]/minimums-mode</property>
+                        <value>1</value>
+                    </equals>
+                </condition>
+                <command>property-adjust</command>
+                <property>instrumentation/pfd[1]/minimums-baro</property>
+                <min>0</min>
+                <max>2000</max>
+                <wrap>false</wrap>
+                <factor>1</factor>
+            </binding>
+        </action>
+    </animation>
+
+    <animation>
+        <type>knob</type>
+        <object-name>MINIMUMS.right.ring</object-name>
+        <axis>
+            <x>  1 </x>
+            <y>  0 </y>
+            <z>  0 </z>
+        </axis>
+        <action>
+            <binding>
+                <command>property-cycle</command>
+                <property>instrumentation/pfd[1]/minimums-mode</property>
+                <value>0</value>
+                <value>1</value>
+                <wrap>0</wrap>
+            </binding>
+        </action>
+    </animation>
+
 <!-- QNH -->
 
     <animation>
         <type>pick</type>
-        <object-name>QNH.knob</object-name>
+        <object-name>QNH.left.knob</object-name>
+        <object-name>QNH.right.knob</object-name>
         <action>
             <button>0</button>
             <binding>
@@ -589,7 +659,8 @@
 
     <animation>
         <type>knob</type>
-        <object-name>QNH.knob</object-name>
+        <object-name>QNH.left.knob</object-name>
+        <object-name>QNH.right.knob</object-name>
         <axis>
             <x>  1 </x>
             <y>  0 </y>
@@ -629,7 +700,8 @@
 
     <animation>
         <type>knob</type>
-        <object-name>QNH.ring</object-name>
+        <object-name>QNH.left.ring</object-name>
+        <object-name>QNH.right.ring</object-name>
         <axis>
             <x>  1 </x>
             <y>  0 </y>
@@ -1031,25 +1103,75 @@
     <animation>
         <type>pick</type>
         <object-name>NAV</object-name>
+        <condition>
+            <or>
+                <equals>
+                    <property>it-autoflight/input/lat</property>
+                    <value>1</value>
+                </equals>
+                <equals>
+                    <property>it-autoflight/input/lat</property>
+                    <value>2</value>
+                </equals>
+            </or>
+        </condition>
         <action>
             <button>0</button>
             <repeatable type="bool">false</repeatable>
             <binding>
-                <command>property-cycle</command>
+                <command>property-assign</command>
                 <property>it-autoflight/input/lat</property>
-                <value>1</value>
-                <value>3</value>
+                <value>0</value>
             </binding>
         </action>
     </animation>
     <animation>
+        <type>pick</type>
+        <object-name>NAV</object-name>
+        <condition>
+            <not>
+                <or>
+                    <equals>
+                        <property>it-autoflight/input/lat</property>
+                        <value>1</value>
+                    </equals>
+                    <equals>
+                        <property>it-autoflight/input/lat</property>
+                        <value>2</value>
+                    </equals>
+                </or>
+            </not>
+        </condition>
+        <action>
+            <button>0</button>
+            <repeatable type="bool">false</repeatable>
+            <binding>
+                <command>property-assign</command>
+                <property>it-autoflight/input/lat</property>
+                <property>/controls/flight/nav-src/lat-mode</property>
+            </binding>
+            <binding>
+                <command>property-assign</command>
+                <property>it-autoflight/input/use-nav2-radio</property>
+                <property>/controls/flight/nav-src/nav2</property>
+            </binding>
+        </action>
+    </animation>
+
+    <animation>
         <type>select</type>
         <object-name>NAV.light</object-name>
         <condition>
-            <equals>
-                <property>it-autoflight/input/lat</property>
-                <value>1</value>
-            </equals>
+            <or>
+                <equals>
+                    <property>it-autoflight/output/lat</property>
+                    <value>1</value>
+                </equals>
+                <equals>
+                    <property>it-autoflight/output/lat</property>
+                    <value>2</value>
+                </equals>
+            </or>
         </condition>
     </animation>
 
@@ -1370,6 +1492,123 @@
     </animation>
 
 <!-- FO-side PFD controls -->
+    <animation>
+        <type>pick</type>
+        <object-name>PREV.right.btn</object-name>
+        <action>
+            <button>0</button>
+            <repeatable type="bool">false</repeatable>
+            <binding>
+                <command>property-cycle</command>
+                <property>/instrumentation/pfd[1]/preview</property>
+                <value>0</value>
+                <value>1</value>
+                <value>2</value>
+            </binding>
+        </action>
+    </animation>
+    <animation>
+        <type>pick</type>
+        <object-name>FMS.right.btn</object-name>
+        <action>
+            <button>0</button>
+            <repeatable type="bool">false</repeatable>
+            <binding>
+                <command>property-assign</command>
+                <property>/instrumentation/pfd[1]/preview</property>
+                <property>/instrumentation/pfd[1]/nav-src</property>
+            </binding>
+            <binding>
+                <command>property-assign</command>
+                <property>/instrumentation/pfd[1]/nav-src</property>
+                <value>0</value>
+            </binding>
+        </action>
+        <condition>
+            <not>
+                <equals>
+                    <property>/instrumentation/pfd[1]/nav-src</property>
+                    <value>0</value>
+                </equals>
+            </not>
+        </condition>
+    </animation>
+    <animation>
+        <type>pick</type>
+        <object-name>FMS.right.btn</object-name>
+        <action>
+            <button>0</button>
+            <repeatable type="bool">false</repeatable>
+            <binding>
+                <command>property-assign</command>
+                <property>/instrumentation/pfd[1]/nav-src</property>
+                <value>0</value>
+            </binding>
+        </action>
+        <condition>
+            <equals>
+                <property>/instrumentation/pfd[1]/nav-src</property>
+                <value>0</value>
+            </equals>
+        </condition>
+    </animation>
+    <animation>
+        <type>pick</type>
+        <object-name>VL.right.btn</object-name>
+        <action>
+            <button>0</button>
+            <repeatable type="bool">false</repeatable>
+            <binding>
+                <command>property-assign</command>
+                <property>/instrumentation/pfd[1]/nav-src</property>
+                <property>/instrumentation/pfd[1]/preview</property>
+            </binding>
+        </action>
+        <condition>
+            <and>
+                <equals>
+                    <property>/instrumentation/pfd[1]/nav-src</property>
+                    <value>0</value>
+                </equals>
+                <not>
+                    <equals>
+                        <property>/instrumentation/pfd[1]/preview</property>
+                        <value>0</value>
+                    </equals>
+                </not>
+            </and>
+        </condition>
+    </animation>
+    <animation>
+        <type>pick</type>
+        <object-name>VL.right.btn</object-name>
+        <action>
+            <button>0</button>
+            <repeatable type="bool">false</repeatable>
+            <binding>
+                <command>property-cycle</command>
+                <property>/instrumentation/pfd[1]/nav-src</property>
+                <value>1</value>
+                <value>2</value>
+            </binding>
+        </action>
+        <condition>
+            <not>
+                <and>
+                    <equals>
+                        <property>/instrumentation/pfd[1]/nav-src</property>
+                        <value>0</value>
+                    </equals>
+                    <not>
+                        <equals>
+                            <property>/instrumentation/pfd[1]/preview</property>
+                            <value>0</value>
+                        </equals>
+                    </not>
+                </and>
+            </not>
+        </condition>
+    </animation>
 
 <!-- A/T -->
 
@@ -1407,8 +1646,6 @@
         </action>
     </animation>
 
-    <!-- TODO -->
-    <!--
     <animation>
         <type>select</type>
         <object-name>VNAV.light</object-name>
@@ -1416,7 +1653,6 @@
             <property>controls/flight/vnav-enabled</property>
         </condition>
     </animation>
-    -->
 
 <!-- FLCH -->
 

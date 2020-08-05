@@ -124,9 +124,12 @@
                 <path>Aircraft/E-jet-family/Systems/pushback-steering.xml</path>
             </autopilot>
             <property-rule n="100">
-                <path>Aircraft/E-jet-family/Systems/pfd.xml</path>
+                <path>Aircraft/E-jet-family/Systems/pfd1.xml</path>
             </property-rule>
             <property-rule n="101">
+                <path>Aircraft/E-jet-family/Systems/pfd2.xml</path>
+            </property-rule>
+            <property-rule n="102">
                 <path>Aircraft/E-jet-family/Systems/fms.xml</path>
             </property-rule>
             <autopilot>
@@ -885,6 +888,8 @@
             <nav-src>
                 <!-- 0 = captain, 1 = FO -->
                 <side type="int">0</side>
+                <lat-mode type="int">0</lat-mode>
+                <nav2 type="bool">false</nav2>
             </nav-src>
         </flight>
 

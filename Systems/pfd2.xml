@@ -1,0 +1,620 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<PropertyList>
+    
+    <!-- ALTITUDE PREDICTOR -->
+    
+    <predict-simple>
+        <name>altitude predictor</name>
+        <update-interval-secs type="double">0.1</update-interval-secs>
+        <input>instrumentation/altimeter/indicated-altitude-ft</input>
+        <output>instrumentation/pfd[1]/alt-lookahead-6s</output>
+        <seconds>6.0</seconds>
+        <filter-gain>0.05</filter-gain>
+    </predict-simple>
+    
+    <predict-simple>
+        <name>airspeed predictor</name>
+        <update-interval-secs type="double">0.1</update-interval-secs>
+        <input>instrumentation/airspeed-indicator/indicated-speed-kt</input>
+        <output>instrumentation/pfd[1]/airspeed-lookahead-10s</output>
+        <seconds>10.0</seconds>
+        <filter-gain>0.0</filter-gain>
+    </predict-simple>
+    
+    <filter>
+        <name>ALT preprocessor (alt trend up)</name>
+        <type>gain</type>
+        <update-interval-secs type="double">0.1</update-interval-secs>
+        <input>
+            <property>instrumentation/pfd[1]/alt-lookahead-6s</property>
+        </input>
+        <reference>
+            <property>instrumentation/altimeter/indicated-altitude-ft</property>
+            <offset>500</offset>
+        </reference>
+        <gain>-0.000480</gain>
+        <output>instrumentation/pfd[1]/alt-trend-up</output>
+        <max>0.24</max>
+        <min>0</min>
+    </filter>
+    
+    <filter>
+        <name>ALT preprocessor (alt trend down)</name>
+        <type>gain</type>
+        <update-interval-secs type="double">0.1</update-interval-secs>
+        <input>
+            <property>instrumentation/pfd[1]/alt-lookahead-6s</property>
+            <min>0</min>
+        </input>
+        <reference>
+            <property>instrumentation/altimeter/indicated-altitude-ft</property>
+            <offset>-500</offset>
+        </reference>
+        <gain>-0.000480</gain>
+        <output>instrumentation/pfd[1]/alt-trend-down</output>
+        <min>-0.24</min>
+        <max>0</max>
+    </filter>
+    
+    
+    <!-- ALTITUDE CURSOR -->
+    
+    <filter>
+        <name>Altitude cursor</name> 
+        <type>gain</type>
+        <update-interval-secs type="double">0.05</update-interval-secs>
+        <gain>1.0</gain>
+        <input>
+            <condition>
+                <not-equals>
+                    <property>autopilot/locks/altitude</property>
+                    <value>VALT</value>
+                </not-equals>
+            </condition>
+            <property>autopilot/settings/asel</property>
+            <scale>100</scale>
+        </input>
+        <input>
+            <condition>
+                <equals>
+                    <property>autopilot/locks/altitude</property>
+                    <value>VALT</value>
+                </equals>
+            </condition>
+            <property>autopilot/settings/target-altitude-ft</property>
+        </input>
+        <reference>
+            <property>instrumentation/altimeter/indicated-altitude-ft</property>
+        </reference>
+        <output>instrumentation/pfd[1]/target-altitude-diff</output>
+        <min>-800</min>
+        <max>800</max>
+    </filter>
+    
+    <!-- MINIMUMS -->
+    
+    <!-- mk-viii does not support actual baro minimums, so we provide fake
+         radio minimums based on configured baro minimums, current barometric
+         altitude, and current radar altimeter reading. -->
+    <filter>
+        <name>Fake baro minimums</name>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <expression>
+                <dif>
+                    <property>/instrumentation/pfd[1]/minimums-baro</property>
+                    <dif>
+                        <property>/instrumentation/altimeter/indicated-altitude-ft</property>
+                        <property>/position/gear-agl-ft</property>
+                    </dif>
+                </dif>
+            </expression>
+        </input>
+        <output>/instrumentation/pfd[1]/minimums-fake-baro</output>
+    </filter>
+    
+    <!-- forward either fake-baro or radio minimums to mk-viii -->
+    <filter>
+        <name>Forward minimums</name>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <condition>
+                <equals>
+                    <property>/instrumentation/pfd[1]/minimums-mode</property>
+                    <value>0</value>
+                </equals>
+            </condition>
+            <property>/instrumentation/pfd[1]/minimums-radio</property>
+        </input>
+        <input>
+            <condition>
+                <equals>
+                    <property>/instrumentation/pfd[1]/minimums-mode</property>
+                    <value>1</value>
+                </equals>
+            </condition>
+            <property>/instrumentation/pfd[1]/minimums-fake-baro</property>
+        </input>
+        <output>/instrumentation/mk-viii/inputs/arinc429/decision-height</output>
+    </filter>
+    
+    <!-- SPEED CURSOR -->
+    
+    <filter>
+        <name>Speed cursor</name> 
+        <type>gain</type>
+        <update-interval-secs type="double">0.05</update-interval-secs>
+        <gain>1.0</gain>
+        <input>
+            <property>autopilot/settings/target-speed-kt</property>
+        </input>
+        <reference>
+            <property>velocities/airspeed-kt</property>
+        </reference>
+        <output>instrumentation/pfd[1]/target-speed-diff</output>
+        <min>-100</min>
+        <max>100</max>
+    </filter>
+    
+    <!-- SPEED PREDICTOR -->
+    
+    <filter>
+        <name>PFD preprocessor (spd trend up)</name>
+        <type>gain</type>
+        <update-interval-secs type="double">0.1</update-interval-secs>
+        <input>
+            <property>autopilot/internal/lookahead-10-sec-airspeed-kt</property>
+        </input>
+        <reference>
+            <property>velocities/airspeed-kt</property>
+            <offset>90</offset> 
+        </reference>
+        <gain>0.002667</gain>
+        <output>instrumentation/pfd[1]/speed-trend-up</output>
+        <min>0</min>
+        <max>1</max>
+    </filter>
+    
+    <filter>
+        <name>PFD preprocessor (spd trend down)</name>
+        <type>gain</type>
+        <update-interval-secs type="double">0.1</update-interval-secs>
+        <input>
+            <property>autopilot/internal/lookahead-10-sec-airspeed-kt</property>
+            <min>0</min>
+        </input>
+        <reference>
+            <property>velocities/airspeed-kt</property>
+            <offset>-90</offset> 
+        </reference>
+        <gain>-0.002667</gain>
+        <output>instrumentation/pfd[1]/speed-trend-down</output>
+        <min>-1</min>
+        <max>0</max>
+    </filter>
+    
+    <!-- V1 marker -->
+    
+    <filter>
+        <name>V1 marker positioning</name> 
+        <type>gain</type>
+        <update-interval-secs type="double">0.05</update-interval-secs>
+        <gain>1.1</gain>
+        <input>
+            <property>fms/vspeeds-effective/departure/v1</property>
+        </input>
+        <reference>
+            <property>instrumentation/airspeed-indicator/indicated-speed-kt</property>
+        </reference>
+        <output>instrumentation/pfd[1]/v1-diff</output>
+        <min>0</min>
+        <max>60</max>
+    </filter>
+    
+    <!-- Vr marker -->
+    
+    <filter>
+        <name>Vr marker positioning</name> 
+        <type>gain</type>
+        <update-interval-secs type="double">0.05</update-interval-secs>
+        <gain>1.1</gain>
+        <input>
+            <property>fms/vspeeds-effective/departure/vr</property>
+        </input>
+        <reference>
+            <property>instrumentation/airspeed-indicator/indicated-speed-kt</property>
+        </reference>
+        <output>instrumentation/pfd[1]/vr-diff</output>
+        <min>0</min>
+        <max>60</max>
+    </filter>
+    
+    <!-- V2 marker -->
+    
+    <filter>
+        <name>V2 marker positioning</name> 
+        <type>gain</type>
+        <update-interval-secs type="double">0.05</update-interval-secs>
+        <gain>1.1</gain>
+        <input>
+            <property>fms/vspeeds-effective/departure/v2</property>
+        </input>
+        <reference>
+            <property>instrumentation/airspeed-indicator/indicated-speed-kt</property>
+        </reference>
+        <output>instrumentation/pfd[1]/v2-diff</output>
+        <min>0</min>
+        <max>60</max>
+    </filter>
+    
+    <!-- Ve marker -->
+    
+    <filter>
+        <name>Ve marker positioning</name> 
+        <type>gain</type>
+        <update-interval-secs type="double">0.05</update-interval-secs>
+        <gain>1.1</gain>
+        <input>
+            <property>controls/flight/ve</property>
+        </input>
+        <reference>
+            <property>instrumentation/airspeed-indicator/indicated-speed-kt</property>
+        </reference>
+        <output>instrumentation/pfd[1]/ve-diff</output>
+        <min>0</min>
+        <max>60</max>
+    </filter>
+    
+    <!-- Va marker -->
+    
+    <filter>
+        <name>Va marker positioning</name> 
+        <type>gain</type>
+        <update-interval-secs type="double">0.05</update-interval-secs>
+        <gain>1.1</gain>
+        <input>
+            <property>controls/flight/va</property>
+        </input>
+        <reference>
+            <property>instrumentation/airspeed-indicator/indicated-speed-kt</property>
+        </reference>
+        <output>instrumentation/pfd[1]/va-diff</output>
+        <min>-60</min>
+        <max>60</max>
+    </filter>
+    
+    <!-- Vref marker -->
+    
+    <filter>
+        <name>Vref marker positioning</name> 
+        <type>gain</type>
+        <update-interval-secs type="double">0.05</update-interval-secs>
+        <gain>1.1</gain>
+        <input>
+            <property>controls/flight/vref</property>
+        </input>
+        <reference>
+            <property>instrumentation/airspeed-indicator/indicated-speed-kt</property>
+        </reference>
+        <output>instrumentation/pfd[1]/vref-diff</output>
+        <min>-60</min>
+        <max>60</max>
+    </filter>
+    
+    <!-- Stall -->
+    
+    <filter>
+        <name>Stall speed</name> 
+        <type>gain</type>
+        <update-interval-secs type="double">0.05</update-interval-secs>
+        <gain>1.0</gain> 
+        <input>
+            <property>instrumentation/pfd[1]/stall-speed</property>
+        </input>
+        <reference>
+            <property>instrumentation/airspeed-indicator/indicated-speed-kt</property>
+            <offset>70</offset>
+        </reference>
+        <output>instrumentation/pfd[1]/stall-diff</output>
+        <min>-205</min>
+        <max>10</max>
+    </filter>
+    
+    
+    <!--Altitude indication-->
+    <filter>
+        <name>Altitude 10000</name> 
+        <type>gain</type>
+        <gain>1.0</gain> 
+        <input>
+            <expression>
+                <floor>
+                    <div>
+                        <property>instrumentation/altimeter/indicated-altitude-ft</property>
+                        <value>10000</value>
+                    </div>
+                </floor>
+            </expression>
+        </input>
+        <output>instrumentation/pfd[1]/alt-10000</output>
+    </filter>
+    <filter>
+        <name>Altitude 1000</name> 
+        <type>gain</type>
+        <gain>1.0</gain> 
+        <input>
+            <expression>
+                <floor>
+                    <div>
+                        <property>instrumentation/altimeter/indicated-altitude-ft</property>
+                        <value>1000</value>
+                    </div>
+                </floor>
+            </expression>
+        </input>
+        <output>instrumentation/pfd[1]/alt-1000</output>
+    </filter>
+    <filter>
+        <name>Altitude 100</name> 
+        <type>gain</type>
+        <gain>1.0</gain> 
+        <input>
+            <expression>
+                <floor>
+                    <div>
+                        <property>instrumentation/altimeter/indicated-altitude-ft</property>
+                        <value>100</value>
+                    </div>
+                </floor>
+            </expression>
+        </input>
+        <output>instrumentation/pfd[1]/alt-100</output>
+    </filter>
+    <filter>
+        <name>Altitude 1</name> 
+        <type>gain</type>
+        <gain>1.0</gain> 
+        <input>
+            <expression>
+                <floor>
+                    <property>instrumentation/altimeter/indicated-altitude-ft</property>
+                </floor>
+            </expression>
+        </input>
+        <output>instrumentation/pfd[1]/alt-1</output>
+    </filter>
+    
+    
+    <filter>
+        <name>Airspeed 10</name> 
+        <type>gain</type>
+        <gain>1.0</gain> 
+        <input>
+            <expression>
+                <floor>
+                    <div>
+                        <property>instrumentation/airspeed-indicator/indicated-speed-kt</property>
+                        <value>10</value>
+                    </div>
+                </floor>
+            </expression>
+        </input>
+        <output>instrumentation/pfd[1]/asi-10</output>
+    </filter>
+    
+    <filter>
+        <name>Airspeed 100</name> 
+        <type>gain</type>
+        <gain>1.0</gain> 
+        <input>
+            <expression>
+                <floor>
+                    <div>
+                        <property>instrumentation/airspeed-indicator/indicated-speed-kt</property>
+                        <value>100</value>
+                    </div>
+                </floor>
+            </expression>
+        </input>
+        <output>instrumentation/pfd[1]/asi-100</output>
+    </filter>
+    
+    <filter>
+        <name>VSneedle</name>
+        <type>gain</type>
+        <gain>1.0</gain>
+        <input>
+            <expression>
+                <table>
+                    <prod>
+                        <property>/velocities/vertical-speed-fps</property> 
+                        <value>60</value>
+                    </prod>
+                    <entry>
+                        <ind>-4000</ind><dep>-56.36</dep>
+                    </entry>
+                    <entry>
+                        <ind>-2000</ind><dep>-49.31</dep>
+                    </entry>
+                    <entry>
+                        <ind>-1000</ind><dep>-40.09</dep>
+                    </entry>
+                    <entry>
+                        <ind>0</ind><dep>0</dep>
+                    </entry>
+                    <entry>
+                        <ind>1000</ind><dep>40.09</dep>
+                    </entry>
+                    <entry>
+                        <ind>2000</ind><dep>49.31</dep>
+                    </entry>
+                    <entry>
+                        <ind>4000</ind><dep>56.36</dep>
+                    </entry>
+                </table>
+            </expression>
+        </input>
+        <output>instrumentation/pfd[1]/vs-needle</output>
+    </filter>
+    
+    <filter>
+        <name>Pitchscale</name>
+        <type>gain</type>
+        <gain>1.0</gain>
+        <input>
+            <expression>
+                <table>
+                    <property>/orientation/pitch-deg</property>
+                    <entry>
+                        <ind>90</ind><dep>90</dep>
+                    </entry>
+                    <entry>
+                        <ind>10</ind><dep>16.666</dep>
+                    </entry>
+                    <entry>
+                        <ind>0</ind><dep>0</dep>
+                    </entry>
+                    <entry>
+                        <ind>-10</ind><dep>-16.666</dep>
+                    </entry>
+                    <entry>
+                        <ind>-90</ind><dep>-90</dep>
+                    </entry>
+                </table>
+            </expression>
+        </input>
+        <output>instrumentation/pfd[1]/pitch-scale</output>
+    </filter>
+    
+    <filter>
+        <name>HDGBUGDiff</name>
+        <type>gain</type>
+        <gain>1.0</gain>
+        <input>
+            <expression>
+                <dif>
+                    <property>/orientation/heading-deg</property> 
+                    <property>/it-autoflight/input/hdg</property> 
+                </dif>
+            </expression>
+        </input>
+        <output>instrumentation/pfd[1]/hdg-bug-diff</output>
+    </filter>
+    <filter>
+        <name>ALTBUGDiff</name>
+        <type>gain</type>
+        <gain>1.0</gain>
+        <input>
+            <expression>
+                <dif>
+                    <property>/it-autoflight/input/alt</property> 
+                    <property>/instrumentation/altimeter/indicated-altitude-ft</property> 
+                </dif>
+            </expression>
+        </input>
+        <output>instrumentation/pfd[1]/alt-bug-diff</output>
+    </filter>
+    <filter>
+        <name>SPEEDBUGDiff1</name>
+        <type>gain</type>
+        <gain>1.0</gain>
+        <input>
+            <expression>
+                <dif>
+                    <property>/instrumentation/airspeed-indicator/indicated-speed-kt</property> 
+                    <property>/instrumentation/pfd[1]/ias-bugs/bug1</property> 
+                </dif>
+            </expression>
+        </input>
+        <min>-42</min>
+        <max>42</max>
+        <output>instrumentation/pfd[1]/ias-bug1-diff</output>
+    </filter>
+    <filter>
+        <name>SPEEDBUGDiff2</name>
+        <type>gain</type>
+        <gain>1.0</gain>
+        <input>
+            <expression>
+                <dif>
+                    <property>/instrumentation/airspeed-indicator/indicated-speed-kt</property> 
+                    <property>/instrumentation/pfd[1]/ias-bugs/bug2</property> 
+                </dif>
+            </expression>
+        </input>
+        <min>-42</min>
+        <max>42</max>
+        <output>instrumentation/pfd[1]/ias-bug2-diff</output>
+    </filter>
+    
+    
+    <filter>
+        <name>VMO</name>
+        <type>gain</type>
+        <gain>1.0</gain>
+        <input>
+            <condition>
+                <equals>
+                    <property>/controls/flight/flaps</property>
+                    <value>0</value>
+                </equals>
+            </condition>
+            <expression>
+                <table>
+                    <property>/position/altitude-ft</property> 
+                    <entry>
+                        <ind>0</ind><dep>300</dep>
+                    </entry>
+                    <entry>
+                        <ind>8000</ind><dep>300</dep>
+                    </entry>
+                    <entry>
+                        <ind>10000</ind><dep>320</dep>
+                    </entry>
+                    <entry>
+                        <ind>29000</ind><dep>320</dep>
+                    </entry>
+                    <entry>
+                        <ind>41000</ind><dep>244</dep>
+                    </entry>
+                </table>
+            </expression>
+        </input>
+        <input>
+            <condition>
+                <greater-than>
+                    <property>/controls/flight/flaps</property>
+                    <value>0.0</value>
+                </greater-than>
+            </condition>
+            <expression>
+                <table>
+                    <property>/controls/flight/flaps</property> 
+                    <entry>
+                        <ind>0.1</ind><dep>230</dep>
+                    </entry>
+                    <entry>
+                        <ind>0.2</ind><dep>215</dep>
+                    </entry>
+                    <entry>
+                        <ind>0.3</ind><dep>200</dep>
+                    </entry>
+                    <entry>
+                        <ind>0.4</ind><dep>180</dep>
+                    </entry>
+                    <entry>
+                        <ind>0.5</ind><dep>180</dep>
+                    </entry>
+                    <entry>
+                        <ind>0.6</ind><dep>165</dep>
+                    </entry>
+                </table>
+            </expression>
+        </input>
+        <output>instrumentation/pfd[1]/vmo</output>
+    </filter>
+    
+</PropertyList>

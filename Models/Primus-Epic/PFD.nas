@@ -4,9 +4,8 @@
 
 #sources: http://www.smartcockpit.com/docs/Embraer_190-Powerplant.pdf http://www.smartcockpit.com/docs/Embraer_190-Flight_Controls.pdf http://www.smartcockpit.com/docs/Embraer_190-APU.pdf
 
-var ED_only = nil;
-var PFD_display = nil;
-var page = "only";
+var ED_only = [nil, nil];
+var PFD_display = [nil, nil];
 var DC=0.01744;
 
 setprop("/engines/engine[0]/n1", 0);
@@ -33,10 +32,14 @@ setprop("/controls/engines/engine[0]/condition-lever-state", 0);
 setprop("/controls/engines/engine[1]/condition-lever-state", 0);
 setprop("/controls/engines/engine[0]/throttle-int", 0);
 setprop("/controls/engines/engine[1]/throttle-int", 0);
-setprop("/instrumentation/pfd/qnh-mode", 0);
-setprop("/instrumentation/pfd/minimums-mode", 0);
-setprop("/instrumentation/pfd/minimums-radio", 200);
-setprop("/instrumentation/pfd/minimums-baro", 400);
+setprop("/instrumentation/pfd[0]/qnh-mode", 0);
+setprop("/instrumentation/pfd[0]/minimums-mode", 0);
+setprop("/instrumentation/pfd[0]/minimums-radio", 200);
+setprop("/instrumentation/pfd[0]/minimums-baro", 400);
+setprop("/instrumentation/pfd[1]/qnh-mode", 0);
+setprop("/instrumentation/pfd[1]/minimums-mode", 0);
+setprop("/instrumentation/pfd[1]/minimums-radio", 200);
+setprop("/instrumentation/pfd[1]/minimums-baro", 400);
 
 setprop("/systems/electrical/outputs/efis", 0);
 
@@ -419,16 +422,24 @@ var canvas_ED_only = {
             hsiDeflection = me.props["/instrumentation/nav[" ~ (navsrc - 1) ~ "]/heading-needle-deflection-norm"].getValue() or 0;
         }
         me["hsi.nav1"].setColor(hsiColor[0], hsiColor[1], hsiColor[2]);
+        me["hsi.nav1track"].setColor(hsiColor[0], hsiColor[1], hsiColor[2]);
+
         me["hsi.nav1"].setRotation((hsiHeading - heading) * DC);
         me["hsi.dots"].setRotation((hsiHeading - heading) * DC);
         me["hsi.nav1track"].setTranslation(hsiDeflection * 120, 0);
-        if (me.props["/instrumentation/nav[0]/from-flag"].getValue()) {
-            me["hsi.from"].show();
+        if (navsrc == 0) {
+            me["hsi.from"].hide();
             me["hsi.to"].hide();
         }
         else {
-            me["hsi.from"].hide();
-            me["hsi.to"].show();
+            if (me.props["/instrumentation/nav[" ~ (navsrc - 1) ~ "]/from-flag"].getValue()) {
+                me["hsi.from"].show();
+                me["hsi.to"].hide();
+            }
+            else {
+                me["hsi.from"].hide();
+                me["hsi.to"].show();
+            }
         }
 
 
@@ -858,19 +869,25 @@ var canvas_ED_only = {
             me["fma.at"].hide();
         }
 
+        var activeNav = (navsrc or preview or 1) - 1;
+        var vorOrLoc = "VOR";
+        if (me.props["/instrumentation/nav[" ~ activeNav ~ "]/nav-loc"].getValue() or 0) {
+            vorOrLoc = "LOC";
+        }
+
         var latModeMap = {
             "HDG": "HDG",
             "HDG HLD": "ROLL",
             "HDG SEL": "HDG",
             "LNAV": "LNAV",
-            "LOC": "LOC",
+            "LOC": vorOrLoc,
             "ALGN": "ROLL",
             "RLOU": "ROLL",
             "T/O": "TRACK"
         };
         var latModeArmedMap = {
             "LNV": "LNAV",
-            "LOC": "LOC",
+            "LOC": vorOrLoc,
             "ILS": "LOC",
             "HDG": "HDG",
             "HDG HLD": "ROLL",
@@ -971,22 +988,29 @@ var canvas_ED_only = {
 };
 
 setlistener("sim/signals/fdm-initialized", func {
-    PFD_display = canvas.new({
-        "name": "EICAS",
-        "size": [1024, 1530],
-        "view": [1024, 1530],
-        "mipmapping": 1
+    for (var i = 0; i <= 1; i += 1) {
+        PFD_display[i] = canvas.new({
+            "name": "PFD" ~ i,
+            "size": [1024, 1530],
+            "view": [1024, 1530],
+            "mipmapping": 1
+        });
+        PFD_display[i].addPlacement({"node": "PFD" ~ i});
+        ED_only[i] =
+            canvas_ED_only.new(
+            PFD_display[i].createGroup(),
+            "Aircraft/E-jet-family/Models/Primus-Epic/PFD.svg",
+            i);
+    }
+
+    var timer = maketimer(0.02, func() {
+        ED_only[0].update();
+        ED_only[1].update();
     });
-    PFD_display.addPlacement({"node": "PFD_screen"});
-    var groupED = PFD_display.createGroup();
-
-    ED_only = canvas_ED_only.new(groupED, "Aircraft/E-jet-family/Models/Primus-Epic/PFD.svg");
-
-    var timer = maketimer(0.02, func() { ED_only.update(); });
     timer.start();
 });
 
-var showPFD = func {
-    var dlg = canvas.Window.new([512, 765], "dialog").set("resize", 1);
-    dlg.setCanvas(PFD_display);
-}
+# var showPFD = func {
+#     var dlg = canvas.Window.new([512, 765], "dialog").set("resize", 1);
+#     dlg.setCanvas(PFD_display);
+# }
