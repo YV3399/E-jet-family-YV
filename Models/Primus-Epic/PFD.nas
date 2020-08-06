@@ -374,9 +374,29 @@ var canvas_ED_only = {
 
         me["groundspeed"].setText(sprintf("%3d", me.props["/velocities/groundspeed-kt"].getValue() or 0));
 
+        var navsrc = me.props["/instrumentation/pfd/nav-src"].getValue() or 0;
+        var preview = me.props["/instrumentation/pfd/preview"].getValue() or 0;
+        var dmesrc = navsrc or preview or 0;
+        var coursesrc = navsrc or preview or 0;
+
         var heading = me.props["/orientation/heading-magnetic-deg"].getValue() or 0;
         var selectedheading = me.props["/it-autoflight/input/hdg"].getValue() or 0;
-        var selectedcourse = me.props["/instrumentation/nav[0]/radials/selected-deg"].getValue() or 0;
+        var selectedcourse = nil;
+        var coursecolor = [0, 1, 0];
+        if (coursesrc > 0) {
+            selectedcourse = me.props["/instrumentation/nav[" ~ (coursesrc - 1) ~ "]/radials/selected-deg"].getValue() or 0;
+        }
+        if (navsrc == 0) {
+            coursecolor = [0, 1, 1];
+        }
+        if (selectedcourse == nil) {
+            me["selectedcourse.digital"].hide();
+        }
+        else {
+            me["selectedcourse.digital"].setText(sprintf("%03d", selectedcourse));
+            me["selectedcourse.digital"].show();
+            me["selectedcourse.digital"].setColor(coursecolor[0], coursecolor[1], coursecolor[2]);
+        }
 
         me["wind.pointer"].setRotation(((me.props["/environment/wind-from-heading-deg"].getValue() or 0) - heading + 180) * DC);
         if (me.props["/environment/wind-speed-kt"].getValue() > 1) {
@@ -391,7 +411,6 @@ var canvas_ED_only = {
         me["heading.digital"].setText(sprintf("%03d", heading));
         me["selectedheading.digital"].setText(sprintf("%03d", selectedheading));
         me["selectedheading.pointer"].setRotation((selectedheading - heading) * DC);
-        me["selectedcourse.digital"].setText(sprintf("%03d", selectedcourse));
 
         # FD
         var pitchBar = me.props["/it-autoflight/fd/pitch-bar"].getValue() or 0;
@@ -404,10 +423,6 @@ var canvas_ED_only = {
         me["chrono.digital"].setText(sprintf("%02d:%02d", math.floor(t / 60), math.mod(t, 60)));
 
         # HSI NAV1
-        var navsrc = me.props["/instrumentation/pfd/nav-src"].getValue() or 0;
-        var preview = me.props["/instrumentation/pfd/preview"].getValue() or 0;
-        var dmesrc = navsrc or preview;
-
         var hsiHeading = 0;
         var hsiDeflection = 0;
         var hsiColor = [0, 1, 0];

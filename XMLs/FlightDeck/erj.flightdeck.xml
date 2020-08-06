@@ -727,7 +727,13 @@
             <button>0</button>
             <binding>
                 <command>nasal</command>
-                <script>setprop("instrumentation/nav[0]/radials/selected-deg", math.round(getprop("instrumentation/nav[0]/heading-deg")));</script>
+                <script>
+                    var which = getprop("instrumentation/pfd[0]/nav-src") or getprop("instrumentation/pfd[0]/preview") or 0;
+                    if (which > 0) {
+                        var degrees = math.round(getprop("instrumentation/nav[" ~ (which - 1) ~ "]/heading-deg"));
+                        setprop("instrumentation/nav[" ~ (which - 1) ~ "]/radials/selected-deg", degrees);
+                    }
+                </script>
             </binding>
         </action>
     </animation>
@@ -740,6 +746,24 @@
             <y>  0 </y>
             <z>  0 </z>
         </axis>
+        <condition>
+            <or>
+                <equals>
+                    <property>/instrumentation/pfd[0]/nav-src</property>
+                    <value>1</value>
+                </equals>
+                <and>
+                    <equals>
+                        <property>/instrumentation/pfd[0]/nav-src</property>
+                        <value>0</value>
+                    </equals>
+                    <equals>
+                        <property>/instrumentation/pfd[0]/preview</property>
+                        <value>1</value>
+                    </equals>
+                </and>
+            </or>
+        </condition>
         <action>
             <binding>
                 <command>property-adjust</command>
@@ -761,6 +785,53 @@
             </binding>
         </shift-action>
     </animation>
+    <animation>
+        <type>knob</type>
+        <object-name>CRS.knob</object-name>
+        <axis>
+            <x>  1 </x>
+            <y>  0 </y>
+            <z>  0 </z>
+        </axis>
+        <condition>
+            <or>
+                <equals>
+                    <property>/instrumentation/pfd[0]/nav-src</property>
+                    <value>2</value>
+                </equals>
+                <and>
+                    <equals>
+                        <property>/instrumentation/pfd[0]/nav-src</property>
+                        <value>0</value>
+                    </equals>
+                    <equals>
+                        <property>/instrumentation/pfd[0]/preview</property>
+                        <value>2</value>
+                    </equals>
+                </and>
+            </or>
+        </condition>
+        <action>
+            <binding>
+                <command>property-adjust</command>
+                <property>instrumentation/nav[1]/radials/selected-deg</property>
+                <min>0</min>
+                <max>360</max>
+                <wrap>true</wrap>
+                <factor>1</factor>
+            </binding>
+        </action>
+        <shift-action>
+            <binding>
+                <command>property-adjust</command>
+                <property>instrumentation/nav[1]/radials/selected-deg</property>
+                <min>0</min>
+                <max>360</max>
+                <wrap>true</wrap>
+                <factor>10</factor>
+            </binding>
+        </shift-action>
+    </animation>
 
 <!-- CRS Knob 2 Pick Animations -->
     <animation>
@@ -770,7 +841,13 @@
             <button>0</button>
             <binding>
                 <command>nasal</command>
-                <script>setprop("instrumentation/nav[1]/radials/selected-deg", math.round(getprop("instrumentation/nav[1]/heading-deg")));</script>
+                <script>
+                    var which = getprop("instrumentation/pfd[1]/nav-src") or getprop("instrumentation/pfd[1]/preview") or 0;
+                    if (which > 0) {
+                        var degrees = math.round(getprop("instrumentation/nav[" ~ (which - 1) ~ "]/heading-deg"));
+                        setprop("instrumentation/nav[" ~ (which - 1) ~ "]/radials/selected-deg", degrees);
+                    }
+                </script>
             </binding>
         </action>
     </animation>
@@ -783,6 +860,71 @@
             <y>  0 </y>
             <z>  0 </z>
         </axis>
+        <condition>
+            <or>
+                <equals>
+                    <property>/instrumentation/pfd[1]/nav-src</property>
+                    <value>1</value>
+                </equals>
+                <and>
+                    <equals>
+                        <property>/instrumentation/pfd[1]/nav-src</property>
+                        <value>0</value>
+                    </equals>
+                    <equals>
+                        <property>/instrumentation/pfd[1]/preview</property>
+                        <value>1</value>
+                    </equals>
+                </and>
+            </or>
+        </condition>
+        <action>
+            <binding>
+                <command>property-adjust</command>
+                <property>instrumentation/nav[0]/radials/selected-deg</property>
+                <min>0</min>
+                <max>360</max>
+                <wrap>true</wrap>
+                <factor>1</factor>
+            </binding>
+        </action>
+        <shift-action>
+            <binding>
+                <command>property-adjust</command>
+                <property>instrumentation/nav[0]/radials/selected-deg</property>
+                <min>0</min>
+                <max>360</max>
+                <wrap>true</wrap>
+                <factor>10</factor>
+            </binding>
+        </shift-action>
+    </animation>
+    <animation>
+        <type>knob</type>
+        <object-name>CRS2.knob</object-name>
+        <axis>
+            <x>  1 </x>
+            <y>  0 </y>
+            <z>  0 </z>
+        </axis>
+        <condition>
+            <or>
+                <equals>
+                    <property>/instrumentation/pfd[1]/nav-src</property>
+                    <value>2</value>
+                </equals>
+                <and>
+                    <equals>
+                        <property>/instrumentation/pfd[1]/nav-src</property>
+                        <value>0</value>
+                    </equals>
+                    <equals>
+                        <property>/instrumentation/pfd[1]/preview</property>
+                        <value>2</value>
+                    </equals>
+                </and>
+            </or>
+        </condition>
         <action>
             <binding>
                 <command>property-adjust</command>
