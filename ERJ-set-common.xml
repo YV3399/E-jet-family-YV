@@ -413,9 +413,9 @@
                 <int n="1" alias="/systems/electrical/outputs/beacon"/>
                 <int n="2" alias="/systems/electrical/outputs/taxi-lights"/>
                 <int n="3" alias="/systems/electrical/outputs/logo-lights"/>
-                <int n="4" alias="/systems/electrical/outputs/landing-light[0]"/>
-                <int n="5" alias="/systems/electrical/outputs/landing-light[1]"/>
-                <int n="6" alias="/systems/electrical/outputs/landing-light[2]"/>
+                <int n="4" alias="/systems/electrical/outputs/landing-lights[0]"/>
+                <int n="5" alias="/systems/electrical/outputs/landing-lights[1]"/>
+                <int n="6" alias="/systems/electrical/outputs/landing-lights[2]"/>
                 <int n="7" alias="/systems/electrical/outputs/nav-lights"/>
                 <float n="0" alias="/gear/gear[0]/compression-m"/>
                 <float n="1" alias="/gear/gear[1]/compression-m"/>

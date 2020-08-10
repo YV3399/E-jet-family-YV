@@ -12,14 +12,16 @@ beacon_switch = props.globals.getNode("controls/lighting/beacon", 1);
 
 setprop("/controls/lighting/strobe",0);
 setprop("/controls/lighting/beacon",0);
-setprop("/controls/lighting/landing-lights",0);
+setprop("/controls/lighting/landing-lights[0]",0);
+setprop("/controls/lighting/landing-lights[1]",0);
+setprop("/controls/lighting/landing-lights[2]",0);
 setprop("/controls/lighting/logo-lights",0);
 setprop("/controls/lighting/nav-lights",0);
 });
 
-setlistener("controls/lighting/landing-lights[0]", func
+setlistener("/system/electrical/outputs/landing-lights-norm[0]", func
  {
- var landl = getprop("controls/lighting/landing-lights[0]");
+ var landl = getprop("/system/electrical/outputs/landing-lights-norm[0]");
  if (landl == 1) {
  setprop("sim/rendering/als-secondary-lights/use-landing-light",1);
  } else {
@@ -27,9 +29,9 @@ setlistener("controls/lighting/landing-lights[0]", func
  }
  });
  
- setlistener("controls/lighting/landing-lights[2]", func
+ setlistener("/system/electrical/outputs/landing-lights-norm[2]", func
  {
- var landr = getprop("controls/lighting/landing-lights[2]");
+ var landr = getprop("/system/electrical/outputs/landing-lights-norm[2]");
  if (landr == 1) {
  setprop("sim/rendering/als-secondary-lights/use-alt-landing-light",1);
  } else {

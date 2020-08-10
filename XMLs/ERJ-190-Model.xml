@@ -9,16 +9,13 @@
 		<inherits-from>../Models/Effects/reflect</inherits-from>
 		<parameters>
 			<lightmap-multi>1</lightmap-multi>
-			<lightmap-factor n="0">
-				<use>controls/lighting/landing-lights[1]</use>
+			<lightmap-factor n="1">
+				<use>/systems/electrical/outputs/landing-lights-norm[1]</use>
 			</lightmap-factor>
 			<lightmap-factor n="2">
 				<use>/systems/electrical/outputs/logo-lights-norm</use>
 			</lightmap-factor>
-			<lightmap-factor n="3">0</lightmap-factor><!--
-			<condition>
-				<use>controls/lighting/logo</use>
-			</condition>-->
+			<lightmap-factor n="3">0</lightmap-factor>
 		</parameters>
 		<object-name>rudder</object-name>
 		<object-name>vstab</object-name>
