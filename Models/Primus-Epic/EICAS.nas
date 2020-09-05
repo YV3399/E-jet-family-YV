@@ -271,11 +271,11 @@ var canvas_ED_only = {
 		me["N2R"].setText(sprintf("%.1f", rn2));
 		me["ITTL"].setText(sprintf("%u", litt));
 		me["ITTR"].setText(sprintf("%u", ritt));
-		me["FFL"].setText(sprintf("%u", lff));
-		me["FFR"].setText(sprintf("%u", rff));
-		me["FQL"].setText(sprintf("%u", lfq));
-		me["FQR"].setText(sprintf("%u", rfq));
-		me["FQC"].setText(sprintf("%u", fq));
+		me["FFL"].setText(sprintf("%u", math.round(lff, 10)));
+		me["FFR"].setText(sprintf("%u", math.round(rff, 10)));
+		me["FQL"].setText(sprintf("%u", math.round(lfq, 10)));
+		me["FQR"].setText(sprintf("%u", math.round(rfq, 10)));
+		me["FQC"].setText(sprintf("%u", math.round(fq, 10)));
 		me["OPL"].setText(sprintf("%u", lop));
 		me["OPR"].setText(sprintf("%u", rop));
 		me["OTL"].setText(sprintf("%u", lot));
