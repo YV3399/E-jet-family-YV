@@ -94,6 +94,10 @@ var update_fms_speed = func () {
         if (getprop("/fms/internal/cond/cruise")) {
             setprop("/fms/phase", phase_cruise);
         }
+        # Skip the cruise phase if approach conditions met
+        if (getprop("/fms/internal/cond/approach")) {
+            setprop("/fms/phase", phase_approach);
+        }
     }
     else if (phase == phase_cruise) {
         if (getprop("/fms/internal/cond/climb")) {

@@ -528,7 +528,7 @@ setlistener("sim/signals/fdm-initialized", func {
 	var timer = maketimer(1, func () { vnav.update(); });
     timer.simulatedTime = 1;
     timer.singleShot = 0;
-	timer.start();
+	# timer.start();
 });
 
 setlistener("controls/flight/vnav-enabled", func {
