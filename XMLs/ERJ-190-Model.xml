@@ -141,7 +141,7 @@
   <object-name>rednav</object-name>
   <object-name>strobe.left</object-name>
   <property>fdm/jsbsim/aero/coefficient/CLalpha</property>
-  <factor>-0.0000045</factor>
+  <factor>-0.000009</factor>
   <offset-deg>0</offset-deg>   
   <center>
    <x-m> 0.00</x-m>
@@ -163,7 +163,7 @@
   <object-name>strobe.left</object-name>
   <object-name>wingtiptrails.left</object-name>
   <property>fdm/jsbsim/aero/coefficient/CLalpha</property>
-  <factor>-0.0000045</factor>
+  <factor>-0.000009</factor>
   <offset-deg>0</offset-deg>   
   <center>
    <x-m> 0.00</x-m>
@@ -184,7 +184,7 @@
   <object-name>strobe.left</object-name>
   <object-name>wingtiptrails.left</object-name>
   <property>fdm/jsbsim/aero/coefficient/CLalpha</property>
-  <factor>-0.0000045</factor>
+  <factor>-0.000009</factor>
   <offset-deg>0</offset-deg>
   <center>
    <x-m>  0.00</x-m>
@@ -210,7 +210,7 @@
   <object-name>strobe.right</object-name>
   <object-name>wingtiptrails.right</object-name>
   <property>fdm/jsbsim/aero/coefficient/CLalpha</property>
-  <factor>-0.0000045</factor>
+  <factor>-0.000009</factor>
   <offset-deg>0</offset-deg>   
   <center>
    <x-m> 0.00</x-m>
@@ -232,7 +232,7 @@
   <object-name>strobe.right</object-name>
   <object-name>wingtiptrails.right</object-name>
   <property>fdm/jsbsim/aero/coefficient/CLalpha</property>
-  <factor>-0.0000045</factor>
+  <factor>-0.000009</factor>
   <offset-deg>0</offset-deg>   
   <center>
    <x-m> 0.00</x-m>
@@ -253,7 +253,7 @@
   <object-name>strobe.right</object-name>
   <object-name>wingtiptrails.right</object-name>
   <property>fdm/jsbsim/aero/coefficient/CLalpha</property>
-  <factor>-0.0000045</factor>
+  <factor>-0.000009</factor>
   <offset-deg>0</offset-deg>
   <center>
    <x-m> 0.00</x-m>
