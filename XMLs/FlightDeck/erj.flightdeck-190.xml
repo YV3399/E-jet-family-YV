@@ -433,12 +433,7 @@
 
     <model>
         <name>Primary Flight Display Left</name>
-        <path>Aircraft/E-jet-family/XMLs/Primus-Epic/PFD.xml</path>
-        <overlay>
-            <params>
-                <index>0</index>
-            </params>
-        </overlay>
+        <path>Aircraft/E-jet-family/XMLs/Primus-Epic/PFD0.xml</path>
         <offsets>
             <x-m>-12.53</x-m>
             <y-m>-0.53</y-m>
@@ -449,12 +444,7 @@
 
     <model>
         <name>Primary Flight Display Right</name>
-        <path>Aircraft/E-jet-family/XMLs/Primus-Epic/PFD.xml</path>
-        <overlay>
-            <params>
-                <index>1</index>
-            </params>
-        </overlay>
+        <path>Aircraft/E-jet-family/XMLs/Primus-Epic/PFD1.xml</path>
         <offsets>
             <x-m>-12.53</x-m>
             <y-m>0.55</y-m>
