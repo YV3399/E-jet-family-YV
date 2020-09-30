@@ -1237,11 +1237,8 @@
                 <name>[</name>
                 <desc>Decrease flaps.</desc>
                 <binding>
-                    <command>property-adjust</command>
-                    <property>/controls/flight/flaps</property>
-                    <step>-0.125</step>
-                    <min>0</min>
-                    <max>0.75</max>
+                    <command type="string">nasal</command>
+                    <script type="string">controls.flapsDown(-1);</script>
                 </binding>
             </key>
 
@@ -1249,11 +1246,8 @@
                 <name>]</name>
                 <desc>Increase flaps.</desc>
                 <binding>
-                    <command>property-adjust</command>
-                    <property>/controls/flight/flaps</property>
-                    <step>0.125</step>
-                    <min>0</min>
-                    <max>0.75</max>
+                    <command type="string">nasal</command>
+                    <script type="string">controls.flapsDown(1);</script>
                 </binding>
             </key>
         </keyboard>
