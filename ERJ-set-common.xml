@@ -1277,10 +1277,12 @@
         <canvas_eicas>
             <file>Aircraft/E-jet-family/Models/Primus-Epic/EICAS.nas</file>
         </canvas_eicas>
+        <!--
         <mfd>
             <file>Aircraft/E-jet-family/Nasal/Mfd.nas</file>
             <file>Aircraft/E-jet-family/Models/Primus-Epic/canvas/NDcanvas.nas</file>
         </mfd>
+        -->
         <messages>
             <file>Aircraft/E-jet-family/Nasal/messages.nas</file>
         </messages>
