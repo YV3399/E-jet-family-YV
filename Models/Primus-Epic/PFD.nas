@@ -1018,7 +1018,7 @@ setlistener("sim/signals/fdm-initialized", func {
             i);
     }
 
-    var timer = maketimer(0.02, func() {
+    var timer = maketimer(0.04, func() {
         ED_only[0].update();
         ED_only[1].update();
     });
