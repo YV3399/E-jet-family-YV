@@ -1058,7 +1058,7 @@ var PerfDataModule = {
                 StaticView.new(1, 1, "CRZ/CEIL ALT", mcdu_white),
                 StaticView.new(15, 1, "STEP INC", mcdu_white),
                 FormatView.new(0, 2, mcdu_large | mcdu_white, "CRZ-ALT", 5,
-                    "FL%03.0f", func (ft) { return sprintf(ft / 1000); }),
+                    "FL%03.0f", func (ft) { return sprintf(ft / 100); }),
                 StaticView.new(5, 2, "/FL410", mcdu_large | mcdu_white),
                 # FormatView.new(5, 2, mcdu_large | mcdu_white, "CEILING-ALT", 5,
                 #     "/FL%03.0f", func (ft) { return sprintf(ft / 1000); }),
