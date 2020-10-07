@@ -1,7 +1,9 @@
 <?xml version = '1.0' encoding = 'UTF-8' ?>
 <PropertyList>
+    
     <path>../../Models/Primus-Epic/primus_epic_mfd1.ac</path>
     
+    <!-- Power on/off -->
     <animation>
         <name>Power on/off</name>
         <type>select</type>
@@ -13,4 +15,60 @@
             </less-than>
         </condition>
     </animation>
+    
+    <!--
+    <animation>
+        <type>touch</type>
+        <object-name>MFD1</object-name>
+        <action>
+            <touch>0</touch>
+            <repeatable>false</repeatable>
+            <binding>
+                <command>nasal</command>
+                <script><![CDATA[
+                    var mfd = canvas_mfd.mfd[1];
+                    if (mfd != nil) {
+                        mfd.touch(cmdarg().getValues());
+                    }
+                ]]></script>
+            </binding>
+        </action>
+    </animation>
+    -->
+    
+    <animation>
+        <type>pick</type>
+        <object-name>MFD1</object-name>
+        <action>
+            <button>4</button>
+            <repeatable>false</repeatable>
+            <binding>
+                <command>property-cycle</command>
+                <property>/instrumentation/mfd[1]/lateral-range</property>
+                <value type="double">1</value>
+                <value type="double">5</value>
+                <value type="double">10</value>
+                <value type="double">20</value>
+                <value type="double">50</value>
+                <value type="double">100</value>
+                <value type="double">200</value>
+            </binding>
+        </action>
+        <action>
+            <button>3</button>
+            <repeatable>false</repeatable>
+            <binding>
+                <command>property-cycle</command>
+                <property>/instrumentation/mfd[1]/lateral-range</property>
+                <value type="double">200</value>
+                <value type="double">100</value>
+                <value type="double">50</value>
+                <value type="double">20</value>
+                <value type="double">10</value>
+                <value type="double">5</value>
+                <value type="double">1</value>
+            </binding>
+        </action>
+    </animation>
+    
 </PropertyList>

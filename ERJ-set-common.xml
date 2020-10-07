@@ -545,6 +545,7 @@
     </trs>
 
     <fms>
+        <flightplan-modifications type="bool">false</flightplan-modifications>
         <!-- flight phase -->
         <phase type="int">0</phase>
         <alt-target type="double">35000</alt-target>
