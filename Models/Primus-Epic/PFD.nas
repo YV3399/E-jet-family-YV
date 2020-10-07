@@ -1006,8 +1006,8 @@ setlistener("sim/signals/fdm-initialized", func {
     for (var i = 0; i <= 1; i += 1) {
         PFD_display[i] = canvas.new({
             "name": "PFD" ~ i,
-            "size": [1024, 1530],
-            "view": [1024, 1530],
+            "size": [1024, 1366],
+            "view": [1024, 1366],
             "mipmapping": 1
         });
         PFD_display[i].addPlacement({"node": "PFD" ~ i});

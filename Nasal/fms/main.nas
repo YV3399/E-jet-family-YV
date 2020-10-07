@@ -61,6 +61,7 @@ var getModifyableFlightplan = func () {
         else {
             modifiedFlightplan = cloneFlightplan();
         }
+        setprop("/fms/flightplan-modifications", 1);
     }
     return modifiedFlightplan;
 };
@@ -92,6 +93,7 @@ var commitFlightplan = func () {
         if (rwy0 != rwy1) {
             updateTakeoffRunway();
         }
+        setprop("/fms/flightplan-modifications", 1);
     }
     return flightplan();
 };
