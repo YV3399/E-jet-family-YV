@@ -129,6 +129,7 @@ var MFD = {
         me.lowerArea.setTranslation(0, 868);
 
         me.guiOverlay = me.master.createChild("group");
+        canvas.parsesvg(me.guiOverlay, "Aircraft/E-jet-family/Models/Primus-Epic/MFD-gui.svg", {'font-mapper': font_mapper});
 
         me.mapPage = me.upperArea.createChild("group");
         me.map = me.mapPage.createChild("map");
