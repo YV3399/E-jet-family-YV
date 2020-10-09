@@ -7,7 +7,6 @@
    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
    xmlns:svg="http://www.w3.org/2000/svg"
    xmlns="http://www.w3.org/2000/svg"
-   xmlns:xlink="http://www.w3.org/1999/xlink"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    width="1024"
@@ -117,17 +116,17 @@
      borderopacity="1.0"
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.56245"
-     inkscape:cx="448.91"
-     inkscape:cy="860.8"
+     inkscape:zoom="1.1249"
+     inkscape:cx="238.95"
+     inkscape:cy="1184.4"
      inkscape:document-units="px"
-     inkscape:current-layer="layer2"
+     inkscape:current-layer="svg8"
      showgrid="true"
      units="px"
-     inkscape:window-width="1440"
-     inkscape:window-height="886"
-     inkscape:window-x="0"
-     inkscape:window-y="14"
+     inkscape:window-width="1920"
+     inkscape:window-height="1080"
+     inkscape:window-x="1440"
+     inkscape:window-y="0"
      inkscape:window-maximized="0"
      scale-x="1"
      showguides="true"
@@ -170,217 +169,200 @@
       </cc:Work>
     </rdf:RDF>
   </metadata>
+  <rect
+     style="opacity:1;fill:#808080;fill-opacity:1;stroke:none;stroke-width:3;stroke-linecap:butt;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+     id="rect12922"
+     width="1024"
+     height="100"
+     x="0"
+     y="0" />
   <g
-     inkscape:groupmode="layer"
-     id="layer2"
-     inkscape:label="Layer 2"
-     transform="translate(0,598)"
-     style="opacity:1">
-    <rect
-       style="opacity:1;fill:#808080;fill-opacity:1;stroke:none;stroke-width:3;stroke-linecap:butt;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       id="rect12922"
-       width="1024"
-       height="100"
-       x="0"
-       y="-598" />
-    <g
-       id="btnMap">
-      <text
-         id="btnMap.label"
-         y="-534"
-         x="171.26"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:13.33333px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:sans-serif;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none"
-         xml:space="preserve"><tspan
-           style="font-size:37.33333px;fill:#ffffff"
-           y="-534"
-           x="171.26"
-           id="tspan12926"
-           sodipodi:role="line">Map</tspan></text>
-      <g
-         id="g12944">
-        <path
-           id="rect12924"
-           style="opacity:1;fill:#4d4d4d;fill-opacity:1;stroke:none;stroke-width:3;stroke-linecap:butt;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-           d="M 4.0664,-502.48 H 340.07 v -92 l -8,8 m 0,0 v 76 H 12.066 l -7.9996,8"
-           inkscape:connector-curvature="0" />
-        <path
-           inkscape:connector-curvature="0"
-           d="M 340.07,-594.48 H 4.0664 v 92 l 7.9996,-8 m 0,0 v -76 H 332.07 l 8,-8"
-           style="opacity:1;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:3;stroke-linecap:butt;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-           id="path12940" />
-      </g>
-    </g>
-    <g
-       id="btnPlan">
-      <text
-         xml:space="preserve"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:13.33333px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:sans-serif;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none"
-         x="511.26"
-         y="-534"
-         id="btnPlan.label"><tspan
-           sodipodi:role="line"
-           id="tspan12953"
-           x="511.26"
-           y="-534"
-           style="font-size:37.33333px;fill:#ffffff">Plan</tspan></text>
-      <g
-         id="g13098">
-        <path
-           inkscape:connector-curvature="0"
-           d="m 344.07,-502.48 h 336 v -92 l -8,8 m 0,0 v 76 h -320 l -8,8"
-           style="opacity:1;fill:#4d4d4d;fill-opacity:1;stroke:none;stroke-width:3;stroke-linecap:butt;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-           id="path12957" />
-        <path
-           id="path12959"
-           style="opacity:1;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:3;stroke-linecap:butt;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-           d="m 680.07,-594.48 h -336 v 92 l 8,-8 m 0,0 v -76 h 320 l 8,-8"
-           inkscape:connector-curvature="0" />
-      </g>
-    </g>
-    <g
-       id="btnSystems">
-      <text
-         id="btnSystems.label"
-         y="-534"
-         x="697.26"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:13.33333px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:sans-serif;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none"
-         xml:space="preserve"><tspan
-           style="font-size:37.33333px;text-align:start;text-anchor:start;fill:#ffffff"
-           y="-534"
-           x="697.26"
-           id="tspan12965"
-           sodipodi:role="line"
-           transform="translate(-140)">Systems</tspan></text>
-      <g
-         id="g13104">
-        <path
-           id="path12969"
-           style="opacity:1;fill:#4d4d4d;fill-opacity:1;stroke:none;stroke-width:3;stroke-linecap:butt;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-           d="m 684.07,-502.48 h 336.03 v -92 l -8,8 m 0,0 v 76 H 692.07 l -8,8"
-           inkscape:connector-curvature="0" />
-        <path
-           inkscape:connector-curvature="0"
-           d="M 1020.1,-594.48 H 684.07 v 92 l 8,-8 m 0,0 v -76 h 320.03 l 8,-8"
-           style="opacity:1;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:3;stroke-linecap:butt;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-           id="path12971" />
-      </g>
-      <rect
-         y="-580"
-         x="861"
-         height="63.997"
-         width="145"
-         id="rect13006"
-         style="opacity:1;fill:#333333;fill-opacity:1;stroke:#ffffff;stroke-width:3.00001;stroke-linecap:butt;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
-      <text
-         xml:space="preserve"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:13.33333px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:sans-serif;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none"
-         x="933.31"
-         y="-534"
-         id="btnSystems.mode.label"><tspan
-           transform="translate(-140)"
-           sodipodi:role="line"
-           id="tspan13012"
-           x="933.31"
-           y="-534"
-           style="font-size:37.33333px;text-align:center;text-anchor:middle;fill:#ffffff">STATUS</tspan></text>
-    </g>
-    <rect
-       y="668"
-       x="0"
-       height="100"
-       width="1024"
-       id="rect13016"
-       style="opacity:1;fill:#808080;fill-opacity:1;stroke:none;stroke-width:3;stroke-linecap:butt;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+     id="btnMap">
     <text
-       id="text13020"
-       y="732"
+       id="btnMap.label"
+       y="64"
        x="171.26"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:13.33333px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:sans-serif;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none"
        xml:space="preserve"><tspan
          style="font-size:37.33333px;fill:#ffffff"
-         y="732"
+         y="64"
          x="171.26"
-         id="tspan13018"
-         sodipodi:role="line">TCAS</tspan></text>
+         id="tspan12926"
+         sodipodi:role="line">Map</tspan></text>
     <g
-       id="g13110">
+       id="g13663">
       <path
-         id="path13022"
+         id="rect12924"
          style="opacity:1;fill:#4d4d4d;fill-opacity:1;stroke:none;stroke-width:3;stroke-linecap:butt;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-         d="M 4.0664,763.52 H 340.07 v -92 l -8,8 m 0,0 v 76 H 12.066 l -7.9996,8"
+         d="M 4.0664,95.52 H 340.07 v -92 l -8,8 m 0,0 v 76 H 12.066 l -7.9996,8"
          inkscape:connector-curvature="0" />
       <path
          inkscape:connector-curvature="0"
-         d="M 340.07,671.52 H 4.0664 v 92 l 7.9996,-8 m 0,0 v -76 H 332.07 l 8,-8"
+         d="M 340.07,3.52 H 4.0664 v 92 l 7.9996,-8 m 0,0 v -76 H 332.07 l 8,-8"
          style="opacity:1;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:3;stroke-linecap:butt;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-         id="path13024" />
+         id="path12940" />
     </g>
+  </g>
+  <g
+     id="btnPlan">
     <text
        xml:space="preserve"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:13.33333px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:sans-serif;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none"
        x="511.26"
-       y="732"
-       id="text13030"><tspan
+       y="64"
+       id="btnPlan.label"><tspan
          sodipodi:role="line"
-         id="tspan13028"
+         id="tspan12953"
          x="511.26"
-         y="732"
-         style="font-size:37.33333px;fill:#ffffff">Weather</tspan></text>
+         y="64"
+         style="font-size:37.33333px;fill:#ffffff">Plan</tspan></text>
     <g
-       id="g13116">
+       id="g13681">
       <path
          inkscape:connector-curvature="0"
-         d="m 344.07,763.52 h 336 v -92 l -8,8 m 0,0 v 76 h -320 l -8,8"
+         d="m 344.07,95.52 h 336 v -92 l -8,8 m 0,0 v 76 h -320 l -8,8"
          style="opacity:1;fill:#4d4d4d;fill-opacity:1;stroke:none;stroke-width:3;stroke-linecap:butt;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-         id="path13032" />
+         id="path12957" />
       <path
-         id="path13034"
+         id="path12959"
          style="opacity:1;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:3;stroke-linecap:butt;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-         d="m 680.07,671.52 h -336 v 92 l 8,-8 m 0,0 v -76 h 320 l 8,-8"
+         d="m 680.07,3.52 h -336 v 92 l 8,-8 m 0,0 v -76 h 320 l 8,-8"
          inkscape:connector-curvature="0" />
-    </g>
-    <text
-       id="text13126"
-       y="732"
-       x="851.26"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:13.33333px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:sans-serif;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none"
-       xml:space="preserve"><tspan
-         style="font-size:37.33333px;fill:#ffffff"
-         y="732"
-         x="851.26"
-         id="tspan13124"
-         sodipodi:role="line">Checklist</tspan></text>
-    <g
-       id="g13132"
-       transform="translate(340)">
-      <path
-         id="path13128"
-         style="opacity:1;fill:#4d4d4d;fill-opacity:1;stroke:none;stroke-width:3;stroke-linecap:butt;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-         d="m 344.07,763.52 h 336 v -92 l -8,8 m 0,0 v 76 h -320 l -8,8"
-         inkscape:connector-curvature="0" />
-      <path
-         inkscape:connector-curvature="0"
-         d="m 680.07,671.52 h -336 v 92 l 8,-8 m 0,0 v -76 h 320 l 8,-8"
-         style="opacity:1;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:3;stroke-linecap:butt;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-         id="path13130" />
     </g>
   </g>
   <g
-     inkscape:label="Layer 1"
-     inkscape:groupmode="layer"
-     id="layer1"
-     style="display:none;opacity:0.5"
-     transform="translate(0,598)"
-     sodipodi:insensitive="true">
-    <image
-       sodipodi:absref="/home/tobias/flightgear/fgdata-standalone/Aircraft/E-jet-family/raw-assets/mfd.png"
-       y="-606.9"
-       x="-12.941"
-       id="image893"
-       xlink:href="file:///home/tobias/flightgear/fgdata-standalone/Aircraft/E-jet-family/raw-assets/mfd.png"
-       style="stroke-width:0.12272;image-rendering:optimizeQuality"
-       preserveAspectRatio="none"
-       height="1395"
-       width="1058.6" />
+     id="btnSystems">
+    <text
+       id="btnSystems.label"
+       y="64"
+       x="697.26"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:13.33333px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:sans-serif;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none"
+       xml:space="preserve"><tspan
+         style="font-size:37.33333px;text-align:start;text-anchor:start;fill:#ffffff"
+         y="64"
+         x="697.26"
+         id="tspan12965"
+         sodipodi:role="line"
+         transform="translate(-140)">Systems</tspan></text>
+    <g
+       id="g13705">
+      <path
+         id="path12969"
+         style="opacity:1;fill:#4d4d4d;fill-opacity:1;stroke:none;stroke-width:3;stroke-linecap:butt;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         d="m 684.07,95.52 h 336.03 v -92 l -8,8 m 0,0 v 76 H 692.07 l -8,8"
+         inkscape:connector-curvature="0" />
+      <path
+         inkscape:connector-curvature="0"
+         d="M 1020.1,3.52 H 684.07 v 92 l 8,-8 m 0,0 v -76 h 320.03 l 8,-8"
+         style="opacity:1;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:3;stroke-linecap:butt;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         id="path12971" />
+    </g>
+    <rect
+       y="18"
+       x="861"
+       height="63.997"
+       width="145"
+       id="rect13006"
+       style="opacity:1;fill:#333333;fill-opacity:1;stroke:#ffffff;stroke-width:3.00001;stroke-linecap:butt;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:13.33333px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:sans-serif;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none"
+       x="933.31"
+       y="64"
+       id="btnSystems.mode.label"><tspan
+         transform="translate(-140)"
+         sodipodi:role="line"
+         id="tspan13012"
+         x="933.31"
+         y="64"
+         style="font-size:37.33333px;text-align:center;text-anchor:middle;fill:#ffffff">STATUS</tspan></text>
+  </g>
+  <rect
+     y="1266"
+     x="0"
+     height="100"
+     width="1024"
+     id="rect13016"
+     style="opacity:1;fill:#808080;fill-opacity:1;stroke:none;stroke-width:3;stroke-linecap:butt;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+  <g
+     id="btnTCAS">
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:13.33333px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:sans-serif;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle;opacity:1;fill:#ffffff;fill-opacity:1;stroke:none"
+       x="171.26"
+       y="1330"
+       id="text13020"><tspan
+         sodipodi:role="line"
+         id="tspan13018"
+         x="171.26"
+         y="1330"
+         style="font-size:37.33333px;fill:#ffffff">TCAS</tspan></text>
+    <g
+       id="g13711">
+      <path
+         inkscape:connector-curvature="0"
+         d="M 4.0664,1361.5 H 340.07 v -92 l -8,8 m 0,0 v 76 H 12.066 l -7.9996,8"
+         style="opacity:1;fill:#4d4d4d;fill-opacity:1;stroke:none;stroke-width:3;stroke-linecap:butt;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         id="path13022" />
+      <path
+         id="path13024"
+         style="opacity:1;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:3;stroke-linecap:butt;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         d="M 340.07,1269.5 H 4.0664 v 92 l 7.9996,-8 m 0,0 v -76 H 332.07 l 8,-8"
+         inkscape:connector-curvature="0" />
+    </g>
+  </g>
+  <g
+     id="btnWeather">
+    <text
+       id="text13030"
+       y="1330"
+       x="511.26"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:13.33333px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:sans-serif;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle;opacity:1;fill:#ffffff;fill-opacity:1;stroke:none"
+       xml:space="preserve"><tspan
+         style="font-size:37.33333px;fill:#ffffff"
+         y="1330"
+         x="511.26"
+         id="tspan13028"
+         sodipodi:role="line">Weather</tspan></text>
+    <g
+       id="g13724">
+      <path
+         id="path13032"
+         style="opacity:1;fill:#4d4d4d;fill-opacity:1;stroke:none;stroke-width:3;stroke-linecap:butt;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         d="m 344.07,1361.5 h 336 v -92 l -8,8 m 0,0 v 76 h -320 l -8,8"
+         inkscape:connector-curvature="0" />
+      <path
+         inkscape:connector-curvature="0"
+         d="m 680.07,1269.5 h -336 v 92 l 8,-8 m 0,0 v -76 h 320 l 8,-8"
+         style="opacity:1;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:3;stroke-linecap:butt;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         id="path13034" />
+    </g>
+  </g>
+  <g
+     id="btnChecklist">
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:13.33333px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:sans-serif;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle;opacity:1;fill:#ffffff;fill-opacity:1;stroke:none"
+       x="851.26"
+       y="1330"
+       id="text13126"><tspan
+         sodipodi:role="line"
+         id="tspan13124"
+         x="851.26"
+         y="1330"
+         style="font-size:37.33333px;fill:#ffffff">Checklist</tspan></text>
+    <g
+       id="g13737">
+      <path
+         inkscape:connector-curvature="0"
+         d="m 684.07,1361.5 h 336.03 v -92 l -8,8 m 0,0 v 76 H 692.07 l -8,8"
+         style="opacity:1;fill:#4d4d4d;fill-opacity:1;stroke:none;stroke-width:3;stroke-linecap:butt;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         id="path13128" />
+      <path
+         id="path13130"
+         style="opacity:1;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:3;stroke-linecap:butt;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         d="M 1020.1,1269.5 H 684.07 v 92 l 8,-8 m 0,0 v -76 h 320.03 l 8,-8"
+         inkscape:connector-curvature="0" />
+    </g>
   </g>
 </svg>

@@ -997,23 +997,27 @@
         </fmc>
 
         <pfd>
-            <!-- 0 = VOR/LOC, 1 = FMS -->
+            <!-- 0 = FMS, 1,2 = VOR1/LOC1, VOR2,LOC2 -->
             <nav-src type="int">1</nav-src>
             <preview type="int">0</preview>
         </pfd>
 
         <pfd>
-            <!-- 0 = VOR/LOC, 1 = FMS -->
+            <!-- 0 = FMS, 1,2 = VOR1/LOC1, VOR2,LOC2 -->
             <nav-src type="int">2</nav-src>
             <preview type="int">0</preview>
         </pfd>
 
         <mfd>
             <lateral-range type="double">20</lateral-range>
+            <!-- 0 = Map, 1 = Plan, 2 = Systems -->
+            <page>0</page>
         </mfd>
 
         <mfd>
             <lateral-range type="double">20</lateral-range>
+            <!-- 0 = Map, 1 = Plan, 2 = Systems -->
+            <page>0</page>
         </mfd>
 
         <nav-compass>

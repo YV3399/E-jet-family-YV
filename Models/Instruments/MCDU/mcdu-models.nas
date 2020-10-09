@@ -183,6 +183,7 @@ var makeAirportModel = func(owner, key) {
             if (size(aps) == 1) {
                 owner.startEditing();
                 lens.set(owner.fp, aps[0]);
+                fms.kickRouteManager();
                 owner.fullRedraw();
             }
         },
@@ -190,6 +191,7 @@ var makeAirportModel = func(owner, key) {
             var lens = fpLenses[key];
             owner.startEditing();
             lens.set(owner.fp, nil);
+            fms.kickRouteManager();
             owner.fullRedraw();
         });
 };

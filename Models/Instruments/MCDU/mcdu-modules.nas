@@ -379,6 +379,7 @@ var FlightPlanModule = {
                 me.startEditing();
                 var wp = createWP(candidates[0], candidates[0].id);
                 me.fp.insertWP(wp, appendIndex + 1);
+                fms.kickRouteManager();
                 printf("Insert %s at %i", candidates[0].id, appendIndex);
             }
             else {
@@ -390,6 +391,7 @@ var FlightPlanModule = {
             if (wp != nil) {
                 me.startEditing();
                 me.fp.insertWP(wp, appendIndex + 1);
+                fms.kickRouteManager();
             }
             else {
                 me.mcdu.setScratchpadMsg("NO WAYPOINT", mcdu_yellow);
@@ -400,6 +402,7 @@ var FlightPlanModule = {
     deleteWP: func (wpi) {
         if (wpi > 0) {
             me.fp.deleteWP(wpi);
+            fms.kickRouteManager();
         }
     },
 
@@ -758,6 +761,7 @@ var DirectToModule = {
             me.fp.deleteWP(0);
         }
         me.fp.current = 1;
+        fms.kickRouteManager();
     },
 
     insertDirect: func () {
@@ -773,6 +777,7 @@ var DirectToModule = {
                 me.fp.deleteWP(0);
             }
             me.fp.current = 1;
+            fms.kickRouteManager();
         }
     },
 };
@@ -1226,6 +1231,7 @@ var ArrivalSelectModule = {
             }
         }
         if (fp.current <= 1) { fp.current = current; }
+        fms.kickRouteManager();
         me.fullRedraw();
     },
 
@@ -1248,6 +1254,7 @@ var ArrivalSelectModule = {
             }
         }
         if (fp.current <= 1) { fp.current = current; }
+        fms.kickRouteManager();
         me.fullRedraw();
     },
 
@@ -1267,6 +1274,7 @@ var ArrivalSelectModule = {
             fp.approach_trans = transitionID;
         }
         if (fp.current <= 1) { fp.current = current; }
+        fms.kickRouteManager();
         me.fullRedraw();
     },
 
@@ -1289,6 +1297,7 @@ var ArrivalSelectModule = {
             }
         }
         if (fp.current <= 1) { fp.current = current; }
+        fms.kickRouteManager();
         me.fullRedraw();
     },
 
@@ -1308,6 +1317,7 @@ var ArrivalSelectModule = {
             fp.star_trans = transitionID;
         }
         if (fp.current <= 1) { fp.current = current; }
+        fms.kickRouteManager();
         me.fullRedraw();
     },
 
@@ -1724,6 +1734,7 @@ var DepartureSelectModule = {
         var runway = apt.runways[rwyID];
         if (runway == nil) return;
         fp.departure_runway = runway;
+        fms.kickRouteManager();
     },
 
     setSid: func (sidID) {
@@ -1733,12 +1744,14 @@ var DepartureSelectModule = {
         var sid = apt.getSid(sidID);
         if (sid == nil) return;
         fp.sid = sid;
+        fms.kickRouteManager();
     },
 
     setTransition: func (transitionID) {
         # TODO: this will only work on FG 2020.2 and beyond
         var fp = fms.getModifyableFlightplan();
         fp.sid_trans = transitionID;
+        fms.kickRouteManager();
     },
 };
 

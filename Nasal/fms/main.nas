@@ -38,7 +38,8 @@ var updateTakeoffRunway = func () {
         else {
             print("No METAR");
         }
-   }
+    }
+    kickRouteManager();
 };
 
 
@@ -62,8 +63,14 @@ var getModifyableFlightplan = func () {
             modifiedFlightplan = cloneFlightplan();
         }
         setprop("/fms/flightplan-modifications", 1);
+        kickRouteManager();
     }
     return modifiedFlightplan;
+};
+
+var kickRouteManager = func {
+    setprop("/autopilot/route-manager/active",
+        getprop("/autopilot/route-manager/active"));
 };
 
 # Get whichever flightplan is currently "visible" in the RTE, FPL, etc., views.
@@ -94,12 +101,14 @@ var commitFlightplan = func () {
             updateTakeoffRunway();
         }
         setprop("/fms/flightplan-modifications", 1);
+        kickRouteManager();
     }
     return flightplan();
 };
 
 var discardFlightplan = func () {
     modifiedFlightplan = nil;
+    kickRouteManager();
     return flightplan();
 };
 
