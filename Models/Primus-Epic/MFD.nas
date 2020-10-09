@@ -85,9 +85,12 @@ var MFD = {
             return "LiberationFonts/LiberationSans-Regular.ttf";
         };
 
+        var self = me; # for listeners
+
         me.index = index;
         me.elems = {};
         me.props = {
+                'page': props.globals.getNode('/instrumentation/mfd[' ~ index ~ ']/page'),
                 'heading': props.globals.getNode('/orientation/heading-deg'),
                 'heading-mag': props.globals.getNode('/orientation/heading-magnetic-deg'),
                 'track': props.globals.getNode('/orientation/track-deg'),
@@ -131,6 +134,7 @@ var MFD = {
         me.guiOverlay = me.master.createChild("group");
         canvas.parsesvg(me.guiOverlay, "Aircraft/E-jet-family/Models/Primus-Epic/MFD-gui.svg", {'font-mapper': font_mapper});
 
+        # Set up MAP/PLAN page
         me.mapPage = me.upperArea.createChild("group");
         me.map = me.mapPage.createChild("map");
         me.map.set("clip", "rect(0px, 1024px, 640px, 0px)");
@@ -139,7 +143,24 @@ var MFD = {
         me.mapOverlay = me.mapPage.createChild("group");
         canvas.parsesvg(me.mapOverlay, "Aircraft/E-jet-family/Models/Primus-Epic/MFD-map.svg", {'font-mapper': font_mapper});
 
-        var keys = [
+        me.widgets = [
+            { key: 'btnMap', ontouch: func { self.touchMap(); } },
+            { key: 'btnPlan', ontouch: func { self.touchPlan(); } },
+            { key: 'btnSystems', ontouch: func { self.touchSystems(); } },
+            { key: 'btnTCAS', ontouch: func { debug.dump("TCAS"); } },
+            { key: 'btnWeather', ontouch: func { debug.dump("Weather"); } },
+        ];
+
+        forindex (var i; me.widgets) {
+            var elem = me.guiOverlay.getElementById(me.widgets[i].key);
+            me.widgets[i].box = elem.getBoundingBox();
+            me.widgets[i].elem = elem;
+            if (me.widgets[i]['visible'] != nil and me.widgets[i].visible == 0) {
+                elem.hide();
+            }
+        }
+
+        var mapkeys = [
                 'arc',
                 'arc.compass',
                 'arc.heading-bug',
@@ -172,7 +193,7 @@ var MFD = {
                 'sat.digital',
                 'tas.digital',
             ];
-        foreach (var key; keys) {
+        foreach (var key; mapkeys) {
             me.elems[key] = me.mapOverlay.getElementById(key);
         }
         me.elems['arc'].set("clip", "rect(0px, 1024px, 540px, 0px)");
@@ -189,14 +210,13 @@ var MFD = {
         me.map.addLayer(factory: canvas.SymbolLayer, type_arg: "WPT", visible: 1, priority: 6,
                         opts: { 'route_driver': me.routeDriver },);
         me.map.addLayer(factory: canvas.SymbolLayer, type_arg: "RTE", visible: 1, priority: 5,
-                        opts: { 'route_driver': me.routeDriver }, style: { 'line_dash_modified': func (arg=nil) { debug.dump(arg); return [32,16]; } },);
+                        opts: { 'route_driver': me.routeDriver }, style: { 'line_dash_modified': func (arg=nil) { return [32,16]; } },);
         me.map.addLayer(factory: canvas.SymbolLayer, type_arg: "APT", visible: 1, priority: 4,);
         me.map.addLayer(factory: canvas.SymbolLayer, type_arg: "RWY", visible: 0, priority: 3,);
         me.map.addLayer(factory: canvas.SymbolLayer, type_arg: "TAXI", visible: 0, priority: 3,);
 
         me.showFMSTarget = 1;
 
-        var self = me;
         setlistener("/instrumentation/mfd[" ~ index ~ "]/lateral-range", func (node) {
             self.setRange(node.getValue());
         }, 1, 0);
@@ -224,7 +244,39 @@ var MFD = {
     },
 
     touch: func(args) {
-        debug.dump(args);
+        var x = args.x * 1024;
+        var y = 1560 - args.y * 1560;
+
+        forindex(var i; me.widgets) {
+            if (me.widgets[i]['visible'] == 0) {
+                continue;
+            }
+            var box = me.widgets[i].box;
+            if (x >= box[0] and x <= box[2] and
+                y >= box[1] and y <= box[3]) {
+                var f = me.widgets[i].ontouch;
+                if (f != nil) {
+                    f();
+                    break;
+                }
+            }
+        }
+    },
+
+    touchMap: func () {
+        if (me.props['page'].getValue() == 0) {
+        }
+        else {
+            me.props['page'].setValue(0);
+        }
+    },
+
+    touchPlan: func () {
+       me.props['page'].setValue(1);
+    },
+
+    touchSystems: func () {
+       me.props['page'].setValue(2);
     },
 
     updateNavSrc: func () {
