@@ -5,41 +5,36 @@ var mfd = [nil, nil];
 var DC = 0.01744;
 
 var RouteDriver = {
-    new: func(){
+    new: func(includeCurrent=1){
         var m = {
             parents: [RouteDriver],
         };
+        m.includeCurrent = includeCurrent;
         return m;
     },
 
     update: func () {
+        me.flightplans = [];
+        if (me.includeCurrent and flightplan() != nil) {
+            append(me.flightplans, { fp: flightplan(), type: 'current' });
+        }
+        if (fms.modifiedFlightplan != nil) {
+            append(me.flightplans, { fp: fms.modifiedFlightplan, type: 'modified' });
+        }
     },
 
     getNumberOfFlightPlans: func() {
-        if (fms.modifiedFlightplan == nil) {
-            return 1;
-        }
-        else {
-            return 2;
-        }
+        return size(me.flightplans);
     },
 
     getFlightPlanType: func(fpNum) {
-        if (fpNum == 0) {
-            return 'current';
-        }
-        else {
-            return 'modified';
-        }
+        if (fpNum >= size(me.flightplans)) return nil;
+        return me.flightplans[fpNum].type;
     },
 
     getFlightPlan: func(fpNum) {
-        if (fpNum == 0) {
-            return flightplan();
-        }
-        else {
-            return fms.modifiedFlightplan;
-        }
+        if (fpNum >= size(me.flightplans)) return nil;
+        return me.flightplans[fpNum].fp;
     },
 
     getPlanSize: func(fpNum) {
@@ -113,8 +108,12 @@ var MFD = {
                 ],
                 'route-active': props.globals.getNode("/autopilot/route-manager/active"),
                 'wp-dist': props.globals.getNode("/autopilot/route-manager/wp/dist"),
-                'wp-eta': props.globals.getNode("/autopilot/route-manager/wp/eta-seconds"),
+                'wp-ete': props.globals.getNode("/autopilot/route-manager/wp/eta-seconds"),
                 'wp-id': props.globals.getNode("/autopilot/route-manager/wp/id"),
+                'dest-dist': props.globals.getNode("/autopilot/route-manager/distance-remaining-nm"),
+                'dest-ete': props.globals.getNode("/autopilot/route-manager/ete"),
+                'dest-id': props.globals.getNode("/autopilot/route-manager/destination/airport"),
+                'zulutime': props.globals.getNode("/instrumentation/clock/indicated-sec"),
             };
 
         me.master = canvas_group;
@@ -195,6 +194,9 @@ var MFD = {
             ];
         foreach (var key; mapkeys) {
             me.elems[key] = me.mapOverlay.getElementById(key);
+            if (me.elems[key] == nil) {
+                debug.warn("Element does not exist: " ~ key);
+            }
         }
         me.elems['arc'].set("clip", "rect(0px, 1024px, 540px, 0px)");
         me.elems['arc'].set("clip-frame", canvas.Element.PARENT);
@@ -333,24 +335,46 @@ var MFD = {
         me.elems['tas.digital'].setText(sprintf("%3.0f", me.props['tas'].getValue()));
         if (me.showFMSTarget) {
             var dist = me.props['wp-dist'].getValue();
-            var distStr = '----';
-            if (dist != nil) {
-                var distFmt = "%4.1f";
-                if (dist >= 50.0) {
-                    distFmt = "%4.0f";
-                }
-                distStr = sprintf(distFmt, dist);
-            }
-            me.elems['nav.target.dist'].setText(distStr);
+            me.elems['nav.target.dist'].setText(me.formatDist(dist));
 
-            var eta = me.props['wp-eta'].getValue();
-            var etaStr = '---';
-            if (eta != nil) {
-                etaStr = sprintf("%3.0f", eta / 60.0);
+            var ete = me.props['wp-ete'].getValue();
+            var eteStr = '---';
+            if (ete != nil) {
+                eteStr = sprintf("%3.0f", ete / 60.0);
             }
-            me.elems['nav.target.ete'].setText(etaStr);
+            me.elems['nav.target.ete'].setText(eteStr);
         }
-    }
+        if (me.props['route-active'].getValue()) {
+            var now = me.props['zulutime'].getValue();
+            me.elems['next.dist'].setText(me.formatDist(me.props['wp-dist'].getValue()));
+            me.elems['next.eta'].setText(me.formatETA(now + (me.props['wp-ete'].getValue() or 0)));
+            me.elems['next.wpt'].setText(me.props['wp-id'].getValue() or '---');
+            me.elems['next.fuel'].setText('---'); # TODO: fuel plan
+            me.elems['dest.dist'].setText(me.formatDist(me.props['dest-dist'].getValue()));
+            me.elems['dest.eta'].setText(me.formatETA(now + (me.props['dest-ete'].getValue() or 0)));
+            me.elems['dest.wpt'].setText(me.props['dest-id'].getValue() or '---');
+            me.elems['dest.fuel'].setText('---'); # TODO: fuel plan
+        }
+    },
+
+    formatDist: func(dist) {
+        var distStr = '----';
+        if (dist != nil) {
+            var distFmt = "%4.1f";
+            if (dist >= 50.0) {
+                distFmt = "%4.0f";
+            }
+            distStr = sprintf(distFmt, dist);
+        }
+        return distStr;
+    },
+
+    formatETA: func(time_secs) {
+        var corrected = math.mod(time_secs, 86400);
+        var hours = math.floor(corrected / 3600);
+        var minutes = math.mod(math.floor(corrected / 60), 60);
+        return sprintf("%02.0fH%02.0f", hours, minutes);
+    },
 };
 
 
