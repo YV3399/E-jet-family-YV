@@ -122,8 +122,7 @@ Typical configurations seats 12-19 passengers and their luggage.
 - 8: **V/S wheel**. Select vertical speed when in VS mode.
 - 13: **NAV button**. Select NAV lateral mode. When navigation source is FMS1
   or FMS2, engage LNAV mode (track flight plan); when navigation source is NAV1
-  or NAV2, engage VOR mode (track VOR radial). (NAVIGATION SOURCE SELECTION NOT
-  IMPLEMENTED YET).
+  or NAV2, engage VOR mode (track VOR radial).
 - 14: **APP button**. Arms lateral and vertical approach mode: lateral mode LOC
   (localizer) is armed, and becomes active when the localizer is captured;
   vertical mode GS (glideslope) is armed, and becomes active when the
@@ -135,8 +134,7 @@ Typical configurations seats 12-19 passengers and their luggage.
 - 17: **YD button**. Turns the Yaw Damper on or off. In normal flight, the yaw
   damper should always be on.
 - 18: **SRC button**. Switches navigation source between the captain's side
-  (NAV1 / FMS1) and the first officer's side (NAV2 / FMS2). (NOT IMPLEMENTED
-  YET: NAVIGATION SOURCE IS CURRENTLY ALWAYS FMS1, EXCEPT IN LOC/GS MODE).
+  (NAV1 / FMS1) and the first officer's side (NAV2 / FMS2).
 - 19: **A/T button**. Engages / disengages autothrottle.
 - 20 **VNAV button**. Turns VNAV (vertical navigation) on or off. In VNAV mode,
   the FMS automatically selects vertical modes for the autopilot to match the
