@@ -419,12 +419,26 @@ var MFD = {
         }
         if (me.props['route-active'].getValue()) {
             var now = me.props['zulutime'].getValue();
+
             me.elems['next.dist'].setText(me.formatDist(me.props['wp-dist'].getValue()));
-            me.elems['next.eta'].setText(me.formatETA(now + (me.props['wp-ete'].getValue() or 0)));
+            var wpETE = me.props['wp-ete'].getValue();
+            if (wpETE != nil and wpETE > 86400) {
+                me.elems['next.eta'].setText('+++++');
+            }
+            else {
+                me.elems['next.eta'].setText(me.formatETA(now + (me.props['wp-ete'].getValue() or 0)));
+            }
             me.elems['next.wpt'].setText(me.props['wp-id'].getValue() or '---');
             me.elems['next.fuel'].setText('---'); # TODO: fuel plan
+
             me.elems['dest.dist'].setText(me.formatDist(me.props['dest-dist'].getValue()));
-            me.elems['dest.eta'].setText(me.formatETA(now + (me.props['dest-ete'].getValue() or 0)));
+            var destETE = me.props['dest-ete'].getValue();
+            if (destETE != nil and destETE > 86400) {
+                me.elems['dest.eta'].setText('+++++');
+            }
+            else {
+                me.elems['dest.eta'].setText(me.formatETA(now + (me.props['dest-ete'].getValue() or 0)));
+            }
             me.elems['dest.wpt'].setText(me.props['dest-id'].getValue() or '---');
             me.elems['dest.fuel'].setText('---'); # TODO: fuel plan
         }
