@@ -34,13 +34,10 @@
         </action>
     </animation>
     
-    <!--
     <animation>
-        <type>pick</type>
-        <object-name>MFD0</object-name>
-        <action>
-            <button>4</button>
-            <repeatable>false</repeatable>
+        <type>knob</type>
+        <object-name>MFD0_frame</object-name>
+        <decrease>
             <binding>
                 <command>property-cycle</command>
                 <property>/instrumentation/mfd[0]/lateral-range</property>
@@ -53,11 +50,10 @@
                 <value type="double">250</value>
                 <value type="double">500</value>
                 <value type="double">1000</value>
+                <wrap type="bool">false</wrap>
             </binding>
-        </action>
-        <action>
-            <button>3</button>
-            <repeatable>false</repeatable>
+        </decrease>
+        <increase>
             <binding>
                 <command>property-cycle</command>
                 <property>/instrumentation/mfd[0]/lateral-range</property>
@@ -70,9 +66,13 @@
                 <value type="double">10</value>
                 <value type="double">5</value>
                 <value type="double">2.5</value>
+                <wrap type="bool">false</wrap>
             </binding>
-        </action>
+        </increase>
+        <shift-decrease>
+        </shift-decrease>
+        <shift-increase>
+        </shift-increase>
     </animation>
-    -->
     
 </PropertyList>
