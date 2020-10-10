@@ -114,6 +114,9 @@ var MFD = {
                 'dest-ete': props.globals.getNode("/autopilot/route-manager/ete"),
                 'dest-id': props.globals.getNode("/autopilot/route-manager/destination/airport"),
                 'zulutime': props.globals.getNode("/instrumentation/clock/indicated-sec"),
+                'cursor': props.globals.getNode("/instrumentation/mfd[" ~ index ~ "]/cursor"),
+                'cursor.x': props.globals.getNode("/instrumentation/mfd[" ~ index ~ "]/cursor/x"),
+                'cursor.y': props.globals.getNode("/instrumentation/mfd[" ~ index ~ "]/cursor/y"),
             };
 
         me.master = canvas_group;
@@ -244,6 +247,9 @@ var MFD = {
         me.elems['arc'].setCenter(512, 530);
         me.elems['arc.heading-bug'].setCenter(512, 530);
 
+        me.cursor = me.guiOverlay.createChild("group");
+        canvas.parsesvg(me.cursor, "Aircraft/E-jet-family/Models/Primus-Epic/cursor.svg", {'font-mapper': font_mapper});
+
         me.showFMSTarget = 1;
 
         setlistener("/instrumentation/mfd[" ~ index ~ "]/lateral-range", func (node) {
@@ -261,6 +267,12 @@ var MFD = {
         setlistener(me.props['page'], func (node) {
             self.updatePage();
         }, 1, 0);
+        setlistener(me.props['cursor'], func (node) {
+            self.cursor.setTranslation(
+                self.props['cursor.x'].getValue(),
+                self.props['cursor.y'].getValue()
+            );
+        }, 1, 2);
 
         return me;
     },
@@ -281,6 +293,9 @@ var MFD = {
     touch: func(args) {
         var x = args.x * 1024;
         var y = 1560 - args.y * 1560;
+
+        me.props['cursor.x'].setValue(x);
+        me.props['cursor.y'].setValue(y);
 
         forindex(var i; me.widgets) {
             if (me.widgets[i]['visible'] == 0) {
