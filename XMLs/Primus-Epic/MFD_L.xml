@@ -16,7 +16,6 @@
         </condition>
     </animation>
     
-    <!--
     <animation>
         <type>touch</type>
         <object-name>MFD0</object-name>
@@ -34,8 +33,8 @@
             </binding>
         </action>
     </animation>
-    -->
     
+    <!--
     <animation>
         <type>pick</type>
         <object-name>MFD0</object-name>
@@ -74,5 +73,6 @@
             </binding>
         </action>
     </animation>
+    -->
     
 </PropertyList>

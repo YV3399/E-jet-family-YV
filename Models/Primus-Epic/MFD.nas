@@ -15,7 +15,7 @@ var RouteDriver = {
 
     update: func () {
         me.flightplans = [];
-        if (me.includeCurrent and flightplan() != nil) {
+        if ((me.includeCurrent or fms.modifiedFlightplan == nil) and flightplan() != nil) {
             append(me.flightplans, { fp: flightplan(), type: 'current' });
         }
         if (fms.modifiedFlightplan != nil) {
@@ -134,10 +134,40 @@ var MFD = {
         canvas.parsesvg(me.guiOverlay, "Aircraft/E-jet-family/Models/Primus-Epic/MFD-gui.svg", {'font-mapper': font_mapper});
 
         # Set up MAP/PLAN page
+        me.dualRouteDriver = RouteDriver.new();
+        me.plannedRouteDriver = RouteDriver.new(0);
+
         me.mapPage = me.upperArea.createChild("group");
+
         me.map = me.mapPage.createChild("map");
         me.map.set("clip", "rect(0px, 1024px, 640px, 0px)");
         me.map.set("clip-frame", canvas.Element.PARENT);
+        me.map.setTranslation(512, 540);
+        me.map.setController("Aircraft position");
+        me.map.setRange(25);
+        me.map.addLayer(factory: canvas.SymbolLayer, type_arg: "TFC", visible: 1, priority: 9,);
+        me.map.addLayer(factory: canvas.SymbolLayer, type_arg: "WPT", visible: 1, priority: 6,
+                        opts: { 'route_driver': me.dualRouteDriver },);
+        me.map.addLayer(factory: canvas.SymbolLayer, type_arg: "RTE", visible: 1, priority: 5,
+                        opts: { 'route_driver': me.dualRouteDriver }, style: { 'line_dash_modified': func (arg=nil) { return [32,16]; } },);
+        me.map.addLayer(factory: canvas.SymbolLayer, type_arg: "APT", visible: 1, priority: 4,);
+        me.map.addLayer(factory: canvas.SymbolLayer, type_arg: "RWY", visible: 0, priority: 3,);
+        me.map.addLayer(factory: canvas.SymbolLayer, type_arg: "TAXI", visible: 0, priority: 3,);
+        me.map.hide();
+
+        me.plan = me.mapPage.createChild("map");
+        me.plan.set("clip", "rect(0px, 1024px, 640px, 0px)");
+        me.plan.set("clip-frame", canvas.Element.PARENT);
+        me.plan.setTranslation(512, 320);
+        me.plan.setController("Static position");
+        var (lat,lon) = geo.aircraft_position().latlon();
+        me.plan.controller.setPosition(lat, lon);
+        me.plan.setRange(25);
+        me.plan.addLayer(factory: canvas.SymbolLayer, type_arg: "WPT", visible: 1, priority: 6,
+                        opts: { 'route_driver': me.dualRouteDriver },);
+        me.plan.addLayer(factory: canvas.SymbolLayer, type_arg: "RTE", visible: 1, priority: 5,
+                        opts: { 'route_driver': me.dualRouteDriver }, style: { 'line_dash_modified': func (arg=nil) { return [32,16]; } },);
+        me.plan.addLayer(factory: canvas.SymbolLayer, type_arg: "APT", visible: 1, priority: 4,);
 
         me.mapOverlay = me.mapPage.createChild("group");
         canvas.parsesvg(me.mapOverlay, "Aircraft/E-jet-family/Models/Primus-Epic/MFD-map.svg", {'font-mapper': font_mapper});
@@ -151,8 +181,16 @@ var MFD = {
         ];
 
         forindex (var i; me.widgets) {
+            debug.dump(me.widgets[i].key);
             var elem = me.guiOverlay.getElementById(me.widgets[i].key);
-            me.widgets[i].box = elem.getBoundingBox();
+            var boxElem = me.guiOverlay.getElementById(me.widgets[i].key ~ ".clickbox");
+            if (boxElem == nil) {
+                me.widgets[i].box = elem.getTransformedBounds();
+            }
+            else {
+                debug.dump(boxElem.getBoundingBox());
+                me.widgets[i].box = boxElem.getTransformedBounds();
+            }
             me.widgets[i].elem = elem;
             if (me.widgets[i]['visible'] != nil and me.widgets[i].visible == 0) {
                 elem.hide();
@@ -161,6 +199,7 @@ var MFD = {
 
         var mapkeys = [
                 'arc',
+                'arc.master',
                 'arc.compass',
                 'arc.heading-bug',
                 'arc.heading-bug.arrow-left',
@@ -184,6 +223,8 @@ var MFD = {
                 'next.fuel',
                 'next.fuel.unit',
                 'next.wpt',
+                'plan.master',
+                'plan.range',
                 'progress.master',
                 'weather.master',
                 'wind.arrow',
@@ -203,20 +244,6 @@ var MFD = {
         me.elems['arc'].setCenter(512, 530);
         me.elems['arc.heading-bug'].setCenter(512, 530);
 
-        me.routeDriver = RouteDriver.new();
-
-        me.map.setTranslation(512, 540);
-        me.map.setController("Aircraft position");
-        me.map.setRange(20);
-        me.map.addLayer(factory: canvas.SymbolLayer, type_arg: "TFC", visible: 1, priority: 9,);
-        me.map.addLayer(factory: canvas.SymbolLayer, type_arg: "WPT", visible: 1, priority: 6,
-                        opts: { 'route_driver': me.routeDriver },);
-        me.map.addLayer(factory: canvas.SymbolLayer, type_arg: "RTE", visible: 1, priority: 5,
-                        opts: { 'route_driver': me.routeDriver }, style: { 'line_dash_modified': func (arg=nil) { return [32,16]; } },);
-        me.map.addLayer(factory: canvas.SymbolLayer, type_arg: "APT", visible: 1, priority: 4,);
-        me.map.addLayer(factory: canvas.SymbolLayer, type_arg: "RWY", visible: 0, priority: 3,);
-        me.map.addLayer(factory: canvas.SymbolLayer, type_arg: "TAXI", visible: 0, priority: 3,);
-
         me.showFMSTarget = 1;
 
         setlistener("/instrumentation/mfd[" ~ index ~ "]/lateral-range", func (node) {
@@ -231,19 +258,25 @@ var MFD = {
         setlistener(me.props['wp-id'], func (node) {
             self.updateNavSrc();
         }, 0, 0);
+        setlistener(me.props['page'], func (node) {
+            self.updatePage();
+        }, 1, 0);
 
         return me;
     },
 
     setRange: func(range) {
         me.map.setRange(range);
+        me.plan.setRange(range);
         me.map.layers["TAXI"].setVisible(range < 9.5);
         me.map.layers["RWY"].setVisible(range < 9.5);
         me.map.layers["APT"].setVisible(range >= 9.5 and range < 99.5);
         var rangeTxt = sprintf("%2.0f", range);
         me.elems['arc.range.left'].setText(rangeTxt);
         me.elems['arc.range.right'].setText(rangeTxt);
+        me.elems['plan.range'].setText(rangeTxt);
     },
+
 
     touch: func(args) {
         var x = args.x * 1024;
@@ -304,6 +337,31 @@ var MFD = {
             me.elems['nav.target.name'].setColor(0, 1, 0);
             me.elems['nav.target'].hide();
             me.showFMSTarget = 0;
+        }
+    },
+
+    updatePage: func() {
+        var page = me.props['page'].getValue();
+        if (page == 0) {
+            # Arc ("Map")
+            me.elems['arc.master'].show();
+            me.map.show();
+            me.elems['plan.master'].hide();
+            me.plan.hide();
+        }
+        else if (page == 1) {
+            # Plan
+            me.elems['arc.master'].hide();
+            me.map.hide();
+            me.elems['plan.master'].show();
+            me.plan.show();
+        }
+        else {
+            # Systems
+            me.elems['arc.master'].hide();
+            me.map.hide();
+            me.elems['plan.master'].hide();
+            me.plan.hide();
         }
     },
 

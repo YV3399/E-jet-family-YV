@@ -117,16 +117,16 @@
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
      inkscape:zoom="1.1249"
-     inkscape:cx="238.95"
+     inkscape:cx="614.09"
      inkscape:cy="1184.4"
      inkscape:document-units="px"
      inkscape:current-layer="svg8"
      showgrid="true"
      units="px"
-     inkscape:window-width="1920"
-     inkscape:window-height="1080"
-     inkscape:window-x="1440"
-     inkscape:window-y="0"
+     inkscape:window-width="1440"
+     inkscape:window-height="886"
+     inkscape:window-x="0"
+     inkscape:window-y="14"
      inkscape:window-maximized="0"
      scale-x="1"
      showguides="true"
@@ -178,6 +178,13 @@
      y="0" />
   <g
      id="btnMap">
+    <rect
+       y="2"
+       x="4"
+       height="92"
+       width="336"
+       id="btnMap.clickbox"
+       style="opacity:1;fill:#808080;fill-opacity:1;stroke:none;stroke-width:2.99995;stroke-linecap:butt;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
     <text
        id="btnMap.label"
        y="64"
@@ -189,22 +196,26 @@
          x="171.26"
          id="tspan12926"
          sodipodi:role="line">Map</tspan></text>
-    <g
-       id="g13663">
-      <path
-         id="rect12924"
-         style="opacity:1;fill:#4d4d4d;fill-opacity:1;stroke:none;stroke-width:3;stroke-linecap:butt;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-         d="M 4.0664,95.52 H 340.07 v -92 l -8,8 m 0,0 v 76 H 12.066 l -7.9996,8"
-         inkscape:connector-curvature="0" />
-      <path
-         inkscape:connector-curvature="0"
-         d="M 340.07,3.52 H 4.0664 v 92 l 7.9996,-8 m 0,0 v -76 H 332.07 l 8,-8"
-         style="opacity:1;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:3;stroke-linecap:butt;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-         id="path12940" />
-    </g>
+    <path
+       inkscape:connector-curvature="0"
+       d="M 4.0664,95.52 H 340.07 v -92 l -8,8 m 0,0 v 76 H 12.066 l -7.9996,8"
+       style="opacity:1;fill:#4d4d4d;fill-opacity:1;stroke:none;stroke-width:3;stroke-linecap:butt;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="rect12924" />
+    <path
+       id="path12940"
+       style="opacity:1;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:3;stroke-linecap:butt;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="M 340.07,3.52 H 4.0664 v 92 l 7.9996,-8 m 0,0 v -76 H 332.07 l 8,-8"
+       inkscape:connector-curvature="0" />
   </g>
   <g
      id="btnPlan">
+    <rect
+       style="opacity:1;fill:#808080;fill-opacity:1;stroke:none;stroke-width:2.99995;stroke-linecap:butt;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="btnPlan.clickbox"
+       width="336"
+       height="92"
+       x="344"
+       y="2" />
     <text
        xml:space="preserve"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:13.33333px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:sans-serif;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none"
@@ -216,22 +227,26 @@
          x="511.26"
          y="64"
          style="font-size:37.33333px;fill:#ffffff">Plan</tspan></text>
-    <g
-       id="g13681">
-      <path
-         inkscape:connector-curvature="0"
-         d="m 344.07,95.52 h 336 v -92 l -8,8 m 0,0 v 76 h -320 l -8,8"
-         style="opacity:1;fill:#4d4d4d;fill-opacity:1;stroke:none;stroke-width:3;stroke-linecap:butt;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-         id="path12957" />
-      <path
-         id="path12959"
-         style="opacity:1;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:3;stroke-linecap:butt;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-         d="m 680.07,3.52 h -336 v 92 l 8,-8 m 0,0 v -76 h 320 l 8,-8"
-         inkscape:connector-curvature="0" />
-    </g>
+    <path
+       id="path12957"
+       style="opacity:1;fill:#4d4d4d;fill-opacity:1;stroke:none;stroke-width:3;stroke-linecap:butt;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 344.07,95.52 h 336 v -92 l -8,8 m 0,0 v 76 h -320 l -8,8"
+       inkscape:connector-curvature="0" />
+    <path
+       inkscape:connector-curvature="0"
+       d="m 680.07,3.52 h -336 v 92 l 8,-8 m 0,0 v -76 h 320 l 8,-8"
+       style="opacity:1;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:3;stroke-linecap:butt;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="path12959" />
   </g>
   <g
      id="btnSystems">
+    <rect
+       y="2"
+       x="684"
+       height="92"
+       width="336"
+       id="btnSystems.clickbox"
+       style="opacity:1;fill:#808080;fill-opacity:1;stroke:none;stroke-width:2.99995;stroke-linecap:butt;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
     <text
        id="btnSystems.label"
        y="64"
