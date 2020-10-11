@@ -85,6 +85,30 @@ that use of flaps 6 is not authorized for CAT-II landings.</li>
 <li><strong>Parking Brake</strong> functions as usual.</li>
 </ul>
 
+<h2>MFD's and CCD's</h2>
+
+<p>The real E-Jet uses a device known as the CCD (Cursor Control Device) to
+provide a point-and-click style GUI on the EFIS screens, particularly the MFD.
+The CCD consists of a trackpad, an "enter" button, three screen selector
+buttons, and a two-ring twist knob for data entry. The pilot can use the screen
+selector to move a cursor between PFD, MFD and EICAS screens; the touchpad
+moves the cursor within the selected screen; the "enter" button selects
+on-screen GUI elements; and the twist knob serves as a dynamic dial for various
+inputs, such as map range etc.</p>
+
+<p>Because we cannot provide a physical CCD in flightgear, the FlightGear E-Jet
+emulates this functionality by allowing you to click directly onto the MFD, and
+using the mouse scroll wheel to emulate the twist knob. Specifically, the
+mapping works as follows:</p>
+
+<ul>
+<li>Mouse click: position CCD cursor on clicked screen (currently only MFD is
+supported), at the position of the click, and then click the CCD "enter"
+button</li>
+<li>Scroll wheel: twist outer ring of CCD data entry knob.</li>
+<li>Shift + scroll wheel: twist inner ring of CCD data entry knob.</li>
+</ul>
+
 <h2>Autopilot</h2>
 
 <h3>Glareshield Panel Controls</h3>
@@ -129,8 +153,7 @@ Shift-rotate: select target altitude in 1000ft increments. Push: toggle ft/m
 <li>8: <strong>V/S wheel</strong>. Select vertical speed when in VS mode.</li>
 <li>13: <strong>NAV button</strong>. Select NAV lateral mode. When navigation source is FMS1
 or FMS2, engage LNAV mode (track flight plan); when navigation source is NAV1
-or NAV2, engage VOR mode (track VOR radial). (NAVIGATION SOURCE SELECTION NOT
-IMPLEMENTED YET).</li>
+or NAV2, engage VOR mode (track VOR radial).</li>
 <li>14: <strong>APP button</strong>. Arms lateral and vertical approach mode: lateral mode LOC
 (localizer) is armed, and becomes active when the localizer is captured;
 vertical mode GS (glideslope) is armed, and becomes active when the
@@ -142,8 +165,7 @@ active, selects "wings level" mode instead.</li>
 <li>17: <strong>YD button</strong>. Turns the Yaw Damper on or off. In normal flight, the yaw
 damper should always be on.</li>
 <li>18: <strong>SRC button</strong>. Switches navigation source between the captain's side
-(NAV1 / FMS1) and the first officer's side (NAV2 / FMS2). (NOT IMPLEMENTED
-YET: NAVIGATION SOURCE IS CURRENTLY ALWAYS FMS1, EXCEPT IN LOC/GS MODE).</li>
+(NAV1 / FMS1) and the first officer's side (NAV2 / FMS2).</li>
 <li>19: <strong>A/T button</strong>. Engages / disengages autothrottle.</li>
 <li>20 <strong>VNAV button</strong>. Turns VNAV (vertical navigation) on or off. In VNAV mode,
 the FMS automatically selects vertical modes for the autopilot to match the
