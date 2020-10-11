@@ -117,6 +117,7 @@ var MFD = {
                 'cursor': props.globals.getNode("/instrumentation/mfd[" ~ index ~ "]/cursor"),
                 'cursor.x': props.globals.getNode("/instrumentation/mfd[" ~ index ~ "]/cursor/x"),
                 'cursor.y': props.globals.getNode("/instrumentation/mfd[" ~ index ~ "]/cursor/y"),
+                'range': props.globals.getNode("/instrumentation/mfd[" ~ index ~ "]/lateral-range"),
             };
 
         me.master = canvas_group;
@@ -167,10 +168,14 @@ var MFD = {
         me.plan.controller.setPosition(lat, lon);
         me.plan.setRange(25);
         me.plan.addLayer(factory: canvas.SymbolLayer, type_arg: "WPT", visible: 1, priority: 6,
-                        opts: { 'route_driver': me.dualRouteDriver },);
+                        opts: { 'route_driver': me.plannedRouteDriver },);
         me.plan.addLayer(factory: canvas.SymbolLayer, type_arg: "RTE", visible: 1, priority: 5,
-                        opts: { 'route_driver': me.dualRouteDriver }, style: { 'line_dash_modified': func (arg=nil) { return [32,16]; } },);
+                        opts: { 'route_driver': me.plannedRouteDriver }, style: { 'line_dash_modified': func (arg=nil) { return [32,16]; } },);
         me.plan.addLayer(factory: canvas.SymbolLayer, type_arg: "APT", visible: 1, priority: 4,);
+        # TODO: figure out how to position the airplane symbol at the correct
+        # position.
+        # me.plan.addLayer(factory: canvas.SymbolLayer, type_arg: "APS", visible: 1, priority: 3,);
+        me.planIndex = 0;
 
         me.mapOverlay = me.mapPage.createChild("group");
         canvas.parsesvg(me.mapOverlay, "Aircraft/E-jet-family/Models/Primus-Epic/MFD-map.svg", {'font-mapper': font_mapper});
@@ -184,14 +189,12 @@ var MFD = {
         ];
 
         forindex (var i; me.widgets) {
-            debug.dump(me.widgets[i].key);
             var elem = me.guiOverlay.getElementById(me.widgets[i].key);
             var boxElem = me.guiOverlay.getElementById(me.widgets[i].key ~ ".clickbox");
             if (boxElem == nil) {
                 me.widgets[i].box = elem.getTransformedBounds();
             }
             else {
-                debug.dump(boxElem.getBoundingBox());
                 me.widgets[i].box = boxElem.getTransformedBounds();
             }
             me.widgets[i].elem = elem;
@@ -264,6 +267,9 @@ var MFD = {
         setlistener(me.props['wp-id'], func (node) {
             self.updateNavSrc();
         }, 0, 0);
+        setlistener("/autopilot/route-manager/active", func {
+            self.updatePlanWPT();
+        }, 1, 0);
         setlistener(me.props['page'], func (node) {
             self.updatePage();
         }, 1, 0);
@@ -311,6 +317,80 @@ var MFD = {
                 }
             }
         }
+    },
+
+    # direction: -1 = decrease, 1 = increase
+    # knob: 0 = outer ring, 1 = inner ring
+    scroll: func(direction, knob=0) {
+        var page = me.props['page'].getValue();
+        if (page == 0) {
+            # map mode
+            if (knob == 0) {
+                # range
+                me.zoom(direction);
+            }
+        }
+        else if (page == 1) {
+            # plan mode
+            if (knob == 0) {
+                # range
+                me.zoom(direction);
+            }
+            else {
+                me.movePlanWpt(direction);
+            }
+        }
+        else {
+            # systems mode
+        }
+    },
+
+    zoom: func (direction) {
+        var range = me.props['range'].getValue();
+        var ranges = [2.5, 5, 10, 25, 50, 100, 250, 500, 1000];
+        var i = 0;
+        forindex (var j; ranges) {
+            if (range <= ranges[j]) {
+                i = j;
+                break;
+            }
+        }
+        range = ranges[math.max(0, math.min(size(ranges)-1, i + direction))];
+        me.props['range'].setValue(range);
+    },
+
+    updatePlanWPT: func () {
+        var fp = fms.getVisibleFlightplan();
+        var wp = nil;
+        var (lat,lon) = geo.aircraft_position().latlon();
+
+        if (fp == nil) {
+            # No flightplan
+            wp = nil;
+        }
+        else {
+            wp = fp.getWP(me.planIndex)
+        }
+        if (wp != nil) {
+            lat = wp.lat;
+            lon = wp.lon;
+        }
+        me.plan.controller.setPosition(lat, lon);
+    },
+
+    movePlanWpt: func (direction) {
+        var fp = fms.getVisibleFlightplan();
+        me.planIndex += direction;
+        if (me.planIndex < 0) {
+            me.planIndex = 0;
+        }
+        if (fp == nil) {
+            me.planIndex = 0;
+        }
+        else if (me.planIndex >= fp.getPlanSize()) {
+            me.planIndex = fp.getPlanSize() - 1;
+        }
+        me.updatePlanWPT();
     },
 
     touchMap: func () {
