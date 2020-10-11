@@ -1,7 +1,7 @@
 <?xml version = '1.0' encoding = 'UTF-8' ?>
 <PropertyList>
     
-    <path>../../Models/Primus-Epic/primus_epic_mfd1.ac</path>
+    <path>../../Models/Primus-Epic/primus_epic_mfd0.ac</path>
     
     <!-- Power on/off -->
     <animation>
@@ -39,39 +39,47 @@
         <object-name>MFD1_frame</object-name>
         <decrease>
             <binding>
-                <command>property-cycle</command>
-                <property>/instrumentation/mfd[1]/lateral-range</property>
-                <value type="double">2.5</value>
-                <value type="double">5</value>
-                <value type="double">10</value>
-                <value type="double">25</value>
-                <value type="double">50</value>
-                <value type="double">100</value>
-                <value type="double">250</value>
-                <value type="double">500</value>
-                <value type="double">1000</value>
-                <wrap type="bool">false</wrap>
+                <command>nasal</command>
+                <script><![CDATA[
+                    var mfd = canvas_mfd.mfd[1];
+                    if (mfd != nil) {
+                        mfd.scroll(-1, 0);
+                    }
+                ]]></script>
             </binding>
         </decrease>
         <increase>
             <binding>
-                <command>property-cycle</command>
-                <property>/instrumentation/mfd[1]/lateral-range</property>
-                <value type="double">1000</value>
-                <value type="double">500</value>
-                <value type="double">250</value>
-                <value type="double">100</value>
-                <value type="double">50</value>
-                <value type="double">25</value>
-                <value type="double">10</value>
-                <value type="double">5</value>
-                <value type="double">2.5</value>
-                <wrap type="bool">false</wrap>
+                <command>nasal</command>
+                <script><![CDATA[
+                    var mfd = canvas_mfd.mfd[1];
+                    if (mfd != nil) {
+                        mfd.scroll(1, 0);
+                    }
+                ]]></script>
             </binding>
         </increase>
         <shift-decrease>
+            <binding>
+                <command>nasal</command>
+                <script><![CDATA[
+                    var mfd = canvas_mfd.mfd[1];
+                    if (mfd != nil) {
+                        mfd.scroll(-1, 1);
+                    }
+                ]]></script>
+            </binding>
         </shift-decrease>
         <shift-increase>
+            <binding>
+                <command>nasal</command>
+                <script><![CDATA[
+                    var mfd = canvas_mfd.mfd[1];
+                    if (mfd != nil) {
+                        mfd.scroll(1, 1);
+                    }
+                ]]></script>
+            </binding>
         </shift-increase>
     </animation>
     
