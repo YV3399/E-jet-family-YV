@@ -1,0 +1,146 @@
+# See: http://wiki.flightgear.org/MapStructure
+# Class things:
+var name = 'TFC-Ejet';
+var parents = [DotSym];
+var __self__ = caller(0)[0];
+DotSym.makeinstance( name, __self__ );
+
+SymbolLayer.get(name).df_style = { # style to use by default
+	line_width: 0,
+	scale_factor: 1,
+	color_by_lvl: {
+		3: [1,0,0], # resolution advisory
+		2: [1,0.5,0], # traffic advisory
+		1: [1,1,1], # proximate traffic
+	},
+	color_default: [1,1,1]
+};
+
+var element_type = "group"; # we want a group, becomes "me.element"
+var text_tcas = nil;
+var icon_tcas = nil;
+var arrow_up = nil;
+var arrow_down = nil;
+var arrow_shown = nil;
+var initialized = 0;
+var threatLvl = nil;
+var altDiff100 = nil;
+
+var init = func {
+	# Init
+    me.text_tcas = me.element.createChild("text")
+        .setDrawMode( canvas.Text.TEXT )
+        .setText(sprintf("0"))
+        .setFont("LiberationFonts/LiberationSans-Regular.ttf")
+        .setColor(1,1,1)
+        .setFontSize(20)
+        .setAlignment("center-center");
+    me.icon_tcas = me.element.createChild("path")
+        .setStrokeLineWidth(0);
+    me.arrow_up = me.element.createChild("text")
+        .setDrawMode( canvas.Text.TEXT )
+        .setText(sprintf("↑"))
+        .setFont("LiberationFonts/LiberationSans-Regular.ttf")
+        .setColor(1,1,1)
+        .setFontSize(40)
+        .setTranslation(16, 0)
+        .setAlignment("left-center");
+    me.arrow_down = me.element.createChild("text")
+        .setDrawMode( canvas.Text.TEXT )
+        .setText(sprintf("↓"))
+        .setFont("LiberationFonts/LiberationSans-Regular.ttf")
+        .setColor(1,1,1)
+        .setFontSize(40)
+        .setTranslation(16, 0)
+        .setAlignment("left-center");
+    me.initialized = 1;
+};
+
+var redraw = func (positionDirty, threatLevelDirty) {
+    if (positionDirty) {
+        me.arrow_up.setVisible(me.arrow_shown > 0);
+        me.arrow_down.setVisible(me.arrow_shown < 0);
+        me.text_tcas.setVisible(math.abs(me.altDiff100) > 0.5);
+        me.text_tcas.setText(sprintf("%+02.0f",me.altDiff100));
+        if (me.altDiff100 > 0) {
+            me.text_tcas.setTranslation(0, -30);
+        }
+        else {
+            me.text_tcas.setTranslation(0, 30);
+        }
+    }
+    if (threatLevelDirty) {
+		if (me.threatLvl == 3) {
+			# resolution advisory
+			me.icon_tcas.reset()
+                .moveTo(-17,-17)
+				.horiz(34)
+				.vert(34)
+				.horiz(-34)
+				.close();
+		} elsif (me.threatLvl == 2) {
+			# traffic advisory
+			me.icon_tcas.reset()
+                .moveTo(-17,0)
+				.arcSmallCW(17,17,0,34,0)
+				.arcSmallCW(17,17,0,-34,0);
+		} elsif (me.threatLvl == 1) {
+			# proximate traffic
+			me.icon_tcas.reset()
+                .moveTo(-10,0)
+				.lineTo(0,-17)
+				.lineTo(10,0)
+				.lineTo(0,17)
+				.close();
+		} else {
+			# other traffic
+			me.icon_tcas.reset()
+                .moveTo(-10,0)
+				.lineTo(0,-17)
+				.lineTo(10,0)
+				.lineTo(0,17)
+				.lineTo(-10,0)
+                .moveTo(-7,0)
+                .lineTo(0,-14)
+                .lineTo(7,0)
+                .lineTo(0,14)
+                .lineTo(-7,0)
+                .close();
+		}
+        var color = nil;
+        if (me.threatLvl != nil and me.threatLvl >= 0) {
+            var c = me.style.color_by_lvl[me.threatLvl];
+            if (c != nil) {
+                color = canvas._getColor(c);
+            }
+        }
+        if (color == nil) {
+            color = canvas._getColor(me.style.color_default);
+        }
+		me.icon_tcas.setColor(color);
+		me.icon_tcas.setColorFill(color);
+		me.text_tcas.setColor(color);
+        me.arrow_up.setColor(color);
+        me.arrow_down.setColor(color);
+    }
+};
+
+var draw = func {
+	# Update
+	var vspeed = me.model.get_vspd();
+	var threatLvl = math.min(3, math.max(-1, me.model.get_threat_lvl()));
+	var altDiff100 = me.layer.controller.get_alt_diff(me.model) / 100;
+    var arrow_shown = 0;
+    if (vspeed > 500) { arrow_shown = 1; }
+    if (vspeed < -500) { arrow_shown = -1; }
+    var threatLvlDirty = (threatLvl != me.threatLvl);
+    var positionDirty = ((arrow_shown != me.arrow_shown) or (altDiff100 != me.altDiff100));
+    if (!me.initialized) {
+        me.init();
+    }
+    me.threatLvl = threatLvl;
+    me.altDiff100 = altDiff100;
+    me.arrow_shown = arrow_shown;
+    me.redraw(positionDirty, threatLvlDirty);
+};
+

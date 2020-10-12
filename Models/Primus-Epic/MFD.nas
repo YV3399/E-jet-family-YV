@@ -120,6 +120,13 @@ var MFD = {
                 'range': props.globals.getNode("/instrumentation/mfd[" ~ index ~ "]/lateral-range"),
             };
 
+        var masterProp = props.globals.getNode("/instrumentation/mfd[" ~ index ~ "]");
+        foreach (var key; ['show-navaids', 'show-airports', 'show-wpt', 'show-progress', 'show-missed', 'show-tcas']) {
+            var node = masterProp.addChild(key);
+            node.setBoolValue(0);
+            me.props[key] = node;
+        }
+
         me.master = canvas_group;
 
         # Upper area (lateral/systems): 1024x768
@@ -149,14 +156,35 @@ var MFD = {
         me.map.setTranslation(512, 540);
         me.map.setController("Aircraft position");
         me.map.setRange(25);
-        me.map.addLayer(factory: canvas.SymbolLayer, type_arg: "TFC", visible: 1, priority: 9,);
+        me.map.setScreenRange(416);
+        me.map.addLayer(factory: canvas.SymbolLayer, type_arg: "TFC-Ejet", visible: 1, priority: 9,
+                        style: {
+                            'color_default':
+                                [0.5,0.5,0.5],
+                            'color_by_lvl': {
+                                # 0: other
+                                0: [0,1,1],
+                                # 1: proximity
+                                1: [0,1,1],
+                                # 2: traffic advisory (TA)
+                                2: [1,0.75,0],
+                                # 3: resolution advisory (RA)
+                                3: [1,0,0],
+                            },
+                        } );
         me.map.addLayer(factory: canvas.SymbolLayer, type_arg: "WPT", visible: 1, priority: 6,
                         opts: { 'route_driver': me.dualRouteDriver },);
         me.map.addLayer(factory: canvas.SymbolLayer, type_arg: "RTE", visible: 1, priority: 5,
                         opts: { 'route_driver': me.dualRouteDriver }, style: { 'line_dash_modified': func (arg=nil) { return [32,16]; } },);
         me.map.addLayer(factory: canvas.SymbolLayer, type_arg: "APT", visible: 1, priority: 4,);
+        me.map.addLayer(factory: canvas.SymbolLayer, type_arg: "VOR", visible: 1, priority: 4,);
+        me.map.addLayer(factory: canvas.SymbolLayer, type_arg: "NDB", visible: 1, priority: 4,);
         me.map.addLayer(factory: canvas.SymbolLayer, type_arg: "RWY", visible: 0, priority: 3,);
         me.map.addLayer(factory: canvas.SymbolLayer, type_arg: "TAXI", visible: 0, priority: 3,);
+        # WXR layer is buggy.
+        # me.map.addLayer(factory: canvas.SymbolLayer, type_arg: "WXR", visible: 0, priority: 1,);
+        # TERR layer not available in FGDATA as of 2020.2
+        # me.map.addLayer(factory: canvas.SymbolLayer, type_arg: "TERR", visible: 0, priority: 1,);
         me.map.hide();
 
         me.plan = me.mapPage.createChild("map");
@@ -167,6 +195,7 @@ var MFD = {
         var (lat,lon) = geo.aircraft_position().latlon();
         me.plan.controller.setPosition(lat, lon);
         me.plan.setRange(25);
+        me.plan.setScreenRange(416);
         me.plan.addLayer(factory: canvas.SymbolLayer, type_arg: "WPT", visible: 1, priority: 6,
                         opts: { 'route_driver': me.plannedRouteDriver },);
         me.plan.addLayer(factory: canvas.SymbolLayer, type_arg: "RTE", visible: 1, priority: 5,
@@ -179,29 +208,6 @@ var MFD = {
 
         me.mapOverlay = me.mapPage.createChild("group");
         canvas.parsesvg(me.mapOverlay, "Aircraft/E-jet-family/Models/Primus-Epic/MFD-map.svg", {'font-mapper': font_mapper});
-
-        me.widgets = [
-            { key: 'btnMap', ontouch: func { self.touchMap(); } },
-            { key: 'btnPlan', ontouch: func { self.touchPlan(); } },
-            { key: 'btnSystems', ontouch: func { self.touchSystems(); } },
-            { key: 'btnTCAS', ontouch: func { debug.dump("TCAS"); } },
-            { key: 'btnWeather', ontouch: func { debug.dump("Weather"); } },
-        ];
-
-        forindex (var i; me.widgets) {
-            var elem = me.guiOverlay.getElementById(me.widgets[i].key);
-            var boxElem = me.guiOverlay.getElementById(me.widgets[i].key ~ ".clickbox");
-            if (boxElem == nil) {
-                me.widgets[i].box = elem.getTransformedBounds();
-            }
-            else {
-                me.widgets[i].box = boxElem.getTransformedBounds();
-            }
-            me.widgets[i].elem = elem;
-            if (me.widgets[i]['visible'] != nil and me.widgets[i].visible == 0) {
-                elem.hide();
-            }
-        }
 
         var mapkeys = [
                 'arc',
@@ -239,8 +245,26 @@ var MFD = {
                 'sat.digital',
                 'tas.digital',
             ];
+        var guikeys = [
+                'mapMenu',
+                'checkNavaids',
+                'checkAirports',
+                'checkWptIdent',
+                'checkProgress',
+                'checkMissedAppr',
+                'checkTCAS',
+                'radioWeather',
+                'radioTerrain',
+                'radioOff',
+            ];
         foreach (var key; mapkeys) {
             me.elems[key] = me.mapOverlay.getElementById(key);
+            if (me.elems[key] == nil) {
+                debug.warn("Element does not exist: " ~ key);
+            }
+        }
+        foreach (var key; guikeys) {
+            me.elems[key] = me.guiOverlay.getElementById(key);
             if (me.elems[key] == nil) {
                 debug.warn("Element does not exist: " ~ key);
             }
@@ -249,11 +273,47 @@ var MFD = {
         me.elems['arc'].set("clip-frame", canvas.Element.PARENT);
         me.elems['arc'].setCenter(512, 530);
         me.elems['arc.heading-bug'].setCenter(512, 530);
+        me.elems['mapMenu'].hide();
+
+        me.widgets = [
+            { key: 'btnMap', ontouch: func { self.touchMap(); } },
+            { key: 'btnPlan', ontouch: func { self.touchPlan(); } },
+            { key: 'btnSystems', ontouch: func { self.touchSystems(); } },
+            { key: 'btnTCAS', ontouch: func { debug.dump("TCAS"); } },
+            { key: 'btnWeather', ontouch: func { debug.dump("Weather"); } },
+            { key: 'checkNavaids', active: func { self.elems['mapMenu'].getVisible() }, ontouch: func { self.toggleMapCheckbox('navaids'); } },
+            { key: 'checkAirports', active: func { self.elems['mapMenu'].getVisible() }, ontouch: func { self.toggleMapCheckbox('airports'); } },
+            { key: 'checkWptIdent', active: func { self.elems['mapMenu'].getVisible() }, ontouch: func { self.toggleMapCheckbox('wpt'); } },
+            { key: 'checkProgress', active: func { self.elems['mapMenu'].getVisible() }, ontouch: func { self.toggleMapCheckbox('progress'); } },
+            { key: 'checkMissedAppr', active: func { self.elems['mapMenu'].getVisible() }, ontouch: func { self.toggleMapCheckbox('missed'); } },
+            { key: 'checkTCAS', active: func { self.elems['mapMenu'].getVisible() }, ontouch: func { self.toggleMapCheckbox('tcas'); } },
+            { key: 'radioWeather', active: func { self.elems['mapMenu'].getVisible() }, ontouch: func { self.selectUnderlay('WX'); } },
+            { key: 'radioTerrain', active: func { self.elems['mapMenu'].getVisible() }, ontouch: func { self.selectUnderlay('TERRAIN'); } },
+            { key: 'radioOff', active: func { self.elems['mapMenu'].getVisible() }, ontouch: func { self.selectUnderlay(nil); } },
+        ];
+
+        forindex (var i; me.widgets) {
+            var elem = me.guiOverlay.getElementById(me.widgets[i].key);
+            var boxElem = me.guiOverlay.getElementById(me.widgets[i].key ~ ".clickbox");
+            if (boxElem == nil) {
+                me.widgets[i].box = elem.getTransformedBounds();
+            }
+            else {
+                me.widgets[i].box = boxElem.getTransformedBounds();
+            }
+            me.widgets[i].elem = elem;
+            if (me.widgets[i]['visible'] != nil and me.widgets[i].visible == 0) {
+                elem.hide();
+            }
+        }
+
 
         me.cursor = me.guiOverlay.createChild("group");
         canvas.parsesvg(me.cursor, "Aircraft/E-jet-family/Models/Primus-Epic/cursor.svg", {'font-mapper': font_mapper});
 
         me.showFMSTarget = 1;
+
+        me.selectUnderlay(nil);
 
         setlistener("/instrumentation/mfd[" ~ index ~ "]/lateral-range", func (node) {
             self.setRange(node.getValue());
@@ -279,17 +339,54 @@ var MFD = {
                 self.props['cursor.y'].getValue()
             );
         }, 1, 2);
+        setlistener(me.props['show-navaids'], func (node) {
+            var viz = node.getBoolValue();
+            self.elems['checkNavaids'].setVisible(viz);
+            self.map.layers['NDB'].setVisible(viz);
+            self.map.layers['VOR'].setVisible(viz);
+        }, 1, 0);
+        setlistener(me.props['show-airports'], func (node) {
+            var viz = node.getBoolValue();
+            var range = me.map.getRange();
+            self.elems['checkAirports'].setVisible(viz);
+            self.map.layers["RWY"].setVisible(range < 9.5 and viz);
+            self.map.layers["APT"].setVisible(range >= 9.5 and range < 99.5 and viz);
+        }, 1, 0);
+        setlistener(me.props['show-wpt'], func (node) {
+            var viz = node.getBoolValue();
+            self.elems['checkWptIdent'].setVisible(viz);
+            self.map.layers['WPT'].setVisible(viz);
+        }, 1, 0);
+        setlistener(me.props['show-progress'], func (node) {
+            var viz = node.getBoolValue();
+            self.elems['checkProgress'].setVisible(viz);
+            self.elems['progress.master'].setVisible(viz);
+        }, 1, 0);
+        setlistener(me.props['show-missed'], func (node) {
+            var viz = node.getBoolValue();
+            self.elems['checkMissedAppr'].setVisible(viz);
+            # TODO: toggle missed approach display
+        }, 1, 0);
+        setlistener(me.props['show-tcas'], func (node) {
+            var viz = node.getBoolValue();
+            self.elems['checkTCAS'].setVisible(viz);
+            self.map.layers['TFC-Ejet'].setVisible(viz);
+        }, 1, 0);
 
         return me;
     },
 
     setRange: func(range) {
+        var aptVisible = me.props['show-airports'].getBoolValue();
         me.map.setRange(range);
         me.plan.setRange(range);
         me.map.layers["TAXI"].setVisible(range < 9.5);
-        me.map.layers["RWY"].setVisible(range < 9.5);
-        me.map.layers["APT"].setVisible(range >= 9.5 and range < 99.5);
-        var rangeTxt = sprintf("%2.0f", range);
+        me.map.layers["RWY"].setVisible(range < 9.5 and aptVisible);
+        me.map.layers["APT"].setVisible(range >= 9.5 and range < 99.5 and aptVisible);
+        var fmt = "%2.0f";
+        if (range < 20)
+            fmt = "%3.1f";
+        var rangeTxt = sprintf(fmt, range / 2);
         me.elems['arc.range.left'].setText(rangeTxt);
         me.elems['arc.range.right'].setText(rangeTxt);
         me.elems['plan.range'].setText(rangeTxt);
@@ -303,8 +400,13 @@ var MFD = {
         me.props['cursor.x'].setValue(x);
         me.props['cursor.y'].setValue(y);
 
+        var activeCond = nil;
         forindex(var i; me.widgets) {
             if (me.widgets[i]['visible'] == 0) {
+                continue;
+            }
+            activeCond = me.widgets[i]['active'];
+            if (isfunc(activeCond) and !activeCond()) {
                 continue;
             }
             var box = me.widgets[i].box;
@@ -347,7 +449,7 @@ var MFD = {
 
     zoom: func (direction) {
         var range = me.props['range'].getValue();
-        var ranges = [2.5, 5, 10, 25, 50, 100, 250, 500, 1000];
+        var ranges = [2, 5, 10, 20, 50, 100, 200, 500, 1000];
         var i = 0;
         forindex (var j; ranges) {
             if (range <= ranges[j]) {
@@ -395,6 +497,7 @@ var MFD = {
 
     touchMap: func () {
         if (me.props['page'].getValue() == 0) {
+            me.elems['mapMenu'].toggleVisibility();
         }
         else {
             me.props['page'].setValue(0);
@@ -407,6 +510,22 @@ var MFD = {
 
     touchSystems: func () {
        me.props['page'].setValue(2);
+    },
+
+    toggleMapCheckbox: func (which) {
+        me.props['show-' ~ which].toggleBoolValue();
+    },
+
+    selectUnderlay: func (which) {
+        me.elems['radioWeather'].setVisible(which == 'WX');
+        # WXR layer is buggy.
+        # me.map.layers['WXR'].setVisible(which == 'WX');
+
+        me.elems['radioTerrain'].setVisible(which == 'TERRAIN');
+        # TERR layer not available in FGDATA as of 2020.2
+        # me.map.layers['TERR'].setVisible(which == 'TERRAIN');
+
+        me.elems['radioOff'].setVisible(which == nil);
     },
 
     updateNavSrc: func () {
@@ -450,6 +569,7 @@ var MFD = {
             me.map.hide();
             me.elems['plan.master'].show();
             me.plan.show();
+            me.elems['mapMenu'].hide();
         }
         else {
             # Systems
@@ -457,6 +577,7 @@ var MFD = {
             me.map.hide();
             me.elems['plan.master'].hide();
             me.plan.hide();
+            me.elems['mapMenu'].hide();
         }
     },
 
@@ -522,6 +643,7 @@ var MFD = {
             me.elems['dest.wpt'].setText(me.props['dest-id'].getValue() or '---');
             me.elems['dest.fuel'].setText('---'); # TODO: fuel plan
         }
+        me.map.layers['TFC-Ejet'].update();
     },
 
     formatDist: func(dist) {
@@ -544,6 +666,9 @@ var MFD = {
     },
 };
 
+var path = resolvepath('Aircraft/E-jet-family/Models/Primus-Epic/MFD');
+canvas.MapStructure.loadFile(path ~ '/TFC-Ejet.lcontroller', 'TFC-Ejet');
+canvas.MapStructure.loadFile(path ~ '/TFC-Ejet.symbol', 'TFC-Ejet');
 
 setlistener("sim/signals/fdm-initialized", func {
     for (var i = 0; i <= 1; i += 1) {

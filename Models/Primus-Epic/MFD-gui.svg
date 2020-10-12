@@ -116,17 +116,17 @@
      borderopacity="1.0"
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
-     inkscape:zoom="1.1249"
-     inkscape:cx="614.09"
-     inkscape:cy="1184.4"
+     inkscape:zoom="1"
+     inkscape:cx="114.11"
+     inkscape:cy="1036.4"
      inkscape:document-units="px"
-     inkscape:current-layer="svg8"
+     inkscape:current-layer="mapMenu"
      showgrid="true"
      units="px"
-     inkscape:window-width="1440"
-     inkscape:window-height="886"
-     inkscape:window-x="0"
-     inkscape:window-y="14"
+     inkscape:window-width="1918"
+     inkscape:window-height="1078"
+     inkscape:window-x="1440"
+     inkscape:window-y="0"
      inkscape:window-maximized="0"
      scale-x="1"
      showguides="true"
@@ -156,6 +156,13 @@
        id="grid13010"
        spacingx="1"
        empspacing="10" />
+    <sodipodi:guide
+       position="100,502"
+       orientation="0,1"
+       id="guide877"
+       inkscape:locked="false"
+       inkscape:label=""
+       inkscape:color="rgb(0,0,255)" />
   </sodipodi:namedview>
   <metadata
      id="metadata5">
@@ -378,6 +385,316 @@
          style="opacity:1;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:3;stroke-linecap:butt;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
          d="M 1020.1,1269.5 H 684.07 v 92 l 8,-8 m 0,0 v -76 h 320.03 l 8,-8"
          inkscape:connector-curvature="0" />
+    </g>
+  </g>
+  <g
+     id="mapMenu">
+    <rect
+       y="99.979"
+       x="4"
+       height="611.99"
+       width="338"
+       id="rect1713"
+       style="opacity:1;fill:#808080;fill-opacity:1;stroke:none;stroke-width:2.99995;stroke-linecap:butt;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+    <path
+       sodipodi:nodetypes="cccccccc"
+       id="path1721"
+       style="opacity:1;fill:#4d4d4d;fill-opacity:1;stroke:none;stroke-width:3;stroke-linecap:butt;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="M 4,712 H 342 V 100 l -8,8 m 0,0 V 704 H 12 l -8,8"
+       inkscape:connector-curvature="0" />
+    <path
+       sodipodi:nodetypes="cccccccc"
+       inkscape:connector-curvature="0"
+       d="M 340,100 H 4 v 612 l 8,-8 m 0,0 V 108 h 320 l 8,-8"
+       style="opacity:1;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:3;stroke-linecap:butt;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="path1723" />
+    <g
+       id="g1839">
+      <rect
+         style="opacity:1;fill:#808080;fill-opacity:1;stroke:none;stroke-width:3.00003;stroke-linecap:butt;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         id="checkNavaids.clickbox"
+         width="317"
+         height="57"
+         x="13.5"
+         y="107.5" />
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:37.33333px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:sans-serif;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#ffffff;fill-opacity:1;stroke:none"
+         x="20.336"
+         y="149.47"
+         id="text1734"><tspan
+           sodipodi:role="line"
+           id="tspan1732"
+           x="20.336"
+           y="149.47">Navaids</tspan></text>
+      <rect
+         style="opacity:1;fill:#4d4d4d;fill-opacity:1;stroke:#ffffff;stroke-width:3;stroke-linecap:butt;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         id="rect1736"
+         width="45"
+         height="45"
+         x="277.5"
+         y="113.5" />
+      <path
+         inkscape:connector-curvature="0"
+         id="checkNavaids"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:74.66667px;line-height:1.25;font-family:Arial;-inkscape-font-specification:Arial;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle;fill:#00ff00;fill-opacity:1;stroke:none"
+         d="m 290.86,156.66 -11.54,-15.78 11.51,7.07 29.34,-32.31 z"
+         sodipodi:nodetypes="ccccc" />
+    </g>
+    <g
+       id="g1846">
+      <rect
+         y="171.5"
+         x="13.5"
+         height="57"
+         width="317"
+         id="checkAirports.clickbox"
+         style="opacity:1;fill:#808080;fill-opacity:1;stroke:none;stroke-width:3.00003;stroke-linecap:butt;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+      <text
+         id="text1748"
+         y="213.47"
+         x="20.336"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:37.33333px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:sans-serif;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#ffffff;fill-opacity:1;stroke:none"
+         xml:space="preserve"><tspan
+           y="213.47"
+           x="20.336"
+           id="tspan1746"
+           sodipodi:role="line">Airports</tspan></text>
+      <rect
+         y="177.5"
+         x="277.5"
+         height="45"
+         width="45"
+         id="rect1750"
+         style="opacity:1;fill:#4d4d4d;fill-opacity:1;stroke:#ffffff;stroke-width:3;stroke-linecap:butt;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+      <path
+         sodipodi:nodetypes="ccccc"
+         d="m 290.86,220.66 -11.54,-15.78 11.51,7.07 29.34,-32.31 z"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:74.66667px;line-height:1.25;font-family:Arial;-inkscape-font-specification:Arial;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle;fill:#00ff00;fill-opacity:1;stroke:none"
+         id="checkAirports"
+         inkscape:connector-curvature="0" />
+    </g>
+    <g
+       id="g1853">
+      <rect
+         style="opacity:1;fill:none;fill-opacity:1;stroke:none;stroke-width:3.00003;stroke-linecap:butt;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         id="checkWptIdent.clickbox"
+         width="317"
+         height="57"
+         x="13.5"
+         y="235.5" />
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:37.33333px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:sans-serif;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#ffffff;fill-opacity:1;stroke:none"
+         x="20.336"
+         y="277.47"
+         id="text1756"><tspan
+           sodipodi:role="line"
+           id="tspan1754"
+           x="20.336"
+           y="277.47">WPT Ident</tspan></text>
+      <rect
+         style="opacity:1;fill:#4d4d4d;fill-opacity:1;stroke:#ffffff;stroke-width:3;stroke-linecap:butt;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         id="rect1758"
+         width="45"
+         height="45"
+         x="277.5"
+         y="241.5" />
+      <path
+         inkscape:connector-curvature="0"
+         id="checkWptIdent"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:74.66667px;line-height:1.25;font-family:Arial;-inkscape-font-specification:Arial;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle;fill:#00ff00;fill-opacity:1;stroke:none"
+         d="m 290.86,284.66 -11.54,-15.78 11.51,7.07 29.34,-32.31 z"
+         sodipodi:nodetypes="ccccc" />
+    </g>
+    <g
+       id="g1860">
+      <rect
+         y="299.5"
+         x="13.5"
+         height="57"
+         width="317"
+         id="checkProgress.clickbox"
+         style="opacity:1;fill:#808080;fill-opacity:1;stroke:none;stroke-width:3.00003;stroke-linecap:butt;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+      <text
+         id="text1764"
+         y="341.47"
+         x="20.336"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:37.33333px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:sans-serif;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#ffffff;fill-opacity:1;stroke:none"
+         xml:space="preserve"><tspan
+           y="341.47"
+           x="20.336"
+           id="tspan1762"
+           sodipodi:role="line">Progress</tspan></text>
+      <rect
+         y="305.5"
+         x="277.5"
+         height="45"
+         width="45"
+         id="rect1766"
+         style="opacity:1;fill:#4d4d4d;fill-opacity:1;stroke:#ffffff;stroke-width:3;stroke-linecap:butt;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+      <path
+         sodipodi:nodetypes="ccccc"
+         d="m 290.86,348.66 -11.54,-15.78 11.51,7.07 29.34,-32.31 z"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:74.66667px;line-height:1.25;font-family:Arial;-inkscape-font-specification:Arial;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle;fill:#00ff00;fill-opacity:1;stroke:none"
+         id="checkProgress"
+         inkscape:connector-curvature="0" />
+    </g>
+    <g
+       id="g1867">
+      <rect
+         style="opacity:1;fill:#808080;fill-opacity:1;stroke:none;stroke-width:3.00003;stroke-linecap:butt;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         id="checkMissedAppr.clickbox"
+         width="317"
+         height="57"
+         x="13.5"
+         y="363.5" />
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:37.33333px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:sans-serif;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#ffffff;fill-opacity:1;stroke:none"
+         x="20.336"
+         y="405.47"
+         id="text1772"><tspan
+           sodipodi:role="line"
+           id="tspan1770"
+           x="20.336"
+           y="405.47">Missed APPR</tspan></text>
+      <rect
+         style="opacity:1;fill:#4d4d4d;fill-opacity:1;stroke:#ffffff;stroke-width:3;stroke-linecap:butt;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         id="rect1774"
+         width="45"
+         height="45"
+         x="277.5"
+         y="369.5" />
+      <path
+         inkscape:connector-curvature="0"
+         id="checkMissedAppr"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:74.66667px;line-height:1.25;font-family:Arial;-inkscape-font-specification:Arial;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle;fill:#00ff00;fill-opacity:1;stroke:none"
+         d="m 290.86,412.66 -11.54,-15.78 11.51,7.07 29.34,-32.31 z"
+         sodipodi:nodetypes="ccccc" />
+    </g>
+    <g
+       id="g1874">
+      <rect
+         y="427.5"
+         x="13.5"
+         height="57"
+         width="317"
+         id="checkTCAS.clickbox"
+         style="opacity:1;fill:#808080;fill-opacity:1;stroke:none;stroke-width:3.00003;stroke-linecap:butt;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+      <text
+         id="text1780"
+         y="469.47"
+         x="20.336"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:37.33333px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:sans-serif;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#ffffff;fill-opacity:1;stroke:none"
+         xml:space="preserve"><tspan
+           y="469.47"
+           x="20.336"
+           id="tspan1778"
+           sodipodi:role="line">TCAS</tspan></text>
+      <rect
+         y="433.5"
+         x="277.5"
+         height="45"
+         width="45"
+         id="rect1782"
+         style="opacity:1;fill:#4d4d4d;fill-opacity:1;stroke:#ffffff;stroke-width:3;stroke-linecap:butt;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+      <path
+         sodipodi:nodetypes="ccccc"
+         d="m 290.86,476.66 -11.54,-15.78 11.51,7.07 29.34,-32.31 z"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:74.66667px;line-height:1.25;font-family:Arial;-inkscape-font-specification:Arial;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle;fill:#00ff00;fill-opacity:1;stroke:none"
+         id="checkTCAS"
+         inkscape:connector-curvature="0" />
+    </g>
+    <g
+       id="g1881">
+      <rect
+         style="opacity:1;fill:#808080;fill-opacity:1;stroke:none;stroke-width:3.00003;stroke-linecap:butt;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         id="radioWeather.clickbox"
+         width="317"
+         height="57"
+         x="13.5"
+         y="511.5" />
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:37.33333px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:sans-serif;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#ffffff;fill-opacity:1;stroke:none"
+         x="20.336"
+         y="553.47"
+         id="text1788"><tspan
+           sodipodi:role="line"
+           id="tspan1786"
+           x="20.336"
+           y="553.47">Weather</tspan></text>
+      <path
+         style="opacity:1;fill:#4d4d4d;fill-opacity:1;stroke:#ffffff;stroke-width:3;stroke-linecap:butt;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         d="m 300,517.5 c 12.46,0 22.5,10.04 22.5,22.5 0,12.47 -10.04,22.5 -22.5,22.5 -12.46,0 -22.5,-10.03 -22.5,-22.5 0,-12.46 10.04,-22.5 22.5,-22.5 z"
+         id="rect1790"
+         inkscape:connector-curvature="0" />
+      <path
+         style="opacity:1;fill:#00ff00;fill-opacity:1;stroke:none;stroke-width:2.99999;stroke-linecap:butt;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         d="m 300.01,525.31 c 8.13,0 14.68,6.55 14.68,14.69 0,8.13 -6.55,14.68 -14.68,14.68 -8.14,0 -14.69,-6.55 -14.69,-14.68 0,-8.14 6.55,-14.69 14.69,-14.69 z"
+         id="radioWeather"
+         inkscape:connector-curvature="0" />
+    </g>
+    <g
+       id="g1888">
+      <rect
+         y="575.5"
+         x="13.5"
+         height="57"
+         width="317"
+         id="radioTerrain.clickbox"
+         style="opacity:1;fill:#808080;fill-opacity:1;stroke:none;stroke-width:3.00003;stroke-linecap:butt;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+      <text
+         id="text1800"
+         y="617.47"
+         x="20.336"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:37.33333px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:sans-serif;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#ffffff;fill-opacity:1;stroke:none"
+         xml:space="preserve"><tspan
+           y="617.47"
+           x="20.336"
+           id="tspan1798"
+           sodipodi:role="line">Terrain</tspan></text>
+      <path
+         id="path1802"
+         d="m 300,581.5 c 12.46,0 22.5,10.04 22.5,22.5 0,12.47 -10.04,22.5 -22.5,22.5 -12.46,0 -22.5,-10.03 -22.5,-22.5 0,-12.46 10.04,-22.5 22.5,-22.5 z"
+         style="opacity:1;fill:#4d4d4d;fill-opacity:1;stroke:#ffffff;stroke-width:3;stroke-linecap:butt;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         inkscape:connector-curvature="0" />
+      <path
+         id="radioTerrain"
+         d="m 300.01,589.31 c 8.13,0 14.68,6.55 14.68,14.69 0,8.13 -6.55,14.68 -14.68,14.68 -8.14,0 -14.69,-6.55 -14.69,-14.68 0,-8.14 6.55,-14.69 14.69,-14.69 z"
+         style="opacity:1;fill:#00ff00;fill-opacity:1;stroke:none;stroke-width:2.99999;stroke-linecap:butt;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         inkscape:connector-curvature="0" />
+    </g>
+    <g
+       id="g1895">
+      <rect
+         style="opacity:1;fill:#808080;fill-opacity:1;stroke:none;stroke-width:3.00003;stroke-linecap:butt;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         id="radioOff.clickbox"
+         width="317"
+         height="57"
+         x="13.5"
+         y="639.5" />
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:37.33333px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:sans-serif;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#ffffff;fill-opacity:1;stroke:none"
+         x="20.336"
+         y="681.47"
+         id="text1808"><tspan
+           sodipodi:role="line"
+           id="tspan1806"
+           x="20.336"
+           y="681.47">Off</tspan></text>
+      <path
+         inkscape:connector-curvature="0"
+         style="opacity:1;fill:#4d4d4d;fill-opacity:1;stroke:#ffffff;stroke-width:3;stroke-linecap:butt;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         d="m 300,645.5 c 12.46,0 22.5,10.04 22.5,22.5 0,12.47 -10.04,22.5 -22.5,22.5 -12.46,0 -22.5,-10.03 -22.5,-22.5 0,-12.46 10.04,-22.5 22.5,-22.5 z"
+         id="path1810" />
+      <path
+         inkscape:connector-curvature="0"
+         style="opacity:1;fill:#00ff00;fill-opacity:1;stroke:none;stroke-width:2.99999;stroke-linecap:butt;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         d="m 300.01,653.31 c 8.13,0 14.68,6.55 14.68,14.69 0,8.13 -6.55,14.68 -14.68,14.68 -8.14,0 -14.69,-6.55 -14.69,-14.68 0,-8.14 6.55,-14.69 14.69,-14.69 z"
+         id="radioOff" />
     </g>
   </g>
 </svg>
