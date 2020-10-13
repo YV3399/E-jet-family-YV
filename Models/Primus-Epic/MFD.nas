@@ -86,9 +86,11 @@ var MFD = {
         var self = me; # for listeners
 
         me.index = index;
+        me.txRadarScanAngle = -90.0;
         me.elems = {};
         me.props = {
                 'page': props.globals.getNode('/instrumentation/mfd[' ~ index ~ ']/page'),
+                'altitude-amsl': props.globals.getNode('/position/altitude-ft'),
                 'heading': props.globals.getNode('/orientation/heading-deg'),
                 'heading-mag': props.globals.getNode('/orientation/heading-magnetic-deg'),
                 'track': props.globals.getNode('/orientation/track-deg'),
@@ -153,6 +155,16 @@ var MFD = {
         me.plannedRouteDriver = RouteDriver.new(0);
 
         me.mapPage = me.upperArea.createChild("group");
+
+        me.terrainRadar = me.mapPage.createChild("image");
+        me.terrainRadar.set("src", resolvepath("Aircraft/E-jet-family/Models/Primus-Epic/MFD/radar-empty.png"));
+        me.terrainRadar.setTranslation(511 - 445, 539 - 445);
+        me.terrainRadar.setScale(445 / 128, 445 / 128);
+        var terrainTimerFunc = func () {
+            self.updateTerrainRadar();
+            settimer(terrainTimerFunc, 0.1);
+        };
+        settimer(terrainTimerFunc, 1.0);
 
         me.map = me.mapPage.createChild("map");
         me.map.set("clip", "rect(0px, 1024px, 740px, 0px)");
@@ -401,6 +413,80 @@ var MFD = {
         }, 1, 0);
 
         return me;
+    },
+
+    updateTerrainRadar: func() {
+        printf("Begin TX update at %4.1f", me.txRadarScanAngle);
+        var acPos = geo.aircraft_position();
+        var acAlt = me.props['altitude-amsl'].getValue();
+        var acHeading = me.props['heading'].getValue();
+        var scanBearing = geo.normdeg(acHeading + me.txRadarScanAngle);
+        var screenSin = math.sin(me.txRadarScanAngle * D2R);
+        var screenCos = math.cos(me.txRadarScanAngle * D2R);
+        var x = 0;
+        var y = 0;
+        var color = nil;
+        var density = 0;
+        for (var dist = 0; dist < 128; dist += 2) {
+            x = math.floor(127 + screenSin * dist);
+            y = math.floor(screenCos * dist);
+            if (x < 0 or y < 0 or x >= 256 or y >= 128) {
+                continue;
+            }
+            var coord = geo.Coord.new(acPos);
+            coord.apply_course_distance(scanBearing, dist * 10 * NM2M / 128);
+            var start = geo.Coord.new(coord);
+            var end = geo.Coord.new(coord);
+            start.set_alt(10000);
+            end.set_alt(0);
+            var xyz = { "x": start.x(), "y": start.y(), "z": start.z() };
+            var dir = { "x": end.x() - start.x(), "y": end.y() - start.y(), "z": end.z() - start.z() };
+            var result = get_cart_ground_intersection(xyz, dir);
+            var elev = (result == nil) ? nil : result.elevation;
+            if (elev == nil) {
+                color = '#ff00ff';
+                density = 1;
+            }
+            else {
+                var terrainAlt = elev * M2FT;
+                var relAlt = terrainAlt - acAlt;
+                if (relAlt > 2000) {
+                    color = [1, 0, 0, 1];
+                    density = 1;
+                }
+                else if (relAlt > 1000) {
+                    color = [1, 1, 0, 1];
+                    density = 1;
+                }
+                else if (relAlt > -250) {
+                    color = [1, 1, 0, 1];
+                    density = 0;
+                }
+                else if (relAlt > -1000) {
+                    color = [0, 0.5, 0, 1];
+                    density = 1;
+                }
+                else if (relAlt > -2000) {
+                    color = [0, 0.5, 0, 1];
+                    density = 0;
+                }
+                else {
+                    color = [0, 0, 0, 1];
+                    density = 1;
+                }
+            }
+            if (density)
+                me.terrainRadar.fillRect([x, y, 4, 4], color);
+            else
+                me.terrainRadar.fillRect([x, y, 4, 4], '#000000');
+            me.terrainRadar.setPixel(x, y, color);
+        }
+        me.terrainRadar.dirtyPixels();
+        me.txRadarScanAngle += 1.0;
+        if (me.txRadarScanAngle > 90.0) {
+            me.txRadarScanAngle = -90.0;
+        }
+        printf("Done TX update at %4.1f", me.txRadarScanAngle);
     },
 
     setRange: func(range) {
