@@ -86,7 +86,7 @@ var MFD = {
         var self = me; # for listeners
 
         me.index = index;
-        me.txRadarScanAngle = -90.0;
+        me.txRadarScanX = 0;
         me.elems = {};
         me.props = {
                 'page': props.globals.getNode('/instrumentation/mfd[' ~ index ~ ']/page'),
@@ -137,13 +137,13 @@ var MFD = {
 
         # Upper area (lateral/systems): 1024x768
         me.upperArea = me.master.createChild("group");
-        me.upperArea.set("clip", "rect(100px, 1024px, 868px, 0px)");
+        me.upperArea.set("clip", "rect(100px, 1024px, 850px, 0px)");
         me.upperArea.set("clip-frame", canvas.Element.PARENT);
         me.upperArea.setTranslation(0, 100);
 
         # Lower area (vertical/checklists): 1024x400
         me.lowerArea = me.master.createChild("group");
-        me.lowerArea.set("clip", "rect(868px, 1024px, 1266px, 0px)");
+        me.lowerArea.set("clip", "rect(850px, 1024px, 1266px, 0px)");
         me.lowerArea.set("clip-frame", canvas.Element.PARENT);
         me.lowerArea.setTranslation(0, 868);
 
@@ -156,10 +156,10 @@ var MFD = {
 
         me.mapPage = me.upperArea.createChild("group");
 
-        me.terrainRadar = me.mapPage.createChild("image");
+        me.underlay = me.mapPage.createChild("group");
+        me.terrainRadar = me.underlay.createChild("image");
         me.terrainRadar.set("src", resolvepath("Aircraft/E-jet-family/Models/Primus-Epic/MFD/radar-empty.png"));
-        me.terrainRadar.setTranslation(511 - 445, 539 - 445);
-        me.terrainRadar.setScale(445 / 128, 445 / 128);
+        me.terrainRadar.setCenter(128, 128);
         var terrainTimerFunc = func () {
             self.updateTerrainRadar();
             settimer(terrainTimerFunc, 0.1);
@@ -416,77 +416,78 @@ var MFD = {
     },
 
     updateTerrainRadar: func() {
-        printf("Begin TX update at %4.1f", me.txRadarScanAngle);
+        if (!me.terrainRadar.getVisible()) return;
         var acPos = geo.aircraft_position();
         var acAlt = me.props['altitude-amsl'].getValue();
-        var acHeading = me.props['heading'].getValue();
-        var scanBearing = geo.normdeg(acHeading + me.txRadarScanAngle);
-        var screenSin = math.sin(me.txRadarScanAngle * D2R);
-        var screenCos = math.cos(me.txRadarScanAngle * D2R);
         var x = 0;
         var y = 0;
         var color = nil;
         var density = 0;
-        for (var dist = 0; dist < 128; dist += 2) {
-            x = math.floor(127 + screenSin * dist);
-            y = math.floor(screenCos * dist);
-            if (x < 0 or y < 0 or x >= 256 or y >= 128) {
-                continue;
-            }
-            var coord = geo.Coord.new(acPos);
-            coord.apply_course_distance(scanBearing, dist * 10 * NM2M / 128);
-            var start = geo.Coord.new(coord);
-            var end = geo.Coord.new(coord);
-            start.set_alt(10000);
-            end.set_alt(0);
-            var xyz = { "x": start.x(), "y": start.y(), "z": start.z() };
-            var dir = { "x": end.x() - start.x(), "y": end.y() - start.y(), "z": end.z() - start.z() };
-            var result = get_cart_ground_intersection(xyz, dir);
-            var elev = (result == nil) ? nil : result.elevation;
-            if (elev == nil) {
-                color = '#ff00ff';
-                density = 1;
-            }
-            else {
-                var terrainAlt = elev * M2FT;
-                var relAlt = terrainAlt - acAlt;
-                if (relAlt > 2000) {
-                    color = [1, 0, 0, 1];
+        for (y = 0; y < 256; y += 2) {
+            var x = me.txRadarScanX;
+            # for (x = 0; x < 256; x += 2) {
+                var xRel = x - 128;
+                var yRel = y - 128;
+                var bearingRelRad = math.atan2(xRel, yRel);
+                var bearingAbs = geo.normdeg(bearingRelRad * R2D);
+                var dist = math.sqrt(yRel * yRel + xRel * xRel);
+                var elev = nil;
+                if (dist <= 128) {
+                    var coord = geo.Coord.new(acPos);
+                    coord.apply_course_distance(bearingAbs, dist * 10 * NM2M / 128);
+                    var start = geo.Coord.new(coord);
+                    var end = geo.Coord.new(coord);
+                    start.set_alt(10000);
+                    end.set_alt(0);
+                    var xyz = { "x": start.x(), "y": start.y(), "z": start.z() };
+                    var dir = { "x": end.x() - start.x(), "y": end.y() - start.y(), "z": end.z() - start.z() };
+                    var result = get_cart_ground_intersection(xyz, dir);
+                    elev = (result == nil) ? nil : result.elevation;
+                }
+                if (elev == nil) {
+                    color = '#000000';
                     density = 1;
-                }
-                else if (relAlt > 1000) {
-                    color = [1, 1, 0, 1];
-                    density = 1;
-                }
-                else if (relAlt > -250) {
-                    color = [1, 1, 0, 1];
-                    density = 0;
-                }
-                else if (relAlt > -1000) {
-                    color = [0, 0.5, 0, 1];
-                    density = 1;
-                }
-                else if (relAlt > -2000) {
-                    color = [0, 0.5, 0, 1];
-                    density = 0;
                 }
                 else {
-                    color = [0, 0, 0, 1];
-                    density = 1;
+                    var terrainAlt = elev * M2FT;
+                    var relAlt = terrainAlt - acAlt;
+                    if (relAlt > 2000) {
+                        color = [1, 0, 0, 1];
+                        density = 1;
+                    }
+                    else if (relAlt > 1000) {
+                        color = [1, 1, 0, 1];
+                        density = 1;
+                    }
+                    else if (relAlt > -250) {
+                        color = [1, 1, 0, 1];
+                        density = 0;
+                    }
+                    else if (relAlt > -1000) {
+                        color = [0, 0.5, 0, 1];
+                        density = 1;
+                    }
+                    else if (relAlt > -2000) {
+                        color = [0, 0.5, 0, 1];
+                        density = 0;
+                    }
+                    else {
+                        color = [0, 0, 0, 1];
+                        density = 1;
+                    }
                 }
-            }
-            if (density)
-                me.terrainRadar.fillRect([x, y, 4, 4], color);
-            else
-                me.terrainRadar.fillRect([x, y, 4, 4], '#000000');
-            me.terrainRadar.setPixel(x, y, color);
+                if (density)
+                    me.terrainRadar.fillRect([x, y, 2, 2], color);
+                else
+                    me.terrainRadar.fillRect([x, y, 2, 2], '#000000');
+                me.terrainRadar.setPixel(x, y, color);
+            # }
+        }
+        me.txRadarScanX += 2;
+        if (me.txRadarScanX >= 256) {
+            me.txRadarScanX = 0;
         }
         me.terrainRadar.dirtyPixels();
-        me.txRadarScanAngle += 1.0;
-        if (me.txRadarScanAngle > 90.0) {
-            me.txRadarScanAngle = -90.0;
-        }
-        printf("Done TX update at %4.1f", me.txRadarScanAngle);
     },
 
     setRange: func(range) {
@@ -496,6 +497,9 @@ var MFD = {
         me.map.layers["TAXI"].setVisible(range < 9.5);
         me.map.layers["RWY"].setVisible(range < 9.5 and aptVisible);
         me.map.layers["APT"].setVisible(range >= 9.5 and range < 99.5 and aptVisible);
+        var txScale = 10 / range * 416 / 127;
+        me.terrainRadar.setTranslation(512 - 416 * 10 / range, 530 - 416 * 10 / range);
+        me.terrainRadar.setScale(txScale, txScale);
         var fmt = "%2.0f";
         if (range < 20)
             fmt = "%3.1f";
@@ -637,8 +641,7 @@ var MFD = {
 
         me.elems['radioTerrain'].setVisible(which == 'TERRAIN');
         me.elems['terrain.master'].setVisible(which == 'TERRAIN');
-        # TERR layer not available in FGDATA as of 2020.2
-        # me.map.layers['TERR'].setVisible(which == 'TERRAIN');
+        me.terrainRadar.setVisible(which == 'TERRAIN');
 
         me.elems['radioOff'].setVisible(which == nil);
     },
@@ -676,6 +679,7 @@ var MFD = {
             me.elems['arc.master'].show();
             me.map.show();
             me.elems['plan.master'].hide();
+            me.underlay.show();
             me.plan.hide();
         }
         else if (page == 1) {
@@ -683,6 +687,7 @@ var MFD = {
             me.elems['arc.master'].hide();
             me.map.hide();
             me.elems['plan.master'].show();
+            me.underlay.hide();
             me.plan.show();
             me.elems['mapMenu'].hide();
         }
@@ -691,6 +696,7 @@ var MFD = {
             me.elems['arc.master'].hide();
             me.map.hide();
             me.elems['plan.master'].hide();
+            me.underlay.hide();
             me.plan.hide();
             me.elems['mapMenu'].hide();
         }
@@ -716,6 +722,7 @@ var MFD = {
             me.elems['arc.heading-bug.arrow-right'].hide();
         }
         me.elems['arc'].setRotation(heading * -DC);
+        me.terrainRadar.setRotation(heading * -DC);
         me.elems['heading.digital'].setText(sprintf("%03.0f", heading));
         me.elems['wind.arrow'].setRotation(me.props['wind-dir'].getValue() * DC);
         me.elems['wind.digital'].setText(sprintf("%2.0f", me.props['wind-speed'].getValue()));
