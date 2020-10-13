@@ -112,10 +112,10 @@
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
      inkscape:zoom="0.87828"
-     inkscape:cx="647.44"
-     inkscape:cy="129.96"
+     inkscape:cx="484.89"
+     inkscape:cy="195.64"
      inkscape:document-units="px"
-     inkscape:current-layer="layer2"
+     inkscape:current-layer="tcas.master"
      showgrid="false"
      units="px"
      inkscape:window-width="1440"
@@ -196,8 +196,8 @@
          y="60.57"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:37.3222px;line-height:16.66146px;font-family:sans-serif;-inkscape-font-specification:sans-serif;text-align:end;text-anchor:end;fill:#00ff00;stroke-width:1.99998;stroke-miterlimit:4;stroke-dasharray:none">30</tspan></text>
     <path
-       style="fill:#ffffff;stroke:#ffffff;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none"
-       d="M 1005.8,749.62 H 13.234"
+       style="fill:#ffffff;stroke:#ffffff;stroke-width:3.00003;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="M 1024.4,749.63 H -0.1443"
        id="path1180"
        inkscape:connector-curvature="0" />
     <path
@@ -1065,6 +1065,193 @@
          inkscape:connector-curvature="0" />
     </g>
     <g
+       id="weather.master">
+      <rect
+         y="569.92"
+         x="0"
+         height="178.32"
+         width="188.72"
+         id="rect1182"
+         style="opacity:1;fill:#000000;fill-opacity:1;stroke:none;stroke-width:3;stroke-linecap:butt;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+      <text
+         id="text978"
+         y="577.2"
+         x="6.6707"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:18.66667px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:sans-serif;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#ffffff;fill-opacity:1;stroke:none"
+         xml:space="preserve"><tspan
+           y="577.2"
+           x="6.6707"
+           id="tspan976"
+           sodipodi:role="line">WEATHER</tspan></text>
+      <path
+         inkscape:connector-curvature="0"
+         id="path984"
+         d="m 107.1,569.92 h 81.62 v 178.84"
+         style="fill:none;stroke:#ffffff;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:32px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:sans-serif;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle;fill:#ff8000;fill-opacity:1;stroke:none"
+         x="93.954"
+         y="669.26"
+         id="text2822-7"><tspan
+           sodipodi:role="line"
+           id="tspan2820-3"
+           x="93.954"
+           y="669.26">WX N/A</tspan></text>
+    </g>
+    <g
+       id="terrain.master">
+      <rect
+         style="opacity:1;fill:#000000;fill-opacity:1;stroke:none;stroke-width:3;stroke-linecap:butt;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         id="rect2810"
+         width="188.72"
+         height="178.32"
+         x="0"
+         y="569.92" />
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:18.66667px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:sans-serif;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#ffffff;fill-opacity:1;stroke:none"
+         x="6.6707"
+         y="577.2"
+         id="text2814"><tspan
+           sodipodi:role="line"
+           id="tspan2812"
+           x="6.6707"
+           y="577.2">TERRAIN</tspan></text>
+      <path
+         style="fill:none;stroke:#ffffff;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         d="m 107.1,569.92 h 81.62 v 178.84"
+         id="path2816"
+         inkscape:connector-curvature="0" />
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:32px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:sans-serif;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle;fill:#ff8000;fill-opacity:1;stroke:none"
+         x="97.66"
+         y="667.55"
+         id="text2822"><tspan
+           sodipodi:role="line"
+           id="tspan2820"
+           x="97.66"
+           y="667.55">TERR N/A</tspan></text>
+    </g>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:13.32917px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:sans-serif;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1.99998;stroke-miterlimit:4;stroke-dasharray:none"
+       x="830.45"
+       y="29.53"
+       id="text12815"><tspan
+         sodipodi:role="line"
+         id="tspan12813"
+         x="830.45"
+         y="29.53"
+         style="font-size:31.99047px;text-align:start;text-anchor:start;fill:#ffffff;fill-opacity:1;stroke-width:1.99998;stroke-miterlimit:4;stroke-dasharray:none">SAT</tspan></text>
+    <text
+       id="sat.digital"
+       y="29.53"
+       x="957.04"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:13.32917px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:sans-serif;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:end;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:end;fill:#00ff00;fill-opacity:1;stroke:none;stroke-width:1.99998;stroke-miterlimit:4;stroke-dasharray:none"
+       xml:space="preserve"><tspan
+         style="font-size:31.99047px;text-align:end;text-anchor:end;fill:#00ff00;fill-opacity:1;stroke-width:1.99998;stroke-miterlimit:4;stroke-dasharray:none"
+         y="29.53"
+         x="957.04"
+         id="tspan12817"
+         sodipodi:role="line">-50</tspan></text>
+    <text
+       id="text12823"
+       y="29.53"
+       x="989.23"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:13.32917px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:sans-serif;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1.99998;stroke-miterlimit:4;stroke-dasharray:none"
+       xml:space="preserve"><tspan
+         style="font-size:31.99047px;text-align:center;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke-width:1.99998;stroke-miterlimit:4;stroke-dasharray:none"
+         y="29.53"
+         x="989.23"
+         id="tspan12821"
+         sodipodi:role="line">°C</tspan></text>
+    <text
+       id="text12827"
+       y="67.53"
+       x="830.45"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:13.32917px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:sans-serif;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1.99998;stroke-miterlimit:4;stroke-dasharray:none"
+       xml:space="preserve"><tspan
+         style="font-size:31.99047px;text-align:start;text-anchor:start;fill:#ffffff;fill-opacity:1;stroke-width:1.99998;stroke-miterlimit:4;stroke-dasharray:none"
+         y="67.53"
+         x="830.45"
+         id="tspan12825"
+         sodipodi:role="line">TAT</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:13.32917px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:sans-serif;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:end;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:end;fill:#00ff00;fill-opacity:1;stroke:none;stroke-width:1.99998;stroke-miterlimit:4;stroke-dasharray:none"
+       x="957.04"
+       y="67.53"
+       id="tat.digital"><tspan
+         sodipodi:role="line"
+         id="tspan12829"
+         x="957.04"
+         y="67.53"
+         style="font-size:31.99047px;text-align:end;text-anchor:end;fill:#00ff00;fill-opacity:1;stroke-width:1.99998;stroke-miterlimit:4;stroke-dasharray:none">-17</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:13.32917px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:sans-serif;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1.99998;stroke-miterlimit:4;stroke-dasharray:none"
+       x="989.23"
+       y="67.53"
+       id="text12835"><tspan
+         sodipodi:role="line"
+         id="tspan12833"
+         x="989.23"
+         y="67.53"
+         style="font-size:31.99047px;text-align:center;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke-width:1.99998;stroke-miterlimit:4;stroke-dasharray:none">°C</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:13.32917px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:sans-serif;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1.99998;stroke-miterlimit:4;stroke-dasharray:none"
+       x="830.45"
+       y="105.53"
+       id="text12839"><tspan
+         sodipodi:role="line"
+         id="tspan12837"
+         x="830.45"
+         y="105.53"
+         style="font-size:31.99047px;text-align:start;text-anchor:start;fill:#ffffff;fill-opacity:1;stroke-width:1.99998;stroke-miterlimit:4;stroke-dasharray:none">TAS</tspan></text>
+    <text
+       id="tas.digital"
+       y="105.53"
+       x="957.04"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:13.32917px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:sans-serif;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:end;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:end;fill:#00ff00;fill-opacity:1;stroke:none;stroke-width:1.99998;stroke-miterlimit:4;stroke-dasharray:none"
+       xml:space="preserve"><tspan
+         style="font-size:31.99047px;text-align:end;text-anchor:end;fill:#00ff00;fill-opacity:1;stroke-width:1.99998;stroke-miterlimit:4;stroke-dasharray:none"
+         y="105.53"
+         x="957.04"
+         id="tspan12841"
+         sodipodi:role="line">350</tspan></text>
+    <text
+       id="text12847"
+       y="105.53"
+       x="993.23"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:13.32917px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:sans-serif;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1.99998;stroke-miterlimit:4;stroke-dasharray:none"
+       xml:space="preserve"><tspan
+         style="font-size:31.99047px;text-align:center;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke-width:1.99998;stroke-miterlimit:4;stroke-dasharray:none"
+         y="105.53"
+         x="993.23"
+         id="tspan12845"
+         sodipodi:role="line">KTS</tspan></text>
+    <g
+       id="plan.master">
+      <path
+         style="color:#000000;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:medium;line-height:normal;font-family:sans-serif;font-variant-ligatures:normal;font-variant-position:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-alternates:normal;font-feature-settings:normal;text-indent:0;text-align:start;text-decoration:none;text-decoration-line:none;text-decoration-style:solid;text-decoration-color:#000000;letter-spacing:normal;word-spacing:normal;text-transform:none;writing-mode:lr-tb;direction:ltr;text-orientation:mixed;dominant-baseline:auto;baseline-shift:baseline;text-anchor:start;white-space:normal;shape-padding:0;clip-rule:nonzero;display:inline;overflow:visible;visibility:visible;opacity:1;isolation:auto;mix-blend-mode:normal;color-interpolation:sRGB;color-interpolation-filters:linearRGB;solid-color:#000000;solid-opacity:1;vector-effect:none;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.99998;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;color-rendering:auto;image-rendering:auto;shape-rendering:auto;text-rendering:auto;enable-background:accumulate"
+         d="M 512 111.99 C 408.24 111.99 322.18 187.73 306.05 286.93 L 308.08 286.93 C 324.19 188.84 409.35 114 512 114 C 624.69 114 716.3 204.19 718.61 316.34 C 718.64 314.89 718.67 313.44 718.67 311.99 L 720.49 311.99 C 715.93 200.77 624.33 111.99 512 111.99 z M 720.49 311.99 C 720.55 313.44 720.6 314.88 720.62 316.34 C 720.65 314.89 720.68 313.44 720.68 311.99 L 720.49 311.99 z M 720.62 316.34 C 720.6 317.79 720.55 319.23 720.49 320.68 L 720.68 320.68 C 720.68 319.23 720.65 317.78 720.62 316.34 z M 720.49 320.68 L 718.67 320.68 C 718.67 319.23 718.64 317.78 718.61 316.34 C 716.3 428.48 624.69 518.67 512 518.67 C 405.85 518.67 318.39 438.63 306.67 335.61 L 304.66 335.61 C 316.39 439.74 404.74 520.68 512 520.68 C 624.33 520.68 715.93 431.9 720.49 320.68 z "
+         id="path2402" />
+      <text
+         id="plan.range"
+         y="323.64"
+         x="303.51"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:13.32917px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:sans-serif;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle;fill:#0080ff;fill-opacity:1;stroke:none;stroke-width:1.99998;stroke-miterlimit:4;stroke-dasharray:none"
+         xml:space="preserve"><tspan
+           style="font-size:31.99047px;fill:#0080ff;fill-opacity:1;stroke-width:1.99998;stroke-miterlimit:4;stroke-dasharray:none"
+           y="323.64"
+           x="303.51"
+           id="tspan1648"
+           sodipodi:role="line">100</tspan></text>
+    </g>
+    <g
        id="progress.master">
       <rect
          style="opacity:1;fill:#000000;fill-opacity:1;stroke:none;stroke-width:2.99999;stroke-linecap:butt;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
@@ -1294,146 +1481,63 @@
            style="font-size:31.99047px;text-align:center;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke-width:1.99998;stroke-miterlimit:4;stroke-dasharray:none">FUEL</tspan></text>
     </g>
     <g
-       id="weather.master">
+       id="tcas.master">
       <rect
-         y="569.92"
-         x="0"
-         height="178.32"
-         width="188.72"
-         id="rect1182"
-         style="opacity:1;fill:#000000;fill-opacity:1;stroke:none;stroke-width:3;stroke-linecap:butt;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+         style="opacity:1;fill:#000000;fill-opacity:1;stroke:none;stroke-width:3.00006;stroke-linecap:butt;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         id="rect2790"
+         width="181.39"
+         height="179.43"
+         x="842.85"
+         y="569.72" />
       <text
-         id="text978"
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:18.66667px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:sans-serif;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:end;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:end;fill:#ffffff;fill-opacity:1;stroke:none"
+         x="1018.5"
          y="577.2"
-         x="6.6707"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:18.66667px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:sans-serif;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#ffffff;fill-opacity:1;stroke:none"
-         xml:space="preserve"><tspan
-           y="577.2"
-           x="6.6707"
-           id="tspan976"
-           sodipodi:role="line">WEATHER</tspan></text>
+         id="text2794"><tspan
+           sodipodi:role="line"
+           id="tspan2792"
+           x="1018.5"
+           y="577.2">TCAS</tspan></text>
       <path
-         inkscape:connector-curvature="0"
-         id="path984"
-         d="m 107.1,569.92 h 81.62 v 178.84"
-         style="fill:none;stroke:#ffffff;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
-    </g>
-    <text
-       xml:space="preserve"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:13.32917px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:sans-serif;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1.99998;stroke-miterlimit:4;stroke-dasharray:none"
-       x="830.45"
-       y="29.53"
-       id="text12815"><tspan
-         sodipodi:role="line"
-         id="tspan12813"
-         x="830.45"
-         y="29.53"
-         style="font-size:31.99047px;text-align:start;text-anchor:start;fill:#ffffff;fill-opacity:1;stroke-width:1.99998;stroke-miterlimit:4;stroke-dasharray:none">SAT</tspan></text>
-    <text
-       id="sat.digital"
-       y="29.53"
-       x="957.04"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:13.32917px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:sans-serif;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:end;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:end;fill:#00ff00;fill-opacity:1;stroke:none;stroke-width:1.99998;stroke-miterlimit:4;stroke-dasharray:none"
-       xml:space="preserve"><tspan
-         style="font-size:31.99047px;text-align:end;text-anchor:end;fill:#00ff00;fill-opacity:1;stroke-width:1.99998;stroke-miterlimit:4;stroke-dasharray:none"
-         y="29.53"
-         x="957.04"
-         id="tspan12817"
-         sodipodi:role="line">-50</tspan></text>
-    <text
-       id="text12823"
-       y="29.53"
-       x="989.23"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:13.32917px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:sans-serif;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1.99998;stroke-miterlimit:4;stroke-dasharray:none"
-       xml:space="preserve"><tspan
-         style="font-size:31.99047px;text-align:center;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke-width:1.99998;stroke-miterlimit:4;stroke-dasharray:none"
-         y="29.53"
-         x="989.23"
-         id="tspan12821"
-         sodipodi:role="line">°C</tspan></text>
-    <text
-       id="text12827"
-       y="67.53"
-       x="830.45"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:13.32917px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:sans-serif;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1.99998;stroke-miterlimit:4;stroke-dasharray:none"
-       xml:space="preserve"><tspan
-         style="font-size:31.99047px;text-align:start;text-anchor:start;fill:#ffffff;fill-opacity:1;stroke-width:1.99998;stroke-miterlimit:4;stroke-dasharray:none"
-         y="67.53"
-         x="830.45"
-         id="tspan12825"
-         sodipodi:role="line">TAT</tspan></text>
-    <text
-       xml:space="preserve"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:13.32917px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:sans-serif;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:end;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:end;fill:#00ff00;fill-opacity:1;stroke:none;stroke-width:1.99998;stroke-miterlimit:4;stroke-dasharray:none"
-       x="957.04"
-       y="67.53"
-       id="tat.digital"><tspan
-         sodipodi:role="line"
-         id="tspan12829"
-         x="957.04"
-         y="67.53"
-         style="font-size:31.99047px;text-align:end;text-anchor:end;fill:#00ff00;fill-opacity:1;stroke-width:1.99998;stroke-miterlimit:4;stroke-dasharray:none">-17</tspan></text>
-    <text
-       xml:space="preserve"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:13.32917px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:sans-serif;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1.99998;stroke-miterlimit:4;stroke-dasharray:none"
-       x="989.23"
-       y="67.53"
-       id="text12835"><tspan
-         sodipodi:role="line"
-         id="tspan12833"
-         x="989.23"
-         y="67.53"
-         style="font-size:31.99047px;text-align:center;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke-width:1.99998;stroke-miterlimit:4;stroke-dasharray:none">°C</tspan></text>
-    <text
-       xml:space="preserve"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:13.32917px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:sans-serif;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1.99998;stroke-miterlimit:4;stroke-dasharray:none"
-       x="830.45"
-       y="105.53"
-       id="text12839"><tspan
-         sodipodi:role="line"
-         id="tspan12837"
-         x="830.45"
-         y="105.53"
-         style="font-size:31.99047px;text-align:start;text-anchor:start;fill:#ffffff;fill-opacity:1;stroke-width:1.99998;stroke-miterlimit:4;stroke-dasharray:none">TAS</tspan></text>
-    <text
-       id="tas.digital"
-       y="105.53"
-       x="957.04"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:13.32917px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:sans-serif;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:end;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:end;fill:#00ff00;fill-opacity:1;stroke:none;stroke-width:1.99998;stroke-miterlimit:4;stroke-dasharray:none"
-       xml:space="preserve"><tspan
-         style="font-size:31.99047px;text-align:end;text-anchor:end;fill:#00ff00;fill-opacity:1;stroke-width:1.99998;stroke-miterlimit:4;stroke-dasharray:none"
-         y="105.53"
-         x="957.04"
-         id="tspan12841"
-         sodipodi:role="line">350</tspan></text>
-    <text
-       id="text12847"
-       y="105.53"
-       x="993.23"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:13.32917px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:sans-serif;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1.99998;stroke-miterlimit:4;stroke-dasharray:none"
-       xml:space="preserve"><tspan
-         style="font-size:31.99047px;text-align:center;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke-width:1.99998;stroke-miterlimit:4;stroke-dasharray:none"
-         y="105.53"
-         x="993.23"
-         id="tspan12845"
-         sodipodi:role="line">KTS</tspan></text>
-    <g
-       id="plan.master">
-      <path
-         style="color:#000000;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:medium;line-height:normal;font-family:sans-serif;font-variant-ligatures:normal;font-variant-position:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-alternates:normal;font-feature-settings:normal;text-indent:0;text-align:start;text-decoration:none;text-decoration-line:none;text-decoration-style:solid;text-decoration-color:#000000;letter-spacing:normal;word-spacing:normal;text-transform:none;writing-mode:lr-tb;direction:ltr;text-orientation:mixed;dominant-baseline:auto;baseline-shift:baseline;text-anchor:start;white-space:normal;shape-padding:0;clip-rule:nonzero;display:inline;overflow:visible;visibility:visible;opacity:1;isolation:auto;mix-blend-mode:normal;color-interpolation:sRGB;color-interpolation-filters:linearRGB;solid-color:#000000;solid-opacity:1;vector-effect:none;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.99998;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;color-rendering:auto;image-rendering:auto;shape-rendering:auto;text-rendering:auto;enable-background:accumulate"
-         d="M 512 111.99 C 408.24 111.99 322.18 187.73 306.05 286.93 L 308.08 286.93 C 324.19 188.84 409.35 114 512 114 C 624.69 114 716.3 204.19 718.61 316.34 C 718.64 314.89 718.67 313.44 718.67 311.99 L 720.49 311.99 C 715.93 200.77 624.33 111.99 512 111.99 z M 720.49 311.99 C 720.55 313.44 720.6 314.88 720.62 316.34 C 720.65 314.89 720.68 313.44 720.68 311.99 L 720.49 311.99 z M 720.62 316.34 C 720.6 317.79 720.55 319.23 720.49 320.68 L 720.68 320.68 C 720.68 319.23 720.65 317.78 720.62 316.34 z M 720.49 320.68 L 718.67 320.68 C 718.67 319.23 718.64 317.78 718.61 316.34 C 716.3 428.48 624.69 518.67 512 518.67 C 405.85 518.67 318.39 438.63 306.67 335.61 L 304.66 335.61 C 316.39 439.74 404.74 520.68 512 520.68 C 624.33 520.68 715.93 431.9 720.49 320.68 z "
-         id="path2402" />
+         sodipodi:nodetypes="ccc"
+         style="fill:none;stroke:#ffffff;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         d="M 965.62,569.92 H 843 v 180.56"
+         id="path2796"
+         inkscape:connector-curvature="0" />
       <text
-         id="plan.range"
-         y="323.64"
-         x="303.51"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:13.32917px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:sans-serif;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle;fill:#0080ff;fill-opacity:1;stroke:none;stroke-width:1.99998;stroke-miterlimit:4;stroke-dasharray:none"
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:32px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:sans-serif;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none"
+         x="933.72"
+         y="614.29"
+         id="tcas.mode"><tspan
+           sodipodi:role="line"
+           id="tspan2844"
+           x="933.72"
+           y="614.29"
+           style="text-align:center;text-anchor:middle;fill:#00ff00">TA ONLY</tspan></text>
+      <text
+         id="tcas.altmode"
+         y="666.29"
+         x="933.72"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:32px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:sans-serif;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none"
          xml:space="preserve"><tspan
-           style="font-size:31.99047px;fill:#0080ff;fill-opacity:1;stroke-width:1.99998;stroke-miterlimit:4;stroke-dasharray:none"
-           y="323.64"
-           x="303.51"
-           id="tspan1648"
-           sodipodi:role="line">100</tspan></text>
+           style="text-align:center;text-anchor:middle;fill:#00ff00"
+           y="666.29"
+           x="933.72"
+           id="tspan2848"
+           sodipodi:role="line">REL</tspan></text>
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:32px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:sans-serif;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none"
+         x="933.72"
+         y="722.29"
+         id="text2854"><tspan
+           sodipodi:role="line"
+           id="tspan2852"
+           x="933.72"
+           y="722.29"
+           style="text-align:center;text-anchor:middle;fill:#00ff00">EXPD</tspan></text>
     </g>
   </g>
 </svg>

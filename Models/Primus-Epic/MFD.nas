@@ -1,4 +1,7 @@
 # E-Jet Family MFD
+#
+# AOM references:
+# - TCAS mode: p. 2157
 
 var mfd_display = [nil, nil];
 var mfd = [nil, nil];
@@ -118,6 +121,7 @@ var MFD = {
                 'cursor.x': props.globals.getNode("/instrumentation/mfd[" ~ index ~ "]/cursor/x"),
                 'cursor.y': props.globals.getNode("/instrumentation/mfd[" ~ index ~ "]/cursor/y"),
                 'range': props.globals.getNode("/instrumentation/mfd[" ~ index ~ "]/lateral-range"),
+                'tcas-mode': props.globals.getNode("/instrumentation/tcas/inputs/mode"),
             };
 
         var masterProp = props.globals.getNode("/instrumentation/mfd[" ~ index ~ "]");
@@ -151,7 +155,7 @@ var MFD = {
         me.mapPage = me.upperArea.createChild("group");
 
         me.map = me.mapPage.createChild("map");
-        me.map.set("clip", "rect(0px, 1024px, 640px, 0px)");
+        me.map.set("clip", "rect(0px, 1024px, 740px, 0px)");
         me.map.set("clip-frame", canvas.Element.PARENT);
         me.map.setTranslation(512, 540);
         me.map.setController("Aircraft position");
@@ -211,11 +215,11 @@ var MFD = {
 
         var mapkeys = [
                 'arc',
-                'arc.master',
                 'arc.compass',
                 'arc.heading-bug',
                 'arc.heading-bug.arrow-left',
                 'arc.heading-bug.arrow-right',
+                'arc.master',
                 'arc.range.left',
                 'arc.range.right',
                 'dest.dist',
@@ -226,10 +230,10 @@ var MFD = {
                 'eta-ete',
                 'heading.digital',
                 'nav.src',
-                'nav.target.name',
                 'nav.target',
                 'nav.target.dist',
                 'nav.target.ete',
+                'nav.target.name',
                 'next.dist',
                 'next.eta',
                 'next.fuel',
@@ -238,12 +242,16 @@ var MFD = {
                 'plan.master',
                 'plan.range',
                 'progress.master',
+                'sat.digital',
+                'tas.digital',
+                'tat.digital',
+                'terrain.master',
+                'tcas.master',
+                'tcas.altmode',
+                'tcas.mode',
                 'weather.master',
                 'wind.arrow',
                 'wind.digital',
-                'tat.digital',
-                'sat.digital',
-                'tas.digital',
             ];
         var guikeys = [
                 'mapMenu',
@@ -370,7 +378,26 @@ var MFD = {
         setlistener(me.props['show-tcas'], func (node) {
             var viz = node.getBoolValue();
             self.elems['checkTCAS'].setVisible(viz);
+            self.elems['tcas.master'].setVisible(viz);
             self.map.layers['TFC-Ejet'].setVisible(viz);
+        }, 1, 0);
+        setlistener(me.props['tcas-mode'], func (node) {
+            var mode = node.getValue();
+            if (mode == 3) {
+                # TA/RA
+                self.elems['tcas.mode'].setColor(0, 1, 0);
+                self.elems['tcas.mode'].setText('TCAS TA/RA');
+            }
+            else if (mode == 2) {
+                # TA ONLY
+                self.elems['tcas.mode'].setColor(0, 1, 0);
+                self.elems['tcas.mode'].setText('TA ONLY');
+            }
+            else {
+                # TCAS OFF
+                self.elems['tcas.mode'].setColor(1, 0.75, 0);
+                self.elems['tcas.mode'].setText('TCAS OFF');
+            }
         }, 1, 0);
 
         return me;
@@ -518,10 +545,12 @@ var MFD = {
 
     selectUnderlay: func (which) {
         me.elems['radioWeather'].setVisible(which == 'WX');
+        me.elems['weather.master'].setVisible(which == 'WX');
         # WXR layer is buggy.
         # me.map.layers['WXR'].setVisible(which == 'WX');
 
         me.elems['radioTerrain'].setVisible(which == 'TERRAIN');
+        me.elems['terrain.master'].setVisible(which == 'TERRAIN');
         # TERR layer not available in FGDATA as of 2020.2
         # me.map.layers['TERR'].setVisible(which == 'TERRAIN');
 
