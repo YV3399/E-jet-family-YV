@@ -157,13 +157,14 @@ var MFD = {
         me.mapPage = me.upperArea.createChild("group");
 
         me.underlay = me.mapPage.createChild("group");
-        me.terrainRadar = me.underlay.createChild("image");
-        me.terrainRadar.set("src", resolvepath("Aircraft/E-jet-family/Models/Primus-Epic/MFD/radar-empty.png"));
-        me.terrainRadar.setCenter(128, 128);
+        me.terrainViz = me.underlay.createChild("image");
+        me.terrainViz.set("src", resolvepath("Aircraft/E-jet-family/Models/Primus-Epic/MFD/radar-empty.png"));
+        me.terrainViz.setCenter(128, 128);
         var terrainTimerFunc = func () {
-            self.updateTerrainRadar();
+            self.updateTerrainViz();
             settimer(terrainTimerFunc, 0.1);
         };
+        canvas.parsesvg(me.underlay, "Aircraft/E-jet-family/Models/Primus-Epic/MFD-radar-mask.svg");
         settimer(terrainTimerFunc, 1.0);
 
         me.map = me.mapPage.createChild("map");
@@ -415,8 +416,8 @@ var MFD = {
         return me;
     },
 
-    updateTerrainRadar: func() {
-        if (!me.terrainRadar.getVisible()) return;
+    updateTerrainViz: func() {
+        if (!me.terrainViz.getVisible()) return;
         var acPos = geo.aircraft_position();
         var acAlt = me.props['altitude-amsl'].getValue();
         var x = 0;
@@ -434,7 +435,7 @@ var MFD = {
                 var elev = nil;
                 if (dist <= 128) {
                     var coord = geo.Coord.new(acPos);
-                    coord.apply_course_distance(bearingAbs, dist * 10 * NM2M / 128);
+                    coord.apply_course_distance(bearingAbs, dist * 10.675 * NM2M / 128);
                     var start = geo.Coord.new(coord);
                     var end = geo.Coord.new(coord);
                     start.set_alt(10000);
@@ -477,17 +478,17 @@ var MFD = {
                     }
                 }
                 if (density)
-                    me.terrainRadar.fillRect([x, y, 2, 2], color);
+                    me.terrainViz.fillRect([x, y, 2, 2], color);
                 else
-                    me.terrainRadar.fillRect([x, y, 2, 2], '#000000');
-                me.terrainRadar.setPixel(x, y, color);
+                    me.terrainViz.fillRect([x, y, 2, 2], '#000000');
+                me.terrainViz.setPixel(x, y, color);
             # }
         }
         me.txRadarScanX += 2;
         if (me.txRadarScanX >= 256) {
             me.txRadarScanX = 0;
         }
-        me.terrainRadar.dirtyPixels();
+        me.terrainViz.dirtyPixels();
     },
 
     setRange: func(range) {
@@ -497,9 +498,9 @@ var MFD = {
         me.map.layers["TAXI"].setVisible(range < 9.5);
         me.map.layers["RWY"].setVisible(range < 9.5 and aptVisible);
         me.map.layers["APT"].setVisible(range >= 9.5 and range < 99.5 and aptVisible);
-        var txScale = 10 / range * 416 / 127;
-        me.terrainRadar.setTranslation(512 - 416 * 10 / range, 530 - 416 * 10 / range);
-        me.terrainRadar.setScale(txScale, txScale);
+        var txScale = 10 / range * 444 / 127;
+        me.terrainViz.setTranslation(512 - 444 * 10 / range, 530 - 444 * 10 / range);
+        me.terrainViz.setScale(txScale, txScale);
         var fmt = "%2.0f";
         if (range < 20)
             fmt = "%3.1f";
@@ -641,7 +642,7 @@ var MFD = {
 
         me.elems['radioTerrain'].setVisible(which == 'TERRAIN');
         me.elems['terrain.master'].setVisible(which == 'TERRAIN');
-        me.terrainRadar.setVisible(which == 'TERRAIN');
+        me.terrainViz.setVisible(which == 'TERRAIN');
 
         me.elems['radioOff'].setVisible(which == nil);
     },
@@ -722,7 +723,7 @@ var MFD = {
             me.elems['arc.heading-bug.arrow-right'].hide();
         }
         me.elems['arc'].setRotation(heading * -DC);
-        me.terrainRadar.setRotation(heading * -DC);
+        me.terrainViz.setRotation(heading * -DC);
         me.elems['heading.digital'].setText(sprintf("%03.0f", heading));
         me.elems['wind.arrow'].setRotation(me.props['wind-dir'].getValue() * DC);
         me.elems['wind.digital'].setText(sprintf("%2.0f", me.props['wind-speed'].getValue()));
