@@ -132,6 +132,9 @@
             <property-rule n="102">
                 <path>Aircraft/E-jet-family/Systems/fms.xml</path>
             </property-rule>
+            <property-rule n="103">
+                <path>Aircraft/E-jet-family/Systems/wxr-rules.xml</path>
+            </property-rule>
             <autopilot>
                 <path>Aircraft/E-jet-family/Systems/vspeeds.xml</path>
             </autopilot>
@@ -985,6 +988,26 @@
             <brightness>0.8</brightness>
         </mcdu>
 
+        <wxr>
+            <!-- TODO: implement 90-second warmup -->
+            <ready type="bool">true</ready>
+            <!-- modes:
+                    0 = OFF
+                    1 = STANDBY
+                    2 = GMAP
+                    3 = WX
+              -->
+            <mode type="int">0</mode>
+            <sector-scan type="bool">false</sector-scan>
+            <!-- antenna sweep position, in degrees -->
+            <sweep-pos-deg type="double">-60</sweep-pos-deg>
+            <!-- buffer index -->
+            <scan-pos type="int">0</scan-pos>
+            <tilt-angle-deg type="double">0</tilt-angle-deg>
+            <range-nm type="double">10</range-nm>
+            <gain type="double">20</gain>
+        </wxr>
+
     
 
         <fmc>
@@ -1016,6 +1039,7 @@
                 <x>32</x>
                 <y>32</y>
             </cursor>
+            <wx-mode type="int">0</wx-mode>
         </mfd>
 
         <mfd>
@@ -1026,6 +1050,7 @@
                 <x>32</x>
                 <y>32</y>
             </cursor>
+            <wx-mode type="int">0</wx-mode>
         </mfd>
 
         <nav-compass>
@@ -1274,6 +1299,10 @@
         <itaf>
             <file>Aircraft/E-jet-family/Nasal/it-autoflight.nas</file>
         </itaf>
+
+        <wxr>
+            <file>Aircraft/E-jet-family/Nasal/wxr.nas</file>
+        </wxr>
 
         <canvas_chrono>
             <file>Aircraft/E-jet-family/Models/Instruments/Chrono/chronometer.nas</file>

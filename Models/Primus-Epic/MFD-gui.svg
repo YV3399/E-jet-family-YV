@@ -116,15 +116,15 @@
      borderopacity="1.0"
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
-     inkscape:zoom="1"
-     inkscape:cx="114.11"
-     inkscape:cy="1036.4"
+     inkscape:zoom="0.70711"
+     inkscape:cx="433.36"
+     inkscape:cy="502.81"
      inkscape:document-units="px"
      inkscape:current-layer="mapMenu"
      showgrid="true"
      units="px"
-     inkscape:window-width="1918"
-     inkscape:window-height="1078"
+     inkscape:window-width="1920"
+     inkscape:window-height="1080"
      inkscape:window-x="1440"
      inkscape:window-y="0"
      inkscape:window-maximized="0"
@@ -697,4 +697,505 @@
          id="radioOff" />
     </g>
   </g>
+  <g id="weatherMenu">
+      <rect
+         y="883"
+         x="26"
+         height="369"
+         width="971.99"
+         id="rect1919"
+         style="opacity:1;fill:#808080;fill-opacity:1;stroke:none;stroke-width:2.99983;stroke-linecap:butt;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+      <path
+         sodipodi:nodetypes="cccccccc"
+         id="path1921"
+         style="opacity:1;fill:#4d4d4d;fill-opacity:1;stroke:none;stroke-width:3;stroke-linecap:butt;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         d="M 26,1258 H 998 V 882 l -8,8 m 0,0 v 360 H 34 l -8,8"
+         inkscape:connector-curvature="0" />
+      <path
+         sodipodi:nodetypes="cccccccc"
+         inkscape:connector-curvature="0"
+         d="M 998,882 H 26 v 376 l 8,-8 m 0,0 V 890 h 956 l 8,-8"
+         style="opacity:1;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:3;stroke-linecap:butt;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         id="path1923" />
+      <g
+         id="weatherMenu.radioOff.container">
+        <rect
+           style="opacity:1;fill:#808080;fill-opacity:1;stroke:none;stroke-width:3.00004;stroke-linecap:butt;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+           id="weatherMenu.radioOff.clickbox"
+           width="220"
+           height="57"
+           x="35.5"
+           y="1185" />
+        <text
+           xml:space="preserve"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:37.33333px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:sans-serif;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#ffffff;fill-opacity:1;stroke:none"
+           x="104.34"
+           y="1228"
+           id="text2025"><tspan
+             sodipodi:role="line"
+             id="tspan2023"
+             x="104.34"
+             y="1228">Off</tspan></text>
+        <path
+           inkscape:connector-curvature="0"
+           style="opacity:1;fill:#4d4d4d;fill-opacity:1;stroke:#ffffff;stroke-width:3;stroke-linecap:butt;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+           d="m 64,1192 c 12.46,0 22.5,10 22.5,22.5 0,12.5 -10.04,22.5 -22.5,22.5 -12.46,0 -22.5,-10 -22.5,-22.5 0,-12.5 10.04,-22.5 22.5,-22.5 z"
+           id="path2027" />
+        <path
+           inkscape:connector-curvature="0"
+           style="opacity:1;fill:#00ff00;fill-opacity:1;stroke:none;stroke-width:2.99999;stroke-linecap:butt;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+           d="m 64.01,1199.8 c 8.13,0 14.68,6.6 14.68,14.7 0,8.1 -6.55,14.7 -14.68,14.7 -8.14,0 -14.69,-6.6 -14.69,-14.7 0,-8.1 6.55,-14.7 14.69,-14.7 z"
+           id="weatherMenu.radioOff" />
+      </g>
+      <g
+         id="weatherMenu.radioSTBY.container">
+        <rect
+           y="1117"
+           x="35.5"
+           height="57"
+           width="220"
+           id="weatherMenu.radioSTBY.clickbox"
+           style="opacity:1;fill:#808080;fill-opacity:1;stroke:none;stroke-width:3.00004;stroke-linecap:butt;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+        <text
+           id="text2037"
+           y="1160"
+           x="104.34"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:37.33333px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:sans-serif;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#ffffff;fill-opacity:1;stroke:none"
+           xml:space="preserve"><tspan
+             y="1160"
+             x="104.34"
+             id="tspan2035"
+             sodipodi:role="line">STBY</tspan></text>
+        <path
+           id="path2039"
+           d="m 64,1124 c 12.46,0 22.5,10 22.5,22.5 0,12.5 -10.04,22.5 -22.5,22.5 -12.46,0 -22.5,-10 -22.5,-22.5 0,-12.5 10.04,-22.5 22.5,-22.5 z"
+           style="opacity:1;fill:#4d4d4d;fill-opacity:1;stroke:#ffffff;stroke-width:3;stroke-linecap:butt;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+           inkscape:connector-curvature="0" />
+        <path
+           id="weatherMenu.radioSTBY"
+           d="m 64.01,1131.8 c 8.13,0 14.68,6.6 14.68,14.7 0,8.1 -6.55,14.7 -14.68,14.7 -8.14,0 -14.69,-6.6 -14.69,-14.7 0,-8.1 6.55,-14.7 14.69,-14.7 z"
+           style="opacity:1;fill:#00ff00;fill-opacity:1;stroke:none;stroke-width:2.99999;stroke-linecap:butt;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+           inkscape:connector-curvature="0" />
+      </g>
+      <g
+         id="weatherMenu.radioGMAP.container">
+        <rect
+           style="opacity:1;fill:#808080;fill-opacity:1;stroke:none;stroke-width:3.00004;stroke-linecap:butt;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+           id="weatherMenu.radioGMAP.clickbox"
+           width="220"
+           height="57"
+           x="35.5"
+           y="1049" />
+        <text
+           xml:space="preserve"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:37.33333px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:sans-serif;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#ffffff;fill-opacity:1;stroke:none"
+           x="104.34"
+           y="1092"
+           id="text2049"><tspan
+             sodipodi:role="line"
+             id="tspan2047"
+             x="104.34"
+             y="1092">GMAP</tspan></text>
+        <path
+           inkscape:connector-curvature="0"
+           style="opacity:1;fill:#4d4d4d;fill-opacity:1;stroke:#ffffff;stroke-width:3;stroke-linecap:butt;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+           d="m 64,1056 c 12.46,0 22.5,10 22.5,22.5 0,12.5 -10.04,22.5 -22.5,22.5 -12.46,0 -22.5,-10 -22.5,-22.5 0,-12.5 10.04,-22.5 22.5,-22.5 z"
+           id="path2051" />
+        <path
+           inkscape:connector-curvature="0"
+           style="opacity:1;fill:#00ff00;fill-opacity:1;stroke:none;stroke-width:2.99999;stroke-linecap:butt;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+           d="m 64.01,1063.8 c 8.13,0 14.68,6.6 14.68,14.7 0,8.1 -6.55,14.7 -14.68,14.7 -8.14,0 -14.69,-6.6 -14.69,-14.7 0,-8.1 6.55,-14.7 14.69,-14.7 z"
+           id="weatherMenu.radioGMAP" />
+      </g>
+      <g
+         id="weatherMenu.radioWX.container">
+        <rect
+           y="981"
+           x="35.5"
+           height="57"
+           width="220"
+           id="weatherMenu.radioWX.clickbox"
+           style="opacity:1;fill:#808080;fill-opacity:1;stroke:none;stroke-width:3.00004;stroke-linecap:butt;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+        <text
+           id="text2061"
+           y="1024"
+           x="104.34"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:37.33333px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:sans-serif;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#ffffff;fill-opacity:1;stroke:none"
+           xml:space="preserve"><tspan
+             y="1024"
+             x="104.34"
+             id="tspan2059"
+             sodipodi:role="line">WX</tspan></text>
+        <path
+           id="path2063"
+           d="m 64,988 c 12.46,0 22.5,10.04 22.5,22.5 0,12.5 -10.04,22.5 -22.5,22.5 -12.46,0 -22.5,-10 -22.5,-22.5 C 41.5,998.04 51.54,988 64,988 Z"
+           style="opacity:1;fill:#4d4d4d;fill-opacity:1;stroke:#ffffff;stroke-width:3;stroke-linecap:butt;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+           inkscape:connector-curvature="0" />
+        <path
+           id="weatherMenu.radioWX"
+           d="m 64.01,995.81 c 8.13,0 14.68,6.59 14.68,14.69 0,8.1 -6.55,14.7 -14.68,14.7 -8.14,0 -14.69,-6.6 -14.69,-14.7 0,-8.1 6.55,-14.69 14.69,-14.69 z"
+           style="opacity:1;fill:#00ff00;fill-opacity:1;stroke:none;stroke-width:2.99999;stroke-linecap:butt;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+           inkscape:connector-curvature="0" />
+      </g>
+      <g
+         id="g3534">
+        <rect
+           y="899"
+           x="39.5"
+           height="57"
+           width="289.49"
+           id="rect2069"
+           style="opacity:1;fill:#808080;fill-opacity:1;stroke:none;stroke-width:2.99998;stroke-linecap:butt;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+        <text
+           id="text2073"
+           y="940.97"
+           x="106.34"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:37.33333px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:sans-serif;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#ffffff;fill-opacity:1;stroke:none"
+           xml:space="preserve"><tspan
+             y="940.97"
+             x="106.34"
+             id="tspan2071"
+             sodipodi:role="line">FSBY OVRD</tspan></text>
+        <rect
+           y="905"
+           x="43.5"
+           height="45"
+           width="45"
+           id="weatherMenu.checkFsbyOvrd.clickbox"
+           style="opacity:1;fill:#4d4d4d;fill-opacity:1;stroke:#ffffff;stroke-width:3;stroke-linecap:butt;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+        <path
+           sodipodi:nodetypes="ccccc"
+           d="m 56.86,948.16 -11.54,-15.78 11.51,7.07 29.34,-32.31 z"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:74.66667px;line-height:1.25;font-family:Arial;-inkscape-font-specification:Arial;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle;fill:#00ff00;fill-opacity:1;stroke:none"
+           id="weatherMenu.checkFsbyOvrd"
+           inkscape:connector-curvature="0" />
+      </g>
+      <g
+         id="g3582">
+        <text
+           xml:space="preserve"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:37.33333px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:sans-serif;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#ffffff;fill-opacity:1;stroke:none"
+           x="339.9"
+           y="1227"
+           id="text1929"><tspan
+             sodipodi:role="line"
+             id="tspan1927"
+             x="339.9"
+             y="1227">Gain</tspan></text>
+        <rect
+           style="opacity:1;fill:#4d4d4d;fill-opacity:1;stroke:#ffffff;stroke-width:3.00003;stroke-linecap:butt;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+           id="rect1931"
+           width="86.013"
+           height="45"
+           x="439.51"
+           y="1191" />
+        <text
+           id="weatherMenu.gain"
+           y="1227"
+           x="517.37"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:37.33333px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:sans-serif;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:end;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:end;fill:#00c0ff;fill-opacity:1;stroke:none"
+           xml:space="preserve"><tspan
+             y="1227"
+             x="517.37"
+             id="tspan2614"
+             sodipodi:role="line">100</tspan></text>
+      </g>
+      <g
+         id="g3570">
+        <rect
+           y="1117"
+           x="277.06"
+           height="57"
+           width="220"
+           id="weatherMenu.checkVarGain.clickbox"
+           style="opacity:1;fill:#808080;fill-opacity:1;stroke:none;stroke-width:3.00004;stroke-linecap:butt;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+        <text
+           id="text2085"
+           y="1159"
+           x="343.9"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:37.33333px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:sans-serif;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#ffffff;fill-opacity:1;stroke:none"
+           xml:space="preserve"><tspan
+             y="1159"
+             x="343.9"
+             id="tspan2083"
+             sodipodi:role="line">VAR Gain</tspan></text>
+        <rect
+           y="1123"
+           x="281.06"
+           height="45"
+           width="45"
+           id="rect2087"
+           style="opacity:1;fill:#4d4d4d;fill-opacity:1;stroke:#ffffff;stroke-width:3;stroke-linecap:butt;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+        <path
+           sodipodi:nodetypes="ccccc"
+           d="m 294.42,1166.2 -11.54,-15.8 11.51,7.1 29.34,-32.4 z"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:74.66667px;line-height:1.25;font-family:Arial;-inkscape-font-specification:Arial;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle;fill:#00ff00;fill-opacity:1;stroke:none"
+           id="weatherMenu.checkVarGain"
+           inkscape:connector-curvature="0" />
+      </g>
+      <g
+         id="g3558">
+        <rect
+           style="opacity:1;fill:#808080;fill-opacity:1;stroke:none;stroke-width:3.00004;stroke-linecap:butt;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+           id="weatherMenu.checkStabOff.clickbox"
+           width="220"
+           height="57"
+           x="277.06"
+           y="1049" />
+        <text
+           xml:space="preserve"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:37.33333px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:sans-serif;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#ffffff;fill-opacity:1;stroke:none"
+           x="343.9"
+           y="1091"
+           id="text2097"><tspan
+             sodipodi:role="line"
+             id="tspan2095"
+             x="343.9"
+             y="1091">STAB Off</tspan></text>
+        <rect
+           style="opacity:1;fill:#4d4d4d;fill-opacity:1;stroke:#ffffff;stroke-width:3;stroke-linecap:butt;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+           id="rect2099"
+           width="45"
+           height="45"
+           x="281.06"
+           y="1055" />
+        <path
+           inkscape:connector-curvature="0"
+           id="weatherMenu.checkStabOff"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:74.66667px;line-height:1.25;font-family:Arial;-inkscape-font-specification:Arial;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle;fill:#00ff00;fill-opacity:1;stroke:none"
+           d="m 294.42,1098.2 -11.54,-15.8 11.51,7.1 29.34,-32.4 z"
+           sodipodi:nodetypes="ccccc" />
+      </g>
+      <g
+         id="g3546">
+        <rect
+           y="981"
+           x="277.06"
+           height="57"
+           width="220"
+           id="weatherMenu.checkSect.clickbox"
+           style="opacity:1;fill:#808080;fill-opacity:1;stroke:none;stroke-width:3.00004;stroke-linecap:butt;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+        <text
+           id="text2109"
+           y="1023"
+           x="343.9"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:37.33333px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:sans-serif;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#ffffff;fill-opacity:1;stroke:none"
+           xml:space="preserve"><tspan
+             y="1023"
+             x="343.9"
+             id="tspan2107"
+             sodipodi:role="line">SECT</tspan></text>
+        <rect
+           y="987"
+           x="281.06"
+           height="45"
+           width="45"
+           id="rect2111"
+           style="opacity:1;fill:#4d4d4d;fill-opacity:1;stroke:#ffffff;stroke-width:3;stroke-linecap:butt;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+        <path
+           sodipodi:nodetypes="ccccc"
+           d="m 294.42,1030.2 -11.54,-15.8 11.51,7.1 29.34,-32.36 z"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:74.66667px;line-height:1.25;font-family:Arial;-inkscape-font-specification:Arial;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle;fill:#00ff00;fill-opacity:1;stroke:none"
+           id="weatherMenu.checkSect"
+           inkscape:connector-curvature="0" />
+      </g>
+      <g
+         id="g3630">
+        <rect
+           y="1185"
+           x="558.61"
+           height="57"
+           width="192"
+           id="weatherMenu.checkTurb.clickbox"
+           style="opacity:1;fill:#808080;fill-opacity:1;stroke:none;stroke-width:3.00004;stroke-linecap:butt;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+        <text
+           id="text2422"
+           y="1227"
+           x="625.45"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:37.33333px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:sans-serif;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#ffffff;fill-opacity:1;stroke:none"
+           xml:space="preserve"><tspan
+             y="1227"
+             x="625.45"
+             id="tspan2420"
+             sodipodi:role="line">TURB</tspan></text>
+        <rect
+           y="1191"
+           x="562.61"
+           height="45"
+           width="45"
+           id="rect2424"
+           style="opacity:1;fill:#4d4d4d;fill-opacity:1;stroke:#ffffff;stroke-width:3;stroke-linecap:butt;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+        <path
+           sodipodi:nodetypes="ccccc"
+           d="m 575.97,1234.2 -11.54,-15.8 11.51,7.1 29.34,-32.4 z"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:74.66667px;line-height:1.25;font-family:Arial;-inkscape-font-specification:Arial;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle;fill:#00ff00;fill-opacity:1;stroke:none"
+           id="weatherMenu.checkTurb"
+           inkscape:connector-curvature="0" />
+      </g>
+      <g
+         id="g3618">
+        <rect
+           style="opacity:1;fill:#808080;fill-opacity:1;stroke:none;stroke-width:3.00004;stroke-linecap:butt;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+           id="weatherMenu.checkACT.clickbox"
+           width="192"
+           height="57"
+           x="558.61"
+           y="1117" />
+        <text
+           xml:space="preserve"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:37.33333px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:sans-serif;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#ffffff;fill-opacity:1;stroke:none"
+           x="625.45"
+           y="1159"
+           id="text2434"><tspan
+             sodipodi:role="line"
+             id="tspan2432"
+             x="625.45"
+             y="1159">ACT</tspan></text>
+        <rect
+           style="opacity:1;fill:#4d4d4d;fill-opacity:1;stroke:#ffffff;stroke-width:3;stroke-linecap:butt;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+           id="rect2436"
+           width="45"
+           height="45"
+           x="562.61"
+           y="1123" />
+        <path
+           inkscape:connector-curvature="0"
+           id="weatherMenu.checkACT"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:74.66667px;line-height:1.25;font-family:Arial;-inkscape-font-specification:Arial;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle;fill:#00ff00;fill-opacity:1;stroke:none"
+           d="m 575.97,1166.2 -11.54,-15.8 11.51,7.1 29.34,-32.4 z"
+           sodipodi:nodetypes="ccccc" />
+      </g>
+      <g
+         id="g3606">
+        <rect
+           y="1049"
+           x="558.61"
+           height="57"
+           width="192"
+           id="weatherMenu.checkRCT.clickbox"
+           style="opacity:1;fill:#808080;fill-opacity:1;stroke:none;stroke-width:3.00004;stroke-linecap:butt;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+        <text
+           id="text2446"
+           y="1091"
+           x="625.45"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:37.33333px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:sans-serif;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#ffffff;fill-opacity:1;stroke:none"
+           xml:space="preserve"><tspan
+             y="1091"
+             x="625.45"
+             id="tspan2444"
+             sodipodi:role="line">RCT</tspan></text>
+        <rect
+           y="1055"
+           x="562.61"
+           height="45"
+           width="45"
+           id="rect2448"
+           style="opacity:1;fill:#4d4d4d;fill-opacity:1;stroke:#ffffff;stroke-width:3;stroke-linecap:butt;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+        <path
+           sodipodi:nodetypes="ccccc"
+           d="m 575.97,1098.2 -11.54,-15.8 11.51,7.1 29.34,-32.4 z"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:74.66667px;line-height:1.25;font-family:Arial;-inkscape-font-specification:Arial;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle;fill:#00ff00;fill-opacity:1;stroke:none"
+           id="weatherMenu.checkRCT"
+           inkscape:connector-curvature="0" />
+      </g>
+      <g
+         id="g3594">
+        <rect
+           style="opacity:1;fill:#808080;fill-opacity:1;stroke:none;stroke-width:3.00014;stroke-linecap:butt;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+           id="weatherMenu.checkTGT.clickbox"
+           width="192"
+           height="57"
+           x="558.61"
+           y="981" />
+        <text
+           xml:space="preserve"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:37.33333px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:sans-serif;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#ffffff;fill-opacity:1;stroke:none"
+           x="625.45"
+           y="1023"
+           id="text2458"><tspan
+             sodipodi:role="line"
+             id="tspan2456"
+             x="625.45"
+             y="1023">TGT</tspan></text>
+        <rect
+           style="opacity:1;fill:#4d4d4d;fill-opacity:1;stroke:#ffffff;stroke-width:3;stroke-linecap:butt;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+           id="rect2460"
+           width="45"
+           height="45"
+           x="562.61"
+           y="987" />
+        <path
+           inkscape:connector-curvature="0"
+           id="weatherMenu.checkTGT"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:74.66667px;line-height:1.25;font-family:Arial;-inkscape-font-specification:Arial;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle;fill:#00ff00;fill-opacity:1;stroke:none"
+           d="m 575.97,1030.2 -11.54,-15.8 11.51,7.1 29.34,-32.36 z"
+           sodipodi:nodetypes="ccccc" />
+      </g>
+      <g
+         id="g3654">
+        <rect
+           style="opacity:1;fill:#808080;fill-opacity:1;stroke:none;stroke-width:3.00004;stroke-linecap:butt;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+           id="weatherMenu.checkClrTst.clickbox"
+           width="220"
+           height="57"
+           x="760.17"
+           y="1049" />
+        <text
+           xml:space="preserve"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:37.33333px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:sans-serif;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#ffffff;fill-opacity:1;stroke:none"
+           x="827.01"
+           y="1091"
+           id="text2496"><tspan
+             sodipodi:role="line"
+             id="tspan2494"
+             x="827.01"
+             y="1091">CLR TST</tspan></text>
+        <rect
+           style="opacity:1;fill:#4d4d4d;fill-opacity:1;stroke:#ffffff;stroke-width:3;stroke-linecap:butt;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+           id="rect2498"
+           width="45"
+           height="45"
+           x="764.17"
+           y="1055" />
+        <path
+           inkscape:connector-curvature="0"
+           id="weatherMenu.checkClrTst"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:74.66667px;line-height:1.25;font-family:Arial;-inkscape-font-specification:Arial;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle;fill:#00ff00;fill-opacity:1;stroke:none"
+           d="m 777.53,1098.2 -11.54,-15.8 11.51,7.1 29.34,-32.4 z"
+           sodipodi:nodetypes="ccccc" />
+      </g>
+      <g
+         id="g3642">
+        <rect
+           y="981"
+           x="760.17"
+           height="57"
+           width="220"
+           id="weatherMenu.checkLX.clickbox"
+           style="opacity:1;fill:#808080;fill-opacity:1;stroke:none;stroke-width:3.00004;stroke-linecap:butt;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+        <text
+           id="text2508"
+           y="1023"
+           x="827.01"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:37.33333px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:sans-serif;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#ffffff;fill-opacity:1;stroke:none"
+           xml:space="preserve"><tspan
+             y="1023"
+             x="827.01"
+             id="tspan2506"
+             sodipodi:role="line">LX</tspan></text>
+        <rect
+           y="987"
+           x="764.17"
+           height="45"
+           width="45"
+           id="rect2510"
+           style="opacity:1;fill:#4d4d4d;fill-opacity:1;stroke:#ffffff;stroke-width:3;stroke-linecap:butt;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+        <path
+           sodipodi:nodetypes="ccccc"
+           d="m 777.53,1030.2 -11.54,-15.8 11.51,7.1 29.34,-32.36 z"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:74.66667px;line-height:1.25;font-family:Arial;-inkscape-font-specification:Arial;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle;fill:#00ff00;fill-opacity:1;stroke:none"
+           id="weatherMenu.checkLX"
+           inkscape:connector-curvature="0" />
+      </g>
+    </g>
 </svg>

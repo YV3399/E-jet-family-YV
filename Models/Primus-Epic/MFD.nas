@@ -7,6 +7,22 @@ var mfd_display = [nil, nil];
 var mfd = [nil, nil];
 var DC = 0.01744;
 
+var radarColor = func (value) {
+    # 0.00 black
+    # 0.25 green   (0, 1, 0)
+    # 0.50 yellow  (1, 1, 0)
+    # 0.75 red     (1, 0, 0)
+    # 1.00 magenta (1, 0, 1)
+    # > 1.00 cyan
+    if (value == nil) return [ 0, 0, 0, 1 ];
+    if (value > 1.0) return [ 0, 1, 1, 1 ];
+    if (value > 0.75) return [ 1, 0, (value - 0.75) * 4, 1 ];
+    if (value > 0.50) return [ 1, (0.75 - value - 0.50) * 4, 0, 1 ];
+    if (value > 0.25) return [ (value - 0.25) * 4, 1, 0, 1 ];
+    if (value > 0.00) return [ 0, value * 4, 0, 1 ];
+    return [ 0, 0, 0, 1 ];
+}
+
 var RouteDriver = {
     new: func(includeCurrent=1){
         var m = {
@@ -124,6 +140,13 @@ var MFD = {
                 'cursor.y': props.globals.getNode("/instrumentation/mfd[" ~ index ~ "]/cursor/y"),
                 'range': props.globals.getNode("/instrumentation/mfd[" ~ index ~ "]/lateral-range"),
                 'tcas-mode': props.globals.getNode("/instrumentation/tcas/inputs/mode"),
+                'wx-sweep-angle': props.globals.getNode("/instrumentation/wxr/sweep-pos-deg"),
+                'wx-sweep-index': props.globals.getNode("/instrumentation/wxr/scan-pos"),
+                'wx-range': props.globals.getNode("/instrumentation/wxr/range-nm"),
+                'wx-mode': props.globals.getNode("/instrumentation/wxr/mode"),
+                'wx-gain': props.globals.getNode("/instrumentation/wxr/gain"),
+                'wx-tilt': props.globals.getNode("/instrumentation/wxr/tilt-angle-deg"),
+                'wx-mode-sel': props.globals.getNode("/instrumentation/mfd[" ~ index ~ "]/wx-mode"),
             };
 
         var masterProp = props.globals.getNode("/instrumentation/mfd[" ~ index ~ "]");
@@ -158,12 +181,23 @@ var MFD = {
 
         me.underlay = me.mapPage.createChild("group");
         me.terrainViz = me.underlay.createChild("image");
-        me.terrainViz.set("src", resolvepath("Aircraft/E-jet-family/Models/Primus-Epic/MFD/radar-empty.png"));
+        me.terrainViz.set("src", resolvepath("Aircraft/E-jet-family/Models/Primus-Epic/MFD/terrain" ~ index ~ ".png"));
         me.terrainViz.setCenter(128, 128);
         var terrainTimerFunc = func () {
             self.updateTerrainViz();
             settimer(terrainTimerFunc, 0.1);
         };
+        me.radarViz = me.underlay.createChild("image");
+        me.radarViz.set("src", resolvepath("Aircraft/E-jet-family/Models/Primus-Epic/MFD/radar" ~ index ~ ".png"));
+        me.radarViz.setCenter(128, 128);
+        me.lastRadarSweepAngle = -60;
+        setlistener("/instrumentation/wxr/sweep-pos-deg", func (node) {
+            self.updateRadarViz(node.getValue());
+        });
+        setlistener(me.props['wx-range'], func () {
+            self.updateRadarScale();
+        });
+
         canvas.parsesvg(me.underlay, "Aircraft/E-jet-family/Models/Primus-Epic/MFD-radar-mask.svg");
         settimer(terrainTimerFunc, 1.0);
 
@@ -198,10 +232,6 @@ var MFD = {
         me.map.addLayer(factory: canvas.SymbolLayer, type_arg: "NDB", visible: 1, priority: 4,);
         me.map.addLayer(factory: canvas.SymbolLayer, type_arg: "RWY", visible: 0, priority: 3,);
         me.map.addLayer(factory: canvas.SymbolLayer, type_arg: "TAXI", visible: 0, priority: 3,);
-        # WXR layer is buggy.
-        # me.map.addLayer(factory: canvas.SymbolLayer, type_arg: "WXR", visible: 0, priority: 1,);
-        # TERR layer not available in FGDATA as of 2020.2
-        # me.map.addLayer(factory: canvas.SymbolLayer, type_arg: "TERR", visible: 0, priority: 1,);
         me.map.hide();
 
         me.plan = me.mapPage.createChild("map");
@@ -263,6 +293,13 @@ var MFD = {
                 'tcas.altmode',
                 'tcas.mode',
                 'weather.master',
+                'weather.tilt',
+                'weather.act',
+                'weather.mode',
+                'weather.slaved',
+                'weather.stab',
+                'weather.tgt',
+                'weather.lx',
                 'wind.arrow',
                 'wind.digital',
             ];
@@ -277,6 +314,22 @@ var MFD = {
                 'radioWeather',
                 'radioTerrain',
                 'radioOff',
+
+                'weatherMenu',
+                'weatherMenu.radioWX',
+                'weatherMenu.radioGMAP',
+                'weatherMenu.radioSTBY',
+                'weatherMenu.radioOff',
+                'weatherMenu.gain',
+                'weatherMenu.checkSect',
+                'weatherMenu.checkStabOff',
+                'weatherMenu.checkVarGain',
+                'weatherMenu.checkTGT',
+                'weatherMenu.checkRCT',
+                'weatherMenu.checkACT',
+                'weatherMenu.checkTurb',
+                'weatherMenu.checkLX',
+                'weatherMenu.checkClrTst',
             ];
         foreach (var key; mapkeys) {
             me.elems[key] = me.mapOverlay.getElementById(key);
@@ -295,13 +348,14 @@ var MFD = {
         me.elems['arc'].setCenter(512, 530);
         me.elems['arc.heading-bug'].setCenter(512, 530);
         me.elems['mapMenu'].hide();
+        me.elems['weatherMenu'].hide();
 
         me.widgets = [
             { key: 'btnMap', ontouch: func { self.touchMap(); } },
             { key: 'btnPlan', ontouch: func { self.touchPlan(); } },
             { key: 'btnSystems', ontouch: func { self.touchSystems(); } },
             { key: 'btnTCAS', ontouch: func { debug.dump("TCAS"); } },
-            { key: 'btnWeather', ontouch: func { debug.dump("Weather"); } },
+            { key: 'btnWeather', ontouch: func { self.elems['weatherMenu'].toggleVisibility(); } },
             { key: 'checkNavaids', active: func { self.elems['mapMenu'].getVisible() }, ontouch: func { self.toggleMapCheckbox('navaids'); } },
             { key: 'checkAirports', active: func { self.elems['mapMenu'].getVisible() }, ontouch: func { self.toggleMapCheckbox('airports'); } },
             { key: 'checkWptIdent', active: func { self.elems['mapMenu'].getVisible() }, ontouch: func { self.toggleMapCheckbox('wpt'); } },
@@ -311,6 +365,20 @@ var MFD = {
             { key: 'radioWeather', active: func { self.elems['mapMenu'].getVisible() }, ontouch: func { self.selectUnderlay('WX'); } },
             { key: 'radioTerrain', active: func { self.elems['mapMenu'].getVisible() }, ontouch: func { self.selectUnderlay('TERRAIN'); } },
             { key: 'radioOff', active: func { self.elems['mapMenu'].getVisible() }, ontouch: func { self.selectUnderlay(nil); } },
+
+            { key: 'weatherMenu.radioOff', active: func { self.elems['weatherMenu'].getVisible() }, ontouch: func { self.setWxMode(0); } },
+            { key: 'weatherMenu.radioSTBY', active: func { self.elems['weatherMenu'].getVisible() }, ontouch: func { self.setWxMode(1); } },
+            { key: 'weatherMenu.radioWX', active: func { self.elems['weatherMenu'].getVisible() }, ontouch: func { self.setWxMode(2); } },
+            { key: 'weatherMenu.radioGMAP', active: func { self.elems['weatherMenu'].getVisible() }, ontouch: func { self.setWxMode(3); } },
+            { key: 'weatherMenu.checkSect', active: func { self.elems['weatherMenu'].getVisible() }, ontouch: func { self.toggleWeatherCheckbox('wx-sect'); } },
+            { key: 'weatherMenu.checkStabOff', active: func { self.elems['weatherMenu'].getVisible() }, ontouch: func { self.toggleWeatherCheckbox('wx-stab-off'); } },
+            { key: 'weatherMenu.checkVarGain', active: func { self.elems['weatherMenu'].getVisible() }, ontouch: func { self.toggleWeatherCheckbox('wx-var-gain'); } },
+            { key: 'weatherMenu.checkTGT', active: func { self.elems['weatherMenu'].getVisible() }, ontouch: func { self.toggleWeatherCheckbox('wx-tgt'); } },
+            { key: 'weatherMenu.checkRCT', active: func { self.elems['weatherMenu'].getVisible() }, ontouch: func { self.toggleWeatherCheckbox('wx-rct'); } },
+            { key: 'weatherMenu.checkACT', active: func { self.elems['weatherMenu'].getVisible() }, ontouch: func { self.toggleWeatherCheckbox('wx-act'); } },
+            { key: 'weatherMenu.checkTurb', active: func { self.elems['weatherMenu'].getVisible() }, ontouch: func { self.toggleWeatherCheckbox('wx-turb'); } },
+            { key: 'weatherMenu.checkLX', active: func { self.elems['weatherMenu'].getVisible() }, ontouch: func { self.toggleWeatherCheckbox('wx-lx'); } },
+            { key: 'weatherMenu.checkClrTst', active: func { self.elems['weatherMenu'].getVisible() }, ontouch: func { self.toggleWeatherCheckbox('wx-clr-tst'); } },
         ];
 
         forindex (var i; me.widgets) {
@@ -335,7 +403,18 @@ var MFD = {
         me.showFMSTarget = 1;
 
         me.selectUnderlay(nil);
+        me.setWxMode(nil);
 
+        setlistener(me.props['wx-gain'], func (node) {
+            me.elems['weatherMenu.gain'].setText(sprintf("%3.0f", node.getValue() or 0));
+        }, 1, 0);
+        setlistener(me.props['wx-tilt'], func (node) {
+            me.elems['weather.tilt'].setText(sprintf("%-2.0f", node.getValue() or 0));
+        }, 1, 0);
+        setlistener(me.props['wx-mode-sel'], func(node) {
+            var modeText = [ 'OFF', 'STBY', 'WX', 'GMAP' ];
+            me.elems['weather.mode'].setText(modeText[node.getValue()] or '???');
+        }, 1, 0);
         setlistener("/instrumentation/mfd[" ~ index ~ "]/lateral-range", func (node) {
             self.setRange(node.getValue());
         }, 1, 0);
@@ -416,6 +495,49 @@ var MFD = {
         return me;
     },
 
+    updateRadarViz: func (newAngle) {
+        var oldAngle = me.lastRadarSweepAngle;
+        var mode = me.props['wx-mode-sel'].getValue();
+
+        if (mode >= 2) {
+            if (oldAngle > newAngle) {
+                me.drawRadarViz(mode, oldAngle, 60);
+                me.drawRadarViz(mode, -60, newAngle);
+            }
+            else {
+                me.drawRadarViz(mode, oldAngle, newAngle);
+            }
+            me.radarViz.dirtyPixels();
+        }
+
+        me.lastRadarSweepAngle = newAngle;
+    },
+
+    drawRadarViz: func (mode, leftAngle, rightAngle) {
+        var leftTan = math.tan(leftAngle * D2R);
+        var rightTan = math.tan(rightAngle * D2R);
+        for (var y = 0; y < 128; y += 1) {
+            var left = math.max(-127, math.min(127, math.round(y * leftTan)));
+            var right = math.max(-127, math.min(127, math.round(y * rightTan)));
+            var d = math.sqrt(y * y + left * left);
+            var signal = 0;
+            if (mode == 2) {
+                # WX
+                signal += wxr.get_weather_pixel(leftAngle, d * wxr.scan_range / 128) or 0;
+                signal += 0.1 * (wxr.get_ground_pixel(leftAngle, d * wxr.scan_range / 128) or 0);
+            }
+            else if (mode == 3) {
+                # GMAP
+                signal += 0.1 * (wxr.get_weather_pixel(leftAngle, d * wxr.scan_range / 128) or 0);
+                signal += wxr.get_ground_pixel(leftAngle, d * wxr.scan_range / 128) or 0;
+            }
+            var color = radarColor(signal);
+            for (var x = left; x < right; x += 1) {
+                me.radarViz.setPixel(127+x, 128+y, color);
+            }
+        }
+    },
+
     updateTerrainViz: func() {
         if (!me.terrainViz.getVisible()) return;
         var acPos = geo.aircraft_position();
@@ -491,6 +613,15 @@ var MFD = {
         me.terrainViz.dirtyPixels();
     },
 
+    updateRadarScale: func (range=nil) {
+        if (range == nil) { range = me.props['range'].getValue(); }
+
+        var wxRange = me.props['wx-range'].getValue();
+        var wxScale = wxRange / range * 444 / 128;
+        me.radarViz.setScale(wxScale, wxScale);
+        me.radarViz.setTranslation(512 - 128 * wxScale, 530 - 128 * wxScale);
+    },
+
     setRange: func(range) {
         var aptVisible = me.props['show-airports'].getBoolValue();
         me.map.setRange(range);
@@ -498,12 +629,16 @@ var MFD = {
         me.map.layers["TAXI"].setVisible(range < 9.5);
         me.map.layers["RWY"].setVisible(range < 9.5 and aptVisible);
         me.map.layers["APT"].setVisible(range >= 9.5 and range < 99.5 and aptVisible);
+
         var txScale = 10 / range * 444 / 127;
         me.terrainViz.setTranslation(512 - 444 * 10 / range, 530 - 444 * 10 / range);
         me.terrainViz.setScale(txScale, txScale);
         var fmt = "%2.0f";
         if (range < 20)
             fmt = "%3.1f";
+        
+        me.updateRadarScale(range);
+
         var rangeTxt = sprintf(fmt, range / 2);
         me.elems['arc.range.left'].setText(rangeTxt);
         me.elems['arc.range.right'].setText(rangeTxt);
@@ -539,6 +674,11 @@ var MFD = {
         }
     },
 
+    adjustProp: func (key, delta, min, max) {
+        var prop = me.props[key];
+        prop.setValue(math.min(max, math.max(min, prop.getValue() + delta)));
+    },
+
     # direction: -1 = decrease, 1 = increase
     # knob: 0 = outer ring, 1 = inner ring
     scroll: func(direction, knob=0) {
@@ -548,6 +688,16 @@ var MFD = {
             if (knob == 0) {
                 # range
                 me.zoom(direction);
+            }
+            else if (knob == 1) {
+                if (me.elems['weatherMenu'].getVisible()) {
+                    # WX gain
+                    me.adjustProp('wx-gain', direction, 0, 100);
+                }
+                else {
+                    # WX tilt
+                    me.adjustProp('wx-tilt', direction, -15, 15);
+                }
             }
         }
         else if (page == 1) {
@@ -634,17 +784,37 @@ var MFD = {
         me.props['show-' ~ which].toggleBoolValue();
     },
 
+    toggleWeatherCheckbox: func (which) {
+        var prop = me.props[which];
+        if (prop) {
+            prop.toggleBoolValue();
+        }
+    },
+
+
     selectUnderlay: func (which) {
         me.elems['radioWeather'].setVisible(which == 'WX');
         me.elems['weather.master'].setVisible(which == 'WX');
-        # WXR layer is buggy.
-        # me.map.layers['WXR'].setVisible(which == 'WX');
+        me.radarViz.setVisible(which == 'WX');
 
         me.elems['radioTerrain'].setVisible(which == 'TERRAIN');
         me.elems['terrain.master'].setVisible(which == 'TERRAIN');
         me.terrainViz.setVisible(which == 'TERRAIN');
 
         me.elems['radioOff'].setVisible(which == nil);
+    },
+
+    setWxMode: func (mode=nil) {
+        if (mode == nil) {
+            mode = me.props['wx-mode-sel'].getValue();
+        }
+        else {
+            me.props['wx-mode-sel'].setValue(mode);
+        }
+        me.elems['weatherMenu.radioGMAP'].setVisible(mode == 3);
+        me.elems['weatherMenu.radioWX'].setVisible(mode == 2);
+        me.elems['weatherMenu.radioSTBY'].setVisible(mode == 1);
+        me.elems['weatherMenu.radioOff'].setVisible(mode == 0);
     },
 
     updateNavSrc: func () {
@@ -691,6 +861,7 @@ var MFD = {
             me.underlay.hide();
             me.plan.show();
             me.elems['mapMenu'].hide();
+            me.elems['weatherMenu'].hide();
         }
         else {
             # Systems
@@ -700,6 +871,7 @@ var MFD = {
             me.underlay.hide();
             me.plan.hide();
             me.elems['mapMenu'].hide();
+            me.elems['weatherMenu'].hide();
         }
     },
 

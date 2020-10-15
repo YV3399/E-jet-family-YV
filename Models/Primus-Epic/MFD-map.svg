@@ -112,10 +112,10 @@
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
      inkscape:zoom="0.87828"
-     inkscape:cx="484.89"
-     inkscape:cy="195.64"
+     inkscape:cx="500.26"
+     inkscape:cy="185.39"
      inkscape:document-units="px"
-     inkscape:current-layer="tcas.master"
+     inkscape:current-layer="weather.master"
      showgrid="false"
      units="px"
      inkscape:window-width="1440"
@@ -1065,7 +1065,7 @@
          inkscape:connector-curvature="0" />
     </g>
     <g
-       id="weather.master">
+       id="terrain.master">
       <rect
          y="569.92"
          x="0"
@@ -1082,7 +1082,7 @@
            y="577.2"
            x="6.6707"
            id="tspan976"
-           sodipodi:role="line">WEATHER</tspan></text>
+           sodipodi:role="line">TERRAIN</tspan></text>
       <path
          inkscape:connector-curvature="0"
          id="path984"
@@ -1097,10 +1097,10 @@
            sodipodi:role="line"
            id="tspan2820-3"
            x="93.954"
-           y="669.26">WX N/A</tspan></text>
+           y="669.26">TERR N/A</tspan></text>
     </g>
     <g
-       id="terrain.master">
+       id="weather.master">
       <rect
          style="opacity:1;fill:#000000;fill-opacity:1;stroke:none;stroke-width:3;stroke-linecap:butt;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
          id="rect2810"
@@ -1117,7 +1117,7 @@
            sodipodi:role="line"
            id="tspan2812"
            x="6.6707"
-           y="577.2">TERRAIN</tspan></text>
+           y="577.2">WEATHER</tspan></text>
       <path
          style="fill:none;stroke:#ffffff;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
          d="m 107.1,569.92 h 81.62 v 178.84"
@@ -1125,14 +1125,75 @@
          inkscape:connector-curvature="0" />
       <text
          xml:space="preserve"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:32px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:sans-serif;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle;fill:#ff8000;fill-opacity:1;stroke:none"
-         x="97.66"
-         y="667.55"
-         id="text2822"><tspan
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:32px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:sans-serif;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:end;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:end;fill:#ff8000;fill-opacity:1;stroke:none"
+         x="125.27"
+         y="609.26"
+         id="weather.tilt"><tspan
            sodipodi:role="line"
            id="tspan2820"
-           x="97.66"
-           y="667.55">TERR N/A</tspan></text>
+           x="125.27"
+           y="609.26"
+           style="text-align:end;text-anchor:end;fill:#00ff00">5</tspan></text>
+      <text
+         id="weather.mode"
+         y="649.26"
+         x="6.176"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:32px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:sans-serif;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#00ff00;fill-opacity:1;stroke:none"
+         xml:space="preserve"><tspan
+           y="649.26"
+           x="6.176"
+           id="tspan1091"
+           sodipodi:role="line">WX/R/T</tspan></text>
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:32px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:sans-serif;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#ff8000;fill-opacity:1;stroke:none"
+         x="6.176"
+         y="689.26"
+         id="weather.stab"><tspan
+           sodipodi:role="line"
+           id="tspan1095"
+           x="6.176"
+           y="689.26">STAB</tspan></text>
+      <text
+         id="weather.lx"
+         y="729.26"
+         x="6.176"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:32px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:sans-serif;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#00ff00;fill-opacity:1;stroke:none"
+         xml:space="preserve"><tspan
+           y="729.26"
+           x="6.176"
+           id="tspan1099"
+           sodipodi:role="line">LX</tspan></text>
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:32px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:sans-serif;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:end;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:end;fill:#ffffff;fill-opacity:1;stroke:none"
+         x="178.19"
+         y="649.26"
+         id="weather.slaved"><tspan
+           sodipodi:role="line"
+           id="tspan1121"
+           x="178.19"
+           y="649.26">S</tspan></text>
+      <text
+         id="weather.act"
+         y="609.26"
+         x="178.19"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:32px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:sans-serif;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:end;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:end;fill:#ffffff;fill-opacity:1;stroke:none"
+         xml:space="preserve"><tspan
+           y="609.26"
+           x="178.19"
+           id="tspan1125"
+           sodipodi:role="line">A</tspan></text>
+      <text
+         id="weather.tgt"
+         y="689.26"
+         x="183"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:32px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:sans-serif;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:end;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:end;fill:#00ff00;fill-opacity:1;stroke:none"
+         xml:space="preserve"><tspan
+           y="689.26"
+           x="183"
+           id="tspan1129"
+           sodipodi:role="line">TGT</tspan></text>
     </g>
     <text
        xml:space="preserve"
