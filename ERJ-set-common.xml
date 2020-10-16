@@ -999,6 +999,11 @@
               -->
             <mode type="int">0</mode>
             <sector-scan type="bool">false</sector-scan>
+            <rct type="bool">false</rct>
+            <act type="bool">false</act>
+            <lx type="bool">false</lx>
+            <tgt type="bool">false</tgt>
+            <turb type="bool">false</turb>
             <!-- antenna sweep position, in degrees -->
             <sweep-pos-deg type="double">-60</sweep-pos-deg>
             <!-- buffer index -->

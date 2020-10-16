@@ -146,6 +146,12 @@ var MFD = {
                 'wx-mode': props.globals.getNode("/instrumentation/wxr/mode"),
                 'wx-gain': props.globals.getNode("/instrumentation/wxr/gain"),
                 'wx-tilt': props.globals.getNode("/instrumentation/wxr/tilt-angle-deg"),
+                'wx-sect': props.globals.getNode("/instrumentation/wxr/sector-scan"),
+                'wx-turb': props.globals.getNode("/instrumentation/wxr/turb"),
+                'wx-lx': props.globals.getNode("/instrumentation/wxr/lx"),
+                'wx-act': props.globals.getNode("/instrumentation/wxr/act"),
+                'wx-rct': props.globals.getNode("/instrumentation/wxr/rct"),
+                'wx-tgt': props.globals.getNode("/instrumentation/wxr/tgt"),
                 'wx-mode-sel': props.globals.getNode("/instrumentation/mfd[" ~ index ~ "]/wx-mode"),
             };
 
@@ -406,14 +412,17 @@ var MFD = {
         me.setWxMode(nil);
 
         setlistener(me.props['wx-gain'], func (node) {
-            me.elems['weatherMenu.gain'].setText(sprintf("%3.0f", node.getValue() or 0));
+            self.elems['weatherMenu.gain'].setText(sprintf("%3.0f", node.getValue() or 0));
         }, 1, 0);
         setlistener(me.props['wx-tilt'], func (node) {
-            me.elems['weather.tilt'].setText(sprintf("%-2.0f", node.getValue() or 0));
+            self.elems['weather.tilt'].setText(sprintf("%-2.0f", node.getValue() or 0));
         }, 1, 0);
         setlistener(me.props['wx-mode-sel'], func(node) {
             var modeText = [ 'OFF', 'STBY', 'WX', 'GMAP' ];
-            me.elems['weather.mode'].setText(modeText[node.getValue()] or '???');
+            self.elems['weather.mode'].setText(modeText[node.getValue()] or '???');
+        }, 1, 0);
+        setlistener(me.props['wx-sect'], func (node) {
+            self.elems['weatherMenu.checkSect'].setVisible(node.getBoolValue());
         }, 1, 0);
         setlistener("/instrumentation/mfd[" ~ index ~ "]/lateral-range", func (node) {
             self.setRange(node.getValue());
@@ -498,11 +507,14 @@ var MFD = {
     updateRadarViz: func (newAngle) {
         var oldAngle = me.lastRadarSweepAngle;
         var mode = me.props['wx-mode-sel'].getValue();
+        var limit = (me.props['wx-sect'].getBoolValue()) ? 30 : 60;
 
         if (mode >= 2) {
             if (oldAngle > newAngle) {
-                me.drawRadarViz(mode, oldAngle, 60);
-                me.drawRadarViz(mode, -60, newAngle);
+                me.drawRadarViz(mode, oldAngle, limit);
+                me.drawRadarViz(mode, limit, 60);
+                me.drawRadarViz(mode, -60, -limit);
+                me.drawRadarViz(mode, -limit, newAngle);
             }
             else {
                 me.drawRadarViz(mode, oldAngle, newAngle);
@@ -786,7 +798,7 @@ var MFD = {
 
     toggleWeatherCheckbox: func (which) {
         var prop = me.props[which];
-        if (prop) {
+        if (prop != nil) {
             prop.toggleBoolValue();
         }
     },

@@ -37,6 +37,7 @@ var prop_heading = nil;
 var prop_range = nil;
 var prop_tilt = nil;
 var prop_gain = nil;
+var prop_sect = nil;
 
 var setup_buffers = func () {
     for (var a = 0; a < angle_resolution; a += 1) {
@@ -45,6 +46,17 @@ var setup_buffers = func () {
         for (var d = 0; d < dist_resolution; d += 1) {
             append(wx_buffer[a], 0.0);
             append(ground_buffer[a], 0.0);
+        }
+    }
+};
+
+var clear_buffers = func () {
+    for (var a = 0; a < angle_resolution; a += 1) {
+        append(wx_buffer, []);
+        append(ground_buffer, []);
+        for (var d = 0; d < dist_resolution; d += 1) {
+            wx_buffer[a][d] = 0.0;
+            ground_buffer[a][d] = 0.0;
         }
     }
 };
@@ -121,83 +133,93 @@ var update_wxr = func () {
     }
 
     # do a weather scan
-    foreach (var effectVolume; local_weather.effectVolumeArray) {
-        if (!effectVolume.rain_flag and !effectVolume.snow_flag) {
-            # transparent weather, can't see it
-            # print("Not precipitation, skip");
-            continue;
+    if (defined('local_weather')) {
+        foreach (var effectVolume; local_weather.effectVolumeArray) {
+            if (!effectVolume.rain_flag and !effectVolume.snow_flag) {
+                # transparent weather, can't see it
+                # print("Not precipitation, skip");
+                continue;
+            }
+            if (effectVolume.lat == nil) {
+                print("lat is nil");
+                continue;
+            }
+            if (effectVolume.lon == nil) {
+                print("lon is nil");
+                continue;
+            }
+            var effectPos = geo.Coord.new(acpos);
+            effectPos.set_lat(effectVolume.lat);
+            effectPos.set_lon(effectVolume.lon);
+            var bearing = acpos.course_to(effectPos);
+            var dist = acpos.direct_distance_to(effectPos);
+            var scan_alt = acpos.alt() + dist * math.tan(tilt * D2R);
+            if (scan_alt < effectVolume.alt_low or scan_alt > effectVolume.alt_high) {
+                # beam passed over or under the weather
+                # printf("ALT MISMATCH: %1.0f <= %1.0f <= %1.0f",
+                #     effectVolume.alt_low, scan_alt, effectVolume.alt_high);
+                continue;
+            }
+            var bearing_delta = geo.normdeg180(bearing - (achdg + sweep_pos));
+            var dx = dist * math.tan(bearing_delta * D2R);
+            var er = effectVolume.r1 + effectVolume.r2; # twice the average radius
+            if (dx > er) {
+                # beam passes left or right of the weather
+                continue;
+            }
+            var depth_squared = er * er - dx * dx;
+            if (depth_squared <= 0) {
+                # cater for rounding errors and such
+                continue;
+            }
+            var depth = math.sqrt(depth_squared);
+            var from_dist = (dist - depth) * M2NM;
+            var to_dist = (dist + depth) * M2NM;
+            var proj_from = math.round(from_dist * dist_resolution / scan_range);
+            var proj_to = math.round(to_dist * dist_resolution / scan_range);
+            var step = (scan_range / dist_resolution) * NM2M;
+            var dy = -depth;
+            var baseSat = math.max(0, effectVolume.rain) * 0.01 +
+                          math.max(0, effectVolume.snow) * 0.005;
+            for (var d = proj_from; d <= proj_to; d += 1) {
+                var r = math.sqrt(dx * dx + dy * dy);
+                var sat = baseSat * math.pow(er / r, 2.0);
+                if (d >= dist_resolution) break; # no need to continue
+                if (d >= 0) wx_buffer[scan_pos][d] += sat;
+                dy += step;
+            }
         }
-        if (effectVolume.lat == nil) {
-            print("lat is nil");
-            continue;
-        }
-        if (effectVolume.lon == nil) {
-            print("lon is nil");
-            continue;
-        }
-        var effectPos = geo.Coord.new(acpos);
-        effectPos.set_lat(effectVolume.lat);
-        effectPos.set_lon(effectVolume.lon);
-        var bearing = acpos.course_to(effectPos);
-        var dist = acpos.direct_distance_to(effectPos);
-        var scan_alt = acpos.alt() + dist * math.tan(tilt * D2R);
-        if (scan_alt < effectVolume.alt_low or scan_alt > effectVolume.alt_high) {
-            # beam passed over or under the weather
-            # printf("ALT MISMATCH: %1.0f <= %1.0f <= %1.0f",
-            #     effectVolume.alt_low, scan_alt, effectVolume.alt_high);
-            continue;
-        }
-        var bearing_delta = geo.normdeg180(bearing - (achdg + sweep_pos));
-        var dx = dist * math.tan(bearing_delta * D2R);
-        var er = effectVolume.r1 + effectVolume.r2; # twice the average radius
-        if (dx > er) {
-            # beam passes left or right of the weather
-            continue;
-        }
-        var depth_squared = er * er - dx * dx;
-        if (depth_squared <= 0) {
-            # cater for rounding errors and such
-            continue;
-        }
-        var depth = math.sqrt(depth_squared);
-        var from_dist = (dist - depth) * M2NM;
-        var to_dist = (dist + depth) * M2NM;
-        var proj_from = math.round(from_dist * dist_resolution / scan_range);
-        var proj_to = math.round(to_dist * dist_resolution / scan_range);
-        var step = (scan_range / dist_resolution) * NM2M;
-        var dy = -depth;
-        var baseSat = math.max(0, effectVolume.rain) * 0.01 +
-                      math.max(0, effectVolume.snow) * 0.005;
-        for (var d = proj_from; d <= proj_to; d += 1) {
-            var r = math.sqrt(dx * dx + dy * dy);
-            var sat = baseSat * math.pow(er / r, 2.0);
-            if (d >= dist_resolution) break; # no need to continue
-            if (d >= 0) wx_buffer[scan_pos][d] += sat;
-            dy += step;
-        }
-    }
 
-    # weaken signals as the beam passes through things
-    var strength = 1.0;
-    var vargain = gain;
-    for (d = 0; d < dist_resolution; d += 1) {
-        if (strength >= 0.02) {
-            var rwx = math.min(1.0, wx_buffer[scan_pos][d]) * 0.04 * scan_range;
-            var rgnd = math.min(1.0, ground_buffer[scan_pos][d]) * 0.1 * scan_range;
-            var r = math.max(rwx, rgnd);
+        # weaken signals as the beam passes through things
+        var atmo_atten = 1.0; # 1.0 = full strength
+        var terrain_obsc = 0.0; # 1.0 = fully obscured
+        var vargain = gain;
+        for (d = 0; d < dist_resolution; d += 1) {
+            # terrain return should add up to 1 for terrain that covers the
+            # entire vertical scan range, so adding returns as we encounter
+            # them should get us the effective obscuration
+            terrain_obsc = math.min(1, terrain_obsc + ground_buffer[scan_pos][d]);
+
+            # for atmospheric attenuation, we implement an exponential
+            # dropoff.
+            var r = wx_buffer[scan_pos][d];
+            var atten = math.pow(100, -r * scan_range * NM2M / (dist_resolution * 2000));
+            atmo_atten *= atten;
+
+            strength = (1.0 - terrain_obsc) * atmo_atten;
             wx_buffer[scan_pos][d] *= strength * vargain;
-            strength *= 1 - r;
-            if (strength < 0.3 and strength >= 0.02) {
-                wx_buffer[scan_pos][d] = 1.5;
-                strength = 0.0;
+            if (strength < 0.05) {
+                wx_buffer[scan_pos][d] = 0;
+            }
+            else if (strength < 0.3) {
+                # put a value > 1 here to make it light up in cyan
+                wx_buffer[scan_pos][d] = 1.1;
+                atmo_atten = 0;
             }
             else {
+                # keep it just under 1 to avoid cyan
                 wx_buffer[scan_pos][d] = math.min(0.999, wx_buffer[scan_pos][d]);
             }
-
-        }
-        else {
-            wx_buffer[scan_pos][d] = 0;
         }
     }
 
@@ -213,6 +235,7 @@ setlistener("sim/signals/fdm-initialized", func {
     prop_range = props.globals.getNode("/instrumentation/wxr/range-nm");
     prop_tilt = props.globals.getNode("/instrumentation/wxr/tilt-angle-deg");
     prop_gain = props.globals.getNode("/instrumentation/wxr/gain");
+    prop_sect = props.globals.getNode("/instrumentation/wxr/sector-scan");
 
     setup_buffers();
 
@@ -256,5 +279,17 @@ setlistener("sim/signals/fdm-initialized", func {
     }, 1, 0);
     setlistener(prop_gain, func (node) {
         gain = node.getValue();
+    }, 1, 0);
+    setlistener(prop_sect, func (node) {
+        if (node.getBoolValue()) {
+            sweep_min = -30;
+            sweep_max = 30;
+            clear_buffers();
+        }
+        else {
+            sweep_min = -60;
+            sweep_max = 60;
+            clear_buffers();
+        }
     }, 1, 0);
 });
