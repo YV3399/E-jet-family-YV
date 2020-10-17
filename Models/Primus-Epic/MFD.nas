@@ -909,7 +909,12 @@ var MFD = {
         me.elems['arc'].setRotation(heading * -DC);
         me.terrainViz.setRotation(heading * -DC);
         me.elems['heading.digital'].setText(sprintf("%03.0f", heading));
-        me.elems['wind.arrow'].setRotation(me.props['wind-dir'].getValue() * DC);
+        var windDir = me.props['wind-dir'].getValue();
+        if (me.props['page'].getValue() != 1) {
+            # if not in Plan view, show wind dir relative to current heading
+            windDir -= me.props['heading-mag'].getValue();
+        }
+        me.elems['wind.arrow'].setRotation(windDir * DC);
         me.elems['wind.digital'].setText(sprintf("%2.0f", me.props['wind-speed'].getValue()));
         me.elems['tat.digital'].setText(sprintf("%3.0f", me.props['tat'].getValue()));
         me.elems['sat.digital'].setText(sprintf("%3.0f", me.props['sat'].getValue()));
