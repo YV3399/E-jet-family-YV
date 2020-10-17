@@ -6,6 +6,8 @@
 var mfd_display = [nil, nil];
 var mfd = [nil, nil];
 var DC = 0.01744;
+var sin30 = math.sin(30 * D2R);
+var cos30 = math.cos(30 * D2R);
 
 var radarColor = func (value) {
     # 0.00 black
@@ -153,6 +155,7 @@ var MFD = {
                 'wx-rct': props.globals.getNode("/instrumentation/wxr/rct"),
                 'wx-tgt': props.globals.getNode("/instrumentation/wxr/tgt"),
                 'wx-mode-sel': props.globals.getNode("/instrumentation/mfd[" ~ index ~ "]/wx-mode"),
+                'green-arc-dist': props.globals.getNode("/fms/dist-to-alt-target-nm"),
             };
 
         var masterProp = props.globals.getNode("/instrumentation/mfd[" ~ index ~ "]");
@@ -356,6 +359,10 @@ var MFD = {
         me.elems['mapMenu'].hide();
         me.elems['weatherMenu'].hide();
 
+        me.elems['greenarc'] = me.elems['arc.master'].createChild("path");
+        me.elems['greenarc'].setStrokeLineWidth(3);
+        me.elems['greenarc'].setColor(0, 1, 0, 1);
+
         me.widgets = [
             { key: 'btnMap', ontouch: func { self.touchMap(); } },
             { key: 'btnPlan', ontouch: func { self.touchPlan(); } },
@@ -411,6 +418,9 @@ var MFD = {
         me.selectUnderlay(nil);
         me.setWxMode(nil);
 
+        setlistener(me.props['green-arc-dist'], func (node) {
+            self.updateGreenArc(node.getValue());
+        }, 1, 0);
         setlistener(me.props['wx-gain'], func (node) {
             self.elems['weatherMenu.gain'].setText(sprintf("%3.0f", node.getValue() or 0));
         }, 1, 0);
@@ -502,6 +512,39 @@ var MFD = {
         }, 1, 0);
 
         return me;
+    },
+
+    updateGreenArc: func (greenArcDist=nil, range=nil) {
+        if (greenArcDist == nil) {
+            greenArcDist = me.props['green-arc-dist'].getValue();
+        }
+        if (range == nil) {
+            range = me.props['range'].getValue();
+        }
+        if (greenArcDist > range or greenArcDist <= range / 200) {
+            me.elems['greenarc'].hide();
+        }
+        else {
+            var scale = greenArcDist / range;
+            var length = scale * 416;
+            var w = 208;
+            var hSq = length * length - w * w;
+            if (hSq <= 0) {
+                me.elems['greenarc']
+                    .reset()
+                    .moveTo(512 - length, 540)
+                    .arcSmallCWTo(length, length, 0, 512 + length, 540)
+                    .show();
+            }
+            else {
+                var h = math.sqrt(hSq);
+                me.elems['greenarc']
+                    .reset()
+                    .moveTo(512 - w, 540 - h)
+                    .arcSmallCWTo(length, length, 0, 512 + w, 540 - h)
+                    .show();
+            }
+        }
     },
 
     updateRadarViz: func (newAngle) {
@@ -650,6 +693,7 @@ var MFD = {
             fmt = "%3.1f";
         
         me.updateRadarScale(range);
+        me.updateGreenArc();
 
         var rangeTxt = sprintf(fmt, range / 2);
         me.elems['arc.range.left'].setText(rangeTxt);

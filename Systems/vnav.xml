@@ -12,6 +12,57 @@
 -->
 
 <PropertyList>
+
+    <!-- Green arc calculations -->
+    <filter>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <condition>
+                <greater-than>
+                    <expression>
+                        <abs><property>/instrumentation/vertical-speed-indicator/indicated-speed-fpm</property></abs>
+                    </expression>
+                    <value>10</value>
+                </greater-than>
+            </condition>
+            <expression>
+                <div>
+                    <difference>
+                        <property>/instrumentation/altimeter/indicated-altitude-ft</property>
+                        <property>/it-autoflight/input/alt</property>
+                    </difference>
+                    <product>
+                        <property>/instrumentation/vertical-speed-indicator/indicated-speed-fpm</property>
+                        <value>-1</value>
+                    </product>
+                </div>
+            </expression>
+        </input>
+        <input>
+            <!-- arbitrarily large value -->
+            <value>600</value>
+        </input>
+        <output>/fms/time-to-alt-target-minutes</output>
+    </filter>
+
+    <filter>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <expression>
+                <div>
+                    <product>
+                        <property>/fms/time-to-alt-target-minutes</property>
+                        <property>/velocities/groundspeed-kt</property>
+                    </product>
+                    <value>60.0</value>
+                </div>
+            </expression>
+        </input>
+        <output>/fms/dist-to-alt-target-nm</output>
+    </filter>
+
     <!-- Forward either manually selected altitude or VNAV-driven altitude to
          ITAF -->
     <filter>
