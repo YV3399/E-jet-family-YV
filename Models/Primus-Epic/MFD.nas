@@ -146,6 +146,8 @@ var MFD = {
                 'wx-sweep-index': props.globals.getNode("/instrumentation/wxr/scan-pos"),
                 'wx-range': props.globals.getNode("/instrumentation/wxr/range-nm"),
                 'wx-mode': props.globals.getNode("/instrumentation/wxr/mode"),
+                'wx-mode-sel': props.globals.getNode("/instrumentation/mfd[" ~ index ~ "]/wx-mode"),
+                'wx-mode-indicated': props.globals.getNode("/instrumentation/mfd[" ~ index ~ "]/wx-mode-indicated"),
                 'wx-gain': props.globals.getNode("/instrumentation/wxr/gain"),
                 'wx-tilt': props.globals.getNode("/instrumentation/wxr/tilt-angle-deg"),
                 'wx-sect': props.globals.getNode("/instrumentation/wxr/sector-scan"),
@@ -154,7 +156,7 @@ var MFD = {
                 'wx-act': props.globals.getNode("/instrumentation/wxr/act"),
                 'wx-rct': props.globals.getNode("/instrumentation/wxr/rct"),
                 'wx-tgt': props.globals.getNode("/instrumentation/wxr/tgt"),
-                'wx-mode-sel': props.globals.getNode("/instrumentation/mfd[" ~ index ~ "]/wx-mode"),
+                'wx-fsby-ovrd': props.globals.getNode("/instrumentation/wxr/fstby-ovrd"),
                 'green-arc-dist': props.globals.getNode("/fms/dist-to-alt-target-nm"),
             };
 
@@ -339,6 +341,7 @@ var MFD = {
                 'weatherMenu.checkTurb',
                 'weatherMenu.checkLX',
                 'weatherMenu.checkClrTst',
+                'weatherMenu.checkFsbyOvrd',
             ];
         foreach (var key; mapkeys) {
             me.elems[key] = me.mapOverlay.getElementById(key);
@@ -392,6 +395,7 @@ var MFD = {
             { key: 'weatherMenu.checkTurb', active: func { self.elems['weatherMenu'].getVisible() }, ontouch: func { self.toggleWeatherCheckbox('wx-turb'); } },
             { key: 'weatherMenu.checkLX', active: func { self.elems['weatherMenu'].getVisible() }, ontouch: func { self.toggleWeatherCheckbox('wx-lx'); } },
             { key: 'weatherMenu.checkClrTst', active: func { self.elems['weatherMenu'].getVisible() }, ontouch: func { self.toggleWeatherCheckbox('wx-clr-tst'); } },
+            { key: 'weatherMenu.checkFsbyOvrd', active: func { self.elems['weatherMenu'].getVisible() }, ontouch: func { self.toggleWeatherCheckbox('wx-fsby-ovrd'); } },
         ];
 
         forindex (var i; me.widgets) {
@@ -427,12 +431,49 @@ var MFD = {
         setlistener(me.props['wx-tilt'], func (node) {
             self.elems['weather.tilt'].setText(sprintf("%-2.0f", node.getValue() or 0));
         }, 1, 0);
-        setlistener(me.props['wx-mode-sel'], func(node) {
-            var modeText = [ 'OFF', 'STBY', 'WX', 'GMAP' ];
-            self.elems['weather.mode'].setText(modeText[node.getValue()] or '???');
+        setlistener(me.props['wx-mode-indicated'], func(node) {
+            var modeIndex = node.getValue();
+            if (modeIndex == 3) {
+                self.elems['weather.mode']
+                    .setText("WX")
+                    .setColor([0, 1, 0, 1]);
+            }
+            else if (modeIndex == 2) {
+                self.elems['weather.mode']
+                    .setText("GMAP")
+                    .setColor([0, 1, 0, 1]);
+            }
+            else if (modeIndex == 1) {
+                self.elems['weather.mode']
+                    .setText("STBY")
+                    .setColor([1, 1, 1, 1]);
+            }
+            else if (modeIndex == 0) {
+                self.elems['weather.mode']
+                    .setText("WX OFF")
+                    .setColor([1, 1, 1, 1]);
+            }
+            else if (modeIndex == -1) {
+                self.elems['weather.mode']
+                    .setText("FSBY")
+                    .setColor([0, 1, 0, 1]);
+            }
+            else if (modeIndex == -2) {
+                self.elems['weather.mode']
+                    .setText("WAIT")
+                    .setColor([1, 1, 1, 1]);
+            }
+            else {
+                self.elems['weather.mode']
+                    .setText("FAIL")
+                    .setColor([1, 0.5, 0, 1]);
+            }
         }, 1, 0);
         setlistener(me.props['wx-sect'], func (node) {
             self.elems['weatherMenu.checkSect'].setVisible(node.getBoolValue());
+        }, 1, 0);
+        setlistener(me.props['wx-fsby-ovrd'], func (node) {
+            self.elems['weatherMenu.checkFsbyOvrd'].setVisible(node.getBoolValue());
         }, 1, 0);
         setlistener("/instrumentation/mfd[" ~ index ~ "]/lateral-range", func (node) {
             self.setRange(node.getValue());
@@ -516,7 +557,7 @@ var MFD = {
 
     updateGreenArc: func (greenArcDist=nil, range=nil) {
         if (greenArcDist == nil) {
-            greenArcDist = me.props['green-arc-dist'].getValue();
+            greenArcDist = me.props['green-arc-dist'].getValue() or -1;
         }
         if (range == nil) {
             range = me.props['range'].getValue();

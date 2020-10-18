@@ -3,7 +3,7 @@
 <PropertyList>
 
     <filter>
-        <name>WXR mode</name>
+        <name>WXR selected mode</name>
         <type>gain</type>
         <gain>1</gain>
         <input>
@@ -13,6 +13,132 @@
                     <property>/instrumentation/mfd[1]/wx-mode</property>
                 </max>
             </expression>
+        </input>
+        <output>/instrumentation/wxr/selected-mode</output>
+    </filter>
+
+    <filter>
+        <name>WXR indicated mode left</name>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <condition>
+                <greater-than>
+                    <property>/instrumentation/wxr/mode</property>
+                    <value>1</value>
+                </greater-than>
+            </condition>
+            <property>/instrumentation/mfd[0]/wx-mode</property>
+        </input>
+        <input>
+            <property>/instrumentation/wxr/mode</property>
+        </input>
+        <output>/instrumentation/mfd[0]/wx-mode-indicated</output>
+    </filter>
+    <filter>
+        <name>WXR indicated mode left</name>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <condition>
+                <greater-than>
+                    <property>/instrumentation/wxr/mode</property>
+                    <value>1</value>
+                </greater-than>
+            </condition>
+            <property>/instrumentation/mfd[1]/wx-mode</property>
+        </input>
+        <input>
+            <property>/instrumentation/wxr/mode</property>
+        </input>
+        <output>/instrumentation/mfd[1]/wx-mode-indicated</output>
+    </filter>
+
+    <filter>
+        <name>WXR beam target</name>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <condition>
+                <greater-than>
+                    <property>/instrumentation/wxr/selected-mode</property>
+                    <value>0</value>
+                </greater-than>
+            </condition>
+            <value>90</value>
+        </input>
+        <input>
+            <value>0</value>
+        </input>
+        <output>/instrumentation/wxr/beam-heat-target</output>
+    </filter>
+
+    <filter>
+        <name>WXR temp</name>
+        <type>noise-spike</type>
+        <max-rate-of-change>1</max-rate-of-change>
+        <input>/instrumentation/wxr/beam-heat-target</input>
+        <output>/instrumentation/wxr/beam-heat</output>
+    </filter>
+
+    <filter>
+        <name>WXR FSBY</name>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <condition>
+                <and>
+                    <or>
+                        <property>/gear/gear[0]/wow</property>
+                        <property>/gear/gear[1]/wow</property>
+                        <property>/gear/gear[2]/wow</property>
+                    </or>
+                    <not>
+                        <property>/instrumentation/wxr/fstby-ovrd</property>
+                    </not>
+                </and>
+            </condition>
+            <value>1</value>
+        </input>
+        <input>
+            <value>0</value>
+        </input>
+        <output>/instrumentation/wxr/fstby</output>
+    </filter>
+
+    <filter>
+        <name>WXR mode</name>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <!-- if OFF is selected, effective mode is also OFF -->
+            <condition>
+                <equals>
+                    <property>/instrumentation/wxr/selected-mode</property>
+                    <value>0</value>
+                </equals>
+            </condition>
+            <value>0</value>
+        </input>
+        <input>
+            <!-- if warmup is incomplete, effective mode is always WAIT -->
+            <condition>
+                <less-than>
+                    <property>/instrumentation/wxr/beam-heat</property>
+                    <value>90</value>
+                </less-than>
+            </condition>
+            <value>-2</value>
+        </input>
+        <input>
+            <!-- if forced standby is active, mode is FSTBY -->
+            <condition>
+                <property>/instrumentation/wxr/fstby</property>
+            </condition>
+            <value>-1</value>
+        </input>
+        <input>
+            <property>/instrumentation/wxr/selected-mode</property>
         </input>
         <output>/instrumentation/wxr/mode</output>
     </filter>

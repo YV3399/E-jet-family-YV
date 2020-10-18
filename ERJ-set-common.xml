@@ -989,15 +989,20 @@
         </mcdu>
 
         <wxr>
-            <!-- TODO: implement 90-second warmup -->
-            <ready type="bool">true</ready>
             <!-- modes:
-                    0 = OFF
-                    1 = STANDBY
-                    2 = GMAP
-                    3 = WX
+                    -2 = WAIT (wait for warm-up, effective mode only)
+                    -1 = FSTBY (forced standby, effective mode only)
+                     0 = OFF
+                     1 = STANDBY
+                     2 = GMAP
+                     3 = WX
               -->
-            <mode type="int">0</mode>
+            <selected-mode type="int">0</selected-mode>
+            <mode type="int">-2</mode>
+            <!-- forced standby: if active, force WXR into STBY -->
+            <fstby type="bool">0</fstby>
+            <!-- forced standby override: if on, WXR can be ON when fstby is active -->
+            <fstby-ovrd type="bool">0</fstby-ovrd>
             <sector-scan type="bool">false</sector-scan>
             <rct type="bool">false</rct>
             <act type="bool">false</act>
@@ -1011,6 +1016,8 @@
             <tilt-angle-deg type="double">0</tilt-angle-deg>
             <range-nm type="double">10</range-nm>
             <gain type="double">20</gain>
+            <beam-heat-target type="double">0</beam-heat-target>
+            <beam-heat type="double">0</beam-heat>
         </wxr>
 
     
@@ -1045,6 +1052,7 @@
                 <y>32</y>
             </cursor>
             <wx-mode type="int">0</wx-mode>
+            <wx-mode-indicated type="int">0</wx-mode-indicated>
         </mfd>
 
         <mfd>
@@ -1056,6 +1064,7 @@
                 <y>32</y>
             </cursor>
             <wx-mode type="int">0</wx-mode>
+            <wx-mode-indicated type="int">0</wx-mode-indicated>
         </mfd>
 
         <nav-compass>
