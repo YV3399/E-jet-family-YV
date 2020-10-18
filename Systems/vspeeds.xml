@@ -395,13 +395,13 @@
         <input>
             <!-- flaps 2 approach -->
             <expression>
-                <min>
+                <max>
                     <sum>
                         <property>/fms/vspeeds-effective/approach/vref</property>
                         <value>20</value>
                     </sum>
                     <property>/fms/vspeeds-calculated/approach/vappr</property>
-                </min>
+                </max>
             </expression>
         </input>
         <output>/fms/vspeeds-calculated/approach/vaf3</output>
@@ -432,7 +432,7 @@
         </input>
         <input>
             <!-- flaps 2 approach -->
-            <property>/fms/vspeeds-calculated/approach/vappr</property>
+            <property>/fms/vspeeds-effective/approach/vappr</property>
         </input>
         <output>/fms/vspeeds-calculated/approach/vaf2</output>
     </filter>
