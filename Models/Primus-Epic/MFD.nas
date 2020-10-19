@@ -435,12 +435,12 @@ var MFD = {
             var modeIndex = node.getValue();
             if (modeIndex == 3) {
                 self.elems['weather.mode']
-                    .setText("WX")
+                    .setText("GMAP")
                     .setColor([0, 1, 0, 1]);
             }
             else if (modeIndex == 2) {
                 self.elems['weather.mode']
-                    .setText("GMAP")
+                    .setText("WX")
                     .setColor([0, 1, 0, 1]);
             }
             else if (modeIndex == 1) {
