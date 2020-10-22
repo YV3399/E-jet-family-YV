@@ -573,16 +573,16 @@ var MFD = {
             if (hSq <= 0) {
                 me.elems['greenarc']
                     .reset()
-                    .moveTo(512 - length, 540)
-                    .arcSmallCWTo(length, length, 0, 512 + length, 540)
+                    .moveTo(512 - length, 530)
+                    .arcSmallCWTo(length, length, 0, 512 + length, 530)
                     .show();
             }
             else {
                 var h = math.sqrt(hSq);
                 me.elems['greenarc']
                     .reset()
-                    .moveTo(512 - w, 540 - h)
-                    .arcSmallCWTo(length, length, 0, 512 + w, 540 - h)
+                    .moveTo(512 - w, 530 - h)
+                    .arcSmallCWTo(length, length, 0, 512 + w, 530 - h)
                     .show();
             }
         }

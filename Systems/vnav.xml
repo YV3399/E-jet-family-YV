@@ -19,12 +19,28 @@
         <gain>1</gain>
         <input>
             <condition>
-                <greater-than>
-                    <expression>
-                        <abs><property>/instrumentation/vertical-speed-indicator/indicated-speed-fpm</property></abs>
-                    </expression>
-                    <value>10</value>
-                </greater-than>
+                <!-- more than 50 feet off the target altitude, and V/S of
+                     10 fpm or more
+                  -->
+                <and>
+                    <greater-than>
+                        <expression>
+                            <abs><property>/instrumentation/vertical-speed-indicator/indicated-speed-fpm</property></abs>
+                        </expression>
+                        <value>10</value>
+                    </greater-than>
+                    <greater-than>
+                        <expression>
+                            <abs>
+                                <difference>
+                                    <property>/instrumentation/altimeter/indicated-altitude-ft</property>
+                                    <property>/it-autoflight/input/alt</property>
+                                </difference>
+                            </abs>
+                        </expression>
+                        <value>50</value>
+                    </greater-than>
+                </and>
             </condition>
             <expression>
                 <div>
