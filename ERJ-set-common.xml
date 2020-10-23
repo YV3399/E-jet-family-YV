@@ -55,7 +55,14 @@
         <aircraft-data>
             <path>/sim/model/autopush/route/show</path>
             <path>/sim/model/autopush/route/show-wingtip</path>
+            <path>/sim/simbrief/username</path>
         </aircraft-data>
+
+        <simbrief>
+            <username type="string" userarchive="y" />
+            <downloading type="bool">0</downloading>
+            <text-status type="string"></text-status>
+        </simbrief>
 
         <flaps>
             <setting>0</setting> <!-- clean -->
@@ -356,6 +363,14 @@
                         <binding>
                             <command>dialog-show</command>
                             <dialog-name>performance</dialog-name>
+                        </binding>
+                    </item>
+                    <item>
+                        <name>simbrief</name>
+                        <label>SimBrief</label>
+                        <binding>
+                            <command>dialog-show</command>
+                            <dialog-name>simbrief</dialog-name>
                         </binding>
                     </item>
                     <item>
@@ -1395,6 +1410,10 @@
             <file>Aircraft/E-jet-family/Models/Instruments/MCDU/mcdu-mcdu.nas</file>
             <file>Aircraft/E-jet-family/Models/Instruments/MCDU/mcdu-main.nas</file>
         </mcdu>
+
+        <simbrief>
+            <file>Aircraft/E-jet-family/Nasal/simbrief.nas</file>
+        </simbrief>
     </nasal>
 
     <fdm>

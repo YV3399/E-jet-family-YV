@@ -9,7 +9,7 @@ var Dialogs = {
 	performance: gui.Dialog.new("sim/gui/dialogs/performance/dialog", dialogs_path~"performance-dlg.xml"),
     autopush: gui.Dialog.new("sim/gui/dialogs/autopush/dialog", dialogs_path ~ "autopush.xml"),
     mcdu1: gui.Dialog.new("sim/gui/dialogs/mcdu1/dialog", dialogs_path~"mcdu1-dlg.xml"),
-	
+    simbrief: gui.Dialog.new("sim/gui/dialogs/simbrief/dialog", dialogs_path~"simbrief.xml"),
 };
 
 gui.menuBind("autopilot", "dialogs.Dialogs.autopilot.open();");

@@ -1,0 +1,72 @@
+<?xml version="1.0"?>
+<PropertyList>
+    <name>simbrief</name>
+	<layout>vbox</layout>
+	<pref-width>500</pref-width>
+
+    <group>
+        <layout>hbox</layout>
+		<empty>
+			<stretch>1</stretch>
+		</empty>
+
+        <text>
+            <label>SimBrief</label>
+        </text>
+
+		<empty>
+			<stretch>1</stretch>
+		</empty>
+
+		<button>
+			<pref-width>16</pref-width>
+			<pref-height>16</pref-height>
+			<legend></legend>
+			<keynum>27</keynum>
+			<border>2</border>
+			<binding>
+				<command>dialog-close</command>
+			</binding>
+		</button>
+    </group>
+
+    <hrule/>
+
+    <group>
+        <layout>vbox</layout>
+        <group>
+            <layout>hbox</layout>
+            <text>
+                <label>SimBrief username</label>
+                <pref-width>200</pref-width>
+            </text>
+            <input>
+                <property>/sim/simbrief/username</property>
+                <binding>
+                    <command>dialog-apply</command>
+                </binding>
+            </input>
+        </group>
+        <group>
+            <layout>hbox</layout>
+            <text>
+                <label>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</label>
+                <format>%s</format>
+                <property>/sim/simbrief/text-status</property>
+                <live type="bool">true</live>
+            </text>
+        </group>
+        <group>
+            <layout>hbox</layout>
+            <button>
+                <legend>Import</legend>
+                <binding>
+                    <command>nasal</command>
+                    <script>simbrief.loadFP()</script>
+                </binding>
+            </button>
+        </group>
+    </group>
+
+</PropertyList>
+
