@@ -38,15 +38,94 @@
             <layout>hbox</layout>
             <text>
                 <label>SimBrief username</label>
-                <pref-width>200</pref-width>
+                <pref-width>100</pref-width>
+                <halign>left</halign>
             </text>
             <input>
                 <property>/sim/simbrief/username</property>
                 <binding>
                     <command>dialog-apply</command>
                 </binding>
+                <halign>left</halign>
             </input>
         </group>
+        <empty>
+            <pref-height>10</pref-height>
+        </empty>
+        <group>
+            <layout>hbox</layout>
+
+            <empty>
+                <stretch>1</stretch>
+            </empty>
+
+            <text>
+                <label>What to import</label>
+            </text>
+
+            <empty>
+                <stretch>1</stretch>
+            </empty>
+        </group>
+        <hrule/>
+        <group>
+            <layout>hbox</layout>
+            <checkbox>
+                <property>/sim/simbrief/options/import-fp</property>
+                <label>Flight Plan Route</label>
+                <binding>
+                    <command>dialog-apply</command>
+                </binding>
+                <halign>left</halign>
+                <pref-width>100</pref-width>
+            </checkbox>
+            <checkbox>
+                <property>/sim/simbrief/options/autocommit</property>
+                <label>Activate immediately</label>
+                <binding>
+                    <command>dialog-apply</command>
+                </binding>
+                <halign>left</halign>
+                <pref-width>100</pref-width>
+            </checkbox>
+        </group>
+        <group>
+            <layout>hbox</layout>
+            <checkbox>
+                <property>/sim/simbrief/options/import-perfinit</property>
+                <label>PERF INIT</label>
+                <binding>
+                    <command>dialog-apply</command>
+                </binding>
+                <halign>left</halign>
+                <pref-width>100</pref-width>
+            </checkbox>
+        </group>
+        <group>
+            <layout>hbox</layout>
+            <checkbox>
+                <property>/sim/simbrief/options/import-payload</property>
+                <label>Payload</label>
+                <binding>
+                    <command>dialog-apply</command>
+                </binding>
+                <halign>left</halign>
+                <pref-width>100</pref-width>
+            </checkbox>
+        </group>
+        <group>
+            <layout>hbox</layout>
+            <checkbox>
+                <property>/sim/simbrief/options/import-fob</property>
+                <label>Fuel</label>
+                <binding>
+                    <command>dialog-apply</command>
+                </binding>
+                <halign>left</halign>
+                <pref-width>100</pref-width>
+            </checkbox>
+        </group>
+        <hrule/>
         <group>
             <layout>hbox</layout>
             <text>

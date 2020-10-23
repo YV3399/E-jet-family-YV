@@ -140,33 +140,88 @@ var toFlightplan = func (ofp, fp=nil) {
     return fp;
 };
 
-var loadFP = func (options=nil) {
-    if (options == nil) {
-        options = {};
+var importFOB = func (ofp) {
+    var unit = ofp.getNode('params/units').getValue();
+    var fuelFactor = ((unit == 'lbs') ? LB2KG : 1);
+
+    # From here on, we'll do everything in kilograms (kg)
+    var fob = ofp.getNode('fuel/plan_ramp').getValue() * fuelFactor;
+    var unallocated = fob;
+
+    printf("Fuel to allocate: %1.1f kg", fob);
+
+    var allocate = func(tankNumber, maxAmount = nil) {
+        var tankNode = props.globals.getNode('/consumables/fuel/tank[' ~ tankNumber ~ ']');
+        if (tankNode == nil) {
+            printf("Tank #%i not installed", tankNumber);
+            return;
+        }
+        var tankName = tankNode.getNode('name').getValue();
+        var amount = unallocated;
+        if (maxAmount != nil) {
+            amount = math.min(amount, maxAmount);
+        }
+        var tankCapacity =
+                tankNode.getNode('capacity-m3').getValue() *
+                tankNode.getNode('density-kgpm3').getValue();
+        amount = math.min(amount, tankCapacity);
+        printf("Allocating %1.1f/%1.1f kg to %s", amount, unallocated, tankName);
+        tankNode.getNode('level-kg').setValue(amount);
+        unallocated -= amount;
     }
-    if (options['username'] != nil) {
-        setprop('/sim/simbrief/username', options['username']);
-    }
+    
+    # first, put a suitable amount in the tail trimmer tank
+    allocate(3, unallocated * 0.05);
+    # now fill wing tanks equally (up to half the remaining amount)
+    var wingTankMax = unallocated * 0.5;
+    allocate(0, wingTankMax);
+    allocate(2, wingTankMax);
+    # now the central tank, then lower deck tank if installed
+    allocate(1);
+    allocate(4);
+    printf("Fuel not allocated: %1.1f kg", unallocated);
+};
+
+var importPayload = func (ofp) {
+    var unit = ofp.getNode('params/units').getValue();
+    var factor = ((unit == 'lbs') ? 1 : KG2LB);
+
+    # Everything in lbs
+    var payload = ofp.getNode('weights/payload').getValue() * factor;
+    setprop('/payload/weight[1]/weight-lb', payload);
+};
+
+var loadFP = func () {
     var username = getprop('/sim/simbrief/username');
     if (username == nil or username == '') {
         print("Username not set");
         return;
     }
+
     download(username, func (filename) {
         var ofpNode = read(filename);
         if (ofpNode == nil) {
             print("Error loading simbrief XML file");
             return;
         }
-        var fp = toFlightplan(ofpNode, fms.getModifyableFlightplan());
-        if (fp == nil) {
-            print("Error parsing flight plan");
-        }
-        else {
-            if (options['autocommit'] or 0) {
-                fms.commitFlightplan();
+
+        if (getprop('/sim/simbrief/options/import-fp') or 0) {
+            var fp = toFlightplan(ofpNode, fms.getModifyableFlightplan());
+            if (fp == nil) {
+                print("Error parsing flight plan");
             }
-            fms.kickRouteManager();
+            else {
+                if (getprop('/sim/simbrief/options/autocommit') or 0) {
+                    fms.commitFlightplan();
+                }
+                fms.kickRouteManager();
+            }
+        }
+        if (getprop('/sim/simbrief/options/import-fob') or 0) {
+            importFOB(ofpNode);
+        }
+        if (getprop('/sim/simbrief/options/import-payload') or 0) {
+            importPayload(ofpNode);
         }
     });
 };

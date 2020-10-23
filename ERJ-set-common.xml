@@ -56,10 +56,21 @@
             <path>/sim/model/autopush/route/show</path>
             <path>/sim/model/autopush/route/show-wingtip</path>
             <path>/sim/simbrief/username</path>
+            <path>/sim/simbrief/options/autocommit</path>
+            <path>/sim/simbrief/options/import-payload</path>
+            <path>/sim/simbrief/options/import-fob</path>
+            <path>/sim/simbrief/options/import-perfinit</path>
         </aircraft-data>
 
         <simbrief>
             <username type="string" userarchive="y" />
+            <options>
+                <autocommit type="bool" userarchive="y">0</autocommit>
+                <import-fp type="bool" userarchive="y">1</import-fp>
+                <import-payload type="bool" userarchive="y">0</import-payload>
+                <import-fob type="bool" userarchive="y">0</import-fob>
+                <import-perfinit type="bool" userarchive="y">0</import-perfinit>
+            </options>
             <downloading type="bool">0</downloading>
             <text-status type="string"></text-status>
         </simbrief>
