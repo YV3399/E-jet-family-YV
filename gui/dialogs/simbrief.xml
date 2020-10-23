@@ -93,7 +93,7 @@
             <layout>hbox</layout>
             <checkbox>
                 <property>/sim/simbrief/options/import-perfinit</property>
-                <label>PERF INIT</label>
+                <label>Performance init</label>
                 <binding>
                     <command>dialog-apply</command>
                 </binding>

@@ -191,6 +191,29 @@ var importPayload = func (ofp) {
     setprop('/payload/weight[1]/weight-lb', payload);
 };
 
+var importPerfInit = func (ofp) {
+    # climb profile: kts-below-FL100/kts-above-FL100/mach
+    var climbProfile = split('/', ofp.getNode('general/climb_profile').getValue());
+    # descent profile: mach/kts-above-FL100/kts-below-FL100
+    var descentProfile = split('/', ofp.getNode('general/descent_profile').getValue());
+    var cruiseMach = ofp.getNode('general/cruise_mach').getValue();
+    var airline = ofp.getNode('general/icao_airline').getValue();
+    var flightNumber = ofp.getNode('general/flight_number').getValue();
+    var callsign = airline ~ flightNumber;
+    var cruiseAlt = ofp.getNode('general/initial_altitude').getValue();
+
+    
+    setprop("/sim/multiplay/callsign", callsign);
+    setprop("/controls/flight/speed-schedule/climb-below-10k", climbProfile[0]);
+    setprop("/controls/flight/speed-schedule/climb-kts", climbProfile[1]);
+    setprop("/controls/flight/speed-schedule/climb-mach", climbProfile[2] / 100);
+    setprop("/controls/flight/speed-schedule/cruise-mach", cruiseMach);
+    setprop("/autopilot/route-manager/cruise/altitude-ft", cruiseAlt);
+    setprop("/controls/flight/speed-schedule/descent-mach", descentProfile[0] / 100);
+    setprop("/controls/flight/speed-schedule/descent-kts", descentProfile[1]);
+    setprop("/controls/flight/speed-schedule/descent-below-10k", descentProfile[2]);
+};
+
 var loadFP = func () {
     var username = getprop('/sim/simbrief/username');
     if (username == nil or username == '') {
@@ -222,6 +245,9 @@ var loadFP = func () {
         }
         if (getprop('/sim/simbrief/options/import-payload') or 0) {
             importPayload(ofpNode);
+        }
+        if (getprop('/sim/simbrief/options/import-perfinit') or 0) {
+            importPerfInit(ofpNode);
         }
     });
 };
