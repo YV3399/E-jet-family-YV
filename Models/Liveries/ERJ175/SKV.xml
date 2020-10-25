@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+
+<PropertyList>
+<sim>
+    <model>
+        <livery>
+            <name type="string">Sky Regional</name>
+            <texture>/../Models/Liveries/ERJ175/MAPLE.png</texture>
+        </livery>
+        <tail-number>C-FEKS</tail-number>
+    </model>
+</sim>
+</PropertyList>
