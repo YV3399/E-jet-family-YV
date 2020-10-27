@@ -125,6 +125,18 @@
                 <pref-width>100</pref-width>
             </checkbox>
         </group>
+        <group>
+            <layout>hbox</layout>
+            <checkbox>
+                <property>/sim/simbrief/options/import-winds-aloft</property>
+                <label>Winds Aloft</label>
+                <binding>
+                    <command>dialog-apply</command>
+                </binding>
+                <halign>left</halign>
+                <pref-width>100</pref-width>
+            </checkbox>
+        </group>
         <hrule/>
         <group>
             <layout>hbox</layout>

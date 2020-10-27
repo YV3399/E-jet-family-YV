@@ -214,6 +214,135 @@ var importPerfInit = func (ofp) {
     setprop("/controls/flight/speed-schedule/descent-below-10k", descentProfile[2]);
 };
 
+var aloftTimer = nil;
+var aloftPoints = [];
+
+var setAloftWinds = func (aloftPoint) {
+    # printf("setAloftWinds()");
+    # debug.dump(aloftPoint);
+    forindex (var i; aloftPoint.layers) {
+        var node = props.globals.getNode("/environment/config/aloft/entry[" ~ i ~ "]");
+        node.getChild('elevation-ft').setValue(aloftPoint.layers[i].alt);
+        node.getChild('wind-from-heading-deg').setValue(aloftPoint.layers[i].dir);
+        node.getChild('wind-speed-kt').setValue(aloftPoint.layers[i].spd);
+        node.getChild('temperature-degc').setValue(aloftPoint.layers[i].temp);
+    }
+};
+
+var interpolate = func (f, a, b) {
+    return a + f * (b - a);
+};
+
+var interpolateDegrees = func (f, a, b) {
+    return geo.normdeg(a + geo.normdeg180(b - a) * f);
+};
+
+var interpolateComponentWise = func (f, ipf, a, b) {
+    var s = math.min(size(a), size(b));
+    var result = [];
+    for (var i = 0; i < s; i = i+1) {
+        append(result, ipf(f, a[i], b[i]));
+    }
+    return result;
+};
+
+var interpolateLayers = func (f, a, b) {
+    if (b == nil) return a;
+    if (a == nil) return b;
+    return {
+        alt: interpolate(f, a.alt, b.alt),
+        spd: interpolate(f, a.spd, b.spd),
+        temp: interpolate(f, a.temp, b.temp),
+        dir: interpolateDegrees(f, a.dir, b.dir),
+    };
+};
+
+var interpolateAloftPoints = func (f, a, b) {
+    if (b == nil) return a;
+    if (a == nil) return b;
+    return {
+        layers: interpolateComponentWise(f, interpolateLayers, a.layers, b.layers),
+    };
+};
+
+var updateAloft = func () {
+    # printf("updateAloft()");
+    var pos = geo.aircraft_position();
+    foreach (var p; aloftPoints) {
+        p.dist = pos.distance_to(p.coord);
+    }
+    var sorted = sort(aloftPoints, func (a, b) { return (a.dist - b.dist); });
+    var pointA = sorted[0];
+    var pointB = sorted[1];
+    var f = (pointB.dist < 0.1) ? 0 : (pointB.dist / (pointA.dist + pointB.dist));
+    # foreach (var s; sorted) {
+    #     printf(s.dist);
+    # }
+    # debug.dump(f, pointA, pointB);
+    var aloftPoint = interpolateAloftPoints(f, pointA, pointB);
+    # printf("Aloft wind interpolation: %f between %s and %s",
+    #     f, pointA.name, pointB.name);
+    # debug.dump(aloftPoint.layers);
+    setAloftWinds(aloftPoint);
+};
+
+var startAloftUpdater = func () {
+    if (aloftTimer == nil) {
+        aloftTimer = maketimer(10, updateAloft);
+        aloftTimer.simulatedTime = 1;
+    }
+    if (aloftTimer.isRunning) return;
+    aloftTimer.start();
+};
+
+var importWindsAloft = func (ofp) {
+    # disable default winds and set winds-aloft mode
+    setprop("/local-weather/config/wind-model", "aloft waypoints");
+    setprop("/environment/params/metar-updates-winds-aloft", 0);
+
+    if (defined('local_weather')) {
+        # clear out the advanced weather winds-aloft interpolation points
+        setsize(local_weather.windIpointArray, 0);
+    }
+
+    # now go through the flightplan waypoints and create a wind interpolation point for each of them.
+    var ofpNavlog = ofp.getNode('navlog');
+    var ofpFixes = ofpNavlog.getChildren('fix');
+    foreach (var ofpFix; ofpFixes) {
+        var lat = ofpFix.getNode('pos_lat').getValue();
+        var lon = ofpFix.getNode('pos_long').getValue();
+        var args = [lat, lon];
+        var layers = [];
+        var uneven = 0;
+        foreach (var ofpWindLayer; ofpFix.getNode('wind_data').getChildren('level')) {
+            var dir = ofpWindLayer.getNode('wind_dir').getValue();
+            var spd = ofpWindLayer.getNode('wind_spd').getValue();
+            var alt = ofpWindLayer.getNode('altitude').getValue();
+            var temp = ofpWindLayer.getNode('oat').getValue();
+            if (alt != 14000) {
+                # advanced weather ignores this one for some reason
+                append(args, dir, spd);
+            }
+            # pick up every other layer: simbrief reports 10 layers starting
+            # at sea level, but we can only use 5, and we don't need sea level
+            # (as that comes from METAR)
+            if (uneven) {
+                append(layers, { alt: alt, dir: dir, spd: spd, temp: temp });
+            }
+            uneven = !uneven;
+        }
+        if (defined('local_weather')) {
+            call(local_weather.set_wind_ipoint, args);
+        }
+        var aloftPos = geo.Coord.new();
+        aloftPos.set_latlon(lat, lon);
+
+        var aloftPoint = { coord: aloftPos, dist: 0.0, layers: layers, name: ofpFix.getNode('ident').getValue() };
+        append(aloftPoints, aloftPoint);
+    }
+    startAloftUpdater();
+};
+
 var loadFP = func () {
     var username = getprop('/sim/simbrief/username');
     if (username == nil or username == '') {
@@ -248,6 +377,9 @@ var loadFP = func () {
         }
         if (getprop('/sim/simbrief/options/import-perfinit') or 0) {
             importPerfInit(ofpNode);
+        }
+        if (getprop('/sim/simbrief/options/import-winds-aloft') or 0) {
+            importWindsAloft(ofpNode);
         }
     });
 };

@@ -60,6 +60,7 @@
             <path>/sim/simbrief/options/import-payload</path>
             <path>/sim/simbrief/options/import-fob</path>
             <path>/sim/simbrief/options/import-perfinit</path>
+            <path>/sim/simbrief/options/import-winds-aloft</path>
         </aircraft-data>
 
         <simbrief>
@@ -70,6 +71,7 @@
                 <import-payload type="bool" userarchive="y">0</import-payload>
                 <import-fob type="bool" userarchive="y">0</import-fob>
                 <import-perfinit type="bool" userarchive="y">0</import-perfinit>
+                <import-winds-aloft type="bool" userarchive="y">0</import-winds-aloft>
             </options>
             <downloading type="bool">0</downloading>
             <text-status type="string"></text-status>
