@@ -721,6 +721,7 @@ var DirectToModule = {
         m.parents = prepended(DirectToModule, m.parents);
         m.fp = fp;
         m.directToID = directToID;
+        m.directToIndex = nil;
         var wp = nil;
         var fst = math.max(1, fp.current);
         for (var i = fst; i < fp.getPlanSize(); i += 1) {
@@ -765,19 +766,20 @@ var DirectToModule = {
     },
 
     insertDirect: func () {
-        var candidates = findNavaidsByID(me.directToID);
-        # debug.dump(me.directToID, candidates);
+        var candidates = findWaypointsByID(me.directToID);
+        debug.dump(me.directToID, candidates);
         if (size(candidates) > 0) {
             var directWP = createWP(geo.aircraft_position(), "DIRECT");
-            var newWP = candidates[0];
-            me.fp.insertWP(directWP, me.directToIndex);
-            me.fp.insertWP(newWP, me.directToIndex + 1);
-            me.fp.insertWP(createDiscontinuity(), me.directToIndex + 2);
-            for (var i = 0; i < me.directToIndex; i += 1) {
-                me.fp.deleteWP(0);
-            }
-            me.fp.current = 1;
+            var newWP = createWPFrom(candidates[0]);
+            var index = me.fp.current;
+            me.fp.insertWP(directWP, index);
+            me.fp.insertWP(newWP, index + 1);
+            me.fp.insertWP(createDiscontinuity(), index + 2);
+            me.fp.current = index + 1;
             fms.kickRouteManager();
+        }
+        else {
+            me.mcdu.setScratchpadMsg("NO WAYPOINT", mcdu_yellow);
         }
     },
 };

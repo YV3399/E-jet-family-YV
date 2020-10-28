@@ -249,3 +249,23 @@ var parseRestrictions = func (str) {
 var celsiusToFahrenheit = func (c) {
     return 32.0 + c * 1.8;
 };
+
+var findWaypointsByID = func (ident) {
+    if (size(ident) < 2) {
+        # single letter = nonsensical
+        return [];
+    }
+    else if (size(ident) <= 3) {
+        # 2 = NDB
+        # 3 = VOR/DME
+        return findNavaidsByID(ident);
+    }
+    else if (size(ident) == 4) {
+        # 4 = airport
+        return findAirportsByICAO(ident);
+    }
+    else if (size(ident) == 5) {
+        # 5 = a fix
+        return findFixesByID(ident);
+    }
+};
