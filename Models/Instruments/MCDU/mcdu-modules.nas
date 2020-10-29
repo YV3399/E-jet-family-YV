@@ -342,15 +342,15 @@ var FlightPlanModule = {
     },
 
     appendViaTo: func (viaTo, appendAfter = nil) {
-        printf("Append VIA-TO: %s", viaTo);
+        # printf("Append VIA-TO: %s", viaTo);
         var s = split('.', viaTo);
-        debug.dump(s);
+        # debug.dump(s);
         var newWaypoints = [];
         var appendIndex = (appendAfter == nil) ? me.findLastEnrouteWP() : appendAfter;
         var targetFix = nil;
         var refWP = me.fp.getWP(appendIndex);
         var ref = geo.aircraft_position();
-        printf("Append after: %i (%s)", appendIndex, (refWP == nil) ? "<nil>" : refWP.id);
+        # printf("Append after: %i (%s)", appendIndex, (refWP == nil) ? "<nil>" : refWP.id);
         if (refWP != nil) {
             ref = refWP;
         }
@@ -380,7 +380,7 @@ var FlightPlanModule = {
                 var wp = createWP(candidates[0], candidates[0].id);
                 me.fp.insertWP(wp, appendIndex + 1);
                 fms.kickRouteManager();
-                printf("Insert %s at %i", candidates[0].id, appendIndex);
+                # printf("Insert %s at %i", candidates[0].id, appendIndex);
             }
             else {
                 me.mcdu.setScratchpadMsg("NO WAYPOINT", mcdu_yellow);
@@ -475,11 +475,11 @@ var FlightPlanModule = {
                             (func (wpi) {
                                 return FuncController.new(
                                     func (owner, val) {
-                                        printf("Append before WP %i", j);
+                                        # printf("Append before WP %i", j);
                                         owner.appendViaTo(val, wpi);
                                     },
                                     func (owner) {
-                                        printf("Delete WP %i", j);
+                                        # printf("Delete WP %i", j);
                                         owner.startEditing();
                                         owner.deleteWP(wpi);
                                     });
@@ -531,6 +531,12 @@ var FlightPlanModule = {
                     append(me.views, StaticView.new(0, y + 1, sprintf("%-6s", wp.wp_name),
                         mcdu_yellow | mcdu_large));
                 }
+                else if (wp.wp_type == "discontinuity") {
+                    append(me.views, StaticView.new(0, y, ">> DISCONTINUITY <<",
+                        mcdu_white));
+                    append(me.views, StaticView.new(0, y + 1, "----",
+                        mcdu_white | mcdu_large));
+                }
                 else {
                     var color = mcdu_yellow;
                     if (wpi != firstEntry) {
@@ -555,32 +561,38 @@ var FlightPlanModule = {
                     }
                 }
 
-                append(me.views,
-                    StaticView.new(
-                        13, y + 1,
-                        formatRestrictions(wp, transitionAlt, 1),
-                        mcdu_cyan | mcdu_large));
+                if (wp.wp_type != "discontinuity") {
+                    append(me.views,
+                        StaticView.new(
+                            13, y + 1,
+                            formatRestrictions(wp, transitionAlt, 1),
+                            mcdu_cyan | mcdu_large));
+                }
 
                 if (me.specialMode == "FLYOVER") {
-                    var f = func (wp) {
-                                me.controllers[lsk] = FuncController.new(func(owner, val) {
-                                    print("Activate FLYOVER on " ~ wp.id);
-                                    owner.specialMode = nil;
-                                    owner.startEditing();
-                                    if (wp.fly_type == 'flyOver') {
-                                        wp.fly_type = 'flyBy';
-                                    }
-                                    else {
-                                        wp.fly_type = 'flyOver';
-                                    }
-                                    owner.fullRedraw();
-                                });
-                            };
-                    f(wp);
+                    if (wp.wp_type != "discontinuity") {
+                        var f = func (wp) {
+                                    me.controllers[lsk] = FuncController.new(func(owner, val) {
+                                        print("Activate FLYOVER on " ~ wp.id);
+                                        owner.specialMode = nil;
+                                        owner.startEditing();
+                                        if (wp.fly_type == 'flyOver') {
+                                            wp.fly_type = 'flyBy';
+                                        }
+                                        else {
+                                            wp.fly_type = 'flyOver';
+                                        }
+                                        owner.fullRedraw();
+                                    });
+                                };
+                        f(wp);
+                    }
                 }
                 else if (me.specialMode == "HOLD") {
-                    # TODO
-                    me.mcdu.setScratchpadMsg("NOT IMPLEMENTED", mcdu_red);
+                    if (wp.wp_type != "discontinuity") {
+                        # TODO
+                        me.mcdu.setScratchpadMsg("NOT IMPLEMENTED", mcdu_red);
+                    }
                 }
                 else if (wpi == firstEntry) {
                     var this = me;
@@ -598,6 +610,13 @@ var FlightPlanModule = {
                             func (owner, val) {
                                 if (val == nil) {
                                     owner.mcdu.setScratchpad(wp.id);
+                                }
+                                else {
+                                    owner.startEditing();
+                                    var directToModule = func (mcdu, parent) {
+                                        return DirectToModule.new(mcdu, parent, this.fp, val);
+                                    };
+                                    owner.mcdu.pushModule(directToModule);
                                 }
                             },
                             func (owner) {
@@ -739,12 +758,15 @@ var DirectToModule = {
     getTitle: func () { return "DIRECT-TO"; },
 
     loadPageItems: func (p) {
-        me.views = [
-            StaticView.new(0, 2, left_triangle ~ "DIRECT", mcdu_large | mcdu_white),
-            StaticView.new(0, 4, left_triangle ~ "ACTIVE", mcdu_large | mcdu_white),
-            StaticView.new(0, 6, left_triangle ~ "MISSED APPROACH", mcdu_large | mcdu_white),
-            StaticView.new(0, 8, left_triangle ~ "ALTERNATE", mcdu_large | mcdu_white),
-        ];
+        me.views = [];
+        append(me.views, StaticView.new(0, 2, left_triangle ~ "DIRECT", mcdu_large | mcdu_white));
+        if (me.directToIndex != nil) {
+            append(me.views, StaticView.new(0, 4, left_triangle ~ "ACTIVE", mcdu_large | mcdu_white));
+            append(me.views, StaticView.new(0, 6, left_triangle ~ "MISSED APPROACH", mcdu_large | mcdu_white));
+        }
+        # NOT IMPLEMENTED YET
+        # StaticView.new(0, 8, left_triangle ~ "ALTERNATE", mcdu_large | mcdu_white),
+
 
         me.controllers = {
             "L1": FuncController.new(func (owner, val) { owner.insertDirect(); owner.mcdu.popModule(); }),
@@ -766,12 +788,14 @@ var DirectToModule = {
     },
 
     insertDirect: func () {
-        var candidates = findWaypointsByID(me.directToID);
+        var candidates = parseWaypoint(me.directToID);
         debug.dump(me.directToID, candidates);
         if (size(candidates) > 0) {
             var directWP = createWP(geo.aircraft_position(), "DIRECT");
-            var newWP = createWPFrom(candidates[0]);
-            var index = me.fp.current;
+            var newWP = candidates[0];
+            # max(1, ...) needed in order to avoid inserting the DIRECT before
+            # the departure waypoint
+            var index = math.max(1, me.fp.current);
             me.fp.insertWP(directWP, index);
             me.fp.insertWP(newWP, index + 1);
             me.fp.insertWP(createDiscontinuity(), index + 2);

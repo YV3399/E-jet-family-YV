@@ -1,5 +1,13 @@
 # Various utility cruft for MCDU programming
 
+var map = func (f, input) {
+    var output = [];
+    foreach (var x; input) {
+        append(output, f(x));
+    }
+    return output;
+};
+
 var utf8NumBytes = func (c) {
     if ((c & 0x80) == 0x00) { return 1; }
     if ((c & 0xE0) == 0xC0) { return 2; }
@@ -250,7 +258,59 @@ var celsiusToFahrenheit = func (c) {
     return 32.0 + c * 1.8;
 };
 
-var findWaypointsByID = func (ident) {
+var parseMCDULatlon = func(strDegMins, strFrac = '0') {
+    strDegMins = strDegMins ~ '';
+    var mins = num(substr(strDegMins, size(strDegMins), 2) ~ '.' ~ strFrac);
+    var degs = num(substr(strDegMins, 0, size(strDegMins) - 2));
+    if (mins == nil or degs == nil) {
+        return nil;
+    }
+    return degs + mins / 60;
+}
+
+var parseWaypoint = func (ident, ref=nil) {
+    var parts = split('/', ident);
+    if (size(parts) == 2) {
+        # this could be a lat/lon pair
+        var items = [];
+        var result = string.scanf(ident, "%1s%4u.%1u/%1s%5u.%1u", items);
+        if (result >= 1) {
+            var latSign = (items[0] == 'N') ? 1 : 0;
+            var lonSign = (items[3] == 'E') ? 1 : 0;
+            var lat = parseMCDULatlon(items[1], items[2]);
+            var lon = parseMCDULatlon(items[4], items[5]);
+            var coords = geo.Coord.new();
+            coords.set_latlon(lat, lon);
+            return [ createWP(coords, ident) ];
+        }
+    }
+
+    # not a lat/lon pair, so the first part must be a named waypoint.
+    var refPoints = findWaypointsByID(parts[0], ref);
+    debug.dump(refPoints);
+    if (size(parts) == 1) {
+        # this is the only part, so just use the waypoint as-is
+        return map(createWPFrom, refPoints);
+    }
+    else if (size(parts) == 3) {
+        # 3 parts: this is probably a P/B/D triplet (Point / Bearing / Distance)
+        var bearing = num(parts[1]);
+        var distance = num(parts[2]);
+        if (bearing == nil or distance == nil) return nil;
+        var f = func (positioned) {
+            var coords = geo.Coord.new();
+            coords.set_latlon(positioned.lat, positioned.lon);
+            coords.apply_course_distance(bearing, distance);
+            return createWP(coords, ident);
+        };
+        return map(f, refPoints);
+    }
+    return nil;
+};
+
+var findWaypointsByID = func (ident, ref=nil) {
+    if (ref == nil) { ref = geo.aircraft_position(); }
+
     if (size(ident) < 2) {
         # single letter = nonsensical
         return [];
@@ -258,7 +318,14 @@ var findWaypointsByID = func (ident) {
     else if (size(ident) <= 3) {
         # 2 = NDB
         # 3 = VOR/DME
-        return findNavaidsByID(ident);
+        # ...but could also be a fix replacing a former navaid, such as LBE
+        # near EDDH
+        var n = findNavaidsByID(ref, ident);
+        var f = findFixesByID(ref, ident);
+        foreach (var fix; f) {
+            append(n, fix);
+        }
+        return n;
     }
     else if (size(ident) == 4) {
         # 4 = airport
@@ -266,6 +333,6 @@ var findWaypointsByID = func (ident) {
     }
     else if (size(ident) == 5) {
         # 5 = a fix
-        return findFixesByID(ident);
+        return findFixesByID(ref, ident);
     }
 };
