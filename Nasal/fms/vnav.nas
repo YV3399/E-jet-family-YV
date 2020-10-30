@@ -414,7 +414,7 @@ var VNAV = {
         var wp = nil;
 
         # printf("Route progress: %3.1f nm, %1.0f ft", routeProgress, altitude);
-        while (done == 0) {
+        while (done == 0 and me.current < size(profile.waypoints)) {
             wp = profile.waypoints[me.current];
             # print_vnav_wp(wp);
             if (wp["name"] == "TOC") {
@@ -447,50 +447,57 @@ var VNAV = {
         if (!me.desNowTriggered and me.desNowAvailable and distanceRemaining <= profile.topOfDescent + 50.0) {
             me.desNowAvailable = 1;
         }
-        wp = profile.waypoints[me.current];
+        if (me.current < size(profile.waypoints)) {
+            wp = profile.waypoints[me.current];
+        }
+        else {
+            wp = nil;
+        }
         # update actual VNAV availability
         setprop("/fms/vnav/available", wp != nil);
-        # default to trying to capture the target ASAP
-        var profileAlt = wp["alt"];
-        if (wp["dist"] != nil and wp["mode"] == "fpa" and wp["fpa"] != nil) {
-            # WP is a regular FPA waypoint, and has an FPA associated
-            # with it
-            var gradient = fpaToGradient(wp["fpa"]);
-            if (wp["dist"] - routeProgress > 0.1) {
-                profileAlt = wp["alt"] - (gradient * (wp["dist"] - routeProgress));
-            }
-            # printf("FPA: %3.1f° / %4.0f ft/nmi over %3.1f nmi to reach %5.0f ft -> %5.0f ft",
-            #     wp["fpa"], gradient, wp["dist"] - routeProgress, wp["alt"], profileAlt);
+        if (wp != nil) {
+            # default to trying to capture the target ASAP
+            var profileAlt = wp["alt"];
+            if (wp["dist"] != nil and wp["mode"] == "fpa" and wp["fpa"] != nil) {
+                # WP is a regular FPA waypoint, and has an FPA associated
+                # with it
+                var gradient = fpaToGradient(wp["fpa"]);
+                if (wp["dist"] - routeProgress > 0.1) {
+                    profileAlt = wp["alt"] - (gradient * (wp["dist"] - routeProgress));
+                }
+                # printf("FPA: %3.1f° / %4.0f ft/nmi over %3.1f nmi to reach %5.0f ft -> %5.0f ft",
+                #     wp["fpa"], gradient, wp["dist"] - routeProgress, wp["alt"], profileAlt);
 
-            # Off by more than 50 feet? Adjust FPA.
-            if (altitude > profileAlt + 50) {
-                # If above, expedite descent by up to -1.5°.
-                var correction = math.max(0, math.min(1.5, (altitude - profileAlt) * 1.5 / 1000.0));
-                setprop("/fms/vnav/selected-fpa", math.min(0, wp["fpa"] - correction));
-            }
-            else if (altitude < profileAlt - 50) {
-                if (me.desNowMode) {
-                    # If early descent selected, maintain constant 1000 fpm
-                    # descent until capturing the profile.
-                    var targetFPM = -1000;
-                    var speed = getprop("/velocities/groundspeed-kt");
-                    var speedMPM = speed / 60.0;
-                    var fpa = calcFPA(targetFPM, speedMPM);
-                    setprop("/fms/vnav/selected-fpa", fpa);
+                # Off by more than 50 feet? Adjust FPA.
+                if (altitude > profileAlt + 50) {
+                    # If above, expedite descent by up to -1.5°.
+                    var correction = math.max(0, math.min(1.5, (altitude - profileAlt) * 1.5 / 1000.0));
+                    setprop("/fms/vnav/selected-fpa", math.min(0, wp["fpa"] - correction));
                 }
-                else {
-                    # If below, expedite climb by up to 1.5°.
-                    var correction = math.max(0, math.min(1.5, -(altitude - profileAlt) * 1.5 / 1000.0));
-                    setprop("/fms/vnav/selected-fpa", math.max(0, wp["fpa"] + 1.5));
+                else if (altitude < profileAlt - 50) {
+                    if (me.desNowMode) {
+                        # If early descent selected, maintain constant 1000 fpm
+                        # descent until capturing the profile.
+                        var targetFPM = -1000;
+                        var speed = getprop("/velocities/groundspeed-kt");
+                        var speedMPM = speed / 60.0;
+                        var fpa = calcFPA(targetFPM, speedMPM);
+                        setprop("/fms/vnav/selected-fpa", fpa);
+                    }
+                    else {
+                        # If below, expedite climb by up to 1.5°.
+                        var correction = math.max(0, math.min(1.5, -(altitude - profileAlt) * 1.5 / 1000.0));
+                        setprop("/fms/vnav/selected-fpa", math.max(0, wp["fpa"] + 1.5));
+                    }
+                }
+                else if (me.desNowMode) {
+                    # we've captured the profile in DES NOW mode
+                    me.desNowMode = 0;
+                    setprop("/fms/vnav/selected-fpa", wp["fpa"]);
                 }
             }
-            else if (me.desNowMode) {
-                # we've captured the profile in DES NOW mode
-                me.desNowMode = 0;
-                setprop("/fms/vnav/selected-fpa", wp["fpa"]);
-            }
+            setprop("/fms/vnav/profile-alt", profileAlt);
         }
-        setprop("/fms/vnav/profile-alt", profileAlt);
         setprop("/fms/vnav/route-progress", routeProgress);
         # TODO: switch to VFLCH (and back!) when path cannot be captured before
         # next waypoint.
