@@ -544,6 +544,10 @@ var FlightPlanModule = {
                         append(me.views, StaticView.new(1, y, sprintf("%3d°", wp.leg_bearing), mcdu_green));
                         var distFormat = (wp.leg_distance < 100) ? "%5.1fNM" : "%5.0fNM";
                         append(me.views, StaticView.new(6, y, sprintf(distFormat, wp.leg_distance), mcdu_green));
+                        if (fms.performanceProfile != nil and wpi < size(fms.performanceProfile.estimated)) {
+                            var eta = fms.performanceProfile.estimated[wpi].ta;
+                            append(me.views, StaticView.new(8, y + 1, formatZuluSeconds(eta), mcdu_green));
+                        }
                     }
                     append(me.views, StaticView.new(0, y + 1, sprintf("%-6s", wp.wp_name),
                         color | mcdu_large));
