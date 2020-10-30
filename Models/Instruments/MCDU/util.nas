@@ -308,7 +308,15 @@ var parseWaypoint = func (ident, ref=nil) {
     return nil;
 };
 
-var formatZuluSeconds = func (time_secs) {
+
+var formatETE = func(time_secs) {
+    var corrected = math.mod(time_secs, 86400);
+    var hours = math.floor(corrected / 3600);
+    var minutes = math.mod(math.floor(corrected / 60), 60);
+    return sprintf("%02.0fH%02.0f", hours, minutes);
+};
+
+var formatZulu = func (time_secs) {
     var corrected = math.mod(time_secs, 86400);
     var hours = math.floor(corrected / 3600);
     var minutes = math.mod(math.floor(corrected / 60), 60);

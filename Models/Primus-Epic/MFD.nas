@@ -1017,6 +1017,19 @@ var MFD = {
         }
         if (me.props['route-active'].getValue()) {
             var now = me.props['zulutime'].getValue();
+            var fp = fms.getVisibleFlightplan();
+            var nextEFOB = nil;
+            var destEFOB = nil;
+            if (fp != nil and fms.performanceProfile != nil) {
+                var wpi = fp.current;
+                var dsti = fms.performanceProfile.destRunwayIndex;
+                if (wpi < size(fms.performanceProfile.estimated)) {
+                    nextEFOB = fms.performanceProfile.estimated[wpi].fob;
+                }
+                if (dsti != nil and dsti < size(fms.performanceProfile.estimated)) {
+                    destEFOB = fms.performanceProfile.estimated[dsti].fob;
+                }
+            }
 
             me.elems['next.dist'].setText(me.formatDist(me.props['wp-dist'].getValue()));
             var wpETE = me.props['wp-ete'].getValue();
@@ -1024,10 +1037,15 @@ var MFD = {
                 me.elems['next.eta'].setText('+++++');
             }
             else {
-                me.elems['next.eta'].setText(me.formatETA(now + (me.props['wp-ete'].getValue() or 0)));
+                me.elems['next.eta'].setText(mcdu.formatZulu(now + (me.props['wp-ete'].getValue() or 0)));
             }
             me.elems['next.wpt'].setText(me.props['wp-id'].getValue() or '---');
-            me.elems['next.fuel'].setText('---'); # TODO: fuel plan
+            if (nextEFOB != nil) {
+                me.elems['next.fuel'].setText(sprintf("%5.0f", nextEFOB));
+            }
+            else {
+                me.elems['next.fuel'].setText('-----');
+            }
 
             me.elems['dest.dist'].setText(me.formatDist(me.props['dest-dist'].getValue()));
             var destETE = me.props['dest-ete'].getValue();
@@ -1035,10 +1053,15 @@ var MFD = {
                 me.elems['dest.eta'].setText('+++++');
             }
             else {
-                me.elems['dest.eta'].setText(me.formatETA(now + (me.props['dest-ete'].getValue() or 0)));
+                me.elems['dest.eta'].setText(mcdu.formatZulu(now + (me.props['dest-ete'].getValue() or 0)));
             }
             me.elems['dest.wpt'].setText(me.props['dest-id'].getValue() or '---');
-            me.elems['dest.fuel'].setText('---'); # TODO: fuel plan
+            if (destEFOB != nil) {
+                me.elems['dest.fuel'].setText(sprintf("%5.0f", destEFOB));
+            }
+            else {
+                me.elems['dest.fuel'].setText('-----');
+            }
         }
         me.map.layers['TFC-Ejet'].update();
     },
@@ -1053,13 +1076,6 @@ var MFD = {
             distStr = sprintf(distFmt, dist);
         }
         return distStr;
-    },
-
-    formatETA: func(time_secs) {
-        var corrected = math.mod(time_secs, 86400);
-        var hours = math.floor(corrected / 3600);
-        var minutes = math.mod(math.floor(corrected / 60), 60);
-        return sprintf("%02.0fH%02.0f", hours, minutes);
     },
 };
 

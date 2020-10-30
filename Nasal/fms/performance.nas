@@ -13,13 +13,15 @@ var initProfile = func() {
     return {
         actual: [],
         estimated: [],
+        destRunwayIndex: nil,
     };
 };
 
 var updateProfile = func (fp, mode, profile) {
+    var totalDist = myprops.totalDist.getValue();
     var info = {
         fob: myprops.totalFuel.getValue(),
-        dist: myprops.totalDist.getValue() - myprops.distRemaining.getValue(),
+        dist: totalDist - myprops.distRemaining.getValue(),
         groundspeed: myprops.groundspeed.getValue(),
         ff: myprops.fuelFlowL.getValue() + myprops.fuelFlowR.getValue(),
         time: myprops.daySeconds.getValue(),
@@ -37,6 +39,10 @@ var updateProfile = func (fp, mode, profile) {
     }
     for (var i = 0; i < planSize; i += 1) {
         var wp = fp.getWP(i);
+        if (i > 1 and math.abs(wp.distance_along_route - totalDist) < 0.1) {
+            # this is the destination
+            profile.destRunwayIndex = i;
+        }
         if (wp.distance_along_route <= info.dist) {
             # first situation: we are already past this waypoint.
             while (size(profile.actual) <= i) {
@@ -88,8 +94,8 @@ var printPerformanceProfile = func (profile) {
         var a = (i >= size(profile.actual)) ? nil : profile.actual[i];
         printf("%-8s %5s/%5s %6.0f/%6.0f",
             wp.id,
-            (e == nil) ? "-----" : mcdu.formatZuluSeconds(e.ta),
-            (a == nil) ? "-----" : mcdu.formatZuluSeconds(a.ta),
+            (e == nil) ? "-----" : mcdu.formatZulu(e.ta),
+            (a == nil) ? "-----" : mcdu.formatZulu(a.ta),
             (e == nil) ? 0 : e.fob,
             (a == nil) ? 0 : a.fob);
     }
