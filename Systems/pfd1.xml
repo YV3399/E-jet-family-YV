@@ -140,6 +140,57 @@
         </input>
         <output>/instrumentation/mk-viii/inputs/arinc429/decision-height</output>
     </filter>
+
+    <filter>
+        <type>derivative</type>
+        <input>
+            <property>/instrumentation/pfd[0]/minimums-radio</property>
+        </input>
+        <output>/instrumentation/pfd[0]/minimums-radio-rate</output>
+        <filter-time>1.0</filter-time>
+    </filter>
+
+    <filter>
+        <type>derivative</type>
+        <input>
+            <property>/instrumentation/pfd[0]/minimums-baro</property>
+        </input>
+        <output>/instrumentation/pfd[0]/minimums-baro-rate</output>
+        <filter-time>1.0</filter-time>
+    </filter>
+
+    <filter>
+        <type>derivative</type>
+        <input>
+            <property>/instrumentation/pfd[0]/minimums-mode</property>
+        </input>
+        <output>/instrumentation/pfd[0]/minimums-mode-rate</output>
+        <filter-time>1.0</filter-time>
+    </filter>
+
+    <logic>
+        <input>
+            <or>
+                <property>/instrumentation/pfd[0]/minimums-radio-rate</property>
+                <property>/instrumentation/pfd[0]/minimums-baro-rate</property>
+                <property>/instrumentation/pfd[0]/minimums-mode-rate</property>
+            </or>
+        </input>
+        <output>/instrumentation/pfd[0]/minimums-delta</output>
+    </logic>
+
+    <flipflop>
+        <name>Minimums changed</name>
+        <type>monostable</type>
+        <debug type="bool">true</debug>
+        <time>
+            <value>20</value>
+        </time>
+        <S>
+            <property>/instrumentation/pfd[0]/minimums-delta</property>
+        </S>
+        <output>/instrumentation/pfd[0]/minimums-visible</output>
+    </flipflop>
     
     <!-- SPEED CURSOR -->
     

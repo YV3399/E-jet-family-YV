@@ -40,6 +40,7 @@ setprop("/instrumentation/pfd[1]/qnh-mode", 0);
 setprop("/instrumentation/pfd[1]/minimums-mode", 0);
 setprop("/instrumentation/pfd[1]/minimums-radio", 200);
 setprop("/instrumentation/pfd[1]/minimums-baro", 400);
+setprop("/instrumentation/pfd[1]/minimums-visible", 1);
 
 setprop("/systems/electrical/outputs/efis", 0);
 
@@ -209,6 +210,7 @@ var canvas_ED_only = {
         m.props["/instrumentation/pfd/minimums-mode"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/minimums-mode");
         m.props["/instrumentation/pfd/minimums-radio"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/minimums-radio");
         m.props["/instrumentation/pfd/minimums-baro"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/minimums-baro");
+        m.props["/instrumentation/pfd/minimums-visible"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/minimums-visible");
         m.props["/instrumentation/pfd/nav-src"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/nav-src");
         m.props["/instrumentation/pfd/preview"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/preview");
         m.props["/fms/vspeeds-effective/departure/v1"] = props.globals.getNode("/fms/vspeeds-effective/departure/v1");
@@ -691,6 +693,8 @@ var canvas_ED_only = {
             comparisonAlt = radarAlt;
         }
 
+        var minimumsVisible = me.props["/instrumentation/pfd/minimums-visible"].getBoolValue();
+
         if (radarAlt <= 4000) {
             me["radioalt.digital"].setText(sprintf("%04d", radarAlt));
             if (comparisonAlt <= decisionHeight) {
@@ -699,7 +703,13 @@ var canvas_ED_only = {
             else {
                 me["minimums.indicator"].hide();
             }
+            me["radioalt"].show();
+        }
+        else {
+            me["radioalt"].hide();
+        }
 
+        if (radarAlt <= 4000 or minimumsVisible) {
             if (minimumsMode) {
                 me["minimums.barora"].setText("BARO");
                 me["minimums.digital"].setColor(1, 1, 0);
@@ -709,11 +719,9 @@ var canvas_ED_only = {
                 me["minimums.digital"].setColor(1, 1, 1);
             }
             me["minimums.digital"].setText(sprintf("%d", decisionHeight));
-            me["radioalt"].show();
             me["minimums"].show();
         }
         else {
-            me["radioalt"].hide();
             me["minimums"].hide();
         }
 
