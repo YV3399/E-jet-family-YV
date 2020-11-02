@@ -29,8 +29,11 @@ setprop("/controls/engines/engine[1]/condition-lever-state", 0);
 setprop("/controls/engines/engine[0]/throttle-int", 0);
 setprop("/controls/engines/engine[1]/throttle-int", 0);
 
-var engLn1	=	props.globals.getNode("engines/engine[0]/n1",1);
-var engRn1	=	props.globals.getNode("engines/engine[1]/n1",1);
+var engN1 = {
+    "N1L": props.globals.getNode("engines/engine[0]/n1",1),
+    "N1R": props.globals.getNode("engines/engine[1]/n1",1),
+};
+
 var engLn2	=	props.globals.getNode("engines/engine[0]/n2",1);
 var engRn2	=	props.globals.getNode("engines/engine[1]/n2",1);
 
@@ -39,7 +42,22 @@ var engRoff	=	props.globals.getNode("controls/engines/engine[1]/cutoff-switch", 
 
 setprop("/systems/elecrical/outputs/efis", 0);
 
-var canvas_ED_base = {
+var trsModeLabels = {
+	0: "TO",
+	1: "GA",
+	2: "CLB",
+	4: "CRZ",
+	5: "CON",
+};
+
+var canvas_ED_only = {
+	new: func(canvas_group, file) {
+		var m = { parents: [canvas_ED_only] };
+		m.init(canvas_group, file);
+
+		return m;
+	},
+
 	init: func(canvas_group, file) {
 		var font_mapper = func(family, weight) {
 			return "LiberationFonts/LiberationSans-Regular.ttf";
@@ -54,60 +72,38 @@ var canvas_ED_base = {
 			me[key] = canvas_group.getElementById(key);
 			var svg_keys = me.getKeys();
 			foreach (var key; svg_keys) {
-			me[key] = canvas_group.getElementById(key);
-			var clip_el = canvas_group.getElementById(key ~ "_clip");
-			if (clip_el != nil) {
-				clip_el.setVisible(0);
-				var tran_rect = clip_el.getTransformedBounds();
-				var clip_rect = sprintf("rect(%d,%d, %d,%d)", 
-				tran_rect[1], # 0 ys
-				tran_rect[2], # 1 xe
-				tran_rect[3], # 2 ye
-				tran_rect[0]); #3 xs
-				#   coordinates are top,right,bottom,left (ys, xe, ye, xs) ref: l621 of simgear/canvas/CanvasElement.cxx
-				me[key].set("clip", clip_rect);
-				me[key].set("clip-frame", canvas.Element.PARENT);
-			}
+                me[key] = canvas_group.getElementById(key);
+                var clip_el = canvas_group.getElementById(key ~ "_clip");
+                if (clip_el != nil) {
+                    clip_el.setVisible(0);
+                    var tran_rect = clip_el.getTransformedBounds();
+                    var clip_rect = sprintf("rect(%d,%d, %d,%d)", 
+                    tran_rect[1], # 0 ys
+                    tran_rect[2], # 1 xe
+                    tran_rect[3], # 2 ye
+                    tran_rect[0]); #3 xs
+                    #   coordinates are top,right,bottom,left (ys, xe, ye, xs) ref: l621 of simgear/canvas/CanvasElement.cxx
+                    me[key].set("clip", clip_rect);
+                    me[key].set("clip-frame", canvas.Element.PARENT);
+                }
 			}
 		}
+
+        me["N1L.shade"] = canvas_group.createChild('path');
+        me["N1L.shade"].set('z-index', -100).setColorFill(0.5, 0.5, 0.5);
+        me["N1R.shade"] = canvas_group.createChild('path');
+        me["N1R.shade"].set('z-index', -100).setColorFill(0.5, 0.5, 0.5);
 
 		me.page = canvas_group;
 
 		return me;
-	},
-	getKeys: func() {
-		return [];
-	},
-	update: func() {
-		#if (getprop("systems/electrical/outputs/efis") >= 15) {
-		#		ED_only.page.show();
-		#} else {
-		#	ED_only.page.hide();
-		#}
-		
-		settimer(func me.update(), 0.02);
-	},
-};
+    },
 
-var trsModeLabels = {
-	0: "TO",
-	1: "GA",
-	2: "CLB",
-	4: "CRZ",
-	5: "CON",
-};
-
-var canvas_ED_only = {
-	new: func(canvas_group, file) {
-		var m = { parents: [canvas_ED_only,canvas_ED_base] };
-		m.init(canvas_group, file);
-
-		return m;
-	},
 	getKeys: func() {
 		return [
             "flaps.UP",
             "flaps.IND",
+            "flaps.SHADE",
             "flaps.SCALE",
             "flaps.TGT",
             "slat.IND",
@@ -147,8 +143,6 @@ var canvas_ED_only = {
             "space2",
             "space3",
             "space4",
-            "lfilled1",
-            "lfilled2",
             "engL.off",
             "engR.off",
             "pitchtrim.digital",
@@ -167,11 +161,13 @@ var canvas_ED_only = {
 		
 		if(flap_pos==0){
 			me["flaps.IND"].hide();
+			me["flaps.SHADE"].hide();
 			me["flaps.SCALE"].hide();
 			me["flaps.TGT"].hide();
 			me["flaps.UP"].show();
 		}else{
 			me["flaps.IND"].show();
+			me["flaps.SHADE"].show();
 			me["flaps.SCALE"].show();
 			me["flaps.TGT"].show();
 			me["flaps.UP"].hide();
@@ -201,8 +197,6 @@ var canvas_ED_only = {
         me["ruddertrim.pointer"].setTranslation(math.round((getprop("/controls/flight/rudder-trim") or 0) * 60), 0);
         me["ailerontrim.pointer"].setRotation(math.round((getprop("/controls/flight/aileron-trim") or 0) * 30));
 		
-		var ln1=engLn1.getValue();
-		var rn1=engRn1.getValue();
 		var ln2=engLn2.getValue();
 		var rn2=engRn2.getValue();
 		var litt=getprop("/engines/engine[0]/itt_degc");
@@ -247,26 +241,33 @@ var canvas_ED_only = {
 		
 		me["engR.off"].setVisible(engRoff.getBoolValue());
 
+        foreach (var gauge; ["N1L", "N1R"]) {
+            var n1 = engN1[gauge].getValue();
+            me[gauge ~ ".needle"].setRotation(n1*D2R*2.568);
+            me[gauge].setText(sprintf("%.1f", n1));
+
+            var dn1 = n1 * 2.568 - 45;
+            var rn1 = dn1 * D2R;
+            var sn1 = math.sin(rn1);
+            var cn1 = math.cos(rn1);
+            var r = 110;
+            var (cx, cy) = me[gauge ~ ".needle"].getCenter();
+            var sc45 = math.sin(45 * D2R);
 		
-		#0.526
-		if(ln1<52.6){
-			me["lfilled2"].hide();
-			if(ln1==0){
-				me["lfilled1"].hide();
-			}else{
-				#me["lfilled1"].show();
-				me["lfilled1"].setRotation(ln1*D2R*2.568);
-			}
-		}else{
-			#me["lfilled2"].show();
-			me["lfilled1"].setRotation(0.526*D2R*2.568);
-			me["lfilled2"].setRotation((ln1-0.526)*D2R*2.568);
-		}
-			
-		me["N1L.needle"].setRotation(ln1*D2R*2.568);
-		me["N1R.needle"].setRotation(rn1*D2R*2.568);
-		me["N1L"].setText(sprintf("%.1f", ln1));
-		me["N1R"].setText(sprintf("%.1f", rn1));
+            var shade = me[gauge ~ ".shade"];
+
+            shade.reset()
+                .moveTo(cx, cy)
+                .line(-r * sc45, r * sc45);
+            if (dn1 > 135) {
+                shade.arcLargeCWTo(r, r, 0, cx - r * cn1, cy - r * sn1);
+            }
+            else {
+                shade.arcSmallCWTo(r, r, 0, cx - r * cn1, cy - r * sn1);
+            } 
+            shade.lineTo(cx, cy);
+        }
+
 		me["N2L"].setText(sprintf("%.1f", ln2));
 		me["N2R"].setText(sprintf("%.1f", rn2));
 		me["ITTL"].setText(sprintf("%u", litt));
@@ -280,7 +281,7 @@ var canvas_ED_only = {
 		me["OPR"].setText(sprintf("%u", rop));
 		me["OTL"].setText(sprintf("%u", lot));
 		me["OTR"].setText(sprintf("%u", rot));
-		
+
 		var lrvs=getprop("/engines/engine[0]/reverser-pos-norm");
 		var rrvs=getprop("/engines/engine[0]/reverser-pos-norm");
 		if(lrvs==0){
@@ -376,9 +377,6 @@ var canvas_ED_only = {
 		me["space2"].setText(getprop("/instrumentation/EICAS/message/space2"));
 		me["space3"].setText(getprop("/instrumentation/EICAS/message/space3"));
 		me["space4"].setText(getprop("/instrumentation/EICAS/message/space4"));
-		
-		
-		settimer(func me.update(), 0.02);
 	},
 };
 
@@ -394,8 +392,8 @@ setlistener("sim/signals/fdm-initialized", func {
 
 	ED_only = canvas_ED_only.new(groupED, "Aircraft/E-jet-family/Models/Primus-Epic/eicas.svg");
 
-	ED_only.update();
-	canvas_ED_base.update();
+	var timer = maketimer(0.1, func { ED_only.update(); });
+    timer.start();
 });
 
 var showED = func {
