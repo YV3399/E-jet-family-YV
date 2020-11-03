@@ -1,7 +1,7 @@
 <PropertyList>
-	<steer-cmd-norm	alias="/controls/flight/rudder"/>
-	<yaw alias="/gear/gear[0]/steering-norm"/>
-	<yaw-mult type="float">70</yaw-mult>
+	<steer-cmd-norm	alias="/sim/model/autopush/autopush-cmd-norm"/>
+	<yaw alias="/fdm/jsbsim/fcs/steer-pos-deg"/>
+	<yaw-mult type="float">1</yaw-mult>
 	<pitch-deg type="float">-0.7</pitch-deg>
 	<min-turn-radius-m type="float">16</min-turn-radius-m>
 	<stopping-distance-m type="float">5</stopping-distance-m>

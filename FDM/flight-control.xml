@@ -321,6 +321,59 @@
         </kinematic>
         
     </channel>
+
+    <channel name="Steering">
+        <switch name="/controls/gear/tiller-disabled">
+            <default value="0"/>
+            <test logic="AND" value="1">
+                /controls/gear/enable-tiller == 0
+            </test>
+        </switch>
+        
+        <fcs_function name="Nose Wheel Steering 0">
+          <function name="fcs/steer-nose-deg[0]">
+            <description>Steering command for nose gear</description>
+            <ifthen>
+              <eq>
+                <property>/sim/model/autopush/connected</property>
+                <value>1</value>
+              </eq>
+              <product>
+                <property>/sim/model/autopush/autopush-cmd-norm</property>
+                <value>70</value>
+              </product>
+              <sum>
+                <product>
+                  <table>
+                    <independentVar lookup="row">/controls/gear/tiller-cmd-norm</independentVar>
+                    <independentVar lookup="column">/controls/flight/rudder</independentVar>
+                    <tableData>
+                    -1   0   1
+                    -1 -70 -70 -70
+                     0  -7   0   7
+                     1  70  70  70
+                    </tableData>
+                  </table>
+                  <property>/controls/gear/enable-tiller</property>
+                </product>
+                <product>
+                  <product>
+                    <property>/controls/flight/rudder</property>
+                    <value>70</value>
+                  </product>
+                  <property>/controls/gear/tiller-disabled</property>
+                </product>
+              </sum>
+            </ifthen>
+          </function>
+        </fcs_function>
+        
+        <actuator name="Gear Nose Actuator">
+          <input>fcs/steer-nose-deg[0]</input>
+          <rate_limit>70</rate_limit>
+          <output>fcs/steer-pos-deg[0]</output>
+        </actuator>
+    </channel>
     
     <channel name="Speedbrake">
         <kinematic name="Speedbrake Control">

@@ -57,9 +57,9 @@
 
 	<slider>
 		<pref-width>170</pref-width>
-		<property>controls/gear/tiller-steer-deg</property>
-		<min>-80</min>
-		<max>80</max>
+		<property>controls/gear/tiller-cmd-norm</property>
+		<min>-1</min>
+		<max>1</max>
 		<visible>
 			<property>controls/gear/enable-tiller</property>
 		</visible>
@@ -70,7 +70,7 @@
 	</slider>
 
 	<text>
-		<label>Rudder can steer up to 8 degrees</label>
+		<label>Rudder can steer up to 7 degrees</label>
 		<visible>
 			<property>controls/gear/enable-tiller</property>
 		</visible>
@@ -86,7 +86,7 @@
 		</binding>
 		<binding>
 			<command>property-assign</command>
-			<property>controls/gear/tiller-steer-deg</property>
+			<property>controls/gear/tiller-cmd-norm</property>
 			<value>0</value>
 		</binding>
 	</button>

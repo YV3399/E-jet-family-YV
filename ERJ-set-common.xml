@@ -928,7 +928,7 @@
         <gear>
             <brake-parking type="bool">true</brake-parking>
             <enable-tiller type="bool">true</enable-tiller>
-            <tiller-steer-deg type="float">0</tiller-steer-deg>
+            <tiller-cmd-norm type="float">0</tiller-cmd-norm>
         </gear>
 
         <lighting>

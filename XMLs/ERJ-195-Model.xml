@@ -659,8 +659,8 @@
     <animation>
         <type>rotate</type>
         <object-name>NoseGear</object-name>
-        <property>controls/flight/rudder</property>
-        <factor>60</factor>
+        <property>fdm/jsbsim/fcs/steer-pos-deg[0]</property>
+        <factor>1</factor>
         <center>
             <x-m>-13.82</x-m>
             <y-m>0.0</y-m>

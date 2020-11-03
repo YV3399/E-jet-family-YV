@@ -1,136 +1,133 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
 <PropertyList>
-	<filter>
-		<name>Pushback turn angle</name>
-        <enable>
-            <property>sim/model/autopush/connected</property>
-        </enable>
-        <type>noise-spike</type>
-        <max-rate-of-change>
-            <expression>
-                <product>
-                    <property>/velocities/groundspeed-kt</property>
-                    <value>0.05</value>
-                </product>
-            </expression>
-        </max-rate-of-change>
-        <input>sim/model/autopush/yaw</input>
-        <output>sim/model/autopush/yaw-filtered</output>
-	</filter>
-
     <filter>
-        <name>Pushback counter-turn angle</name>
-        <enable>
-            <property>sim/model/autopush/connected</property>
-        </enable>
+        <name>Pushback truck target orientation</name>
         <type>gain</type>
-        <input>
-            <condition>
-                <greater-than>
-                    <property>/velocities/uBody-fps</property>
-                    <value>0.001</value>
-                </greater-than>
-            </condition>
-            <expression>
-                <property>sim/model/autopush/yaw</property>
-            </expression>
-        </input>
-        <input>
-            <expression>
-                <difference>
-                    <product>
-                        <property>sim/model/autopush/yaw-filtered</property>
-                        <value>2</value>
-                    </product>
-                    <property>sim/model/autopush/yaw</property>
-                </difference>
-            </expression>
-        </input>
-        <output>sim/model/autopush/yaw-error</output>
-    </filter>
-
-	<filter>
-		<name>Pushback counter-turn angle (filtered)</name>
-        <enable>
-            <property>sim/model/autopush/connected</property>
-        </enable>
-        <type>noise-spike</type>
-        <max-rate-of-change>
-            <expression>
-                <product>
-                    <property>/velocities/groundspeed-kt</property>
-                    <value>0.2</value>
-                </product>
-            </expression>
-        </max-rate-of-change>
-        <input>sim/model/autopush/yaw-error</input>
-        <output>sim/model/autopush/yaw-error-filtered</output>
-	</filter>
-
-    <filter>
-        <name>Pushback counter-yaw rate of change</name>
-        <enable>
-            <property>sim/model/autopush/connected</property>
-        </enable>
-        <type>derivative</type>
+        <gain>1</gain>
         <input>
             <expression>
                 <sum>
-                    <div>
-                        <property>orientation/heading-deg</property>
-                        <value>60</value>
-                    </div>
-                    <sum>
-                        <property>sim/model/autopush/yaw-error-filtered</property>
-                        <property>sim/model/autopush/yaw-filtered</property>
-                    </sum>
+                    <property>/orientation/heading-deg</property>
+                    <product>
+                        <value>1.5</value>
+                        <property>/fdm/jsbsim/fcs/steer-pos-deg</property>
+                    </product>
                 </sum>
             </expression>
         </input>
-        <output>sim/model/autopush/counter-yaw-rate</output>
-        <filter-time>1</filter-time>
+        <output>sim/model/autopush/target-orientation-raw</output>
     </filter>
 
     <filter>
-        <name>Pushback steer</name>
-        <enable>
-            <property>sim/model/autopush/connected</property>
-        </enable>
+        <name>Pushback target error</name>
         <type>gain</type>
-        <gain>-20</gain>
-        <enable>
-            <condition>
-                <greater-than>
-                    <property>/velocities/groundspeed-kt</property>
-                    <value>1</value>
-                </greater-than>
-            </condition>
-        </enable>
-        <input>
-            <expression>
-                <div>
-                    <property>sim/model/autopush/counter-yaw-rate</property>
-                    <property>velocities/uBody-fps</property>
-                </div>
-            </expression>
-        </input>
-        <output>sim/model/autopush/steer-raw</output>
+        <gain>1</gain>
+        <input>sim/model/autopush/target-orientation-raw</input>
+        <reference>sim/model/autopush/orientation</reference>
+        <output>sim/model/autopush/target-orientation-error</output>
+        <period>
+            <min>-180.0</min>
+            <max>180.0</max>
+        </period>
     </filter>
 
-	<filter>
-		<name>Pushback steer (filtered)</name>
-        <enable>
-            <property>sim/model/autopush/connected</property>
-        </enable>
-        <type>noise-spike</type>
-        <max-rate-of-change>10</max-rate-of-change>
+    <filter>
+        <name>Pushback target orientation</name>
+        <type>gain</type>
+        <gain>1</gain>
         <input>
-            <property>sim/model/autopush/steer-raw</property>
-            <min>-1.5</min>
-            <max>1.5</max>
+            <property>sim/model/autopush/target-orientation-error</property>
+            <period>
+                <min>-180.0</min>
+                <max>180.0</max>
+            </period>
         </input>
-        <output>sim/model/autopush/steer</output>
-	</filter>
+        <reference>
+            <property>sim/model/autopush/orientation</property>
+            <scale>-1.0</scale>
+        </reference>
+        <output>sim/model/autopush/target-orientation</output>
+    </filter>
+            
 
+    <filter>
+        <name>Pushback orientation</name>
+        <type>noise-spike</type>
+        <max-rate-of-change>
+            <expression>
+                <product>
+                    <abs>
+                        <property>/velocities/groundspeed-kt</property>
+                    </abs>
+                    <value>10</value>
+                </product>
+            </expression>
+        </max-rate-of-change>
+        <input>sim/model/autopush/target-orientation</input>
+        <output>sim/model/autopush/orientation</output>
+    </filter>
+
+    <filter>
+        <name>Pushback relative orientation</name>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <expression>
+                <difference>
+                    <property>sim/model/autopush/orientation</property>
+                    <property>/orientation/heading-deg</property>
+                </difference>
+            </expression>
+        </input>
+        <output>sim/model/autopush/orientation-relative</output>
+    </filter>
+
+    <filter>
+        <name>Pushback counter-yaw</name>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <expression>
+                <difference>
+                    <property>sim/model/autopush/orientation-relative</property>
+                    <property>/fdm/jsbsim/fcs/steer-pos-deg</property>
+                </difference>
+            </expression>
+        </input>
+        <output>sim/model/autopush/counter-yaw</output>
+        <period>
+            <min>-180.0</min>
+            <max>180.0</max>
+        </period>
+    </filter>
+
+    <filter>
+        <name>Pushback steering</name>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <property>sim/model/autopush/target-orientation-error</property>
+            <period>
+                <min>-180.0</min>
+                <max>180.0</max>
+            </period>
+            <scale>1</scale>
+        </input>
+        <reference>
+            <property>sim/model/autopush/counter-yaw</property>
+            <period>
+                <min>-180.0</min>
+                <max>180.0</max>
+            </period>
+            <scale>0.5</scale>
+        </reference>
+        <output>sim/model/autopush/steer-effective</output>
+        <period>
+            <min>-180.0</min>
+            <max>180.0</max>
+        </period>
+        <min>-30</min>
+        <max>30</max>
+    </filter>
 </PropertyList>

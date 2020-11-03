@@ -4,374 +4,6 @@
 
 	<path>../Models/erj170.ac</path>
 
-<!-- Landing Gear Animations -->
-
-<!-- Sub Definitions -->
-    <animation>
-        <name>NoseGear</name>
-        <object-name>gear.n</object-name>
-        <object-name>tire.n</object-name>
-    </animation>
-
-    <animation>
-        <name>LeftGear</name>
-        <object-name>gear.l</object-name>
-		<object-name>gear.l.001</object-name>
-        <object-name>tire.l</object-name>
-    </animation>
-
-    <animation>
-        <name>RightGear</name>
-        <object-name>gear.r</object-name>
-		<object-name>gear.r.001</object-name>
-        <object-name>tire.r</object-name>
-    </animation>
-
-<!-- Nose Gear -->
-    <animation>
-        <type>rotate</type>
-        <object-name>NoseGear</object-name>
-        <property>controls/flight/rudder</property>
-        <factor>60</factor>
-        <center>
-            <x-m>-10.82</x-m>
-            <y-m>0.0</y-m>
-            <z-m>-1.91</z-m>
-        </center>
-        <axis>
-            <x>0</x>
-            <y>0</y>
-            <z>-1.0</z>
-        </axis>
-    </animation>
-
-    <animation>
-        <type>rotate</type>
-        <object-name>NoseGear</object-name>
-        <property>gear/gear[0]/position-norm</property>
-        <interpolation>
-            <entry>
-                <ind>0</ind>
-                <dep>115</dep>
-            </entry>
-            <entry>
-                <ind>0.2</ind>
-                <dep>115</dep>
-            </entry>
-            <entry>
-                <ind>1.0</ind>
-                <dep>0</dep>
-            </entry>
-        </interpolation>
-        <center>
-            <x-m>-10.60</x-m>
-            <y-m>0.0</y-m>
-            <z-m>-0.84</z-m>
-        </center>
-        <axis>
-            <x>0</x>
-            <y>1</y>
-            <z>0</z>
-        </axis>
-    </animation>
-
-    <animation>
-        <type>translate</type>
-         <object-name>tire.n</object-name>
-        <property>gear/gear[0]/compression-norm</property>
-        <interpolation>
-            <entry><ind>0.00</ind><dep>0</dep></entry>
-            <entry><ind>3</ind><dep>0.75</dep></entry>
-        </interpolation>
-        <axis>
-            <x>0</x>
-            <y>0</y>
-            <z>1</z>
-        </axis>
-    </animation>
-
-<!-- Left Gear -->
-    <animation>
-        <type>rotate</type>
-        <object-name>LeftGear</object-name>
-        <property>gear/gear[1]/position-norm</property>
-        <interpolation>
-            <entry><ind>0</ind><dep>75</dep></entry>
-            <entry><ind>0.2</ind><dep>75</dep></entry>
-            <entry><ind>0.8</ind><dep>0</dep></entry>
-            <entry><ind>1</ind><dep>0</dep></entry>
-        </interpolation>
-        <center>
-            <y-m>-2.53</y-m>
-            <z-m>-0.37</z-m>
-        </center>
-        <axis>
-            <x>1</x>
-            <y>0</y>
-            <z>0</z>
-        </axis>
-    </animation>
-
-    <animation>
-        <type>translate</type>
-        <object-name>tire.l</object-name>
-        <property>gear/gear[1]/compression-norm</property>
-        <interpolation>
-            <entry><ind>0.00</ind><dep>0</dep></entry>
-            <entry><ind>5</ind><dep>1</dep></entry>
-        </interpolation>
-        <axis>
-            <x>0</x>
-            <y>0</y>
-            <z>1</z>
-        </axis>
-    </animation>
-
-<!-- Right Gear -->
-    <animation>
-        <type>rotate</type>
-        <object-name>RightGear</object-name>
-        <property>gear/gear[2]/position-norm</property>
-        <interpolation>
-            <entry><ind>0</ind><dep>75</dep></entry>
-            <entry><ind>0.2</ind><dep>75</dep></entry>
-            <entry><ind>0.8</ind><dep>0</dep></entry>
-            <entry><ind>1</ind><dep>0</dep></entry>
-        </interpolation>
-        <center>
-            <y-m>2.53</y-m>
-            <z-m>-0.37</z-m>
-        </center>
-        <axis>
-            <x>-1</x>
-            <y>0</y>
-            <z>0</z>
-        </axis>
-    </animation>
-
-    <animation>
-        <type>translate</type>
-        <object-name>tire.r</object-name>
-        <property>gear/gear[2]/compression-norm</property>
-        <interpolation>
-            <entry><ind>0.00</ind><dep>0</dep></entry>
-            <entry><ind>5</ind><dep>1</dep></entry>
-        </interpolation>
-        <axis>
-            <x>0</x>
-            <y>0</y>
-            <z>1</z>
-        </axis>
-    </animation>
-
-<!-- Main Gear Translate to fit into the socket -->
-
-    <animation>
-        <type>translate</type>
-        <object-name>LeftGear</object-name>
-        <property>gear/gear[1]/position-norm</property>
-        <interpolation>
-            <entry><ind>0.00</ind><dep>0.3</dep></entry>
-            <entry><ind>1.00</ind><dep>0</dep></entry>
-        </interpolation>
-        <axis>
-            <x>0</x>
-            <y>0</y>
-            <z>-1</z>
-        </axis>
-    </animation>
-
-    <animation>
-        <type>translate</type>
-        <object-name>RightGear</object-name>
-        <property>gear/gear[2]/position-norm</property>
-        <interpolation>
-            <entry><ind>0.00</ind><dep>0.3</dep></entry>
-            <entry><ind>1.00</ind><dep>0</dep></entry>
-        </interpolation>
-        <axis>
-            <x>0</x>
-            <y>0</y>
-            <z>-1</z>
-        </axis>
-    </animation>
-
-<!-- Tyres Rolling Animation -->
-
-    <animation>
-        <type>spin</type>
-        <object-name>tire.n</object-name>
-        <property>gear/gear[0]/rollspeed-ms</property>
-        <factor>10</factor>
-        <axis>
-            <x>0</x>
-            <y>-1</y>
-            <z>0</z>
-        </axis>
-        <center>
-            <x-m>-10.82</x-m>
-            <y-m>0</y-m>
-            <z-m>-1.91</z-m>
-        </center>
-    </animation>
-
-    <animation>
-        <type>spin</type>
-        <object-name>tire.l</object-name>
-        <property>gear/gear[1]/rollspeed-ms</property>
-        <factor>10</factor>
-        <axis>
-            <x>0</x>
-            <y>-1</y>
-            <z>0</z>
-        </axis>
-        <center>
-            <x-m>-0.97</x-m>
-            <y-m>0</y-m>
-            <z-m>-1.93</z-m>
-        </center>
-    </animation>
-
-    <animation>
-        <type>spin</type>
-        <object-name>tire.r</object-name>
-        <property>gear/gear[2]/rollspeed-ms</property>
-        <factor>10</factor>
-        <axis>
-            <x>0</x>
-            <y>-1</y>
-            <z>0</z>
-        </axis>
-        <center>
-            <x-m>-0.97</x-m>
-            <y-m>0</y-m>
-            <z-m>-1.93</z-m>
-        </center>
-    </animation>
-
-<!-- Gear Door Animations -->
-
-<!-- Nose Gear Door -->
-    <animation>
-        <type>rotate</type>
-        <object-name>geardoor.f.l</object-name>
-        <property>gear/gear[0]/position-norm</property>
-        <interpolation>
-            <entry>
-                <ind>0</ind>
-                <dep>0</dep>
-            </entry>
-            <entry>
-                <ind>0.2</ind>
-                <dep>-90</dep>
-            </entry>
-            <entry>
-                <ind>0.8</ind>
-                <dep>-90</dep>
-            </entry>
-            <entry>
-                <ind>1.0</ind>
-                <dep>0</dep>
-            </entry>
-        </interpolation>
-		<axis>
-			<x1-m>-12.87</x1-m>
-			<y1-m>-0.32</y1-m>
-			<z1-m>-0.83</z1-m>
-			<x2-m>-10.96</x2-m>
-			<y2-m>-0.39</y2-m>
-			<z2-m>-0.93</z2-m>
-		</axis>
-    </animation>
-
-    <animation>
-        <type>rotate</type>
-        <object-name>geardoor.f.r</object-name>
-        <property>gear/gear[0]/position-norm</property>
-        <interpolation>
-            <entry>
-                <ind>0</ind>
-                <dep>0</dep>
-            </entry>
-            <entry>
-                <ind>0.2</ind>
-                <dep>90</dep>
-            </entry>
-            <entry>
-                <ind>0.8</ind>
-                <dep>90</dep>
-            </entry>
-            <entry>
-                <ind>1.0</ind>
-                <dep>0</dep>
-            </entry>
-        </interpolation>
-		<axis>
-			<x1-m>-12.87</x1-m>
-			<y1-m>0.32</y1-m>
-			<z1-m>-0.83</z1-m>
-			<x2-m>-10.96</x2-m>
-			<y2-m>0.39</y2-m>
-			<z2-m>-0.93</z2-m>
-		</axis>
-    </animation>
-
-    <animation>
-        <type>rotate</type>
-        <object-name>geardoor.b.l</object-name>
-        <property>gear/gear[0]/position-norm</property>
-        <interpolation>
-            <entry>
-                <ind>0</ind>
-                <dep>0</dep>
-            </entry>
-            <entry>
-                <ind>0.2</ind>
-                <dep>-50</dep>
-            </entry>
-            <entry>
-                <ind>1.0</ind>
-                <dep>-50</dep>
-            </entry>
-        </interpolation>
-		<axis>
-			<x1-m>-10.96</x1-m>
-			<y1-m>-0.30</y1-m>
-			<z1-m>-0.95</z1-m>
-			<x2-m>-10.43</x2-m>
-			<y2-m>-0.30</y2-m>
-			<z2-m>-0.96</z2-m>
-		</axis>
-    </animation>
-
-    <animation>
-        <type>rotate</type>
-        <object-name>geardoor.b.r</object-name>
-        <property>gear/gear[0]/position-norm</property>
-        <interpolation>
-            <entry>
-                <ind>0</ind>
-                <dep>0</dep>
-            </entry>
-            <entry>
-                <ind>0.2</ind>
-                <dep>50</dep>
-            </entry>
-            <entry>
-                <ind>1.0</ind>
-                <dep>50</dep>
-            </entry>
-        </interpolation>
-		<axis>
-			<x1-m>-10.96</x1-m>
-			<y1-m>0.30</y1-m>
-			<z1-m>-0.95</z1-m>
-			<x2-m>-10.43</x2-m>
-			<y2-m>0.30</y2-m>
-			<z2-m>-0.96</z2-m>
-		</axis>
-    </animation>
-
 	<!-- Lightmap -->
 	<effect>
 		<inherits-from>../Models/Effects/reflect</inherits-from>
@@ -1091,6 +723,374 @@
             <y>0.0</y>
             <z>0</z>
         </axis>
+    </animation>
+
+<!-- Landing Gear Animations -->
+
+<!-- Sub Definitions -->
+    <animation>
+        <name>NoseGear</name>
+        <object-name>gear.n</object-name>
+        <object-name>tire.n</object-name>
+    </animation>
+
+    <animation>
+        <name>LeftGear</name>
+        <object-name>gear.l</object-name>
+		<object-name>gear.l.001</object-name>
+        <object-name>tire.l</object-name>
+    </animation>
+
+    <animation>
+        <name>RightGear</name>
+        <object-name>gear.r</object-name>
+		<object-name>gear.r.001</object-name>
+        <object-name>tire.r</object-name>
+    </animation>
+
+<!-- Nose Gear -->
+    <animation>
+        <type>rotate</type>
+        <object-name>NoseGear</object-name>
+        <property>fdm/jsbsim/fcs/steer-pos-deg[0]</property>
+        <factor>1</factor>
+        <center>
+            <x-m>-10.82</x-m>
+            <y-m>0.0</y-m>
+            <z-m>-1.91</z-m>
+        </center>
+        <axis>
+            <x>0</x>
+            <y>0</y>
+            <z>-1.0</z>
+        </axis>
+    </animation>
+
+    <animation>
+        <type>rotate</type>
+        <object-name>NoseGear</object-name>
+        <property>gear/gear[0]/position-norm</property>
+        <interpolation>
+            <entry>
+                <ind>0</ind>
+                <dep>115</dep>
+            </entry>
+            <entry>
+                <ind>0.2</ind>
+                <dep>115</dep>
+            </entry>
+            <entry>
+                <ind>1.0</ind>
+                <dep>0</dep>
+            </entry>
+        </interpolation>
+        <center>
+            <x-m>-10.60</x-m>
+            <y-m>0.0</y-m>
+            <z-m>-0.84</z-m>
+        </center>
+        <axis>
+            <x>0</x>
+            <y>1</y>
+            <z>0</z>
+        </axis>
+    </animation>
+
+    <animation>
+        <type>translate</type>
+         <object-name>tire.n</object-name>
+        <property>gear/gear[0]/compression-norm</property>
+        <interpolation>
+            <entry><ind>0.00</ind><dep>0</dep></entry>
+            <entry><ind>3</ind><dep>0.75</dep></entry>
+        </interpolation>
+        <axis>
+            <x>0</x>
+            <y>0</y>
+            <z>1</z>
+        </axis>
+    </animation>
+
+<!-- Left Gear -->
+    <animation>
+        <type>rotate</type>
+        <object-name>LeftGear</object-name>
+        <property>gear/gear[1]/position-norm</property>
+        <interpolation>
+            <entry><ind>0</ind><dep>75</dep></entry>
+            <entry><ind>0.2</ind><dep>75</dep></entry>
+            <entry><ind>0.8</ind><dep>0</dep></entry>
+            <entry><ind>1</ind><dep>0</dep></entry>
+        </interpolation>
+        <center>
+            <y-m>-2.53</y-m>
+            <z-m>-0.37</z-m>
+        </center>
+        <axis>
+            <x>1</x>
+            <y>0</y>
+            <z>0</z>
+        </axis>
+    </animation>
+
+    <animation>
+        <type>translate</type>
+        <object-name>tire.l</object-name>
+        <property>gear/gear[1]/compression-norm</property>
+        <interpolation>
+            <entry><ind>0.00</ind><dep>0</dep></entry>
+            <entry><ind>5</ind><dep>1</dep></entry>
+        </interpolation>
+        <axis>
+            <x>0</x>
+            <y>0</y>
+            <z>1</z>
+        </axis>
+    </animation>
+
+<!-- Right Gear -->
+    <animation>
+        <type>rotate</type>
+        <object-name>RightGear</object-name>
+        <property>gear/gear[2]/position-norm</property>
+        <interpolation>
+            <entry><ind>0</ind><dep>75</dep></entry>
+            <entry><ind>0.2</ind><dep>75</dep></entry>
+            <entry><ind>0.8</ind><dep>0</dep></entry>
+            <entry><ind>1</ind><dep>0</dep></entry>
+        </interpolation>
+        <center>
+            <y-m>2.53</y-m>
+            <z-m>-0.37</z-m>
+        </center>
+        <axis>
+            <x>-1</x>
+            <y>0</y>
+            <z>0</z>
+        </axis>
+    </animation>
+
+    <animation>
+        <type>translate</type>
+        <object-name>tire.r</object-name>
+        <property>gear/gear[2]/compression-norm</property>
+        <interpolation>
+            <entry><ind>0.00</ind><dep>0</dep></entry>
+            <entry><ind>5</ind><dep>1</dep></entry>
+        </interpolation>
+        <axis>
+            <x>0</x>
+            <y>0</y>
+            <z>1</z>
+        </axis>
+    </animation>
+
+<!-- Main Gear Translate to fit into the socket -->
+
+    <animation>
+        <type>translate</type>
+        <object-name>LeftGear</object-name>
+        <property>gear/gear[1]/position-norm</property>
+        <interpolation>
+            <entry><ind>0.00</ind><dep>0.3</dep></entry>
+            <entry><ind>1.00</ind><dep>0</dep></entry>
+        </interpolation>
+        <axis>
+            <x>0</x>
+            <y>0</y>
+            <z>-1</z>
+        </axis>
+    </animation>
+
+    <animation>
+        <type>translate</type>
+        <object-name>RightGear</object-name>
+        <property>gear/gear[2]/position-norm</property>
+        <interpolation>
+            <entry><ind>0.00</ind><dep>0.3</dep></entry>
+            <entry><ind>1.00</ind><dep>0</dep></entry>
+        </interpolation>
+        <axis>
+            <x>0</x>
+            <y>0</y>
+            <z>-1</z>
+        </axis>
+    </animation>
+
+<!-- Tyres Rolling Animation -->
+
+    <animation>
+        <type>spin</type>
+        <object-name>tire.n</object-name>
+        <property>gear/gear[0]/rollspeed-ms</property>
+        <factor>10</factor>
+        <axis>
+            <x>0</x>
+            <y>-1</y>
+            <z>0</z>
+        </axis>
+        <center>
+            <x-m>-10.82</x-m>
+            <y-m>0</y-m>
+            <z-m>-1.91</z-m>
+        </center>
+    </animation>
+
+    <animation>
+        <type>spin</type>
+        <object-name>tire.l</object-name>
+        <property>gear/gear[1]/rollspeed-ms</property>
+        <factor>10</factor>
+        <axis>
+            <x>0</x>
+            <y>-1</y>
+            <z>0</z>
+        </axis>
+        <center>
+            <x-m>-0.97</x-m>
+            <y-m>0</y-m>
+            <z-m>-1.93</z-m>
+        </center>
+    </animation>
+
+    <animation>
+        <type>spin</type>
+        <object-name>tire.r</object-name>
+        <property>gear/gear[2]/rollspeed-ms</property>
+        <factor>10</factor>
+        <axis>
+            <x>0</x>
+            <y>-1</y>
+            <z>0</z>
+        </axis>
+        <center>
+            <x-m>-0.97</x-m>
+            <y-m>0</y-m>
+            <z-m>-1.93</z-m>
+        </center>
+    </animation>
+
+<!-- Gear Door Animations -->
+
+<!-- Nose Gear Door -->
+    <animation>
+        <type>rotate</type>
+        <object-name>geardoor.f.l</object-name>
+        <property>gear/gear[0]/position-norm</property>
+        <interpolation>
+            <entry>
+                <ind>0</ind>
+                <dep>0</dep>
+            </entry>
+            <entry>
+                <ind>0.2</ind>
+                <dep>-90</dep>
+            </entry>
+            <entry>
+                <ind>0.8</ind>
+                <dep>-90</dep>
+            </entry>
+            <entry>
+                <ind>1.0</ind>
+                <dep>0</dep>
+            </entry>
+        </interpolation>
+		<axis>
+			<x1-m>-12.87</x1-m>
+			<y1-m>-0.32</y1-m>
+			<z1-m>-0.83</z1-m>
+			<x2-m>-10.96</x2-m>
+			<y2-m>-0.39</y2-m>
+			<z2-m>-0.93</z2-m>
+		</axis>
+    </animation>
+
+    <animation>
+        <type>rotate</type>
+        <object-name>geardoor.f.r</object-name>
+        <property>gear/gear[0]/position-norm</property>
+        <interpolation>
+            <entry>
+                <ind>0</ind>
+                <dep>0</dep>
+            </entry>
+            <entry>
+                <ind>0.2</ind>
+                <dep>90</dep>
+            </entry>
+            <entry>
+                <ind>0.8</ind>
+                <dep>90</dep>
+            </entry>
+            <entry>
+                <ind>1.0</ind>
+                <dep>0</dep>
+            </entry>
+        </interpolation>
+		<axis>
+			<x1-m>-12.87</x1-m>
+			<y1-m>0.32</y1-m>
+			<z1-m>-0.83</z1-m>
+			<x2-m>-10.96</x2-m>
+			<y2-m>0.39</y2-m>
+			<z2-m>-0.93</z2-m>
+		</axis>
+    </animation>
+
+    <animation>
+        <type>rotate</type>
+        <object-name>geardoor.b.l</object-name>
+        <property>gear/gear[0]/position-norm</property>
+        <interpolation>
+            <entry>
+                <ind>0</ind>
+                <dep>0</dep>
+            </entry>
+            <entry>
+                <ind>0.2</ind>
+                <dep>-50</dep>
+            </entry>
+            <entry>
+                <ind>1.0</ind>
+                <dep>-50</dep>
+            </entry>
+        </interpolation>
+		<axis>
+			<x1-m>-10.96</x1-m>
+			<y1-m>-0.30</y1-m>
+			<z1-m>-0.95</z1-m>
+			<x2-m>-10.43</x2-m>
+			<y2-m>-0.30</y2-m>
+			<z2-m>-0.96</z2-m>
+		</axis>
+    </animation>
+
+    <animation>
+        <type>rotate</type>
+        <object-name>geardoor.b.r</object-name>
+        <property>gear/gear[0]/position-norm</property>
+        <interpolation>
+            <entry>
+                <ind>0</ind>
+                <dep>0</dep>
+            </entry>
+            <entry>
+                <ind>0.2</ind>
+                <dep>50</dep>
+            </entry>
+            <entry>
+                <ind>1.0</ind>
+                <dep>50</dep>
+            </entry>
+        </interpolation>
+		<axis>
+			<x1-m>-10.96</x1-m>
+			<y1-m>0.30</y1-m>
+			<z1-m>-0.95</z1-m>
+			<x2-m>-10.43</x2-m>
+			<y2-m>0.30</y2-m>
+			<z2-m>-0.96</z2-m>
+		</axis>
     </animation>
 
 <!-- Left Engine Fan -->
