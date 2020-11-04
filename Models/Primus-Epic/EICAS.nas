@@ -109,6 +109,9 @@ var canvas_ED_only = {
             "slat.IND",
             "slat.TGT",
             "slat.SCALE",
+            "spoilers.IND",
+            "spoilers.ANN",
+            "spoilers.DOWN",
             "fs",
             "N1L",
             "N1R",
@@ -188,6 +191,32 @@ var canvas_ED_only = {
 			me["slat.TGT"].setRotation(slat_cmd*(-D2R));
 			me["slat.IND"].setRotation(slat_pos*(-D2R));
 		}
+
+        var gndspl_extension = getprop("/controls/flight/ground-spoilers");
+        var spdbrk_extension = getprop("/controls/flight/speedbrake-lever");
+        var extension = getprop("/surface-positions/speedbrake-pos-norm") or 0;
+        if (extension > 0.001) {
+            me["spoilers.IND"].show();
+            me["spoilers.IND"].setRotation(-30 * D2R * extension);
+            me["spoilers.DOWN"].hide();
+        }
+        else {
+            me["spoilers.IND"].hide();
+            me["spoilers.IND"].setRotation(0);
+            me["spoilers.DOWN"].show();
+        }
+
+        if (gndspl_extension > 0.001) {
+            me["spoilers.ANN"].show();
+            me["spoilers.ANN"].setText("GND SPL");
+        }
+        else if (spdbrk_extension > 0.001) {
+            me["spoilers.ANN"].show();
+            me["spoilers.ANN"].setText("SPDBRK");
+        }
+        else {
+            me["spoilers.ANN"].hide();
+        }
 		
         var flap_cmd_raw = math.round((getprop("/controls/flight/flaps") or 0) / 0.125);
 		me["fs"].setText(sprintf("%u", flap_cmd_raw));
