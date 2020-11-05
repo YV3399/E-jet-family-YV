@@ -1023,7 +1023,7 @@ var MFD = {
             if (fp != nil and fms.performanceProfile != nil) {
                 var wpi = fp.current;
                 var dsti = fms.performanceProfile.destRunwayIndex;
-                if (wpi < size(fms.performanceProfile.estimated)) {
+                if (wpi >= 0 and wpi < size(fms.performanceProfile.estimated)) {
                     nextEFOB = fms.performanceProfile.estimated[wpi].fob;
                 }
                 if (dsti != nil and dsti < size(fms.performanceProfile.estimated)) {
