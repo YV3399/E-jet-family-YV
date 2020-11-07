@@ -29,13 +29,16 @@ setprop("/controls/engines/engine[1]/condition-lever-state", 0);
 setprop("/controls/engines/engine[0]/throttle-int", 0);
 setprop("/controls/engines/engine[1]/throttle-int", 0);
 
-var engN1 = {
-    "N1L": props.globals.getNode("engines/engine[0]/n1",1),
-    "N1R": props.globals.getNode("engines/engine[1]/n1",1),
+var engParam = {
+    "N1L": props.globals.getNode("engines/engine[0]/n1"),
+    "N1R": props.globals.getNode("engines/engine[1]/n1"),
+    "N1L.target": props.globals.getNode("fadec/target[0]"),
+    "N1R.target": props.globals.getNode("fadec/target[1]"),
+    "N2L": props.globals.getNode("engines/engine[0]/n2"),
+    "N2R": props.globals.getNode("engines/engine[1]/n2"),
+    "offL": props.globals.getNode("controls/engines/engine[0]/cutoff-switch"),
+    "offR": props.globals.getNode("controls/engines/engine[1]/cutoff-switch"),
 };
-
-var engLn2	=	props.globals.getNode("engines/engine[0]/n2",1);
-var engRn2	=	props.globals.getNode("engines/engine[1]/n2",1);
 
 var engLoff	=	props.globals.getNode("controls/engines/engine[0]/cutoff-switch", 1);
 var engRoff	=	props.globals.getNode("controls/engines/engine[1]/cutoff-switch", 1);
@@ -141,6 +144,8 @@ var canvas_ED_only = {
             "apu.DEGC",
             "N1L.needle",
             "N1R.needle",
+            "N1L.target",
+            "N1R.target",
             "parkbrake",
             "space1",
             "space2",
@@ -226,8 +231,9 @@ var canvas_ED_only = {
         me["ruddertrim.pointer"].setTranslation(math.round((getprop("/controls/flight/rudder-trim") or 0) * 60), 0);
         me["ailerontrim.pointer"].setRotation(math.round((getprop("/controls/flight/aileron-trim") or 0) * 30));
 		
-		var ln2=engLn2.getValue();
-		var rn2=engRn2.getValue();
+		var ln2=engParam["N2L"].getValue();
+		var rn2=engParam["N2R"].getValue();
+
 		var litt=getprop("/engines/engine[0]/itt_degc");
 		var ritt=getprop("/engines/engine[1]/itt_degc");
 		var lff=getprop("/engines/engine[0]/fuel-flow_pph");
@@ -262,17 +268,14 @@ var canvas_ED_only = {
         me["limitR.digital"].setText(sprintf("%3.1f", limit));
 		
 		#Engine off
-		if(engLoff.getBoolValue()){
-			me["engL.off"].show();
-		}else{
-			me["engL.off"].hide();
-		}
-		
-		me["engR.off"].setVisible(engRoff.getBoolValue());
+		me["engL.off"].setVisible(engParam["offL"].getBoolValue());
+		me["engR.off"].setVisible(engParam["offR"].getBoolValue());
 
         foreach (var gauge; ["N1L", "N1R"]) {
-            var n1 = engN1[gauge].getValue();
+            var n1 = engParam[gauge].getValue();
+            var tgt = engParam[gauge ~ ".target"].getValue();
             me[gauge ~ ".needle"].setRotation(n1*D2R*2.568);
+            me[gauge ~ ".target"].setRotation(tgt*D2R*2.568);
             me[gauge].setText(sprintf("%.1f", n1));
 
             var dn1 = n1 * 2.568 - 45;

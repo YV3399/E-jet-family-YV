@@ -393,5 +393,15 @@
         
     </channel>
     
-</flight_control>
+    <channel name="FADEC">
+        <pure_gain name="fcs/throttle-pos-norm[0]">
+            <input>/fadec/throttle-cmd[0]</input>
+            <gain>1.0</gain>
+        </pure_gain>
 
+        <pure_gain name="fcs/throttle-pos-norm[1]">
+            <input>/fadec/throttle-cmd[1]</input>
+            <gain>1.0</gain>
+        </pure_gain>
+    </channel>
+</flight_control>
