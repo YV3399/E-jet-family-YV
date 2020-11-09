@@ -288,16 +288,20 @@ var canvas_ED_only = {
 		
             var shade = me[gauge ~ ".shade"];
 
-            shade.reset()
-                .moveTo(cx, cy)
-                .line(-r * sc45, r * sc45);
-            if (dn1 > 135) {
-                shade.arcLargeCWTo(r, r, 0, cx - r * cn1, cy - r * sn1);
+            shade.reset();
+
+            if (n1 >= 0.05) {
+                shade
+                    .moveTo(cx, cy)
+                    .line(-r * sc45, r * sc45);
+                if (dn1 > 135) {
+                    shade.arcLargeCWTo(r, r, 0, cx - r * cn1, cy - r * sn1);
+                }
+                else {
+                    shade.arcSmallCWTo(r, r, 0, cx - r * cn1, cy - r * sn1);
+                } 
+                shade.lineTo(cx, cy);
             }
-            else {
-                shade.arcSmallCWTo(r, r, 0, cx - r * cn1, cy - r * sn1);
-            } 
-            shade.lineTo(cx, cy);
         }
 
 		me["N2L"].setText(sprintf("%.1f", ln2));

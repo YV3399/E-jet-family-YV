@@ -1,6 +1,93 @@
 <PropertyList>
     <!-- LEFT ENGINE -->
     <filter>
+        <name>Starter Left</name>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <condition>
+                <equals>
+                    <property>fadec/engine-switch[0]</property>
+                    <value>2</value>
+                </equals>
+            </condition>
+            <value>1</value>
+        </input>
+        <input>
+            <value>0</value>
+        </input>
+        <output>controls/engines/engine[0]/starter-switch</output>
+    </filter>
+
+    <filter>
+        <name>Spring-load engine switch Left</name>
+        <type>gain</type>
+        <debug type="bool">true</debug>
+        <gain>1</gain>
+        <enable>
+            <condition>
+                <and>
+                    <equals>
+                        <property>fadec/engine-switch[0]</property>
+                        <value>2</value>
+                    </equals>
+                    <greater-than>
+                        <property>engines/engine[0]/n1</property>
+                        <value>21.8</value>
+                    </greater-than>
+                </and>
+            </condition>
+        </enable>
+        <input>
+            <value>1</value>
+        </input>
+        <output>fadec/engine-switch[0]</output>
+    </filter>
+
+    <filter>
+        <name>Cutoff Left</name>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <!-- engine switch "OFF": always cutoff fuel -->
+            <condition>
+                <equals>
+                    <property>fadec/engine-switch[0]</property>
+                    <value>0</value>
+                </equals>
+            </condition>
+            <value>1</value>
+        </input>
+        <input>
+            <condition>
+                <or>
+                    <!-- OVRD: always ignite -->
+                    <equals>
+                        <property>fadec/ignition-switch[0]</property>
+                        <value>2</value>
+                    </equals>
+                    <!-- AUTO: ignite when N2 >= 20% -->
+                    <and>
+                        <equals>
+                            <property>fadec/ignition-switch[0]</property>
+                            <value>1</value>
+                        </equals>
+                        <greater-than>
+                            <property>/engines/engine[0]/n2</property>
+                            <value>20</value>
+                        </greater-than>
+                    </and>
+                </or>
+            </condition>
+            <value>0</value>
+        </input>
+        <input>
+            <value>1</value>
+        </input>
+        <output>controls/engines/engine[0]/cutoff-switch</output>
+    </filter>
+
+    <filter>
         <name>Target Left</name>
         <type>gain</type>
         <gain>1</gain>
@@ -51,6 +138,93 @@
     </filter>
 
     <!-- RIGHT ENGINE -->
+    <filter>
+        <name>Starter Right</name>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <condition>
+                <equals>
+                    <property>fadec/engine-switch[1]</property>
+                    <value>2</value>
+                </equals>
+            </condition>
+            <value>1</value>
+        </input>
+        <input>
+            <value>0</value>
+        </input>
+        <output>controls/engines/engine[1]/starter-switch</output>
+    </filter>
+
+    <filter>
+        <name>Spring-load engine switch Right</name>
+        <type>gain</type>
+        <debug type="bool">true</debug>
+        <gain>1</gain>
+        <enable>
+            <condition>
+                <and>
+                    <equals>
+                        <property>fadec/engine-switch[1]</property>
+                        <value>2</value>
+                    </equals>
+                    <greater-than>
+                        <property>engines/engine[1]/n1</property>
+                        <value>21.8</value>
+                    </greater-than>
+                </and>
+            </condition>
+        </enable>
+        <input>
+            <value>1</value>
+        </input>
+        <output>fadec/engine-switch[1]</output>
+    </filter>
+
+    <filter>
+        <name>Cutoff Right</name>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <!-- engine switch "OFF": always cutoff fuel -->
+            <condition>
+                <equals>
+                    <property>fadec/engine-switch[1]</property>
+                    <value>0</value>
+                </equals>
+            </condition>
+            <value>1</value>
+        </input>
+        <input>
+            <condition>
+                <or>
+                    <!-- OVRD: always ignite -->
+                    <equals>
+                        <property>fadec/ignition-switch[1]</property>
+                        <value>2</value>
+                    </equals>
+                    <!-- AUTO: ignite when N2 >= 20% -->
+                    <and>
+                        <equals>
+                            <property>fadec/ignition-switch[1]</property>
+                            <value>1</value>
+                        </equals>
+                        <greater-than>
+                            <property>/engines/engine[1]/n2</property>
+                            <value>20</value>
+                        </greater-than>
+                    </and>
+                </or>
+            </condition>
+            <value>0</value>
+        </input>
+        <input>
+            <value>1</value>
+        </input>
+        <output>controls/engines/engine[1]/cutoff-switch</output>
+    </filter>
+
     <filter>
         <name>Target Right</name>
         <type>gain</type>

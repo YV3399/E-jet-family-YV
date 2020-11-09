@@ -33,7 +33,7 @@
             <y>0.0</y>
             <z>0.0</z>
         </axis>
-    </animation>    
+    </animation>
 
     <animation>
         <type>rotate</type>
@@ -165,7 +165,7 @@
     </animation>
 
 <!-- Engine Starter Case Animations -->
-    
+
     <effect>
         <inherits-from>Effects/model-transparent</inherits-from>
         <object-name>e1.case</object-name>
@@ -188,7 +188,7 @@
     </animation>
 
     <animation>
-        <name>Cockpit Door</name>
+        <name>Engine Cover Left</name>
         <type>rotate</type>
         <object-name>e1.case</object-name>
         <property>sim/model/door-positions/eng1-control/position-norm</property>
@@ -224,7 +224,7 @@
     </animation>
 
     <animation>
-        <name>Cockpit Door</name>
+        <name>Engine Cover Right</name>
         <type>rotate</type>
         <object-name>e2.case</object-name>
         <property>sim/model/door-positions/eng2-control/position-norm</property>
@@ -308,7 +308,7 @@
     </animation>
 
 <!-- Overhead Panel -->
-    
+
     <model>
         <name>Overhead Panel</name>
         <path>Aircraft/E-jet-family/XMLs/OHpanel/OHpanel.xml</path>
@@ -2102,7 +2102,7 @@
             <z>0</z>
         </axis>
     </animation>
-    
+
     <animation>
         <type>rotate</type>
         <object-name>ThrottleRight</object-name>
@@ -2293,7 +2293,7 @@
             <z>0.0</z>
         </axis>
     </animation>
-    
+
     <animation>
         <type>translate</type>
         <object-name>pedal.right</object-name>
@@ -2319,133 +2319,137 @@
             <y>0.0</y>
             <z>0.0</z>
         </axis>
-    </animation>    
+    </animation>
 
     <!-- Engine controls -->
     <animation>
-        <type>pick</type>
+        <name>Engine start knob 1 rotate</name>
+        <type>knob</type>
         <object-name>e1.ign</object-name>
+        <expression>
+            <sum>
+                <product>
+                    <property>/fadec/ignition-switch[0]</property>
+                    <value>-30</value>
+                </product>
+                <value>30</value>
+            </sum>
+        </expression>
         <action>
-            <button>0</button>
-            <repeatable type="bool">false</repeatable>
             <binding>
-                <command>property-toggle</command>
-                <property>controls/engines/engine/starter-switch</property>
+                <command>property-cycle</command>
+                <property>/fadec/ignition-switch[0]</property>
+                <value>0</value>
+                <value>1</value>
+                <value>2</value>
+                <wrap>0</wrap>
             </binding>
         </action>
-    </animation>
-    <animation>
-        <name>Engine start knob 1 rotate</name>
-        <type>rotate</type>
-        <object-name>e1.ign</object-name>
-        <property>controls/engines/engine/starter-switch</property>
-        <interpolation>
-            <entry><ind>0</ind><dep>40</dep></entry>
-            <entry><ind>1</ind><dep>0</dep></entry>
-        </interpolation>
         <axis>
-            <x1-m>-12.2542</x1-m>
-            <y1-m>-0.0273</y1-m>
+            <x1-m>-12.2563</x1-m>
+            <y1-m>-0.03534</y1-m>
             <z1-m>-0.6974</z1-m>
-            <x2-m>-12.2563</x2-m>
-            <y2-m>-0.0273</y2-m>
+            <x2-m>-12.2542</x2-m>
+            <y2-m>-0.03534</y2-m>
             <z2-m>0.6919</z2-m>
         </axis>
     </animation>
-
     <animation>
-        <type>pick</type>
-        <object-name>e2.ign</object-name>
+        <name>Engine 1 start/stop switch</name>
+        <type>knob</type>
+        <object-name>e1.start</object-name>
+        <axis>
+            <x1-m>-12.3127</x1-m>
+            <y1-m>-0.03534</y1-m>
+            <z1-m>-0.71487</z1-m>
+            <x2-m>-12.3047</x2-m>
+            <y2-m>-0.03534</y2-m>
+            <z2-m>0.71486</z2-m>
+        </axis>
+        <expression>
+            <sum>
+                <product>
+                    <property>/fadec/engine-switch[0]</property>
+                    <value>-30</value>
+                </product>
+                <value>30</value>
+            </sum>
+        </expression>
         <action>
-            <button>0</button>
-            <repeatable type="bool">false</repeatable>
             <binding>
-                <command>property-toggle</command>
-                <property>controls/engines/engine[1]/starter-switch</property>
+                <command>property-cycle</command>
+                <property>/fadec/engine-switch[0]</property>
+                <value>0</value>
+                <value>1</value>
+                <value>2</value>
+                <wrap>0</wrap>
             </binding>
         </action>
     </animation>
+
     <animation>
         <name>Engine start knob 2 rotate</name>
-        <type>rotate</type>
+        <type>knob</type>
         <object-name>e2.ign</object-name>
-        <property>controls/engines/engine[1]/starter-switch</property>
-        <interpolation>
-            <entry><ind>0</ind><dep>40</dep></entry>
-            <entry><ind>1</ind><dep>0</dep></entry>
-        </interpolation>
+        <expression>
+            <sum>
+                <product>
+                    <property>/fadec/ignition-switch[1]</property>
+                    <value>-30</value>
+                </product>
+                <value>30</value>
+            </sum>
+        </expression>
+        <action>
+            <binding>
+                <command>property-cycle</command>
+                <property>/fadec/ignition-switch[1]</property>
+                <value>0</value>
+                <value>1</value>
+                <value>2</value>
+                <wrap>0</wrap>
+            </binding>
+        </action>
         <axis>
-            <x1-m>-12.2542</x1-m>
-            <y1-m>0.0364</y1-m>
+            <x1-m>-12.2563</x1-m>
+            <y1-m>0.03534</y1-m>
             <z1-m>-0.6974</z1-m>
-            <x2-m>-12.2563</x2-m>
-            <y2-m>0.0364</y2-m>
+            <x2-m>-12.2542</x2-m>
+            <y2-m>0.03534</y2-m>
             <z2-m>0.6919</z2-m>
         </axis>
     </animation>
-
-
     <animation>
-        <name>Engine 1 switch pick</name>
-        <type>pick</type>
-        <object-name>e1.start</object-name>
+        <name>Engine 2 start/stop switch</name>
+        <type>knob</type>
+        <object-name>e2.start</object-name>
+        <axis>
+            <x1-m>-12.3127</x1-m>
+            <y1-m>0.03534</y1-m>
+            <z1-m>-0.71487</z1-m>
+            <x2-m>-12.3047</x2-m>
+            <y2-m>0.03534</y2-m>
+            <z2-m>0.71486</z2-m>
+        </axis>
+        <expression>
+            <sum>
+                <product>
+                    <property>/fadec/engine-switch[1]</property>
+                    <value>-30</value>
+                </product>
+                <value>30</value>
+            </sum>
+        </expression>
         <action>
-            <button>0</button>
-            <repeatable type="bool">false</repeatable>
             <binding>
-                <command>property-toggle</command>
-                <property>controls/engines/engine[0]/cutoff-switch</property>
+                <command>property-cycle</command>
+                <property>/fadec/engine-switch[1]</property>
+                <value>0</value>
+                <value>1</value>
+                <value>2</value>
+                <wrap>0</wrap>
             </binding>
         </action>
-    </animation>
-    <animation>
-        <name>Engine 1 cutoff switch rotate</name>
-        <type>rotate</type>
-        <object-name>e1.start</object-name>
-        <property>controls/engines/engine[0]/cutoff-switch</property>
-        <interpolation>
-            <entry><ind>0</ind><dep>0</dep></entry>
-            <entry><ind>1</ind><dep>40</dep></entry>
-        </interpolation>
-        <axis>
-            <x1-m>-12.3071</x1-m>
-            <y1-m>-0.0273</y1-m>
-            <z1-m>-0.7186</z1-m>
-            <x2-m>-12.3095</x2-m>
-            <y2-m>-0.0273</y2-m>
-            <z2-m>0.7127</z2-m>
-        </axis>
-    </animation>
-    <animation>
-        <name>Engine 2  switch pick</name>
-        <type>pick</type>
-        <object-name>e2.start</object-name>
-        <action>
-            <button>0</button>
-            <repeatable type="bool">false</repeatable>
-            <binding>
-                <command>property-toggle</command>
-                <property>controls/engines/engine[1]/cutoff-switch</property>
-            </binding>
-        </action>
-    </animation>
-    <animation>
-        <name>Engine 2 switch rotate</name>
-        <type>rotate</type>
-        <object-name>e2.start</object-name>
-        <property>controls/engines/engine[1]/cutoff-switch</property>
-        <interpolation>
-            <entry><ind>0</ind><dep>0</dep></entry>
-            <entry><ind>1</ind><dep>40</dep></entry>
-        </interpolation>
-        <axis>
-            <x1-m>-12.3071</x1-m>
-            <y1-m>0.0364</y1-m>
-            <z1-m>-0.7186</z1-m>
-            <x2-m>-12.3095</x2-m>
-            <y2-m>0.0364</y2-m>
-            <z2-m>0.7127</z2-m>
-        </axis>
     </animation>
 
 <!-- Ram Air Turbine Manual Deploy -->

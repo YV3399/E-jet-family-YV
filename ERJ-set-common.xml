@@ -570,6 +570,12 @@
         <throttle-cmd type="double">0.0</throttle-cmd>
         <target type="double">0.218</target>
         <target type="double">0.218</target>
+        <!-- 0 = off, 1 = run, 2 = start -->
+        <engine-switch type="int">0</engine-switch>
+        <engine-switch type="int">0</engine-switch>
+        <!-- 0 = off, 1 = auto, 2 = ovrd -->
+        <ignition-switch type="int">1</ignition-switch>
+        <ignition-switch type="int">1</ignition-switch>
         <config>
             <Kp>150</Kp>
             <Ki>2.5</Ki>
