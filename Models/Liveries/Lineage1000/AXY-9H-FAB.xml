@@ -4,8 +4,8 @@
 <sim>
     <model>
         <livery>
-            <name type="string">Air X</name>
-            <texture>/../Models/Liveries/Lineage1000/AXY.png</texture>
+            <name type="string">Air X (9H-FAB)</name>
+            <texture>/../Models/Liveries/Lineage1000/AXY-9H-FAB.png</texture>
         </livery>
         <tail-number>9H-FAB</tail-number>
     </model>

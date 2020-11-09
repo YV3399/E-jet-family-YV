@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+
+<PropertyList>
+<sim>
+    <model>
+        <livery>
+            <name type="string">Air X (9H-NYC)</name>
+            <texture>/../Models/Liveries/Lineage1000/AXY-9H-NYC.png</texture>
+        </livery>
+        <tail-number>9H-NYC</tail-number>
+    </model>
+</sim>
+</PropertyList>
