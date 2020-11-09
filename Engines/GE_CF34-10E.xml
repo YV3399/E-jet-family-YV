@@ -16,7 +16,7 @@
   <milthrust> 20360.0 </milthrust>
   <bypassratio>     5.400 </bypassratio>
   <!-- real aircraft: 0.64; nerfed to get more realistic fuel burn -->
-  <tsfc>            0.40 </tsfc>
+  <tsfc>          0.5135</tsfc>
   <bleed>           0.03</bleed>
   <idlen1>         21.8 </idlen1>
   <idlen2>         52.8 </idlen2>
