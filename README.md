@@ -4,7 +4,7 @@ Embraer Family
 # Important
 Change name from E-jet-family-YV to E-jet-family
 
-# A very advanced simulation of the Embraer Family for FlightGear.
+# A very advanced simulation of the Embraer E-Jet Family for FlightGear.
 
 This aircraft was modified and updated in a joint effort by the following people @2020:
 
