@@ -45,7 +45,31 @@
 		<view n="104">
 			<name>Passenger View</name>
 		</view>
+
+        <previews>
+            <preview>
+                <type>exterior</type>
+                <path>Splash/E190/420.jpg</path>
+                <splash type="bool">true</splash>
+            </preview>
+            <preview>
+                <type>exterior</type>
+                <path>Splash/E190/332.jpg</path>
+                <splash type="bool">true</splash>
+            </preview>
+            <preview>
+                <type>exterior</type>
+                <path>Splash/E190/017.jpg</path>
+                <splash type="bool">true</splash>
+            </preview>
+            <preview>
+                <type>exterior</type>
+                <path>Splash/E190/810.jpg</path>
+                <splash type="bool">true</splash>
+            </preview>
+        </previews>
 	</sim>
+
 
     <payload>
         <weight n="1">

@@ -15,7 +15,32 @@
 			</door>
 		</model>
 
-                <rating>
+		<previews>
+			<preview>
+				<type>exterior</type>
+				<path>Splash/Lineage1000/636.jpg</path>
+				<splash type="bool">true</splash>
+			</preview>
+			<preview>
+				<type>exterior</type>
+				<path>Splash/Lineage1000/425.jpg</path>
+				<splash type="bool">true</splash>
+			</preview>
+			<preview>
+				<type>exterior</type>
+				<path>Splash/Lineage1000/213.jpg</path>
+				<splash type="bool">true</splash>
+			</preview>
+			<preview>
+				<type>exterior</type>
+				<path>Splash/Lineage1000/544.jpg</path>
+				<splash type="bool">true</splash>
+			</preview>
+		</previews>
+
+
+
+		<rating>
 			<FDM type="int">3</FDM>
 			<systems type="int">3</systems>
 			<cockpit type="int">4</cockpit>

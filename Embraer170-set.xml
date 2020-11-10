@@ -42,6 +42,39 @@
         <view n="104">
             <name>Passenger View (Economy Class)</name>
         </view>
+
+        <previews>
+            <preview>
+                <type>exterior</type>
+                <path>Splash/E170/440.jpg</path>
+                <splash type="bool">true</splash>
+            </preview>
+            <preview>
+                <type>exterior</type>
+                <path>Splash/E170/939.jpg</path>
+                <splash type="bool">true</splash>
+            </preview>
+            <preview>
+                <type>exterior</type>
+                <path>Splash/E170/119.jpg</path>
+                <splash type="bool">true</splash>
+            </preview>
+            <preview>
+                <type>exterior</type>
+                <path>Splash/E170/756.jpg</path>
+                <splash type="bool">true</splash>
+            </preview>
+            <preview>
+                <type>exterior</type>
+                <path>Splash/E170/024.jpg</path>
+                <splash type="bool">true</splash>
+            </preview>
+            <preview>
+                <type>exterior</type>
+                <path>Splash/E170/651.jpg</path>
+                <splash type="bool">true</splash>
+            </preview>
+        </previews>
     </sim>
 
 	<limits>

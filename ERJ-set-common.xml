@@ -3,7 +3,7 @@
 <PropertyList>
 
     <sim>
-        <author>Gabriel Hernandez (YV3399), D-ECHO</author>
+        <author>Gabriel Hernandez (YV3399), D-ECHO, Tobias Dammers (nl256)</author>
         <status>Version 0.6</status>
         <flight-model>jsb</flight-model>
 
@@ -86,25 +86,6 @@
             <setting>0.625</setting> <!-- 5 -->
             <setting>0.750</setting> <!-- full / 6 -->
         </flaps>
-
-        <startup>
-            <splash-texture>Aircraft/E-jet-family/Splash/splash00.jpg</splash-texture>
-            <splash-texture>Aircraft/E-jet-family/Splash/splash01.jpg</splash-texture>
-            <splash-texture>Aircraft/E-jet-family/Splash/splash02.jpg</splash-texture>
-            <splash-texture>Aircraft/E-jet-family/Splash/splash03.jpg</splash-texture>
-            <splash-texture>Aircraft/E-jet-family/Splash/splash04.jpg</splash-texture>
-            <splash-texture>Aircraft/E-jet-family/Splash/splash05.jpg</splash-texture>
-            <splash-texture>Aircraft/E-jet-family/Splash/splash06.jpg</splash-texture>
-            <splash-texture>Aircraft/E-jet-family/Splash/splash07.jpg</splash-texture>
-        </startup>
-
-        <previews>
-            <preview>
-                <type>exterior</type>
-                <splash type="bool">true</splash>
-                <path>Splash/splash.png</path>
-            </preview>
-        </previews>
 
         <systems>
             <autopilot>

@@ -48,6 +48,19 @@
 		<view n="104">
 			<name>Passenger View</name>
 		</view>
+
+        <previews>
+            <preview>
+                <type>exterior</type>
+                <path>Splash/E175/703.jpg</path>
+                <splash type="bool">true</splash>
+            </preview>
+            <preview>
+                <type>exterior</type>
+                <path>Splash/E175/258.jpg</path>
+                <splash type="bool">true</splash>
+            </preview>
+        </previews>
 	</sim>
 
     <payload>
