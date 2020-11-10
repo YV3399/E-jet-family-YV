@@ -1215,7 +1215,9 @@
                     <command>property-cycle</command>
                     <property>controls/flight/speedbrake-lever</property>
                     <value>0</value>
+                    <value>0.25</value>
                     <value>0.5</value>
+                    <value>0.75</value>
                     <value>1</value>
                 </binding>
             </key>

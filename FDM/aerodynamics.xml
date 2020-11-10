@@ -127,7 +127,7 @@
                 <property>aero/qbar-psf</property>
                 <property>metrics/Sw-sqft</property>
                 <property>fcs/flap-pos-norm</property>
-                <value> 0.01 </value>
+                <value> 0.005 </value>
             </product>
         </function>
         
@@ -137,7 +137,7 @@
                 <property>aero/qbar-psf</property>
                 <property>metrics/Sw-sqft</property>
                 <property>fcs/slat-pos-norm</property>
-                <value> 0.005 </value>
+                <value> 0.002 </value>
             </product>
         </function>
         
@@ -157,7 +157,7 @@
                 <property>aero/qbar-psf</property>
                 <property>metrics/Sw-sqft</property>
                 <property>fcs/speedbrake-pos-norm</property>
-                <value>0.1</value>
+                <value>0.05</value>
             </product>
         </function>
         
