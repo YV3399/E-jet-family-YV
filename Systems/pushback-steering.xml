@@ -105,7 +105,7 @@
     <filter>
         <name>Pushback steering</name>
         <type>gain</type>
-        <gain>1</gain>
+        <gain>-1</gain>
         <input>
             <property>sim/model/autopush/target-orientation-error</property>
             <period>
