@@ -411,7 +411,8 @@
         <!-- flaps 2 uses:
                 - 160 kts or approach speed, whichever is greater, if flaps 4
                   approach selected
-                - approach speed if flaps 2 approach selected
+                - approach speed or flaps 3 speed, whichever is greater,
+                  if flaps 2 approach selected
           -->
         <type>gain</type>
         <gain>1</gain>
@@ -432,7 +433,12 @@
         </input>
         <input>
             <!-- flaps 2 approach -->
-            <property>/fms/vspeeds-effective/approach/vappr</property>
+            <expression>
+                <max>
+                    <property>/fms/vspeeds-effective/approach/vappr</property>
+                    <property>/fms/vspeeds-calculated/approach/vaf3</property>
+                </max>
+            </expression>
         </input>
         <output>/fms/vspeeds-calculated/approach/vaf2</output>
     </filter>
