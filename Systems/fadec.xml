@@ -33,7 +33,7 @@
                     </equals>
                     <greater-than>
                         <property>engines/engine[0]/n1</property>
-                        <value>21.8</value>
+						<property>fadec/configuration/idle-n1</property>
                     </greater-than>
                 </and>
             </condition>
@@ -97,7 +97,8 @@
                     <property>/controls/engines/engine[0]/throttle</property>
                     <!-- IDLE -->
                     <entry>
-                        <ind>0</ind><dep>21.8</dep>
+                        <ind>0</ind>
+						<dep><property>fadec/configuration/idle-n1</property></dep>
                     </entry>
                     <!-- MAX -->
                     <entry>
@@ -171,7 +172,7 @@
                     </equals>
                     <greater-than>
                         <property>engines/engine[1]/n1</property>
-                        <value>21.8</value>
+						<property>fadec/configuration/idle-n1</property>
                     </greater-than>
                 </and>
             </condition>
@@ -235,7 +236,8 @@
                     <property>/controls/engines/engine[1]/throttle</property>
                     <!-- IDLE -->
                     <entry>
-                        <ind>0</ind><dep>21.8</dep>
+                        <ind>0</ind>
+						<dep><property>fadec/configuration/idle-n1</property></dep>
                     </entry>
                     <!-- MAX -->
                     <entry>

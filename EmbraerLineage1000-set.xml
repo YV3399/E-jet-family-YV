@@ -134,4 +134,10 @@
 		</mcdu>
 	</instrumentation>
 
+    <fadec>
+        <configuration>
+            <idle-n1>21.8</idle-n1>
+        </configuration>
+    </fadec>
+
 </PropertyList>
