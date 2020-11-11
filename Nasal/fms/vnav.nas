@@ -2,6 +2,7 @@
 
 var nm_to_feet = 6076.0;
 var feet_to_nm = 1.0 / nm_to_feet;
+setprop("/fms/vnav/route-progress", 0.0);
 
 # Calculate FPA in degrees from a distance in nmi and an altitude difference
 # in ft.

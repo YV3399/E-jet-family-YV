@@ -109,6 +109,9 @@ var MFD = {
         me.props = {
                 'page': props.globals.getNode('/instrumentation/mfd[' ~ index ~ ']/page'),
                 'altitude-amsl': props.globals.getNode('/position/altitude-ft'),
+                'altitude': props.globals.getNode('/instrumentation/altimeter/indicated-altitude-ft'),
+                'altitude-selected': props.globals.getNode('/controls/flight/selected-alt'),
+                'altitude-target': props.globals.getNode('/it-autoflight/input/alt'),
                 'heading': props.globals.getNode('/orientation/heading-deg'),
                 'heading-mag': props.globals.getNode('/orientation/heading-magnetic-deg'),
                 'track': props.globals.getNode('/orientation/track-deg'),
@@ -120,6 +123,8 @@ var MFD = {
                 'tat': props.globals.getNode('/fdm/jsbsim/propulsion/tat-c'),
                 'wind-dir': props.globals.getNode("/environment/wind-from-heading-deg"),
                 'wind-speed': props.globals.getNode("/environment/wind-speed-kt"),
+                'groundspeed': props.globals.getNode("/velocities/groundspeed-kt"),
+                'vs': props.globals.getNode("/instrumentation/vertical-speed-indicator/indicated-speed-fpm"),
                 'nav-src': props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/nav-src"),
                 'nav-id': [
                     props.globals.getNode("/instrumentation/nav[0]/nav-id"),
@@ -158,6 +163,7 @@ var MFD = {
                 'wx-tgt': props.globals.getNode("/instrumentation/wxr/tgt"),
                 'wx-fsby-ovrd': props.globals.getNode("/instrumentation/wxr/fstby-ovrd"),
                 'green-arc-dist': props.globals.getNode("/fms/dist-to-alt-target-nm"),
+                'route-progress': props.globals.getNode("/fms/vnav/route-progress"),
             };
 
         var masterProp = props.globals.getNode("/instrumentation/mfd[" ~ index ~ "]");
@@ -179,7 +185,7 @@ var MFD = {
         me.lowerArea = me.master.createChild("group");
         me.lowerArea.set("clip", "rect(850px, 1024px, 1266px, 0px)");
         me.lowerArea.set("clip-frame", canvas.Element.PARENT);
-        me.lowerArea.setTranslation(0, 868);
+        me.lowerArea.setTranslation(0, 0);
 
         me.guiOverlay = me.master.createChild("group");
         canvas.parsesvg(me.guiOverlay, "Aircraft/E-jet-family/Models/Primus-Epic/MFD-gui.svg", {'font-mapper': font_mapper});
@@ -187,6 +193,9 @@ var MFD = {
         # Set up MAP/PLAN page
         me.dualRouteDriver = RouteDriver.new();
         me.plannedRouteDriver = RouteDriver.new(0);
+
+        me.vnav = me.lowerArea.createChild("group");
+        canvas.parsesvg(me.vnav, "Aircraft/E-jet-family/Models/Primus-Epic/MFD-vnav.svg", {'font-mapper': font_mapper});
 
         me.mapPage = me.upperArea.createChild("group");
 
@@ -343,6 +352,19 @@ var MFD = {
                 'weatherMenu.checkClrTst',
                 'weatherMenu.checkFsbyOvrd',
             ];
+        var vnavkeys = [
+                'vnav.vertical',
+                'vnav.lateral',
+                'vnav.selectedalt',
+                'vnav.alt.scale',
+                'vnav.range.left',
+                'vnav.range.center',
+                'vnav.range.right',
+                'vnav.range.left.digital',
+                'vnav.range.center.digital',
+                'vnav.range.right.digital',
+                'vnav.aircraft.symbol',
+            ];
         foreach (var key; mapkeys) {
             me.elems[key] = me.mapOverlay.getElementById(key);
             if (me.elems[key] == nil) {
@@ -355,6 +377,21 @@ var MFD = {
                 debug.warn("Element does not exist: " ~ key);
             }
         }
+        foreach (var key; vnavkeys) {
+            me.elems[key] = me.vnav.getElementById(key);
+            if (me.elems[key] == nil) {
+                debug.warn("Element does not exist: " ~ key);
+            }
+        }
+
+        me.elems['vnav-flightplan'] = me.elems['vnav.lateral'].createChild("path");
+        me.elems['vnav-flightplan'].setStrokeLineWidth(2);
+        me.elems['vnav-flightplan'].setColor(1, 0, 1);
+
+        me.elems['vnav-flightpath'] = me.elems['vnav.lateral'].createChild("path");
+        me.elems['vnav-flightpath'].setStrokeLineWidth(3);
+        me.elems['vnav-flightpath'].setColor(0, 1, 0);
+
         me.elems['arc'].set("clip", "rect(0px, 1024px, 540px, 0px)");
         me.elems['arc'].set("clip-frame", canvas.Element.PARENT);
         me.elems['arc'].setCenter(512, 530);
@@ -472,6 +509,9 @@ var MFD = {
         setlistener(me.props['wx-sect'], func (node) {
             self.elems['weatherMenu.checkSect'].setVisible(node.getBoolValue());
         }, 1, 0);
+        setlistener('/fms/vnav/available', func () {
+            self.updateVnavFlightplan();
+        }, 1, 0);
         setlistener(me.props['wx-fsby-ovrd'], func (node) {
             self.elems['weatherMenu.checkFsbyOvrd'].setVisible(node.getBoolValue());
         }, 1, 0);
@@ -551,6 +591,11 @@ var MFD = {
                 self.elems['tcas.mode'].setText('TCAS OFF');
             }
         }, 1, 0);
+        setlistener(me.props['altitude-selected'], func (node) {
+            var alt = node.getValue();
+            var offset = -alt * 0.04;
+            self.elems['vnav.selectedalt'].setTranslation(0, offset);
+        }, 1, 0);
 
         return me;
     },
@@ -562,14 +607,17 @@ var MFD = {
         if (range == nil) {
             range = me.props['range'].getValue();
         }
+        var scale = greenArcDist / range;
+
         if (greenArcDist > range or greenArcDist <= range / 200) {
             me.elems['greenarc'].hide();
         }
         else {
-            var scale = greenArcDist / range;
             var length = scale * 416;
             var w = 208;
+
             var hSq = length * length - w * w;
+
             if (hSq <= 0) {
                 me.elems['greenarc']
                     .reset()
@@ -735,13 +783,68 @@ var MFD = {
         
         me.updateRadarScale(range);
         me.updateGreenArc();
+        me.updateVnavFlightplan();
 
-        var rangeTxt = sprintf(fmt, range / 2);
-        me.elems['arc.range.left'].setText(rangeTxt);
-        me.elems['arc.range.right'].setText(rangeTxt);
-        me.elems['plan.range'].setText(rangeTxt);
+        var halfRangeTxt = sprintf(fmt, range / 2);
+        me.elems['arc.range.left'].setText(halfRangeTxt);
+        me.elems['arc.range.right'].setText(halfRangeTxt);
+        me.elems['plan.range'].setText(halfRangeTxt);
+        if (me.props['page'].getValue() == 1) {
+            # Plan mode
+            me.elems['vnav.range.left.digital'].setText(halfRangeTxt);
+            me.elems['vnav.range.right.digital'].setText(halfRangeTxt);
+        }
+        else {
+            me.elems['vnav.range.center.digital'].setText(halfRangeTxt);
+        }
     },
 
+    updateVnavFlightplan: func() {
+        var profile = fms.vnav.profile;
+        var elem = me.elems['vnav-flightplan'];
+        if (profile == nil or size(profile.waypoints) == 0) {
+            elem.reset().hide();
+        }
+        else {
+            var wp = profile.waypoints[0];
+            var progress = me.props['route-progress'].getValue();
+            var range = me.props['range'].getValue();
+            var zoom = 720.0 / range;
+            var prevDist = 0.0;
+            var prevAlt = 0.0;
+            var trX = func(dist) { return 220 + dist * zoom; };
+            var trY = func(alt) { return 1266 - alt * 0.04; };
+            elem.reset();
+            elem.moveTo(trX(wp.dist), trY(wp.alt));
+            prevDist = wp.dist;
+            prevAlt = wp.alt;
+            for (var i = 1; i < size(profile.waypoints); i += 1) {
+                wp = profile.waypoints[i];
+                var dist = wp.dist;
+                if (dist == nil) {
+                    var dalt = math.abs(wp.alt - prevAlt);
+                    # Wild guess for an average climb:
+                    # - 300 knots ground speed
+                    # - 2000 fpm
+                    # Factor 60 because knots is per hour but fpm is per minute
+                    dist = prevDist + dalt * 300 / 60 / 2000;
+                }
+                printf("WP: %s %f %i", wp.name, dist, wp.alt);
+                elem.lineTo(trX(dist), trY(wp.alt));
+                prevDist = dist;
+                prevAlt = wp.alt;
+            }
+            elem.show();
+        }
+    },
+
+    setVnavVerticalScroll: func(vertical) {
+        # crop to range of vertical scale
+        vertical = math.min(34000, math.max(-2000, vertical));
+
+        # map 1000 ft steps to 40 px
+        me.elems['vnav.vertical'].setTranslation(0, vertical * 0.04);
+    },
 
     touch: func(args) {
         var x = args.x * 1024;
@@ -949,6 +1052,12 @@ var MFD = {
             me.elems['plan.master'].hide();
             me.underlay.show();
             me.plan.hide();
+            me.elems['vnav.range.left'].hide();
+            me.elems['vnav.range.left.digital'].hide();
+            me.elems['vnav.range.right'].hide();
+            me.elems['vnav.range.right.digital'].hide();
+            me.elems['vnav.range.center'].show();
+            me.elems['vnav.range.center.digital'].show();
         }
         else if (page == 1) {
             # Plan
@@ -959,6 +1068,12 @@ var MFD = {
             me.plan.show();
             me.elems['mapMenu'].hide();
             me.elems['weatherMenu'].hide();
+            me.elems['vnav.range.left'].show();
+            me.elems['vnav.range.left.digital'].show();
+            me.elems['vnav.range.right'].show();
+            me.elems['vnav.range.right.digital'].show();
+            me.elems['vnav.range.center'].hide();
+            me.elems['vnav.range.center.digital'].hide();
         }
         else {
             # Systems
@@ -969,6 +1084,12 @@ var MFD = {
             me.plan.hide();
             me.elems['mapMenu'].hide();
             me.elems['weatherMenu'].hide();
+            me.elems['vnav.range.left'].hide();
+            me.elems['vnav.range.left.digital'].hide();
+            me.elems['vnav.range.right'].hide();
+            me.elems['vnav.range.right.digital'].hide();
+            me.elems['vnav.range.center'].show();
+            me.elems['vnav.range.center.digital'].show();
         }
     },
 
@@ -1064,6 +1185,45 @@ var MFD = {
             }
         }
         me.map.layers['TFC-Ejet'].update();
+
+        var alt = me.props['altitude'].getValue();
+        var salt = me.props['altitude-selected'].getValue();
+        var range = me.props['range'].getValue();
+        var latZoom = 720.0 / range;
+        var page = me.props['page'].getValue();
+        var progress = me.props['route-progress'].getValue();
+        var progress = me.props['route-progress'].getValue();
+        var alt = me.props['altitude'].getValue();
+        var vs = me.props['vs'].getValue();
+        var gspd = me.props['groundspeed'].getValue();
+        var talt = alt;
+        if (gspd > 40) {
+            talt = alt + vs * 60 / gspd * range;
+        }
+
+        if (gspd > 40) {
+            me.elems['vnav-flightpath']
+                .reset()
+                .moveTo(220 + progress * latZoom,  1266 - alt * 0.04)
+                .lineTo(220 + (progress + range) * latZoom, 1266 - talt * 0.04)
+                .show();
+        }
+        else {
+            me.elems['vnav-flightpath'].hide();
+        }
+        if (page == 1) {
+            # Plan mode
+        }
+        else {
+            # Map or Systems mode: put aircraft to the left, and scroll to
+            # current lateral position
+            var delta = 0.5 * (salt - alt);
+            if (delta > 4000) { delta = 4000; }
+            if (delta < -4000) { delta = -4000; }
+            me.setVnavVerticalScroll(alt + delta - 5000);
+            me.elems['vnav.lateral'].setTranslation(-progress * latZoom, 0.0);
+        }
+        me.elems['vnav.aircraft.symbol'].setTranslation(progress * latZoom, -alt * 0.04);
     },
 
     formatDist: func(dist) {
