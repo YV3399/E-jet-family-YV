@@ -235,6 +235,8 @@ var make_profile = func () {
     alt = cruiseAltitude;
     gradient = descent_feet_per_nm;
 
+    var runwayReached = 0;
+
     for (i = findFirstArrival(fp); i < fp.getPlanSize(); i += 1) {
         wp = fp.getWP(i);
         if (wp == nil) {
@@ -258,6 +260,7 @@ var make_profile = func () {
                         "fpa": -3,
                         "alt": destElev,
                     });
+            runwayReached = 1;
             break;
         }
 
@@ -284,6 +287,17 @@ var make_profile = func () {
             gradient = (destElev - alt) / (totalDistance - wp.distance_along_route);
             # printf("New gradient = %3.1f", gradient);
         }
+    }
+
+    if (!runwayReached) {
+        append(profile.waypoints,
+                {
+                    "name": fp.destination.id,
+                    "dist": totalDistance,
+                    "mode": "flch",
+                    "fpa": -3,
+                    "alt": destElev,
+                });
     }
 
     return profile;
@@ -502,6 +516,40 @@ var VNAV = {
         setprop("/fms/vnav/route-progress", routeProgress);
         # TODO: switch to VFLCH (and back!) when path cannot be captured before
         # next waypoint.
+    },
+
+    nominalProfileAltAt: func(dist) {
+        if (me.profile == nil or me.profile.waypoints == nil) return 0;
+        var numWPs = size(me.profile.waypoints);
+        if (numWPs == 0) return 0;
+        var wpFrom = me.profile.waypoints[0];
+        var wpTo = wpFrom;
+        var distFrom = 0.0;
+        var distTo = 0.0;
+
+        for (var j = 1; j < numWPs; j += 1) {
+            wpFrom = wpTo;
+            wpTo = me.profile.waypoints[j];
+            distFrom = distTo;
+            distTo = wpTo.dist;
+            if (distTo == nil) {
+                var dalt = math.abs(wpTo.alt - wpFrom.alt);
+                # Wild guess for an average climb:
+                # - 300 knots ground speed
+                # - 2000 fpm
+                # Factor 60 because knots is per hour but fpm is per minute
+                distTo = distFrom + dalt * 300 / 60 / 2000;
+            }
+            if (distFrom <= dist and distTo > dist) {
+                break;
+            }
+        }
+        if (dist == distFrom or distFrom == distTo) {
+            return wpFrom.alt;
+        }
+        else {
+            return wpFrom.alt + (wpTo.alt - wpFrom.alt) * (dist - distFrom) / (distTo - distFrom);
+        }
     },
 
     activate: func () {

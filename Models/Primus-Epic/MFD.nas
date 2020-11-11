@@ -384,9 +384,11 @@ var MFD = {
             }
         }
 
-        me.elems['vnav-flightplan'] = me.elems['vnav.lateral'].createChild("path");
-        me.elems['vnav-flightplan'].setStrokeLineWidth(2);
-        me.elems['vnav-flightplan'].setColor(1, 0, 1);
+        me.elems['vnav-flightplan'] = me.elems['vnav.lateral'].createChild("group");
+        me.elems['vnav-flightplan.path'] = me.elems['vnav-flightplan'].createChild("path");
+        me.elems['vnav-flightplan.path'].setStrokeLineWidth(2);
+        me.elems['vnav-flightplan.path'].setColor(1, 0, 1);
+        me.elems['vnav-flightplan.waypoints'] = me.elems['vnav-flightplan'].createChild("group");
 
         me.elems['vnav-flightpath'] = me.elems['vnav.lateral'].createChild("path");
         me.elems['vnav-flightpath'].setStrokeLineWidth(3);
@@ -529,6 +531,10 @@ var MFD = {
         }, 0, 0);
         setlistener("/autopilot/route-manager/active", func {
             self.updatePlanWPT();
+            self.updateVnavFlightplan();
+        }, 1, 0);
+        setlistener( "/autopilot/route-manager/cruise/altitude-ft", func {
+            self.updateVnavFlightplan();
         }, 1, 0);
         setlistener(me.props['page'], func (node) {
             self.updatePage();
@@ -802,20 +808,62 @@ var MFD = {
     updateVnavFlightplan: func() {
         var profile = fms.vnav.profile;
         var elem = me.elems['vnav-flightplan'];
-        if (profile == nil or size(profile.waypoints) == 0) {
-            elem.reset().hide();
+        var pathElem = me.elems['vnav-flightplan.path'];
+        var wpElem = me.elems['vnav-flightplan.waypoints'];
+
+        var fp = fms.getVisibleFlightplan();
+
+        if (fp == nil or profile == nil or size(profile.waypoints) == 0) {
+            pathElem.reset();
+            elem.hide();
         }
         else {
-            var wp = profile.waypoints[0];
             var progress = me.props['route-progress'].getValue();
             var range = me.props['range'].getValue();
             var zoom = 720.0 / range;
-            var prevDist = 0.0;
-            var prevAlt = 0.0;
             var trX = func(dist) { return 220 + dist * zoom; };
             var trY = func(alt) { return 1266 - alt * 0.04; };
-            elem.reset();
-            elem.moveTo(trX(wp.dist), trY(wp.alt));
+
+            var drawWaypoint = func (name, dist, alt) {
+                var group = wpElem.createChild("group");
+
+                var path =
+                        group.createChild("path")
+                            .setStrokeLineWidth(3)
+                            .moveTo(0,-25)
+                            .lineTo(-5,-5)
+                            .lineTo(-25,0)
+                            .lineTo(-5,5)
+                            .lineTo(0,25)
+                            .lineTo(5,5)
+                            .lineTo(25,0)
+                            .lineTo(5,-5)
+                            .setColor(1,0,1)
+                            .close();
+
+                var text =
+                        group.createChild("text")
+                            .setText(name)
+                            .setAlignment('left-bottom')
+                            .setFontSize(28)
+                            .setColor(1,0,1)
+                            .setFont("LiberationFonts/LiberationSans-Regular.ttf")
+                            .setTranslation(25, 35);
+                group.setTranslation(trX(dist), trY(alt));
+            };
+
+            wpElem.removeAllChildren();
+            for (var i = 0; i < fp.getPlanSize(); i += 1) {
+                var wp = fp.getWP(i);
+                var alt = fms.vnav.nominalProfileAltAt(wp.distance_along_route);
+                drawWaypoint(wp.id, wp.distance_along_route, alt);
+            };
+
+            var wp = profile.waypoints[0];
+            var prevDist = 0.0;
+            var prevAlt = 0.0;
+            pathElem.reset();
+            pathElem.moveTo(trX(wp.dist), trY(wp.alt));
             prevDist = wp.dist;
             prevAlt = wp.alt;
             for (var i = 1; i < size(profile.waypoints); i += 1) {
@@ -829,8 +877,7 @@ var MFD = {
                     # Factor 60 because knots is per hour but fpm is per minute
                     dist = prevDist + dalt * 300 / 60 / 2000;
                 }
-                printf("WP: %s %f %i", wp.name, dist, wp.alt);
-                elem.lineTo(trX(dist), trY(wp.alt));
+                pathElem.lineTo(trX(dist), trY(wp.alt));
                 prevDist = dist;
                 prevAlt = wp.alt;
             }
@@ -1213,6 +1260,19 @@ var MFD = {
         }
         if (page == 1) {
             # Plan mode
+            var fp = fms.getVisibleFlightplan();
+            var wpi = me.planIndex == nil ? 0 : me.planIndex;
+
+            if (fp == nil or wpi > fp.getPlanSize()) {
+                me.setVnavVerticalScroll(0);
+                me.elems['vnav.lateral'].setTranslation(0, 0.0);
+            }
+            else {
+                var wp = fp.getWP(wpi);
+                var wpAlt = fms.vnav.nominalProfileAltAt(wp.distance_along_route);
+                me.setVnavVerticalScroll(wpAlt - 5000);
+                me.elems['vnav.lateral'].setTranslation((0.5 * range - wp.distance_along_route) * latZoom, 0.0);
+            }
         }
         else {
             # Map or Systems mode: put aircraft to the left, and scroll to
