@@ -57,6 +57,7 @@
     <fadec>
         <configuration>
             <idle-n1>25.0</idle-n1>
+            <max-n1>99.5</max-n1>
         </configuration>
     </fadec>
 </PropertyList>

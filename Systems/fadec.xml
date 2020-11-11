@@ -93,49 +93,40 @@
         <gain>1</gain>
         <input>
             <expression>
-                <table>
-                    <property>/controls/engines/engine[0]/throttle</property>
-                    <!-- IDLE -->
-                    <entry>
-                        <ind>0</ind>
-						<dep><property>fadec/configuration/idle-n1</property></dep>
-                    </entry>
-                    <!-- MAX -->
-                    <entry>
-                        <ind>1</ind><dep>100.0</dep>
-                    </entry>
-                </table>
+                <sum>
+                    <property>fadec/configuration/idle-n1</property>
+                    <product>
+                        <property>/controls/engines/engine[0]/throttle</property>
+                        <difference>
+                            <property>fadec/configuration/max-n1</property>
+                            <property>fadec/configuration/idle-n1</property>
+                        </difference>
+                    </product>
+                </sum>
             </expression>
         </input>
         <output>/fadec/target[0]</output>
     </filter>
 
-    <pi-simple-controller>
-        <name>Throttle Left</name>
-        <debug>false</debug>
-        <input>/engines/engine[0]/n1</input>
-        <reference>/fadec/target[0]</reference>
-        <output>/fadec/throttle-cmd-raw[0]</output>
-        <config>
-            <Kp><property>/fadec/config/Kp</property></Kp>
-            <Ki><property>/fadec/config/Ki</property></Ki>
-            <u_min>0.0</u_min>
-            <u_max>100.0</u_max>
-        </config>
-    </pi-simple-controller>
-
     <filter>
-        <type>noise-spike</type>
-        <max-rate-of-change><property>/fadec/config/max-rate-of-change</property></max-rate-of-change>
+        <name>Throttle Left</name>
+        <type>gain</type>
+        <gain>1</gain>
         <input>
             <expression>
-                <product>
-                    <property>/fadec/throttle-cmd-raw[0]</property>
-                    <value>0.01</value>
-                </product>
+                <div>
+                    <difference>
+                        <property>/fadec/target[0]</property>
+                        <property>fadec/configuration/idle-n1</property>
+                    </difference>
+                    <difference>
+                        <property>fadec/configuration/max-n1</property>
+                        <property>fadec/configuration/idle-n1</property>
+                    </difference>
+                </div>
             </expression>
         </input>
-        <output>/fadec/throttle-cmd[0]</output>
+        <output>fadec/throttle-cmd[0]</output>
     </filter>
 
     <!-- RIGHT ENGINE -->
@@ -226,54 +217,47 @@
         <output>controls/engines/engine[1]/cutoff-switch</output>
     </filter>
 
+
     <filter>
         <name>Target Right</name>
         <type>gain</type>
         <gain>1</gain>
         <input>
             <expression>
-                <table>
-                    <property>/controls/engines/engine[1]/throttle</property>
-                    <!-- IDLE -->
-                    <entry>
-                        <ind>0</ind>
-						<dep><property>fadec/configuration/idle-n1</property></dep>
-                    </entry>
-                    <!-- MAX -->
-                    <entry>
-                        <ind>1</ind><dep>100.0</dep>
-                    </entry>
-                </table>
+                <sum>
+                    <property>fadec/configuration/idle-n1</property>
+                    <product>
+                        <property>/controls/engines/engine[1]/throttle</property>
+                        <difference>
+                            <property>fadec/configuration/max-n1</property>
+                            <property>fadec/configuration/idle-n1</property>
+                        </difference>
+                    </product>
+                </sum>
             </expression>
         </input>
         <output>/fadec/target[1]</output>
     </filter>
 
-    <pi-simple-controller>
-        <name>Throttle Right</name>
-        <debug>false</debug>
-        <input>/engines/engine[1]/n1</input>
-        <reference>/fadec/target[1]</reference>
-        <output>/fadec/throttle-cmd-raw[1]</output>
-        <config>
-            <Kp><property>/fadec/config/Kp</property></Kp>
-            <Ki><property>/fadec/config/Ki</property></Ki>
-            <u_min>0.0</u_min>
-            <u_max>100.0</u_max>
-        </config>
-    </pi-simple-controller>
-
     <filter>
-        <type>noise-spike</type>
-        <max-rate-of-change><property>/fadec/config/max-rate-of-change</property></max-rate-of-change>
+        <name>Throttle Right</name>
+        <type>gain</type>
+        <gain>1</gain>
         <input>
             <expression>
-                <product>
-                    <property>/fadec/throttle-cmd-raw[1]</property>
-                    <value>0.01</value>
-                </product>
+                <div>
+                    <difference>
+                        <property>/fadec/target[1]</property>
+                        <property>fadec/configuration/idle-n1</property>
+                    </difference>
+                    <difference>
+                        <property>fadec/configuration/max-n1</property>
+                        <property>fadec/configuration/idle-n1</property>
+                    </difference>
+                </div>
             </expression>
         </input>
-        <output>/fadec/throttle-cmd[1]</output>
+        <output>fadec/throttle-cmd[1]</output>
     </filter>
+
 </PropertyList>
