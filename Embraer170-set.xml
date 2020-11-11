@@ -4,21 +4,21 @@
         <description>Embraer Regional Jet 170 (170-100)</description>
         <aero>ERJ170</aero>
         <engine>GE_CF34-8E</engine>
-        
+
         <model>
             <path>Aircraft/E-jet-family/XMLs/ERJ-170.xml</path>
             <door n="0">
                 <position-x-m>-9.443</position-x-m>
             </door>
         </model>
-        
+
         <rating>
             <FDM type="int">3</FDM>
             <systems type="int">3</systems>
             <cockpit type="int">4</cockpit>
             <model type="int">5</model>
         </rating>
-        
+
         <view n="0">
             <config>
                 <z-offset-m archive="y">-11.57</z-offset-m>
@@ -77,15 +77,15 @@
         </previews>
     </sim>
 
-	<limits>
-		<mass-and-balance>
-			<maximum-takeoff-mass-lbs>85098</maximum-takeoff-mass-lbs>
-			<maximum-landing-mass-lbs>73414</maximum-landing-mass-lbs>
-			<maximum-payload-lbs>21515</maximum-payload-lbs>
-			<maximum-ramp-mass-lbs>88703</maximum-ramp-mass-lbs>
-			<maximum-zero-fuel-mass-lbs>68123</maximum-zero-fuel-mass-lbs>
-		</mass-and-balance>
-	</limits>
+    <limits>
+        <mass-and-balance>
+            <maximum-takeoff-mass-lbs>85098</maximum-takeoff-mass-lbs>
+            <maximum-landing-mass-lbs>73414</maximum-landing-mass-lbs>
+            <maximum-payload-lbs>21515</maximum-payload-lbs>
+            <maximum-ramp-mass-lbs>88703</maximum-ramp-mass-lbs>
+            <maximum-zero-fuel-mass-lbs>68123</maximum-zero-fuel-mass-lbs>
+        </mass-and-balance>
+    </limits>
 
     <payload>
         <weight n="1">
@@ -95,7 +95,7 @@
             <max-lb type="double">21515</max-lb>
         </weight>
     </payload>
-    
+
     <instrumentation>
         <mcdu>
             <ident>

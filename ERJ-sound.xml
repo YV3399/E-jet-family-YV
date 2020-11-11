@@ -3,7 +3,7 @@
 <!-- Sounds By Gabriel Hernandez(YV3399) -->
 
 <PropertyList>
-    
+
     <fx>
 		<!-- Engine 1 -->
 		<engine>
@@ -270,8 +270,8 @@
                 <factor>-0.001</factor>
             </pitch>
         </gear>
-        
-        
+
+
         <rumblefront>
             <name>nose wheel rumble</name>
             <mode>looped</mode>
@@ -292,7 +292,7 @@
             <reference-dist>10.0</reference-dist>
             <max-dist>25.0</max-dist>
         </rumblefront>
-        
+
         <rumblemain>
             <name>main gear rumble</name>
             <mode>looped</mode>
@@ -316,9 +316,9 @@
             <reference-dist>10.0</reference-dist>
             <max-dist>25.0</max-dist>
         </rumblemain>
-        
+
         <!-- TouchDown -->
-        
+
         <wow>
             <name>wow 0</name>
             <mode>once</mode>
@@ -355,7 +355,7 @@
                 <offset>0</offset>
             </volume>
         </wow>
-        
+
         <wow>
             <name>wow 3</name>
             <mode>once</mode>
@@ -392,7 +392,7 @@
                 <offset>0</offset>
             </volume>
         </wow>
-        
+
         <squeal1>
             <name>squeal</name>
             <path>Aircraft/E-jet-family/Sounds/SoundPack/Roll.wav</path>
@@ -420,7 +420,7 @@
             <reference-dist>100</reference-dist>
             <max-dist>1000</max-dist>
         </squeal1>
-        
+
         <flap>
             <name>flaps</name>
             <mode>in-transit</mode>
@@ -438,7 +438,7 @@
             <reference-dist>5.0</reference-dist>
             <max-dist>10.0</max-dist>
         </flap>
-        
+
         <wind>
             <name>wind</name>
             <mode>looped</mode>
@@ -470,7 +470,7 @@
             <reference-dist>1.0</reference-dist>
             <max-dist>2.0</max-dist>
         </wind>
-        
+
         <stall>
             <name>stall</name>
             <mode>looped</mode>
@@ -489,7 +489,7 @@
             <reference-dist>0.5</reference-dist>
             <max-dist>1.0</max-dist>
         </stall>
-        
+
         <speedbrake>
             <name>speedbrake</name>
             <mode>in-transit</mode>
@@ -507,7 +507,7 @@
             <reference-dist>0.5</reference-dist>
             <max-dist>1.0</max-dist>
         </speedbrake>
-        
+
         <!-- Seatbelt/No smoking signs -->
         <seatbelt>
             <name>Seatbelt sign</name>
@@ -545,9 +545,9 @@
             <reference-dist>10.0</reference-dist>
             <max-dist>100.0</max-dist>
         </nosmoke>
-        
+
         <!-- Overspeed warning -->
-        
+
         <overspeed>
             <name>Overspeed warning</name>
             <path>Aircraft/E-jet-family/Sounds/overspeed.wav</path>
@@ -562,9 +562,9 @@
                 <factor>1.0</factor>
             </volume>
         </overspeed>
-        
+
         <!-- Announcements -->
-        
+
         <announcement>
             <name>welcome</name>
             <path>Aircraft/E-jet-family/Sounds/announce/welcome.wav</path>
@@ -583,7 +583,7 @@
             <reference-dist>10.0</reference-dist>
             <max-dist>100.0</max-dist>
         </announcement>
-        
+
         <announcement>
             <name>safety</name>
             <path>Aircraft/E-jet-family/Sounds/announce/safety.wav</path>
@@ -602,7 +602,7 @@
             <reference-dist>10.0</reference-dist>
             <max-dist>100.0</max-dist>
         </announcement>
-        
+
         <announcement>
             <name>cruise</name>
             <path>Aircraft/E-jet-family/Sounds/announce/cruise.wav</path>
@@ -621,7 +621,7 @@
             <reference-dist>10.0</reference-dist>
             <max-dist>100.0</max-dist>
         </announcement>
-        
+
         <announcement>
             <name>climb</name>
             <path>Aircraft/E-jet-family/Sounds/announce/climb.wav</path>
@@ -640,7 +640,7 @@
             <reference-dist>10.0</reference-dist>
             <max-dist>100.0</max-dist>
         </announcement>
-        
+
         <announcement>
             <name>cruise-seatbelt</name>
             <path>Aircraft/E-jet-family/Sounds/announce/cruise-seatbelt.wav</path>
@@ -659,7 +659,7 @@
             <reference-dist>10.0</reference-dist>
             <max-dist>100.0</max-dist>
         </announcement>
-        
+
         <announcement>
             <name>turbulence</name>
             <path>Aircraft/E-jet-family/Sounds/announce/turbulence.wav</path>
@@ -678,7 +678,7 @@
             <reference-dist>10.0</reference-dist>
             <max-dist>100.0</max-dist>
         </announcement>
-        
+
         <announcement>
             <name>descent</name>
             <path>Aircraft/E-jet-family/Sounds/announce/descent.wav</path>
@@ -697,7 +697,7 @@
             <reference-dist>10.0</reference-dist>
             <max-dist>100.0</max-dist>
         </announcement>
-        
+
         <announcement>
             <name>land</name>
             <path>Aircraft/E-jet-family/Sounds/announce/land.wav</path>
@@ -716,7 +716,7 @@
             <reference-dist>10.0</reference-dist>
             <max-dist>100.0</max-dist>
         </announcement>
-        
+
         <announcement>
             <name>gate</name>
             <path>Aircraft/E-jet-family/Sounds/announce/gate.wav</path>
@@ -735,7 +735,7 @@
             <reference-dist>10.0</reference-dist>
             <max-dist>100.0</max-dist>
         </announcement>
-        
+
         <announcement>
             <name>emergency</name>
             <path>Aircraft/E-jet-family/Sounds/announce/emergency.wav</path>
@@ -754,7 +754,7 @@
             <reference-dist>10.0</reference-dist>
             <max-dist>100.0</max-dist>
         </announcement>
-        
+
         <announcement>
             <name>pretakeoff</name>
             <path>Aircraft/E-jet-family/Sounds/announce/pretakeoff.wav</path>
@@ -773,8 +773,8 @@
             <reference-dist>10.0</reference-dist>
             <max-dist>100.0</max-dist>
         </announcement>
-        
-        
+
+
         <announcement>
             <name>boarding2</name>
             <path>Aircraft/E-jet-family/Sounds/announce/music2.wav</path>
@@ -793,8 +793,8 @@
             <reference-dist>10.0</reference-dist>
             <max-dist>100.0</max-dist>
         </announcement>
-        
-        
+
+
         <announcement>
             <name>brace</name>
             <path>Aircraft/E-jet-family/Sounds/announce/brace.wav</path>
@@ -813,7 +813,7 @@
             <reference-dist>10.0</reference-dist>
             <max-dist>100.0</max-dist>
         </announcement>
-        
+
         <avionics>
             <name>avionics</name>
             <path>Aircraft/E-jet-family/Sounds/avionics.wav</path>
@@ -830,7 +830,7 @@
                 <y>0.01</y>
                 <z>-1.95</z>
             </position>
-            
+
             <volume>
                 <factor>0.2</factor>
                 <max>0.5</max>
@@ -838,8 +838,8 @@
             <reference-dist>1.2</reference-dist>
             <max-dist>5</max-dist>
         </avionics>
-        
-        
+
+
         <seatbelt>
             <name>cabinalert</name>
             <path>Aircraft/E-jet-family/Sounds/cabinalert.wav</path>
@@ -848,7 +848,7 @@
                 <or>
                     <property>sim/sound/no-smoking-sign</property>
                     <property>sim/sound/seatbelt-sign</property>
-                    
+
                     <not>
                         <property>sim/sound/no-smoking-sign</property>
                     </not>
@@ -861,7 +861,7 @@
                 <property>sim/current-view/internal</property>
             </volume>
         </seatbelt>
-        
+
         <gpws>
             <name>appr_mins</name>
             <mode>once</mode>
@@ -910,15 +910,15 @@
                         </greater-than>
                     </and>
                 </or>
-                
+
                 <less-than>
                     <property>/velocities/vertical-speed-fps</property>
                     <value>0</value>
                 </less-than>
             </condition>
         </gpws>
-        
-        
+
+
         <rain>
             <name>rain</name>
             <mode>looped</mode>
@@ -942,9 +942,9 @@
                 <offset>1.0</offset>
             </pitch>
         </rain>
-        
+
         <!-- Autopilot disconnect siren -->
-        
+
         <ap-disconnect>
             <name>AP Disconnect</name>
             <mode>once</mode>
@@ -956,7 +956,7 @@
                 <factor>1</factor>
             </volume>
         </ap-disconnect>
-        
+
         <ap-disconnect>
             <name>AP Disconnect 2</name>
             <mode>once</mode>
@@ -968,8 +968,8 @@
                 <factor>1</factor>
             </volume>
         </ap-disconnect>
-        
-        
+
+
     </fx>
-    
+
 </PropertyList>
