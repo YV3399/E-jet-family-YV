@@ -110,6 +110,34 @@
 	<name>Flight phase logic</name>
 	<type>gain</type>
 	<gain>1</gain>
+    <input>
+        <!-- TOGA reserve -->
+        <condition>
+            <and>
+                <or>
+                    <greater-than>
+                        <property>controls/engines/engine[0]/throttle</property>
+                        <property>fadec/configuration/throttle-toga-norm</property>
+                    </greater-than>
+                    <greater-than>
+                        <property>controls/engines/engine[1]/throttle</property>
+                        <property>fadec/configuration/throttle-toga-norm</property>
+                    </greater-than>
+                </or>
+                <or>
+                    <equals>
+                        <property>/it-autoflight/mode/vert</property>
+                        <value>T/O CLB</value>
+                    </equals>
+                    <greater-than>
+                        <property>/gear/gear[1]/position-norm</property>
+                        <value>0</value>
+                    </greater-than>
+                </or>
+            </and>
+        </condition>
+        <value>6</value>
+    </input>
 	<input>
 		<condition>
 			<equals>
@@ -393,11 +421,10 @@
 </filter>
 
 
-<!-- forwarding thrust limit to A/T -->
 <filter>
-	<name>Forward thrust to ITAF</name>
+	<name>N1 limit</name>
 	<type>gain</type>
-	<gain>0.01</gain>
+	<gain>1</gain>
 	<input>
 		<condition>
 			<equals>
@@ -443,15 +470,38 @@
 		</condition>
 		<property>/trs/thrust/con</property>
 	</input>
-	<output>/it-autoflight/settings/autothrottle-max</output>
+	<input>
+        <!-- T/O reserve (firewall) -->
+		<condition>
+			<equals>
+				<property>/trs/mode</property>
+				<value>6</value>
+			</equals>
+		</condition>
+		<property>/fadec/configuration/max-n1</property>
+	</input>
+    <output>/fadec/trs-limit</output>
 </filter>
 
 <filter>
-    <name>Forward to FADEC</name>
+    <name>ITAF Autothrottle limit</name>
     <type>gain</type>
-    <gain>100</gain>
-    <input>/it-autoflight/settings/autothrottle-max</input>
-    <output>/fadec/trs-limit</output>
+    <gain>1</gain>
+    <input>
+        <expression>
+            <div>
+                <difference>
+                    <property>/fadec/trs-limit</property>
+                    <property>/fadec/configuration/idle-n1</property>
+                </difference>
+                <difference>
+                    <property>/fadec/configuration/max-n1</property>
+                    <property>/fadec/configuration/idle-n1</property>
+                </difference>
+            </div>
+        </expression>
+    </input>
+	<output>/it-autoflight/settings/autothrottle-max</output>
 </filter>
 
 </PropertyList>

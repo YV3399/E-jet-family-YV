@@ -51,6 +51,7 @@ var trsModeLabels = {
 	2: "CLB",
 	4: "CRZ",
 	5: "CON",
+	6: "TOGA-RES",
 };
 
 var canvas_ED_only = {
@@ -263,9 +264,15 @@ var canvas_ED_only = {
             modeLabel = modeLabel ~ "-" ~ submode;
         }
         me["trsMode"].setText(modeLabel);
-        var limit = (getprop("/it-autoflight/settings/autothrottle-max") or 1.0) * 100.0;
-        me["limitL.digital"].setText(sprintf("%3.1f", limit));
-        me["limitR.digital"].setText(sprintf("%3.1f", limit));
+        var limit = getprop("/fadec/trs-limit");
+        if (limit == nil) {
+            me["limitL.digital"].setText("+++++");
+            me["limitR.digital"].setText("+++++");
+        }
+        else {
+            me["limitL.digital"].setText(sprintf("%5.1f", limit));
+            me["limitR.digital"].setText(sprintf("%5.1f", limit));
+        }
 		
 		#Engine off
 		me["engL.off"].setVisible(engParam["offL"].getBoolValue());

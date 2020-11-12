@@ -103,6 +103,26 @@
             </expression>
         </input>
         <input>
+            <condition>
+                <greater-than>
+                    <property>controls/engines/engine[0]/throttle</property>
+                    <property>fadec/configuration/throttle-toga-norm</property>
+                </greater-than>
+            </condition>
+            <expression>
+                <sum>
+                    <property>fadec/configuration/idle-n1</property>
+                    <product>
+                        <property>/controls/engines/engine[0]/throttle</property>
+                        <difference>
+                            <property>fadec/configuration/max-n1</property>
+                            <property>fadec/configuration/idle-n1</property>
+                        </difference>
+                    </product>
+                </sum>
+            </expression>
+        </input>
+        <input>
             <expression>
                 <min>
                     <sum>
@@ -244,6 +264,26 @@
                 <sum>
                     <property>fadec/configuration/idle-n1</property>
                     <value>0.1</value>
+                </sum>
+            </expression>
+        </input>
+        <input>
+            <condition>
+                <greater-than>
+                    <property>controls/engines/engine[1]/throttle</property>
+                    <property>fadec/configuration/throttle-toga-norm</property>
+                </greater-than>
+            </condition>
+            <expression>
+                <sum>
+                    <property>fadec/configuration/idle-n1</property>
+                    <product>
+                        <property>/controls/engines/engine[1]/throttle</property>
+                        <difference>
+                            <property>fadec/configuration/max-n1</property>
+                            <property>fadec/configuration/idle-n1</property>
+                        </difference>
+                    </product>
                 </sum>
             </expression>
         </input>

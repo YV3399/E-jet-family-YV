@@ -558,11 +558,9 @@
         <ignition-switch type="int">1</ignition-switch>
         <ignition-switch type="int">1</ignition-switch>
         <trs-limit type="double">100.0</trs-limit>
-        <config>
-            <Kp>150</Kp>
-            <Ki>2.5</Ki>
-            <max-rate-of-change>0.1</max-rate-of-change>
-        </config>
+        <configuration>
+            <throttle-toga-norm type="double">0.95</throttle-toga-norm>
+        </configuration>
     </fadec>
 
     <trs>
