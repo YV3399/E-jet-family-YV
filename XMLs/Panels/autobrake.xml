@@ -1,5 +1,21 @@
 <PropertyList>
  <path>../../Models/Panels/autobrake.ac</path>
+    <animation>
+        <type>material</type>
+        <object-name>base</object-name>
+        <object-name>lever</object-name>
+        <!--
+        <condition>
+            <property>controls/lighting/dome</property>
+        </condition>
+        -->
+        <emission>
+            <red>0.35</red>
+            <green>0.3</green>
+            <blue>0.14</blue>
+        </emission>
+    </animation>
+
 
  <effect>
 	 <inherits-from>Models/Effects/panel-lighting</inherits-from>

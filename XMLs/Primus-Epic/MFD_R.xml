@@ -2,6 +2,21 @@
 <PropertyList>
     
     <path>../../Models/Primus-Epic/primus_epic_mfd1.ac</path>
+
+    <animation>
+        <type>material</type>
+        <object-name>MFD1_frame</object-name>
+        <!--
+        <condition>
+            <property>controls/lighting/dome</property>
+        </condition>
+        -->
+        <emission>
+            <red>0.35</red>
+            <green>0.3</green>
+            <blue>0.14</blue>
+        </emission>
+    </animation>
     
     <!-- Power on/off -->
     <animation>

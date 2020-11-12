@@ -787,6 +787,7 @@ var DirectToModule = {
         for (var i = 0; i < me.directToIndex; i += 1) {
             me.fp.deleteWP(0);
         }
+        me.fp.getWP(0).setAltitude(getprop("/instrumentation/altimeter/indicated-altitude-ft"), 'at');
         me.fp.current = 1;
         fms.kickRouteManager();
     },
