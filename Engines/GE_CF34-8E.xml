@@ -25,8 +25,7 @@
 <turbine_engine name="GE-CF34-8E">
   <milthrust> 14500.0 </milthrust>
   <bypassratio>     5.000 </bypassratio>
-  <!-- real aircraft: 0.68; nerfed to get more realistic fuel burn -->
-  <tsfc>            0.53</tsfc>
+  <tsfc>            0.68</tsfc>
   <bleed>           0.03</bleed>
   <idlen1>         25.0 </idlen1>
   <idlen2>         60.5 </idlen2>
