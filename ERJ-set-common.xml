@@ -938,7 +938,7 @@
             <interior type="double">0</interior>
             <cockpit type="bool">false</cockpit>
             <cones type="bool">true</cones>
-            <dome-norm type="double">0</dome-norm>
+            <dome type="double">0</dome>
             <landing-lights n="0" type="bool">false</landing-lights>
             <landing-lights n="1" type="bool">false</landing-lights>
             <landing-lights n="2" type="bool">false</landing-lights>

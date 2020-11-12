@@ -106,11 +106,9 @@
             <object-name>Screws</object-name>
             <object-name>Value.Knob</object-name>
             <object-name>Value.Ring</object-name>
-        <!--
         <condition>
             <property>controls/lighting/dome</property>
         </condition>
-        -->
         <emission>
             <red>0.35</red>
             <green>0.3</green>

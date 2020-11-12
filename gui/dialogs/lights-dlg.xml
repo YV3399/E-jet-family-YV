@@ -58,6 +58,15 @@
 			<live>false</live>
 		</checkbox>
 
+		<checkbox>
+			<label>Cockpit dome light</label>
+			<property>controls/lighting/dome</property>
+			<binding>
+				<command>dialog-apply</command>
+			</binding>
+			<live>true</live>
+		</checkbox>
+
 	<hrule />
 
 		<text>

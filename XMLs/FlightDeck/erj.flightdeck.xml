@@ -6,31 +6,9 @@
 
     <animation>
         <name>FlightdeckElements</name>
-        <object-name>ALT</object-name>
         <object-name>ALT.knob</object-name>
-        <object-name>ALT.knob.001</object-name>
         <object-name>AltPressure</object-name>
-        <object-name>AP</object-name>
         <object-name>APbtn</object-name>
-        <object-name>APP</object-name>
-        <object-name>AT</object-name>
-        <object-name>AT.001</object-name>
-        <object-name>AT.002</object-name>
-        <object-name>AT.003</object-name>
-        <object-name>AT.004</object-name>
-        <object-name>AT.005</object-name>
-        <object-name>AT.006</object-name>
-        <object-name>AT.007</object-name>
-        <object-name>AT.008</object-name>
-        <object-name>AT.009</object-name>
-        <object-name>AT.010</object-name>
-        <object-name>AT.011</object-name>
-        <object-name>AT.012</object-name>
-        <object-name>AT.013</object-name>
-        <object-name>AT.014</object-name>
-        <object-name>AT.015</object-name>
-        <object-name>AT.016</object-name>
-        <object-name>BANK</object-name>
         <object-name>blah</object-name>
         <object-name>box</object-name>
         <object-name>box.001</object-name>
@@ -81,9 +59,7 @@
         <object-name>cockpit-door</object-name>
         <object-name>compass.indicator</object-name>
         <object-name>CRS.knob</object-name>
-        <object-name>CRS.knob.001</object-name>
         <object-name>CRS2.knob</object-name>
-        <object-name>CRS2.knob.001</object-name>
         <object-name>CRS2knb.004</object-name>
         <object-name>CRS2knb.005</object-name>
         <object-name>CRS2knb.006</object-name>
@@ -268,95 +244,26 @@
         <object-name>e2.case</object-name>
         <object-name>e2.ign</object-name>
         <object-name>e2.start</object-name>
-        <object-name>FD</object-name>
-        <object-name>FD-on</object-name>
-        <object-name>FD-on.001</object-name>
-        <object-name>FD-on.002</object-name>
-        <object-name>FD-on.003</object-name>
-        <object-name>FD-on.004</object-name>
-        <object-name>FD-on.005</object-name>
-        <object-name>FD-on.006</object-name>
-        <object-name>FD-on.007</object-name>
-        <object-name>FD-on.008</object-name>
-        <object-name>FD2</object-name>
-        <object-name>FD2btn.010</object-name>
-        <object-name>FD2btn.011</object-name>
-        <object-name>FD2btn.012</object-name>
-        <object-name>FD2btn.013</object-name>
-        <object-name>FD2btn.014</object-name>
-        <object-name>FD2btn.016</object-name>
-        <object-name>FD2btn.017</object-name>
-        <object-name>FD2btn.018</object-name>
-        <object-name>FD2btn.019</object-name>
-        <object-name>FD2btn.020</object-name>
-        <object-name>FD2btn.021</object-name>
-        <object-name>FD2btn.022</object-name>
-        <object-name>FD2btn.023</object-name>
-        <object-name>FD2btn.024</object-name>
         <object-name>FlapLever</object-name>
-        <object-name>FLCH</object-name>
         <object-name>FMS.left.btn</object-name>
         <object-name>FMS.right.btn</object-name>
-        <object-name>FPA</object-name>
         <object-name>FPA.knob</object-name>
-        <object-name>FPA.knob.001</object-name>
         <object-name>FPR.left.btn</object-name>
         <object-name>FPR.right.btn</object-name>
         <object-name>fuselage</object-name>
         <object-name>fuselage.001</object-name>
         <object-name>fuselage.002</object-name>
         <object-name>fuselage.003</object-name>
-        <object-name>HDG</object-name>
         <object-name>HDG.knob</object-name>
-        <object-name>HDG.knob.001</object-name>
         <object-name>HSI.left.btn</object-name>
         <object-name>HSI.right.btn</object-name>
-        <object-name>IAS-MACH</object-name>
         <object-name>LHwiper</object-name>
         <object-name>LHwiper.arm</object-name>
         <object-name>LHwiper.blade</object-name>
-        <object-name>MCPlts</object-name>
-        <object-name>MCPlts.001</object-name>
-        <object-name>MCPlts.002</object-name>
-        <object-name>MCPlts.003</object-name>
-        <object-name>MCPlts.004</object-name>
-        <object-name>MCPlts.005</object-name>
-        <object-name>MCPlts.006</object-name>
-        <object-name>MCPlts.007</object-name>
-        <object-name>MCPlts.008</object-name>
-        <object-name>MCPlts.009</object-name>
-        <object-name>MCPlts.010</object-name>
-        <object-name>MCPlts.011</object-name>
-        <object-name>MCPlts.012</object-name>
-        <object-name>MCPlts.014</object-name>
-        <object-name>MCPlts.015</object-name>
-        <object-name>MCPlts.016</object-name>
-        <object-name>MCPlts.017</object-name>
-        <object-name>MCPlts.018</object-name>
-        <object-name>MCPlts.019</object-name>
-        <object-name>MCPlts.020</object-name>
-        <object-name>MCPlts.021</object-name>
-        <object-name>MCPlts.022</object-name>
-        <object-name>MCPlts.023</object-name>
-        <object-name>MCPlts.024</object-name>
-        <object-name>MCPlts.027</object-name>
-        <object-name>MCPlts.028</object-name>
-        <object-name>MCPlts.029</object-name>
-        <object-name>MCPlts.030</object-name>
-        <object-name>MCPlts.031</object-name>
-        <object-name>MCPlts.032</object-name>
-        <object-name>MCPlts.033</object-name>
-        <object-name>MCPlts.034</object-name>
-        <object-name>MCPlts.035</object-name>
-        <object-name>MCPlts.036</object-name>
-        <object-name>MCPlts.037</object-name>
-        <object-name>MCPlts.038</object-name>
-        <object-name>MCPlts.039</object-name>
         <object-name>MINIMUMS.left.knob</object-name>
         <object-name>MINIMUMS.left.ring</object-name>
         <object-name>MINIMUMS.right.knob</object-name>
         <object-name>MINIMUMS.right.ring</object-name>
-        <object-name>NAV</object-name>
         <object-name>NGActuator</object-name>
         <object-name>NGActuator.001</object-name>
         <object-name>NGActuator.002</object-name>
@@ -483,10 +390,8 @@
         <object-name>slat2.014</object-name>
         <object-name>slat2.015</object-name>
         <object-name>SPD.knob</object-name>
-        <object-name>SPD.knob.001</object-name>
         <object-name>SPD.ring</object-name>
         <object-name>sphere</object-name>
-        <object-name>SRC</object-name>
         <object-name>SRC.btn</object-name>
         <object-name>ThrottleLeft</object-name>
         <object-name>ThrottleRight</object-name>
@@ -495,13 +400,9 @@
         <object-name>trim.rudder</object-name>
         <object-name>VL.left.btn</object-name>
         <object-name>VL.right.btn</object-name>
-        <object-name>VNAV</object-name>
-        <object-name>VS</object-name>
         <object-name>VS.knob</object-name>
-        <object-name>VS.knob.001</object-name>
         <object-name>WX.left.btn</object-name>
         <object-name>WX.right.btn</object-name>
-        <object-name>YD</object-name>
         <object-name>yoke.roll.left</object-name>
         <object-name>yoke.AP.001</object-name>
         <object-name>yoke.trim.001</object-name>
@@ -521,11 +422,9 @@
         <type>material</type>
         <object-name>FlightdeckElements</object-name>
 
-        <!--
         <condition>
             <property>controls/lighting/dome</property>
         </condition>
-        -->
         <emission>
             <red>0.35</red>
             <green>0.3</green>

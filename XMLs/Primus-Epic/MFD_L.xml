@@ -6,11 +6,9 @@
     <animation>
         <type>material</type>
         <object-name>MFD0_frame</object-name>
-        <!--
         <condition>
             <property>controls/lighting/dome</property>
         </condition>
-        -->
         <emission>
             <red>0.35</red>
             <green>0.3</green>
