@@ -446,4 +446,12 @@
 	<output>/it-autoflight/settings/autothrottle-max</output>
 </filter>
 
+<filter>
+    <name>Forward to FADEC</name>
+    <type>gain</type>
+    <gain>100</gain>
+    <input>/it-autoflight/settings/autothrottle-max</input>
+    <output>/fadec/trs-limit</output>
+</filter>
+
 </PropertyList>

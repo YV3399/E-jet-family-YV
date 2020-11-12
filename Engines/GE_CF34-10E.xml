@@ -18,6 +18,7 @@
   <!-- real aircraft: 0.64; nerfed to get more realistic fuel burn -->
   <tsfc>            0.50</tsfc>
   <bleed>           0.03</bleed>
+  <!-- actual value 21.8; setting slightly lower to avoid flameout when idling -->
   <idlen1>         21.8 </idlen1>
   <idlen2>         52.8 </idlen2>
   <maxn1>         106.2 </maxn1>

@@ -557,6 +557,7 @@
         <!-- 0 = off, 1 = auto, 2 = ovrd -->
         <ignition-switch type="int">1</ignition-switch>
         <ignition-switch type="int">1</ignition-switch>
+        <trs-limit type="double">100.0</trs-limit>
         <config>
             <Kp>150</Kp>
             <Ki>2.5</Ki>

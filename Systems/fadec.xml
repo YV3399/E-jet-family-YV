@@ -92,17 +92,31 @@
         <type>gain</type>
         <gain>1</gain>
         <input>
+            <condition>
+                <property>controls/engines/engine[0]/starter-switch</property>
+            </condition>
             <expression>
                 <sum>
                     <property>fadec/configuration/idle-n1</property>
-                    <product>
-                        <property>/controls/engines/engine[0]/throttle</property>
-                        <difference>
-                            <property>fadec/configuration/max-n1</property>
-                            <property>fadec/configuration/idle-n1</property>
-                        </difference>
-                    </product>
+                    <value>0.1</value>
                 </sum>
+            </expression>
+        </input>
+        <input>
+            <expression>
+                <min>
+                    <sum>
+                        <property>fadec/configuration/idle-n1</property>
+                        <product>
+                            <property>/controls/engines/engine[0]/throttle</property>
+                            <difference>
+                                <property>fadec/configuration/max-n1</property>
+                                <property>fadec/configuration/idle-n1</property>
+                            </difference>
+                        </product>
+                    </sum>
+                    <property>fadec/trs-limit</property>
+                </min>
             </expression>
         </input>
         <output>/fadec/target[0]</output>
@@ -223,17 +237,31 @@
         <type>gain</type>
         <gain>1</gain>
         <input>
+            <condition>
+                <property>controls/engines/engine[1]/starter-switch</property>
+            </condition>
             <expression>
                 <sum>
                     <property>fadec/configuration/idle-n1</property>
-                    <product>
-                        <property>/controls/engines/engine[1]/throttle</property>
-                        <difference>
-                            <property>fadec/configuration/max-n1</property>
-                            <property>fadec/configuration/idle-n1</property>
-                        </difference>
-                    </product>
+                    <value>0.1</value>
                 </sum>
+            </expression>
+        </input>
+        <input>
+            <expression>
+                <min>
+                    <sum>
+                        <property>fadec/configuration/idle-n1</property>
+                        <product>
+                            <property>/controls/engines/engine[1]/throttle</property>
+                            <difference>
+                                <property>fadec/configuration/max-n1</property>
+                                <property>fadec/configuration/idle-n1</property>
+                            </difference>
+                        </product>
+                    </sum>
+                    <property>fadec/trs-limit</property>
+                </min>
             </expression>
         </input>
         <output>/fadec/target[1]</output>
