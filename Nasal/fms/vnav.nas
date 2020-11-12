@@ -1,5 +1,9 @@
 # VNAV calculations for the Embraer E-Jet family
 
+# TODO:
+# - correctly handle TOC when issuing DIRECTs
+# - generate profile past destination to deal with missed approaches
+
 var nm_to_feet = 6076.0;
 var feet_to_nm = 1.0 / nm_to_feet;
 setprop("/fms/vnav/route-progress", 0.0);
@@ -533,12 +537,20 @@ var VNAV = {
             distFrom = distTo;
             distTo = wpTo.dist;
             if (distTo == nil) {
-                var dalt = math.abs(wpTo.alt - wpFrom.alt);
-                # Wild guess for an average climb:
-                # - 300 knots ground speed
-                # - 2000 fpm
-                # Factor 60 because knots is per hour but fpm is per minute
-                distTo = distFrom + dalt * 300 / 60 / 2000;
+                if (me.tocReached) {
+                    # Past TOC - just skip this one entirely
+                    distTo = distFrom;
+                    wpTo = wpFrom;
+                    continue;
+                }
+                else {
+                    var dalt = math.abs(wpTo.alt - wpFrom.alt);
+                    # Wild guess for an average climb:
+                    # - 300 knots ground speed
+                    # - 2000 fpm
+                    # Factor 60 because knots is per hour but fpm is per minute
+                    distTo = distFrom + dalt * 300 / 60 / 2000;
+                }
             }
             if (distFrom <= dist and distTo > dist) {
                 break;
