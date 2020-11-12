@@ -296,14 +296,14 @@ var startAloftUpdater = func () {
 };
 
 var importWindsAloft = func (ofp) {
-    # disable default winds and set winds-aloft mode
-    setprop("/local-weather/config/wind-model", "aloft waypoints");
-    setprop("/environment/params/metar-updates-winds-aloft", 0);
+    # # disable default winds and set winds-aloft mode
+    # setprop("/local-weather/config/wind-model", "aloft waypoints");
+    # setprop("/environment/params/metar-updates-winds-aloft", 0);
 
-    if (defined('local_weather')) {
-        # clear out the advanced weather winds-aloft interpolation points
-        setsize(local_weather.windIpointArray, 0);
-    }
+    # if (defined('local_weather')) {
+    #     # clear out the advanced weather winds-aloft interpolation points
+    #     setsize(local_weather.windIpointArray, 0);
+    # }
 
     # now go through the flightplan waypoints and create a wind interpolation point for each of them.
     var ofpNavlog = ofp.getNode('navlog');
@@ -331,9 +331,9 @@ var importWindsAloft = func (ofp) {
             }
             uneven = !uneven;
         }
-        if (defined('local_weather')) {
-            call(local_weather.set_wind_ipoint, args);
-        }
+        # if (defined('local_weather')) {
+        #     call(local_weather.set_wind_ipoint, args);
+        # }
         var aloftPos = geo.Coord.new();
         aloftPos.set_latlon(lat, lon);
 
