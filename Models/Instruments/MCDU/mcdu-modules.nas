@@ -609,7 +609,8 @@ var FlightPlanModule = {
                     });
                 }
                 else {
-                    me.controllers[lsk] = (func (wp) {
+                    var this = me;
+                    me.controllers[lsk] = (func (wp, directFromIndex) {
                         return FuncController.new(
                             func (owner, val) {
                                 if (val == nil) {
@@ -618,7 +619,7 @@ var FlightPlanModule = {
                                 else {
                                     owner.startEditing();
                                     var directToModule = func (mcdu, parent) {
-                                        return DirectToModule.new(mcdu, parent, this.fp, val);
+                                        return DirectToModule.new(mcdu, parent, this.fp, val, directFromIndex);
                                     };
                                     owner.mcdu.pushModule(directToModule);
                                 }
@@ -629,7 +630,7 @@ var FlightPlanModule = {
                                 owner.deleteWP(wpi);
                             }
                         );
-                    })(wp);
+                    })(wp, wpi);
                     PopController.new(wp.id);
                     me.controllers[rsk] = (func (wp) {
                         return FuncController.new(
@@ -739,12 +740,13 @@ var FlightPlanModule = {
 };
 
 var DirectToModule = {
-    new: func (mcdu, parentModule, fp, directToID) {
+    new: func (mcdu, parentModule, fp, directToID, directFromIndex=nil) {
         var m = BaseModule.new(mcdu, parentModule);
         m.parents = prepended(DirectToModule, m.parents);
         m.fp = fp;
         m.directToID = directToID;
         m.directToIndex = nil;
+        m.directFromIndex = directFromIndex;
         var wp = nil;
         var fst = math.max(1, fp.current);
         for (var i = fst; i < fp.getPlanSize(); i += 1) {
@@ -794,17 +796,29 @@ var DirectToModule = {
 
     insertDirect: func () {
         var candidates = parseWaypoint(me.directToID);
-        debug.dump(me.directToID, candidates);
+        debug.dump(me.directFromIndex, me.directToID, candidates);
         if (size(candidates) > 0) {
-            var directWP = createWP(geo.aircraft_position(), "DIRECT");
             var newWP = candidates[0];
-            # max(1, ...) needed in order to avoid inserting the DIRECT before
-            # the departure waypoint
-            var index = math.max(1, me.fp.current);
-            me.fp.insertWP(directWP, index);
+            var index = 1;
+            if (me.directFromIndex == nil) {
+                # max(1, ...) needed in order to avoid inserting the DIRECT before
+                # the departure waypoint
+                index = math.max(1, me.fp.current);
+                var directWP = createWP(geo.aircraft_position(), "DIRECT");
+                me.fp.insertWP(directWP, index);
+            }
+            else {
+                index = me.directFromIndex + 1;
+                me.fp.insertWP(createDiscontinuity(), index);
+            }
             me.fp.insertWP(newWP, index + 1);
             me.fp.insertWP(createDiscontinuity(), index + 2);
-            me.fp.current = index + 1;
+            if (me.directFromIndex == nil) {
+                # if the direct-from index isn't given, then we're going direct
+                # from wherever we are right now; otherwise, it's a route
+                # amendment that's just sandwiched between two disconts.
+                me.fp.current = index + 1;
+            }
             fms.kickRouteManager();
         }
         else {
