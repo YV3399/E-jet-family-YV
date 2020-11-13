@@ -109,6 +109,28 @@ button</li>
 <li>Shift + scroll wheel: twist inner ring of CCD data entry knob.</li>
 </ul>
 
+<h2>Startup Procedure</h2>
+
+<p>The E-Jet has a largely automatic engine start procedure, driven by the FADEC
+(Fully Autonomous Digital Engine Control). Normal startup procedure goes
+something like this:</p>
+
+<ol>
+<li>Verify that throttle levers are in the "idle" position, and the IGNITION
+switches (center pedestal) are in the "AUTO" position.</li>
+<li>Switch on both batteries (overhead panel, bottom left).</li>
+<li>Start the APU (overhead panel, center column, second panel from top).</li>
+<li>Turn on APU GEN and AC BUS MASTER (overhead panel, leftmost panel).</li>
+<li>Open the engine switch covers (center pedestal), and flip the left engine
+switch into the "START" position.</li>
+<li>Watch N1 and N2 for the left engine come alive (EICAS screen)</li>
+<li>When the left starter switch has flipped back into the "RUN" position,
+repeat steps 4 and 5 for the right engine.</li>
+<li>Close the engine switch covers.</li>
+<li>Turn on IDG 1 and IDG 2 (overhead panel, top left)</li>
+<li>Turn off batteries and APU (overhead panel)</li>
+</ol>
+
 <h2>Autopilot</h2>
 
 <h3>Glareshield Panel Controls</h3>
@@ -334,6 +356,50 @@ aircraft from speeding up to 250 KIAS for the climb).</li>
 
 <h2>Flight Controls</h2>
 
+<h3>Throttles</h3>
+
+<p>The E-Jet family is equipped with a FADEC system and TRS (Thrust Rating
+System).</p>
+
+<p>The normal operative range of the throttle levers is between 0 and 95%
+of their travel range; the top 5% command "takeoff reserve" thrust when in
+TOGA mode, or "max continuous" thrust in normal flight, overriding the normal
+thrust limits.</p>
+
+<h3>TRS (Thrust Rating System)</h3>
+
+<p>Thrust limits are governed by the TRS, and can be configured via the MCDU, in
+the "PERF" -> "TAKEOFF" screen.</p>
+
+<p>For the takeoff, three TRS modes are available, labelled TO-1, TO-2 and TO-3;
+TO-1 delivers full normal takeoff performance, TO-2 and TO-3 provide downrated
+engine thrust for lighter takeoffs, longer runways, and/or cool and low
+conditions. In addition, there are three "FLEX-TO" modes, which automatically
+provide the same absolute thrust as the non-FLEX takeoff mode would in standard
+conditions, up to actual TO-1 thrust (that is, if the FLEX mode would require
+a higher thrust setting than normal TO-1, TO-1 thrust will be provided
+instead). <strong>NOTE</strong> FLEX takeoff is not yet implemented in the FG E-Jets.</p>
+
+<p>Go-around mode (GA) always uses the same thrust limit as TO-1.</p>
+
+<p>For the climb, two modes are available: CLB-1 (full climb thrust) and CLB-2
+(downrated climb thrust). The appropriate one is selected automatically based
+on TO mode selection.</p>
+
+<p>In cruise, the engine is downrated to CRZ after 90 seconds of level
+unaccelerated flight; it automatically switches back to CLB-1 or CLB-2 when
+significant accelerations or climbs are commanded.</p>
+
+<p>Advancing the throttle levers to more than 95% of their travel range engages
+"TOGA RES" (TO/GA Reserve) mode when close to the ground, or "MAX CON" when in
+the air, overriding the above ratings and driving the engines to max N1. Hence,
+it is advisable to stop the throttle levers just short of firewalling them in
+order to set takeoff / go-around thrust.</p>
+
+<p>Note that the autoflight system will never command TOGA RES or MAX CON thrust;
+hence, to extract maximum climb performance from the aircraft, it is necessary
+to disengage the autothrottle.</p>
+
 <h3>Thrust Reversers</h3>
 
 <p>Thrust reversers may only be deployed (DEL key) after touchdown, and with the
@@ -369,8 +435,8 @@ deployment).</li>
 drops below 60.</li>
 </ul>
 
-<p>The speedbrake lever in this simulation has 3 positions (up, 1/2, full), which
-you can cycle with the Ctrl-B key.</p>
+<p>The speedbrake lever in this simulation has 5 positions (up, 1/4, 1/2, 3/4,
+full), which you can cycle with the Ctrl-B key.</p>
 
 <h3>Autobrakes</h3>
 
@@ -398,3 +464,44 @@ speed &lt; 60 kts, or autobrake knob turned into OFF position</li>
 <p>In the LOW and MED modes, deploying reversers will reduce brake wear and
 heating, but will not change the required landing distance or deceleration
 rate.</p>
+
+<h2>SimBrief Import Feature</h2>
+
+<p>The FlightGear E-Jet Family can import key parameters from a SimBrief flight
+plan.</p>
+
+<p>To use it, you need to create an account on https://www.simbrief.com/. Then:</p>
+
+<ol>
+<li>Create a new flight in the SimBrief "dispatch" system. Generate the OFP for
+it.</li>
+<li>In FlightGear, select "E-Jet-family" > "SimBrief" in the main menu.</li>
+<li>Enter your SimBrief username</li>
+<li>Select which parts of the flight plan you want to import (see below)</li>
+<li>Click "Import" and wait until it says "All Done".</li>
+</ol>
+
+<p>The following options are available for the importer:</p>
+
+<ul>
+<li><strong>"Flight plan route"</strong>: this imports the enroute waypoints of the planned
+flight. The "activate immediately" checkbox makes it so that the imported
+flight plan becomes the active flight plan immediately; leaving it unchecked
+makes it the modified flight plan instead, which allows you to review it in
+the MCDU and on the MFD's "Plan" view before activating it.</li>
+<li><strong>"Performance Init"</strong> imports key performance settings; specifically:
+<ul>
+<li>Climb and descent profiles</li>
+<li>Cruise altitude and cruise mach (SimBrief does not export IAS for cruise
+altitudes lower than FL290)</li>
+<li>Callsign / flight number</li>
+</ul></li>
+<li><strong>Payload</strong> automatically boards passengers / cargo as selected in the
+SimBrief flight plan.</li>
+<li><strong>Fuel</strong> automatically sets fuel levels to the configured block fuel from the
+SimBrief flight plan.</li>
+<li><strong>Winds Aloft</strong> imports winds aloft and forwards them to Basic Weather.
+(This is not possible for Advanced Weather right now, due to the way Advanced
+Weather simulates winds aloft itself, and happily overwrites our custom wind
+configuration).</li>
+</ul>
