@@ -1,111 +1,57 @@
 <PropertyList>
- <path>../../Models/Panels/ELT.ac</path>
+    <path>../../Models/Panels/ELT.ac</path>
 
- <effect>
-	 <inherits-from>Models/Effects/panel-lighting</inherits-from>
-	 <object-name>base</object-name>
- </effect>
+    <effect>
+        <inherits-from>Models/Effects/panel-lighting</inherits-from>
+        <object-name>base</object-name>
+    </effect>
 
-  
-     <animation>
+
+    <!--
+    <animation>
         <type>pick</type>
         <object-name>lever</object-name>
         <action>
             <button>0</button>
             <repeatable>false</repeatable>
             <binding>
-            	<command>property-toggle</command>
-		<property>controls/gear/gear-down</property>
+                <command>property-toggle</command>
+                <property>controls/gear/gear-down</property>
                 <value>1013</value>
             </binding>
-    </action>
+        </action>
     </animation>
-  <animation>
+    <animation>
         <type>rotate</type>
         <object-name>lever</object-name>
-	<property>controls/gear/gear-down</property>
-	<factor>62</factor>
-	<center>
-		<x-m> -0.01033 </x-m>
-		<z-m>-0.00917</z-m>
-	</center>
-    <axis>
-	    <y>1</y>
+        <property>controls/gear/gear-down</property>
+        <factor>62</factor>
+        <center>
+            <x-m> -0.01033 </x-m>
+            <z-m>-0.00917</z-m>
+        </center>
+        <axis>
+            <y>1</y>
         </axis>
     </animation>
-    <!--
-     <animation>
-        <type>pick</type>
-        <object-name>ILS</object-name>
-        <action>
-            <button>0</button>
-            <repeatable>false</repeatable>
-            <binding>
-            	<command>property-toggle</command>
-				<property>instrumentation/IESS/ILS-ind</property>
-            </binding>
-    </action>
-    </animation>
-    
-     <animation>
-        <type>pick</type>
-        <object-name>brightness_plus</object-name>
-        <action>
-            <button>0</button>
-            <repeatable>false</repeatable>
-            <binding>
-            	<command>property-adjust</command>
-		<property>instrumentation/IESS/brightness</property>
-			<step>0.1</step>
-			<min>0.1</min>
-			<max>1</max>
-			<wrap>false</wrap>
-            </binding>
-    </action>
-    </animation>
-    
-    
-     <animation>
-        <type>pick</type>
-        <object-name>brightness_minus</object-name>
-        <action>
-            <button>0</button>
-            <repeatable>false</repeatable>
-            <binding>
-            	<command>property-adjust</command>
-		<property>instrumentation/IESS/brightness</property>
-			<step>-0.1</step>
-			<min>0.1</min>
-			<max>1</max>
-			<wrap>false</wrap>
-            </binding>
-    </action>
-    </animation>
-    
+    -->
 
-    
-     <animation> 
-  <type>material</type> 
-  <object-name>IESS_screen</object-name>
-  <property-base>instrumentation/IESS/</property-base>
-    <emission>
-   <red>1.0</red>
-   <green>1.0</green>
-   <blue>1.0</blue>
-   <factor-prop>brightness</factor-prop>
-  </emission>
-    <ambient>
-   <red>1.0</red>
-   <green>1.0</green>
-   <blue>1.0</blue>
-   <factor-prop>brightness</factor-prop>
-  </ambient>
-    <diffuse>
-   <red>1.0</red>
-   <green>1.0</green>
-   <blue>1.0</blue>
-   <factor-prop>brightness</factor-prop>
-  </diffuse>
- </animation>-->
+    <animation>
+        <name>LitElems</name>
+        <object-name>base</object-name>
+    </animation>
+
+    <animation>
+        <type>material</type>
+        <object-name>LitElems</object-name>
+        <condition>
+            <property>controls/lighting/dome</property>
+        </condition>
+        <emission>
+            <red>0.35</red>
+            <green>0.3</green>
+            <blue>0.14</blue>
+        </emission>
+    </animation>
 
 </PropertyList>
