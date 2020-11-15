@@ -221,6 +221,16 @@ var MFD = {
         canvas.parsesvg(me.underlay, "Aircraft/E-jet-family/Models/Primus-Epic/MFD-radar-mask.svg");
         settimer(terrainTimerFunc, 1.0);
 
+        me.mapCamera = mfdmap.Camera.new({
+            range: 25,
+            screenRange: 416,
+            screenCX: 512,
+            screenCY: 540,
+        });
+        me.trafficGroup = me.mapPage.createChild("group");
+        me.trafficLayer = mfdmap.TrafficLayer.new(me.mapCamera, me.trafficGroup);
+        me.trafficLayer.start();
+
         me.map = me.mapPage.createChild("map");
         me.map.set("clip", "rect(0px, 1024px, 740px, 0px)");
         me.map.set("clip-frame", canvas.Element.PARENT);
@@ -228,21 +238,21 @@ var MFD = {
         me.map.setController("Aircraft position");
         me.map.setRange(25);
         me.map.setScreenRange(416);
-        me.map.addLayer(factory: canvas.SymbolLayer, type_arg: "TFC-Ejet", visible: 1, priority: 9,
-                        style: {
-                            'color_default':
-                                [0.5,0.5,0.5],
-                            'color_by_lvl': {
-                                # 0: other
-                                0: [0,1,1],
-                                # 1: proximity
-                                1: [0,1,1],
-                                # 2: traffic advisory (TA)
-                                2: [1,0.75,0],
-                                # 3: resolution advisory (RA)
-                                3: [1,0,0],
-                            },
-                        } );
+        # me.map.addLayer(factory: canvas.SymbolLayer, type_arg: "TFC-Ejet", visible: 1, priority: 9,
+        #                 style: {
+        #                     'color_default':
+        #                         [0.5,0.5,0.5],
+        #                     'color_by_lvl': {
+        #                         # 0: other
+        #                         0: [0,1,1],
+        #                         # 1: proximity
+        #                         1: [0,1,1],
+        #                         # 2: traffic advisory (TA)
+        #                         2: [1,0.75,0],
+        #                         # 3: resolution advisory (RA)
+        #                         3: [1,0,0],
+        #                     },
+        #                 } );
         me.map.addLayer(factory: canvas.SymbolLayer, type_arg: "WPT", visible: 1, priority: 6,
                         opts: { 'route_driver': me.dualRouteDriver },);
         me.map.addLayer(factory: canvas.SymbolLayer, type_arg: "RTE", visible: 1, priority: 5,
@@ -577,7 +587,8 @@ var MFD = {
             var viz = node.getBoolValue();
             self.elems['checkTCAS'].setVisible(viz);
             self.elems['tcas.master'].setVisible(viz);
-            self.map.layers['TFC-Ejet'].setVisible(viz);
+            self.trafficGroup.setVisible(viz);
+            # self.map.layers['TFC-Ejet'].setVisible(viz);
         }, 1, 0);
         setlistener(me.props['tcas-mode'], func (node) {
             var mode = node.getValue();
@@ -774,6 +785,7 @@ var MFD = {
 
     setRange: func(range) {
         var aptVisible = me.props['show-airports'].getBoolValue();
+        me.mapCamera.setRange(range);
         me.map.setRange(range);
         me.plan.setRange(range);
         me.map.layers["TAXI"].setVisible(range < 9.5);
@@ -1231,7 +1243,12 @@ var MFD = {
                 me.elems['dest.fuel'].setText('-----');
             }
         }
-        me.map.layers['TFC-Ejet'].update();
+        # me.map.layers['TFC-Ejet'].update();
+        me.mapCamera.repositon(geo.aircraft_position(), heading);
+        if (me.trafficGroup.getVisible()) {
+            me.trafficLayer.update();
+            me.trafficLayer.redraw();
+        }
 
         var alt = me.props['altitude'].getValue();
         var salt = me.props['altitude-selected'].getValue();
@@ -1300,8 +1317,8 @@ var MFD = {
 };
 
 var path = resolvepath('Aircraft/E-jet-family/Models/Primus-Epic/MFD');
-canvas.MapStructure.loadFile(path ~ '/TFC-Ejet.lcontroller', 'TFC-Ejet');
-canvas.MapStructure.loadFile(path ~ '/TFC-Ejet.symbol', 'TFC-Ejet');
+# canvas.MapStructure.loadFile(path ~ '/TFC-Ejet.lcontroller', 'TFC-Ejet');
+# canvas.MapStructure.loadFile(path ~ '/TFC-Ejet.symbol', 'TFC-Ejet');
 
 setlistener("sim/signals/fdm-initialized", func {
     for (var i = 0; i <= 1; i += 1) {

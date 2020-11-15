@@ -1429,6 +1429,11 @@
             <file>Aircraft/E-jet-family/Models/Instruments/MCDU/mcdu-main.nas</file>
         </mcdu>
 
+        <mfdmap>
+            <file>Aircraft/E-jet-family/Nasal/mfdmap/projection.nas</file>
+            <file>Aircraft/E-jet-family/Nasal/mfdmap/traffic.nas</file>
+        </mfdmap>
+
         <simbrief>
             <file>Aircraft/E-jet-family/Nasal/simbrief.nas</file>
         </simbrief>
