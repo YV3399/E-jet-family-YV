@@ -1,10 +1,6 @@
 # E-Jet-Family-YV
-Embraer Family 
 
-# Important
-Change name from E-jet-family-YV to E-jet-family
-
-# A very advanced simulation of the Embraer Family for FlightGear.
+## An advanced simulation of the Embraer Family for FlightGear.
 
 This aircraft was modified and updated in a joint effort by the following people @2020:
 
@@ -12,6 +8,34 @@ This aircraft was modified and updated in a joint effort by the following people
 - D-ECHO
 - Tobias Dammers (tdammers / nl256)
  
+# Installation
+
+## From a Release Bundle (recommended)
+
+- Get the latest release from
+  https://github.com/YV3399/E-jet-family-YV/release/latest
+- Unzip in your Aircraft directory
+
+## Github source bundle
+
+- Get a source bundle from
+  https://github.com/YV3399/E-jet-family-YV/archive/master.zip (or go to
+  https://github.com/YV3399/E-jet-family-YV and click the green "Code" button)
+- Unzip in your Aircraft directory
+- **REMOVE THE `-YV-master` PART FROM THE DIRECTORY NAME**. The aircraft won't
+  work properly if you don't do this.
+
+## Using `git` (recommended for aircraft developers)
+
+- `git clone https://github.com/YV3399/E-jet-family-YV
+  $FGROOT/Aircraft/E-jet-family-YV` (replace `$FGROOT` with whatever is
+  suitable - if you don't know what it should be, then you probably shouldn't
+  be using this method). If you have a github account, you can also clone from
+  `git@github.com/YV3399/E-jet-family-YV`, or fork on github and clone from
+  your fork instead.
+
+# About
+
 Present pack includes the following Embraer Family variants:
 
 - Emraer 170
@@ -19,16 +43,17 @@ Present pack includes the following Embraer Family variants:
 - Embraer 190
 - Embraer 195
 - Embraer Lineage 1000
-- Embraer 175-E2
+- *Embraer 175-E2*
 
 **A note on the -E2**
 
-The Embraer E-Jet E2 series is a complete overhaul of the original E-Jet. The
-version included in this pack is nowhere near the real thing; it is included
-because it was there when I (tdammers) started working on it, but most of the
-improvements made to the other models have not been ported to the E2. In its
-current state, it should be considered "broken". Doing the E2 right would be a
-gargantuan task, and I feel that doing it wrong isn't worth doing at all.
+The real-world Embraer E-Jet E2 series is a complete overhaul of the original
+first-gen E-Jet. The version included in this pack is nowhere near the real
+thing; it is included because it was there when I (tdammers) started working on
+it, but most of the improvements made to the other models have not been ported
+to the E2. In its current state, it should be considered "broken". Doing the E2
+right would be a gargantuan task, and I feel that doing it wrong isn't worth
+doing at all.
 
 Hence, the E2 is provided "as-is"; it probably doesn't work at all, and if it
 does, then it is almost guaranteed to be incorrect in all sorts of ways. If
