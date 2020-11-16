@@ -1117,6 +1117,8 @@ var MFD = {
             me.elems['vnav.range.right.digital'].hide();
             me.elems['vnav.range.center'].show();
             me.elems['vnav.range.center.digital'].show();
+            var viz = me.props['show-tcas'].getBoolValue();
+            me.trafficGroup.setVisible(viz);
         }
         else if (page == 1) {
             # Plan
@@ -1133,6 +1135,7 @@ var MFD = {
             me.elems['vnav.range.right.digital'].show();
             me.elems['vnav.range.center'].hide();
             me.elems['vnav.range.center.digital'].hide();
+            me.trafficGroup.setVisible(0);
         }
         else {
             # Systems
@@ -1149,6 +1152,7 @@ var MFD = {
             me.elems['vnav.range.right.digital'].hide();
             me.elems['vnav.range.center'].show();
             me.elems['vnav.range.center.digital'].show();
+            me.trafficGroup.setVisible(0);
         }
     },
 

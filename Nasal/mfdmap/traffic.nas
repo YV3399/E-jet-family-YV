@@ -1,10 +1,69 @@
 # Traffic layer
+#
+
+var colorByLevel = {
+     # 0: other
+     0: [0,1,1],
+     # 1: proximity
+     1: [0,1,1],
+     # 2: traffic advisory (TA)
+     2: [1,0.75,0],
+     # 3: resolution advisory (RA)
+     3: [1,0,0],
+};
+
+var colorDefault = [0.5, 0.5, 0.5];
+
+var drawBlip = func(elem, threatLvl) {
+    if (threatLvl == 3) {
+        # resolution advisory
+        elem.reset()
+            .moveTo(-17,-17)
+            .horiz(34)
+            .vert(34)
+            .horiz(-34)
+            .close();
+    }
+    elsif (threatLvl == 2) {
+        # traffic advisory
+        elem.reset()
+            .moveTo(-17,0)
+            .arcSmallCW(17,17,0,34,0)
+            .arcSmallCW(17,17,0,-34,0);
+    }
+    elsif (threatLvl == 1) {
+        # proximate traffic
+        elem.reset()
+            .moveTo(-17,0)
+            .lineTo(0,-17)
+            .lineTo(17,0)
+            .lineTo(0,17)
+            .close();
+    }
+    else {
+        # other traffic
+        elem.reset()
+            .moveTo(-17,0)
+            .lineTo(0,-17)
+            .lineTo(17,0)
+            .lineTo(0,17)
+            .lineTo(-17,0)
+            .moveTo(-14,0)
+            .lineTo(0,-14)
+            .lineTo(14,0)
+            .lineTo(0,14)
+            .lineTo(-14,0)
+            .close();
+    }
+};
+
 
 var TrafficLayer = {
     new: func(camera, group) {
         var m = {
             parents: [TrafficLayer],
             camera: camera,
+            refAlt: 0,
             group: group,
             items: {},
             updateKeys: [],
@@ -28,7 +87,7 @@ var TrafficLayer = {
             .setFontSize(20)
             .setAlignment("center-center");
         elems['master'].hide();
-        elems['arrow_up'] = elems.master.createChild("text")
+        elems['arrowUp'] = elems.master.createChild("text")
             .setDrawMode(canvas.Text.TEXT)
             .setText(sprintf("↑"))
             .setFont("LiberationFonts/LiberationSans-Regular.ttf")
@@ -36,7 +95,7 @@ var TrafficLayer = {
             .setFontSize(40)
             .setTranslation(16, 0)
             .setAlignment("left-center");
-        elems['arrow_down'] = elems.master.createChild("text")
+        elems['arrowDown'] = elems.master.createChild("text")
             .setDrawMode(canvas.Text.TEXT)
             .setText(sprintf("↓"))
             .setFont("LiberationFonts/LiberationSans-Regular.ttf")
@@ -53,7 +112,7 @@ var TrafficLayer = {
         me.addListener = setlistener('/ai/models/model-added', func(changed, listen, mode, is_child) {
             var path = changed.getValue();
             if (path == nil) return;
-            debug.dump("ADD", path);
+            printf("ADD: %s", path);
             var masterProp = props.globals.getNode(path);
             var prop = {
                 'master': masterProp,
@@ -62,18 +121,18 @@ var TrafficLayer = {
                 me.items[path] = {
                     prop: prop,
                     elems: me.makeElems(),
-                    data: {},
+                    data: {'threatLevel': -2},
                 };
             }
             else {
                 me.items[path].prop = prop;
-                me.items[path].data = {};
+                me.items[path].data = {'threatLevel': -2};
             }
         }, 1, 1);
         me.delListener = setlistener('/ai/models/model-removed', func(changed, listen, mode, is_child) {
             var path = changed.getValue();
             if (path == nil) return;
-            debug.dump("DEL", path);
+            printf("DEL: %s", path);
             if (me.items[path] == nil) return;
             if (me.items[path] != nil) {
                 me.items[path].prop = nil;
@@ -114,6 +173,10 @@ var TrafficLayer = {
         }
     },
 
+    setRefAlt: func(alt) {
+        me.refAlt = alt;
+    },
+
     updateItem: func(path) {
         var item = me.items[path];
         if (item == nil) return;
@@ -130,42 +193,81 @@ var TrafficLayer = {
         if (item.prop['lon'] == nil) {
             item.prop['lon'] = item.prop.master.getNode('position/longitude-deg');
         }
+        if (item.prop['alt'] == nil) {
+            item.prop['alt'] = item.prop.master.getNode('position/altitude-ft');
+        }
+        if (item.prop['threatLevel'] == nil) {
+            item.prop['threatLevel'] = item.prop.master.getNode('tcas/threat-level');
+        }
+        if (item.prop['callsign'] == nil) {
+            item.prop['callsign'] = item.prop.master.getNode('callsign');
+        }
+        if (item.prop['vspeed'] == nil) {
+            item.prop['vspeed'] = item.prop.master.getNode('velocities/vertical-speed-fps');
+        }
 
         # this item has a prop associated with it
         if (item.elems == nil) {
             item.elems = me.makeElems();
         }
-        item.data['lat'] = item.prop.lat.getValue();
-        item.data['lon'] = item.prop.lon.getValue();
+        var oldThreatLevel = item.data['threatLevel'];
+        foreach (var k; ['lat', 'lon', 'alt', 'threatLevel', 'callsign', 'vspeed']) {
+            if (item.prop[k] != nil) {
+                item.data[k] = item.prop[k].getValue();
+            }
+        }
+        if (oldThreatLevel != item.data['threatLevel']) {
+            item.data['threatLevelDirty'] = 1;
+        }
     },
 
     redrawItem: func (item) {
-        item.elems.blip.reset()
-                .moveTo(-17,0)
-				.lineTo(0,-17)
-				.lineTo(17,0)
-				.lineTo(0,17)
-				.lineTo(-17,0)
-                .moveTo(-14,0)
-                .lineTo(0,-14)
-                .lineTo(14,0)
-                .lineTo(0,14)
-                .lineTo(-14,0)
-                .close();
-        var color = canvas._getColor([1, 0.5, 0]);
-        item.elems.blip.setColorFill(color);
-        item.elems.text.setColor(color);
-        item.elems.arrow_up.setColor(color);
-        item.elems.arrow_down.setColor(color);
-
+        # debug.dump("REDRAW ", item.data);
         var lat = item.data['lat'];
         var lon = item.data['lon'];
-        if (lat != nil and lon != nil) {
+        var alt = item.data['alt'];
+        var vspeed = item.data['vspeed'];
+        var threatLevelDirty = item.data['threatLevelDirty'];
+        if (lat != nil and lon != nil and vspeed != nil) {
             var coords = geo.Coord.new();
             coords.set_latlon(lat, lon);
             var (x, y) = me.camera.project(coords);
             item.elems.master.setTranslation(x, y);
             # printf("%s %f %f", path, x, y);
+            if (threatLevelDirty) {
+                # printf('%s THREAT LVL: %i', item.data['callsign'] or '???', item.data['threatLevel']);
+                var threatLevel = item.data['threatLevel'];
+                # debug.dump(item.data, threatLevel);
+                drawBlip(item.elems.blip, threatLevel);
+                var rgb = colorByLevel[threatLevel];
+                if (rgb == nil) rgb = colorDefault;
+                var color = canvas._getColor(rgb);
+                var (r, g, b) = rgb;
+                item.elems.blip.setColorFill(r, g, b);
+                item.elems.text.setColor(r, g, b);
+                item.elems.arrowUp.setColor(r, g, b);
+                item.elems.arrowDown.setColor(r, g, b);
+                item.elems.master.set('z-index', threatLevel + 2);
+                item.data['threatLevelDirty'] = 0;
+            }
+
+            item.elems.arrowUp.setVisible(vspeed * 60 > 500);
+            item.elems.arrowDown.setVisible(vspeed * 60 < -500);
+
+            var altDiff100 = ((item.data['alt'] or me.refAlt) - me.refAlt) / 100;
+            item.elems.text.setVisible(math.abs(altDiff100) > 0.5);
+            item.elems.text.setText(sprintf("%+02.0f", altDiff100));
+            if (altDiff100 < 0) {
+                item.elems.text.setTranslation(0, 30);
+                item.elems.arrowUp.setTranslation(16, 30);
+                item.elems.arrowDown.setTranslation(16, 30);
+            }
+            else {
+                item.elems.text.setTranslation(0, -30);
+                item.elems.arrowUp.setTranslation(16, -30);
+                item.elems.arrowDown.setTranslation(16, -30);
+            }
+
             item.elems.master.show();
         }
         else {
