@@ -1247,14 +1247,15 @@ var MFD = {
                 me.elems['dest.fuel'].setText('-----');
             }
         }
-        # me.map.layers['TFC-Ejet'].update();
+
+        var alt = me.props['altitude'].getValue();
         me.mapCamera.repositon(geo.aircraft_position(), heading);
+        me.trafficLayer.setRefAlt(alt);
         if (me.trafficGroup.getVisible()) {
             me.trafficLayer.update();
             me.trafficLayer.redraw();
         }
 
-        var alt = me.props['altitude'].getValue();
         var salt = me.props['altitude-selected'].getValue();
         var range = me.props['range'].getValue();
         var latZoom = 720.0 / range;
