@@ -49,11 +49,6 @@
         <previews>
             <preview>
                 <type>exterior</type>
-                <path>Splash/E190/420.jpg</path>
-                <splash type="bool">true</splash>
-            </preview>
-            <preview>
-                <type>exterior</type>
                 <path>Splash/E190/332.jpg</path>
                 <splash type="bool">true</splash>
             </preview>

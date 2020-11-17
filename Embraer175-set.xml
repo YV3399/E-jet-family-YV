@@ -60,6 +60,11 @@
                 <path>Splash/E175/258.jpg</path>
                 <splash type="bool">true</splash>
             </preview>
+            <preview>
+                <type>exterior</type>
+                <path>Splash/E175/732.jpg</path>
+                <splash type="bool">true</splash>
+            </preview>
         </previews>
     </sim>
 
