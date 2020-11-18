@@ -227,9 +227,18 @@ var MFD = {
             screenCX: 512,
             screenCY: 540,
         });
+        me.planCamera = mfdmap.Camera.new({
+            range: 25,
+            screenRange: 416,
+            screenCX: 512,
+            screenCY: 320,
+        });
         me.trafficGroup = me.mapPage.createChild("group");
         me.trafficLayer = mfdmap.TrafficLayer.new(me.mapCamera, me.trafficGroup);
         me.trafficLayer.start();
+
+        me.routeGroup = me.mapPage.createChild("group");
+        me.routeLayer = mfdmap.RouteLayer.new(me.mapCamera, me.routeGroup);
 
         me.map = me.mapPage.createChild("map");
         me.map.set("clip", "rect(0px, 1024px, 740px, 0px)");
@@ -253,10 +262,10 @@ var MFD = {
         #                         3: [1,0,0],
         #                     },
         #                 } );
-        me.map.addLayer(factory: canvas.SymbolLayer, type_arg: "WPT", visible: 1, priority: 6,
-                        opts: { 'route_driver': me.dualRouteDriver },);
-        me.map.addLayer(factory: canvas.SymbolLayer, type_arg: "RTE", visible: 1, priority: 5,
-                        opts: { 'route_driver': me.dualRouteDriver }, style: { 'line_dash_modified': func (arg=nil) { return [32,16]; } },);
+        # me.map.addLayer(factory: canvas.SymbolLayer, type_arg: "WPT", visible: 1, priority: 6,
+        #                 opts: { 'route_driver': me.dualRouteDriver },);
+        # me.map.addLayer(factory: canvas.SymbolLayer, type_arg: "RTE", visible: 1, priority: 5,
+        #                 opts: { 'route_driver': me.dualRouteDriver }, style: { 'line_dash_modified': func (arg=nil) { return [32,16]; } },);
         me.map.addLayer(factory: canvas.SymbolLayer, type_arg: "APT", visible: 1, priority: 4,);
         me.map.addLayer(factory: canvas.SymbolLayer, type_arg: "VOR", visible: 1, priority: 4,);
         me.map.addLayer(factory: canvas.SymbolLayer, type_arg: "NDB", visible: 1, priority: 4,);
@@ -273,10 +282,10 @@ var MFD = {
         me.plan.controller.setPosition(lat, lon);
         me.plan.setRange(25);
         me.plan.setScreenRange(416);
-        me.plan.addLayer(factory: canvas.SymbolLayer, type_arg: "WPT", visible: 1, priority: 6,
-                        opts: { 'route_driver': me.plannedRouteDriver },);
-        me.plan.addLayer(factory: canvas.SymbolLayer, type_arg: "RTE", visible: 1, priority: 5,
-                        opts: { 'route_driver': me.plannedRouteDriver }, style: { 'line_dash_modified': func (arg=nil) { return [32,16]; } },);
+        # me.plan.addLayer(factory: canvas.SymbolLayer, type_arg: "WPT", visible: 1, priority: 6,
+        #                 opts: { 'route_driver': me.plannedRouteDriver },);
+        # me.plan.addLayer(factory: canvas.SymbolLayer, type_arg: "RTE", visible: 1, priority: 5,
+        #                 opts: { 'route_driver': me.plannedRouteDriver }, style: { 'line_dash_modified': func (arg=nil) { return [32,16]; } },);
         me.plan.addLayer(factory: canvas.SymbolLayer, type_arg: "APT", visible: 1, priority: 4,);
         # TODO: figure out how to position the airplane symbol at the correct
         # position.
@@ -539,9 +548,16 @@ var MFD = {
         setlistener(me.props['wp-id'], func (node) {
             self.updateNavSrc();
         }, 0, 0);
+        setlistener("/autopilot/route-manager/current-wp", func (node) {
+            self.routeLayer.setCurrentWaypoint(node.getValue());
+        }, 1, 0);
+        setlistener("/autopilot/route-manager/signals", func {
+            self.updateRouteFlightplan();
+        }, 1, 1);
         setlistener("/autopilot/route-manager/active", func {
             self.updatePlanWPT();
             self.updateVnavFlightplan();
+            self.updateRouteFlightplan();
         }, 1, 0);
         setlistener( "/autopilot/route-manager/cruise/altitude-ft", func {
             self.updateVnavFlightplan();
@@ -571,7 +587,7 @@ var MFD = {
         setlistener(me.props['show-wpt'], func (node) {
             var viz = node.getBoolValue();
             self.elems['checkWptIdent'].setVisible(viz);
-            self.map.layers['WPT'].setVisible(viz);
+            # self.map.layers['WPT'].setVisible(viz);
         }, 1, 0);
         setlistener(me.props['show-progress'], func (node) {
             var viz = node.getBoolValue();
@@ -786,6 +802,7 @@ var MFD = {
     setRange: func(range) {
         var aptVisible = me.props['show-airports'].getBoolValue();
         me.mapCamera.setRange(range);
+        me.planCamera.setRange(range);
         me.map.setRange(range);
         me.plan.setRange(range);
         me.map.layers["TAXI"].setVisible(range < 9.5);
@@ -815,6 +832,11 @@ var MFD = {
         else {
             me.elems['vnav.range.center.digital'].setText(halfRangeTxt);
         }
+    },
+
+    updateRouteFlightplan: func() {
+        var fp = fms.getVisibleFlightplan();
+        me.routeLayer.setFlightplan('active', 'active', fp);
     },
 
     updateVnavFlightplan: func() {
@@ -1005,6 +1027,9 @@ var MFD = {
             lon = wp.lon;
         }
         me.plan.controller.setPosition(lat, lon);
+        var camCoords = geo.Coord.new();
+        camCoords.set_latlon(lat, lon);
+        me.planCamera.reposition(camCoords, 0);
     },
 
     movePlanWpt: func (direction) {
@@ -1119,6 +1144,8 @@ var MFD = {
             me.elems['vnav.range.center.digital'].show();
             var viz = me.props['show-tcas'].getBoolValue();
             me.trafficGroup.setVisible(viz);
+            me.routeGroup.show();
+            me.routeLayer.setCamera(me.mapCamera);
         }
         else if (page == 1) {
             # Plan
@@ -1136,6 +1163,8 @@ var MFD = {
             me.elems['vnav.range.center'].hide();
             me.elems['vnav.range.center.digital'].hide();
             me.trafficGroup.setVisible(0);
+            me.routeGroup.show();
+            me.routeLayer.setCamera(me.planCamera);
         }
         else {
             # Systems
@@ -1153,6 +1182,7 @@ var MFD = {
             me.elems['vnav.range.center'].show();
             me.elems['vnav.range.center.digital'].show();
             me.trafficGroup.setVisible(0);
+            me.routeGroup.hide();
         }
     },
 
@@ -1249,13 +1279,6 @@ var MFD = {
         }
 
         var alt = me.props['altitude'].getValue();
-        me.mapCamera.repositon(geo.aircraft_position(), heading);
-        me.trafficLayer.setRefAlt(alt);
-        if (me.trafficGroup.getVisible()) {
-            me.trafficLayer.update();
-            me.trafficLayer.redraw();
-        }
-
         var salt = me.props['altitude-selected'].getValue();
         var range = me.props['range'].getValue();
         var latZoom = 720.0 / range;
@@ -1269,6 +1292,17 @@ var MFD = {
         if (gspd > 40) {
             talt = alt + vs * 60 / gspd * range;
         }
+
+        me.mapCamera.reposition(geo.aircraft_position(), heading);
+        me.trafficLayer.setRefAlt(alt);
+        if (me.trafficGroup.getVisible()) {
+            me.trafficLayer.update();
+            me.trafficLayer.redraw();
+        }
+        if (me.routeGroup.getVisible()) {
+            me.routeLayer.redraw();
+        }
+
 
         if (gspd > 40) {
             me.elems['vnav-flightpath']

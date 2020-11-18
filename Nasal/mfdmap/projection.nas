@@ -19,7 +19,7 @@ var Camera = {
         me.range = range;
     },
 
-    repositon: func(geo, hdg) {
+    reposition: func(geo, hdg) {
         me.camGeo = geo;
         me.camHdg = hdg;
     },
@@ -28,6 +28,12 @@ var Camera = {
         var dist = me.camGeo.distance_to(targetGeo) * M2NM;
         var bearing = me.camGeo.course_to(targetGeo) - me.camHdg;
         return me.projectDistBearing(dist, bearing);
+    },
+
+    projectLatLon: func(latlon) {
+        var coords = geo.Coord.new();
+        coords.set_latlon(latlon.lat, latlon.lon);
+        return me.project(coords);
     },
 
     projectDistBearing: func(dist, bearing) {
