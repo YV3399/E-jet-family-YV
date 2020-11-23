@@ -40,8 +40,18 @@ var RouteLayer = {
 
         for (var i = 0; i < fpSize; i += 1) {
             var wp = fp.getWP(i);
-            var coords = geo.Coord.new();
-            coords.set_latlon(wp.lat, wp.lon);
+            var path = wp.path();
+
+            var latlng = { 'lat': wp.lat, 'lon': wp.lon };
+            if (wp.lat == 0 and wp.lon == 0) {
+                if (path != nil and size(path) > 0) {
+                    latlng = path[0];
+                }
+                else {
+                    latlng = nil;
+                }
+            }
+
             var wpElem = entry.elem.createChild("group");
             var wpIcon = wpElem.createChild("path")
                         .setStrokeLineWidth(2)
@@ -67,7 +77,7 @@ var RouteLayer = {
                         .setColor(1, 0.5, 0);
             append(entry.waypoints, {
                 'name': wp.wp_name,
-                'coords': coords,
+                'coords': latlng,
                 'flyType': wp.fly_type,
                 'missed': missed,
                 'path': wp.path(),
@@ -104,12 +114,15 @@ var RouteLayer = {
 
     redrawFlightplan: func(fp) {
         var color = [1, 1, 0];
-        var xPrev = nil;
-        var yPrev = nil;
         forindex (var i; fp.waypoints) {
             var wp = fp.waypoints[i];
-            var (x, y) = me.camera.project(wp.coords);
-            wp.elems['master'].setTranslation(x, y);
+            if (wp.coords == nil) {
+                wp.elems['master'].hide();
+            }
+            else {
+                var (x, y) = me.camera.projectLatLon(wp.coords);
+                wp.elems['master'].show().setTranslation(x, y);
+            }
             if (i == me.currentWPI) {
                 color = [1, 0, 1];
             }
@@ -119,27 +132,20 @@ var RouteLayer = {
             else {
                 color = [1, 1, 1];
             }
-            wp.elems['path'].reset();
-            if (xPrev != nil and yPrev != nil) {
-                wp.elems['path']
-                    .moveTo(xPrev, yPrev)
-                    .lineTo(x, y);
+            if (wp.path != nil and size(wp.path) > 1) {
+                wp.elems['path'].reset();
+                var first = 1;
+                foreach (var latlon; wp.path) {
+                    var (x, y) = me.camera.projectLatLon(latlon);
+                    if (first) {
+                        wp.elems['path'].moveTo(x, y);
+                        first = 0;
+                    }
+                    else {
+                        wp.elems['path'].lineTo(x, y);
+                    }
+                }
             }
-            if (x != nil and y != nil) {
-                xPrev = x;
-                yPrev = y;
-            }
-            # var first = 1;
-            # foreach (var latlon; wp.path) {
-            #     var (x, y) = me.camera.projectLatLon(latlon);
-            #     if (first) {
-            #         wp.elems['path'].moveTo(x, y);
-            #         first = 0;
-            #     }
-            #     else {
-            #         wp.elems['path'].lineTo(x, y);
-            #     }
-            # }
             wp.elems['icon'].setColor(color[0], color[1], color[2]);
             wp.elems['label'].setColor(color[0], color[1], color[2]);
             wp.elems['path'].setColor(color[0], color[1], color[2]);

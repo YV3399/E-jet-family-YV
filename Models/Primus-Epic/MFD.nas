@@ -1010,22 +1010,42 @@ var MFD = {
         me.props['range'].setValue(range);
     },
 
+    waypointNominalLatLon: func(fp, i) {
+        if (fp == nil) {
+            # No flightplan
+            return nil;
+        }
+        else {
+            wp = fp.getWP(i);
+            # handle things like hdgToAlt: these don't have proper coords of
+            # their own, but they may still have an associated path; and if
+            # not, we'll use the previous waypoint as a best guess.
+            if (wp != nil and wp.lat == 0 and wp.lon == 0) {
+                var path = wp.path();
+                if (path != nil and size(path) > 0) {
+                    lat = path[0].lat;
+                    lon = path[0].lon;
+                    return [lat, lon];
+                }
+                else {
+                    while (i > 0 and wp != nil and wp.lat == 0 and wp.lon == 0) {
+                        i -= 1;
+                        wp = fp.getWP(i);
+                    }
+                }
+            }
+        }
+        if (wp == nil) { return nil; }
+        return [wp.lat, wp.lon];
+    },
+
     updatePlanWPT: func () {
         var fp = fms.getVisibleFlightplan();
         var wp = nil;
-        var (lat,lon) = geo.aircraft_position().latlon();
+        var latlon = me.waypointNominalLatLon(fp, me.planIndex);
+        if (latlon == nil) { latlon = geo.aircraft_position().latlon(); }
+        var (lat, lon) = latlon;
 
-        if (fp == nil) {
-            # No flightplan
-            wp = nil;
-        }
-        else {
-            wp = fp.getWP(me.planIndex)
-        }
-        if (wp != nil) {
-            lat = wp.lat;
-            lon = wp.lon;
-        }
         me.plan.controller.setPosition(lat, lon);
         var camCoords = geo.Coord.new();
         camCoords.set_latlon(lat, lon);

@@ -25,7 +25,7 @@ var Camera = {
     },
 
     project: func(targetGeo) {
-        var dist = me.camGeo.distance_to(targetGeo) * M2NM;
+        var dist = me.camGeo.direct_distance_to(targetGeo) * M2NM;
         var bearing = me.camGeo.course_to(targetGeo) - me.camHdg;
         return me.projectDistBearing(dist, bearing);
     },
