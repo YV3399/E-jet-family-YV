@@ -25,7 +25,7 @@ var updateTakeoffRunway = func () {
     var fp = flightplan();
     debug.dump(fp.departure_runway);
     if (fp.departure_runway != nil) {
-        print("Set runway heading: %03.0f", fp.departure_runway.heading);
+        printf("Set runway heading: %03.0f", fp.departure_runway.heading);
         setprop("/fms/takeoff-conditions/runway-heading", fp.departure_runway.heading);
         setprop("/fms/takeoff-conditions/runway-elevation", getprop("/autopilot/route-manager/departure/field-elevation-ft"));
         if (getprop("/environment/metar/valid")) {

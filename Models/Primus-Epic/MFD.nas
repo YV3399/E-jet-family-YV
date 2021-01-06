@@ -553,12 +553,13 @@ var MFD = {
         }, 1, 0);
         setlistener("/autopilot/route-manager/signals", func {
             self.updateRouteFlightplan();
-        }, 1, 1);
+        }, 0, 1);
         setlistener("/autopilot/route-manager/active", func {
+            print("MFD: Flightplan activated or closed");
             self.updatePlanWPT();
             self.updateVnavFlightplan();
             self.updateRouteFlightplan();
-        }, 1, 0);
+        });
         setlistener( "/autopilot/route-manager/cruise/altitude-ft", func {
             self.updateVnavFlightplan();
         }, 1, 0);
@@ -835,8 +836,10 @@ var MFD = {
     },
 
     updateRouteFlightplan: func() {
-        var fp = fms.getVisibleFlightplan();
-        me.routeLayer.setFlightplan('active', 'active', fp);
+        var active = flightplan();
+        var modified = fms.modifiedFlightplan;
+        me.routeLayer.setFlightplan('active', 'active', active);
+        me.routeLayer.setFlightplan('modified', 'modified', modified);
     },
 
     updateVnavFlightplan: func() {
@@ -1395,7 +1398,7 @@ setlistener("sim/signals/fdm-initialized", func {
                 i);
     }
 
-    var timer = maketimer(0.1, func() {
+    var timer = maketimer(0.2, func() {
         mfd[0].update();
         mfd[1].update();
     });

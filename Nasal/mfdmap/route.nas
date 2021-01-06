@@ -25,6 +25,8 @@ var RouteLayer = {
     # - 'modified'
     # - 'alternate'
     setFlightplan: func (key, type, fp) {
+        printf("Set flightplan %s (%s)", key, type);
+        debug.dump(fp);
         var entry = me.flightplans[key];
         if (entry == nil) entry = {
             elem: me.group.createChild("group"),
@@ -33,6 +35,8 @@ var RouteLayer = {
         entry['waypoints'] = [];
 
         me.delFlightplan(key);
+
+        if (fp == nil) return;
 
         var fpSize = fp.getPlanSize();
         var missed = 0;
@@ -75,6 +79,9 @@ var RouteLayer = {
             var wpPath = entry.elem.createChild("path")
                         .setStrokeLineWidth(2)
                         .setColor(1, 0.5, 0);
+            if (type != 'active') {
+                wpPath.setStrokeDashArray([10,10]);
+            }
             append(entry.waypoints, {
                 'name': wp.wp_name,
                 'coords': latlng,
