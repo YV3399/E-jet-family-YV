@@ -39,6 +39,18 @@
                 <jetway-hood-deg>8</jetway-hood-deg>
             </door>
 
+            <door-positions>
+                <l1><closed type="bool">true</closed></l1>
+                <l2><closed type="bool">true</closed></l2>
+                <r1><closed type="bool">true</closed></r1>
+                <r2><closed type="bool">true</closed></r2>
+                <cargo1><closed type="bool">true</closed></cargo1>
+                <cargo2><closed type="bool">true</closed></cargo2>
+                <fuel-panel><closed type="bool">true</closed></fuel-panel>
+                <avionics-front><closed type="bool">true</closed></avionics-front>
+                <avionics-mid><closed type="bool">true</closed></avionics-mid>
+            </door-positions>
+
             <rendering>
                 <reflection-enabled type="int">1</reflection-enabled>
                 <reflection-type type="int">2</reflection-type>
@@ -139,6 +151,9 @@
             </property-rule>
             <property-rule n="103">
                 <path>Aircraft/E-jet-family/Systems/wxr-rules.xml</path>
+            </property-rule>
+            <property-rule n="104">
+                <path>Aircraft/E-jet-family/Systems/doors.xml</path>
             </property-rule>
             <autopilot>
                 <path>Aircraft/E-jet-family/Systems/vspeeds.xml</path>
@@ -1335,6 +1350,9 @@
     </input>
 
     <nasal>
+        <polyfill>
+            <file>Aircraft/E-jet-family/Nasal/polyfill.nas</file>
+        </polyfill>
         <fastercanvas>
             <file>Aircraft/E-jet-family/Nasal/fastercanvas.nas</file>
         </fastercanvas>

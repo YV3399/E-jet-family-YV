@@ -8,6 +8,7 @@
         <name>Zero-fuel weight</name>
         <type>gain</type>
         <gain>1</gain>
+        <update-interval-secs type="double">1.0</update-interval-secs>
         <input>
             <expression>
                 <difference>
@@ -22,11 +23,34 @@
     <filter>
         <name>Zero-fuel weight (kg)</name>
         <type>gain</type>
+        <update-interval-secs type="double">1.0</update-interval-secs>
         <gain>0.4535924</gain>
         <input>
             <property>/fms/fuel/zfw-lbs</property>
         </input>
         <output>/fms/fuel/zfw-kg</output>
+    </filter>
+
+    <filter>
+        <name>Gross weight</name>
+        <type>gain</type>
+        <update-interval-secs type="double">1.0</update-interval-secs>
+        <gain>1</gain>
+        <input>
+            <property>/fdm/jsbsim/inertia/weight-lbs</property>
+        </input>
+        <output>/fms/fuel/gw-lbs</output>
+    </filter>
+
+    <filter>
+        <name>Gross weight (kg)</name>
+        <type>gain</type>
+        <update-interval-secs type="double">1.0</update-interval-secs>
+        <gain>0.4535924</gain>
+        <input>
+            <property>/fms/fuel/gw-lbs</property>
+        </input>
+        <output>/fms/fuel/gw-kg</output>
     </filter>
 
 </PropertyList>

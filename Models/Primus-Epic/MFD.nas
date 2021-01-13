@@ -9,6 +9,10 @@ var DC = 0.01744;
 var sin30 = math.sin(30 * D2R);
 var cos30 = math.cos(30 * D2R);
 
+var toggleBoolProp = func(node) {
+    if (node != nil) { node.toggleBoolValue(); }
+};
+
 var radarColor = func (value) {
     # 0.00 black
     # 0.25 green   (0, 1, 0)
@@ -23,7 +27,7 @@ var radarColor = func (value) {
     if (value > 0.25) return [ (value - 0.25) * 4, 1, 0, 1 ];
     if (value > 0.00) return [ 0, value * 4, 0, 1 ];
     return [ 0, 0, 0, 1 ];
-}
+};
 
 var RouteDriver = {
     new: func(includeCurrent=1){
@@ -142,6 +146,8 @@ var MFD = {
                 'dest-ete': props.globals.getNode("/autopilot/route-manager/ete"),
                 'dest-id': props.globals.getNode("/autopilot/route-manager/destination/airport"),
                 'zulutime': props.globals.getNode("/instrumentation/clock/indicated-sec"),
+                'zulu-hour': props.globals.getNode("/sim/time/utc/hour"),
+                'zulu-minute': props.globals.getNode("/sim/time/utc/minute"),
                 'cursor': props.globals.getNode("/instrumentation/mfd[" ~ index ~ "]/cursor"),
                 'cursor.x': props.globals.getNode("/instrumentation/mfd[" ~ index ~ "]/cursor/x"),
                 'cursor.y': props.globals.getNode("/instrumentation/mfd[" ~ index ~ "]/cursor/y"),
@@ -164,6 +170,8 @@ var MFD = {
                 'wx-fsby-ovrd': props.globals.getNode("/instrumentation/wxr/fstby-ovrd"),
                 'green-arc-dist': props.globals.getNode("/fms/dist-to-alt-target-nm"),
                 'route-progress': props.globals.getNode("/fms/vnav/route-progress"),
+                'flight-id': props.globals.getNode("/sim/multiplay/callsign"), # TODO: separate property for this
+                'gross-weight': props.globals.getNode("/fms/fuel/gw-kg"),
             };
 
         var masterProp = props.globals.getNode("/instrumentation/mfd[" ~ index ~ "]");
@@ -197,9 +205,14 @@ var MFD = {
         me.vnav = me.lowerArea.createChild("group");
         canvas.parsesvg(me.vnav, "Aircraft/E-jet-family/Models/Primus-Epic/MFD-vnav.svg", {'font-mapper': font_mapper});
 
-        me.mapPage = me.upperArea.createChild("group");
+        me.pageContainer = me.upperArea.createChild("group");
 
-        me.underlay = me.mapPage.createChild("group");
+        me.systemsContainer = me.pageContainer.createChild("group");
+        me.systemsPages = {};
+        me.systemsPages.status = me.systemsContainer.createChild("group");
+        canvas.parsesvg(me.systemsPages.status, "Aircraft/E-jet-family/Models/Primus-Epic/MFD-systems-status.svg", {'font-mapper': font_mapper});
+
+        me.underlay = me.pageContainer.createChild("group");
         me.terrainViz = me.underlay.createChild("image");
         me.terrainViz.set("src", resolvepath("Aircraft/E-jet-family/Models/Primus-Epic/MFD/terrain" ~ index ~ ".png"));
         me.terrainViz.setCenter(128, 128);
@@ -227,11 +240,11 @@ var MFD = {
             screenCX: 512,
             screenCY: 540,
         });
-        me.trafficGroup = me.mapPage.createChild("group");
+        me.trafficGroup = me.pageContainer.createChild("group");
         me.trafficLayer = mfdmap.TrafficLayer.new(me.mapCamera, me.trafficGroup);
         me.trafficLayer.start();
 
-        me.map = me.mapPage.createChild("map");
+        me.map = me.pageContainer.createChild("map");
         me.map.set("clip", "rect(0px, 1024px, 740px, 0px)");
         me.map.set("clip-frame", canvas.Element.PARENT);
         me.map.setTranslation(512, 540);
@@ -264,7 +277,7 @@ var MFD = {
         me.map.addLayer(factory: canvas.SymbolLayer, type_arg: "TAXI", visible: 0, priority: 3,);
         me.map.hide();
 
-        me.plan = me.mapPage.createChild("map");
+        me.plan = me.pageContainer.createChild("map");
         me.plan.set("clip", "rect(0px, 1024px, 640px, 0px)");
         me.plan.set("clip-frame", canvas.Element.PARENT);
         me.plan.setTranslation(512, 320);
@@ -283,7 +296,7 @@ var MFD = {
         # me.plan.addLayer(factory: canvas.SymbolLayer, type_arg: "APS", visible: 1, priority: 3,);
         me.planIndex = 0;
 
-        me.mapOverlay = me.mapPage.createChild("group");
+        me.mapOverlay = me.pageContainer.createChild("group");
         canvas.parsesvg(me.mapOverlay, "Aircraft/E-jet-family/Models/Primus-Epic/MFD-map.svg", {'font-mapper': font_mapper});
 
         var mapkeys = [
@@ -375,6 +388,45 @@ var MFD = {
                 'vnav.range.right.digital',
                 'vnav.aircraft.symbol',
             ];
+        var systemskeys = [
+                'status.battery1.voltage.digital',
+                'status.battery2.voltage.digital',
+                'status.brake-pressure.left.digital',
+                'status.brake-pressure.left.pointer',
+                'status.brake-pressure.right.digital',
+                'status.brake-pressure.right.pointer',
+                'status.brake-temp.left-ib.digital',
+                'status.brake-temp.left-ib.pointer',
+                'status.brake-temp.left-ob.digital',
+                'status.brake-temp.left-ob.pointer',
+                'status.brake-temp.right-ib.digital',
+                'status.brake-temp.right-ib.pointer',
+                'status.brake-temp.right-ob.digital',
+                'status.brake-temp.right-ob.pointer',
+                'status.clock.hours',
+                'status.clock.minutes',
+                'status.crew-oxy-press.digital',
+                'status.doors.avionics-front',
+                'status.doors.avionics-mid',
+                'status.doors.cargo1',
+                'status.doors.cargo2',
+                'status.doors.l1',
+                'status.doors.r1',
+                'status.doors.fuel-panel',
+                'status.doors.l3',
+                'status.doors.r3',
+                'status.doors.l2',
+                'status.doors.r2',
+                'status.doors.water',
+                'status.flightid',
+                'status.grossweight.digital',
+                'status.oil-level.left.digital',
+                'status.oil-level.left.pointer',
+                'status.oil-level.right.digital',
+                'status.oil-level.right.pointer',
+                'status.sat.digital',
+                'status.tat.digital',
+        ];
         foreach (var key; mapkeys) {
             me.elems[key] = me.mapOverlay.getElementById(key);
             if (me.elems[key] == nil) {
@@ -389,6 +441,12 @@ var MFD = {
         }
         foreach (var key; vnavkeys) {
             me.elems[key] = me.vnav.getElementById(key);
+            if (me.elems[key] == nil) {
+                debug.warn("Element does not exist: " ~ key);
+            }
+        }
+        foreach (var key; systemskeys) {
+            me.elems[key] = me.systemsContainer.getElementById(key);
             if (me.elems[key] == nil) {
                 debug.warn("Element does not exist: " ~ key);
             }
@@ -613,6 +671,32 @@ var MFD = {
             var offset = -alt * 0.04;
             self.elems['vnav.selectedalt'].setTranslation(0, offset);
         }, 1, 0);
+        setlistener(me.props['flight-id'], func (node) {
+            self.elems['status.flightid'].setText(node.getValue());
+        }, 1, 0);
+        setlistener(me.props['zulu-hour'], func (node) {
+            self.elems['status.clock.hours'].setText(sprintf("%02.0f", node.getValue()));
+        }, 1, 0);
+        setlistener(me.props['zulu-minute'], func (node) {
+            self.elems['status.clock.minutes'].setText(sprintf("%02.0f", node.getValue()));
+        }, 1, 0);
+        setlistener(me.props['gross-weight'], func (node) {
+            self.elems['status.grossweight.digital'].setText(sprintf("%5.0f", node.getValue()));
+        }, 1, 0);
+
+        var doornames = ['l1', 'r1', 'l2', 'r2', 'cargo1', 'cargo2', 'fuel-panel', 'avionics-front', 'avionics-mid'];
+        foreach (var doorname; doornames) {
+            (func (doorname) {
+                setlistener('/sim/model/door-positions/' ~ doorname ~ '/closed', func(node) {
+                    if (node.getBoolValue()) {
+                        self.elems['status.doors.' ~ doorname].setColorFill(0, 1, 0);
+                    }
+                    else {
+                        self.elems['status.doors.' ~ doorname].setColorFill(1, 0, 0);
+                    }
+                }, 1, 0);
+            })(doorname);
+        }
 
         return me;
     },
@@ -1040,14 +1124,11 @@ var MFD = {
     },
 
     toggleMapCheckbox: func (which) {
-        me.props['show-' ~ which].toggleBoolValue();
+        toggleBoolProp(me.props['show-' ~ which]);
     },
 
     toggleWeatherCheckbox: func (which) {
-        var prop = me.props[which];
-        if (prop != nil) {
-            prop.toggleBoolValue();
-        }
+        toggleBoolProp(me.props[which]);
     },
 
 
@@ -1110,7 +1191,9 @@ var MFD = {
             me.map.show();
             me.elems['plan.master'].hide();
             me.underlay.show();
+            me.mapOverlay.show();
             me.plan.hide();
+            me.systemsContainer.hide();
             me.elems['vnav.range.left'].hide();
             me.elems['vnav.range.left.digital'].hide();
             me.elems['vnav.range.right'].hide();
@@ -1126,7 +1209,9 @@ var MFD = {
             me.map.hide();
             me.elems['plan.master'].show();
             me.underlay.hide();
+            me.mapOverlay.show();
             me.plan.show();
+            me.systemsContainer.hide();
             me.elems['mapMenu'].hide();
             me.elems['weatherMenu'].hide();
             me.elems['vnav.range.left'].show();
@@ -1143,7 +1228,9 @@ var MFD = {
             me.map.hide();
             me.elems['plan.master'].hide();
             me.underlay.hide();
+            me.mapOverlay.hide();
             me.plan.hide();
+            me.systemsContainer.show();
             me.elems['mapMenu'].hide();
             me.elems['weatherMenu'].hide();
             me.elems['vnav.range.left'].hide();
@@ -1188,6 +1275,8 @@ var MFD = {
         me.elems['tat.digital'].setText(sprintf("%3.0f", me.props['tat'].getValue()));
         me.elems['sat.digital'].setText(sprintf("%3.0f", me.props['sat'].getValue()));
         me.elems['tas.digital'].setText(sprintf("%3.0f", me.props['tas'].getValue()));
+        me.elems['status.tat.digital'].setText(sprintf("%3.0f", me.props['tat'].getValue()));
+        me.elems['status.sat.digital'].setText(sprintf("%3.0f", me.props['sat'].getValue()));
         if (me.showFMSTarget) {
             var dist = me.props['wp-dist'].getValue();
             me.elems['nav.target.dist'].setText(me.formatDist(dist));

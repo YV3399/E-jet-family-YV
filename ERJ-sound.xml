@@ -361,7 +361,7 @@
             <mode>once</mode>
             <path>Aircraft/E-jet-family/Sounds/wow.wav</path>
             <condition>
-                <property>gears/gear[0]/wow</property>
+                <property>gear/gear[0]/wow</property>
             </condition>
             <volume>
                 <property>sim/current-view/internal</property>
@@ -373,7 +373,7 @@
             <mode>once</mode>
             <path>Aircraft/E-jet-family/Sounds/wow.wav</path>
             <condition>
-                <property>gears/gear[1]/wow</property>
+                <property>gear/gear[1]/wow</property>
             </condition>
             <volume>
                 <property>sim/current-view/internal</property>
@@ -385,7 +385,7 @@
             <mode>once</mode>
             <path>Aircraft/E-jet-family/Sounds/wow.wav</path>
             <condition>
-                <property>gears/gear[2]/wow</property>
+                <property>gear/gear[2]/wow</property>
             </condition>
             <volume>
                 <property>sim/current-view/internal</property>
