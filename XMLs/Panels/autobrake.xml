@@ -66,6 +66,12 @@
         <name>LitElems</name>
         <object-name>base</object-name>
         <object-name>lever</object-name>
+        <object-name>Circle.001</object-name>
+        <object-name>Circle.003</object-name>
+    </animation>
+
+    <animation>
+        <name>BacklitElements</name>
     </animation>
 
     <animation>
@@ -80,4 +86,47 @@
             <blue>0.14</blue>
         </emission>
     </animation>
+
+    <animation>
+        <type>material</type>
+        <object-name>BacklitElements</object-name>
+
+        <condition>
+            <and>
+                <less-than>
+                    <property>/systems/electrical/left-bus</property>
+                    <value>12.0</value>
+                </less-than>
+                <not>
+                    <property>controls/lighting/dome</property>
+                </not>
+            </and>
+        </condition>
+        <emission>
+            <red>0</red>
+            <green>0</green>
+            <blue>0</blue>
+        </emission>
+    </animation>
+
+    <animation>
+        <type>material</type>
+        <object-name>BacklitElements</object-name>
+
+        <condition>
+            <and>
+                <less-than>
+                    <property>/systems/electrical/left-bus</property>
+                    <value>12.0</value>
+                </less-than>
+                <property>controls/lighting/dome</property>
+            </and>
+        </condition>
+        <emission>
+            <red>0.35</red>
+            <green>0.3</green>
+            <blue>0.14</blue>
+        </emission>
+    </animation>
+
 </PropertyList>
