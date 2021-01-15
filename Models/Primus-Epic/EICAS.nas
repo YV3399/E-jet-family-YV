@@ -100,6 +100,60 @@ var canvas_ED_only = {
 
 		me.page = canvas_group;
 
+        var self = me;
+        var msgColors = [
+            [0, 1, 1], # MAINTENANCE: BLUE
+            [1, 1, 1], # STATUS: WHITE
+            [0, 1, 1], # ADVISORY: CYAN
+            [1, 1, 0], # CAUTION: AMBER
+            [1, 0, 0], # WARNING: RED
+        ];
+        var blinkProp = props.globals.getNode("/instrumentation/eicas/blink-state");
+        var updateBlinks = func () {
+            var (r, g, b) = [0, 0, 0];
+            var i = 0;
+            var elem = nil;
+            var blink = blinkProp.getBoolValue();
+            foreach (var msg; messages.messages) {
+                (r, g, b) = msgColors[msg.level];
+                elem = self['msg.' ~ i];
+                if (elem != nil) {
+                    if (blink and (msg.blink != 0)) {
+                        elem.setColorFill(r, g, b, 1);
+                        elem.setColor(0, 0, 0);
+                        elem.setDrawMode(canvas.Text.TEXT + canvas.Text.FILLEDBOUNDINGBOX);
+                    }
+                    else {
+                        elem.setColorFill(0, 0, 0, 1);
+                        elem.setColor(r, g, b);
+                        elem.setDrawMode(canvas.Text.TEXT);
+                    }
+                }
+                i += 1;
+            }
+        };
+        setlistener(blinkProp, updateBlinks);
+        setlistener("/instrumentation/eicas/signals/messages-changed", func () {
+            updateBlinks();
+            var (r, g, b) = [0, 0, 0];
+            var i = 0;
+            var elem = nil;
+            foreach (var msg; messages.messages) {
+                elem = self['msg.' ~ i];
+                if (elem != nil) {
+                    elem.setText(msg.text);
+                }
+                i += 1;
+            }
+            while (i < 16) {
+                elem = self['msg.' ~ i];
+                if (elem != nil) {
+                    elem.setText("");
+                }
+                i += 1;
+            }
+        });
+
 		return me;
     },
 
@@ -148,10 +202,6 @@ var canvas_ED_only = {
             "N1L.target",
             "N1R.target",
             "parkbrake",
-            "space1",
-            "space2",
-            "space3",
-            "space4",
             "engL.off",
             "engR.off",
             "pitchtrim.digital",
@@ -160,7 +210,23 @@ var canvas_ED_only = {
             "ruddertrim.pointer",
             "limitL.digital",
             "limitR.digital",
-            "trsMode"
+            "trsMode",
+            "msg.0",
+            "msg.1",
+            "msg.2",
+            "msg.3",
+            "msg.4",
+            "msg.5",
+            "msg.6",
+            "msg.7",
+            "msg.8",
+            "msg.9",
+            "msg.10",
+            "msg.11",
+            "msg.12",
+            "msg.13",
+            "msg.14",
+            "msg.15",
         ];
 	},
 	update: func() {
@@ -415,11 +481,6 @@ var canvas_ED_only = {
 		me["apu.PCT"].setText(sprintf("%u", apurpm));
 		#me["apu.DEGC"].setText(sprintf("%u", aputmp));
 		
-		#EICAS Messaging system
-		me["space1"].setText(getprop("/instrumentation/EICAS/message/space1"));
-		me["space2"].setText(getprop("/instrumentation/EICAS/message/space2"));
-		me["space3"].setText(getprop("/instrumentation/EICAS/message/space3"));
-		me["space4"].setText(getprop("/instrumentation/EICAS/message/space4"));
 	},
 };
 

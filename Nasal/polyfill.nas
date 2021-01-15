@@ -5,7 +5,7 @@ if (!defined('isfunc')) {
     globals.isfunc = func(x) { return typeof(x) == 'func'; }
 }
 
-if (!props.Node['toggleBoolValue']) {
+if (props.Node['toggleBoolValue'] == nil) {
     props.Node.toggleBoolValue = func() {
         me.setBoolValue(!me.getBoolValue());
     }
