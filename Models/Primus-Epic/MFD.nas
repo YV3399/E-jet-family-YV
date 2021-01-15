@@ -9,6 +9,8 @@ var DC = 0.01744;
 var sin30 = math.sin(30 * D2R);
 var cos30 = math.cos(30 * D2R);
 
+var criticalBrakeTemp = 900.0;
+
 var toggleBoolProp = func(node) {
     if (node != nil) { node.toggleBoolValue(); }
 };
@@ -172,6 +174,10 @@ var MFD = {
                 'route-progress': props.globals.getNode("/fms/vnav/route-progress"),
                 'flight-id': props.globals.getNode("/sim/multiplay/callsign"), # TODO: separate property for this
                 'gross-weight': props.globals.getNode("/fms/fuel/gw-kg"),
+                'brake-temp-0': props.globals.getNode("/gear/gear[1]/brakes/brake[0]/temperature-c"),
+                'brake-temp-1': props.globals.getNode("/gear/gear[1]/brakes/brake[1]/temperature-c"),
+                'brake-temp-2': props.globals.getNode("/gear/gear[2]/brakes/brake[0]/temperature-c"),
+                'brake-temp-3': props.globals.getNode("/gear/gear[2]/brakes/brake[1]/temperature-c"),
             };
 
         var masterProp = props.globals.getNode("/instrumentation/mfd[" ~ index ~ "]");
@@ -696,6 +702,31 @@ var MFD = {
                     }
                 }, 1, 0);
             })(doorname);
+        }
+        var brakenames = [
+                'status.brake-temp.left-ob',
+                'status.brake-temp.left-ib',
+                'status.brake-temp.right-ib',
+                'status.brake-temp.right-ob',
+            ];
+        for (var i = 0; i < 4; i += 1) {
+            (func () {
+                var brakename = brakenames[i];
+                setlistener(me.props['brake-temp-' ~ i], func(node) {
+                    var temp = node.getValue();
+                    var offset = math.max(0, math.min(136, (136 - 42) * temp / criticalBrakeTemp));
+                    me.elems[brakename ~ '.pointer'].setTranslation(0, -offset);
+                    me.elems[brakename ~ '.digital'].setText(sprintf("%3.0f", temp));
+                    if (temp >= criticalBrakeTemp) {
+                        me.elems[brakename ~ '.pointer'].setColorFill(1, 1, 0);
+                        me.elems[brakename ~ '.digital'].setColorFill(1, 1, 0);
+                    }
+                    else {
+                        me.elems[brakename ~ '.pointer'].setColorFill(0, 1, 0);
+                        me.elems[brakename ~ '.digital'].setColorFill(0, 1, 0);
+                    }
+                }, 1, 0);
+            })();
         }
 
         return me;

@@ -155,6 +155,14 @@
             <property-rule n="104">
                 <path>Aircraft/E-jet-family/Systems/doors.xml</path>
             </property-rule>
+            <!--
+            <property-rule n="105">
+                <path>Aircraft/E-jet-family/Systems/brakes.xml</path>
+            </property-rule>
+            -->
+            <autopilot>
+                <path>Aircraft/E-jet-family/Systems/brakes.xml</path>
+            </autopilot>
             <autopilot>
                 <path>Aircraft/E-jet-family/Systems/vspeeds.xml</path>
             </autopilot>
@@ -533,6 +541,98 @@
             <max-lb type="double">400</max-lb>
         </weight>
     </payload>
+
+    <!-- Heat Capacity Estimate:
+         we assume that the brakes are capable of bringing 60,000 kg of
+         aircraft to a full stop from 200 knots, which is 317.6 megajoules,
+         or 317600000 joules. Divided over 4 brake discs, that's 79400000
+         joules per disc.
+
+         The limit seems to be about 1000°C, so we'll assume a worst-case
+         scenario of 40°C ambient temperature, which means that our brakes can
+         absorb a temperature difference of up to 960K - let's call it 950 to
+         be on the safe side.
+
+         According to Wolfram Alpha, this amounts to a heat capacity of
+         82704.1 J/K per brake disc.
+
+         At 20°C (293.2), each disc stores 24249000 J.
+    -->
+    <gear>
+        <gear/>
+        <gear>
+            <brakes>
+                <brake>
+                    <!-- in joules per Kelvin -->
+                    <heat-capacity type="double">82704.1</heat-capacity>
+                    <!-- in joules -->
+                    <heat type="double">24249000</heat>
+                    <temperature-c type="double">20</temperature-c>
+                    <temperature-delta type="double">20</temperature-delta>
+
+                    <!-- in J/s -->
+                    <brake-heat-flow type="double">0</brake-heat-flow>
+                    <cooling-heat-flow type="double">0</cooling-heat-flow>
+                    <heat-flow type="double">0</heat-flow>
+
+                    <!-- cooling rate factor -->
+                    <cooling-rate-factor type="double">-80</cooling-rate-factor>
+                </brake>
+                <brake>
+                    <!-- in joules per Kelvin -->
+                    <heat-capacity type="double">82704.1</heat-capacity>
+                    <!-- in joules -->
+                    <heat type="double">24249000</heat>
+                    <temperature-c type="double">20</temperature-c>
+                    <temperature-delta type="double">20</temperature-delta>
+
+                    <!-- in J/s -->
+                    <brake-heat-flow type="double">0</brake-heat-flow>
+                    <cooling-heat-flow type="double">0</cooling-heat-flow>
+                    <heat-flow type="double">0</heat-flow>
+
+                    <!-- cooling rate factor -->
+                    <cooling-rate-factor type="double">-80</cooling-rate-factor>
+                </brake>
+            </brakes>
+        </gear>
+        <gear>
+            <brakes>
+                <brake>
+                    <!-- in joules per Kelvin -->
+                    <heat-capacity type="double">82704.1</heat-capacity>
+                    <!-- in joules -->
+                    <heat type="double">24249000</heat>
+                    <temperature-c type="double">20</temperature-c>
+                    <temperature-delta type="double">20</temperature-delta>
+
+                    <!-- in J/s -->
+                    <brake-heat-flow type="double">0</brake-heat-flow>
+                    <cooling-heat-flow type="double">0</cooling-heat-flow>
+                    <heat-flow type="double">0</heat-flow>
+
+                    <!-- cooling rate factor -->
+                    <cooling-rate-factor type="double">-80</cooling-rate-factor>
+                </brake>
+                <brake>
+                    <!-- in joules per Kelvin -->
+                    <heat-capacity type="double">82704.1</heat-capacity>
+                    <!-- in joules -->
+                    <heat type="double">24249000</heat>
+                    <temperature-c type="double">20</temperature-c>
+                    <temperature-delta type="double">20</temperature-delta>
+
+                    <!-- in J/s -->
+                    <brake-heat-flow type="double">0</brake-heat-flow>
+                    <cooling-heat-flow type="double">0</cooling-heat-flow>
+                    <heat-flow type="double">0</heat-flow>
+
+                    <!-- cooling rate factor -->
+                    <cooling-rate-factor type="double">-80</cooling-rate-factor>
+                </brake>
+            </brakes>
+        </gear>
+    </gear>
 
     <autopilot>
         <autobrake>

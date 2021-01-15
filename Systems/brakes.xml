@@ -1,0 +1,527 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<PropertyList>
+    
+    <!-- Brake 1 -->
+    <filter>
+        <type>gain</type>
+        <gain>1</gain>
+        <name>Brake 1 Temp</name>
+        <input>
+            <expression>
+                <sum>
+                    <div>
+                        <property>/gear/gear[1]/brakes/brake[0]/heat</property>
+                        <property>/gear/gear[1]/brakes/brake[0]/heat-capacity</property>
+                    </div>
+                    <!-- Kelvin to °C -->
+                    <value>-273.2</value>
+                </sum>
+            </expression>
+        </input>
+        <output>/gear/gear[1]/brakes/brake[0]/temperature-c</output>
+    </filter>
+    <filter>
+        <type>gain</type>
+        <gain>1</gain>
+        <name>Brake 1 Temp Diff</name>
+        <input>
+            <expression>
+                <difference>
+                    <property>/gear/gear[1]/brakes/brake[0]/temperature-c</property>
+                    <property>/environment/temperature-degc</property>
+                </difference>
+            </expression>
+        </input>
+        <output>/gear/gear[1]/brakes/brake[0]/temperature-delta</output>
+    </filter>
+    <filter>
+        <type>gain</type>
+        <gain>
+            <property>/gear/gear[1]/brakes/brake[0]/cooling-rate-factor</property>
+        </gain>
+        <name>Brake 1 Cooling</name>
+        <input>
+            <property>/gear/gear[1]/brakes/brake[0]/temperature-delta</property>
+        </input>
+        <output>/gear/gear[1]/brakes/brake[0]/cooling-heat-flow</output>
+    </filter>
+
+    <filter>
+        <type>gain</type>
+        <gain>4.448</gain> <!-- lbf to N -->
+        <name>Brake 1 Force</name>
+        <input>
+            <condition>
+                <less-than>
+                    <property>/fdm/jsbsim/gear/unit[1]/wheel-speed-fps</property>
+                    <value>0.0001</value>
+                </less-than>
+            </condition>
+            <value>0</value>
+        </input>
+        <input>
+            <expression>
+                <product>
+                    <property>/fdm/jsbsim/fcs/left-brake-cmd-norm</property>
+                    <!-- spring coefficient, lbs/ft -->
+                    <value>120000</value>
+                    <property>/fdm/jsbsim/gear/unit[1]/compression-ft</property>
+                    <property>/fdm/jsbsim/gear/unit[1]/dynamic_friction_coeff</property>
+                </product>
+            </expression>
+        </input>
+        <output>/gear/gear[1]/brakes/brake[0]/brake-force</output>
+    </filter>
+    <filter>
+        <type>gain</type>
+        <gain>1</gain>
+        <name>Brake 1 Heat</name>
+        <input>
+            <expression>
+                <product>
+                    <property>/gear/gear[1]/brakes/brake[0]/brake-force</property>
+                    <sum>
+                        <product>
+                            <property>/fdm/jsbsim/gear/unit[1]/wheel-speed-fps</property>
+                            <value>0.3048</value> <!-- fps to m/s -->
+                        </product>
+                        <div>
+                            <property>/gear/gear[1]/brakes/brake[0]/brake-force</property>
+                            <product>
+                                <property>/fdm/jsbsim/inertia/weight-lbs</property>
+                                <value>0.4536</value> <!-- lb to kg -->
+                            </product>
+                        </div>
+                    </sum>
+                </product>
+            </expression>
+        </input>
+        <output>/gear/gear[1]/brakes/brake[0]/brake-heat-flow</output>
+    </filter>
+    <filter>
+        <type>gain</type>
+        <gain>1</gain>
+        <name>Brake 1 Heat Flow</name>
+        <input>
+            <expression>
+                <sum>
+                    <property>/gear/gear[1]/brakes/brake[0]/brake-heat-flow</property>
+                    <property>/gear/gear[1]/brakes/brake[0]/cooling-heat-flow</property>
+                </sum>
+            </expression>
+        </input>
+        <output>/gear/gear[1]/brakes/brake[0]/heat-flow</output>
+    </filter>
+    
+    <filter>
+        <type>gain</type>
+        <gain>1</gain>
+        <update-interval-secs>0.1</update-interval-secs>
+        <debug type="bool">false</debug>
+        <input>
+            <expression>
+                <sum>
+                    <product>
+                        <property>/gear/gear[1]/brakes/brake[0]/heat-flow</property>
+                        <value>0.1</value>
+                    </product>
+                    <property>/gear/gear[1]/brakes/brake[0]/heat</property>
+                </sum>
+            </expression>
+        </input>
+        <output>/gear/gear[1]/brakes/brake[0]/heat</output>
+    </filter>
+    
+    <!-- Brake 2 -->
+    <filter>
+        <type>gain</type>
+        <gain>1</gain>
+        <name>Brake 2 Temp</name>
+        <input>
+            <expression>
+                <sum>
+                    <div>
+                        <property>/gear/gear[1]/brakes/brake[1]/heat</property>
+                        <property>/gear/gear[1]/brakes/brake[1]/heat-capacity</property>
+                    </div>
+                    <!-- Kelvin to °C -->
+                    <value>-273.2</value>
+                </sum>
+            </expression>
+        </input>
+        <output>/gear/gear[1]/brakes/brake[1]/temperature-c</output>
+    </filter>
+    <filter>
+        <type>gain</type>
+        <gain>1</gain>
+        <name>Brake 2 Temp Diff</name>
+        <input>
+            <expression>
+                <difference>
+                    <property>/gear/gear[1]/brakes/brake[1]/temperature-c</property>
+                    <property>/environment/temperature-degc</property>
+                </difference>
+            </expression>
+        </input>
+        <output>/gear/gear[1]/brakes/brake[1]/temperature-delta</output>
+    </filter>
+    <filter>
+        <type>gain</type>
+        <gain>
+            <property>/gear/gear[1]/brakes/brake[1]/cooling-rate-factor</property>
+        </gain>
+        <name>Brake 2 Cooling</name>
+        <input>
+            <property>/gear/gear[1]/brakes/brake[1]/temperature-delta</property>
+        </input>
+        <output>/gear/gear[1]/brakes/brake[1]/cooling-heat-flow</output>
+    </filter>
+    <filter>
+        <type>gain</type>
+        <gain>4.448</gain> <!-- lbf to N -->
+        <name>Brake 2 Force</name>
+        <input>
+            <condition>
+                <less-than>
+                    <property>/fdm/jsbsim/gear/unit[1]/wheel-speed-fps</property>
+                    <value>0.0001</value>
+                </less-than>
+            </condition>
+            <value>0</value>
+        </input>
+        <input>
+            <expression>
+                <product>
+                    <property>/fdm/jsbsim/fcs/left-brake-cmd-norm</property>
+                    <!-- spring coefficient, lbs/ft -->
+                    <value>120000</value>
+                    <property>/fdm/jsbsim/gear/unit[1]/compression-ft</property>
+                    <property>/fdm/jsbsim/gear/unit[1]/dynamic_friction_coeff</property>
+                </product>
+            </expression>
+        </input>
+        <output>/gear/gear[1]/brakes/brake[1]/brake-force</output>
+    </filter>
+    <filter>
+        <type>gain</type>
+        <gain>1</gain>
+        <name>Brake 2 Heat</name>
+        <input>
+            <expression>
+                <product>
+                    <property>/gear/gear[1]/brakes/brake[1]/brake-force</property>
+                    <sum>
+                        <product>
+                            <property>/fdm/jsbsim/gear/unit[1]/wheel-speed-fps</property>
+                            <value>0.3048</value> <!-- fps to m/s -->
+                        </product>
+                        <div>
+                            <property>/gear/gear[1]/brakes/brake[1]/brake-force</property>
+                            <product>
+                                <property>/fdm/jsbsim/inertia/weight-lbs</property>
+                                <value>0.4536</value> <!-- lb to kg -->
+                            </product>
+                        </div>
+                    </sum>
+                </product>
+            </expression>
+        </input>
+        <output>/gear/gear[1]/brakes/brake[1]/brake-heat-flow</output>
+    </filter>
+    <filter>
+        <type>gain</type>
+        <gain>1</gain>
+        <name>Brake 2 Heat Flow</name>
+        <input>
+            <expression>
+                <sum>
+                    <property>/gear/gear[1]/brakes/brake[1]/brake-heat-flow</property>
+                    <property>/gear/gear[1]/brakes/brake[1]/cooling-heat-flow</property>
+                </sum>
+            </expression>
+        </input>
+        <output>/gear/gear[1]/brakes/brake[1]/heat-flow</output>
+    </filter>
+    
+    <filter>
+        <type>gain</type>
+        <gain>1</gain>
+        <update-interval-secs>0.1</update-interval-secs>
+        <debug type="bool">false</debug>
+        <input>
+            <expression>
+                <sum>
+                    <product>
+                        <property>/gear/gear[1]/brakes/brake[1]/heat-flow</property>
+                        <value>0.1</value>
+                    </product>
+                    <property>/gear/gear[1]/brakes/brake[1]/heat</property>
+                </sum>
+            </expression>
+        </input>
+        <output>/gear/gear[1]/brakes/brake[1]/heat</output>
+    </filter>
+    
+    
+    <!-- Brake 3 -->
+    <filter>
+        <type>gain</type>
+        <gain>1</gain>
+        <name>Brake 3 Temp</name>
+        <input>
+            <expression>
+                <sum>
+                    <div>
+                        <property>/gear/gear[2]/brakes/brake[0]/heat</property>
+                        <property>/gear/gear[2]/brakes/brake[0]/heat-capacity</property>
+                    </div>
+                    <!-- Kelvin to °C -->
+                    <value>-273.2</value>
+                </sum>
+            </expression>
+        </input>
+        <output>/gear/gear[2]/brakes/brake[0]/temperature-c</output>
+    </filter>
+    <filter>
+        <type>gain</type>
+        <gain>1</gain>
+        <name>Brake 3 Temp Diff</name>
+        <input>
+            <expression>
+                <difference>
+                    <property>/gear/gear[2]/brakes/brake[0]/temperature-c</property>
+                    <property>/environment/temperature-degc</property>
+                </difference>
+            </expression>
+        </input>
+        <output>/gear/gear[2]/brakes/brake[0]/temperature-delta</output>
+    </filter>
+    <filter>
+        <type>gain</type>
+        <gain>
+            <property>/gear/gear[2]/brakes/brake[0]/cooling-rate-factor</property>
+        </gain>
+        <name>Brake 3 Cooling</name>
+        <input>
+            <property>/gear/gear[2]/brakes/brake[0]/temperature-delta</property>
+        </input>
+        <output>/gear/gear[2]/brakes/brake[0]/cooling-heat-flow</output>
+    </filter>
+    <filter>
+        <type>gain</type>
+        <gain>4.448</gain> <!-- lbf to N -->
+        <name>Brake 3 Force</name>
+        <input>
+            <condition>
+                <less-than>
+                    <property>/fdm/jsbsim/gear/unit[1]/wheel-speed-fps</property>
+                    <value>0.0001</value>
+                </less-than>
+            </condition>
+            <value>0</value>
+        </input>
+        <input>
+            <expression>
+                <product>
+                    <property>/fdm/jsbsim/fcs/right-brake-cmd-norm</property>
+                    <!-- spring coefficient, lbs/ft -->
+                    <value>120000</value>
+                    <property>/fdm/jsbsim/gear/unit[1]/compression-ft</property>
+                    <property>/fdm/jsbsim/gear/unit[1]/dynamic_friction_coeff</property>
+                </product>
+            </expression>
+        </input>
+        <output>/gear/gear[2]/brakes/brake[0]/brake-force</output>
+    </filter>
+    <filter>
+        <type>gain</type>
+        <gain>1</gain>
+        <name>Brake 3 Heat</name>
+        <input>
+            <expression>
+                <product>
+                    <property>/gear/gear[2]/brakes/brake[0]/brake-force</property>
+                    <sum>
+                        <product>
+                            <property>/fdm/jsbsim/gear/unit[1]/wheel-speed-fps</property>
+                            <value>0.3048</value> <!-- fps to m/s -->
+                        </product>
+                        <div>
+                            <property>/gear/gear[2]/brakes/brake[0]/brake-force</property>
+                            <product>
+                                <property>/fdm/jsbsim/inertia/weight-lbs</property>
+                                <value>0.4536</value> <!-- lb to kg -->
+                            </product>
+                        </div>
+                    </sum>
+                </product>
+            </expression>
+        </input>
+        <output>/gear/gear[2]/brakes/brake[0]/brake-heat-flow</output>
+    </filter>
+    <filter>
+        <type>gain</type>
+        <gain>1</gain>
+        <name>Brake 3 Heat Flow</name>
+        <input>
+            <expression>
+                <sum>
+                    <property>/gear/gear[2]/brakes/brake[0]/brake-heat-flow</property>
+                    <property>/gear/gear[2]/brakes/brake[0]/cooling-heat-flow</property>
+                </sum>
+            </expression>
+        </input>
+        <output>/gear/gear[2]/brakes/brake[0]/heat-flow</output>
+    </filter>
+    
+    <filter>
+        <type>gain</type>
+        <gain>1</gain>
+        <update-interval-secs>0.1</update-interval-secs>
+        <debug type="bool">false</debug>
+        <input>
+            <expression>
+                <sum>
+                    <product>
+                        <property>/gear/gear[2]/brakes/brake[0]/heat-flow</property>
+                        <value>0.1</value>
+                    </product>
+                    <property>/gear/gear[2]/brakes/brake[0]/heat</property>
+                </sum>
+            </expression>
+        </input>
+        <output>/gear/gear[2]/brakes/brake[0]/heat</output>
+    </filter>
+    
+    <!-- Brake 4 -->
+    <filter>
+        <type>gain</type>
+        <gain>1</gain>
+        <name>Brake 4 Temp</name>
+        <input>
+            <expression>
+                <sum>
+                    <div>
+                        <property>/gear/gear[2]/brakes/brake[1]/heat</property>
+                        <property>/gear/gear[2]/brakes/brake[1]/heat-capacity</property>
+                    </div>
+                    <!-- Kelvin to °C -->
+                    <value>-273.2</value>
+                </sum>
+            </expression>
+        </input>
+        <output>/gear/gear[2]/brakes/brake[1]/temperature-c</output>
+    </filter>
+    <filter>
+        <type>gain</type>
+        <gain>1</gain>
+        <name>Brake 4 Temp Diff</name>
+        <input>
+            <expression>
+                <difference>
+                    <property>/gear/gear[2]/brakes/brake[1]/temperature-c</property>
+                    <property>/environment/temperature-degc</property>
+                </difference>
+            </expression>
+        </input>
+        <output>/gear/gear[2]/brakes/brake[1]/temperature-delta</output>
+    </filter>
+    <filter>
+        <type>gain</type>
+        <gain>
+            <property>/gear/gear[2]/brakes/brake[1]/cooling-rate-factor</property>
+        </gain>
+        <name>Brake 4 Cooling</name>
+        <input>
+            <property>/gear/gear[2]/brakes/brake[1]/temperature-delta</property>
+        </input>
+        <output>/gear/gear[2]/brakes/brake[1]/cooling-heat-flow</output>
+    </filter>
+    <filter>
+        <type>gain</type>
+        <gain>4.448</gain> <!-- lbf to N -->
+        <name>Brake 4 Force</name>
+        <input>
+            <condition>
+                <less-than>
+                    <property>/fdm/jsbsim/gear/unit[1]/wheel-speed-fps</property>
+                    <value>0.0001</value>
+                </less-than>
+            </condition>
+            <value>0</value>
+        </input>
+        <input>
+            <expression>
+                <product>
+                    <property>/fdm/jsbsim/fcs/right-brake-cmd-norm</property>
+                    <!-- spring coefficient, lbs/ft -->
+                    <value>120000</value>
+                    <property>/fdm/jsbsim/gear/unit[1]/compression-ft</property>
+                    <property>/fdm/jsbsim/gear/unit[1]/dynamic_friction_coeff</property>
+                </product>
+            </expression>
+        </input>
+        <output>/gear/gear[2]/brakes/brake[1]/brake-force</output>
+    </filter>
+    <filter>
+        <type>gain</type>
+        <gain>1</gain>
+        <name>Brake 4 Heat</name>
+        <input>
+            <expression>
+                <product>
+                    <property>/gear/gear[2]/brakes/brake[1]/brake-force</property>
+                    <sum>
+                        <product>
+                            <property>/fdm/jsbsim/gear/unit[1]/wheel-speed-fps</property>
+                            <value>0.3048</value> <!-- fps to m/s -->
+                        </product>
+                        <div>
+                            <property>/gear/gear[2]/brakes/brake[1]/brake-force</property>
+                            <product>
+                                <property>/fdm/jsbsim/inertia/weight-lbs</property>
+                                <value>0.4536</value> <!-- lb to kg -->
+                            </product>
+                        </div>
+                    </sum>
+                </product>
+            </expression>
+        </input>
+        <output>/gear/gear[2]/brakes/brake[1]/brake-heat-flow</output>
+    </filter>
+    <filter>
+        <type>gain</type>
+        <gain>1</gain>
+        <name>Brake 4 Heat Flow</name>
+        <input>
+            <expression>
+                <sum>
+                    <property>/gear/gear[2]/brakes/brake[1]/brake-heat-flow</property>
+                    <property>/gear/gear[2]/brakes/brake[1]/cooling-heat-flow</property>
+                </sum>
+            </expression>
+        </input>
+        <output>/gear/gear[2]/brakes/brake[1]/heat-flow</output>
+    </filter>
+    
+    <filter>
+        <type>gain</type>
+        <gain>1</gain>
+        <update-interval-secs>0.1</update-interval-secs>
+        <debug type="bool">false</debug>
+        <input>
+            <expression>
+                <sum>
+                    <product>
+                        <property>/gear/gear[2]/brakes/brake[1]/heat-flow</property>
+                        <value>0.1</value>
+                    </product>
+                    <property>/gear/gear[2]/brakes/brake[1]/heat</property>
+                </sum>
+            </expression>
+        </input>
+        <output>/gear/gear[2]/brakes/brake[1]/heat</output>
+    </filter>
+    
+</PropertyList>
