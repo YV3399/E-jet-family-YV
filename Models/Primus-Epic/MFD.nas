@@ -9,7 +9,7 @@ var DC = 0.01744;
 var sin30 = math.sin(30 * D2R);
 var cos30 = math.cos(30 * D2R);
 
-var criticalBrakeTemp = 900.0;
+var noTakeoffBrakeTemp = 300.0;
 
 var toggleBoolProp = func(node) {
     if (node != nil) { node.toggleBoolValue(); }
@@ -714,15 +714,17 @@ var MFD = {
                 var brakename = brakenames[i];
                 setlistener(me.props['brake-temp-' ~ i], func(node) {
                     var temp = node.getValue();
-                    var offset = math.max(0, math.min(136, (136 - 42) * temp / criticalBrakeTemp));
+                    var offset = math.max(0, math.min(136, (136 - 42) * temp / noTakeoffBrakeTemp));
                     me.elems[brakename ~ '.pointer'].setTranslation(0, -offset);
                     me.elems[brakename ~ '.digital'].setText(sprintf("%3.0f", temp));
-                    if (temp >= criticalBrakeTemp) {
+                    if (temp >= noTakeoffBrakeTemp) {
+                        me.elems[brakename ~ '.pointer'].setColor(1, 1, 0);
                         me.elems[brakename ~ '.pointer'].setColorFill(1, 1, 0);
                         me.elems[brakename ~ '.digital'].setColorFill(1, 1, 0);
                     }
                     else {
-                        me.elems[brakename ~ '.pointer'].setColorFill(0, 1, 0);
+                        me.elems[brakename ~ '.pointer'].setColor(0, 1, 0);
+                        me.elems[brakename ~ '.pointer'].setColorFill(0, 0, 0);
                         me.elems[brakename ~ '.digital'].setColorFill(0, 1, 0);
                     }
                 }, 1, 0);

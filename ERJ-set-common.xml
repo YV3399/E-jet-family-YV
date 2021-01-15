@@ -155,14 +155,9 @@
             <property-rule n="104">
                 <path>Aircraft/E-jet-family/Systems/doors.xml</path>
             </property-rule>
-            <!--
             <property-rule n="105">
                 <path>Aircraft/E-jet-family/Systems/brakes.xml</path>
             </property-rule>
-            -->
-            <autopilot>
-                <path>Aircraft/E-jet-family/Systems/brakes.xml</path>
-            </autopilot>
             <autopilot>
                 <path>Aircraft/E-jet-family/Systems/vspeeds.xml</path>
             </autopilot>
@@ -559,6 +554,7 @@
          At 20°C (293.2), each disc stores 24249000 J.
     -->
     <gear>
+        <brake-overheat type="bool">false</brake-overheat>
         <gear/>
         <gear>
             <brakes>
@@ -1117,6 +1113,12 @@
         <IESS>
             <brightness type="float">0.5</brightness>
         </IESS>
+
+        <eicas>
+            <signals>
+                <messages-changed type="bool">false</messages-changed>
+            </signals>
+        </eicas>
 
         <mcdu>
             <display>IDENT</display>

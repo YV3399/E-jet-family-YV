@@ -100,6 +100,51 @@ var canvas_ED_only = {
 
 		me.page = canvas_group;
 
+        var self = me;
+        setlistener("/instrumentation/eicas/signals/messages-changed", func () {
+            var i = 0;
+            foreach (var k; keys(messages.messages.warning)) {
+                var elem = self['msg.' ~ i];
+                if (elem != nil) {
+                    elem.setColor(1, 0, 0);
+                    elem.setText(messages.messages.warning[k]);
+                }
+                i += 1;
+            }
+            foreach (var k; keys(messages.messages.caution)) {
+                var elem = self['msg.' ~ i];
+                if (elem != nil) {
+                    elem.setColor(1, 1, 0);
+                    elem.setText(messages.messages.caution[k]);
+                }
+                i += 1;
+            }
+            foreach (var k; keys(messages.messages.advisory)) {
+                var elem = self['msg.' ~ i];
+                if (elem != nil) {
+                    elem.setColor(0, 1, 1);
+                    elem.setText(messages.messages.advisory[k]);
+                }
+                i += 1;
+            }
+            foreach (var k; keys(messages.messages.status)) {
+                var elem = self['msg.' ~ i];
+                if (elem != nil) {
+                    elem.setColor(1, 1, 1);
+                    elem.setText(messages.messages.status[k]);
+                }
+                i += 1;
+            }
+            while (i < 16) {
+                var elem = self['msg.' ~ i];
+                if (elem != nil) {
+                    elem.setColor(1, 1, 1);
+                    elem.setText("");
+                }
+                i += 1;
+            }
+        });
+
 		return me;
     },
 
@@ -148,10 +193,6 @@ var canvas_ED_only = {
             "N1L.target",
             "N1R.target",
             "parkbrake",
-            "space1",
-            "space2",
-            "space3",
-            "space4",
             "engL.off",
             "engR.off",
             "pitchtrim.digital",
@@ -160,7 +201,23 @@ var canvas_ED_only = {
             "ruddertrim.pointer",
             "limitL.digital",
             "limitR.digital",
-            "trsMode"
+            "trsMode",
+            "msg.0",
+            "msg.1",
+            "msg.2",
+            "msg.3",
+            "msg.4",
+            "msg.5",
+            "msg.6",
+            "msg.7",
+            "msg.8",
+            "msg.9",
+            "msg.10",
+            "msg.11",
+            "msg.12",
+            "msg.13",
+            "msg.14",
+            "msg.15",
         ];
 	},
 	update: func() {
@@ -415,11 +472,6 @@ var canvas_ED_only = {
 		me["apu.PCT"].setText(sprintf("%u", apurpm));
 		#me["apu.DEGC"].setText(sprintf("%u", aputmp));
 		
-		#EICAS Messaging system
-		me["space1"].setText(getprop("/instrumentation/EICAS/message/space1"));
-		me["space2"].setText(getprop("/instrumentation/EICAS/message/space2"));
-		me["space3"].setText(getprop("/instrumentation/EICAS/message/space3"));
-		me["space4"].setText(getprop("/instrumentation/EICAS/message/space4"));
 	},
 };
 
