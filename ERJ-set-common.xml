@@ -1118,6 +1118,7 @@
             <signals>
                 <messages-changed type="bool">false</messages-changed>
             </signals>
+            <blink-state type="bool">false</blink-state>
         </eicas>
 
         <mcdu>

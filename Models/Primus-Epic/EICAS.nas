@@ -101,45 +101,54 @@ var canvas_ED_only = {
 		me.page = canvas_group;
 
         var self = me;
-        setlistener("/instrumentation/eicas/signals/messages-changed", func () {
+        var msgColors = [
+            [0, 1, 1], # MAINTENANCE: BLUE
+            [1, 1, 1], # STATUS: WHITE
+            [0, 1, 1], # ADVISORY: CYAN
+            [1, 1, 0], # CAUTION: AMBER
+            [1, 0, 0], # WARNING: RED
+        ];
+        var blinkProp = props.globals.getNode("/instrumentation/eicas/blink-state");
+        var updateBlinks = func () {
+            var (r, g, b) = [0, 0, 0];
             var i = 0;
-            foreach (var k; keys(messages.messages.warning)) {
-                var elem = self['msg.' ~ i];
+            var elem = nil;
+            var blink = blinkProp.getBoolValue();
+            foreach (var msg; messages.messages) {
+                (r, g, b) = msgColors[msg.level];
+                elem = self['msg.' ~ i];
                 if (elem != nil) {
-                    elem.setColor(1, 0, 0);
-                    elem.setText(messages.messages.warning[k]);
+                    if (blink and (msg.blink != 0)) {
+                        elem.setColorFill(r, g, b, 1);
+                        elem.setColor(0, 0, 0);
+                    }
+                    else {
+                        elem.setColorFill(0, 0, 0, 1);
+                        elem.setColor(r, g, b);
+                    }
                 }
                 i += 1;
             }
-            foreach (var k; keys(messages.messages.caution)) {
-                var elem = self['msg.' ~ i];
+        };
+        setlistener(blinkProp, updateBlinks);
+        setlistener("/instrumentation/eicas/signals/messages-changed", func () {
+            updateBlinks();
+            var (r, g, b) = [0, 0, 0];
+            var i = 0;
+            var elem = nil;
+            foreach (var msg; messages.messages) {
+                elem = self['msg.' ~ i];
                 if (elem != nil) {
-                    elem.setColor(1, 1, 0);
-                    elem.setText(messages.messages.caution[k]);
-                }
-                i += 1;
-            }
-            foreach (var k; keys(messages.messages.advisory)) {
-                var elem = self['msg.' ~ i];
-                if (elem != nil) {
-                    elem.setColor(0, 1, 1);
-                    elem.setText(messages.messages.advisory[k]);
-                }
-                i += 1;
-            }
-            foreach (var k; keys(messages.messages.status)) {
-                var elem = self['msg.' ~ i];
-                if (elem != nil) {
-                    elem.setColor(1, 1, 1);
-                    elem.setText(messages.messages.status[k]);
+                    elem.setText(msg.text);
+                    elem.setDrawMode(canvas.Text.TEXT + canvas.Text.FILLEDBOUNDINGBOX);
                 }
                 i += 1;
             }
             while (i < 16) {
-                var elem = self['msg.' ~ i];
+                elem = self['msg.' ~ i];
                 if (elem != nil) {
-                    elem.setColor(1, 1, 1);
                     elem.setText("");
+                    elem.setDrawMode(canvas.Text.TEXT);
                 }
                 i += 1;
             }
