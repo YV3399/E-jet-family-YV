@@ -6,6 +6,8 @@ var MSG_MAINTENANCE = 0;
 
 var signalProp = props.globals.getNode('/instrumentation/eicas/signals/messages-changed');
 var blinkProp = props.globals.getNode('/instrumentation/eicas/blink-state');
+var masterCautionProp = props.globals.getNode('/instrumentation/eicas/master/caution');
+var masterWarningProp = props.globals.getNode('/instrumentation/eicas/master/warning');
 
 var raiseSignal = func () { signalProp.setValue(1); }
 
@@ -23,13 +25,20 @@ var sortMessages = func () {
 
 var setMessage = func (level, text, priority) {
     var blink = 0;
-    if (priority == MSG_ADVISORY) {
+    if (level == MSG_ADVISORY) {
         blink = 11; # blink for ~5 seconds
     }
-    else if (priority > MSG_ADVISORY) {
+    else if (level > MSG_ADVISORY) {
         blink = 864000; # I can keep doing this all day long
     }
+    if (level == MSG_WARNING) {
+        masterWarningProp.setBoolValue(1);
+    }
+    if (level == MSG_CAUTION) {
+        masterCautionProp.setBoolValue(1);
+    }
     var msg = { level: level, text: text, priority: priority, blink: blink };
+    debug.dump(msg);
     append(messages, msg);
     sortMessages();
     raiseSignal();
@@ -68,6 +77,16 @@ setlistener("sim/signals/fdm-initialized", func {
     blinkTimer.start();
     setlistener(blinkProp, func {
         countdownBlinks(MSG_ADVISORY);
+    });
+    setlistener(masterWarningProp, func (node) {
+        if (!node.getBoolValue()) {
+            clearBlinks(MSG_WARNING);
+        }
+    });
+    setlistener(masterCautionProp, func (node) {
+        if (!node.getBoolValue()) {
+            clearBlinks(MSG_CAUTION);
+        }
     });
 
     #PARKING BRAKE

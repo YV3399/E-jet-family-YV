@@ -121,10 +121,12 @@ var canvas_ED_only = {
                     if (blink and (msg.blink != 0)) {
                         elem.setColorFill(r, g, b, 1);
                         elem.setColor(0, 0, 0);
+                        elem.setDrawMode(canvas.Text.TEXT + canvas.Text.FILLEDBOUNDINGBOX);
                     }
                     else {
                         elem.setColorFill(0, 0, 0, 1);
                         elem.setColor(r, g, b);
+                        elem.setDrawMode(canvas.Text.TEXT);
                     }
                 }
                 i += 1;
@@ -140,7 +142,6 @@ var canvas_ED_only = {
                 elem = self['msg.' ~ i];
                 if (elem != nil) {
                     elem.setText(msg.text);
-                    elem.setDrawMode(canvas.Text.TEXT + canvas.Text.FILLEDBOUNDINGBOX);
                 }
                 i += 1;
             }
@@ -148,7 +149,6 @@ var canvas_ED_only = {
                 elem = self['msg.' ~ i];
                 if (elem != nil) {
                     elem.setText("");
-                    elem.setDrawMode(canvas.Text.TEXT);
                 }
                 i += 1;
             }

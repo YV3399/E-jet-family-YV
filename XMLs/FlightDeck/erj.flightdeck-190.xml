@@ -432,6 +432,83 @@
         </emission>
     </animation>
 
+    <animation>
+        <type>material</type>
+        <object-name>MasterWarningBtn.left</object-name>
+        <object-name>MasterWarningBtn.right</object-name>
+
+        <condition>
+            <property>/instrumentation/eicas/master/warning</property>
+        </condition>
+        <emission>
+            <red>1</red>
+            <green>1</green>
+            <blue>1</blue>
+        </emission>
+    </animation>
+
+    <animation>
+        <type>material</type>
+        <object-name>MasterCautionBtn.left</object-name>
+        <object-name>MasterCautionBtn.right</object-name>
+
+        <condition>
+            <property>/instrumentation/eicas/master/caution</property>
+        </condition>
+        <emission>
+            <red>1</red>
+            <green>1</green>
+            <blue>1</blue>
+        </emission>
+    </animation>
+
+    <animation>
+        <type>material</type>
+        <object-name>MasterWarningBtn.left</object-name>
+        <object-name>MasterCautionBtn.left</object-name>
+        <object-name>MasterWarningBtn.right</object-name>
+        <object-name>MasterCautionBtn.right</object-name>
+
+        <condition>
+            <property>controls/lighting/dome</property>
+        </condition>
+        <emission>
+            <red>0.175</red>
+            <green>0.15</green>
+            <blue>0.07</blue>
+        </emission>
+    </animation>
+
+    <animation>
+        <type>pick</type>
+        <object-name>MasterWarningBtn.left</object-name>
+        <object-name>MasterWarningBtn.right</object-name>
+        <action>
+            <button>0</button>
+            <repeatable type="bool">false</repeatable>
+            <binding>
+                <command>property-assign</command>
+                <property>/instrumentation/eicas/master/warning</property>
+                <value type="bool">false</value>
+            </binding>
+        </action>
+    </animation>
+    <animation>
+        <type>pick</type>
+        <object-name>MasterCautionBtn.left</object-name>
+        <object-name>MasterCautionBtn.right</object-name>
+        <action>
+            <button>0</button>
+            <repeatable type="bool">false</repeatable>
+            <binding>
+                <command>property-assign</command>
+                <property>/instrumentation/eicas/master/caution</property>
+                <value type="bool">false</value>
+            </binding>
+        </action>
+    </animation>
+
+
     <!-- HUD -->
 	<model>
 		<path>hud_L.xml</path>

@@ -1119,6 +1119,10 @@
                 <messages-changed type="bool">false</messages-changed>
             </signals>
             <blink-state type="bool">false</blink-state>
+            <master>
+                <caution type="bool">false</caution>
+                <warning type="bool">false</warning>
+            </master>
         </eicas>
 
         <mcdu>
