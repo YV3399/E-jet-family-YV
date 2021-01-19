@@ -45,7 +45,6 @@ var setMessage = func (level, text, priority) {
         masterCautionProp.setBoolValue(1);
     }
     var msg = { level: level, text: text, priority: priority, blink: blink };
-    debug.dump(messages, msg);
     append(messages, msg);
     sortMessages();
     raiseSignal();
@@ -99,7 +98,6 @@ setlistener("sim/signals/fdm-initialized", func {
     var listenOnProp = func (prop, cond, level, text, priority) {
         setlistener(prop, func(node) {
             if (cond(node.getValue())) {
-                debug.dump("LEVEL: ", level);
                 setMessage(level, text, priority);
             }
             else {
