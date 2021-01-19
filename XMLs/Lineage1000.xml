@@ -19,7 +19,7 @@
     
     <model>
         <name>Flightdeck</name>
-        <path>Aircraft/E-jet-family/XMLs/FlightDeck/erj.flightdeck-190.xml</path>
+        <path>Aircraft/E-jet-family/XMLs/FlightDeck/erj.flightdeck.xml</path>
         <offsets>
             <x-m>-2</x-m>
         </offsets>
