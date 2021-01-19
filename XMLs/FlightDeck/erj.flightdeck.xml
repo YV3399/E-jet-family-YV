@@ -433,6 +433,138 @@
     </animation>
 
     <animation>
+        <type>material</type>
+        <object-name>MasterWarningBtn.left</object-name>
+        <object-name>MasterWarningBtn.right</object-name>
+
+        <condition>
+            <and>
+                <property>/instrumentation/eicas/master/warning</property>
+                <greater-than>
+                    <property>systems/electrical/outputs/efis</property>
+                    <value>15</value>
+                </greater-than>
+            </and>
+        </condition>
+        <emission>
+            <red>1</red>
+            <green>1</green>
+            <blue>1</blue>
+        </emission>
+    </animation>
+
+    <animation>
+        <type>material</type>
+        <object-name>MasterCautionBtn.left</object-name>
+        <object-name>MasterCautionBtn.right</object-name>
+
+        <condition>
+            <and>
+                <property>/instrumentation/eicas/master/caution</property>
+                <greater-than>
+                    <property>systems/electrical/outputs/efis</property>
+                    <value>15</value>
+                </greater-than>
+            </and>
+        </condition>
+        <emission>
+            <red>1</red>
+            <green>1</green>
+            <blue>1</blue>
+        </emission>
+    </animation>
+
+    <animation>
+        <type>material</type>
+        <object-name>MasterWarningBtn.left</object-name>
+        <object-name>MasterCautionBtn.left</object-name>
+        <object-name>MasterWarningBtn.right</object-name>
+        <object-name>MasterCautionBtn.right</object-name>
+
+        <condition>
+            <property>controls/lighting/dome</property>
+        </condition>
+        <emission>
+            <red>0.175</red>
+            <green>0.15</green>
+            <blue>0.07</blue>
+        </emission>
+    </animation>
+
+    <animation>
+        <type>pick</type>
+        <object-name>MasterWarningBtn.left</object-name>
+        <object-name>MasterWarningBtn.right</object-name>
+        <action>
+            <button>0</button>
+            <repeatable type="bool">false</repeatable>
+            <binding>
+                <command>property-assign</command>
+                <property>/instrumentation/eicas/master/warning</property>
+                <value type="bool">false</value>
+            </binding>
+        </action>
+    </animation>
+    <animation>
+        <type>pick</type>
+        <object-name>MasterCautionBtn.left</object-name>
+        <object-name>MasterCautionBtn.right</object-name>
+        <action>
+            <button>0</button>
+            <repeatable type="bool">false</repeatable>
+            <binding>
+                <command>property-assign</command>
+                <property>/instrumentation/eicas/master/caution</property>
+                <value type="bool">false</value>
+            </binding>
+        </action>
+    </animation>
+
+
+    <!-- HUD -->
+	<model>
+		<path>hud_L.xml</path>
+        <name>HUD_L</name>
+		<offsets>
+			<x-m>-12.3478</x-m>
+			<y-m>-0.533936</y-m>
+			<z-m>1.41536</z-m>
+		</offsets>
+	</model>
+	<model>
+		<path>hud_R.xml</path>
+        <name>HUD_R</name>
+		<offsets>
+			<x-m>-12.3478</x-m>
+			<y-m>0.533936</y-m>
+			<z-m>1.41536</z-m>
+		</offsets>
+	</model>
+
+    <animation>
+        <type>select</type>
+        <object-name>HUD_L</object-name>
+        <object-name>HUD_R</object-name>
+        <condition>
+            <or>
+                <equals>
+                    <property>/sim/aircraft</property>
+                    <value>Embraer190</value>
+                </equals>
+                <equals>
+                    <property>/sim/aircraft</property>
+                    <value>Embraer195</value>
+                </equals>
+                <equals>
+                    <property>/sim/aircraft</property>
+                    <value>EmbraerLineage1000</value>
+                </equals>
+            </or>
+        </condition>
+    </animation>
+
+
+    <animation>
         <type>translate</type>
         <object-name>pedal.left</object-name>
         <object-name>pedal.right</object-name>
