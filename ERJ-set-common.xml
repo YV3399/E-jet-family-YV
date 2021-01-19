@@ -158,6 +158,9 @@
             <property-rule n="105">
                 <path>Aircraft/E-jet-family/Systems/brakes.xml</path>
             </property-rule>
+            <property-rule n="106">
+                <path>Aircraft/E-jet-family/Systems/messages.xml</path>
+            </property-rule>
             <autopilot>
                 <path>Aircraft/E-jet-family/Systems/vspeeds.xml</path>
             </autopilot>

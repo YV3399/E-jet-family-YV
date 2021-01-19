@@ -1,0 +1,67 @@
+<PropertyList>
+    
+    <logic>
+        <input>
+            <and>
+                <less-than>
+                    <property>/instrumentation/transponder/inputs/knob-mode</property>
+                    <value>2</value>
+                </less-than>
+                <not>
+                    <property>/gear/gear[1]/wow</property>
+                </not>
+            </and>
+        </input>
+        <output>/instrumentation/eicas/messages/xpdr-stby</output>
+    </logic>
+    
+    <logic>
+        <input>
+            <less-than>
+                <property>/consumables/fuel/tank[0]/level-kg</property>
+                <value>400</value>
+            </less-than>
+        </input>
+        <output>/instrumentation/eicas/messages/fuel-low-left</output>
+    </logic>
+    <logic>
+        <input>
+            <less-than>
+                <property>/consumables/fuel/tank[2]/level-kg</property>
+                <value>400</value>
+            </less-than>
+        </input>
+        <output>/instrumentation/eicas/messages/fuel-low-right</output>
+    </logic>
+    <flipflop>
+        <type>RS</type>
+        <S>
+            <greater-than>
+                <expression>
+                    <abs>
+                        <difference>
+                            <property>/consumables/fuel/tank[0]/level-kg</property>
+                            <property>/consumables/fuel/tank[2]/level-kg</property>
+                        </difference>
+                    </abs>
+                </expression>
+                <value>360</value>
+            </greater-than>
+        </S>
+        <R>
+            <less-than>
+                <expression>
+                    <abs>
+                        <difference>
+                            <property>/consumables/fuel/tank[0]/level-kg</property>
+                            <property>/consumables/fuel/tank[2]/level-kg</property>
+                        </difference>
+                    </abs>
+                </expression>
+                <value>45</value>
+            </less-than>
+        </R>
+        <output>/instrumentation/eicas/messages/fuel-imbalance</output>
+    </flipflop>
+    
+</PropertyList>
