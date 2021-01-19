@@ -158,6 +158,9 @@
             <property-rule n="105">
                 <path>Aircraft/E-jet-family/Systems/brakes.xml</path>
             </property-rule>
+            <property-rule n="106">
+                <path>Aircraft/E-jet-family/Systems/messages.xml</path>
+            </property-rule>
             <autopilot>
                 <path>Aircraft/E-jet-family/Systems/vspeeds.xml</path>
             </autopilot>
@@ -1123,6 +1126,17 @@
                 <caution type="bool">false</caution>
                 <warning type="bool">false</warning>
             </master>
+            <messages>
+                <fuel-low-left type="bool">false</fuel-low-left>
+                <fuel-low-right type="bool">false</fuel-low-right>
+                <fuel-imbalance type="bool">false</fuel-imbalance>
+                <doors>
+                    <l1><open type="bool">false</open></l1>
+                    <l2><open type="bool">false</open></l2>
+                    <r1><open type="bool">false</open></r1>
+                    <r2><open type="bool">false</open></r2>
+                </doors>
+            </messages>
         </eicas>
 
         <mcdu>

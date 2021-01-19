@@ -13,9 +13,16 @@ var raiseSignal = func () { signalProp.setValue(1); }
 
 var messages = [];
 
+var compare = func (a, b) {
+    if (a == b) return 0;
+    if (a < b) return -1;
+    if (a > b) return 1;
+    die("OH TEH NOES");
+};
+
 var compareMessages = func (a, b) {
-    if (a.level != b.level) return cmp(b.level, a.level);
-    if (a.priority != b.priority) return cmp(b.priority, a.priority);
+    if (a.level != b.level) return compare(b.level, a.level);
+    if (a.priority != b.priority) return compare(b.priority, a.priority);
     return cmp(a.text, b.text);
 };
 
@@ -38,7 +45,7 @@ var setMessage = func (level, text, priority) {
         masterCautionProp.setBoolValue(1);
     }
     var msg = { level: level, text: text, priority: priority, blink: blink };
-    debug.dump(msg);
+    debug.dump(messages, msg);
     append(messages, msg);
     sortMessages();
     raiseSignal();
@@ -89,43 +96,31 @@ setlistener("sim/signals/fdm-initialized", func {
         }
     });
 
-    #PARKING BRAKE
-    setlistener("/controls/gear/brake-parking", func (node) {
-        if (node.getBoolValue()) {
-            setMessage(MSG_CAUTION, 'PRK BRK NOT RELEASED', 0);
-        }
-        else {
-            clearMessage(MSG_CAUTION, 'PRK BRK NOT RELEASED', 0);
-        }
-    }, 1, 0);
+    var listenOnProp = func (prop, cond, level, text, priority) {
+        setlistener(prop, func(node) {
+            if (cond(node.getValue())) {
+                debug.dump("LEVEL: ", level);
+                setMessage(level, text, priority);
+            }
+            else {
+                clearMessage(level, text, priority);
+            }
+        }, 1, 0);
+    };
 
-    #ENG 1 FAIL (Shutdown)
-    setlistener("/engines/engine[0]/running", func (node) {
-        if (!node.getBoolValue()) {
-            setMessage(MSG_CAUTION, 'ENG 1 FAIL', 0);
-        }
-        else {
-            clearMessage(MSG_CAUTION, 'ENG 1 FAIL', 0);
-        }
-    }, 1, 0);
+    var yes = func (val) { return !!val; }
+    var no = func (val) { return !val; }
 
-    #ENG 2 FAIL (Shutdown)
-    setlistener("/engines/engine[1]/running", func (node) {
-        if (!node.getBoolValue()) {
-            setMessage(MSG_CAUTION, 'ENG 2 FAIL', 0);
-        }
-        else {
-            clearMessage(MSG_CAUTION, 'ENG 2 FAIL', 0);
-        }
-    }, 1, 0);
-
-    #BRAKE OVERHEAT
-    setlistener("/gear/brake-overheat", func (node) {
-        if (node.getBoolValue()) {
-            setMessage(MSG_CAUTION, 'BRK OVERHEAT', 0);
-        }
-        else {
-            clearMessage(MSG_CAUTION, 'BRK OVERHEAT', 0);
-        }
-    }, 1, 0);
+    listenOnProp("/controls/gear/brake-parking", yes, MSG_CAUTION, 'PRK BRK NOT REL', 0);
+    listenOnProp("/engines/engine[0]/running", no, MSG_CAUTION, 'ENG 1 FAIL', 0);
+    listenOnProp("/engines/engine[1]/running", no, MSG_CAUTION, 'ENG 2 FAIL', 0);
+    listenOnProp("/gear/brake-overheat", yes, MSG_CAUTION, 'BRK OVERHEAT', 0);
+    listenOnProp("/instrumentation/eicas/messages/xpdr-stby", yes, MSG_CAUTION, 'XPDR 1 IN STBY', 0);
+    listenOnProp("/instrumentation/eicas/messages/fuel-imbalance", yes, MSG_CAUTION, 'FUEL IMBALANCE', 0);
+    listenOnProp("/instrumentation/eicas/messages/fuel-low-left", yes, MSG_WARNING, 'FUEL 1 LO LEVEL', 10);
+    listenOnProp("/instrumentation/eicas/messages/fuel-low-right", yes, MSG_WARNING, 'FUEL 2 LO LEVEL', 10);
+    listenOnProp("/instrumentation/eicas/messages/doors/l1/open", yes, MSG_WARNING, 'DOOR PAX FWD OPEN', 0);
+    listenOnProp("/instrumentation/eicas/messages/doors/l2/open", yes, MSG_WARNING, 'DOOR PAX AFT OPEN', 0);
+    listenOnProp("/instrumentation/eicas/messages/doors/r1/open", yes, MSG_WARNING, 'DOOR SERV FWD OPEN', 0);
+    listenOnProp("/instrumentation/eicas/messages/doors/r2/open", yes, MSG_WARNING, 'DOOR SERV AFT OPEN', 0);
 });
