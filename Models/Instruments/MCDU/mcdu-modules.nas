@@ -2119,6 +2119,97 @@ var ComRadioDetailsModule = {
     },
 };
 
+var ProgressModule = {
+    new: func (mcdu, parentModule) {
+        var m = BaseModule.new(mcdu, parentModule);
+        m.parents = prepended(ProgressModule, m.parents);
+        return m;
+    },
+
+    getTitle: func () { return "PROGRESS"; },
+    getNumPages: func () { return 3; },
+
+    loadPageItems: func (n) {
+        if (n == 0) {
+            me.views = [
+                StaticView.new( 1,  1, "TO", mcdu_white),
+                StaticView.new( 7,  1, "DIST", mcdu_white),
+                StaticView.new(13,  1, "ETE", mcdu_white),
+                StaticView.new(19,  1, "FUEL", mcdu_white),
+                StaticView.new( 1,  3, "NEXT", mcdu_white),
+                StaticView.new( 1,  5, "DEST", mcdu_white),
+                StaticView.new( 1,  9, "GPS RNP=", mcdu_white),
+                StaticView.new( 9, 9, "1.00", mcdu_green),
+                StaticView.new(14, 9, "EPU=N/A", mcdu_white),
+                StringView.new(0, 10, mcdu_large |  mcdu_green, "NAV1ID", 5),
+                FreqView.new(6, 10, mcdu_large |  mcdu_green, "NAV1A"),
+                StringView.new(12, 10, mcdu_large |  mcdu_green, "NAV2ID", 5),
+                FreqView.new(18, 10, mcdu_large |  mcdu_green, "NAV2A"),
+
+                StaticView.new(        0, 12, left_triangle ~ "NAV1 <--SELECT--> NAV2" ~ right_triangle, mcdu_large | mcdu_white),
+            ];
+            me.controllers = {
+                "L6": SubmodeController.new("PROG-NAV1"),
+                "R6": SubmodeController.new("PROG-NAV2"),
+            };
+        }
+    },
+};
+
+var ProgressNavModule = {
+    new: func (mcdu, navNum, parentModule) {
+        var m = BaseModule.new(mcdu, parentModule);
+        m.parents = prepended(ProgressNavModule, m.parents);
+        m.navNum = navNum;
+        return m;
+    },
+
+    getTitle: func () { return "NAV " ~ me.navNum; },
+    getNumPages: func () { return 1; },
+
+    loadPageItems: func (n) {
+        if (n == 0) {
+            me.views = [
+                StaticView.new(        0, 12, left_triangle ~ "PROGRESS", mcdu_large | mcdu_white),
+            ];
+            me.controllers = {
+                "L6": SubmodeController.new("ret"),
+            };
+            var x = 0;
+            var y = 2;
+            var ki = 1;
+            var k = "";
+            var navaids = findNavaidsWithinRange(250, 'VOR');
+            var navs = [];
+            var prop = "NAV" ~ me.navNum ~ "A";
+            foreach (var nav; navaids) {
+                if (nav.type == 'VOR') {
+                    var str = sprintf("%-4s %5.1f", nav.id, nav.frequency / 100.0);
+                    if (x) {
+                        k = 'R' ~ ki;
+                        append(me.views,
+                            StaticView.new(13, y, str ~ right_triangle, mcdu_large | mcdu_white));
+                    }
+                    else {
+                        k = 'L' ~ ki;
+                        append(me.views,
+                            StaticView.new(0, y, left_triangle ~ str, mcdu_large | mcdu_white));
+                    }
+                    me.controllers[k] = SelectController.new(prop, nav.frequency / 100.0);
+                    x += 1;
+                    if (x > 1) {
+                        x = 0;
+                        y += 2;
+                        ki += 1;
+                    }
+                    if (ki > 5) break;
+                }
+            }
+        }
+    },
+};
+
+
 var TestModule = {
     new: func (mcdu, parentModule) {
         var m = BaseModule.new(mcdu, parentModule);

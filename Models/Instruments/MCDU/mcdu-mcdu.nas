@@ -136,6 +136,11 @@ var MCDU = {
         "POSINIT": func (mcdu, parent) { return PosInitModule.new(mcdu, parent); },
         "PATTERN-FLYOVER": func (mcdu, parent) { return FlightPlanModule.new(mcdu, parent, "FLYOVER"); },
         "PATTERN-HOLD": func (mcdu, parent) { return FlightPlanModule.new(mcdu, parent, "HOLD"); },
+
+        # Progress
+        "PROG": func (mcdu, parent) { return ProgressModule.new(mcdu, parent); },
+        "PROG-NAV1": func (mcdu, parent) { return ProgressNavModule.new(mcdu, 1, parent); },
+        "PROG-NAV2": func (mcdu, parent) { return ProgressNavModule.new(mcdu, 2, parent); },
     },
 
     # Activate a module, pushing the current one onto the module stack.

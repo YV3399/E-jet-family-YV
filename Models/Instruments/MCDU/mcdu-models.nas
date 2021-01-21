@@ -20,7 +20,7 @@ var BaseModel = {
     },
 
     get: func () { return nil; },
-    put: func (val) { },
+    set: func (val) { },
     reset: func () { },
     getKey: func () { return nil; },
     subscribe: func (f) { return nil; },
