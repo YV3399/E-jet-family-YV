@@ -194,7 +194,6 @@ var SelectController = {
     new: func (model, value) {
         var m = BaseController.new();
         m.parents = prepended(SelectController, m.parents);
-        printf("SelectController(%s, %s)", model, value);
         if (typeof(model) == "scalar") {
             m.model = modelFactory(model);
         }
@@ -206,7 +205,6 @@ var SelectController = {
     },
 
     select: func (owner, boxed) {
-        printf("Set value: %s", me.value);
         me.model.set(me.value);
         owner.ret();
     },

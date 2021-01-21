@@ -173,7 +173,7 @@ var makeAirportModel = func(owner, key) {
         func () {
             var lens = fpLenses[key];
             var ap = lens.get(owner.fp);
-            if (ap == nil) return "----";
+            if (ap == nil) return "▯▯▯▯";
             return ap.id;
         },
         func (icao) {
