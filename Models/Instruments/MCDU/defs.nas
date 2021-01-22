@@ -253,6 +253,20 @@ var keyProps = {
     "ARRIVAL-RUNWAY": "/autopilot/route-manager/destination/runway",
     "ARRIVAL-STAR": "/autopilot/route-manager/destination/star",
     "ARRIVAL-APPROACH": "/autopilot/route-manager/destination/approach",
+
+    # Performance
+    "FUEL-WP0": "/fms/performance/wp[0]/efob",
+    "FUEL-WP1": "/fms/performance/wp[1]/efob",
+    "FUEL-DEST": "/fms/performance/destination/efob",
+    "ETA-WP0": "/fms/performance/wp[0]/eta",
+    "ETA-WP1": "/fms/performance/wp[1]/eta",
+    "ETA-DEST": "/fms/performance/destination/eta",
+    "ID-WP0": "/autopilot/route-manager/wp[0]/id",
+    "ID-WP1": "/autopilot/route-manager/wp[1]/id",
+    "ID-DEST": "/autopilot/route-manager/destination/airport",
+    "DIST-WP0": "/autopilot/route-manager/wp[0]/dist",
+    "DIST-WP1": "/autopilot/route-manager/wp[1]/dist",
+    "DIST-DEST": "/autopilot/route-manager/distance-remaining-nm",
 };
 
 var keyDefs = {

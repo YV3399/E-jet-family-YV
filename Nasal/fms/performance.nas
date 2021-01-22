@@ -39,9 +39,14 @@ var updateProfile = func (fp, mode, profile) {
     }
     for (var i = 0; i < planSize; i += 1) {
         var wp = fp.getWP(i);
+        var isDestination = 0;
         if (i > 1 and math.abs(wp.distance_along_route - totalDist) < 0.1) {
             # this is the destination
             profile.destRunwayIndex = i;
+            isDestination = 1;
+        }
+        else if (i == 1 and planSize == 2) {
+            isDestination = 1;
         }
         if (wp.distance_along_route <= info.dist) {
             # first situation: we are already past this waypoint.
@@ -63,6 +68,19 @@ var updateProfile = func (fp, mode, profile) {
         else {
             # second situation: we have yet to reach the waypoint.
             profile.estimated[i] = mode(wp.distance_along_route, info);
+        }
+        # forward some calculated to properties
+        if (i == fp.current) {
+            myprops.fuelWP0.setValue(profile.estimated[i].fob);
+            myprops.etaWP0.setValue(profile.estimated[i].ta);
+        }
+        else if (i == fp.current + 1) {
+            myprops.fuelWP1.setValue(profile.estimated[i].fob);
+            myprops.etaWP1.setValue(profile.estimated[i].ta);
+        }
+        if (isDestination) {
+            myprops.fuelDest.setValue(profile.estimated[i].fob);
+            myprops.etaDest.setValue(profile.estimated[i].ta);
         }
     }
 };
@@ -110,6 +128,12 @@ setlistener("sim/signals/fdm-initialized", func {
         groundspeed: props.globals.getNode('velocities/groundspeed-kt'),
         fuelFlowL: props.globals.getNode('/fdm/jsbsim/propulsion/engine[0]/fuel-flow-rate-pps'),
         fuelFlowR: props.globals.getNode('/fdm/jsbsim/propulsion/engine[1]/fuel-flow-rate-pps'),
+        fuelWP0: props.globals.getNode('/fms/performance/wp[0]/efob'),
+        fuelWP1: props.globals.getNode('/fms/performance/wp[1]/efob'),
+        fuelDest: props.globals.getNode('/fms/performance/destination/efob'),
+        etaWP0: props.globals.getNode('/fms/performance/wp[0]/eta'),
+        etaWP1: props.globals.getNode('/fms/performance/wp[1]/eta'),
+        etaDest: props.globals.getNode('/fms/performance/destination/eta'),
     };
     setlistener("autopilot/route-manager/active", func { performanceProfile = initProfile(); });
     setlistener("autopilot/route-manager/signals/edited", func { performanceProfile = initProfile(); });

@@ -886,6 +886,21 @@
             <tow type="double"></tow>
         </fuel>
 
+        <performance>
+            <wp>
+                <efob type="double" />
+                <eta type="double" />
+            </wp>
+            <wp>
+                <efob type="double" />
+                <eta type="double" />
+            </wp>
+            <destination>
+                <efob type="double" />
+                <eta type="double" />
+            </destination>
+        </performance>
+
     </fms>
 
     <controls>
