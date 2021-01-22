@@ -2165,6 +2165,14 @@ var ProgressModule = {
                 "R6": SubmodeController.new("PROG-NAV2"),
             };
         }
+        else if (n == 1) {
+            me.views = [
+                StaticView.new( 16, 3, "FUEL QTY", mcdu_white),
+                FormatView.new( 12, 4, mcdu_white | mcdu_large, "FUEL-CUR", 12, "%12.0f", func (kg) { return kg * KG2LB; }),
+                StaticView.new( 16, 5, "GROSS WT", mcdu_white),
+                FormatView.new( 12, 6, mcdu_white | mcdu_large, "WGT-CUR", 12, "%12.0f"),
+            ];
+        }
     },
 };
 
