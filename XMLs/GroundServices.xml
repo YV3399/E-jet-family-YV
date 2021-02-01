@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<PropertyList>
+    <model>
+        <name>Operations</name>
+        <path>Aircraft/E-jet-family/Models/Operations/operations.ac</path>
+        <condition>
+            <equals>
+                <property>controls/switches/operations</property>
+                <value type="bool">true</value>
+            </equals>
+            <less-than>
+                <property>velocities/groundspeed-kt</property>
+                <value>15</value>
+            </less-than>
+        </condition>
+    </model>
+    <model>
+        <name>Fuel Truck</name>
+        <path>Aircraft/E-jet-family/Models/Fuel-Truck/Fuel_Truck_Short_VolvoFM.ac</path>
+        <offsets>
+            <x-m>-15</x-m>
+            <y-m>30</y-m>
+            <z-m>2.8</z-m>
+        </offsets>
+        <condition>
+            <equals>
+                <property>controls/switches/operations</property>
+                <value type="bool">true</value>
+            </equals>
+            <less-than>
+                <property>velocities/groundspeed-kt</property>
+                <value>15</value>
+            </less-than>
+        </condition>
+    </model>
+
+</PropertyList>

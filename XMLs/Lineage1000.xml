@@ -25,6 +25,11 @@
         </offsets>
     </model>
     
+    
+    <!-- Other non-aircraft models -->
+    
+    <!-- Ram Air Turbine -->
+    
     <model>
         <name>RAT</name>
         <path>Aircraft/E-jet-family/XMLs/RAT.xml</path>
@@ -35,8 +40,66 @@
         </offsets>
     </model>
     
-    <!-- Other non-aircraft models -->
     <!-- Airport operations -->
+
+    <model>
+        <name>Chocks Front</name>
+        <path>Aircraft/E-jet-family/Models/Chocks/chock_nose.ac</path>
+        <offsets>
+            <x-m>3.2</x-m>
+            <y-m>0</y-m>
+            <z-m>3.2</z-m>
+        </offsets>
+        <condition>
+            <equals>
+                <property>controls/switches/chocks</property>
+                <value type="bool">true</value>
+            </equals>
+            <less-than>
+                <property>velocities/groundspeed-kt</property>
+                <value>15</value>
+            </less-than>
+        </condition>
+    </model>
+    <model>
+        <name>Chocks Left</name>
+        <path>Aircraft/E-jet-family/Models/Chocks/chock_left.ac</path>
+        <offsets>
+            <x-m>-4.2</x-m>
+            <y-m>2.25</y-m>
+            <z-m>3.2</z-m>
+        </offsets>
+        <condition>
+            <equals>
+                <property>controls/switches/chocks</property>
+                <value type="bool">true</value>
+            </equals>
+            <less-than>
+                <property>velocities/groundspeed-kt</property>
+                <value>15</value>
+            </less-than>
+        </condition>
+    </model>
+    <model>
+        <name>Chocks Right</name>
+        <path>Aircraft/E-jet-family/Models/Chocks/chock_right.ac</path>
+        <offsets>
+            <x-m>-4.2</x-m>
+            <y-m>-2.25</y-m>
+            <z-m>3.2</z-m>
+        </offsets>
+        <condition>
+            <equals>
+                <property>controls/switches/chocks</property>
+                <value type="bool">true</value>
+            </equals>
+            <less-than>
+                <property>velocities/groundspeed-kt</property>
+                <value>15</value>
+            </less-than>
+        </condition>
+    </model>
+
     
     <model>
         <name>Pushback</name>
@@ -57,7 +120,7 @@
                 <value type="bool">true</value>
             </equals>
             <less-than>
-                <property>velocities/airspeed-kt</property>
+                <property>velocities/groundspeed-kt</property>
                 <value>80</value>
             </less-than>
         </condition>
@@ -67,20 +130,15 @@
     
     <model>
         <name>Operations</name>
-        <path>Aircraft/E-jet-family/Models/Operations/operations.ac</path>
+        <path>Aircraft/E-jet-family/XMLs/GroundServices.xml</path>
         <condition>
             <equals>
                 <property>controls/switches/operations</property>
                 <value type="bool">true</value>
             </equals>
-            <less-than>
-                <property>velocities/airspeed-kt</property>
-                <value>15</value>
-            </less-than>
         </condition>
-        
     </model>
-    
+
     <model>
         <name>Ground Emergency</name>
         <path>Aircraft/E-jet-family/Models/Operations/emergency-land.ac</path>
@@ -93,7 +151,7 @@
                 <value type="bool">true</value>
             </equals>
             <less-than>
-                <property>velocities/airspeed-kt</property>
+                <property>velocities/groundspeed-kt</property>
                 <value>15</value>
             </less-than>
         </condition>
@@ -112,7 +170,7 @@
                 <value type="bool">true</value>
             </equals>
             <less-than>
-                <property>velocities/airspeed-kt</property>
+                <property>velocities/groundspeed-kt</property>
                 <value>15</value>
             </less-than>
         </condition>
@@ -131,7 +189,7 @@
                 <value type="bool">true</value>
             </equals>
             <less-than>
-                <property>velocities/airspeed-kt</property>
+                <property>velocities/groundspeed-kt</property>
                 <value>15</value>
             </less-than>
         </condition>

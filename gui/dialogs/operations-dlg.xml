@@ -34,6 +34,16 @@
         <property>controls/switches/operations</property>
       </binding>
     </checkbox>
+    
+    <checkbox>
+      <halign>left</halign>
+      <label>Chocks</label>
+      <property>controls/switches/chocks</property>
+      <binding>
+        <command>property-toggle</command>
+        <property>controls/switches/chocks</property>
+      </binding>
+    </checkbox>
 
   <hrule/>
 
