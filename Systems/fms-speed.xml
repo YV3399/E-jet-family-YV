@@ -675,5 +675,49 @@
         <output>/it-autoflight/input/mach</output>
     </filter>
 
+    <!-- Split wind speed into head/tail and crosswind components -->
+    <filter>
+        <name>Headwind</name>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <expression>
+                <product>
+                    <property>/environment/wind-speed-kt</property>
+                    <cos>
+                        <deg2rad>
+                            <difference>
+                                <property>/orientation/heading-deg</property>
+                                <property>/environment/wind-from-heading-deg</property>
+                            </difference>
+                        </deg2rad>
+                    </cos>
+                </product>
+            </expression>
+        </input>
+        <output>/environment/headwind-kt</output>
+    </filter>
+    <filter>
+        <name>Crosswind</name>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <expression>
+                <product>
+                    <property>/environment/wind-speed-kt</property>
+                    <sin>
+                        <deg2rad>
+                            <difference>
+                                <property>/orientation/heading-deg</property>
+                                <property>/environment/wind-from-heading-deg</property>
+                            </difference>
+                        </deg2rad>
+                    </sin>
+                </product>
+            </expression>
+        </input>
+        <output>/environment/crosswind-kt</output>
+    </filter>
+
 
 </PropertyList>

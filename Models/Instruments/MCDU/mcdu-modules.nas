@@ -2183,6 +2183,35 @@ var ProgressModule = {
                 FormatView.new( 19, 6, mcdu_green | mcdu_large, "WGT-CUR", 5, "%5.0f"),
             ];
         }
+        else if (n == 2) {
+            me.views = [
+                StaticView.new(  1, 1, "XTK ERROR", mcdu_white),
+                # TODO
+                # FormatView.new(  1, 2, mcdu_green | mcdu_large, "XTK-ERROR", 4, "%4s", formatDist),
+                StaticView.new(  17, 1, "OFFSET", mcdu_white),
+                # TODO
+                # FormatView.new(  1, 2, mcdu_green | mcdu_large, "NAV-LAT-OFFSET", 4, "%4s", formatDist),
+                StaticView.new(   1, 3, "TRACK", mcdu_white),
+                StaticView.new(  10, 3, "DRIFT", mcdu_white),
+                StaticView.new(  20, 3, "HDG", mcdu_white),
+                FormatView.new(   1, 4, mcdu_green | mcdu_large, "TRACK", 4, "%4.0f°"),
+                FormatView.new(  10, 4, mcdu_green | mcdu_large, "DRIFT", 4, "%4.0f°"),
+                FormatView.new(  18, 4, mcdu_green | mcdu_large, "HDG", 4, "%4.0f°"),
+
+                StaticView.new(   1, 5, "WIND", mcdu_white),
+                StaticView.new(  21, 5, "GS", mcdu_white),
+
+                FormatView.new(   0, 6, mcdu_green | mcdu_large, "WIND-HDG", 4, "%4.0f°"),
+                StaticView.new(   5, 6, "/", mcdu_white | mcdu_large),
+                FormatView.new(   6, 6, mcdu_green | mcdu_large, "WIND-SPD", 3, "%-3.0f"),
+
+                FormatView.new(   9, 6, mcdu_cyan | mcdu_large, "WIND-HEAD", 1, "%1s", func (x) { if (x >= 0) return "↓" else return "↑"; }),
+                FormatView.new(  10, 6, mcdu_cyan | mcdu_large, "WIND-HEAD", 3, "%-3.0f", math.abs),
+                FormatView.new(  14, 5, mcdu_cyan | mcdu_large, "WIND-CROSS", 3, "%3s", func (x) { if (x >= 0) return "-->" else return "<--"; }),
+                FormatView.new(  14, 6, mcdu_cyan | mcdu_large, "WIND-CROSS", 3, "%-3.0f", math.abs),
+                FormatView.new(  20, 6, mcdu_green | mcdu_large, "GS", 3, "%3.0f"),
+            ];
+        }
     },
 };
 

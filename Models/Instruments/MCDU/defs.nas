@@ -274,6 +274,16 @@ var keyProps = {
     "DIST-WP0": "/autopilot/route-manager/wp[0]/dist",
     "DIST-WP1": "/autopilot/route-manager/wp[1]/dist",
     "DIST-DEST": "/autopilot/route-manager/distance-remaining-nm",
+
+    # Air data
+    "TRACK": "/orientation/track-magnetic-deg",
+    "HDG": "/orientation/heading-magnetic-deg",
+    "DRIFT": "/orientation/side-slip-deg",
+    "WIND-HDG": "/environment/wind-from-heading-deg",
+    "WIND-SPD": "/environment/wind-speed-kt",
+    "WIND-HEAD": "/environment/headwind-kt",
+    "WIND-CROSS": "/environment/crosswind-kt",
+    "GS": "/velocities/groundspeed-kt",
 };
 
 var keyDefs = {
