@@ -516,6 +516,7 @@ var VNAV = {
                 }
             }
             setprop("/fms/vnav/profile-alt", profileAlt);
+            setprop("/fms/vnav/alt-deviation", altitude - profileAlt);
         }
         setprop("/fms/vnav/route-progress", routeProgress);
         # TODO: switch to VFLCH (and back!) when path cannot be captured before

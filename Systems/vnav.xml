@@ -79,6 +79,7 @@
         <output>/fms/dist-to-alt-target-nm</output>
     </filter>
 
+
     <!-- Forward either manually selected altitude or VNAV-driven altitude to
          ITAF -->
     <filter>

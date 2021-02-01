@@ -254,6 +254,13 @@ var keyProps = {
     "ARRIVAL-STAR": "/autopilot/route-manager/destination/star",
     "ARRIVAL-APPROACH": "/autopilot/route-manager/destination/approach",
 
+    # VNAV
+    "VNAV-DEVIATION": "/fms/vnav/alt-deviation",
+    "VNAV-DIST-TOC": "/fms/vnav/distance-to-toc",
+    "VNAV-ETE-TOC": "/fms/vnav/time-to-toc",
+    "VNAV-DIST-TOD": "/fms/vnav/distance-to-tod",
+    "VNAV-ETE-TOD": "/fms/vnav/time-to-tod",
+
     # Performance
     "FUEL-WP0": "/fms/performance/wp[0]/efob",
     "FUEL-WP1": "/fms/performance/wp[1]/efob",

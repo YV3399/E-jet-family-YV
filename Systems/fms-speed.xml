@@ -106,6 +106,20 @@
         <output>/fms/internal/tod-plus-50</output>
     </filter>
 
+    <filter>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <expression>
+                <difference>
+                    <property>/autopilot/route-manager/distance-remaining-nm</property>
+                    <property>/fms/internal/tod</property>
+                </difference>
+            </expression>
+        </input>
+        <output>/fms/vnav/distance-to-tod</output>
+    </filter>
+
     <logic>
         <name>TOD in range</name>
         <input>
@@ -122,7 +136,7 @@
         <input>
             <less-than>
                 <property>/autopilot/route-manager/distance-remaining-nm</property>
-                <property>/fms/internal/tod-plus</property>
+                <property>/fms/internal/tod</property>
             </less-than>
         </input>
         <output>/fms/internal/tod-reached</output>
@@ -162,6 +176,65 @@
         </input>
         <output>/fms/internal/at-toc</output>
     </logic>
+
+    <filter>
+        <type>gain</type>
+        <!-- expression gives hours, but we want seconds -->
+        <gain>3600</gain>
+        <input>
+            <expression>
+                <div>
+                    <property>/fms/vnav/distance-to-tod</property>
+                    <max>
+                        <property>/velocities/groundspeed-kt</property>
+                        <value>100</value>
+                    </max>
+                </div>
+            </expression>
+        </input>
+        <output>/fms/vnav/time-to-tod</output>
+    </filter>
+
+    <filter>
+        <type>gain</type>
+        <!-- expression gives minutes, but we want seconds -->
+        <gain>60</gain>
+        <input>
+            <expression>
+                <div>
+                    <difference>
+                        <property>/autopilot/route-manager/cruise/altitude-ft</property>
+                        <property>/instrumentation/altimeter/indicated-altitude-ft</property>
+                    </difference>
+                    <max>
+                        <property>/instrumentation/vertical-speed-indicator/indicated-speed-fpm</property>
+                        <value>500</value>
+                    </max>
+                </div>
+            </expression>
+        </input>
+        <output>/fms/vnav/time-to-toc</output>
+    </filter>
+
+    <filter>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <expression>
+                <product>
+                    <div>
+                        <property>/fms/vnav/time-to-toc</property>
+                        <value>3600</value>
+                    </div>
+                    <max>
+                        <property>/velocities/groundspeed-kt</property>
+                        <value>100</value>
+                    </max>
+                </product>
+            </expression>
+        </input>
+        <output>/fms/vnav/distance-to-toc</output>
+    </filter>
 
     <flipflop>
         <name>TOC reached</name>

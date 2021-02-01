@@ -2167,10 +2167,20 @@ var ProgressModule = {
         }
         else if (n == 1) {
             me.views = [
+                StaticView.new(  1, 3, "TOC", mcdu_white),
+                FormatView.new(  1, 4, mcdu_green | mcdu_large, "VNAV-DIST-TOC", 4, "%4s", formatDist),
+                StaticView.new(  5, 4, "NM/", mcdu_white),
+                FormatView.new(  8, 4, mcdu_green | mcdu_large, "VNAV-ETE-TOC", 5, "%5s", formatETE),
+
+                StaticView.new(  1, 5, "TOD", mcdu_white),
+                FormatView.new(  1, 6, mcdu_green | mcdu_large, "VNAV-DIST-TOD", 7, "%4s", formatDist),
+                StaticView.new(  5, 6, "NM/", mcdu_white),
+                FormatView.new(  8, 6, mcdu_green | mcdu_large, "VNAV-ETE-TOD", 5, "%5s", formatETE),
+
                 StaticView.new( 16, 3, "FUEL QTY", mcdu_white),
-                FormatView.new( 12, 4, mcdu_white | mcdu_large, "FUEL-CUR", 12, "%12.0f", func (kg) { return kg * KG2LB; }),
+                FormatView.new( 19, 4, mcdu_green | mcdu_large, "FUEL-CUR", 5, "%5.0f", func (kg) { return kg * KG2LB; }),
                 StaticView.new( 16, 5, "GROSS WT", mcdu_white),
-                FormatView.new( 12, 6, mcdu_white | mcdu_large, "WGT-CUR", 12, "%12.0f"),
+                FormatView.new( 19, 6, mcdu_green | mcdu_large, "WGT-CUR", 5, "%5.0f"),
             ];
         }
     },

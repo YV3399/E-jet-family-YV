@@ -715,6 +715,11 @@
             </currentWP>
             <available type="bool">false</available>
             <profile-alt type="double">0</profile-alt>
+            <alt-deviation type="double">0</alt-deviation>
+            <distance-to-tod type="double">9999</distance-to-tod>
+            <time-to-tod type="double">864000</time-to-tod>
+            <distance-to-toc type="double">9999</distance-to-toc>
+            <time-to-toc type="double">864000</time-to-toc>
         </vnav>
         <radio>
             <nav-auto type="bool">false</nav-auto>
