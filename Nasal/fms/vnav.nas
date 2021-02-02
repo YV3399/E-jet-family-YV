@@ -339,6 +339,25 @@ var VNAV = {
         m.desNowAvailable = 0;
         m.desNowMode = 0;
         m.desNowTriggered = 0;
+        var propnames = [
+            "/fms/vnav/available",
+            "/autopilot/route-manager/distance-remaining-nm",
+            "/autopilot/route-manager/total-distance",
+            "/instrumentation/altimeter/indicated-altitude-ft",
+            "/fms/vnav/available",
+            "fpa",
+            "/velocities/groundspeed-kt",
+            "/fms/vnav/selected-fpa",
+            "fpa",
+            "fpa",
+            "/fms/vnav/profile-alt",
+            "/fms/vnav/alt-deviation",
+            "/fms/vnav/route-progress",
+        ];
+        m.props = {};
+        foreach (var k; propnames) {
+            m.props[k] = props.globals.getNode(k);
+        }
         return m;
     },
 
@@ -420,13 +439,13 @@ var VNAV = {
         var profile = me.profile;
         if (profile == nil or me.current >= size(profile.waypoints)) {
             # No VNAV profile loaded, or we're past the end.
-            setprop("/fms/vnav/available", 0);
+            me.props["/fms/vnav/available"].setValue(0);
             return;
         }
-        var distanceRemaining = getprop("/autopilot/route-manager/distance-remaining-nm");
-        var totalDistance = getprop("/autopilot/route-manager/total-distance");
+        var distanceRemaining = me.props["/autopilot/route-manager/distance-remaining-nm"].getValue();
+        var totalDistance = me.props["/autopilot/route-manager/total-distance"].getValue();
         var routeProgress = totalDistance - distanceRemaining;
-        var altitude = getprop("/instrumentation/altimeter/indicated-altitude-ft");
+        var altitude = me.props["/instrumentation/altimeter/indicated-altitude-ft"].getValue();
 
         var done = 0;
         var advanced = 0;
@@ -473,7 +492,7 @@ var VNAV = {
             wp = nil;
         }
         # update actual VNAV availability
-        setprop("/fms/vnav/available", wp != nil);
+        me.props["/fms/vnav/available"].setValue(wp != nil);
         if (wp != nil) {
             # default to trying to capture the target ASAP
             var profileAlt = wp["alt"];
@@ -491,34 +510,36 @@ var VNAV = {
                 if (altitude > profileAlt + 50) {
                     # If above, expedite descent by up to -1.5°.
                     var correction = math.max(0, math.min(1.5, (altitude - profileAlt) * 1.5 / 1000.0));
-                    setprop("/fms/vnav/selected-fpa", math.min(0, wp["fpa"] - correction));
+                    var corrected = math.min(0, wp["fpa"] - correction);
+                    me.props["/fms/vnav/selected-fpa"].setValue(corrected);
                 }
                 else if (altitude < profileAlt - 50) {
                     if (me.desNowMode) {
                         # If early descent selected, maintain constant 1000 fpm
                         # descent until capturing the profile.
                         var targetFPM = -1000;
-                        var speed = getprop("/velocities/groundspeed-kt");
+                        var speed = me.props["/velocities/groundspeed-kt"].getValue();
                         var speedMPM = speed / 60.0;
                         var fpa = calcFPA(targetFPM, speedMPM);
-                        setprop("/fms/vnav/selected-fpa", fpa);
+                        me.props["/fms/vnav/selected-fpa"].setValue(fpa);
                     }
                     else {
                         # If below, expedite climb by up to 1.5°.
                         var correction = math.max(0, math.min(1.5, -(altitude - profileAlt) * 1.5 / 1000.0));
-                        setprop("/fms/vnav/selected-fpa", math.max(0, wp["fpa"] + 1.5));
+                        var corrected = math.max(0, wp["fpa"] + 1.5);
+                        me.props["/fms/vnav/selected-fpa"].setValue(corrected);
                     }
                 }
                 else if (me.desNowMode) {
                     # we've captured the profile in DES NOW mode
                     me.desNowMode = 0;
-                    setprop("/fms/vnav/selected-fpa", wp["fpa"]);
+                    me.props["/fms/vnav/selected-fpa"].setValue(wp["fpa"]);
                 }
             }
-            setprop("/fms/vnav/profile-alt", profileAlt);
-            setprop("/fms/vnav/alt-deviation", altitude - profileAlt);
+            me.props["/fms/vnav/profile-alt"].setValue(profileAlt);
+            me.props["/fms/vnav/alt-deviation"].setValue(altitude - profileAlt);
         }
-        setprop("/fms/vnav/route-progress", routeProgress);
+        me.props["/fms/vnav/route-progress"].setValue(routeProgress);
         # TODO: switch to VFLCH (and back!) when path cannot be captured before
         # next waypoint.
     },
