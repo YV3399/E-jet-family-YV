@@ -76,12 +76,6 @@
     <model>
         <name>Operations</name>
         <path>Aircraft/E-jet-family/XMLs/GroundServices.xml</path>
-        <condition>
-            <equals>
-                <property>controls/switches/operations</property>
-                <value type="bool">true</value>
-            </equals>
-        </condition>
     </model>
 
     <model>

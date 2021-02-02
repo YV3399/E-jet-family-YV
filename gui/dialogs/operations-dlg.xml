@@ -27,11 +27,21 @@
     
     <checkbox>
       <halign>left</halign>
-      <label>Airport Operations</label>
-      <property>controls/switches/operations</property>
+      <label>Fuel Truck</label>
+      <property>controls/switches/fuel-truck</property>
       <binding>
         <command>property-toggle</command>
-        <property>controls/switches/operations</property>
+        <property>controls/switches/fuel-truck</property>
+      </binding>
+    </checkbox>
+    
+    <checkbox>
+      <halign>left</halign>
+      <label>Cones</label>
+      <property>controls/switches/cones</property>
+      <binding>
+        <command>property-toggle</command>
+        <property>controls/switches/cones</property>
       </binding>
     </checkbox>
     

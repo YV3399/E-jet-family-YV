@@ -6,7 +6,7 @@
         <path>Aircraft/E-jet-family/Models/Operations/operations.ac</path>
         <condition>
             <equals>
-                <property>controls/switches/operations</property>
+                <property>controls/switches/cones</property>
                 <value type="bool">true</value>
             </equals>
             <less-than>
@@ -24,15 +24,71 @@
             <z-m>2.8</z-m>
         </offsets>
         <condition>
-            <equals>
-                <property>controls/switches/operations</property>
-                <value type="bool">true</value>
-            </equals>
+            <greater-than>
+                <property>/services/fuel-truck/position</property>
+                <value type="double">0.0</value>
+            </greater-than>
             <less-than>
                 <property>velocities/groundspeed-kt</property>
-                <value>15</value>
+                <value>2</value>
             </less-than>
         </condition>
     </model>
+
+    <animation>
+        <type>rotate</type>
+        <object-name>Fuel Truck</object-name>
+        <axis>
+            <x>1</x>
+            <y>0</y>
+            <z>0</z>
+        </axis>
+        <property>/orientation/roll-deg</property>
+    </animation>
+
+    <animation>
+        <type>rotate</type>
+        <object-name>Fuel Truck</object-name>
+        <axis>
+            <x>0</x>
+            <y>-1</y>
+            <z>0</z>
+        </axis>
+        <property>/orientation/pitch-deg</property>
+    </animation>
+
+    <animation>
+        <type>translate</type>
+        <object-name>Fuel Truck</object-name>
+        <axis>
+            <x>-3</x>
+            <y>-1</y>
+            <z>0</z>
+        </axis>
+        <factor>1</factor>
+        <property>/services/fuel-truck/position</property>
+        <interpolation>
+            <entry> <ind>0</ind><dep>100</dep> </entry>
+            <entry> <ind>0.1</ind><dep>100</dep> </entry>
+            <entry> <ind>0.2</ind><dep>95</dep> </entry>
+            <entry> <ind>0.3</ind><dep>88</dep> </entry>
+            <entry> <ind>0.4</ind><dep>70</dep> </entry>
+            <entry> <ind>0.5</ind><dep>50</dep> </entry>
+            <entry> <ind>0.6</ind><dep>30</dep> </entry>
+            <entry> <ind>0.7</ind><dep>12</dep> </entry>
+            <entry> <ind>0.8</ind><dep>5</dep> </entry>
+            <entry> <ind>0.9</ind><dep>0</dep> </entry>
+            <entry> <ind>1</ind><dep>0</dep> </entry>
+        </interpolation>
+    </animation>
+
+    <animation>
+        <type>material</type>
+        <object-name>Fuel Truck</object-name>
+        <transparency>
+            <alpha-prop>/services/fuel-truck/position</alpha-prop>
+            <factor>100</factor>
+        </transparency>
+    </animation>
 
 </PropertyList>

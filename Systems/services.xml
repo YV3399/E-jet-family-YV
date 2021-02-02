@@ -7,4 +7,27 @@
         <input>/controls/switches/chocks</input>
         <output>/services/chocks</output>
     </filter>
+    <filter>
+        <type>noise-spike</type>
+        <max-rate-of-change>0.05</max-rate-of-change>
+        <input>/controls/switches/fuel-truck</input>
+        <output>/services/fuel-truck/position</output>
+    </filter>
+    <logic>
+        <input>
+            <greater-than>
+                <property>/services/fuel-truck/position</property>
+                <value>0.94</value>
+            </greater-than>
+        </input>
+        <output>/services/fuel-truck/connected</output>
+    </logic>
+    <logic>
+        <input>
+            <not>
+                <property>/services/fuel-truck/connected</property>
+            </not>
+        </input>
+        <output>/sim/model/door-positions/fuel-panel/closed</output>
+    </logic>
 </PropertyList>

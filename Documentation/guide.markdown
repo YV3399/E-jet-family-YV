@@ -59,6 +59,13 @@ a double-sized galley, master suite with a king-size double bed and bathroom,
 large flatscreen, etc. A cargo compartment is also situated on the upper deck.
 Typical configurations seats 12-19 passengers and their luggage.
 
+## Preflight
+
+Before taking off, the wheel chocks and safety cones should be removed. This
+can be done via the "E-jet-family" / "Airport Operations" menu. Also make sure
+the doors are all closed, and the fuel truck is disconnected. The status of all
+doors can be monitored on the Systems page on the MFD.
+
 ## Flight Deck Overview
 
 ![Flight Deck](images/flightdeck-overview.jpg)
