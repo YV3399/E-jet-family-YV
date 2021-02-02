@@ -13,6 +13,11 @@
             <door n="0">
                 <position-x-m>-11.443</position-x-m>
             </door>
+
+            <chock-offsets>
+                <front>3.2</front>
+                <main>-4.2</main>
+            </chock-offsets>
         </model>
 
         <previews>

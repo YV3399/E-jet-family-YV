@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<PropertyList>
+
+    <model>
+        <name>Chocks Front</name>
+        <path>Aircraft/E-jet-family/Models/Chocks/chock_nose.ac</path>
+        <offsets>
+            <x-m>0</x-m>
+            <y-m>0</y-m>
+            <z-m>3.2</z-m>
+        </offsets>
+        <condition>
+            <greater-than>
+                <property>services/chocks</property>
+                <value type="double">0</value>
+            </greater-than>
+            <less-than>
+                <property>velocities/groundspeed-kt</property>
+                <value>15</value>
+            </less-than>
+        </condition>
+    </model>
+    <model>
+        <name>Chocks Left</name>
+        <path>Aircraft/E-jet-family/Models/Chocks/chock_left.ac</path>
+        <offsets>
+            <x-m>0</x-m>
+            <y-m>2.25</y-m>
+            <z-m>3.2</z-m>
+        </offsets>
+        <condition>
+            <greater-than>
+                <property>services/chocks</property>
+                <value type="double">0</value>
+            </greater-than>
+            <less-than>
+                <property>velocities/groundspeed-kt</property>
+                <value>15</value>
+            </less-than>
+        </condition>
+    </model>
+    <model>
+        <name>Chocks Right</name>
+        <path>Aircraft/E-jet-family/Models/Chocks/chock_right.ac</path>
+        <offsets>
+            <x-m>0</x-m>
+            <y-m>-2.25</y-m>
+            <z-m>3.2</z-m>
+        </offsets>
+        <condition>
+            <greater-than>
+                <property>services/chocks</property>
+                <value type="double">0</value>
+            </greater-than>
+            <less-than>
+                <property>velocities/groundspeed-kt</property>
+                <value>15</value>
+            </less-than>
+        </condition>
+    </model>
+
+    <animation>
+        <type>translate</type>
+        <object-name>Chocks Front</object-name>
+        <property>/sim/model/chock-offsets/front</property>
+        <axis>
+            <x>1</x>
+            <y>0</y>
+            <z>0</z>
+        </axis>
+    </animation>
+
+    <animation>
+        <type>translate</type>
+        <object-name>Chocks Left</object-name>
+        <object-name>Chocks Right</object-name>
+        <property>/sim/model/chock-offsets/main</property>
+        <axis>
+            <x>1</x>
+            <y>0</y>
+            <z>0</z>
+        </axis>
+    </animation>
+
+    <animation>
+        <type>translate</type>
+        <object-name>Chocks Front</object-name>
+        <property>services/chocks</property>
+        <interpolation>
+            <entry>
+                <ind>0</ind>
+                <dep>2</dep>
+            </entry>
+            <entry>
+                <ind>0.9</ind>
+                <dep>2</dep>
+            </entry>
+            <entry>
+                <ind>1</ind>
+                <dep>0</dep>
+            </entry>
+        </interpolation>
+        <axis>
+            <x>0</x>
+            <y>-1</y>
+            <z>0</z>
+        </axis>
+    </animation>
+    <animation>
+        <type>translate</type>
+        <object-name>Chocks Left</object-name>
+        <property>services/chocks</property>
+        <interpolation>
+            <entry>
+                <ind>0</ind>
+                <dep>2</dep>
+            </entry>
+            <entry>
+                <ind>0.6</ind>
+                <dep>2</dep>
+            </entry>
+            <entry>
+                <ind>0.7</ind>
+                <dep>0</dep>
+            </entry>
+            <entry>
+                <ind>1</ind>
+                <dep>0</dep>
+            </entry>
+        </interpolation>
+        <axis>
+            <x>0</x>
+            <y>-1</y>
+            <z>0</z>
+        </axis>
+    </animation>
+    <animation>
+        <type>translate</type>
+        <object-name>Chocks Right</object-name>
+        <property>services/chocks</property>
+        <interpolation>
+            <entry>
+                <ind>0</ind>
+                <dep>2</dep>
+            </entry>
+            <entry>
+                <ind>0.4</ind>
+                <dep>2</dep>
+            </entry>
+            <entry>
+                <ind>0.5</ind>
+                <dep>0</dep>
+            </entry>
+            <entry>
+                <ind>1</ind>
+                <dep>0</dep>
+            </entry>
+        </interpolation>
+        <axis>
+            <x>0</x>
+            <y>1</y>
+            <z>0</z>
+        </axis>
+    </animation>
+
+</PropertyList>

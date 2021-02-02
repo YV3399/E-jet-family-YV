@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<PropertyList>
+    <filter>
+        <type>noise-spike</type>
+        <max-rate-of-change>0.2</max-rate-of-change>
+        <input>/controls/switches/chocks</input>
+        <output>/services/chocks</output>
+    </filter>
+</PropertyList>

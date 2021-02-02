@@ -161,6 +161,9 @@
             <property-rule n="106">
                 <path>Aircraft/E-jet-family/Systems/messages.xml</path>
             </property-rule>
+            <property-rule n="107">
+                <path>Aircraft/E-jet-family/Systems/services.xml</path>
+            </property-rule>
             <autopilot>
                 <path>Aircraft/E-jet-family/Systems/vspeeds.xml</path>
             </autopilot>
@@ -1085,8 +1088,13 @@
         <switches>
             <no-smoking-sign type="bool">true</no-smoking-sign>
             <seatbelt-sign type="bool">false</seatbelt-sign>
+            <chocks type="bool">true</chocks>
         </switches>
     </controls>
+
+    <services>
+        <chocks type="double">1.0</chocks>
+    </services>
 
     <engines>
         <apu>

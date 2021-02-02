@@ -40,65 +40,6 @@
     <!-- Airport operations -->
 
     <model>
-        <name>Chocks Front</name>
-        <path>Aircraft/E-jet-family/Models/Chocks/chock_nose.ac</path>
-        <offsets>
-            <x-m>5.2</x-m>
-            <y-m>0</y-m>
-            <z-m>3.2</z-m>
-        </offsets>
-        <condition>
-            <equals>
-                <property>controls/switches/chocks</property>
-                <value type="bool">true</value>
-            </equals>
-            <less-than>
-                <property>velocities/groundspeed-kt</property>
-                <value>15</value>
-            </less-than>
-        </condition>
-    </model>
-    <model>
-        <name>Chocks Left</name>
-        <path>Aircraft/E-jet-family/Models/Chocks/chock_left.ac</path>
-        <offsets>
-            <x-m>-5.7</x-m>
-            <y-m>2.25</y-m>
-            <z-m>3.2</z-m>
-        </offsets>
-        <condition>
-            <equals>
-                <property>controls/switches/chocks</property>
-                <value type="bool">true</value>
-            </equals>
-            <less-than>
-                <property>velocities/groundspeed-kt</property>
-                <value>15</value>
-            </less-than>
-        </condition>
-    </model>
-    <model>
-        <name>Chocks Right</name>
-        <path>Aircraft/E-jet-family/Models/Chocks/chock_right.ac</path>
-        <offsets>
-            <x-m>-5.7</x-m>
-            <y-m>-2.25</y-m>
-            <z-m>3.2</z-m>
-        </offsets>
-        <condition>
-            <equals>
-                <property>controls/switches/chocks</property>
-                <value type="bool">true</value>
-            </equals>
-            <less-than>
-                <property>velocities/groundspeed-kt</property>
-                <value>15</value>
-            </less-than>
-        </condition>
-    </model>
-
-    
-    <model>
         <name>Pushback</name>
         <path>Aircraft/E-jet-family/Models/Autopush/pushback.xml</path>
         <offsets>
@@ -124,7 +65,11 @@
         
     </model>
     
-    
+    <model>
+        <name>Chocks</name>
+        <path>Aircraft/E-jet-family/XMLs/Chocks.xml</path>
+    </model>
+
     <model>
         <name>Operations</name>
         <path>Aircraft/E-jet-family/XMLs/GroundServices.xml</path>
