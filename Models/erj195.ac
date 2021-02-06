@@ -6,7 +6,7 @@ MATERIAL "ac3dmat1.035" rgb 1.000 1.000 1.000  amb 0.800 0.800 0.800  emis 0.000
 MATERIAL "ac3dmat0.005" rgb 1.000 1.000 1.000  amb 0.800 0.800 0.800  emis 0.000 0.000 0.000  spec 0.000 0.000 0.000  shi 64 trans 0.592
 MATERIAL "ac3dmat1.036" rgb 1.000 1.000 1.000  amb 0.800 0.800 0.800  emis 0.000 0.000 0.000  spec 0.000 0.000 0.000  shi 64 trans 0.000
 OBJECT world
-name "Blender_exporter_v3.3__erj195.ac"
+name "Blender_exporter_v2.26__erj195.ac"
 kids 47
 OBJECT poly
 name "apu.exhaust"
@@ -14,6 +14,7 @@ data 20
 apu.exhaust.mesh.005
 crease 45.0
 texture "ERJ-wing.png"
+texrep 1 1
 numvert 72
 18.49276 1.70425 0.46502
 18.45016 1.81431 0.41748
@@ -455,7 +456,7 @@ kids 0
 OBJECT poly
 name "beacon"
 data 15
-beacon.mesh.009
+beacon.mesh.011
 crease 45.0
 numvert 58
 -10.62 -1.12878 -0.00062
@@ -953,7 +954,7 @@ kids 0
 OBJECT poly
 name "beacon.001"
 data 15
-beacon.mesh.010
+beacon.mesh.012
 crease 45.0
 numvert 58
 1.18 2.46818 0
@@ -1451,9 +1452,10 @@ kids 0
 OBJECT poly
 name "box"
 data 12
-box.mesh.017
+box.mesh.023
 crease 45.0
 texture "blank195.png"
+texrep 1 1
 numvert 32
 -13.4343 -0.73335 0.00015
 -13.4343 -0.68721 -0.29378
@@ -1646,9 +1648,10 @@ kids 0
 OBJECT poly
 name "box.001"
 data 12
-box.mesh.018
+box.mesh.024
 crease 45.0
 texture "blank195.png"
+texrep 1 1
 numvert 30
 -14.5891 -0.48118 -0.00016
 -15.1672 -0.45383 -0.00016
@@ -1834,9 +1837,10 @@ kids 0
 OBJECT poly
 name "box.002"
 data 12
-box.mesh.019
+box.mesh.025
 crease 45.0
 texture "blank195.png"
+texrep 1 1
 numvert 30
 -14.5891 -0.42414 -0.36792
 -15.1672 -0.40212 -0.34717
@@ -2022,9 +2026,10 @@ kids 0
 OBJECT poly
 name "box.003"
 data 12
-box.mesh.020
+box.mesh.026
 crease 45.0
 texture "ERJ-wing.png"
+texrep 1 1
 numvert 158
 -15.66359 1.22288 0.85069
 -14.59355 1.1851 1.31724
@@ -3449,9 +3454,10 @@ kids 0
 OBJECT poly
 name "cylinder"
 data 17
-cylinder.mesh.022
+cylinder.mesh.029
 crease 45.0
 texture "blank195.png"
+texrep 1 1
 numvert 38
 -14.62953 1.58616 1.08146
 -14.62953 1.216 1.29469
@@ -3546,9 +3552,10 @@ kids 0
 OBJECT poly
 name "cylinder.003"
 data 17
-cylinder.mesh.023
+cylinder.mesh.030
 crease 45.0
 texture "blank195.png"
+texrep 1 1
 numvert 522
 -8.05383 1.4896 1.34936
 -8.14698 1.5132 1.33977
@@ -4931,9 +4938,10 @@ kids 0
 OBJECT poly
 name "cylinder.004"
 data 17
-cylinder.mesh.024
+cylinder.mesh.031
 crease 45.0
 texture "blank195.png"
+texrep 1 1
 numvert 346
 -9.04211 1.1156 1.47188
 -9.56248 1.07418 1.4771
@@ -5776,9 +5784,10 @@ kids 0
 OBJECT poly
 name "cylinder.005"
 data 17
-cylinder.mesh.025
+cylinder.mesh.032
 crease 45.0
 texture "blank195.png"
+texrep 1 1
 numvert 129
 -11.09581 1.0853 -1.47532
 8.22154 1.09514 -1.47715
@@ -6094,6 +6103,7 @@ data 16
 door.l1.mesh.005
 crease 45.0
 texture "blank195.png"
+texrep 1 1
 numvert 26
 -11.98036 0.04722 1.35597
 -12.92046 0.08965 1.37152
@@ -6188,6 +6198,7 @@ data 19
 door.l1.in.mesh.005
 crease 45.0
 texture "blank195.png"
+texrep 1 1
 numvert 52
 -11.93322 1.21597 1.45879
 -12.91662 1.21126 1.45879
@@ -6490,6 +6501,7 @@ data 16
 door.l2.mesh.005
 crease 45.0
 texture "blank195.png"
+texrep 1 1
 numvert 36
 11.4519 1.68112 1.26582
 11.4519 1.34503 1.41183
@@ -6645,6 +6657,7 @@ data 19
 door.l2.in.mesh.005
 crease 45.0
 texture "blank195.png"
+texrep 1 1
 numvert 66
 11.452 1.68122 1.13651
 11.452 1.34513 1.28252
@@ -7040,6 +7053,7 @@ data 16
 door.r1.mesh.005
 crease 45.0
 texture "blank195.png"
+texrep 1 1
 numvert 22
 -12.27237 0.44263 -1.46958
 -13.19291 1.98716 -0.95507
@@ -7116,6 +7130,7 @@ data 19
 door.r1.in.mesh.005
 crease 45.0
 texture "blank195.png"
+texrep 1 1
 numvert 44
 -13.20462 0.81032 -1.51016
 -12.22549 0.81241 -1.51016
@@ -7368,6 +7383,7 @@ data 16
 door.r2.mesh.005
 crease 45.0
 texture "blank195.png"
+texrep 1 1
 numvert 36
 11.26281 2.10176 -0.84957
 12.23776 0.12788 -1.12013
@@ -7523,6 +7539,7 @@ data 19
 door.r2.in.mesh.005
 crease 45.0
 texture "blank195.png"
+texrep 1 1
 numvert 66
 11.452 0.16475 -1.16512
 11.452 0.56015 -1.31113
@@ -7918,6 +7935,7 @@ data 19
 elevator.l.mesh.005
 crease 45.0
 texture "ERJ-wing.png"
+texrep 1 1
 numvert 15
 18.28143 1.42799 0.84657
 17.29639 1.36039 1.00867
@@ -8023,6 +8041,7 @@ data 19
 elevator.r.mesh.005
 crease 45.0
 texture "ERJ-wing.png"
+texrep 1 1
 numvert 15
 18.3245 1.44153 -1.07437
 17.34653 1.36752 -1.07437
@@ -8125,7 +8144,7 @@ kids 0
 OBJECT poly
 name "flap.l.2"
 data 17
-flap.l.2.mesh.016
+flap.l.2.mesh.023
 crease 45.0
 numvert 4
 1.71637 0.31209 8.58374
@@ -8136,9 +8155,10 @@ kids 0
 OBJECT poly
 name "fuselage"
 data 17
-fuselage.mesh.009
+fuselage.mesh.011
 crease 45.0
 texture "blank195.png"
+texrep 1 1
 numvert 484
 0.97377 -0.72985 1.22397
 0.81713 -0.3597 1.18393
@@ -11620,9 +11640,10 @@ kids 0
 OBJECT poly
 name "fuselage.001"
 data 17
-fuselage.mesh.010
+fuselage.mesh.012
 crease 45.0
 texture "blank195.png"
+texrep 1 1
 numvert 1765
 8.22154 1.09515 -1.47715
 -11.09584 1.0853 -1.47533
@@ -19358,9 +19379,10 @@ kids 0
 OBJECT poly
 name "gear.l"
 data 23
-FITTING_1 - Default.008
+FITTING_1 - Default.011
 crease 30.0
 texture "ERJ-wing.png"
+texrep 1 1
 numvert 654
 0.57886 -1.32439 2.56939
 0.58078 -1.32408 2.48566
@@ -27131,9 +27153,10 @@ kids 0
 OBJECT poly
 name "gear.l.001"
 data 21
-FITTING_1 - Defau.020
+FITTING_1 - Defau.030
 crease 30.0
 texture "ERJ-wing.png"
+texrep 1 1
 numvert 252
 0.47937 -1.6681 2.43747
 0.44614 -1.8884 2.5257
@@ -30362,9 +30385,10 @@ kids 0
 OBJECT poly
 name "gear.n"
 data 21
-FITTING_1 - Defau.021
+FITTING_1 - Defau.031
 crease 30.0
 texture "ERJ-wing.png"
+texrep 1 1
 numvert 4869
 -13.99543 -0.96174 0.01303
 -14.01165 -0.93493 -0.01466
@@ -68861,9 +68885,10 @@ kids 0
 OBJECT poly
 name "gear.r"
 data 21
-FITTING_1 - Defau.022
+FITTING_1 - Defau.032
 crease 30.0
 texture "ERJ-wing.png"
+texrep 1 1
 numvert 436
 0.49661 -1.67938 -2.49572
 0.46337 -1.66208 -2.49572
@@ -72330,9 +72355,10 @@ kids 0
 OBJECT poly
 name "gear.r.001"
 data 23
-FITTING_1 - Default.009
+FITTING_1 - Default.012
 crease 30.0
 texture "ERJ-wing.png"
+texrep 1 1
 numvert 654
 0.62153 -2.01126 -2.27377
 0.59785 -2.02802 -2.27377
@@ -80286,6 +80312,7 @@ data 21
 geardoor.f.l.mesh.005
 crease 45.0
 texture "blank195.png"
+texrep 1 1
 numvert 26
 -13.98242 -0.94691 0.29118
 -13.96365 -0.8732 0.38522
@@ -80476,9 +80503,10 @@ kids 0
 OBJECT poly
 name "geardoor.f.r"
 data 21
-geardoor.f.r.mesh.009
+geardoor.f.r.mesh.011
 crease 45.0
 texture "blank195.png"
+texrep 1 1
 numvert 13
 -15.8703 -0.86568 -0.00285
 -15.1674 -0.93865 -0.00036
@@ -80535,9 +80563,10 @@ kids 0
 OBJECT poly
 name "geardoor.f.r.001"
 data 21
-geardoor.f.r.mesh.010
+geardoor.f.r.mesh.012
 crease 45.0
 texture "blank195.png"
+texrep 1 1
 numvert 25
 -13.98227 -0.88674 -0.29523
 -13.9637 -0.99316 0.00065
@@ -80693,6 +80722,7 @@ data 14
 hstab.mesh.005
 crease 45.0
 texture "ERJ-wing.png"
+texrep 1 1
 numvert 130
 18.7201 1.97624 5.23874
 18.88466 1.86453 5.23874
@@ -81710,6 +81740,7 @@ data 15
 rudder.mesh.005
 crease 45.0
 texture "blank195.png"
+texrep 1 1
 numvert 35
 18.89864 8.34389 -0.0117
 16.79509 3.12156 -0.12938
@@ -81957,9 +81988,10 @@ kids 0
 OBJECT poly
 name "tire.l"
 data 21
-FITTING_1 - Defau.023
+FITTING_1 - Defau.033
 crease 30.0
 texture "ERJ-wing.png"
+texrep 1 1
 numvert 1730
 0.67895 -1.97977 2.99737
 0.24719 -1.83229 2.97965
@@ -103832,9 +103864,10 @@ kids 0
 OBJECT poly
 name "tire.n"
 data 24
-Object01_1 - Default.004
+Object01_1 - Default.005
 crease 30.0
 texture "ERJ-wing.png"
+texrep 1 1
 numvert 1778
 -13.96984 -2.04513 -0.17478
 -13.99088 -2.12393 -0.12098
@@ -126331,9 +126364,10 @@ kids 0
 OBJECT poly
 name "tire.r"
 data 21
-FITTING_1 - Defau.024
+FITTING_1 - Defau.034
 crease 30.0
 texture "ERJ-wing.png"
+texrep 1 1
 numvert 3712
 0.67441 -2.03797 -3.00358
 0.66327 -2.03548 -3.00358
@@ -155675,6 +155709,7 @@ data 14
 vstab.mesh.005
 crease 45.0
 texture "blank195.png"
+texrep 1 1
 numvert 91
 18.10482 2.4097 -0.0117
 18.73342 8.31606 -0.05325
@@ -156393,6 +156428,7 @@ data 23
 windshieldbars.mesh.005
 crease 45.0
 texture "blank195.png"
+texrep 1 1
 numvert 90
 -14.53745 1.18201 -1.28471
 -14.55754 1.18201 -1.29665
@@ -156957,9 +156993,10 @@ kids 11
 OBJECT poly
 name "cylinder.002"
 data 17
-cylinder.mesh.026
+cylinder.mesh.033
 crease 45.0
 texture "ERJ-wing.png"
+texrep 1 1
 numvert 18
 -4.74337 -1.07931 4.01946
 -4.44613 -1.07931 4.01946
@@ -157136,9 +157173,10 @@ kids 0
 OBJECT poly
 name "exhaust.001"
 data 16
-exhaust.mesh.008
+exhaust.mesh.011
 crease 45.0
 texture "ERJ-wing.png"
+texrep 1 1
 numvert 96
 -1.30057 -1.00219 4.06095
 -2.35593 -0.83847 4.12877
@@ -157913,9 +157951,10 @@ kids 0
 OBJECT poly
 name "fan.l"
 data 14
-fan.l.mesh.004
+fan.l.mesh.005
 crease 180.0
 texture "ERJ-wing.png"
+texrep 1 1
 numvert 865
 -4.65588 -0.93782 4.09778
 -4.65588 -0.97118 4.1477
@@ -163349,9 +163388,10 @@ kids 0
 OBJECT poly
 name "flap.l.005"
 data 8
-Mesh.025
+Mesh.039
 crease 30.0
 texture "ERJ-wing.png"
+texrep 1 1
 numvert 472
 1.15498 -0.22954 3.29928
 0.9238 -0.21516 3.42846
@@ -167029,9 +167069,10 @@ kids 0
 OBJECT poly
 name "flap.l.1"
 data 17
-flap.l.1.mesh.004
+flap.l.1.mesh.005
 crease 45.0
 texture "ERJ-wing.png"
+texrep 1 1
 numvert 11
 0.46049 -0.16283 4.12473
 1.03246 -0.43429 1.70127
@@ -167095,9 +167136,10 @@ kids 0
 OBJECT poly
 name "nacelle.001"
 data 16
-nacelle.mesh.008
+nacelle.mesh.011
 crease 45.0
 texture "blank195.png"
+texrep 1 1
 numvert 340
 -5.19747 -0.31694 3.79472
 -4.98207 -0.26817 3.77887
@@ -169684,9 +169726,10 @@ kids 0
 OBJECT poly
 name "pylon.001"
 data 14
-pylon.mesh.008
+pylon.mesh.011
 crease 45.0
 texture "ERJ-wing.png"
+texrep 1 1
 numvert 186
 0.32513 -0.14839 4.02478
 0.2826 -0.14945 4.10231
@@ -171053,9 +171096,10 @@ kids 0
 OBJECT poly
 name "reverser.001"
 data 17
-reverser.mesh.008
+reverser.mesh.011
 crease 45.0
 texture "blank195.png"
+texrep 1 1
 numvert 120
 -4.05467 -0.79149 4.03652
 -3.73157 -0.79149 4.03652
@@ -171885,13 +171929,14 @@ data 20
 spoiler.l.1.mesh.005
 crease 45.0
 texture "ERJ-wing.png"
+texrep 1 1
 numvert 4
 0.45959 -0.2533 1.81827
 -0.01787 -0.1232 1.81827
 -0.01787 0.01998 2.98241
 0.46049 -0.11146 2.98241
 numsurf 1
-SURF 0X10
+SURF 0X30
 mat 1
 refs 4
 0 0.94725 0.400723
@@ -171902,9 +171947,10 @@ kids 0
 OBJECT poly
 name "wing.007"
 data 13
-wing.mesh.028
+wing.mesh.041
 crease 45.0
 texture "ERJ-wing.png"
+texrep 1 1
 numvert 83
 -0.01787 -0.1232 1.81828
 -0.01787 0.01998 2.98242
@@ -172469,9 +172515,10 @@ kids 0
 OBJECT poly
 name "wing.008"
 data 8
-Mesh.026
+Mesh.040
 crease 30.0
 texture "ERJ-wing.png"
+texrep 1 1
 numvert 169
 -0.84847 -0.23848 3.25778
 -0.81602 -0.25621 3.24216
@@ -173700,9 +173747,10 @@ kids 7
 OBJECT poly
 name "flap.l.000"
 data 17
-flap.l.2.mesh.017
+flap.l.2.mesh.024
 crease 45.0
 texture "ERJ-wing.png"
+texrep 1 1
 numvert 6
 2.01088 0.37708 9.20834
 2.01088 0.50672 9.20834
@@ -173724,9 +173772,10 @@ kids 0
 OBJECT poly
 name "flap.l.001"
 data 8
-Mesh.027
+Mesh.041
 crease 30.0
 texture "ERJ-wing.png"
+texrep 1 1
 numvert 944
 1.44112 0.0474 5.66216
 1.22595 0.05887 5.78418
@@ -181075,9 +181124,10 @@ kids 0
 OBJECT poly
 name "flap.l.003"
 data 17
-flap.l.2.mesh.018
+flap.l.2.mesh.025
 crease 45.0
 texture "ERJ-wing.png"
+texrep 1 1
 numvert 10
 0.57123 -0.11729 4.44344
 0.57123 0.04983 4.44344
@@ -181133,6 +181183,7 @@ data 20
 spoiler.l.2.mesh.005
 crease 45.0
 texture "ERJ-wing.png"
+texrep 1 1
 numvert 11
 0.5743 0.24241 5.56375
 0.52441 0.22708 5.40085
@@ -181146,13 +181197,13 @@ numvert 11
 1.11903 0.37432 7.13555
 1.05972 0.3852 7.14875
 numsurf 5
-SURF 0X10
+SURF 0X30
 mat 1
 refs 3
 3 0.634986 0.377022
 2 0.635465 0.375134
 0 0.685523 0.392636
-SURF 0X10
+SURF 0X30
 mat 1
 refs 5
 5 0.640507 0.355269
@@ -181160,21 +181211,21 @@ refs 5
 1 0.696907 0.396153
 0 0.685523 0.392636
 2 0.635465 0.375134
-SURF 0X10
+SURF 0X30
 mat 1
 refs 4
 10 0.574763 0.358416
 9 0.575692 0.354234
 2 0.635465 0.375134
 3 0.634986 0.377022
-SURF 0X10
+SURF 0X30
 mat 1
 refs 4
 2 0.635465 0.375134
 9 0.575692 0.354234
 8 0.579587 0.3367
 5 0.640507 0.355269
-SURF 0X10
+SURF 0X30
 mat 1
 refs 4
 1 0.696907 0.396153
@@ -181185,9 +181236,10 @@ kids 0
 OBJECT poly
 name "wing"
 data 13
-wing.mesh.029
+wing.mesh.042
 crease 45.0
 texture "ERJ-wing.png"
+texrep 1 1
 numvert 6
 1.36775 0.30255 7.07973
 1.36775 0.15611 7.07973
@@ -181209,9 +181261,10 @@ kids 0
 OBJECT poly
 name "wing.001"
 data 8
-Mesh.028
+Mesh.042
 crease 30.0
 texture "ERJ-wing.png"
+texrep 1 1
 numvert 338
 0.56215 -0.10679 5.51247
 0.42388 -0.05312 5.5087
@@ -183656,9 +183709,10 @@ kids 0
 OBJECT poly
 name "wing.002"
 data 13
-wing.mesh.030
+wing.mesh.043
 crease 45.0
 texture "ERJ-wing.png"
+texrep 1 1
 numvert 48
 1.11903 0.37432 7.13553
 0.27163 0.1494 4.57543
@@ -183890,9 +183944,10 @@ kids 4
 OBJECT poly
 name "aileron.l"
 data 18
-aileron.l.mesh.004
+aileron.l.mesh.005
 crease 45.0
 texture "ERJ-wing.png"
+texrep 1 1
 numvert 12
 2.89682 0.75088 11.92944
 2.19667 0.49397 9.40044
@@ -183969,9 +184024,10 @@ kids 0
 OBJECT poly
 name "flap.l.004"
 data 17
-flap.l.2.mesh.019
+flap.l.2.mesh.026
 crease 45.0
 texture "ERJ-wing.png"
+texrep 1 1
 numvert 10
 2.23975 0.34623 8.58374
 1.94021 0.32133 8.58374
@@ -184024,9 +184080,10 @@ kids 0
 OBJECT poly
 name "wing.003"
 data 13
-wing.mesh.031
+wing.mesh.044
 crease 45.0
 texture "ERJ-wing.png"
+texrep 1 1
 numvert 65
 3.75116 0.71107 13.49333
 3.5885 0.69675 13.49333
@@ -184386,9 +184443,10 @@ kids 0
 OBJECT poly
 name "winglet.l"
 data 18
-winglet.l.mesh.004
+winglet.l.mesh.005
 crease 45.0
 texture "blank195.png"
+texrep 1 1
 numvert 273
 3.53033 0.78996 13.54162
 3.70017 0.88618 13.69672
@@ -186463,9 +186521,10 @@ kids 10
 OBJECT poly
 name "cylinder.001"
 data 17
-cylinder.mesh.027
+cylinder.mesh.034
 crease 45.0
 texture "ERJ-wing.png"
+texrep 1 1
 numvert 18
 -4.44613 -0.60873 -3.54888
 -4.44613 -0.41381 -4.01946
@@ -186642,9 +186701,10 @@ kids 0
 OBJECT poly
 name "exhaust"
 data 16
-exhaust.mesh.009
+exhaust.mesh.012
 crease 45.0
 texture "ERJ-wing.png"
+texrep 1 1
 numvert 96
 -1.86648 -0.7606 -4.03653
 -3.13517 -0.49705 -4.03653
@@ -187419,9 +187479,10 @@ kids 0
 OBJECT poly
 name "fan.r"
 data 14
-fan.r.mesh.004
+fan.r.mesh.005
 crease 45.0
 texture "ERJ-wing.png"
+texrep 1 1
 numvert 865
 -4.84206 -1.21143 -4.06321
 -4.76698 -1.21143 -4.01654
@@ -192855,9 +192916,10 @@ kids 0
 OBJECT poly
 name "flap.r.003"
 data 8
-Mesh.029
+Mesh.043
 crease 30.0
 texture "ERJ-wing.png"
+texrep 1 1
 numvert 472
 0.58833 -0.24835 -3.12135
 0.23787 -0.28766 -3.12795
@@ -196535,9 +196597,10 @@ kids 0
 OBJECT poly
 name "flap.r.1"
 data 17
-flap.r.1.mesh.004
+flap.r.1.mesh.005
 crease 45.0
 texture "ERJ-wing.png"
+texrep 1 1
 numvert 10
 1.03082 -0.43383 -1.70128
 0.46049 -0.2747 -1.70128
@@ -196599,9 +196662,10 @@ kids 0
 OBJECT poly
 name "nacelle"
 data 16
-nacelle.mesh.009
+nacelle.mesh.012
 crease 45.0
 texture "blank195.png"
+texrep 1 1
 numvert 340
 -5.28123 -0.30714 -4.03653
 -5.35902 -0.34702 -4.03653
@@ -199188,9 +199252,10 @@ kids 0
 OBJECT poly
 name "pylon"
 data 14
-pylon.mesh.009
+pylon.mesh.012
 crease 45.0
 texture "ERJ-wing.png"
+texrep 1 1
 numvert 186
 -4.66898 -0.21619 -4.14391
 -4.66898 -0.20305 -4.11686
@@ -200557,9 +200622,10 @@ kids 0
 OBJECT poly
 name "reverser"
 data 17
-reverser.mesh.009
+reverser.mesh.012
 crease 45.0
 texture "blank195.png"
+texrep 1 1
 numvert 120
 -4.0427 -0.24649 -3.77183
 -3.52216 -0.29527 -3.78768
@@ -201389,13 +201455,14 @@ data 20
 spoiler.r.1.mesh.005
 crease 45.0
 texture "ERJ-wing.png"
+texrep 1 1
 numvert 4
 0.46049 -0.11146 -2.98241
 -0.01787 0.01998 -2.98241
 -0.01787 -0.1232 -1.81828
 0.45959 -0.2533 -1.81828
 numsurf 1
-SURF 0X10
+SURF 0X30
 mat 1
 refs 4
 0 0.865902 0.400659
@@ -201406,9 +201473,10 @@ kids 0
 OBJECT poly
 name "wing.006"
 data 13
-wing.mesh.032
+wing.mesh.045
 crease 45.0
 texture "ERJ-wing.png"
+texrep 1 1
 numvert 83
 -0.01787 -0.35944 -2.98242
 -0.01787 -0.51812 -1.81829
@@ -201976,9 +202044,10 @@ kids 6
 OBJECT poly
 name "flap.r.000"
 data 8
-Mesh.030
+Mesh.044
 crease 30.0
 texture "ERJ-wing.png"
+texrep 1 1
 numvert 944
 0.98189 0.03044 -5.49335
 0.75331 -0.00892 -5.49938
@@ -209327,9 +209396,10 @@ kids 0
 OBJECT poly
 name "flap.r.001"
 data 17
-flap.r.2.mesh.012
+flap.r.2.mesh.017
 crease 45.0
 texture "ERJ-wing.png"
+texrep 1 1
 numvert 10
 0.57123 -0.11729 -4.44346
 0.57123 0.04983 -4.44346
@@ -209382,9 +209452,10 @@ kids 0
 OBJECT poly
 name "flap.r.2"
 data 17
-flap.r.2.mesh.013
+flap.r.2.mesh.018
 crease 45.0
 texture "ERJ-wing.png"
+texrep 1 1
 numvert 6
 2.01088 0.37708 -9.20835
 2.01088 0.50672 -9.20835
@@ -209409,6 +209480,7 @@ data 20
 spoiler.r.2.mesh.005
 crease 45.0
 texture "ERJ-wing.png"
+texrep 1 1
 numvert 11
 1.05971 0.3852 -7.14879
 1.11903 0.37432 -7.1355
@@ -209422,28 +209494,28 @@ numvert 11
 0.5244 0.22708 -5.40083
 0.5743 0.24241 -5.56375
 numsurf 5
-SURF 0X10
+SURF 0X30
 mat 1
 refs 4
 3 0.754584 0.413973
 4 0.759303 0.391479
 6 0.702216 0.374079
 9 0.696907 0.396153
-SURF 0X10
+SURF 0X30
 mat 1
 refs 4
 5 0.640507 0.355269
 2 0.579587 0.3367
 1 0.575692 0.354234
 8 0.635465 0.375134
-SURF 0X10
+SURF 0X30
 mat 1
 refs 4
 7 0.634986 0.377022
 8 0.635465 0.375134
 1 0.575692 0.354234
 0 0.574763 0.358416
-SURF 0X10
+SURF 0X30
 mat 1
 refs 5
 8 0.635465 0.375134
@@ -209451,7 +209523,7 @@ refs 5
 9 0.696907 0.396153
 6 0.702216 0.374079
 5 0.640507 0.355269
-SURF 0X10
+SURF 0X30
 mat 1
 refs 3
 10 0.685523 0.392636
@@ -209461,9 +209533,10 @@ kids 0
 OBJECT poly
 name "wing.004"
 data 13
-wing.mesh.033
+wing.mesh.046
 crease 45.0
 texture "ERJ-wing.png"
+texrep 1 1
 numvert 50
 0.59071 0.05601 -4.50791
 1.36776 0.30255 -7.07976
@@ -209703,9 +209776,10 @@ kids 0
 OBJECT poly
 name "wing.005"
 data 8
-Mesh.031
+Mesh.045
 crease 30.0
 texture "ERJ-wing.png"
+texrep 1 1
 numvert 507
 0.75687 0.28396 -8.32741
 0.78932 0.266 -8.31262
@@ -213372,9 +213446,10 @@ kids 4
 OBJECT poly
 name "aileron.r"
 data 18
-aileron.r.mesh.004
+aileron.r.mesh.005
 crease 45.0
 texture "ERJ-wing.png"
+texrep 1 1
 numvert 12
 2.07734 0.39773 -9.40048
 2.07734 0.52313 -9.40048
@@ -213451,9 +213526,10 @@ kids 0
 OBJECT poly
 name "flap.r.004"
 data 17
-flap.r.2.mesh.014
+flap.r.2.mesh.019
 crease 45.0
 texture "ERJ-wing.png"
+texrep 1 1
 numvert 10
 2.41679 0.40971 -9.20835
 1.82219 0.31209 -8.58378
@@ -213506,9 +213582,10 @@ kids 0
 OBJECT poly
 name "wing.009"
 data 13
-wing.mesh.034
+wing.mesh.047
 crease 45.0
 texture "ERJ-wing.png"
+texrep 1 1
 numvert 65
 3.70518 0.71107 -13.49329
 3.53382 0.69675 -13.49329
@@ -213868,9 +213945,10 @@ kids 0
 OBJECT poly
 name "winglet.r"
 data 18
-winglet.r.mesh.004
+winglet.r.mesh.005
 crease 45.0
 texture "blank195.png"
+texrep 1 1
 numvert 273
 3.3512 0.79716 -13.49318
 3.53382 0.7523 -13.49318
