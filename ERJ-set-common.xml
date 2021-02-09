@@ -1315,10 +1315,10 @@
             <speaker>
                 <max-dist type="double">2</max-dist>
                 <reference-dist type="double">1</reference-dist>
-                <volume type="double">0.4</volume>
+                <volume type="double">1</volume>
             </speaker>
             <voice>
-                <file-prefix>Aircraft/E-jet-family/Sounds/GPWS/</file-prefix>
+                <file-prefix>Sounds/mk-viii/</file-prefix>
             </voice>
         </mk-viii>
     </instrumentation>

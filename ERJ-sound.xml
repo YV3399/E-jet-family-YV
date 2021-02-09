@@ -59,8 +59,8 @@
 			</volume>
 			<pitch>
 				<property>engines/engine[0]/n1</property>
-				<offset>0.5</offset>
-				<factor>0.02</factor>
+				<offset>0</offset>
+				<factor>0.01</factor>
 			</pitch>
             <position>
                 <x>0</x>
@@ -102,7 +102,7 @@
 		</engine>
 		<engine>
 			<name>Engine 1 sound internal</name>
-			<path>Sounds/whine-inside.wav</path>
+			<path>Sounds/jet_inside.wav</path>
 			<mode>looped</mode>
 			<condition>
 				<and>
@@ -121,7 +121,7 @@
 			<pitch>
 				<property>engines/engine[0]/n1</property>
 				<offset>0</offset>
-				<factor>0.01</factor>
+				<factor>0.02</factor>
 			</pitch>
             <position>
                 <x>0</x>
@@ -186,8 +186,8 @@
 			</volume>
 			<pitch>
 				<property>engines/engine[1]/n1</property>
-				<offset>0.5</offset>
-				<factor>0.02</factor>
+				<offset>0</offset>
+				<factor>0.01</factor>
 			</pitch>
             <position>
                 <x>0</x>
@@ -229,7 +229,7 @@
 		</engine>
 		<engine>
 			<name>Engine 2 sound internal</name>
-			<path>Sounds/whine-inside.wav</path>
+			<path>Sounds/jet_inside.wav</path>
 			<mode>looped</mode>
 			<condition>
 				<and>
@@ -248,7 +248,7 @@
 			<pitch>
 				<property>engines/engine[1]/n1</property>
 				<offset>0</offset>
-				<factor>0.01</factor>
+				<factor>0.02</factor>
 			</pitch>
             <position>
                 <x>0</x>
@@ -275,7 +275,7 @@
         <rumblefront>
             <name>nose wheel rumble</name>
             <mode>looped</mode>
-            <path>Aircraft/E-jet-family/Sounds/SoundPack/rumble.wav</path>
+            <path>Sounds/rumble.wav</path>
             <condition>
                 <property>/gear/gear[0]/wow</property>
             </condition>
@@ -296,7 +296,7 @@
         <rumblemain>
             <name>main gear rumble</name>
             <mode>looped</mode>
-            <path>Aircraft/E-jet-family/Sounds/SoundPack/rumble.wav</path>
+            <path>Sounds/rumble.wav</path>
             <condition>
                 <or>
                     <property>/gear/gear[1]/wow</property>
@@ -322,7 +322,7 @@
         <wow>
             <name>wow 0</name>
             <mode>once</mode>
-            <path>Aircraft/E-jet-family/Sounds/wow.wav</path>
+            <path>Sounds/squeal.wav</path>
             <condition>
                 <property>gear/gear[0]/wow</property>
             </condition>
@@ -334,7 +334,7 @@
         <wow>
             <name>wow 1</name>
             <mode>once</mode>
-            <path>Aircraft/E-jet-family/Sounds/wow.wav</path>
+            <path>Sounds/squeal.wav</path>
             <condition>
                 <property>gear/gear[1]/wow</property>
             </condition>
@@ -346,7 +346,7 @@
         <wow>
             <name>wow 2</name>
             <mode>once</mode>
-            <path>Aircraft/E-jet-family/Sounds/wow.wav</path>
+            <path>Sounds/squeal.wav</path>
             <condition>
                 <property>gear/gear[2]/wow</property>
             </condition>
@@ -359,7 +359,7 @@
         <wow>
             <name>wow 3</name>
             <mode>once</mode>
-            <path>Aircraft/E-jet-family/Sounds/wow.wav</path>
+            <path>Sounds/squeal.wav</path>
             <condition>
                 <property>gear/gear[0]/wow</property>
             </condition>
@@ -371,7 +371,7 @@
         <wow>
             <name>wow 4</name>
             <mode>once</mode>
-            <path>Aircraft/E-jet-family/Sounds/wow.wav</path>
+            <path>Sounds/squeal.wav</path>
             <condition>
                 <property>gear/gear[1]/wow</property>
             </condition>
@@ -383,7 +383,7 @@
         <wow>
             <name>wow 5</name>
             <mode>once</mode>
-            <path>Aircraft/E-jet-family/Sounds/wow.wav</path>
+            <path>Sounds/squeal.wav</path>
             <condition>
                 <property>gear/gear[2]/wow</property>
             </condition>
@@ -395,7 +395,7 @@
 
         <squeal1>
             <name>squeal</name>
-            <path>Aircraft/E-jet-family/Sounds/SoundPack/Roll.wav</path>
+            <path>Sounds/squeal2.wav</path>
             <condition>
                 <property>/gear/gear[0]/wow</property>
             </condition>
@@ -442,7 +442,7 @@
         <wind>
             <name>wind</name>
             <mode>looped</mode>
-            <path>Aircraft/E-jet-family/Sounds/SoundPack/wind.wav</path>
+            <path>Sounds/wind.wav</path>
             <property>/velocities/airspeed-kt</property>
             <volume>
                 <property>/position/altitude-ft</property>
@@ -550,7 +550,7 @@
 
         <overspeed>
             <name>Overspeed warning</name>
-            <path>Aircraft/E-jet-family/Sounds/overspeed.wav</path>
+            <path>Sounds/overspeed.wav</path>
             <mode>looped</mode>
             <condition>
                 <greater-than>
@@ -816,7 +816,7 @@
 
         <avionics>
             <name>avionics</name>
-            <path>Aircraft/E-jet-family/Sounds/avionics.wav</path>
+            <path>Sounds/avionics-400Hz.wav</path>
             <mode>looped</mode>
             <condition>
                 <property>sim/current-view/internal</property>
@@ -832,8 +832,8 @@
             </position>
 
             <volume>
-                <factor>0.2</factor>
-                <max>0.5</max>
+                <factor>0.025</factor>
+                <max>0.2</max>
             </volume>
             <reference-dist>1.2</reference-dist>
             <max-dist>5</max-dist>
@@ -866,7 +866,7 @@
             <name>appr_mins</name>
             <mode>once</mode>
             <type>avionics</type>		
-            <path>Aircraft/E-jet-family/Sounds/approaching-minimums.wav</path>
+            <path>Sounds/mk-viii/100-above.wav</path>
             <condition>
                 <or>
                     <!-- radio minimums set -->
@@ -879,7 +879,7 @@
                             <property>/position/gear-agl-ft</property>
                             <expression>
                                 <sum>
-                                    <value>80</value>
+                                    <value>100</value>
                                     <property>/instrumentation/pfd/minimums-radio</property>
                                 </sum>
                             </expression>
@@ -899,7 +899,7 @@
                             <property>/position/gear-agl-ft</property>
                             <expression>
                                 <sum>
-                                    <value>80</value>
+                                    <value>100</value>
                                     <property>/instrumentation/pfd/minimums-fake-baro</property>
                                 </sum>
                             </expression>
@@ -922,7 +922,7 @@
         <rain>
             <name>rain</name>
             <mode>looped</mode>
-            <path>Aircraft/E-jet-family/Sounds/rain.wav</path>
+            <path>Sounds/rain-windshield.wav</path>
             <condition>
                 <greater-than>
                     <property>/environment/rain-norm</property>

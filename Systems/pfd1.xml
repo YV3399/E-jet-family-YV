@@ -120,6 +120,14 @@
         <name>Forward minimums</name>
         <type>gain</type>
         <gain>1</gain>
+        <enable>
+            <condition>
+                <equals>
+                    <property>controls/flight/nav-src/side</property>
+                    <value>0</value>
+                </equals>
+            </condition>
+        </enable>
         <input>
             <condition>
                 <equals>
