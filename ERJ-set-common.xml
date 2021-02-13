@@ -328,8 +328,30 @@
                         <name>autostart</name>
                         <label>Autostart</label>
                         <binding>
-                            <command>property-toggle</command>
-                            <property>sim/model/start-idling</property>
+                            <condition>
+                                <not>
+                                    <equals>
+                                        <property>controls/autostart/target</property>
+                                        <value>1</value>
+                                    </equals>
+                                </not>
+                            </condition>
+                            <command>property-assign</command>
+                            <property>controls/autostart/target</property>
+                            <value>1</value>
+                        </binding>
+                        <binding>
+                            <condition>
+                                <not>
+                                    <equals>
+                                        <property>controls/autostart/target</property>
+                                        <value>0</value>
+                                    </equals>
+                                </not>
+                            </condition>
+                            <command>property-assign</command>
+                            <property>controls/autostart/target</property>
+                            <value>0</value>
                         </binding>
                     </item>
                     <item>
@@ -919,6 +941,10 @@
             <eng0 type="int">0</eng0>
             <eng1 type="int">0</eng1>
         </anti-ice>
+
+        <autostart>
+            <target type="int">0</target>
+        </autostart>
 
         <autoflight>
             <autopilot>
@@ -1608,6 +1634,9 @@
         <simbrief>
             <file>Aircraft/E-jet-family/Nasal/simbrief.nas</file>
         </simbrief>
+        <autostart>
+            <file>Aircraft/E-jet-family/Nasal/autostart.nas</file>
+        </autostart>
     </nasal>
 
     <fdm>
