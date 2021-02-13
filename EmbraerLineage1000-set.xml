@@ -57,17 +57,27 @@
             <model type="int">5</model>
         </rating>
 
-        <view>
+        <view n="0">
+            <config>
+                <z-offset-m archive="y">-13.57</z-offset-m>
+            </config>
+        </view>
+        <view n="200">
             <config>
                 <z-offset-m archive="y">-13.57</z-offset-m>
             </config>
         </view>
         <view n="199">
             <config>
-                <z-offset-m archive="y">-14.0</z-offset-m>
+                <z-offset-m archive="y">-14.2</z-offset-m>
             </config>
         </view>
         <view n="198">
+            <config>
+                <z-offset-m archive="y">-13.57</z-offset-m>
+            </config>
+        </view>
+        <view n="197">
             <config>
                 <z-offset-m archive="y">-13.57</z-offset-m>
             </config>

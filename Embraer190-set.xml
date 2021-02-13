@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
+<?xml version="1.0" encoding="UTF-8" ?>
 
 <PropertyList include="ERJ-set-common.xml">
 
@@ -32,12 +33,22 @@
                 <z-offset-m archive="y">-13.57</z-offset-m>
             </config>
         </view>
+        <view n="200">
+            <config>
+                <z-offset-m archive="y">-13.57</z-offset-m>
+            </config>
+        </view>
         <view n="199">
             <config>
-                <z-offset-m archive="y">-14.0</z-offset-m>
+                <z-offset-m archive="y">-14.2</z-offset-m>
             </config>
         </view>
         <view n="198">
+            <config>
+                <z-offset-m archive="y">-13.57</z-offset-m>
+            </config>
+        </view>
+        <view n="197">
             <config>
                 <z-offset-m archive="y">-13.57</z-offset-m>
             </config>

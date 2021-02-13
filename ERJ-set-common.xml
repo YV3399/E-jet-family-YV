@@ -208,7 +208,7 @@
         </rendering>
 
         <view n="0">
-            <name>Pilot View</name>
+            <name>Captain View</name>
             <internal archive="y">true</internal>
             <config>
                 <x-offset-m archive="y">-0.53</x-offset-m>
@@ -218,20 +218,49 @@
             </config>
         </view>
 
-        <view n="199">
+        <view n="200">
             <name>Center Pedestal</name>
             <type>lookfrom</type>
             <internal archive="y">true</internal>
             <config>
                 <from-model type="bool">true</from-model>
-                <x-offset-m>-0.15</x-offset-m>
-                <y-offset-m>1.129</y-offset-m>
-                <pitch-offset-deg>-36</pitch-offset-deg>
+                <x-offset-m>0</x-offset-m>
+                <y-offset-m>1.5</y-offset-m>
+                <z-offset-m>-13.6</z-offset-m>
+                <pitch-offset-deg>-63</pitch-offset-deg>
+                <default-field-of-view-deg type="double">70.0</default-field-of-view-deg>
+            </config>
+        </view>
+
+        <view n="199">
+            <name>MCDU / Engine Controls</name>
+            <type>lookfrom</type>
+            <internal archive="y">true</internal>
+            <config>
+                <from-model type="bool">true</from-model>
+                <x-offset-m>0</x-offset-m>
+                <y-offset-m>1.1</y-offset-m>
+                <z-offset-m>-14.2</z-offset-m>
+                <pitch-offset-deg>-70</pitch-offset-deg>
                 <default-field-of-view-deg type="double">70.0</default-field-of-view-deg>
             </config>
         </view>
 
         <view n="198">
+            <name>Glareshield / Instruments</name>
+            <type>lookfrom</type>
+            <internal archive="y">true</internal>
+            <config>
+                <from-model type="bool">true</from-model>
+                <x-offset-m>0</x-offset-m>
+                <y-offset-m>1.5</y-offset-m>
+                <z-offset-m>-13.6</z-offset-m>
+                <pitch-offset-deg>-30</pitch-offset-deg>
+                <default-field-of-view-deg type="double">70.0</default-field-of-view-deg>
+            </config>
+        </view>
+
+        <view n="197">
             <name>Overhead Panel</name>
             <type>lookfrom</type>
             <internal archive="y">true</internal>
@@ -239,7 +268,9 @@
                 <from-model type="bool">true</from-model>
                 <x-offset-m>0</x-offset-m>
                 <y-offset-m>1.1625</y-offset-m>
+                <z-offset-m>-13.6</z-offset-m>
                 <pitch-offset-deg>45</pitch-offset-deg>
+                <default-field-of-view-deg type="double">70.0</default-field-of-view-deg>
             </config>
         </view>
 
@@ -297,7 +328,7 @@
         </view>
 
         <view n="103">
-            <name>Copilot View</name>
+            <name>First Officer View</name>
             <type>lookfrom</type>
             <internal archive="y">true</internal>
             <config>
@@ -305,6 +336,7 @@
                 <x-offset-m archive="y">0.53</x-offset-m>
                 <y-offset-m archive="y">1.43</y-offset-m>
                 <pitch-offset-deg archive="y">-8.0</pitch-offset-deg>
+                <default-field-of-view-deg type="double">70.0</default-field-of-view-deg>
             </config>
         </view>
 
@@ -313,9 +345,9 @@
             <internal archive="y">true</internal>
             <config>
                 <from-model type="bool">true</from-model>
-                <x-offset-m archive="y">-1.09</x-offset-m>
-                <y-offset-m archive="y">1.28</y-offset-m>
-                <z-offset-m archive="y">0</z-offset-m>
+                <x-offset-m type="double" archive="y">-1.09</x-offset-m>
+                <y-offset-m type="double" archive="y">1.28</y-offset-m>
+                <z-offset-m type="double" archive="y">0</z-offset-m>
             </config>
         </view>
 
@@ -409,6 +441,30 @@
 
         <help>
             <title>E-jet-family</title>
+            <key>
+                <name>1</name>
+                <desc>Captain View</desc>
+            </key>
+            <key>
+                <name>2</name>
+                <desc>First Officer View</desc>
+            </key>
+            <key>
+                <name>3</name>
+                <desc>Overhead Panel View</desc>
+            </key>
+            <key>
+                <name>4</name>
+                <desc>Glareshield Panel View</desc>
+            </key>
+            <key>
+                <name>5</name>
+                <desc>MCDU View</desc>
+            </key>
+            <key>
+                <name>6</name>
+                <desc>Center Pedestal View</desc>
+            </key>
             <key>
                 <name>Delete</name>
                 <desc>toggle thrust reversers</desc>
@@ -1325,6 +1381,79 @@
 
     <input>
         <keyboard>
+			<key n="49">
+				<name>1</name>
+				<desc>Captain View</desc>
+				<binding>
+					<condition>
+						<not><property>/options/system/keyboard-mode</property></not>
+					</condition>
+					<command>property-assign</command>
+					<property>/sim/current-view/view-number</property>
+					<value>0</value>
+				</binding>
+			</key>
+			<key n="50">
+				<name>2</name>
+				<desc>First Officer View</desc>
+				<binding>
+					<condition>
+						<not><property>/options/system/keyboard-mode</property></not>
+					</condition>
+					<command>property-assign</command>
+					<property>/sim/current-view/view-number</property>
+					<value>11</value>
+				</binding>
+			</key>
+			<key n="51">
+				<name>3</name>
+				<desc>Overhead Panel View</desc>
+				<binding>
+					<condition>
+						<not><property>/options/system/keyboard-mode</property></not>
+					</condition>
+					<command>property-assign</command>
+					<property>/sim/current-view/view-number</property>
+					<value>13</value>
+				</binding>
+			</key>
+			<key n="52">
+				<name>4</name>
+				<desc>Glareshield View</desc>
+				<binding>
+					<condition>
+						<not><property>/options/system/keyboard-mode</property></not>
+					</condition>
+					<command>property-assign</command>
+					<property>/sim/current-view/view-number</property>
+					<value>14</value>
+				</binding>
+			</key>
+			<key n="53">
+				<name>5</name>
+				<desc>MCDU View</desc>
+				<binding>
+					<condition>
+						<not><property>/options/system/keyboard-mode</property></not>
+					</condition>
+					<command>property-assign</command>
+					<property>/sim/current-view/view-number</property>
+					<value>15</value>
+				</binding>
+			</key>
+			<key n="54">
+				<name>6</name>
+				<desc>Center Pedestal View</desc>
+				<binding>
+					<condition>
+						<not><property>/options/system/keyboard-mode</property></not>
+					</condition>
+					<command>property-assign</command>
+					<property>/sim/current-view/view-number</property>
+					<value>16</value>
+				</binding>
+			</key>
+
             <key n="127">
                 <name>Delete</name>
                 <desc>Toggle thrust reversers</desc>
