@@ -262,12 +262,24 @@
         <gear>
             <name>gear</name>
             <mode>in-transit</mode>
-            <path>Aircraft/E-jet-family/Sounds/SoundPack/gear.wav</path>
+            <path>Aircraft/E-jet-family/Sounds/landing-gear.wav</path>
             <property>/gear/gear[0]/position-norm</property>
             <pitch>
-                <internal>dt_play</internal>
-                <offset>1.0</offset>
-                <factor>-0.001</factor>
+                <offset>-0.75</offset>
+            </pitch>
+        </gear>
+        <gear>
+            <name>gear lock</name>
+            <mode>once</mode>
+            <path>Sounds/gear-lck.wav</path>
+            <condition>
+                <equals>
+                    <property>/gear/gear[0]/position-norm</property>
+                    <value>1</value>
+                </equals>
+            </condition>
+            <pitch>
+                <offset>-0.5</offset>
             </pitch>
         </gear>
 
@@ -511,7 +523,7 @@
         <!-- Seatbelt/No smoking signs -->
         <seatbelt>
             <name>Seatbelt sign</name>
-            <path>Aircraft/E-jet-family/Sounds/cabinalert.wav</path>
+            <path>Aircraft/E-jet-family/Sounds/cabin_chime.wav</path>
             <mode>once</mode>
             <condition>
                 <property>sim/sound/seatbelt-sign</property>
@@ -529,7 +541,7 @@
         </seatbelt>
         <nosmoke>
             <name>No smoking sign</name>
-            <path>Aircraft/E-jet-family/Sounds/cabinalert.wav</path>
+            <path>Aircraft/E-jet-family/Sounds/cabin_chime.wav</path>
             <mode>once</mode>
             <condition>
                 <property>sim/sound/no-smoking-sign</property>
