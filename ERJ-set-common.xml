@@ -1145,6 +1145,7 @@
             <no-smoking-sign type="bool">true</no-smoking-sign>
             <seatbelt-sign type="bool">false</seatbelt-sign>
             <chocks type="bool">true</chocks>
+            <cones type="bool">true</cones>
             <fuel-truck>
                 <position type="double">0.0</position>
                 <connected type="bool">false</connected>
