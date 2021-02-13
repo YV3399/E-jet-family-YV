@@ -466,6 +466,14 @@
                 <desc>Center Pedestal View</desc>
             </key>
             <key>
+                <name>7</name>
+                <desc>Helicopter View</desc>
+            </key>
+            <key>
+                <name>8</name>
+                <desc>Tower AGL View</desc>
+            </key>
+            <key>
                 <name>Delete</name>
                 <desc>toggle thrust reversers</desc>
             </key>
@@ -1452,6 +1460,30 @@
 					<command>property-assign</command>
 					<property>/sim/current-view/view-number</property>
 					<value>16</value>
+				</binding>
+			</key>
+			<key n="55">
+				<name>7</name>
+				<desc>Helicopter View</desc>
+				<binding>
+					<condition>
+						<not><property>/options/system/keyboard-mode</property></not>
+					</condition>
+					<command>property-assign</command>
+					<property>/sim/current-view/view-number</property>
+					<value>1</value>
+				</binding>
+			</key>
+			<key n="56">
+				<name>8</name>
+				<desc>Tower AGL View</desc>
+				<binding>
+					<condition>
+						<not><property>/options/system/keyboard-mode</property></not>
+					</condition>
+					<command>property-assign</command>
+					<property>/sim/current-view/view-number</property>
+					<value>7</value>
 				</binding>
 			</key>
 
