@@ -8,7 +8,7 @@ var download = func (username, onSuccess, onFailure=nil) {
     var url = "https://www.simbrief.com/api/xml.fetcher.php?username=" ~ username;
     if (onFailure == nil) {
         onFailure = func (r) {
-            setprop('/sim/simbrief/text-status', 'HTTP error (%s/%s)', r.status, r.reason);
+            setprop('/sim/simbrief/text-status', sprintf('HTTP error (%s/%s)', r.status, r.reason));
             printf("SimBrief download from %s failed with HTTP status %s",
                 url, r.status);
         }
