@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<PropertyList>
+	<name>pfd2</name>
+	<layout>table</layout>
+	<x>0</x>
+	<y>0</y>
+	
+	<group>
+		<row>0</row>
+		<col>0</col>
+		<layout>hbox</layout>
+		<text>
+			<halign>left</halign>
+			<label>PFD2</label>
+		</text>
+		<button>
+			<halign>right</halign>
+			<pref-width>20</pref-width>
+			<pref-height>20</pref-height>
+			<legend>X</legend>
+			<key>Esc</key>
+			<binding>
+				<command>dialog-close</command>
+			</binding>
+		</button>
+	</group>
+	
+	<hrule>
+		<row>1</row>
+		<col>0</col>
+	</hrule>
+	
+    <group>
+		<row>2</row>
+		<col>0</col>
+        <layout>hbox</layout>
+		<canvas>
+			<name>pfd</name>
+			<valign>fill</valign>
+			<halign>fill</halign>
+			<stretch>false</stretch>
+			<pref-width>508</pref-width>
+			<pref-height>680</pref-height>
+			<nasal>
+				<load>
+					<![CDATA[
+						var pfd_canvas_dlg = canvas.get(cmdarg());
+						var root = pfd_canvas_dlg.createGroup();
+                        var canvas_path = canvas_pfd.PFD_display[1].getPath();
+						root.setScale(0.5, 0.5);
+						pfd_canvas_dlg.setColorBackground(0, 0, 0, 1.0);
+						root.createChild("image").setFile(canvas_path);
+					]]>
+				</load>
+				<unload>
+					<![CDATA[
+						pfd_canvas_dlg.del();
+						pfd_canvas_dlg = nil;
+						root = nil;
+					]]>
+				</unload>
+			</nasal>
+		</canvas>
+	</group>
+
+</PropertyList>

@@ -4,6 +4,7 @@
 # - TCAS mode: p. 2157
 
 var mfd_display = [nil, nil];
+var mfd_master = [nil, nil];
 var mfd = [nil, nil];
 var DC = 0.01744;
 var sin30 = math.sin(30 * D2R);
@@ -1459,12 +1460,19 @@ setlistener("sim/signals/fdm-initialized", func {
             "mipmapping": 1
         });
         mfd_display[i].addPlacement({"node": "MFD" ~ i});
+        mfd_master[i] = mfd_display[i].createGroup();
         mfd[i] =
             MFD.new(
-                mfd_display[i].createGroup(),
+                mfd_master[i],
                 "Aircraft/E-jet-family/Models/Primus-Epic/MFD.svg",
                 i);
     }
+    setlistener("/systems/electrical/outputs/efis", func (node) {
+        var visible = (node.getValue() >= 15);
+        printf("Set MFD visibility: %s", visible ? "ON" : "OFF");
+        mfd_master[0].setVisible(visible);
+        mfd_master[1].setVisible(visible);
+    }, 1, 0);
 
     var timer = maketimer(0.1, func() {
         mfd[0].update();

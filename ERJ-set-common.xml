@@ -22,15 +22,6 @@
                 <mach-bug-kt-norm type="double">0</mach-bug-kt-norm>
             </E-jet-family>
 
-            <!--
-            <pushback>
-                <kp type="double">300</kp>
-                <ki type="double">0</ki>
-                <kd type="double">0</kd>
-                <position-norm type="double">0</position-norm>
-            </pushback>
-            -->
-
             <autopush include="XMLs/autopush-config.xml" />
 
             <door n="0">
@@ -90,6 +81,14 @@
         </simbrief>
 
         <flaps>
+            <!--
+                Flap settings are in the 0..0.750 range rather than 0..1,
+                because 1/6 cannot be represented exactly in floating-point
+                numbers, which would create rounding errors and all sorts of
+                nasty edge cases (e.g. in actuators). Hence, we pick 0.75 as
+                the limit, which makes each step 3/4 / 6 = 1/8 = 0.125, and
+                this works nicely.
+              -->
             <setting>0</setting> <!-- clean -->
             <setting>0.125</setting> <!-- 1 -->
             <setting>0.250</setting> <!-- 2 -->
@@ -353,9 +352,62 @@
 
         <menubar>
             <default>
+                <menu n="99">
+                    <label>EFIS Screens</label>
+                    <enabled type="bool">true</enabled>
+                    <item>
+                        <name>pfd1</name>
+                        <label>PFD 1</label>
+                        <binding>
+                            <command>dialog-show</command>
+                            <dialog-name>pfd1</dialog-name>
+                        </binding>
+                    </item>
+                    <item>
+                        <name>pfd2</name>
+                        <label>PFD 2</label>
+                        <binding>
+                            <command>dialog-show</command>
+                            <dialog-name>pfd2</dialog-name>
+                        </binding>
+                    </item>
+                    <item>
+                        <name>mfd1</name>
+                        <label>MFD 1</label>
+                        <binding>
+                            <command>dialog-show</command>
+                            <dialog-name>mfd1</dialog-name>
+                        </binding>
+                    </item>
+                    <item>
+                        <name>mfd2</name>
+                        <label>MFD 2</label>
+                        <binding>
+                            <command>dialog-show</command>
+                            <dialog-name>mfd2</dialog-name>
+                        </binding>
+                    </item>
+                    <item>
+                        <name>mcdu1</name>
+                        <label>MCDU 1</label>
+                        <binding>
+                            <command>dialog-show</command>
+                            <dialog-name>mcdu1</dialog-name>
+                        </binding>
+                    </item>
+                    <item>
+                        <name>mcdu2</name>
+                        <label>MCDU 2</label>
+                        <binding>
+                            <command>dialog-show</command>
+                            <dialog-name>mcdu2</dialog-name>
+                        </binding>
+                    </item>
+                </menu>
                 <menu n="100">
                     <label>E-jet-family</label>
                     <enabled type="bool">true</enabled>
+                    <!--
                     <item>
                         <name>autostart</name>
                         <label>Autostart</label>
@@ -364,6 +416,7 @@
                             <property>sim/model/start-idling</property>
                         </binding>
                     </item>
+                    -->
                     <item>
                         <label>Select Livery</label>
                         <binding>
@@ -380,6 +433,7 @@
                             <dialog-name>Airport operations</dialog-name>
                         </binding>
                     </item>
+                    <!--
                     <item>
                         <label>Announcements</label>
                         <binding>
@@ -387,6 +441,7 @@
                             <dialog-name>Cabin Announcements</dialog-name>
                         </binding>
                     </item>
+                    -->
                     <item>
                         <name>autopush</name>
                         <label>Pushback</label>
@@ -425,14 +480,6 @@
                         <binding>
                             <command>dialog-show</command>
                             <dialog-name>simbrief</dialog-name>
-                        </binding>
-                    </item>
-                    <item>
-                        <name>mcdu1</name>
-                        <label>MCDU 1</label>
-                        <binding>
-                            <command>dialog-show</command>
-                            <dialog-name>mcdu1</dialog-name>
                         </binding>
                     </item>
                 </menu>

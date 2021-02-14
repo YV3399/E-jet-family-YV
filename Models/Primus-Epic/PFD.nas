@@ -5,6 +5,7 @@
 #sources: http://www.smartcockpit.com/docs/Embraer_190-Powerplant.pdf http://www.smartcockpit.com/docs/Embraer_190-Flight_Controls.pdf http://www.smartcockpit.com/docs/Embraer_190-APU.pdf
 
 var ED_only = [nil, nil];
+var PFD_master = [nil, nil];
 var PFD_display = [nil, nil];
 var DC=0.01744;
 
@@ -1019,12 +1020,19 @@ setlistener("sim/signals/fdm-initialized", func {
             "mipmapping": 1
         });
         PFD_display[i].addPlacement({"node": "PFD" ~ i});
+        PFD_master[i] = PFD_display[i].createGroup();
         ED_only[i] =
             canvas_ED_only.new(
-            PFD_display[i].createGroup(),
+            PFD_master[i],
             "Aircraft/E-jet-family/Models/Primus-Epic/PFD.svg",
             i);
     }
+    setlistener("/systems/electrical/outputs/efis", func (node) {
+        var visible = (node.getValue() >= 15);
+        printf("Set PFD visibility: %s", visible ? "ON" : "OFF");
+        PFD_master[0].setVisible(visible);
+        PFD_master[1].setVisible(visible);
+    }, 1, 0);
 
     var timer = maketimer(0.04, func() {
         ED_only[0].update();
