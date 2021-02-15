@@ -9,4 +9,7 @@ Additional licensing terms apply to the following files:
   https://freesound.org/people/qubodup/sounds/197248/, Copyright 2013 Iwan
   Gabovitch, CC-BY3 license.
 - `Sounds/landing-gear.wav` - from
-  https://freesound.org/people/77Pacer/sounds/425273/, released under CC-0
+  https://freesound.org/people/77Pacer/sounds/425273/, released under CC0
+- `Models/EFB/icons/flightbag.png`, based on an SVG image found at
+  https://upload.wikimedia.org/wikipedia/commons/c/ce/Suitcasewith_wings_21.svg,
+  released under CC0

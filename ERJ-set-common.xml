@@ -1814,6 +1814,10 @@
             <file>Aircraft/E-jet-family/Nasal/mfdmap/traffic.nas</file>
         </mfdmap>
 
+        <efb>
+            <file>Aircraft/E-jet-family/Nasal/efb.nas</file>
+        </efb>
+
         <simbrief>
             <file>Aircraft/E-jet-family/Nasal/simbrief.nas</file>
         </simbrief>

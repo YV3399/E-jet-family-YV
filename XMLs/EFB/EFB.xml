@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+
+<PropertyList>
+
+    <path>Aircraft/E-jet-family/Models/EFB/efb.ac</path>
+
+    <animation>
+        <type>material</type>
+        <object-name>EFBScreen</object-name>
+        <emission>
+            <red>0.8</red>
+            <green>0.8</green>
+            <blue>0.9</blue>
+        </emission>
+    </animation>
+
+    <animation>
+        <type>touch</type>
+        <object-name>EFBScreen</object-name>
+        <action>
+            <touch>0</touch>
+            <repeatable>false</repeatable>
+            <binding>
+                <command>nasal</command>
+                <script><![CDATA[
+                    var efb = efb.efb;
+                    if (efb != nil) {
+                        efb.touch(cmdarg().getValues());
+                    }
+                ]]></script>
+            </binding>
+        </action>
+    </animation>
+
+</PropertyList>

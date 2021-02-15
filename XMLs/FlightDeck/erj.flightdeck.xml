@@ -416,6 +416,7 @@
         <object-name>yoke.upper.right.001</object-name>
         <object-name>yoke.YD</object-name>
         <object-name>yokes.pitch</object-name>
+        <object-name>Case</object-name>
     </animation>
 
     <animation>
@@ -542,6 +543,29 @@
         </action>
     </animation>
 
+    <!-- EFB -->
+    <model>
+        <path>Aircraft/E-jet-family/XMLs/EFB/EFB.xml</path>
+        <name>EFB1</name>
+        <offsets>
+            <x-m>-12.3</x-m>
+            <y-m>-0.9</y-m>
+            <z-m>1.1</z-m>
+            <pitch-deg>-30</pitch-deg>
+            <heading-deg>30</heading-deg>
+        </offsets>
+    </model>
+    <model>
+        <path>Aircraft/E-jet-family/XMLs/EFB/EFB.xml</path>
+        <name>EFB2</name>
+        <offsets>
+            <x-m>-12.3</x-m>
+            <y-m>0.9</y-m>
+            <z-m>1.1</z-m>
+            <pitch-deg>-30</pitch-deg>
+            <heading-deg>-30</heading-deg>
+        </offsets>
+    </model>
 
     <!-- HUD -->
 	<model>
