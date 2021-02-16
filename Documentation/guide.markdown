@@ -480,3 +480,16 @@ The following options are available for the importer:
   (This is not possible for Advanced Weather right now, due to the way Advanced
   Weather simulates winds aloft itself, and happily overwrites our custom wind
   configuration).
+
+## Electronic Flight Bag (EFB)
+
+The EFB is a virtual tablet that can be used to view charts in PDF format. See
+the [EFB documentation](./EFB.markdown) for details on how to get content into
+the EFB.
+
+General operation:
+
+- The screen is clickable, simulating a **touchscreen**
+- LMB clicking on the case flips between portrait and landscape **orientation**
+- Mouse wheel on the case adjusts **brightness**
+- MMB clicking on the case operates the **power** button

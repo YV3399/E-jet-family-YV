@@ -163,6 +163,9 @@
             <property-rule n="107">
                 <path>Aircraft/E-jet-family/Systems/services.xml</path>
             </property-rule>
+            <property-rule n="108">
+                <path>Aircraft/E-jet-family/Systems/EFB.xml</path>
+            </property-rule>
             <autopilot>
                 <path>Aircraft/E-jet-family/Systems/vspeeds.xml</path>
             </autopilot>
@@ -1433,6 +1436,14 @@
                 <file-prefix>Sounds/mk-viii/</file-prefix>
             </voice>
         </mk-viii>
+
+        <efb>
+            <available type="bool">true</available>
+            <power type="bool">true</power>
+            <brightness type="double">0.5</brightness>
+            <orientation-norm type="double">0</orientation-norm>
+            <selected-orientation-norm type="double">0</selected-orientation-norm>
+        </efb>
     </instrumentation>
 
     <input>

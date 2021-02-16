@@ -1,0 +1,8 @@
+<PropertyList>
+    <filter>
+        <type>noise-spike</type>
+        <max-rate-of-change>2.0</max-rate-of-change>
+        <input>/instrumentation/efb/selected-orientation-norm</input>
+        <output>/instrumentation/efb/orientation-norm</output>
+    </filter>
+</PropertyList>
