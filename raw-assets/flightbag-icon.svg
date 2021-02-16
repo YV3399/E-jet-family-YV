@@ -17,7 +17,10 @@
    height="64"
    version="1.0"
    sodipodi:docname="flightbag-icon.svg"
-   inkscape:output_extension="org.inkscape.output.svg.inkscape">
+   inkscape:output_extension="org.inkscape.output.svg.inkscape"
+   inkscape:export-filename="/home/tobias/flightgear/fgdata-standalone/Aircraft/E-jet-family/Models/EFB/icons/flightbag-large.png"
+   inkscape:export-xdpi="384"
+   inkscape:export-ydpi="384">
   <metadata
      id="metadata2231">
     <rdf:RDF>
@@ -101,19 +104,6 @@
     <filter
        inkscape:collect="always"
        style="color-interpolation-filters:sRGB"
-       id="filter2430"
-       x="-0.1308"
-       width="1.2616"
-       y="-0.1308"
-       height="1.2616">
-      <feGaussianBlur
-         inkscape:collect="always"
-         stdDeviation="3.4195"
-         id="feGaussianBlur2432" />
-    </filter>
-    <filter
-       inkscape:collect="always"
-       style="color-interpolation-filters:sRGB"
        id="filter3750"
        x="-0.022828"
        width="1.0457"
@@ -133,6 +123,19 @@
        x2="430.24"
        y2="370.17"
        gradientUnits="userSpaceOnUse" />
+    <filter
+       inkscape:collect="always"
+       style="color-interpolation-filters:sRGB"
+       id="filter5860"
+       x="-0.048"
+       width="1.096"
+       y="-0.048"
+       height="1.096">
+      <feGaussianBlur
+         inkscape:collect="always"
+         stdDeviation="1.2549"
+         id="feGaussianBlur5862" />
+    </filter>
   </defs>
   <sodipodi:namedview
      inkscape:window-height="886"
@@ -175,8 +178,8 @@
        cy="470"
        cx="34"
        id="circle2304"
-       style="opacity:1;fill:#000000;fill-opacity:0.50196;stroke:none;stroke-width:6.7908;stroke-linecap:butt;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;filter:url(#filter2430)"
-       transform="matrix(0.88355,0,0,0.88355,3.9593,54.732)" />
+       style="opacity:1;fill:#000000;fill-opacity:0.50196;stroke:none;stroke-width:6.7908;stroke-linecap:butt;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;filter:url(#filter5860)"
+       transform="matrix(0.88355,0,0,0.88355,3.3673,54.142)" />
     <circle
        style="opacity:1;fill:url(#radialGradient2272);fill-opacity:1;stroke:none;stroke-width:6.00001;stroke-linecap:butt;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
        id="path2238"

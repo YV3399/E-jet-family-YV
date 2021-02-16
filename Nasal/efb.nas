@@ -2,6 +2,10 @@ var efbDisplay = nil;
 var efbMaster = nil;
 var efb = nil;
 
+var urlencode = func (raw) {
+    return string.replace(raw, ' ', '%20');
+};
+
 var BaseApp = {
     touch: func (x, y) {},
     handleBack: func () {},
@@ -19,7 +23,8 @@ var FlightbagApp = {
             contentGroup: nil,
             currentListing: nil,
             currentPage: 0,
-            currentPath: [],
+            currentPath: "",
+            history: [],
             numPages: 0,
             clickSpots: [],
         };
@@ -39,21 +44,28 @@ var FlightbagApp = {
     },
 
     handleBack: func () {
-        if (me.currentPath != []) {
-            pop(me.currentPath);
+        var popped = pop(me.history);
+        if (popped != nil) {
+            me.loadListing(popped, 0);
         }
-        me.loadListing(me.currentPath);
     },
 
     initialize: func () {
         me.bgfill = me.masterGroup.createChild('path')
                         .rect(0, 0, 512, 768)
-                        .setColorFill(255, 255, 255);
+                        .setColorFill(128, 128, 128);
+        me.bglogo = me.masterGroup.createChild('image')
+                        .set('src', 'Aircraft/E-jet-family/Models/EFB/icons/flightbag-large.png')
+                        .setTranslation(256 - 128, 384 - 128);
+        me.bgfog = me.masterGroup.createChild('path')
+                        .rect(0, 0, 512, 768)
+                        .setColorFill(255, 255, 255, 0.5);
         me.contentGroup = me.masterGroup.createChild('group');
-        me.loadListing([]);
+        me.loadListing("", 0);
     },
 
     showLoadingScreen: func (url=nil) {
+        me.clickSpots = [];
         me.contentGroup.removeAllChildren();
         me.contentGroup.createChild('text')
             .setText('Loading, please wait...')
@@ -74,8 +86,9 @@ var FlightbagApp = {
     },
 
     showInfoScreen: func (msgs) {
-        var y = 64;
+        me.clickSpots = [];
         me.contentGroup.removeAllChildren();
+        var y = 64;
         foreach (var msg; msgs) {
             me.contentGroup.createChild('text')
                 .setText(msg)
@@ -89,8 +102,9 @@ var FlightbagApp = {
     },
 
     showErrorScreen: func (errs) {
-        var y = 64;
+        me.clickSpots = [];
         me.contentGroup.removeAllChildren();
+        var y = 64;
         me.contentGroup.createChild('text')
             .setText('Error')
             .setColor(128, 0, 0)
@@ -132,15 +146,17 @@ var FlightbagApp = {
 
     showListing: func () {
         var self = me;
-        var lineHeight = 32;
-        var perPage = math.floor((768 - 128) / lineHeight);
+        var lineHeight = 128;
+        var hSpacing = 128;
+        var perPage = math.floor((768 - 128) / lineHeight) * math.floor(512 / hSpacing);
         var entries = subvec(me.currentListing, me.currentPage * perPage, perPage);
         me.contentGroup.removeAllChildren();
         me.clickSpots = [];
+        var x = 0;
         var y = 32;
         var title = (size(me.currentPath) == 0)
                         ? 'Charts'
-                        : ('Charts » ' ~ string.join(' » ', me.currentPath));
+                        : me.currentPath;
         if (size(title) > 24) {
             title = '...' ~ substr(right(title, 21));
         }
@@ -153,46 +169,91 @@ var FlightbagApp = {
             .setFontSize(48);
         y += 64;
         foreach (var entry; entries) {
-            var text = me.contentGroup.createChild('text')
-                .setText(entry.name)
-                .setColor(0, 0, 0)
-                .setAlignment('left-top')
-                .setTranslation(8, y)
-                .setFont("LiberationFonts/LiberationSans-Regular.ttf")
-                .setFontSize(24);
-            var subpath = subvec(me.currentPath, 0);
-            append(subpath, entry.name);
-            var what = nil;
-            if (entry.type == 'dir') {
-                what = func () {
-                    self.loadListing(subpath);
-                };
+            (func (entry) {
+                var iconName = (entry.type == 'dir') ? 'folder.png' : 'chart.png';
+                var icon = me.contentGroup.createChild('image')
+                    .set('src', 'Aircraft/E-jet-family/Models/EFB/icons/' ~ iconName)
+                    .setTranslation(x + hSpacing / 2 - 32, y);
+                var label1 = entry.name;
+                var label2 = '';
+                if (size(entry.name) > 8) {
+                    if (size(entry.name) > 14) {
+                        label1 = left(entry.name, 7) ~ '...';
+                        label2 = '...' ~ right(entry.name, 7);
+                    }
+                    else {
+                        label1 = left(entry.name, math.ceil(size(entry.name) / 2));
+                        label2 = right(entry.name, math.floor(size(entry.name) / 2));
+                    }
+                }
+                me.contentGroup.createChild('text')
+                    .setText(label1)
+                    .setColor(0, 0, 0)
+                    .setAlignment('center-top')
+                    .setTranslation(x + hSpacing / 2, y + 72)
+                    .setFont("LiberationFonts/LiberationSans-Regular.ttf")
+                    .setFontSize(24);
+                me.contentGroup.createChild('text')
+                    .setText(label2)
+                    .setColor(0, 0, 0)
+                    .setAlignment('center-top')
+                    .setTranslation(x + hSpacing / 2, y + 72 + 32)
+                    .setFont("LiberationFonts/LiberationSans-Regular.ttf")
+                    .setFontSize(24);
+                var subpath = entry.path;
+                var what = nil;
+                if (entry.type == 'dir') {
+                    what = func () { self.loadListing(subpath); };
+                }
+                else {
+                    what = func () { self.loadChart(subpath); };
+                }
+                append(me.clickSpots, {
+                    where: [ x, y, x + hSpacing, y + lineHeight ],
+                    what: what,
+                });
+            })(entry);
+            x += hSpacing;
+            if (x > 512 - hSpacing) {
+                x = 0;
+                y += lineHeight;
             }
-            append(me.clickSpots, {
-                where: text.getTransformedBounds(),
-                what: what,
-            });
-            y += lineHeight;
         }
+        self.makeReloadIcon(func () { self.loadListing(self.currentPath, 0); }, 'Refresh');
+    },
+
+    makeReloadIcon: func (what, text = 'Refresh') {
         var refreshIcon = me.contentGroup.createChild('text')
-                .setText('Refresh')
+                .setText(text)
                 .setColor(0, 0, 255)
-                .setAlignment('right-bottom')
-                .setTranslation(512, 768 - 48)
+                .setAlignment('center-bottom')
+                .setTranslation(256, 768 - 48)
                 .setFont("LiberationFonts/LiberationSans-Regular.ttf")
                 .setFontSize(24);
         append(me.clickSpots, {
             where: refreshIcon.getTransformedBounds(),
-            what: func () {
-                self.loadListing(self.currentPath);
-            },
+            what: what,
         });
     },
 
-    loadListing: func (path) {
+    loadChart: func (path, pushHistory = 1) {
         var self = me;
-        var url = 'http://localhost:7675/' ~ string.join('/', path);
+        var url = 'http://localhost:7675/' ~ urlencode(path);
         me.showLoadingScreen(url);
+        me.contentGroup.removeAllChildren();
+        if (pushHistory) append(me.history, me.currentPath);
+        me.currentPath = path;
+        var img = me.contentGroup.createChild('image')
+            .set('size[0]', 512)
+            .set('size[1]', 768)
+            .set('src', url);
+    },
+
+    loadListing: func (path, pushHistory = 1) {
+        var self = me;
+        var url = 'http://localhost:7675/' ~ urlencode(path);
+        me.showLoadingScreen(url);
+        if (pushHistory) append(me.history, me.currentPath);
         me.currentPath = path;
         var filename = getprop('/sim/fg-home') ~ "/Export/efb_listing.xml";
         var onFailure = func (r) {
@@ -201,6 +262,7 @@ var FlightbagApp = {
                 , url
                 , sprintf("HTTP status: %s", r.status)
                 ]);
+            self.makeReloadIcon(func () { self.loadListing(self.currentPath, 0); }, 'Retry');
         };
         var onSuccess = func (f) {
             var listingNode = io.readxml(filename);
@@ -407,7 +469,7 @@ var EFB = {
 setlistener("sim/signals/fdm-initialized", func {
     efbDisplay = canvas.new({
         "name": "EFB",
-        "size": [512, 768],
+        "size": [1024, 1536],
         "view": [512, 768],
         "mipmapping": 1
     });
