@@ -15,6 +15,33 @@ var BaseApp = {
     initialize: func () {},
 };
 
+var lineSplitStr = func (str, maxLineLen) {
+    var words = split(" ", str);
+    var lines = [];
+    var lineAccum = [];
+    var lineLen = 0;
+    foreach (var word; words) {
+        var wlen = utf8.size(word);
+        if (lineLen == 0) {
+            newLineLen = wlen;
+        }
+        else {
+            newLineLen = lineLen + wlen + 1;
+        }
+        if ((lineLen > 0) and (newLineLen > maxLineLen)) {
+            append(lines, string.join(" ", lineAccum));
+            lineAccum = [word];
+            lineLen = wlen;
+        }
+        else {
+            append(lineAccum, word);
+            lineLen = newLineLen;
+        }
+    }
+    append(lines, string.join(" ", lineAccum));
+    return lines;
+}
+
 var FlightbagApp = {
     new: func(masterGroup) {
         var m = {
@@ -24,8 +51,8 @@ var FlightbagApp = {
             currentListing: nil,
             currentPage: 0,
             currentPath: "",
+            currentTitle: "Flight Bag",
             history: [],
-            numPages: 0,
             clickSpots: [],
         };
         return m;
@@ -45,8 +72,9 @@ var FlightbagApp = {
 
     handleBack: func () {
         var popped = pop(me.history);
+        debug.dump("POP", popped);
         if (popped != nil) {
-            me.loadListing(popped, 0);
+            me.loadListing(popped[0], popped[1], popped[2], 0);
         }
     },
 
@@ -59,9 +87,9 @@ var FlightbagApp = {
                         .setTranslation(256 - 128, 384 - 128);
         me.bgfog = me.masterGroup.createChild('path')
                         .rect(0, 0, 512, 768)
-                        .setColorFill(255, 255, 255, 0.5);
+                        .setColorFill(255, 255, 255, 0.8);
         me.contentGroup = me.masterGroup.createChild('group');
-        me.loadListing("", 0);
+        me.loadListing("", "Flight Bag", 0, 0);
     },
 
     showLoadingScreen: func (url=nil) {
@@ -146,67 +174,73 @@ var FlightbagApp = {
 
     showListing: func () {
         var self = me;
-        var lineHeight = 128;
+        var lineHeight = 144;
         var hSpacing = 128;
-        var perPage = math.floor((768 - 128) / lineHeight) * math.floor(512 / hSpacing);
+        var perPage = math.floor((768 - 192) / lineHeight) * math.floor(512 / hSpacing);
         var entries = subvec(me.currentListing, me.currentPage * perPage, perPage);
+        var numPages = math.ceil(size(me.currentListing) / perPage);
         me.contentGroup.removeAllChildren();
         me.clickSpots = [];
         var x = 0;
         var y = 32;
-        var title = (size(me.currentPath) == 0)
-                        ? 'Charts'
-                        : me.currentPath;
+        var title = me.currentTitle;
+        var alignment = 'left-top';
+        var titleX = 8;
         if (size(title) > 24) {
-            title = '...' ~ substr(right(title, 21));
+            title = '…' ~ utf8.substr(title, utf8.size(title) - 23, 23);
+            alignment = 'right-top';
+            titleX = 512 - 8;
         }
         me.contentGroup.createChild('text')
             .setText(title)
             .setColor(0, 0, 0)
-            .setAlignment('left-top')
-            .setTranslation(8, y)
+            .setAlignment(alignment)
+            .setTranslation(titleX, y)
             .setFont("LiberationFonts/LiberationSans-Regular.ttf")
             .setFontSize(48);
         y += 64;
+        y += 16;
         foreach (var entry; entries) {
             (func (entry) {
                 var iconName = (entry.type == 'dir') ? 'folder.png' : 'chart.png';
                 var icon = me.contentGroup.createChild('image')
                     .set('src', 'Aircraft/E-jet-family/Models/EFB/icons/' ~ iconName)
                     .setTranslation(x + hSpacing / 2 - 32, y);
-                var label1 = entry.name;
-                var label2 = '';
-                if (size(entry.name) > 8) {
-                    if (size(entry.name) > 14) {
-                        label1 = left(entry.name, 7) ~ '...';
-                        label2 = '...' ~ right(entry.name, 7);
-                    }
-                    else {
-                        label1 = left(entry.name, math.ceil(size(entry.name) / 2));
-                        label2 = right(entry.name, math.floor(size(entry.name) / 2));
-                    }
-                }
+                var labelLines = lineSplitStr(entry.name, 14);
+                var label1 = (size(labelLines) > 0) ? labelLines[0] : "---";
+                var label2 = (size(labelLines) > 1) ? labelLines[1] : "";
+                var label3 = (size(labelLines) > 2) ? labelLines[size(labelLines) - 1] : "";
+                if (utf8.size(label1) > 14) { label1 = utf8.substr(label1, 0, 13) ~ '…'; }
+                if ((utf8.size(label2) > 14)) { label2 = utf8.substr(label2, 0, 13) ~ '…'; }
+                if (utf8.size(label3) > 14) { label3 = '…' ~ utf8.substr(label3, utf8.size(label3) - 13, 13); }
                 me.contentGroup.createChild('text')
                     .setText(label1)
                     .setColor(0, 0, 0)
                     .setAlignment('center-top')
                     .setTranslation(x + hSpacing / 2, y + 72)
                     .setFont("LiberationFonts/LiberationSans-Regular.ttf")
-                    .setFontSize(24);
+                    .setFontSize(16);
                 me.contentGroup.createChild('text')
                     .setText(label2)
                     .setColor(0, 0, 0)
                     .setAlignment('center-top')
-                    .setTranslation(x + hSpacing / 2, y + 72 + 32)
+                    .setTranslation(x + hSpacing / 2, y + 72 + 22)
                     .setFont("LiberationFonts/LiberationSans-Regular.ttf")
-                    .setFontSize(24);
+                    .setFontSize(16);
+                me.contentGroup.createChild('text')
+                    .setText(label3)
+                    .setColor(0, 0, 0)
+                    .setAlignment('center-top')
+                    .setTranslation(x + hSpacing / 2, y + 72 + 44)
+                    .setFont("LiberationFonts/LiberationSans-Regular.ttf")
+                    .setFontSize(16);
                 var subpath = entry.path;
                 var what = nil;
                 if (entry.type == 'dir') {
-                    what = func () { self.loadListing(subpath); };
+                    what = func () { self.loadListing(subpath, entry.name, 0, 1); };
                 }
                 else {
-                    what = func () { self.loadChart(subpath); };
+                    what = func () { self.loadChart(subpath, entry.name); };
                 }
                 append(me.clickSpots, {
                     where: [ x, y, x + hSpacing, y + lineHeight ],
@@ -219,7 +253,8 @@ var FlightbagApp = {
                 y += lineHeight;
             }
         }
-        self.makeReloadIcon(func () { self.loadListing(self.currentPath, 0); }, 'Refresh');
+        self.makeReloadIcon(func () { self.reloadListing(); }, 'Refresh');
+        self.makePager(numPages, func () { self.showListing(); });
     },
 
     makeReloadIcon: func (what, text = 'Refresh') {
@@ -236,25 +271,71 @@ var FlightbagApp = {
         });
     },
 
-    loadChart: func (path, pushHistory = 1) {
+    makePager: func (numPages, what) {
+        if (numPages < 2) return;
+        var self = me;
+        if (me.currentPage > 0) {
+            var prevPageIcon = me.contentGroup.createChild('text')
+                    .setText("<")
+                    .setColor(0, 0, 255)
+                    .setAlignment('center-bottom')
+                    .setTranslation(16, 768 - 48)
+                    .setFont("LiberationFonts/LiberationSans-Regular.ttf")
+                    .setFontSize(24);
+            append(me.clickSpots, {
+                where: prevPageIcon.getTransformedBounds(),
+                what: func () { self.currentPage = self.currentPage - 1; what(); },
+            });
+        }
+        var currentPageIndicator = me.contentGroup.createChild('text')
+                .setText(sprintf("%i/%i", me.currentPage + 1, numPages))
+                .setColor(0, 0, 0)
+                .setAlignment('center-bottom')
+                .setTranslation(64, 768 - 48)
+                .setFont("LiberationFonts/LiberationSans-Regular.ttf")
+                .setFontSize(24);
+        if (me.currentPage < numPages - 1) {
+            var nextPageIcon = me.contentGroup.createChild('text')
+                    .setText(">")
+                    .setColor(0, 0, 255)
+                    .setAlignment('center-bottom')
+                    .setTranslation(112, 768 - 48)
+                    .setFont("LiberationFonts/LiberationSans-Regular.ttf")
+                    .setFontSize(24);
+            append(me.clickSpots, {
+                where: nextPageIcon.getTransformedBounds(),
+                what: func () { self.currentPage = self.currentPage + 1; what(); },
+            });
+        }
+    },
+
+    loadChart: func (path, title, pushHistory = 1) {
         var self = me;
         var url = 'http://localhost:7675/' ~ urlencode(path);
         me.showLoadingScreen(url);
         me.contentGroup.removeAllChildren();
-        if (pushHistory) append(me.history, me.currentPath);
+        if (pushHistory) append(me.history, [me.currentPath, me.currentTitle, me.currentPage]);
         me.currentPath = path;
+        me.currentTitle = title;
+        me.currentPage = 0;
         var img = me.contentGroup.createChild('image')
             .set('size[0]', 512)
             .set('size[1]', 768)
             .set('src', url);
     },
 
-    loadListing: func (path, pushHistory = 1) {
+    reloadListing: func () {
+        me.loadListing(me.currentPath, me.currentTitle, me.currentPage, 0);
+    },
+
+    loadListing: func (path, title, page, pushHistory = 1) {
         var self = me;
         var url = 'http://localhost:7675/' ~ urlencode(path);
         me.showLoadingScreen(url);
-        if (pushHistory) append(me.history, me.currentPath);
+        if (pushHistory) append(me.history, [me.currentPath, me.currentTitle, me.currentPage]);
         me.currentPath = path;
+        me.currentTitle = title;
+        me.currentPage = page;
         var filename = getprop('/sim/fg-home') ~ "/Export/efb_listing.xml";
         var onFailure = func (r) {
             self.showErrorScreen(
@@ -262,7 +343,7 @@ var FlightbagApp = {
                 , url
                 , sprintf("HTTP status: %s", r.status)
                 ]);
-            self.makeReloadIcon(func () { self.loadListing(self.currentPath, 0); }, 'Retry');
+            self.makeReloadIcon(func () { self.reloadListing(); }, 'Retry');
         };
         var onSuccess = func (f) {
             var listingNode = io.readxml(filename);
@@ -274,7 +355,6 @@ var FlightbagApp = {
                     ]);
             }
             else {
-                self.currentPage = 0;
                 self.currentListing = self.parseListing(listingNode);
                 self.showListing();
             }

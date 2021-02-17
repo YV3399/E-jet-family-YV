@@ -220,6 +220,20 @@
             </config>
         </view>
 
+        <view n="201">
+            <name>Electronic Flight Bag</name>
+            <type>lookfrom</type>
+            <internal archive="y">true</internal>
+            <config>
+                <from-model type="bool">true</from-model>
+                <x-offset-m>-0.52</x-offset-m>
+                <y-offset-m>1.43</y-offset-m>
+                <pitch-offset-deg>-22.3</pitch-offset-deg>
+                <heading-offset-deg>28.875</heading-offset-deg>
+                <default-field-of-view-deg type="double">30.0</default-field-of-view-deg>
+            </config>
+        </view>
+
         <view n="200">
             <name>Center Pedestal</name>
             <type>lookfrom</type>
@@ -491,6 +505,10 @@
 
         <help>
             <title>E-jet-family</title>
+            <key>
+                <name>`</name>
+                <desc>Electronic Flight Bag View</desc>
+            </key>
             <key>
                 <name>1</name>
                 <desc>Captain View</desc>
@@ -1261,7 +1279,7 @@
 
     <instrumentation>
         <IESS>
-            <brightness type="float">0.5</brightness>
+            <brightness type="float" userarchive="y">0.75</brightness>
         </IESS>
 
         <eicas>
@@ -1291,14 +1309,14 @@
             <input type="string"/>
             <serviceable type="bool">true</serviceable>
             <command type="string"></command>
-            <brightness>0.8</brightness>
+            <brightness type="double" userarchive="y">0.8</brightness>
         </mcdu>
         <mcdu>
             <display>IDENT</display>
             <input type="string"/>
             <serviceable type="bool">true</serviceable>
             <command type="string"></command>
-            <brightness>0.8</brightness>
+            <brightness type="double" userarchive="y">0.8</brightness>
         </mcdu>
 
         <wxr>
@@ -1440,7 +1458,7 @@
         <efb>
             <available type="bool">true</available>
             <power type="bool">true</power>
-            <brightness type="double">0.5</brightness>
+            <brightness type="double" userarchive="y">0.75</brightness>
             <orientation-norm type="double">0</orientation-norm>
             <selected-orientation-norm type="double">0</selected-orientation-norm>
         </efb>
@@ -1448,6 +1466,18 @@
 
     <input>
         <keyboard>
+			<key n="96">
+				<name>`</name>
+				<desc>Electronic Flight Bag View</desc>
+				<binding>
+					<condition>
+						<not><property>/options/system/keyboard-mode</property></not>
+					</condition>
+					<command>property-assign</command>
+					<property>/sim/current-view/view-number</property>
+					<value>17</value>
+				</binding>
+			</key>
 			<key n="49">
 				<name>1</name>
 				<desc>Captain View</desc>
