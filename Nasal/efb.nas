@@ -313,7 +313,7 @@ var FlightbagApp = {
 
     loadChart: func (path, title, page, pushHistory = 1) {
         var self = me;
-        var url = 'http://localhost:7675/' ~ urlencode(path) ~ "?p=" ~ page;
+        var url = getprop('/instrumentation/efb/flightbag-companion-uri') ~ urlencode(path) ~ "?p=" ~ page;
         debug.dump(url);
         me.showLoadingScreen(url);
         me.contentGroup.removeAllChildren();
@@ -336,7 +336,7 @@ var FlightbagApp = {
 
     loadListing: func (path, title, page, pushHistory = 1) {
         var self = me;
-        var url = 'http://localhost:7675/' ~ urlencode(path);
+        var url = getprop('/instrumentation/efb/flightbag-companion-uri') ~ urlencode(path);
         me.showLoadingScreen(url);
         if (pushHistory) append(me.history, [me.currentPath, me.currentTitle, me.currentPage]);
         me.currentPath = path;

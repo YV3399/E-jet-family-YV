@@ -7,6 +7,7 @@ var Dialogs = {
 	radio: gui.Dialog.new("sim/gui/dialogs/radios/dialog", dialogs_path~"radio.xml"),
 	tiller: gui.Dialog.new("sim/gui/dialogs/tiller/dialog", dialogs_path~"tiller-dlg.xml"),
 	performance: gui.Dialog.new("sim/gui/dialogs/performance/dialog", dialogs_path~"performance-dlg.xml"),
+	configuration: gui.Dialog.new("sim/gui/dialogs/configuration/dialog", dialogs_path~"configuration-dlg.xml"),
     autopush: gui.Dialog.new("sim/gui/dialogs/autopush/dialog", dialogs_path ~ "autopush.xml"),
     mcdu1: gui.Dialog.new("sim/gui/dialogs/mcdu1/dialog", dialogs_path~"mcdu1-dlg.xml"),
     mcdu2: gui.Dialog.new("sim/gui/dialogs/mcdu2/dialog", dialogs_path~"mcdu2-dlg.xml"),

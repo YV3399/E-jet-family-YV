@@ -1,0 +1,91 @@
+<?xml version="1.0"?>
+<PropertyList>
+    <name>configuration</name>
+    <layout>vbox</layout>
+    <!-- <pref-width>800</pref-width> -->
+    
+    <group>
+        <layout>hbox</layout>
+        <empty>
+            <stretch>1</stretch>
+        </empty>
+        
+        <text>
+            <label>E-Jet Family Configuration</label>
+        </text>
+        
+        <empty>
+            <stretch>1</stretch>
+        </empty>
+        
+        <button>
+            <pref-width>16</pref-width>
+            <pref-height>16</pref-height>
+            <legend></legend>
+            <keynum>27</keynum>
+            <border>2</border>
+            <binding>
+                <command>dialog-close</command>
+            </binding>
+        </button>
+    </group>
+    
+    <hrule/>
+    
+    <group>
+        <layout>vbox</layout>
+        <halign>left</halign>
+        
+        <text>
+            <label>Electronic Flight Bag</label>
+        </text>
+        <group>
+            <layout>hbox</layout>
+            <halign>left</halign>
+            <valign>top</valign>
+            <group>
+                <layout>hbox</layout>
+                <checkbox>
+                    <label>Enabled</label>
+                    <property>/instrumentation/efb/available</property>
+                    <halign>left</halign>
+                    <binding>
+                        <command>dialog-apply</command>
+                    </binding>
+                </checkbox>
+            </group>
+        </group>
+        <group>
+            <layout>hbox</layout>
+            <halign>left</halign>
+            <valign>top</valign>
+            <group>
+                <layout>hbox</layout>
+                <text>
+                    <label>Companion URL</label>
+                </text>
+                <input>
+                    <property>/instrumentation/efb/flightbag-companion-uri</property>
+                    <pref-width>200</pref-width>
+                    <binding>
+                        <command>dialog-apply</command>
+                    </binding>
+                </input>
+                <button>
+                    <legend>Reset</legend>
+                    <binding>
+                        <command>property-assign</command>
+                        <property>/instrumentation/efb/flightbag-companion-uri</property>
+                        <value>http://localhost:7675/</value>
+                    </binding>
+                    <binding>
+                        <command>dialog-update</command>
+                    </binding>
+                </button>
+            </group>
+        </group>
+    </group>
+    
+</PropertyList>
+
+

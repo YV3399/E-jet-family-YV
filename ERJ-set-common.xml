@@ -64,7 +64,9 @@
             <path>/sim/simbrief/options/import-fob</path>
             <path>/sim/simbrief/options/import-perfinit</path>
             <path>/sim/simbrief/options/import-winds-aloft</path>
+            <path>/instrumentation/efb/available</path>
             <path>/instrumentation/efb/brightness</path>
+            <path>/instrumentation/efb/flightbag-companion-uri</path>
         </aircraft-data>
 
         <simbrief>
@@ -482,6 +484,14 @@
                         <binding>
                             <command>dialog-show</command>
                             <dialog-name>tiller-dlg</dialog-name>
+                        </binding>
+                    </item>
+                    <item>
+                        <name>configuration</name>
+                        <label>Configuration</label>
+                        <binding>
+                            <command>dialog-show</command>
+                            <dialog-name>configuration</dialog-name>
                         </binding>
                     </item>
                     <item>
@@ -1457,11 +1467,12 @@
         </mk-viii>
 
         <efb>
-            <available type="bool">true</available>
+            <available type="bool" userarchive="y">false</available>
             <power type="bool">true</power>
             <brightness type="double" userarchive="y">0.75</brightness>
             <orientation-norm type="double">0</orientation-norm>
             <selected-orientation-norm type="double">0</selected-orientation-norm>
+            <flightbag-companion-uri type="string" userarchive="y">http://localhost:7675/</flightbag-companion-uri>
         </efb>
     </instrumentation>
 
