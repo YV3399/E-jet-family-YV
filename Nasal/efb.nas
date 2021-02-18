@@ -72,7 +72,6 @@ var FlightbagApp = {
 
     handleBack: func () {
         var popped = pop(me.history);
-        debug.dump("POP", popped);
         if (popped != nil) {
             me.loadListing(popped[0], popped[1], popped[2], 0);
         }
@@ -240,7 +239,7 @@ var FlightbagApp = {
                     what = func () { self.loadListing(subpath, entry.name, 0, 1); };
                 }
                 else {
-                    what = func () { self.loadChart(subpath, entry.name); };
+                    what = func () { self.loadChart(subpath, entry.name, 0, 1); };
                 }
                 append(me.clickSpots, {
                     where: [ x, y, x + hSpacing, y + lineHeight ],
@@ -272,7 +271,7 @@ var FlightbagApp = {
     },
 
     makePager: func (numPages, what) {
-        if (numPages < 2) return;
+        if (numPages != nil and numPages < 2) return;
         var self = me;
         if (me.currentPage > 0) {
             var prevPageIcon = me.contentGroup.createChild('text')
@@ -288,13 +287,17 @@ var FlightbagApp = {
             });
         }
         var currentPageIndicator = me.contentGroup.createChild('text')
-                .setText(sprintf("%i/%i", me.currentPage + 1, numPages))
+                .setText(
+                    (numPages == nil)
+                        ? sprintf("%i", me.currentPage + 1)
+                        : sprintf("%i/%i", me.currentPage + 1, numPages)
+                 )
                 .setColor(0, 0, 0)
                 .setAlignment('center-bottom')
                 .setTranslation(64, 768 - 48)
                 .setFont("LiberationFonts/LiberationSans-Regular.ttf")
                 .setFontSize(24);
-        if (me.currentPage < numPages - 1) {
+        if (numPages == nil or me.currentPage < numPages - 1) {
             var nextPageIcon = me.contentGroup.createChild('text')
                     .setText(">")
                     .setColor(0, 0, 255)
@@ -309,19 +312,23 @@ var FlightbagApp = {
         }
     },
 
-    loadChart: func (path, title, pushHistory = 1) {
+    loadChart: func (path, title, page, pushHistory = 1) {
         var self = me;
-        var url = 'http://localhost:7675/' ~ urlencode(path);
+        var url = 'http://localhost:7675/' ~ urlencode(path) ~ "?p=" ~ page;
+        debug.dump(url);
         me.showLoadingScreen(url);
         me.contentGroup.removeAllChildren();
         if (pushHistory) append(me.history, [me.currentPath, me.currentTitle, me.currentPage]);
         me.currentPath = path;
         me.currentTitle = title;
-        me.currentPage = 0;
+        me.currentPage = page;
         var img = me.contentGroup.createChild('image')
             .set('size[0]', 512)
             .set('size[1]', 768)
             .set('src', url);
+        me.makePager(nil, func () {
+            self.loadChart(self.currentPath, self.currentTitle, self.currentPage, 0);
+        });
     },
 
     reloadListing: func () {
