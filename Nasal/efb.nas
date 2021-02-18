@@ -6,6 +6,11 @@ var urlencode = func (raw) {
     return string.replace(raw, ' ', '%20');
 };
 
+var font_mapper = func(family, weight) {
+    return "LiberationFonts/LiberationSans-Regular.ttf";
+};
+
+
 var BaseApp = {
     touch: func (x, y) {},
     handleBack: func () {},
@@ -21,6 +26,12 @@ var lineSplitStr = func (str, maxLineLen) {
     var lineAccum = [];
     var lineLen = 0;
     foreach (var word; words) {
+        while ((lineLen == 0) and (utf8.size(word) > maxLineLen)) {
+            var w0 = utf8.substr(word, 0, maxLineLen - 1) ~ '…';
+            word = '…' ~ utf8.substr(word, maxLineLen - 1);
+            append(lines, w0);
+            lineLen = 0;
+        }
         var wlen = utf8.size(word);
         if (lineLen == 0) {
             newLineLen = wlen;
@@ -185,8 +196,8 @@ var FlightbagApp = {
         var title = me.currentTitle;
         var alignment = 'left-top';
         var titleX = 8;
-        if (size(title) > 24) {
-            title = '…' ~ utf8.substr(title, utf8.size(title) - 23, 23);
+        if (size(title) > 32) {
+            title = '…' ~ utf8.substr(title, utf8.size(title) - 31, 31);
             alignment = 'right-top';
             titleX = 512 - 8;
         }
@@ -194,9 +205,9 @@ var FlightbagApp = {
             .setText(title)
             .setColor(0, 0, 0)
             .setAlignment(alignment)
-            .setTranslation(titleX, y)
+            .setTranslation(titleX, y + 8)
             .setFont("LiberationFonts/LiberationSans-Regular.ttf")
-            .setFontSize(48);
+            .setFontSize(32);
         y += 64;
         y += 16;
         foreach (var entry; entries) {
@@ -256,59 +267,47 @@ var FlightbagApp = {
         self.makePager(numPages, func () { self.showListing(); });
     },
 
-    makeReloadIcon: func (what, text = 'Refresh') {
-        var refreshIcon = me.contentGroup.createChild('text')
-                .setText(text)
-                .setColor(0, 0, 255)
-                .setAlignment('center-bottom')
-                .setTranslation(256, 768 - 48)
-                .setFont("LiberationFonts/LiberationSans-Regular.ttf")
-                .setFontSize(24);
+    makeClickable: func (elem, what) {
         append(me.clickSpots, {
-            where: refreshIcon.getTransformedBounds(),
+            where: elem.getTransformedBounds(),
             what: what,
         });
     },
 
+    makeClickableArea: func (area, what) {
+        append(me.clickSpots, {
+            where: area,
+            what: what,
+        });
+    },
+
+    makeReloadIcon: func (what) {
+        var refreshIcon = me.contentGroup.createChild('image')
+                .set('src', 'Aircraft/E-jet-family/Models/EFB/icons/reload.png')
+                .setScale(0.5, 0.5)
+                .setTranslation(512 - 32, 32);
+        me.makeClickableArea([512 - 32, 32, 512, 64], what);
+    },
+
     makePager: func (numPages, what) {
         if (numPages != nil and numPages < 2) return;
+        var pager = me.contentGroup.createChild('group');
+        canvas.parsesvg(pager, "Aircraft/E-jet-family/Models/EFB/pager-overlay.svg", {'font-mapper': font_mapper});
+        var btnPgUp = pager.getElementById('btnPgUp');
+        var btnPgDn = pager.getElementById('btnPgDn');
         var self = me;
         if (me.currentPage > 0) {
-            var prevPageIcon = me.contentGroup.createChild('text')
-                    .setText("<")
-                    .setColor(0, 0, 255)
-                    .setAlignment('center-bottom')
-                    .setTranslation(16, 768 - 48)
-                    .setFont("LiberationFonts/LiberationSans-Regular.ttf")
-                    .setFontSize(24);
-            append(me.clickSpots, {
-                where: prevPageIcon.getTransformedBounds(),
-                what: func () { self.currentPage = self.currentPage - 1; what(); },
-            });
+            me.makeClickable(btnPgUp, func () { self.currentPage = self.currentPage - 1; what(); });
         }
-        var currentPageIndicator = me.contentGroup.createChild('text')
+        var currentPageIndicator = pager.getElementById('pager.digital');
+        currentPageIndicator
                 .setText(
                     (numPages == nil)
                         ? sprintf("%i", me.currentPage + 1)
                         : sprintf("%i/%i", me.currentPage + 1, numPages)
-                 )
-                .setColor(0, 0, 0)
-                .setAlignment('center-bottom')
-                .setTranslation(64, 768 - 48)
-                .setFont("LiberationFonts/LiberationSans-Regular.ttf")
-                .setFontSize(24);
+                 );
         if (numPages == nil or me.currentPage < numPages - 1) {
-            var nextPageIcon = me.contentGroup.createChild('text')
-                    .setText(">")
-                    .setColor(0, 0, 255)
-                    .setAlignment('center-bottom')
-                    .setTranslation(112, 768 - 48)
-                    .setFont("LiberationFonts/LiberationSans-Regular.ttf")
-                    .setFontSize(24);
-            append(me.clickSpots, {
-                where: nextPageIcon.getTransformedBounds(),
-                what: func () { self.currentPage = self.currentPage + 1; what(); },
-            });
+            me.makeClickable(btnPgDn, func () { self.currentPage = self.currentPage + 1; what(); });
         }
     },
 
@@ -410,10 +409,6 @@ var EFB = {
     },
 
     initialize: func() {
-        var font_mapper = func(family, weight) {
-            return "LiberationFonts/LiberationSans-Regular.ttf";
-        };
-
         me.shellGroup = me.master.createChild('group');
         me.shellPages = [];
         me.background = me.shellGroup.createChild('image');

@@ -64,6 +64,7 @@
             <path>/sim/simbrief/options/import-fob</path>
             <path>/sim/simbrief/options/import-perfinit</path>
             <path>/sim/simbrief/options/import-winds-aloft</path>
+            <path>/instrumentation/efb/brightness</path>
         </aircraft-data>
 
         <simbrief>
