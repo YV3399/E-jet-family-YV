@@ -311,6 +311,31 @@ var FlightbagApp = {
         }
     },
 
+    makeZoomScrollOverlay: func (img) {
+        var overlay = me.contentGroup.createChild('group');
+        canvas.parsesvg(overlay, "Aircraft/E-jet-family/Models/EFB/zoom-scroll-overlay.svg", {'font-mapper': font_mapper});
+        var zoom = 1.0;
+        var sx = 0.0;
+        var sy = 0.0;
+        var update = func () {
+            img.setScale(zoom, zoom);
+            img.setTranslation(
+                256 - (256 + sx) * zoom,
+                384 - (384 + sy) * zoom);
+        };
+        var zoomIn = func () { zoom = zoom * math.sqrt(2.0); update(); };
+        var zoomOut = func () { zoom = zoom / math.sqrt(2.0); update(); };
+        var scroll = func (dx, dy) { sx = sx + dx; sy = sy + dy; update(); };
+        var resetScroll = func () { sx = 0.0; sy = 0.0; update(); };
+        me.makeClickable(overlay.getElementById('btnZoomIn'), zoomIn);
+        me.makeClickable(overlay.getElementById('btnZoomOut'), zoomOut);
+        me.makeClickable(overlay.getElementById('btnScrollN'), func { scroll(0, -16); });
+        me.makeClickable(overlay.getElementById('btnScrollS'), func { scroll(0, 16); });
+        me.makeClickable(overlay.getElementById('btnScrollE'), func { scroll(16, 0); });
+        me.makeClickable(overlay.getElementById('btnScrollW'), func { scroll(-16, 0); });
+        me.makeClickable(overlay.getElementById('btnScrollReset'), resetScroll);
+    },
+
     loadChart: func (path, title, page, pushHistory = 1) {
         var self = me;
         var url = getprop('/instrumentation/efb/flightbag-companion-uri') ~ urlencode(path) ~ "?p=" ~ page;
@@ -328,6 +353,10 @@ var FlightbagApp = {
         me.makePager(nil, func () {
             self.loadChart(self.currentPath, self.currentTitle, self.currentPage, 0);
         });
+        self.makeReloadIcon(func () {
+            self.loadChart(self.currentPath, self.currentTitle, self.currentPage, 0);
+        });
+        self.makeZoomScrollOverlay(img);
     },
 
     reloadListing: func () {
