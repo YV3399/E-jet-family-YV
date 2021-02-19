@@ -65,6 +65,7 @@ var FlightbagApp = {
             currentTitle: "Flight Bag",
             history: [],
             clickSpots: [],
+            xhr: nil,
         };
         return m;
     },
@@ -106,7 +107,7 @@ var FlightbagApp = {
         me.clickSpots = [];
         me.contentGroup.removeAllChildren();
         me.contentGroup.createChild('text')
-            .setText('Loading, please wait...')
+            .setText('Loading...')
             .setColor(0, 0, 0)
             .setAlignment('center-center')
             .setTranslation(256, 384)
@@ -116,10 +117,10 @@ var FlightbagApp = {
             me.contentGroup.createChild('text')
                 .setText(url)
                 .setColor(0, 0, 0)
-                .setAlignment('center-center')
-                .setTranslation(256, 384 + 64)
+                .setAlignment('left-bottom')
+                .setTranslation(0, 768 - 32)
                 .setFont("LiberationFonts/LiberationSans-Regular.ttf")
-                .setFontSize(24);
+                .setFontSize(12);
         }
     },
 
@@ -394,7 +395,11 @@ var FlightbagApp = {
                 self.showListing();
             }
         };
-        http.save(url, filename)
+        if (me.xhr != nil) {
+            me.xhr.abort();
+            me.xhr = nil;
+        }
+        me.xhr = http.save(url, filename)
             .done(func (r) {
                     var errs = [];
                     call(onSuccess, [filename], nil, {}, errs);
