@@ -315,6 +315,7 @@ var FlightbagApp = {
     makeZoomScrollOverlay: func (img) {
         var overlay = me.contentGroup.createChild('group');
         canvas.parsesvg(overlay, "Aircraft/E-jet-family/Models/EFB/zoom-scroll-overlay.svg", {'font-mapper': font_mapper});
+        var zoomDigital = overlay.getElementById('zoomPercent.digital');
         var zoom = 1.0;
         var sx = 0.0;
         var sy = 0.0;
@@ -323,6 +324,7 @@ var FlightbagApp = {
             img.setTranslation(
                 256 - (384 + sx) * zoom,
                 384 - (384 + sy) * zoom);
+            zoomDigital.setText(sprintf("%1.0f", zoom * 100));
         };
         var zoomIn = func () { zoom = zoom * math.sqrt(2.0); update(); };
         var zoomOut = func () { zoom = zoom / math.sqrt(2.0); update(); };
@@ -335,6 +337,7 @@ var FlightbagApp = {
         me.makeClickable(overlay.getElementById('btnScrollE'), func { scroll(16, 0); });
         me.makeClickable(overlay.getElementById('btnScrollW'), func { scroll(-16, 0); });
         me.makeClickable(overlay.getElementById('btnScrollReset'), resetScroll);
+        update();
     },
 
     loadChart: func (path, title, page, pushHistory = 1) {
