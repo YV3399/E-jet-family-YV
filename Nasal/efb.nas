@@ -321,7 +321,7 @@ var FlightbagApp = {
         var update = func () {
             img.setScale(zoom, zoom);
             img.setTranslation(
-                256 - (256 + sx) * zoom,
+                256 - (384 + sx) * zoom,
                 384 - (384 + sy) * zoom);
         };
         var zoomIn = func () { zoom = zoom * math.sqrt(2.0); update(); };
@@ -348,9 +348,12 @@ var FlightbagApp = {
         me.currentTitle = title;
         me.currentPage = page;
         var img = me.contentGroup.createChild('image')
-            .set('size[0]', 512)
+            .set('size[0]', 768)
             .set('size[1]', 768)
             .set('src', url);
+        img.setTranslation(
+            256 - 384,
+            384 - 384);
         me.makePager(nil, func () {
             self.loadChart(self.currentPath, self.currentTitle, self.currentPage, 0);
         });
