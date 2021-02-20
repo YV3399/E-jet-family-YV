@@ -21,6 +21,7 @@ var BaseApp = {
 };
 
 var lineSplitStr = func (str, maxLineLen) {
+    if (str == "") return [];
     var words = split(" ", str);
     var lines = [];
     var lineAccum = [];
@@ -64,6 +65,7 @@ var FlightbagApp = {
             currentPath: "",
             currentTitle: "Flight Bag",
             history: [],
+            favorites: [],
             clickSpots: [],
             xhr: nil,
         };
@@ -85,7 +87,10 @@ var FlightbagApp = {
     handleBack: func () {
         var popped = pop(me.history);
         if (popped != nil) {
-            me.loadListing(popped[0], popped[1], popped[2], 0);
+            if (popped[0] == "*FAVS*")
+                me.loadFavorites(popped[2], 0);
+            else
+                me.loadListing(popped[0], popped[1], popped[2], 0);
         }
     },
 
@@ -187,8 +192,10 @@ var FlightbagApp = {
         var self = me;
         var lineHeight = 144;
         var hSpacing = 128;
-        var perPage = math.floor((768 - 192) / lineHeight) * math.floor(512 / hSpacing);
-        var entries = subvec(me.currentListing, me.currentPage * perPage, perPage);
+        var perRow = math.floor(512 / hSpacing);
+        var perColumn = math.floor((768 - 192) / lineHeight);
+        var perPage = perRow * (perColumn - 1);
+        var actualEntries = subvec(me.currentListing, me.currentPage * perPage, perPage);
         var numPages = math.ceil(size(me.currentListing) / perPage);
         me.contentGroup.removeAllChildren();
         me.clickSpots = [];
@@ -211,9 +218,33 @@ var FlightbagApp = {
             .setFontSize(32);
         y += 64;
         y += 16;
+        var iconNames = {
+            'dir': 'folder.png',
+            'pdf': 'chart.png',
+            'home': 'home.png',
+            'favorites': 'star.png',
+            'up': 'up.png',
+        };
+        var entries = [
+                {
+                    type: 'home',
+                    name: 'Home',
+                },
+                {
+                    type: 'favorites',
+                    name: 'Favorites',
+                },
+            ];
+        while (size(entries) < perRow) {
+            append(entries, nil);
+        }
+        foreach (var entry; actualEntries) {
+            append(entries, entry);
+        }
         foreach (var entry; entries) {
             (func (entry) {
-                var iconName = (entry.type == 'dir') ? 'folder.png' : 'chart.png';
+                if (entry == nil) return;
+                var iconName = iconNames[entry.type];
                 var icon = me.contentGroup.createChild('image')
                     .set('src', 'Aircraft/E-jet-family/Models/EFB/icons/' ~ iconName)
                     .setTranslation(x + hSpacing / 2 - 32, y);
@@ -245,13 +276,18 @@ var FlightbagApp = {
                     .setTranslation(x + hSpacing / 2, y + 72 + 44)
                     .setFont("LiberationFonts/LiberationSans-Regular.ttf")
                     .setFontSize(16);
-                var subpath = entry.path;
                 var what = nil;
-                if (entry.type == 'dir') {
-                    what = func () { self.loadListing(subpath, entry.name, 0, 1); };
+                if (entry.type == 'home') {
+                    what = func () { self.goHome(); };
+                }
+                else if (entry.type == 'favorites') {
+                    what = func () { self.loadFavorites(); };
+                }
+                else if (entry.type == 'dir') {
+                    what = func () { self.loadListing(entry.path, entry.name, 0, 1); };
                 }
                 else {
-                    what = func () { self.loadChart(subpath, entry.name, 0, 1); };
+                    what = func () { self.loadChart(entry.path, entry.name, 0, 1); };
                 }
                 append(me.clickSpots, {
                     where: [ x, y, x + hSpacing, y + lineHeight ],
@@ -287,6 +323,31 @@ var FlightbagApp = {
                 .set('src', 'Aircraft/E-jet-family/Models/EFB/icons/reload.png')
                 .setScale(0.5, 0.5)
                 .setTranslation(512 - 32, 32);
+        me.makeClickableArea([512 - 32, 32, 512, 64], what);
+    },
+
+    makeFavoriteIcon: func (type, path, title) {
+        var self = me;
+        var what = nil;
+        var img = me.contentGroup.createChild('image')
+                .setScale(0.5, 0.5)
+                .setTranslation(512 - 32, 32);
+        var starOnIcon = 'Aircraft/E-jet-family/Models/EFB/icons/star.png';
+        var starOffIcon = 'Aircraft/E-jet-family/Models/EFB/icons/staroff.png';
+        if (me.isFavorite(path)) {
+            img.set('src', starOnIcon);
+            what = func () {
+                self.removeFromFavorites(path);
+                img.set('src', starOffIcon);
+            };
+        }
+        else {
+            img.set('src', starOffIcon);
+            what = func () {
+                self.addToFavorites(type, path, title);
+                img.set('src', starOnIcon);
+            };
+        }
         me.makeClickableArea([512 - 32, 32, 512, 64], what);
     },
 
@@ -360,21 +421,63 @@ var FlightbagApp = {
         me.makePager(nil, func () {
             self.loadChart(self.currentPath, self.currentTitle, self.currentPage, 0);
         });
-        self.makeReloadIcon(func () {
-            self.loadChart(self.currentPath, self.currentTitle, self.currentPage, 0);
-        });
-        self.makeZoomScrollOverlay(img);
+        me.makeFavoriteIcon('pdf', me.currentPath, me.currentTitle);
+        me.makeZoomScrollOverlay(img);
+    },
+
+    goHome: func () {
+        me.history = [];
+        me.loadListing("", "Flight Bag", 0, 0);
     },
 
     reloadListing: func () {
         me.loadListing(me.currentPath, me.currentTitle, me.currentPage, 0);
     },
 
+    addToFavorites: func (type, path, title) {
+        append(me.favorites,
+            {
+                type: type,
+                path: path,
+                name: title
+            });
+    },
+
+    removeFromFavorites: func (path) {
+        var newFavorites = [];
+        foreach (var favorite; me.favorites) {
+            if (favorite.path != path) {
+                append(newFavorites, favorite);
+            }
+        }
+        me.favorites = newFavorites;
+    },
+
+    isFavorite: func (path) {
+        foreach (var favorite; me.favorites) {
+            if (favorite.path == path) {
+                return 1;
+            }
+        }
+        return 0;
+    },
+
+    loadFavorites: func (page = 0, pushHistory = 1) {
+        var path = "*FAVS*";
+        me.showLoadingScreen('Favorites');
+        if (pushHistory and path != me.currentPath) append(me.history, [me.currentPath, me.currentTitle, me.currentPage]);
+        me.currentPath = path;
+        me.currentTitle = 'Favorites';
+        me.currentPage = page;
+        me.currentListing = me.favorites;
+        me.showListing();
+    },
+
     loadListing: func (path, title, page, pushHistory = 1) {
         var self = me;
         var url = getprop('/instrumentation/efb/flightbag-companion-uri') ~ urlencode(path);
         me.showLoadingScreen(url);
-        if (pushHistory) append(me.history, [me.currentPath, me.currentTitle, me.currentPage]);
+        if (pushHistory and path != me.currentPath) append(me.history, [me.currentPath, me.currentTitle, me.currentPage]);
         me.currentPath = path;
         me.currentTitle = title;
         me.currentPage = page;
