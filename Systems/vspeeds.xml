@@ -304,22 +304,8 @@
     -->
     <!-- Flap speed calculator -->
     <filter>
-        <!-- flaps 6 is always set to landing speed: vref + 5 -->
-        <type>gain</type>
-        <gain>1</gain>
-        <input>
-            <expression>
-                <sum>
-                    <property>/fms/vspeeds-effective/approach/vref</property>
-                    <value>5</value>
-                </sum>
-            </expression>
-        </input>
-        <output>/fms/vspeeds-calculated/approach/vaf6</output>
-    </filter>
-    <filter>
-        <!-- flaps 5 is set to landing speed: vref + 5 if flaps 5 landing,
-             otherwise same as flaps 4
+        <!-- flaps 6 is set to max(vref,vappr,130) if flaps 5 landing,
+             max(vref,vappr) if flaps 6 landing
           -->
         <type>gain</type>
         <gain>1</gain>
@@ -332,22 +318,62 @@
                 </less-than>
             </condition>
             <expression>
-                <sum>
+                <max>
                     <property>/fms/vspeeds-effective/approach/vref</property>
-                    <value>5</value>
-                </sum>
+                    <property>/fms/vspeeds-effective/approach/vappr</property>
+                    <value>130</value>
+                </max>
             </expression>
         </input>
         <input>
             <!-- flaps 6 landing -->
-            <property>/fms/vspeeds-effective/approach/vappr</property>
+            <expression>
+                <max>
+                    <property>/fms/vspeeds-effective/approach/vref</property>
+                    <property>/fms/vspeeds-effective/approach/vappr</property>
+                </max>
+            </expression>
+        </input>
+        <output>/fms/vspeeds-calculated/approach/vaf6</output>
+    </filter>
+    <filter>
+        <!-- flaps 5 is set to landing speed: max(vref,vappr) if flaps 5 landing,
+             otherwise max(vref,vappr,130)
+          -->
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <!-- flaps 5 landing -->
+            <condition>
+                <less-than>
+                    <property>/fms/landing-conditions/landing-flaps</property>
+                    <value>0.7</value>
+                </less-than>
+            </condition>
+            <expression>
+                <max>
+                    <property>/fms/vspeeds-effective/approach/vref</property>
+                    <property>/fms/vspeeds-effective/approach/vappr</property>
+                </max>
+            </expression>
+        </input>
+        <input>
+            <!-- flaps 6 landing -->
+            <expression>
+                <max>
+                    <property>/fms/vspeeds-effective/approach/vref</property>
+                    <property>/fms/vspeeds-effective/approach/vappr</property>
+                    <value>140</value>
+                </max>
+            </expression>
         </input>
         <output>/fms/vspeeds-calculated/approach/vaf5</output>
     </filter>
     <filter>
         <!-- flaps 4 uses:
-                - approach speed if flaps 4 approach selected
-                - same as flaps 5 if flaps 2 approach selected
+                - Vapp + 10, or Vref + 10, or 140, whichever is greater,
+                  if flaps 4 approach selected
+                - same flaps 5 if flaps 2 approach selected
           -->
         <type>gain</type>
         <gain>1</gain>
@@ -359,7 +385,19 @@
                     <value>0.4</value>
                 </greater-than>
             </condition>
-            <property>/fms/vspeeds-effective/approach/vappr</property>
+            <expression>
+                <max>
+                    <sum>
+                        <property>/fms/vspeeds-effective/approach/vappr</property>
+                        <value>10</value>
+                    </sum>
+                    <sum>
+                        <property>/fms/vspeeds-effective/approach/vref</property>
+                        <value>10</value>
+                    </sum>
+                    <value>140</value>
+                </max>
+            </expression>
         </input>
         <input>
             <!-- flaps 2 approach -->
@@ -370,10 +408,10 @@
 
     <filter>
         <!-- flaps 3 uses:
-                - 150 kts or approach speed, whichever is greater, if flaps 4
+                - 150 kts or Vappr or Vref, whichever is greater, if flaps 4
                   approach selected
-                - landing speed + 10 kts (Vref + 20 kts) or approach speed,
-                  whichever is less, if flaps 2 approach selected
+                - Vref + 10 kts, Vapp + 20, or 150 kts, whichever is
+                  greater, if flaps 2 approach selected
           -->
         <type>gain</type>
         <gain>1</gain>
@@ -388,6 +426,7 @@
             <expression>
                 <max>
                     <property>/fms/vspeeds-effective/approach/vappr</property>
+                    <property>/fms/vspeeds-effective/approach/vref</property>
                     <value>150</value>
                 </max>
             </expression>
@@ -400,7 +439,11 @@
                         <property>/fms/vspeeds-effective/approach/vref</property>
                         <value>20</value>
                     </sum>
-                    <property>/fms/vspeeds-calculated/approach/vappr</property>
+                    <sum>
+                        <property>/fms/vspeeds-calculated/approach/vappr</property>
+                        <value>10</value>
+                    </sum>
+                    <value>150</value>
                 </max>
             </expression>
         </input>
@@ -411,8 +454,8 @@
         <!-- flaps 2 uses:
                 - 160 kts or approach speed, whichever is greater, if flaps 4
                   approach selected
-                - approach speed or flaps 3 speed, whichever is greater,
-                  if flaps 2 approach selected
+                - Vref + 10 kts, Vapp + 20, or 160 kts, whichever is
+                  greater, if flaps 2 approach selected
           -->
         <type>gain</type>
         <gain>1</gain>
@@ -435,8 +478,15 @@
             <!-- flaps 2 approach -->
             <expression>
                 <max>
-                    <property>/fms/vspeeds-effective/approach/vappr</property>
-                    <property>/fms/vspeeds-calculated/approach/vaf3</property>
+                    <sum>
+                        <property>/fms/vspeeds-effective/approach/vref</property>
+                        <value>20</value>
+                    </sum>
+                    <sum>
+                        <property>/fms/vspeeds-calculated/approach/vappr</property>
+                        <value>10</value>
+                    </sum>
+                    <value>160</value>
                 </max>
             </expression>
         </input>
