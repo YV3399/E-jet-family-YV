@@ -1282,6 +1282,7 @@ var MFD = {
 
     update: func () {
         var heading = me.props['heading-mag'].getValue();
+        var headingT = me.props['heading'].getValue();
         var headingBug = me.props['heading-bug'].getValue();
         var headingDiff = geo.normdeg180(headingBug - heading);
         if (headingDiff < -90) {
@@ -1375,7 +1376,7 @@ var MFD = {
         }
 
         var alt = me.props['altitude'].getValue();
-        me.mapCamera.repositon(geo.aircraft_position(), heading);
+        me.mapCamera.repositon(geo.aircraft_position(), headingT);
         me.trafficLayer.setRefAlt(alt);
         if (me.trafficGroup.getVisible()) {
             me.trafficLayer.update();
