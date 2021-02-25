@@ -483,12 +483,26 @@ var FlightbagApp = {
         me.currentPage = page;
         var filename = getprop('/sim/fg-home') ~ "/Export/efb_listing.xml";
         var onFailure = func (r) {
-            self.showErrorScreen(
-                [ "Download failed"
-                , url
-                , sprintf("HTTP status: %s", r.status)
-                ]);
-            self.makeReloadIcon(func () { self.reloadListing(); }, 'Retry');
+            debug.dump(r);
+            if (r.status < 100) {
+                self.showErrorScreen(
+                    [ "Download failed"
+                    , url
+                    , sprintf("Error code: %s", r.status)
+                    , "Is the companion app running"
+                    , "on the following URL?"
+                    , getprop('/instrumentation/efb/flightbag-companion-uri')
+                    ]);
+                self.makeReloadIcon(func () { self.reloadListing(); }, 'Retry');
+            }
+            else if (r.status > 399) {
+                self.showErrorScreen(
+                    [ "Download failed"
+                    , url
+                    , sprintf("HTTP status: %s", r.status)
+                    ]);
+                self.makeReloadIcon(func () { self.reloadListing(); }, 'Retry');
+            }
         };
         var onSuccess = func (f) {
             var listingNode = io.readxml(filename);
