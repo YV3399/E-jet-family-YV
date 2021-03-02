@@ -74,12 +74,13 @@
 
     <axis name="DRAG">
 
-        <function name="aero/force/Drag_minimum">
-            <description>Minimum drag</description>
+        <function name="aero/force/Drag_parasitic">
+            <description>Parasitic drag</description>
             <product>
                 <property>aero/qbar-psf</property>
                 <property>metrics/Sw-sqft</property>
-                <value>0.01</value>
+                <!-- <value>0.01</value> -->
+                <property>aero-config/coefficients/drag-parasitic</property>
             </product>
         </function>
 
@@ -89,7 +90,7 @@
                 <property>aero/qbar-psf</property>
                 <property>metrics/Sw-sqft</property>
                 <table>
-                    <independentVar lookup="row">aero/alpha-wing-rad</independentVar>
+                    <independentVar lookup="row">aero/alpha-rad</independentVar>
                     <tableData>
                         -1.57  1.3083
                         -0.20  0.0301
@@ -98,6 +99,7 @@
                         1.57  1.3083
                     </tableData>
                 </table>
+                <property>aero-config/coefficients/drag-alpha</property>
             </product>
         </function>
 
@@ -107,7 +109,8 @@
                 <property>aero/qbar-psf</property>
                 <property>metrics/Sw-sqft</property>
                 <property>aero/cl-squared</property>
-                <value>0.06</value>
+                <!-- <value>0.02</value> -->
+                <property>aero-config/coefficients/drag-induced</property>
             </product>
         </function>
 
@@ -119,13 +122,15 @@
                 <table>
                     <independentVar lookup="row">velocities/mach</independentVar>
                     <tableData>
-                        0.00  0.000
-                        0.20  0.000
-                        0.79  0.002
-                        1.10  0.055
-                        1.80  0.025
+                        0.00  0.00
+                        0.75  0.00
+                        0.80  0.30
+                        0.82  1.00
+                        1.10  5.50
+                        1.80  2.50
                     </tableData>
                 </table>
+                <property>aero-config/coefficients/drag-mach</property>
             </product>
         </function>
 
@@ -144,6 +149,7 @@
                         1.57  1.23
                     </tableData>
                 </table>
+                <property>aero-config/coefficients/drag-beta</property>
             </product>
         </function>
 
@@ -153,7 +159,8 @@
                 <property>aero/qbar-psf</property>
                 <property>metrics/Sw-sqft</property>
                 <property>fcs/flap-pos-norm</property>
-                <value> 0.004 </value>
+                <!-- <value> 0.004 </value> -->
+                <property>aero-config/coefficients/drag-flap</property>
             </product>
         </function>
 
@@ -163,7 +170,8 @@
                 <property>aero/qbar-psf</property>
                 <property>metrics/Sw-sqft</property>
                 <property>fcs/slat-pos-norm</property>
-                <value> 0.0015 </value>
+                <!-- <value> 0.0015 </value> -->
+                <property>aero-config/coefficients/drag-slat</property>
             </product>
         </function>
 
@@ -173,7 +181,8 @@
                 <property>aero/qbar-psf</property>
                 <property>metrics/Sw-sqft</property>
                 <property>gear/gear-pos-norm</property>
-                <value>0.004</value>
+                <!-- <value>0.004</value> -->
+                <property>aero-config/coefficients/drag-gear</property>
             </product>
         </function>
 
@@ -183,7 +192,8 @@
                 <property>aero/qbar-psf</property>
                 <property>metrics/Sw-sqft</property>
                 <property>fcs/speedbrake-pos-norm</property>
-                <value>0.05</value>
+                <!-- <value>0.05</value> -->
+                <property>aero-config/coefficients/drag-speedbrake</property>
             </product>
         </function>
 
@@ -195,7 +205,8 @@
                 <abs>
                     <property>fcs/elevator-pos-norm</property>
                 </abs>
-                <value>0.045</value>
+                <!-- <value>0.01</value> -->
+                <property>aero-config/coefficients/drag-elevator</property>
             </product>
         </function>
 
@@ -262,10 +273,15 @@
                 <table>
                     <independentVar lookup="row">velocities/mach</independentVar>
                     <tableData>
-                        0.0    0.100
-                        2.0    0.033
+                        0.09    1.00
+                        0.70    1.00
+                        0.82    0.80
+                        0.85    0.50
+                        1.00    0.10
+                        2.00    0.33
                     </tableData>
                 </table>
+                <value>0.1</value>
             </product>
         </function>
 
@@ -302,6 +318,17 @@
                 <property>metrics/Sw-sqft</property>
                 <property>metrics/cbarw-ft</property>
                 <property>fcs/elevator-pos-rad</property>
+                <table>
+                    <independentVar lookup="row">velocities/mach</independentVar>
+                    <tableData>
+                        0.09    1.00
+                        0.70    1.00
+                        0.82    0.80
+                        0.85    0.50
+                        1.00    0.10
+                        2.00    0.33
+                    </tableData>
+                </table>
                 <value>-1.8</value>
             </product>
         </function>
@@ -327,6 +354,27 @@
                 <property>aero/ci2vel</property>
                 <property>aero/alphadot-rad_sec</property>
                 <value>-6</value>
+            </product>
+        </function>
+
+        <function name="aero/moment/Pitch_mach">
+            <description>Pitch moment due to mach tuck</description>
+            <product>
+                <property>aero/qbar-psf</property>
+                <property>metrics/Sw-sqft</property>
+                <property>metrics/cbarw-ft</property>
+                <table>
+                    <independentVar lookup="row">velocities/mach</independentVar>
+                    <tableData>
+                        0.0   0.0
+                        0.75  0.0
+                        0.82 -0.1
+                        0.85 -0.5
+                        1.00 -1.0
+                        1.20  0.0
+                    </tableData>
+                </table>
+                <value>0.5</value>
             </product>
         </function>
 
@@ -375,7 +423,7 @@
                 <property>metrics/Sw-sqft</property>
                 <property>metrics/bw-ft</property>
                 <property>fcs/left-aileron-pos-rad</property>
-                <value>0</value>
+                <value>0.01</value>
             </product>
         </function>
 

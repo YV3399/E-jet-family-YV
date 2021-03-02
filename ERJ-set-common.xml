@@ -1829,6 +1829,20 @@
                     <z alias="/sim/model/autopush/force-z"/>
                 </tractor>
             </external_reactions>
+            <aero-config>
+                <coefficients>
+                    <drag-alpha type="double">2.1</drag-alpha>
+                    <drag-beta type="double">1.0</drag-beta>
+                    <drag-elevator type="double">0.01</drag-elevator>
+                    <drag-flap type="double">0.04</drag-flap>
+                    <drag-gear type="double">0.04</drag-gear>
+                    <drag-induced type="double">0.06</drag-induced>
+                    <drag-mach type="double">0.005</drag-mach>
+                    <drag-parasitic type="double">0.01</drag-parasitic>
+                    <drag-slat type="double">0.003</drag-slat>
+                    <drag-speedbrake type="double">0.05</drag-speedbrake>
+                </coefficients>
+            </aero-config>
         </jsbsim>
     </fdm>
 </PropertyList>
