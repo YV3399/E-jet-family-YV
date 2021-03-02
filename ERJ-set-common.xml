@@ -594,8 +594,8 @@
             </roll>
             <pitch>
                 <kp-low>-0.12</kp-low>
-                <kp-high>-0.06</kp-high>
-                <ti>0.5</ti>
+                <kp-high>-0.02</kp-high>
+                <ti>0.75</ti>
                 <td>0.001</td>
             </pitch>
             <cmd>
