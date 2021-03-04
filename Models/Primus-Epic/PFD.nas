@@ -581,39 +581,14 @@ var canvas_ED_only = {
 
         # Altitude
         var alt = me.props["/instrumentation/altimeter/indicated-altitude-ft"].getValue() or 0;
-        if (roundToNearest(alt, 1000) == 0) {
-            var altNumLow = "-1";
-            var altNumHigh = "1";
-            var altNumCenter = 0;
-        }
-        elsif (roundToNearest(alt, 1000) > 0) {
-            var altNumLow = (roundToNearest(alt, 1000)/1000 - 1);
-            var altNumHigh = (roundToNearest(alt, 1000)/1000 + 1);
-            var altNumCenter = altNumHigh-1;
-        }
-        elsif (roundToNearest(alt, 1000) < 0) {
-            var altNumLow = roundToNearest(alt, 1000)/1000-1;
-            var altNumHigh = (roundToNearest(alt, 1000)/1000 + 1) ;
-            var altNumCenter = altNumLow-1;
-        }
-        if ( altNumLow == 0 ) {
-            altNumLow = "";
-        }
-        elsif(altNumLow != nil) {
-            altNumLow=1000*altNumLow;
-        }
-        if ( altNumHigh == 0 and alt < 0) {
-            altNumHigh = "-";
-        }
-        elsif(altNumHigh != nil) {
-            altNumHigh=1000*altNumHigh;
-        }
-        if(altNumCenter != nil){
-            altNumCenter=1000*altNumCenter;
-        }
 
-        me["alt.tape"].setTranslation(0,(alt - roundToNearest(alt, 1000))*0.45);
+        var altTapeOffset = math.mod(alt, 1000);
+        var altTapeThousands = math.floor(alt / 1000) * 1000;
 
+        me["alt.tape"].setTranslation(0, altTapeOffset * 0.45);
+        me["altNumLow1"].setText(sprintf("%5.0f", altTapeThousands - 1000));
+        me["altNumHigh1"].setText(sprintf("%5.0f", altTapeThousands));
+        me["altNumHigh2"].setText(sprintf("%5.0f", altTapeThousands + 1000));
 
         var alt100 = alt / 100;
         var alt100Abs = math.abs(math.floor(alt100));
