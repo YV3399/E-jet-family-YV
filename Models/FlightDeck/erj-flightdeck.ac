@@ -4477,7 +4477,7 @@ refs 4
 3 0.030013 0.8848
 kids 0
 OBJECT poly
-name "BRG.VOR1.left.btn"
+name "BRG.circle.left.btn"
 data 19
 FD2btn.009.mesh.006
 crease 30.0
@@ -4530,7 +4530,7 @@ refs 4
 4 0.678711 0.972656
 kids 0
 OBJECT poly
-name "BRG.VOR1.right.btn"
+name "BRG.circle.right.btn"
 data 19
 FD2btn.005.mesh.006
 crease 30.0
@@ -4583,7 +4583,7 @@ refs 4
 7 0.678711 0.972656
 kids 0
 OBJECT poly
-name "BRG.VOR2.left.btn"
+name "BRG.diamond.left.btn"
 data 19
 FD2btn.007.mesh.004
 crease 30.0
@@ -4636,7 +4636,7 @@ refs 4
 7 0.678711 0.972656
 kids 0
 OBJECT poly
-name "BRG.VOR2.right.btn"
+name "BRG.diamond.right.btn"
 data 19
 FD2btn.003.mesh.004
 crease 30.0

@@ -2,7 +2,13 @@
 # A3XX Lower ECAM Canvas
 # Joshua Davidson (it0uchpods)
 
-#sources: http://www.smartcockpit.com/docs/Embraer_190-Powerplant.pdf http://www.smartcockpit.com/docs/Embraer_190-Flight_Controls.pdf http://www.smartcockpit.com/docs/Embraer_190-APU.pdf
+# sources:
+# http://www.smartcockpit.com/docs/Embraer_190-Powerplant.pdf
+# http://www.smartcockpit.com/docs/Embraer_190-Flight_Controls.pdf
+# http://www.smartcockpit.com/docs/Embraer_190-APU.pdf
+
+# HSI: E190 AOM p1733
+# Bearing Source Selector: E190 AOM p1764
 
 var ED_only = [nil, nil];
 var PFD_master = [nil, nil];
@@ -124,7 +130,7 @@ var canvas_ED_base = {
     },
     getKeys: func() {
         return [];
-    }
+    },
 };
 
 var canvas_ED_only = {
@@ -219,6 +225,12 @@ var canvas_ED_only = {
         m.props["/instrumentation/pfd/minimums-visible"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/minimums-visible");
         m.props["/instrumentation/pfd/nav-src"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/nav-src");
         m.props["/instrumentation/pfd/preview"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/preview");
+        m.props["/instrumentation/pfd/bearing[0]/bearing"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/bearing[0]/bearing");
+        m.props["/instrumentation/pfd/bearing[0]/visible"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/bearing[0]/visible");
+        m.props["/instrumentation/pfd/bearing[0]/source"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/bearing[0]/source");
+        m.props["/instrumentation/pfd/bearing[1]/bearing"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/bearing[1]/bearing");
+        m.props["/instrumentation/pfd/bearing[1]/visible"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/bearing[1]/visible");
+        m.props["/instrumentation/pfd/bearing[1]/source"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/bearing[1]/source");
         m.props["/fms/vspeeds-effective/departure/v1"] = props.globals.getNode("/fms/vspeeds-effective/departure/v1");
         m.props["/fms/vspeeds-effective/departure/vr"] = props.globals.getNode("/fms/vspeeds-effective/departure/vr");
         m.props["/fms/vspeeds-effective/departure/v2"] = props.globals.getNode("/fms/vspeeds-effective/departure/v2");
@@ -237,8 +249,8 @@ var canvas_ED_only = {
         m.props["/fms/speed-limits/vmo-effective"] = props.globals.getNode("/fms/speed-limits/vmo-effective");
         m.props["/controls/flight/speed-mode"] = props.globals.getNode("/controls/flight/speed-mode");
         m.props["/gear/gear/wow"] = props.globals.getNode("/gear/gear/wow");
-
         m.props["/controls/flight/flaps"] = props.globals.getNode("/controls/flight/flaps");
+        m.setupListeners();
         return m;
     },
     getKeys: func() {
@@ -327,6 +339,10 @@ var canvas_ED_only = {
             "hsi.nav1",
             "hsi.nav1track",
             "hsi.to",
+            "hsi.pointer.circle",
+            "hsi.pointer.diamond",
+            "hsi.label.circle",
+            "hsi.label.diamond",
             "ils.gsneedle",
             "ils.gs",
             "ils.locneedle",
@@ -378,6 +394,20 @@ var canvas_ED_only = {
             "wind.kt",
             "wind.pointer"
         ];
+    },
+
+    setupListeners: func () {
+        var self = me;
+        setlistener(me.props["/instrumentation/pfd/bearing[0]/source"], func (node) {
+            var hsiLabelText = ["----", "VOR1", "ADF1", "FMS1"];
+            var mode = node.getValue();
+            self["hsi.label.circle"].setText(hsiLabelText[mode]);
+        }, 1, 0);
+        setlistener(me.props["/instrumentation/pfd/bearing[1]/source"], func (node) {
+            var hsiLabelText = ["----", "VOR2", "ADF2", "FMS2"];
+            var mode = node.getValue();
+            self["hsi.label.diamond"].setText(hsiLabelText[mode]);
+        }, 1, 0);
     },
 
     update: func() {
@@ -474,7 +504,10 @@ var canvas_ED_only = {
                 me["hsi.to"].show();
             }
         }
-
+        me["hsi.pointer.circle"].setVisible(me.props["/instrumentation/pfd/bearing[0]/visible"].getBoolValue());
+        me["hsi.pointer.circle"].setRotation(me.props["/instrumentation/pfd/bearing[0]/bearing"].getValue() * DC);
+        me["hsi.pointer.diamond"].setVisible(me.props["/instrumentation/pfd/bearing[1]/visible"].getBoolValue());
+        me["hsi.pointer.diamond"].setRotation(me.props["/instrumentation/pfd/bearing[1]/bearing"].getValue() * DC);
 
         me["selectedalt.digital100"].setText(sprintf("%02d", (me.props["/controls/flight/selected-alt"].getValue() or 0) * 0.01));
 

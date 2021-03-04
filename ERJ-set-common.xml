@@ -1397,12 +1397,38 @@
             <!-- 0 = FMS, 1,2 = VOR1/LOC1, VOR2,LOC2 -->
             <nav-src type="int">1</nav-src>
             <preview type="int">0</preview>
+
+            <bearing>
+                <!-- 0 = OFF, 1 = VOR, 2 = ADF, 3 = FMS -->
+                <source type="int">0</source>
+                <bearing type="double">0</bearing>
+                <visible type="bool">false</visible>
+            </bearing>
+            <bearing>
+                <!-- 0 = OFF, 1 = VOR, 2 = ADF, 3 = FMS -->
+                <source type="int">0</source>
+                <bearing type="double">0</bearing>
+                <visible type="bool">false</visible>
+            </bearing>
         </pfd>
 
         <pfd>
             <!-- 0 = FMS, 1,2 = VOR1/LOC1, VOR2,LOC2 -->
             <nav-src type="int">2</nav-src>
             <preview type="int">0</preview>
+
+            <bearing>
+                <!-- 0 = OFF, 1 = VOR, 2 = ADF, 3 = FMS -->
+                <source type="int">0</source>
+                <bearing type="double">0</bearing>
+                <visible type="bool">false</visible>
+            </bearing>
+            <bearing>
+                <!-- 0 = OFF, 1 = VOR, 2 = ADF, 3 = FMS -->
+                <source type="int">0</source>
+                <bearing type="double">0</bearing>
+                <visible type="bool">false</visible>
+            </bearing>
         </pfd>
 
         <mfd>

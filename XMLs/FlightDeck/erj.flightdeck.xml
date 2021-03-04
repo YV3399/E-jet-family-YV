@@ -50,10 +50,10 @@
         <object-name>box.041</object-name>
         <object-name>box.042</object-name>
         <object-name>box.043</object-name>
-        <object-name>BRG.VOR1.left.btn</object-name>
-        <object-name>BRG.VOR1.right.btn</object-name>
-        <object-name>BRG.VOR2.left.btn</object-name>
-        <object-name>BRG.VOR2.right.btn</object-name>
+        <object-name>BRG.circle.left.btn</object-name>
+        <object-name>BRG.circle.right.btn</object-name>
+        <object-name>BRG.diamond.left.btn</object-name>
+        <object-name>BRG.diamond.right.btn</object-name>
         <object-name>BrkLever</object-name>
         <object-name>Btn.side</object-name>
         <object-name>cockpit-door</object-name>
@@ -2230,6 +2230,39 @@
         </condition>
     </animation>
 
+    <animation>
+        <type>pick</type>
+        <object-name>BRG.circle.left.btn</object-name>
+        <action>
+            <button>0</button>
+            <repeatable type="bool">false</repeatable>
+            <binding>
+                <command>property-cycle</command>
+                <property>/instrumentation/pfd[0]/bearing[0]/source</property>
+                <value>0</value>
+                <value>1</value>
+                <value>2</value>
+                <value>3</value>
+            </binding>
+        </action>
+    </animation>
+    <animation>
+        <type>pick</type>
+        <object-name>BRG.diamond.left.btn</object-name>
+        <action>
+            <button>0</button>
+            <repeatable type="bool">false</repeatable>
+            <binding>
+                <command>property-cycle</command>
+                <property>/instrumentation/pfd[0]/bearing[1]/source</property>
+                <value>0</value>
+                <value>1</value>
+                <value>2</value>
+                <value>3</value>
+            </binding>
+        </action>
+    </animation>
+
 <!-- FO-side PFD controls -->
     <animation>
         <type>pick</type>
@@ -2347,6 +2380,39 @@
                 </and>
             </not>
         </condition>
+    </animation>
+
+    <animation>
+        <type>pick</type>
+        <object-name>BRG.circle.right.btn</object-name>
+        <action>
+            <button>0</button>
+            <repeatable type="bool">false</repeatable>
+            <binding>
+                <command>property-cycle</command>
+                <property>/instrumentation/pfd[1]/bearing[0]/source</property>
+                <value>0</value>
+                <value>1</value>
+                <value>2</value>
+                <value>3</value>
+            </binding>
+        </action>
+    </animation>
+    <animation>
+        <type>pick</type>
+        <object-name>BRG.diamond.right.btn</object-name>
+        <action>
+            <button>0</button>
+            <repeatable type="bool">false</repeatable>
+            <binding>
+                <command>property-cycle</command>
+                <property>/instrumentation/pfd[1]/bearing[1]/source</property>
+                <value>0</value>
+                <value>1</value>
+                <value>2</value>
+                <value>3</value>
+            </binding>
+        </action>
     </animation>
 
 <!-- A/T -->
