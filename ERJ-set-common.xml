@@ -921,6 +921,26 @@
             <approach-cat>1</approach-cat>
         </landing-conditions>
 
+        <speed-limits>
+            <!-- AOM p86-89: speed limits -->
+            <mmo type="double">0.82</mmo>
+            <vmo type="double">320</vmo>
+            <vmo-low-alt type="double">300</vmo-low-alt>
+            <vmo-low-alt-limit type="double">8000</vmo-low-alt-limit>
+            <vmo-high-alt-limit type="double">10000</vmo-high-alt-limit>
+            <vfe1 type="double">230</vfe1>
+            <vfe2 type="double">215</vfe2>
+            <vfe3 type="double">200</vfe3>
+            <vfe4 type="double">180</vfe4>
+            <vfe5 type="double">180</vfe5>
+            <vfe6 type="double">165</vfe6>
+            <vle type="double">265</vle>
+            <vlo-retraction type="double">235</vlo-retraction>
+            <vlo-extension type="double">265</vlo-extension>
+            <!-- Vmo-effective will be calculated on the fly from all the above -->
+            <vmo-effective type="double">320</vmo-effective>
+        </speed-limits>
+
         <!--
             These are effective v-speeds, as displayed on the PFD, and used
             by the FMS-managed speed mode.

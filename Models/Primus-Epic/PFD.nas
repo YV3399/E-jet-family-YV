@@ -234,6 +234,7 @@ var canvas_ED_only = {
         m.props["/fms/speed-limits/vstall-kt"] = props.globals.getNode("/fms/speed-limits/vstall-kt");
         m.props["/fms/speed-limits/vwarn-kt"] = props.globals.getNode("/fms/speed-limits/vwarn-kt");
         m.props["/fms/speed-limits/green-dot-kt"] = props.globals.getNode("/fms/speed-limits/green-dot-kt");
+        m.props["/fms/speed-limits/vmo-effective"] = props.globals.getNode("/fms/speed-limits/vmo-effective");
         m.props["/controls/flight/speed-mode"] = props.globals.getNode("/controls/flight/speed-mode");
         m.props["/gear/gear/wow"] = props.globals.getNode("/gear/gear/wow");
 
@@ -294,6 +295,7 @@ var canvas_ED_only = {
             "asi.1_clip",
             "asi.tape",
             "asi.tape_clip",
+            "barberpole",
             "chrono.digital",
             "compass",
             "dme",
@@ -820,8 +822,11 @@ var canvas_ED_only = {
         var redSpeed = me.props["/fms/speed-limits/vstall-kt"].getValue() or 0;
         var amberSpeed = me.props["/fms/speed-limits/vwarn-kt"].getValue() or 0;
         var greenSpeed = me.props["/fms/speed-limits/green-dot-kt"].getValue() or 0;
+        var maxSpeed = me.props["/fms/speed-limits/vmo-effective"].getValue() or 0;
+
         me["speedbar.red"].setTranslation(0, math.max(-41, (airspeed-redSpeed)) * 6.42);
         me["speedbar.amber"].setTranslation(0, math.max(-41, (airspeed-amberSpeed)) * 6.42);
+        me["barberpole"].setTranslation(0, math.max(-41, (airspeed-maxSpeed)) * 6.42);
         me["greendot"].setTranslation(0, (airspeed-greenSpeed) * 6.42);
         if (greenSpeed > airspeed + 40 or greenSpeed < airspeed - 40) {
             me["greendot"].hide();
