@@ -252,12 +252,18 @@ var canvas_ED_only = {
             "airspeed.bug",
             "airspeed.bug_clip",
             "alt.100",
-            "alt.100.z",
+            "alt.100.tape",
+            "alt.100.zero",
+            "alt.100.neg",
             "alt.1000",
-            "alt.1000.z",
+            "alt.1000.tape",
+            "alt.1000.zero",
+            "alt.1000.neg",
             "alt.10000",
-            "alt.10000.z",
-            "alt.10000_clip",
+            "alt.10000.tape",
+            "alt.10000.zero",
+            "alt.10000.neg",
+            "alt.neg",
             "alt.1000_clip",
             "alt.100_clip",
             "alt.rollingdigits",
@@ -632,21 +638,21 @@ var canvas_ED_only = {
         }
 
         var o = odoDigit(alt / 10, 1);
-        me["alt.100"].setTranslation(0, o * 42.6);
+        me["alt.100.tape"].setTranslation(0, o * 42.6);
         var o = odoDigit(alt / 10, 2);
-        me["alt.1000"].setTranslation(0, o * 42.6);
+        me["alt.1000.tape"].setTranslation(0, o * 42.6);
         var o = odoDigit(alt / 10, 3);
-        me["alt.10000"].setTranslation(0, o * 42.6);
+        me["alt.10000.tape"].setTranslation(0, o * 42.6);
 
         if (alt < 0) {
-            me["alt.100"].hide();
-            me["alt.1000"].hide();
-            me["alt.10000"].hide();
+            me["alt.100.tape"].hide();
+            me["alt.1000.tape"].hide();
+            me["alt.10000.tape"].hide();
         }
         else {
-            me["alt.100"].show();
-            me["alt.1000"].show();
-            me["alt.10000"].show();
+            me["alt.100.tape"].show();
+            me["alt.1000.tape"].show();
+            me["alt.10000.tape"].show();
         }
         if (alt < 5000) {
             me["alt.1000.z"].hide();
