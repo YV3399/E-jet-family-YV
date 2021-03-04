@@ -96,6 +96,9 @@ var canvas_ED_base = {
             var svg_keys = me.getKeys();
             foreach (var key; svg_keys) {
             me[key] = canvas_group.getElementById(key);
+            if (me[key] == nil) {
+                printf("Key not found: %s", key);
+            }
             var clip_el = canvas_group.getElementById(key ~ "_clip");
             if (clip_el != nil) {
                 clip_el.setVisible(0);
@@ -254,16 +257,18 @@ var canvas_ED_only = {
             "alt.100",
             "alt.100.tape",
             "alt.100.zero",
+            "alt.100.z",
             "alt.100.neg",
             "alt.1000",
             "alt.1000.tape",
             "alt.1000.zero",
+            "alt.1000.z",
             "alt.1000.neg",
             "alt.10000",
             "alt.10000.tape",
             "alt.10000.zero",
+            "alt.10000.z",
             "alt.10000.neg",
-            "alt.neg",
             "alt.1000_clip",
             "alt.100_clip",
             "alt.rollingdigits",
@@ -287,7 +292,6 @@ var canvas_ED_only = {
             "asi.1_clip",
             "asi.tape",
             "asi.tape_clip",
-            "base",
             "chrono.digital",
             "compass",
             "dme",
@@ -297,7 +301,6 @@ var canvas_ED_only = {
             "dme.hold",
             "dme.id",
             "dme.selection",
-            "false",
             "fd.pitch",
             "fd.roll",
             "fma.ap",
@@ -637,22 +640,36 @@ var canvas_ED_only = {
             me["alt.rollingdigits.neg"].hide();
         }
 
-        var o = odoDigit(alt / 10, 1);
-        me["alt.100.tape"].setTranslation(0, o * 42.6);
-        var o = odoDigit(alt / 10, 2);
-        me["alt.1000.tape"].setTranslation(0, o * 42.6);
-        var o = odoDigit(alt / 10, 3);
-        me["alt.10000.tape"].setTranslation(0, o * 42.6);
+        var altR = math.max(-20, alt);
+        var o100 = odoDigit(altR / 10, 1);
+        me["alt.100"].setTranslation(0, o100 * 42.6);
+        var o1000 = odoDigit(altR / 10, 2);
+        me["alt.1000"].setTranslation(0, o1000 * 42.6);
+        var o10000 = odoDigit(altR / 10, 3);
+        me["alt.10000"].setTranslation(0, o10000 * 42.6);
 
         if (alt < 0) {
             me["alt.100.tape"].hide();
             me["alt.1000.tape"].hide();
             me["alt.10000.tape"].hide();
+            me["alt.100.neg"].show();
+            me["alt.1000.neg"].show();
+            me["alt.10000.neg"].show();
         }
         else {
             me["alt.100.tape"].show();
             me["alt.1000.tape"].show();
             me["alt.10000.tape"].show();
+            me["alt.100.neg"].hide();
+            me["alt.1000.neg"].hide();
+            me["alt.10000.neg"].hide();
+        }
+
+        if (alt < 500) {
+            me["alt.100.z"].hide();
+        }
+        else {
+            me["alt.100.z"].show();
         }
         if (alt < 5000) {
             me["alt.1000.z"].hide();
@@ -665,6 +682,25 @@ var canvas_ED_only = {
         }
         else {
             me["alt.10000.z"].show();
+        }
+
+        if (alt < 100) {
+            me["alt.100.zero"].show();
+        }
+        else {
+            me["alt.100.zero"].hide();
+        }
+        if (alt < 1000) {
+            me["alt.1000.zero"].show();
+        }
+        else {
+            me["alt.1000.zero"].hide();
+        }
+        if (alt < 10000) {
+            me["alt.10000.zero"].show();
+        }
+        else {
+            me["alt.10000.zero"].hide();
         }
 
         # VNAV annunciations
