@@ -811,7 +811,7 @@ var canvas_ED_only = {
         }
 
         me["speedtrend.vector"].reset();
-        me["speedtrend.vector"].rect(152, 152, 15,
+        me["speedtrend.vector"].rect(152, 450, 15,
             math.max(-40.0, math.min(40.0, (airspeedLookahead - airspeed))) * -6.42);
 
         me["asi.tape"].setTranslation(0,airspeed * 6.42);
