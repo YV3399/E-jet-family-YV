@@ -3,7 +3,7 @@
 <flight_control name="FCS: E-Jet-Family">
     <channel name="Pitch">
         <summer name="Pitch Trim Sum">
-            <input>fcs/elevator-cmd-norm</input>
+            <input>fcs/elevator-cmd-fbw</input>
             <input>fcs/pitch-trim-cmd-norm</input>
             <clipto>
                 <min> -1.5 </min>

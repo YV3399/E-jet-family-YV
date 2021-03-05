@@ -1,0 +1,54 @@
+<PropertyList>
+    <filter>
+        <name>Stall Protection System</name>
+        <type>gain</type>
+        <input>
+            <expression>
+                <table>
+                    <property>/fdm/jsbsim/aero/alpha-wing-rad</property>
+                    <entry>
+                        <ind>0</ind><dep>-1</dep>
+                    </entry>
+                    <entry>
+                        <ind>0.11</ind><dep>-1</dep>
+                    </entry>
+                    <entry>
+                        <ind>0.26</ind><dep>1</dep>
+                    </entry>
+                </table>
+            </expression>
+        </input>
+        <output>/fbw/elevator/stall-prot/min</output>
+    </filter>
+    <filter>
+        <name>Elevator FBW</name>
+        <debug type="bool">false</debug>
+        <type>gain</type>
+        <gain>
+            <property>/fbw/elevator/factor</property>
+        </gain>
+        <min>
+            <expression>
+                <max>
+                    <property>/fbw/elevator/stall-prot/min</property>
+                </max>
+            </expression>
+        </min>
+        <max>
+            <expression>
+                <min>
+                    <property>/fbw/elevator/stall-prot/max</property>
+                </min>
+            </expression>
+        </max>
+        <input>
+            <expression>
+                <sum>
+                    <property>/controls/flight/elevator</property>
+                    <property>/fbw/elevator/etc</property>
+                </sum>
+            </expression>
+        </input>
+        <output>/fdm/jsbsim/fcs/elevator-cmd-fbw</output>
+    </filter>
+</PropertyList>

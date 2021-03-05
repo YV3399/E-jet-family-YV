@@ -108,6 +108,10 @@
             </autopilot>
             <autopilot>
                 <name>Autopilot</name>
+                <path>Aircraft/E-jet-family/Systems/fbw.xml</path>
+            </autopilot>
+            <autopilot>
+                <name>Autopilot</name>
                 <path>Aircraft/E-jet-family/Systems/it-autoflight.xml</path>
             </autopilot>
             <autopilot>
@@ -1307,6 +1311,21 @@
             <caster-angle-deg-damped type="double">0</caster-angle-deg-damped>
         </gear>
     </gear>
+
+    <fbw>
+        <elevator>
+            <!-- 1 = normal, 0 = direct -->
+            <law type="int">1</law>
+            <factor type="double">1</factor>
+            <tsa>
+                <mode type="int">0</mode>
+            </tsa>
+            <stall-prot>
+                <min type="double">-1</min>
+                <max type="double">1</max>
+            </stall-prot>
+        </elevator>
+    </fbw>
 
     <instrumentation>
         <IESS>
