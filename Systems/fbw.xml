@@ -1,8 +1,15 @@
 <PropertyList>
+    <!-- Stall Protection System (SPS) -->
     <filter>
-        <name>Stall Protection System</name>
+        <name>SPS</name>
         <type>gain</type>
         <input>
+            <condition>
+                <and>
+                    <not><property>/gear/gear[1]/wow</property></not>
+                    <not><property>/gear/gear[2]/wow</property></not>
+                </and>
+            </condition>
             <expression>
                 <table>
                     <property>/fdm/jsbsim/aero/alpha-wing-rad</property>
@@ -13,13 +20,124 @@
                         <ind>0.11</ind><dep>-1</dep>
                     </entry>
                     <entry>
-                        <ind>0.26</ind><dep>1</dep>
+                        <ind>0.30</ind><dep>1</dep>
                     </entry>
                 </table>
             </expression>
         </input>
+        <input>
+            <value>-1</value>
+        </input>
         <output>/fbw/elevator/stall-prot/min</output>
     </filter>
+
+    <!-- Tailstrike Avoidance (TSA) -->
+    <filter>
+        <name>TSA pitch</name>
+        <type>gain</type>
+        <input>
+            <!-- landing mode -->
+            <condition>
+                <!-- flaps 5 or 6 (landing configuration) -->
+                <greater-than>
+                    <property>/controls/flight/flaps</property>
+                    <value>0.575</value>
+                </greater-than>
+            </condition>
+            <expression>
+                <!-- below 70 ft AGL, limit to 10-12 degrees nose-up -->
+                <table>
+                    <property>/position/gear-agl-ft</property>
+                    <entry><ind>0</ind><dep>10</dep></entry>
+                    <entry><ind>20</ind><dep>12</dep></entry>
+                    <entry><ind>60</ind><dep>30</dep></entry>
+                    <entry><ind>70</ind><dep>60</dep></entry>
+                </table>
+            </expression>
+        </input>
+        <input>
+            <!-- takeoff -->
+            <expression>
+                <!-- below 20 ft AGL, limit to 10-12 degrees nose-up -->
+                <table>
+                    <property>/position/gear-agl-ft</property>
+                    <entry><ind>0</ind><dep>10</dep></entry>
+                    <entry><ind>10</ind><dep>12</dep></entry>
+                    <entry><ind>20</ind><dep>60</dep></entry>
+                </table>
+            </expression>
+        </input>
+        <output>/fbw/elevator/tsa/max-pitch</output>
+    </filter>
+
+    <pid-controller>
+        <name>TSA pitch error</name>
+        <type>gain</type>
+        <min>0</min>
+        <max>0.5</max>
+        <Kp>-0.5</Kp>
+        <Ti>1</Ti>
+        <Td>0</Td>
+        <input>
+            <property>/orientation/pitch-deg</property>
+        </input>
+        <reference>
+            <property>/fbw/elevator/tsa/max-pitch</property>
+        </reference>
+        <output>/fbw/elevator/tsa/elevator-command</output>
+    </pid-controller>
+
+    <!-- Engine Thrust Compensation (ETC) -->
+    <filter>
+        <name>Elevator ETC ref</name>
+        <type>gain</type>
+        <gain>1</gain>
+        <debug type="bool">true</debug>
+        <input>
+            <expression>
+                <table>
+                    <property>/velocities/mach</property>
+                    <entry><ind>0.0</ind><dep>50</dep></entry>
+                    <entry><ind>0.3</ind><dep>50</dep></entry>
+                    <entry><ind>0.82</ind><dep>73.5</dep></entry>
+                </table>
+            </expression>
+        </input>
+        <output>
+            <property>/fbw/elevator/etc-ref-n1</property>
+        </output>
+    </filter>
+
+    <filter>
+        <name>Elevator ETC</name>
+        <type>gain</type>
+        <gain>0.1</gain>
+        <min>0</min>
+        <max>0.2</max>
+        <input>
+            <expression>
+                <div>
+                    <difference>
+                        <product>
+                            <value>0.5</value>
+                            <sum>
+                                <property>/engines/engine[0]/n1</property>
+                                <property>/engines/engine[1]/n1</property>
+                            </sum>
+                        </product>
+                        <property>/fbw/elevator/etc-ref-n1</property>
+                    </difference>
+                    <difference>
+                        <value>100</value>
+                        <property>/fbw/elevator/etc-ref-n1</property>
+                    </difference>
+                </div>
+            </expression>
+        </input>
+        <output>/fbw/elevator/etc</output>
+    </filter>
+
+    <!-- Elevator FBW Master -->
     <filter>
         <name>Elevator FBW</name>
         <debug type="bool">false</debug>
@@ -46,6 +164,7 @@
                 <sum>
                     <property>/controls/flight/elevator</property>
                     <property>/fbw/elevator/etc</property>
+                    <property>/fbw/elevator/tsa/elevator-command</property>
                 </sum>
             </expression>
         </input>

@@ -1317,9 +1317,13 @@
             <!-- 1 = normal, 0 = direct -->
             <law type="int">1</law>
             <factor type="double">1</factor>
+            <!-- Engine Thrust Compensation -->
+            <etc type="double">0</etc>
+            <!-- Tail Strike Avoidance -->
             <tsa>
-                <mode type="int">0</mode>
+                <max-pitch type="double">60</max-pitch>
             </tsa>
+            <!-- Stall Protection -->
             <stall-prot>
                 <min type="double">-1</min>
                 <max type="double">1</max>
@@ -1736,14 +1740,6 @@
             </key>
 
             <!-- Custom autopilot hotkeys -->
-            <key n="15">
-                <name>Ctrl-O</name>
-                <desc>Toggle TO/GA lock</desc>
-                <binding>
-                    <command>nasal</command>
-                    <script>input.toggleTOGA()</script>
-                </binding>
-            </key>
             <key n="26">
                 <name>Ctrl-Z</name>
                 <desc>Toggle master autopilot switch</desc>
