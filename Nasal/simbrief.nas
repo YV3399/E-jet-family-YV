@@ -199,7 +199,7 @@ var importPerfInit = func (ofp) {
     var cruiseMach = ofp.getNode('general/cruise_mach').getValue();
     var airline = ofp.getNode('general/icao_airline').getValue();
     var flightNumber = ofp.getNode('general/flight_number').getValue();
-    var callsign = airline ~ flightNumber;
+    var callsign = (airline == nil) ? flightNumber : (airline ~ flightNumber);
     var cruiseAlt = ofp.getNode('general/initial_altitude').getValue();
 
     
