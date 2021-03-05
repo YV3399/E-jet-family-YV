@@ -139,7 +139,7 @@
 
     <!-- Elevator FBW Master -->
     <filter>
-        <name>Elevator FBW</name>
+        <name>Elevator FBW Normal Law</name>
         <debug type="bool">false</debug>
         <type>gain</type>
         <gain>
@@ -167,6 +167,26 @@
                     <property>/fbw/elevator/tsa/elevator-command</property>
                 </sum>
             </expression>
+        </input>
+        <output>/fbw/elevator/elevator-command-normal-law</output>
+    </filter>
+
+    <filter>
+        <name>Elevator FBW Master</name>
+        <debug type="bool">false</debug>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <condition>
+                <equals>
+                    <property>/fbw/elevator/law</property>
+                    <value>1</value>
+                </equals>
+            </condition>
+            <property>/fbw/elevator/elevator-command-normal-law</property>
+        </input>
+        <input>
+            <property>/controls/flight/elevator</property>
         </input>
         <output>/fdm/jsbsim/fcs/elevator-cmd-fbw</output>
     </filter>
