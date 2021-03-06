@@ -4,7 +4,8 @@
 ## LIVERY SELECT
 ################
 
-aircraft.livery.init("Aircraft/E-jet-family/Models/Liveries/" ~ getprop("sim/aero"));
+var aero = substr(getprop("sim/aero"), 4);
+aircraft.livery.init("Aircraft/E-jet-family/Models/Liveries/" ~ aero);
 
 ## LIGHTS
 #########

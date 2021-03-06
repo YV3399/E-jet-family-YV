@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+
+<PropertyList>
+<sim>
+    <model>
+        <livery>
+            <name type="string">Red Fuji Dream Airlines - (JA01FJ)</name>
+            <texture>/../Models/Liveries/E170/FDAred.png</texture>
+        </livery>
+        <tail-number>JA01FJ</tail-number>
+    </model>
+</sim>
+</PropertyList>

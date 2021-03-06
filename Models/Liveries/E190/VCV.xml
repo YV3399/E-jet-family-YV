@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+
+<PropertyList>
+<sim>
+    <model>
+        <livery>
+            <name type="string">Conviasa</name>
+            <texture>/../Models/Liveries/E190/VCV.png</texture>
+        </livery>
+        <tail-number>YV2850</tail-number>
+    </model>
+</sim>
+</PropertyList>

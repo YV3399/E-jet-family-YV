@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<PropertyList include="ERJ-set-common.xml">
+<PropertyList include="common.xml">
 
     <sim>
         <description>Embraer Lineage 1000</description>
         <variant-of>Embraer170</variant-of>
-        <aero>Lineage1000</aero>
+        <aero>FDM/Lineage1000</aero>
         <engine>GE_CF34-10E</engine>
 
         <model>

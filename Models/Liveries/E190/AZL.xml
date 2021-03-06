@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+
+<PropertyList>
+<sim>
+    <model>
+        <livery>
+            <name type="string">Azul Linhas Aereas Brasileiras</name>
+            <texture>/../Models/Liveries/E190/Azul.png</texture>
+        </livery>
+        <tail-number>PR-AYE</tail-number>
+    </model>
+</sim>
+</PropertyList>

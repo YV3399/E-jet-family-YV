@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+
+<PropertyList>
+<sim>
+    <model>
+        <livery>
+            <name type="string">Aurigny Air Services</name>
+            <texture>/../Models/Liveries/E195/AUR.png</texture>
+        </livery>
+        <tail-number>G-NSEY</tail-number>
+    </model>
+</sim>
+</PropertyList>

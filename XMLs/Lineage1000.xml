@@ -9,12 +9,12 @@
     
     <model>
         <name>Aircraft</name>
-        <path>Aircraft/E-jet-family/XMLs/ERJ-190-Model.xml</path>
+        <path>Aircraft/E-jet-family/XMLs/E190-Model.xml</path>
     </model>
     
     <model>
         <name>Stairs</name>
-        <path>Aircraft/E-jet-family/XMLs/ERJ190-stairs.xml</path>
+        <path>Aircraft/E-jet-family/XMLs/E190-stairs.xml</path>
     </model>
     
     <model>

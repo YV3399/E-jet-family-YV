@@ -202,10 +202,10 @@ var lookupTable = func (table, path) {
 };
 
 var modelKeys = {
-    'ERJ170': 'E170',
-    'ERJ175': 'E170',
-    'ERJ190': 'E190',
-    'ERJ195': 'E190',
+    'E170': 'E170',
+    'E175': 'E170',
+    'E190': 'E190',
+    'E195': 'E190',
     'Lineage1000': 'E190',
 };
 

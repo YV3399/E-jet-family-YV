@@ -12,14 +12,14 @@ cp -R \
     Embraer195-set.xml \
     EmbraerLineage1000-set.xml \
     Engines \
-    ERJ170.xml \
-    ERJ175-E2.xml \
-    ERJ175.xml \
-    ERJ17x-copilot-set.xml \
-    ERJ190.xml \
-    ERJ195.xml \
-    ERJ-set-common.xml \
-    ERJ-sound.xml \
+    E170.xml \
+    E175-E2.xml \
+    E175.xml \
+    E17x-copilot-set.xml \
+    E190.xml \
+    E195.xml \
+    common.xml \
+    sound.xml \
     FDM \
     gui \
     License.txt \

@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+
+<PropertyList>
+<sim>
+    <model>
+        <livery>
+            <name type="string">AirEuropa</name>
+            <texture>/../Models/Liveries/E195/AirEuropa.png</texture>
+        </livery>
+        <tail-number>EC-KVJ</tail-number>
+    </model>
+</sim>
+</PropertyList>

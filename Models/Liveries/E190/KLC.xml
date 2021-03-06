@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+
+<PropertyList>
+<sim>
+    <model>
+        <livery>
+            <name type="string">KLM Cityhopper (2014-Redesign)</name>
+            <texture>/../Models/Liveries/E190/KLC.png</texture>
+        </livery>
+        <tail-number>PH-EXD</tail-number>
+    </model>
+</sim>
+</PropertyList>

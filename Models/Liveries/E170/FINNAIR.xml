@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+
+<PropertyList>
+<sim>
+    <model>
+        <livery>
+            <name type="string">FINNAIR</name>
+            <texture>/../Models/Liveries/E170/FINNAIR.png</texture>
+        </livery>
+        <tail-number>OH-LEL</tail-number>
+    </model>
+</sim>
+</PropertyList>

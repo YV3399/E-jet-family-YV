@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+
+<PropertyList>
+<sim>
+    <model>
+        <livery>
+            <name type="string">JetBlue | "Good, Better, Blue" (N274JB)</name>
+            <texture>/../Models/Liveries/E190/N274JB.png</texture>
+        </livery>
+        <tail-number>N274JB</tail-number>
+    </model>
+</sim>
+</PropertyList>

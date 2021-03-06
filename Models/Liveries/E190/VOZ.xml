@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+
+<PropertyList>
+<sim>
+    <model>
+        <livery>
+            <name type="string">Virgin Australia</name>
+            <texture>/../Models/Liveries/E190/VOZ.png</texture>
+        </livery>
+        <tail-number>VH-ZPT</tail-number>
+    </model>
+</sim>
+</PropertyList>

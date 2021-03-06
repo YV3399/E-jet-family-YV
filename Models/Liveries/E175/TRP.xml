@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+
+<PropertyList>
+<sim>
+    <model>
+        <livery>
+            <name type="string">TRIP Linhas Aereas</name>
+            <texture>/../Models/Liveries/E175/TRIP.png</texture>
+        </livery>
+        <tail-number>PP-PJF</tail-number>
+    </model>
+</sim>
+</PropertyList>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<PropertyList>
+    <sim>
+        <model>
+            <livery>
+                <name type="string">United Express</name><texture>/../Models/Liveries/E170/N640RW.png</texture>
+            </livery>
+        </model>
+        <tail-number>N640RW</tail-number>
+    </sim>
+</PropertyList>

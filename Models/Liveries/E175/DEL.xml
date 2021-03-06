@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+
+<PropertyList>
+<sim>
+    <model>
+        <livery>
+            <name type="string">Delta Connection</name>
+            <texture>/../Models/Liveries/E175/Delta.png</texture>
+        </livery>
+        <tail-number>N204JQ</tail-number>
+    </model>
+</sim>
+</PropertyList>

@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+
+<PropertyList>
+<sim>
+    <model>
+        <livery>
+            <name type="string">Azul (PR-AXV)</name>
+            <texture>/../Models/Liveries/E190/PR-AXV.png</texture>
+        </livery>
+        <tail-number>PR-AXV</tail-number>
+    </model>
+</sim>
+</PropertyList>

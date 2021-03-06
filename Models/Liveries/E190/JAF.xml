@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+
+<PropertyList>
+<sim>
+    <model>
+        <livery>
+            <name type="string">Jetairfly</name>
+            <texture>/../Models/Liveries/E190/JAF.png</texture>
+        </livery>
+        <tail-number>OO-JEM</tail-number>
+    </model>
+</sim>
+</PropertyList>

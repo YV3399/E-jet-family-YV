@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<!--
+FlightGear Australia proudly present this livery package depicting Buta Airways
+Embraer E190.  Buta Airways is a Azerbaijani low-cost virtual carrier fully
+owned by the flag carrier Azerbaijan Airlines.  The airline operates using
+their parent company's airline codes and callsign, but operates low-cost
+flights to regional destinations.  The shape depicted in the logo and livery is
+the sacred mythological bird Simurg - from Iranian mythology.
+-->
+
+<PropertyList>
+<sim>
+    <model>
+        <livery>
+            <name type="string">Buta Airways (VP-BRU)</name>
+            <texture>/../Models/Liveries/E190/AHY.png</texture>
+        </livery>
+    </model>
+</sim>
+</PropertyList>

@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+
+<PropertyList>
+<sim>
+    <model>
+        <livery>
+            <name type="string">Finnair (oneworld)</name>
+            <texture>/../Models/Liveries/E190/OH-LKN.png</texture>
+        </livery>
+        <tail-number>OH-LKN</tail-number>
+    </model>
+</sim>
+</PropertyList>

@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+
+<PropertyList>
+<sim>
+    <model>
+        <livery>
+            <name type="string">British Airways (700th aircraft)</name>
+            <texture>/../Models/Liveries/E170/G-LCYN.png</texture>
+        </livery>
+        <tail-number>G-LCYN</tail-number>
+    </model>
+</sim>
+</PropertyList>

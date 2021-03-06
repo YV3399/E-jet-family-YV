@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+
+<PropertyList>
+<sim>
+    <model>
+        <livery>
+            <name type="string">Lufthansa CityLine</name>
+            <texture>/../Models/Liveries/E195/CityLine.png</texture>
+        </livery>
+        <tail-number>D-AEBG</tail-number>
+    </model>
+</sim>
+</PropertyList>

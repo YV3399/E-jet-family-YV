@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+
+<PropertyList>
+<sim>
+    <model>
+        <livery>
+            <name type="string">JetBlue | "Bluesmobile" (N267JB)</name>
+            <texture>/../Models/Liveries/E190/N267JB.png</texture>
+        </livery>
+        <tail-number>N267JB</tail-number>
+    </model>
+</sim>
+</PropertyList>

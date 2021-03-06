@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+
+<PropertyList>
+<sim>
+    <model>
+        <livery>
+            <name type="string">Saudi Arabian Airways</name>
+            <texture>/../Models/Liveries/E170/Saudi.png</texture>
+        </livery>
+        <tail-number>HZ-AEO</tail-number>
+    </model>
+</sim>
+</PropertyList>

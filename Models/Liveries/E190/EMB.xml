@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+
+<PropertyList>
+<sim>
+    <model>
+        <livery>
+            <name type="string">Embraer House</name>
+            <texture>/../Models/Liveries/E190/Embraer190.png</texture>
+        </livery>
+        <tail-number>PP-XMA</tail-number>
+    </model>
+</sim>
+</PropertyList>

@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+
+<PropertyList>
+<sim>
+    <model>
+        <livery>
+            <name type="string">Air France Regional</name>
+            <texture>/../Models/Liveries/E170/AirFrance.png</texture>
+        </livery>
+    <tail-number>F-HBXI</tail-number>
+    </model>
+</sim>
+</PropertyList>

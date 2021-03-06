@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+
+<PropertyList>
+<sim>
+    <model>
+        <livery>
+            <name type="string">Montenegro Airlines</name>
+            <texture>/../Models/Liveries/E190/MGX.png</texture>
+        </livery>
+        <tail-number>4O-AOD</tail-number>
+    </model>
+</sim>
+</PropertyList>

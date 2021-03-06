@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+
+<PropertyList>
+<sim>
+    <model>
+        <livery>
+            <name type="string">Flybe</name>
+            <texture>/../Models/Liveries/E195/Flybe.png</texture>
+        </livery>
+        <tail-number>G-FBEI</tail-number>
+    </model>
+</sim>
+</PropertyList>

@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+
+<PropertyList>
+<sim>
+    <model>
+        <livery>
+            <name type="string">Alitalia</name>
+            <texture>/../Models/Liveries/E170/Alitalia.png</texture>
+        </livery>
+    <tail-number>EI-DFK</tail-number>
+    </model>
+</sim>
+</PropertyList>

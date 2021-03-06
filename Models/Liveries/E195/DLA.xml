@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+
+<PropertyList>
+<sim>
+    <model>
+        <livery>
+            <name type="string">Air Dolomiti</name>
+            <texture>/../Models/Liveries/E195/DLA.png</texture>
+        </livery>
+        <tail-number>I-ADJK</tail-number>
+    </model>
+</sim>
+</PropertyList>

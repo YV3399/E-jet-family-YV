@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+
+<PropertyList>
+<sim>
+    <model>
+        <livery>
+            <name type="string">Interjet</name>
+            <texture>/../Models/Liveries/E190/interjet.png</texture>
+        </livery>
+        <tail-number>XA-ITM</tail-number>
+    </model>
+</sim>
+</PropertyList>

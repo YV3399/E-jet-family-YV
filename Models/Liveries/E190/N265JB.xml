@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+
+<PropertyList>
+<sim>
+    <model>
+        <livery>
+            <name type="string">JetBlue | "Blue Streak" (N265JB)</name>
+            <texture>/../Models/Liveries/E190/N265JB.png</texture>
+        </livery>
+        <tail-number>N265JB</tail-number>
+    </model>
+</sim>
+</PropertyList>

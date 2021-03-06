@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<PropertyList include="ERJ-set-common.xml">
+<PropertyList include="common.xml">
 
     <sim>
         <description>Embraer Regional Jet 190 (190-100)</description>
         <variant-of>Embraer170</variant-of>
-        <aero>ERJ190</aero>
+        <aero>FDM/E190</aero>
         <engine>GE_CF34-10E</engine>
 
         <model>
-            <path>Aircraft/E-jet-family/XMLs/ERJ-190.xml</path>
+            <path>Aircraft/E-jet-family/XMLs/E190.xml</path>
             <door n="0">
                 <position-x-m>-11.443</position-x-m>
             </door>

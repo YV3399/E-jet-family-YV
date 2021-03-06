@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+
+<PropertyList>
+<sim>
+    <model>
+        <livery>
+            <name type="string">Royal Jordanian Airlines</name>
+            <texture>/../Models/Liveries/E175/RoyalJordanian.png</texture>
+        </livery>
+        <tail-number>JY-EMC</tail-number>
+    </model>
+</sim>
+</PropertyList>

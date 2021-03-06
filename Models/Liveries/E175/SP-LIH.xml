@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+
+<PropertyList>
+<sim>
+    <model>
+        <livery>
+            <name type="string">Polish Government</name>
+            <texture>/../Models/Liveries/E175/SP-LIH.png</texture>
+        </livery>
+        <tail-number>SP-LIH</tail-number>
+    </model>
+</sim>
+</PropertyList>

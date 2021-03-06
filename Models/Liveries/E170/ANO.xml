@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+
+<PropertyList>
+<sim>
+    <model>
+        <livery>
+            <name type="string">Air North</name>
+            <texture>/../Models/Liveries/E170/ANO.png</texture>
+        </livery>
+        <tail-number>VH-ANT</tail-number>
+    </model>
+</sim>
+</PropertyList>
