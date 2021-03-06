@@ -92,7 +92,7 @@
         <name>Elevator ETC ref</name>
         <type>gain</type>
         <gain>1</gain>
-        <debug type="bool">true</debug>
+        <debug type="bool">false</debug>
         <input>
             <expression>
                 <table>
