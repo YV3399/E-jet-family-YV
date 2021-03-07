@@ -9,7 +9,7 @@
         <flight-model>null</flight-model>
 
         <model>
-            <path>Aircraft/E-jet-family/XMLs/E170-copilot.xml</path>
+            <path>Aircraft/E-jet-family/Models/E170-copilot.xml</path>
         </model>
 
         <startup>
@@ -119,7 +119,7 @@
                         <binding>
                             <command>nasal</command>
                             <script>
-                                aircraft_dual_control.pilot_type = "Aircraft/E-jet-family/XMLs/E170.xml";
+                                aircraft_dual_control.pilot_type = "Aircraft/E-jet-family/Models/E170.xml";
                                 dual_control_tools.copilot_dialog.show(aircraft_dual_control.pilot_type);
                             </script>
                         </binding>
@@ -129,7 +129,7 @@
                         <binding>
                             <command>nasal</command>
                             <script>
-                                aircraft_dual_control.pilot_type = "Aircraft/E-jet-family/XMLs/E175.xml";
+                                aircraft_dual_control.pilot_type = "Aircraft/E-jet-family/Models/E175.xml";
                                 dual_control_tools.copilot_dialog.show(aircraft_dual_control.pilot_type);
                             </script>
                         </binding>

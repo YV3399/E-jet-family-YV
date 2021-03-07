@@ -22,7 +22,7 @@
                 <mach-bug-kt-norm type="double">0</mach-bug-kt-norm>
             </E-jet-family>
 
-            <autopush include="XMLs/autopush-config.xml" />
+            <autopush include="Models/autopush-config.xml" />
 
             <door n="0">
                 <position-y-m>-1.489</position-y-m>

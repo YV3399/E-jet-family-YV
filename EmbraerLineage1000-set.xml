@@ -9,7 +9,7 @@
         <engine>GE_CF34-10E</engine>
 
         <model>
-            <path>Aircraft/E-jet-family/XMLs/Lineage1000.xml</path>
+            <path>Aircraft/E-jet-family/Models/Lineage1000.xml</path>
             <door n="0">
                 <position-x-m>-11.443</position-x-m>
             </door>

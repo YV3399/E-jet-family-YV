@@ -6,7 +6,6 @@ cp -R \
     Documentation \
     DualControl \
     Embraer170-set.xml \
-    Embraer175E2-set.xml \
     Embraer175-set.xml \
     Embraer190-set.xml \
     Embraer195-set.xml \
@@ -32,7 +31,6 @@ cp -R \
     Systems \
     Thanks.txt \
     thumbnail.jpg \
-    XMLs \
     ./release/E-jet-family/
 cd release
 zip -r E-jet-family.zip E-jet-family

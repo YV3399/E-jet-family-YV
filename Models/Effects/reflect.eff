@@ -23,7 +23,7 @@
 		<lightmap-factor><use>systems/electrical/lighting/landing-light</use></lightmap-factor>-->
 		<lightmap-color type="vec3d"> 1 1 1 </lightmap-color>
 		<texture n="3">
-			<image>Aircraft/E-jet-family/XMLs/Effects/lightmap190.png</image>
+			<image>Aircraft/E-jet-family/Models/Effects/lightmap190.png</image>
 			<filter>linear-mipmap-linear</filter>
 			<wrap-s>clamp</wrap-s>
 			<wrap-t>clamp</wrap-t>
