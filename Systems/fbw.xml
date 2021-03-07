@@ -109,6 +109,26 @@
     </filter>
 
     <filter>
+        <name>Elevator ETC gain</name>
+        <type>gain</type>
+        <gain>1</gain>
+        <debug type="bool">false</debug>
+        <input>
+            <expression>
+                <table>
+                    <property>/velocities/mach</property>
+                    <entry><ind>0.0</ind><dep>1</dep></entry>
+                    <entry><ind>0.3</ind><dep>1</dep></entry>
+                    <entry><ind>0.82</ind><dep>0.0</dep></entry>
+                </table>
+            </expression>
+        </input>
+        <output>
+            <property>/fbw/elevator/etc-ref-gain</property>
+        </output>
+    </filter>
+
+    <filter>
         <name>Elevator ETC</name>
         <type>gain</type>
         <gain>0.1</gain>
@@ -116,22 +136,25 @@
         <max>0.2</max>
         <input>
             <expression>
-                <div>
-                    <difference>
-                        <product>
-                            <value>0.5</value>
-                            <sum>
-                                <property>/engines/engine[0]/n1</property>
-                                <property>/engines/engine[1]/n1</property>
-                            </sum>
-                        </product>
-                        <property>/fbw/elevator/etc-ref-n1</property>
-                    </difference>
-                    <difference>
-                        <value>100</value>
-                        <property>/fbw/elevator/etc-ref-n1</property>
-                    </difference>
-                </div>
+                <product>
+                    <property>/fbw/elevator/etc-ref-gain</property>
+                    <div>
+                        <difference>
+                            <product>
+                                <value>0.5</value>
+                                <sum>
+                                    <property>/engines/engine[0]/n1</property>
+                                    <property>/engines/engine[1]/n1</property>
+                                </sum>
+                            </product>
+                            <property>/fbw/elevator/etc-ref-n1</property>
+                        </difference>
+                        <difference>
+                            <value>100</value>
+                            <property>/fbw/elevator/etc-ref-n1</property>
+                        </difference>
+                    </div>
+                </product>
             </expression>
         </input>
         <output>/fbw/elevator/etc</output>
