@@ -15,7 +15,7 @@ name "aileronL"
 data 13
 aileronL.mesh
 crease 45.0
-texture "Ewing.png"
+texture "wing.png"
 numvert 25
 2.33052 1.07212 10.63324
 2.33052 1.19738 10.63151
@@ -134,7 +134,7 @@ name "apu.exhaust"
 data 20
 apu.exhaust.mesh.003
 crease 45.0
-texture "Ewing.png"
+texture "wing.png"
 numvert 72
 14.49276 1.70425 0.46502
 14.45016 1.81431 0.41748
@@ -2145,7 +2145,7 @@ name "box.003"
 data 12
 box.003.mesh
 crease 45.0
-texture "Ewing.png"
+texture "wing.png"
 numvert 158
 -12.66359 1.22288 0.85069
 -11.59355 1.1851 1.31724
@@ -6972,7 +6972,7 @@ name "elevator.l"
 data 19
 elevator.l.mesh.003
 crease 45.0
-texture "Ewing.png"
+texture "wing.png"
 numvert 15
 14.57678 1.42799 0.76786
 13.66783 1.36039 0.91489
@@ -7077,7 +7077,7 @@ name "elevator.r"
 data 19
 elevator.r.mesh.003
 crease 45.0
-texture "Ewing.png"
+texture "wing.png"
 numvert 15
 14.61652 1.44153 -0.97449
 13.7141 1.36752 -0.97449
@@ -7182,7 +7182,7 @@ name "engineL"
 data 12
 engineL.mesh
 crease 35.0
-texture "Ewing.png"
+texture "wing.png"
 numvert 513
 -2.81539 -0.80466 3.84409
 -2.81539 -0.75458 3.84902
@@ -11192,7 +11192,7 @@ name "engineR"
 data 12
 engineR.mesh
 crease 35.0
-texture "Ewing.png"
+texture "wing.png"
 numvert 513
 -2.81539 -0.80466 -4.35751
 -2.81539 -0.75458 -4.35258
@@ -15202,7 +15202,7 @@ name "fanL"
 data 9
 fanL.mesh
 crease 35.0
-texture "Ewing.png"
+texture "wing.png"
 numvert 1345
 -4.35464 -0.81672 3.9079
 -4.35464 -0.77929 3.91159
@@ -28932,7 +28932,7 @@ name "fanR"
 data 9
 fanR.mesh
 crease 35.0
-texture "Ewing.png"
+texture "wing.png"
 numvert 1345
 -4.35464 -0.81672 -4.29164
 -4.35464 -0.77929 -4.28795
@@ -42662,7 +42662,7 @@ name "flapac.l.1"
 data 15
 flapac.l.1.mesh
 crease 45.0
-texture "Ewing.png"
+texture "wing.png"
 numvert 472
 0.4166 -0.08793 3.20058
 0.21705 -0.1541 3.20672
@@ -46342,7 +46342,7 @@ name "flapac.l.2"
 data 15
 flapac.l.2.mesh
 crease 45.0
-texture "Ewing.png"
+texture "wing.png"
 numvert 514
 0.48526 0.27999 5.67011
 0.36477 0.33093 5.66498
@@ -50204,7 +50204,7 @@ name "flapac.l.3"
 data 15
 flapac.l.3.mesh
 crease 45.0
-texture "Ewing.png"
+texture "wing.png"
 numvert 472
 1.27384 0.62688 7.6022
 1.08186 0.56071 7.60833
@@ -53884,7 +53884,7 @@ name "flapac.l.4"
 data 15
 flapac.l.4.mesh
 crease 45.0
-texture "Ewing.png"
+texture "wing.png"
 numvert 472
 1.80976 0.90314 9.44322
 1.61778 0.83704 9.45006
@@ -57564,7 +57564,7 @@ name "flapLI"
 data 11
 flapLI.mesh
 crease 45.0
-texture "Ewing.png"
+texture "wing.png"
 numvert 11
 0.41797 0.13407 4.12486
 0.9627 -0.34082 1.7014
@@ -57630,7 +57630,7 @@ name "flapLO"
 data 11
 flapLO.mesh
 crease 45.0
-texture "Ewing.png"
+texture "wing.png"
 numvert 44
 2.57501 1.05001 10.15381
 2.1902 1.01913 10.16141
@@ -68084,7 +68084,7 @@ name "gear.l"
 data 11
 gear.l.mesh
 crease 30.0
-texture "Ewing.png"
+texture "wing.png"
 numvert 252
 -1.46332 -1.44346 2.43747
 -1.49497 -1.66376 2.5257
@@ -71315,7 +71315,7 @@ name "gear.l.2"
 data 13
 gear.l.2.mesh
 crease 30.0
-texture "Ewing.png"
+texture "wing.png"
 numvert 654
 -1.35139 -1.15984 2.56939
 -1.34957 -1.15953 2.48566
@@ -79088,7 +79088,7 @@ name "gear.n"
 data 11
 gear.n.mesh
 crease 30.0
-texture "Ewing.png"
+texture "wing.png"
 numvert 839
 -11.05225 -0.94857 0.04889
 -11.0064 -0.93769 0.04359
@@ -89542,7 +89542,7 @@ name "gear.r"
 data 11
 gear.r.mesh
 crease 30.0
-texture "Ewing.png"
+texture "wing.png"
 numvert 436
 -1.4469 -1.45473 -2.49572
 -1.47855 -1.43743 -2.49572
@@ -93011,7 +93011,7 @@ name "gear.r.2"
 data 13
 gear.r.2.mesh
 crease 30.0
-texture "Ewing.png"
+texture "wing.png"
 numvert 654
 -1.32792 -1.78661 -2.27377
 -1.35048 -1.80337 -2.27377
@@ -101373,7 +101373,7 @@ name "hstab"
 data 14
 hstab.mesh.003
 crease 45.0
-texture "Ewing.png"
+texture "wing.png"
 numvert 130
 14.98154 1.97624 4.7517
 15.13339 1.86453 4.7517
@@ -111112,7 +111112,7 @@ name "pylon.001"
 data 14
 pylon.001.mesh
 crease 45.0
-texture "Ewing.png"
+texture "wing.png"
 numvert 235
 -4.06017 -0.00096 3.92917
 -4.06017 0.20706 4.0321
@@ -113412,7 +113412,7 @@ name "spoiler.l.1"
 data 20
 spoiler.l.1.mesh.003
 crease 45.0
-texture "Ewing.png"
+texture "wing.png"
 numvert 4
 0.41859 -0.14907 1.81821
 -0.03613 0.00864 1.81821
@@ -113432,7 +113432,7 @@ name "spoiler.l.2"
 data 20
 spoiler.l.2.mesh.003
 crease 45.0
-texture "Ewing.png"
+texture "wing.png"
 numvert 9
 1.04663 0.80193 7.11574
 1.28351 0.7278 7.06317
@@ -113472,7 +113472,7 @@ name "tire.l"
 data 11
 tire.l.mesh
 crease 30.0
-texture "Ewing.png"
+texture "wing.png"
 numvert 1730
 -1.27711 -1.75182 2.97215
 -1.69117 -1.60962 2.95538
@@ -135347,7 +135347,7 @@ name "tire.n"
 data 11
 tire.n.mesh
 crease 30.0
-texture "Ewing.png"
+texture "wing.png"
 numvert 1778
 -10.95652 -1.86003 -0.17478
 -10.97757 -1.93883 -0.12098
@@ -157846,7 +157846,7 @@ name "tire.r"
 data 11
 tire.r.mesh
 crease 30.0
-texture "Ewing.png"
+texture "wing.png"
 numvert 3712
 -1.28147 -1.80793 -2.97803
 -1.29215 -1.80554 -2.97803
@@ -187905,7 +187905,7 @@ name "windshieldbars"
 data 23
 windshieldbars.mesh.003
 crease 45.0
-texture "Ewing.png"
+texture "wing.png"
 numvert 90
 -11.53745 1.18201 -1.28471
 -11.55754 1.18201 -1.29665
@@ -188469,7 +188469,7 @@ name "wing.005"
 data 13
 wing.005.mesh
 crease 45.0
-texture "Ewing.png"
+texture "wing.png"
 numvert 83
 -0.03613 -0.11442 -2.98234
 -0.03613 -0.38967 -1.81821
@@ -189036,7 +189036,7 @@ name "wing.l.1"
 data 13
 wing.l.1.mesh
 crease 45.0
-texture "Ewing.png"
+texture "wing.png"
 numvert 252
 -0.03613 -0.11441 2.98234
 -0.03613 -0.38967 1.81821
@@ -190822,7 +190822,7 @@ name "wing.l.2"
 data 13
 wing.l.2.mesh
 crease 45.0
-texture "Ewing.png"
+texture "wing.png"
 numvert 580
 0.43159 0.62069 7.72891
 0.45807 0.59577 7.71408
@@ -194717,7 +194717,7 @@ name "wing.l.3"
 data 13
 wing.l.3.mesh
 crease 45.0
-texture "Ewing.png"
+texture "wing.png"
 numvert 180
 3.24468 1.42324 13.14294
 3.08494 1.40886 13.14294
@@ -195933,7 +195933,7 @@ name "flapRI"
 data 11
 flapRI.mesh
 crease 45.0
-texture "Ewing.png"
+texture "wing.png"
 numvert 11
 0.41911 0.32955 -4.1246
 0.41911 0.13295 -4.1246
@@ -196005,7 +196005,7 @@ name "pylon.000"
 data 14
 pylon.000.mesh
 crease 45.0
-texture "Ewing.png"
+texture "wing.png"
 numvert 235
 -4.00124 -0.02984 -3.92018
 -4.00124 0.17817 -4.02311
@@ -197779,7 +197779,7 @@ name "spoiler.r.1"
 data 20
 spoiler.r.1.mesh.003
 crease 45.0
-texture "Ewing.png"
+texture "wing.png"
 numvert 4
 0.41898 -0.14799 -1.81822
 -0.03574 0.00972 -1.81822
@@ -197802,7 +197802,7 @@ name "aileronR"
 data 13
 aileronR.mesh
 crease 45.0
-texture "Ewing.png"
+texture "wing.png"
 numvert 25
 2.33053 1.07247 -10.63228
 2.33053 1.19773 -10.63055
@@ -197921,7 +197921,7 @@ name "flapac.r.1"
 data 15
 flapac.r.1.mesh
 crease 45.0
-texture "Ewing.png"
+texture "wing.png"
 numvert 472
 0.42088 -0.07901 -3.18012
 0.22133 -0.14518 -3.18625
@@ -201601,7 +201601,7 @@ name "flapac.r.2"
 data 15
 flapac.r.2.mesh
 crease 45.0
-texture "Ewing.png"
+texture "wing.png"
 numvert 472
 0.69256 0.35651 -5.64229
 0.50058 0.29034 -5.64842
@@ -205281,7 +205281,7 @@ name "flapac.r.3"
 data 15
 flapac.r.3.mesh
 crease 45.0
-texture "Ewing.png"
+texture "wing.png"
 numvert 472
 1.27812 0.6358 -7.58174
 1.08613 0.56962 -7.58787
@@ -208961,7 +208961,7 @@ name "flapac.r.4"
 data 15
 flapac.r.4.mesh
 crease 45.0
-texture "Ewing.png"
+texture "wing.png"
 numvert 472
 1.81404 0.91206 -9.42276
 1.62206 0.84595 -9.4296
@@ -212641,7 +212641,7 @@ name "flapRO"
 data 11
 flapRO.mesh
 crease 45.0
-texture "Ewing.png"
+texture "wing.png"
 numvert 44
 2.576 1.05042 -10.15392
 2.19119 1.01953 -10.16152
@@ -212799,7 +212799,7 @@ name "spoiler.r.2"
 data 20
 spoiler.r.2.mesh.003
 crease 45.0
-texture "Ewing.png"
+texture "wing.png"
 numvert 9
 1.0467 0.80241 -7.11575
 1.28358 0.72828 -7.06318
@@ -212839,7 +212839,7 @@ name "wing.003"
 data 13
 wing.003.mesh
 crease 45.0
-texture "Ewing.png"
+texture "wing.png"
 numvert 934
 -0.43314 -0.09366 -3.30837
 -0.40666 -0.11859 -3.29354

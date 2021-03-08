@@ -140,7 +140,7 @@ kids 3
 OBJECT poly
 name "rods.l1"
 loc 0.235976 -0.0164425 0.7423
-texture "Ewing.png"
+texture "wing.png"
 crease 45.000000
 numvert 78
 0.360495 1.17326 -0.761109
@@ -686,7 +686,7 @@ kids 0
 OBJECT poly
 name "step.l1.2"
 loc -0.117988 -0.218933 -0.526596
-texture "Ewing.png"
+texture "wing.png"
 crease 45.000000
 numvert 8
 0.707928 0.70848 0.967447
@@ -744,7 +744,7 @@ kids 0
 OBJECT poly
 name "step.l1.1"
 loc -0.117988 0.235375 -0.215704
-texture "Ewing.png"
+texture "wing.png"
 crease 45.000000
 numvert 8
 0.707928 0.766786 0.627431
@@ -806,7 +806,7 @@ kids 4
 OBJECT poly
 name "rods2.l1"
 loc 6.43095 0.48345 1.55906
-texture "Ewing.png"
+texture "wing.png"
 crease 45.000000
 numvert 62
 -7.83909 -0.614025 0.606304
@@ -1224,7 +1224,7 @@ kids 0
 OBJECT poly
 name "step.l1.5"
 loc -2.14365 -0.615457 -0.830578
-texture "Ewing.png"
+texture "wing.png"
 crease 45.000000
 numvert 8
 0.707927 0.766785 3.11457
@@ -1282,7 +1282,7 @@ kids 0
 OBJECT poly
 name "step.l1.4"
 loc -2.14365 -0.16115 -0.519686
-texture "Ewing.png"
+texture "wing.png"
 crease 45.000000
 numvert 8
 0.707928 0.708479 2.21102
@@ -1340,7 +1340,7 @@ kids 0
 OBJECT poly
 name "step.l1.3"
 loc -2.14365 0.293157 -0.208793
-texture "Ewing.png"
+texture "wing.png"
 crease 45.000000
 numvert 8
 0.707928 0.766785 1.871
@@ -1402,7 +1402,7 @@ kids 3
 OBJECT poly
 name "rods.l2"
 loc 0.223749 -0.0164425 0.742299
-texture "Ewing.png"
+texture "wing.png"
 crease 45.000000
 numvert 78
 0.362835 1.16511 -0.968632
@@ -1948,7 +1948,7 @@ kids 0
 OBJECT poly
 name "step.l2.2"
 loc -0.111875 -0.218933 -0.526596
-texture "Ewing.png"
+texture "wing.png"
 crease 45.000000
 numvert 8
 0.671247 0.766785 1.24922
@@ -2006,7 +2006,7 @@ kids 0
 OBJECT poly
 name "step.l2.1"
 loc -0.111875 0.235375 -0.215704
-texture "Ewing.png"
+texture "wing.png"
 crease 45.000000
 numvert 8
 0.671247 0.708479 0.345662
@@ -2068,7 +2068,7 @@ kids 4
 OBJECT poly
 name "rods2.l2"
 loc -5.71568 0.48345 1.71666
-texture "Ewing.png"
+texture "wing.png"
 crease 45.000000
 numvert 62
 8.31936 -0.48114 0.39316
@@ -2486,7 +2486,7 @@ kids 0
 OBJECT poly
 name "step.l2.5"
 loc 1.90523 -0.615457 -0.883114
-texture "Ewing.png"
+texture "wing.png"
 crease 45.000000
 numvert 8
 0.671247 0.70848 2.8328
@@ -2544,7 +2544,7 @@ kids 0
 OBJECT poly
 name "step.l2.4"
 loc 1.90523 -0.16115 -0.572222
-texture "Ewing.png"
+texture "wing.png"
 crease 45.000000
 numvert 8
 0.671247 0.766785 2.49279
@@ -2602,7 +2602,7 @@ kids 0
 OBJECT poly
 name "step.l2.3"
 loc 1.90523 0.293157 -0.261329
-texture "Ewing.png"
+texture "wing.png"
 crease 45.000000
 numvert 8
 0.671247 0.708479 1.58923

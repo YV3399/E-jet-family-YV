@@ -13,7 +13,7 @@ name "apu.exhaust"
 data 20
 apu.exhaust.mesh.005
 crease 45.0
-texture "Ewing.png"
+texture "wing.png"
 texrep 1 1
 numvert 72
 18.49276 1.70425 0.46502
@@ -2028,7 +2028,7 @@ name "box.003"
 data 12
 box.mesh.026
 crease 45.0
-texture "Ewing.png"
+texture "wing.png"
 texrep 1 1
 numvert 158
 -15.66359 1.22288 0.85069
@@ -7934,7 +7934,7 @@ name "elevator.l"
 data 19
 elevator.l.mesh.005
 crease 45.0
-texture "Ewing.png"
+texture "wing.png"
 texrep 1 1
 numvert 15
 18.28143 1.42799 0.84657
@@ -8040,7 +8040,7 @@ name "elevator.r"
 data 19
 elevator.r.mesh.005
 crease 45.0
-texture "Ewing.png"
+texture "wing.png"
 texrep 1 1
 numvert 15
 18.3245 1.44153 -1.07437
@@ -19381,7 +19381,7 @@ name "gear.l"
 data 23
 FITTING_1 - Default.011
 crease 30.0
-texture "Ewing.png"
+texture "wing.png"
 texrep 1 1
 numvert 654
 0.57886 -1.32439 2.56939
@@ -27155,7 +27155,7 @@ name "gear.l.001"
 data 21
 FITTING_1 - Defau.030
 crease 30.0
-texture "Ewing.png"
+texture "wing.png"
 texrep 1 1
 numvert 252
 0.47937 -1.6681 2.43747
@@ -30387,7 +30387,7 @@ name "gear.n"
 data 21
 FITTING_1 - Defau.031
 crease 30.0
-texture "Ewing.png"
+texture "wing.png"
 texrep 1 1
 numvert 4869
 -13.99543 -0.96174 0.01303
@@ -68887,7 +68887,7 @@ name "gear.r"
 data 21
 FITTING_1 - Defau.032
 crease 30.0
-texture "Ewing.png"
+texture "wing.png"
 texrep 1 1
 numvert 436
 0.49661 -1.67938 -2.49572
@@ -72357,7 +72357,7 @@ name "gear.r.001"
 data 23
 FITTING_1 - Default.012
 crease 30.0
-texture "Ewing.png"
+texture "wing.png"
 texrep 1 1
 numvert 654
 0.62153 -2.01126 -2.27377
@@ -80721,7 +80721,7 @@ name "hstab"
 data 14
 hstab.mesh.005
 crease 45.0
-texture "Ewing.png"
+texture "wing.png"
 texrep 1 1
 numvert 130
 18.7201 1.97624 5.23874
@@ -81990,7 +81990,7 @@ name "tire.l"
 data 21
 FITTING_1 - Defau.033
 crease 30.0
-texture "Ewing.png"
+texture "wing.png"
 texrep 1 1
 numvert 1730
 0.67895 -1.97977 2.99737
@@ -103866,7 +103866,7 @@ name "tire.n"
 data 24
 Object01_1 - Default.005
 crease 30.0
-texture "Ewing.png"
+texture "wing.png"
 texrep 1 1
 numvert 1778
 -13.96984 -2.04513 -0.17478
@@ -126366,7 +126366,7 @@ name "tire.r"
 data 21
 FITTING_1 - Defau.034
 crease 30.0
-texture "Ewing.png"
+texture "wing.png"
 texrep 1 1
 numvert 3712
 0.67441 -2.03797 -3.00358
@@ -156995,7 +156995,7 @@ name "cylinder.002"
 data 17
 cylinder.mesh.033
 crease 45.0
-texture "Ewing.png"
+texture "wing.png"
 texrep 1 1
 numvert 18
 -4.74337 -1.07931 4.01946
@@ -157175,7 +157175,7 @@ name "exhaust.001"
 data 16
 exhaust.mesh.011
 crease 45.0
-texture "Ewing.png"
+texture "wing.png"
 texrep 1 1
 numvert 96
 -1.30057 -1.00219 4.06095
@@ -157953,7 +157953,7 @@ name "fan.l"
 data 14
 fan.l.mesh.005
 crease 180.0
-texture "Ewing.png"
+texture "wing.png"
 texrep 1 1
 numvert 865
 -4.65588 -0.93782 4.09778
@@ -163390,7 +163390,7 @@ name "flap.l.005"
 data 8
 Mesh.039
 crease 30.0
-texture "Ewing.png"
+texture "wing.png"
 texrep 1 1
 numvert 472
 1.15498 -0.22954 3.29928
@@ -167071,7 +167071,7 @@ name "flap.l.1"
 data 17
 flap.l.1.mesh.005
 crease 45.0
-texture "Ewing.png"
+texture "wing.png"
 texrep 1 1
 numvert 11
 0.46049 -0.16283 4.12473
@@ -169728,7 +169728,7 @@ name "pylon.001"
 data 14
 pylon.mesh.011
 crease 45.0
-texture "Ewing.png"
+texture "wing.png"
 texrep 1 1
 numvert 186
 0.32513 -0.14839 4.02478
@@ -171928,7 +171928,7 @@ name "spoiler.l.1"
 data 20
 spoiler.l.1.mesh.005
 crease 45.0
-texture "Ewing.png"
+texture "wing.png"
 texrep 1 1
 numvert 4
 0.45959 -0.2533 1.81827
@@ -171949,7 +171949,7 @@ name "wing.007"
 data 13
 wing.mesh.041
 crease 45.0
-texture "Ewing.png"
+texture "wing.png"
 texrep 1 1
 numvert 83
 -0.01787 -0.1232 1.81828
@@ -172517,7 +172517,7 @@ name "wing.008"
 data 8
 Mesh.040
 crease 30.0
-texture "Ewing.png"
+texture "wing.png"
 texrep 1 1
 numvert 169
 -0.84847 -0.23848 3.25778
@@ -173749,7 +173749,7 @@ name "flap.l.000"
 data 17
 flap.l.2.mesh.024
 crease 45.0
-texture "Ewing.png"
+texture "wing.png"
 texrep 1 1
 numvert 6
 2.01088 0.37708 9.20834
@@ -173774,7 +173774,7 @@ name "flap.l.001"
 data 8
 Mesh.041
 crease 30.0
-texture "Ewing.png"
+texture "wing.png"
 texrep 1 1
 numvert 944
 1.44112 0.0474 5.66216
@@ -181126,7 +181126,7 @@ name "flap.l.003"
 data 17
 flap.l.2.mesh.025
 crease 45.0
-texture "Ewing.png"
+texture "wing.png"
 texrep 1 1
 numvert 10
 0.57123 -0.11729 4.44344
@@ -181182,7 +181182,7 @@ name "spoiler.l.2"
 data 20
 spoiler.l.2.mesh.005
 crease 45.0
-texture "Ewing.png"
+texture "wing.png"
 texrep 1 1
 numvert 11
 0.5743 0.24241 5.56375
@@ -181238,7 +181238,7 @@ name "wing"
 data 13
 wing.mesh.042
 crease 45.0
-texture "Ewing.png"
+texture "wing.png"
 texrep 1 1
 numvert 6
 1.36775 0.30255 7.07973
@@ -181263,7 +181263,7 @@ name "wing.001"
 data 8
 Mesh.042
 crease 30.0
-texture "Ewing.png"
+texture "wing.png"
 texrep 1 1
 numvert 338
 0.56215 -0.10679 5.51247
@@ -183711,7 +183711,7 @@ name "wing.002"
 data 13
 wing.mesh.043
 crease 45.0
-texture "Ewing.png"
+texture "wing.png"
 texrep 1 1
 numvert 48
 1.11903 0.37432 7.13553
@@ -183946,7 +183946,7 @@ name "aileron.l"
 data 18
 aileron.l.mesh.005
 crease 45.0
-texture "Ewing.png"
+texture "wing.png"
 texrep 1 1
 numvert 12
 2.89682 0.75088 11.92944
@@ -184026,7 +184026,7 @@ name "flap.l.004"
 data 17
 flap.l.2.mesh.026
 crease 45.0
-texture "Ewing.png"
+texture "wing.png"
 texrep 1 1
 numvert 10
 2.23975 0.34623 8.58374
@@ -184082,7 +184082,7 @@ name "wing.003"
 data 13
 wing.mesh.044
 crease 45.0
-texture "Ewing.png"
+texture "wing.png"
 texrep 1 1
 numvert 65
 3.75116 0.71107 13.49333
@@ -186523,7 +186523,7 @@ name "cylinder.001"
 data 17
 cylinder.mesh.034
 crease 45.0
-texture "Ewing.png"
+texture "wing.png"
 texrep 1 1
 numvert 18
 -4.44613 -0.60873 -3.54888
@@ -186703,7 +186703,7 @@ name "exhaust"
 data 16
 exhaust.mesh.012
 crease 45.0
-texture "Ewing.png"
+texture "wing.png"
 texrep 1 1
 numvert 96
 -1.86648 -0.7606 -4.03653
@@ -187481,7 +187481,7 @@ name "fan.r"
 data 14
 fan.r.mesh.005
 crease 45.0
-texture "Ewing.png"
+texture "wing.png"
 texrep 1 1
 numvert 865
 -4.84206 -1.21143 -4.06321
@@ -192918,7 +192918,7 @@ name "flap.r.003"
 data 8
 Mesh.043
 crease 30.0
-texture "Ewing.png"
+texture "wing.png"
 texrep 1 1
 numvert 472
 0.58833 -0.24835 -3.12135
@@ -196599,7 +196599,7 @@ name "flap.r.1"
 data 17
 flap.r.1.mesh.005
 crease 45.0
-texture "Ewing.png"
+texture "wing.png"
 texrep 1 1
 numvert 10
 1.03082 -0.43383 -1.70128
@@ -199254,7 +199254,7 @@ name "pylon"
 data 14
 pylon.mesh.012
 crease 45.0
-texture "Ewing.png"
+texture "wing.png"
 texrep 1 1
 numvert 186
 -4.66898 -0.21619 -4.14391
@@ -201454,7 +201454,7 @@ name "spoiler.r.1"
 data 20
 spoiler.r.1.mesh.005
 crease 45.0
-texture "Ewing.png"
+texture "wing.png"
 texrep 1 1
 numvert 4
 0.46049 -0.11146 -2.98241
@@ -201475,7 +201475,7 @@ name "wing.006"
 data 13
 wing.mesh.045
 crease 45.0
-texture "Ewing.png"
+texture "wing.png"
 texrep 1 1
 numvert 83
 -0.01787 -0.35944 -2.98242
@@ -202046,7 +202046,7 @@ name "flap.r.000"
 data 8
 Mesh.044
 crease 30.0
-texture "Ewing.png"
+texture "wing.png"
 texrep 1 1
 numvert 944
 0.98189 0.03044 -5.49335
@@ -209398,7 +209398,7 @@ name "flap.r.001"
 data 17
 flap.r.2.mesh.017
 crease 45.0
-texture "Ewing.png"
+texture "wing.png"
 texrep 1 1
 numvert 10
 0.57123 -0.11729 -4.44346
@@ -209454,7 +209454,7 @@ name "flap.r.2"
 data 17
 flap.r.2.mesh.018
 crease 45.0
-texture "Ewing.png"
+texture "wing.png"
 texrep 1 1
 numvert 6
 2.01088 0.37708 -9.20835
@@ -209479,7 +209479,7 @@ name "spoiler.r.2"
 data 20
 spoiler.r.2.mesh.005
 crease 45.0
-texture "Ewing.png"
+texture "wing.png"
 texrep 1 1
 numvert 11
 1.05971 0.3852 -7.14879
@@ -209535,7 +209535,7 @@ name "wing.004"
 data 13
 wing.mesh.046
 crease 45.0
-texture "Ewing.png"
+texture "wing.png"
 texrep 1 1
 numvert 50
 0.59071 0.05601 -4.50791
@@ -209778,7 +209778,7 @@ name "wing.005"
 data 8
 Mesh.045
 crease 30.0
-texture "Ewing.png"
+texture "wing.png"
 texrep 1 1
 numvert 507
 0.75687 0.28396 -8.32741
@@ -213448,7 +213448,7 @@ name "aileron.r"
 data 18
 aileron.r.mesh.005
 crease 45.0
-texture "Ewing.png"
+texture "wing.png"
 texrep 1 1
 numvert 12
 2.07734 0.39773 -9.40048
@@ -213528,7 +213528,7 @@ name "flap.r.004"
 data 17
 flap.r.2.mesh.019
 crease 45.0
-texture "Ewing.png"
+texture "wing.png"
 texrep 1 1
 numvert 10
 2.41679 0.40971 -9.20835
@@ -213584,7 +213584,7 @@ name "wing.009"
 data 13
 wing.mesh.047
 crease 45.0
-texture "Ewing.png"
+texture "wing.png"
 texrep 1 1
 numvert 65
 3.70518 0.71107 -13.49329
