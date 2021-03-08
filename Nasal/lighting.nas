@@ -18,24 +18,3 @@ setprop("/controls/lighting/landing-lights[2]",0);
 setprop("/controls/lighting/logo-lights",0);
 setprop("/controls/lighting/nav-lights",0);
 });
-
-setlistener("/system/electrical/outputs/landing-lights-norm[0]", func
- {
- var landl = getprop("/system/electrical/outputs/landing-lights-norm[0]");
- if (landl == 1) {
- setprop("sim/rendering/als-secondary-lights/use-landing-light",1);
- } else {
- setprop("sim/rendering/als-secondary-lights/use-landing-light",0);
- }
- });
- 
- setlistener("/system/electrical/outputs/landing-lights-norm[2]", func
- {
- var landr = getprop("/system/electrical/outputs/landing-lights-norm[2]");
- if (landr == 1) {
- setprop("sim/rendering/als-secondary-lights/use-alt-landing-light",1);
- } else {
- setprop("sim/rendering/als-secondary-lights/use-alt-landing-light",0);
- }
- });
-

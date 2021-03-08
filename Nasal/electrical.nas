@@ -378,14 +378,8 @@ update_virtual_bus = func( dt ) {
 	
 	if(props.globals.getNode("/systems/electrical/outputs/landing-lights").getValue() > 15){
 		props.globals.getNode("/systems/electrical/outputs/landing-lights-norm").setValue(1);
-		if(props.globals.getNode("/sim/current-view/internal").getBoolValue()){
-			props.globals.getNode("/sim/rendering/als-secondary-lights/use-landing-light").setBoolValue(1);
-		}else{
-			props.globals.getNode("/sim/rendering/als-secondary-lights/use-landing-light").setBoolValue(0);
-		}
 	}else{
 		props.globals.getNode("/systems/electrical/outputs/landing-lights-norm").setValue(0);
-		props.globals.getNode("/sim/rendering/als-secondary-lights/use-landing-light").setBoolValue(0);
 	}
 	if(props.globals.getNode("/systems/electrical/outputs/landing-lights[1]").getValue() > 15){
 		props.globals.getNode("/systems/electrical/outputs/landing-lights-norm[1]").setValue(1);

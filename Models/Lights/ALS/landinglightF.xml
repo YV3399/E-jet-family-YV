@@ -102,9 +102,9 @@
             <max>1</max>
         </dim-factor>
         <attenuation>
-            <c>0.01</c>
-            <l>0.02</l>
-            <q>0.001</q>
+            <c>0.2</c>
+            <l>0.01</l>
+            <q>0.0</q>
         </attenuation>
         <spot-exponent>100.0</spot-exponent>
         <spot-cutoff>20.0</spot-cutoff>
