@@ -1246,6 +1246,8 @@
             <landing-lights n="0" type="bool">false</landing-lights>
             <landing-lights n="1" type="bool">false</landing-lights>
             <landing-lights n="2" type="bool">false</landing-lights>
+            <taxi-lights n="0" type="bool">false</taxi-lights>
+            <taxi-lights n="1" type="bool">false</taxi-lights>
             <nav-lights-switch type="int">0</nav-lights-switch>
             <overhead-panel-norm type="double">0.8</overhead-panel-norm>
             <main-panel-pedestal-norm type="double">0.8</main-panel-pedestal-norm>

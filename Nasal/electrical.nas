@@ -16,6 +16,9 @@ props.globals.initNode("/systems/electrical/outputs/logo-lights-norm", 0);
 props.globals.initNode("/systems/electrical/outputs/landing-lights-norm[0]", 0);
 props.globals.initNode("/systems/electrical/outputs/landing-lights-norm[1]", 0);
 props.globals.initNode("/systems/electrical/outputs/landing-lights-norm[2]", 0);
+props.globals.initNode("/systems/electrical/outputs/taxi-lights-norm[0]", 0);
+props.globals.initNode("/systems/electrical/outputs/taxi-lights-norm[1]", 0);
+props.globals.initNode("/systems/electrical/outputs/taxi-lights-norm[2]", 0);
 var lbus_volts = 0.0;
 var rbus_volts = 0.0;
 
@@ -171,6 +174,15 @@ var init_switches = func{
     append(lights_input,props.globals.initNode("controls/lighting/landing-lights[2]",0,"BOOL"));
     append(lights_output,props.globals.initNode("systems/electrical/outputs/landing-lights[2]",0,"DOUBLE"));
     append(lights_load,1);
+    append(lights_input,props.globals.initNode("controls/lighting/taxi-lights[0]",0,"BOOL"));
+    append(lights_output,props.globals.initNode("systems/electrical/outputs/taxi-lights[0]",0,"DOUBLE"));
+    append(lights_load,1);
+    append(lights_input,props.globals.initNode("controls/lighting/taxi-lights[1]",0,"BOOL"));
+    append(lights_output,props.globals.initNode("systems/electrical/outputs/taxi-lights[1]",0,"DOUBLE"));
+    append(lights_load,1);
+    append(lights_input,props.globals.initNode("controls/lighting/taxi-lights[1]",0,"BOOL")); # this is correct, the same switch controls both side taxi lights
+    append(lights_output,props.globals.initNode("systems/electrical/outputs/taxi-lights[2]",0,"DOUBLE"));
+    append(lights_load,1);
     append(lights_input,props.globals.initNode("controls/lighting/nav-lights-switch",0,"BOOL"));
     append(lights_output,props.globals.initNode("systems/electrical/outputs/nav-lights",0,"DOUBLE"));
     append(lights_load,1);
@@ -197,9 +209,6 @@ var init_switches = func{
     append(lights_load,1);
     append(lights_input,props.globals.initNode("controls/lighting/landing-lights[2]",0,"BOOL"));
     append(lights_output,props.globals.initNode("systems/electrical/outputs/landing-lights[2]",0,"DOUBLE"));
-    append(lights_load,1);
-    append(lights_input,props.globals.initNode("controls/lighting/taxi-lights",0,"BOOL"));
-    append(lights_output,props.globals.initNode("systems/electrical/outputs/taxi-lights",0,"DOUBLE"));
     append(lights_load,1);
     append(lights_input,props.globals.initNode("controls/lighting/beacon",0,"BOOL"));
     append(lights_output,props.globals.initNode("systems/electrical/outputs/beacon",0,"DOUBLE"));
@@ -390,6 +399,40 @@ update_virtual_bus = func( dt ) {
 		props.globals.getNode("/systems/electrical/outputs/landing-lights-norm[2]").setValue(1);
 	}else{
 		props.globals.getNode("/systems/electrical/outputs/landing-lights-norm[2]").setValue(0);
+	}
+
+	if(props.globals.getNode("/systems/electrical/outputs/taxi-lights[0]").getValue() > 15){
+		props.globals.getNode("/systems/electrical/outputs/taxi-lights-norm[0]").setValue(1);
+	}else{
+		props.globals.getNode("/systems/electrical/outputs/taxi-lights-norm[0]").setValue(0);
+	}
+	
+	if(props.globals.getNode("/systems/electrical/outputs/taxi-lights[1]").getValue() > 15){
+		props.globals.getNode("/systems/electrical/outputs/taxi-lights-norm[1]").setValue(1);
+	}else{
+		props.globals.getNode("/systems/electrical/outputs/taxi-lights-norm[1]").setValue(0);
+	}
+	
+	if(props.globals.getNode("/systems/electrical/outputs/taxi-lights[2]").getValue() > 15){
+		props.globals.getNode("/systems/electrical/outputs/taxi-lights-norm[2]").setValue(1);
+	}else{
+		props.globals.getNode("/systems/electrical/outputs/taxi-lights-norm[2]").setValue(0);
+	}
+	
+	if(props.globals.getNode("/systems/electrical/outputs/taxi-lights").getValue() > 15){
+		props.globals.getNode("/systems/electrical/outputs/taxi-lights-norm").setValue(1);
+	}else{
+		props.globals.getNode("/systems/electrical/outputs/taxi-lights-norm").setValue(0);
+	}
+	if(props.globals.getNode("/systems/electrical/outputs/taxi-lights[1]").getValue() > 15){
+		props.globals.getNode("/systems/electrical/outputs/taxi-lights-norm[1]").setValue(1);
+	}else{
+		props.globals.getNode("/systems/electrical/outputs/taxi-lights-norm[1]").setValue(0);
+	}
+	if(props.globals.getNode("/systems/electrical/outputs/taxi-lights[2]").getValue() > 15){
+		props.globals.getNode("/systems/electrical/outputs/taxi-lights-norm[2]").setValue(1);
+	}else{
+		props.globals.getNode("/systems/electrical/outputs/taxi-lights-norm[2]").setValue(0);
 	}
 
     return load;

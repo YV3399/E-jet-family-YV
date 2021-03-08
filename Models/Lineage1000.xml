@@ -166,6 +166,33 @@
             <z-m> -1.45</z-m>   
         </offsets>
     </model>
+    <model>
+        <path>Aircraft/E-jet-family/Models/Lights/ALS/taxilightL.xml</path>
+        <name>LeftWingTaxilight-ALS</name>
+        <offsets>
+            <x-m>-3.68</x-m>
+            <y-m>-2.25</y-m>
+            <z-m> -0.24</z-m>  
+        </offsets>
+    </model>
+    <model>
+        <path>Aircraft/E-jet-family/Models/Lights/ALS/taxilightR.xml</path>
+        <name>RightWingTaxilight-ALS</name>
+        <offsets>
+            <x-m>-3.68</x-m>
+            <y-m>2.25</y-m>
+            <z-m> -0.24</z-m>  
+        </offsets>
+    </model>
+    <model>
+        <path>Aircraft/E-jet-family/Models/Lights/ALS/taxilightF.xml</path>
+        <name>NoseGearTaxilight-ALS</name>
+        <offsets>
+            <x-m> -12.93</x-m>
+            <y-m>  0.00</y-m> 
+            <z-m> -1.45</z-m>   
+        </offsets>
+    </model>
     
     <model>
         <path>Aircraft/E-jet-family/Models/Lights/landing-nose.xml</path>
@@ -276,6 +303,9 @@
         <object-name>LeftWingLandinglight-ALS</object-name>
         <object-name>RightWingLandinglight-ALS</object-name>
         <object-name>NoseGearLandinglight-ALS</object-name>
+        <object-name>LeftWingTaxilight-ALS</object-name>
+        <object-name>RightWingTaxilight-ALS</object-name>
+        <object-name>NoseGearTaxilight-ALS</object-name>
         <condition>
             <property>/sim/rendering/shaders/skydome</property>
         </condition>

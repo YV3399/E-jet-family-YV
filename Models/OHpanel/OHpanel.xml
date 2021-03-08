@@ -149,12 +149,12 @@
         <object-name>mesh.031</object-name>
         <object-name>mesh.032</object-name>
         <object-name>nav.switch</object-name>
-        <object-name>NAV1SwtchR</object-name>
-        <object-name>NAV1SwtchR.001</object-name>
-        <object-name>NAV1SwtchR.002</object-name>
-        <object-name>NAV1SwtchR.003</object-name>
-        <object-name>NAV1SwtchR.004</object-name>
-        <object-name>NAV1SwtchR.005</object-name>
+        <object-name>emerlt.switch</object-name>
+        <object-name>dvdr.switch</object-name>
+        <object-name>noelec.switch</object-name>
+        <object-name>nose.switch</object-name>
+        <object-name>sides.switch</object-name>
+        <object-name>insp.switch</object-name>
         <object-name>pack.1</object-name>
         <object-name>pack.2</object-name>
         <object-name>PanelMarkings</object-name>
@@ -873,6 +873,74 @@
 		<type>rotate</type>
 		<object-name>logo.switch</object-name>
 		<property>controls/lighting/logo-lights</property>
+		<interpolation>
+			<entry><ind>0</ind><dep>15</dep></entry>
+			<entry><ind>1</ind><dep>-15</dep></entry>
+		</interpolation>
+		<axis>
+			<x>0</x>
+			<y>1</y>
+			<z>0</z>
+		</axis>
+		<center>
+			<x-m>-12.29677</x-m>
+			<y-m>0</y-m>
+			<z-m>1.66274</z-m>
+		</center>
+	</animation>
+
+	<animation>
+		<name>nose lights pick</name>
+		<type>pick</type>
+		<object-name>nose.switch</object-name>
+		<action>
+			<button>0</button>
+			<repeatable type="bool">false</repeatable>
+			<binding>
+				<command>property-toggle</command>
+				<property>controls/lighting/taxi-lights[0]</property>
+			</binding>
+		</action>
+	</animation>
+	<animation>
+		<name>nose lights rotate</name>
+		<type>rotate</type>
+		<object-name>nose.switch</object-name>
+		<property>controls/lighting/taxi-lights[0]</property>
+		<interpolation>
+			<entry><ind>0</ind><dep>15</dep></entry>
+			<entry><ind>1</ind><dep>-15</dep></entry>
+		</interpolation>
+		<axis>
+			<x>0</x>
+			<y>1</y>
+			<z>0</z>
+		</axis>
+		<center>
+			<x-m>-12.29677</x-m>
+			<y-m>0</y-m>
+			<z-m>1.66274</z-m>
+		</center>
+	</animation>
+
+	<animation>
+		<name>sides lights pick</name>
+		<type>pick</type>
+		<object-name>sides.switch</object-name>
+		<action>
+			<button>0</button>
+			<repeatable type="bool">false</repeatable>
+			<binding>
+				<command>property-toggle</command>
+				<property>controls/lighting/taxi-lights[1]</property>
+			</binding>
+		</action>
+	</animation>
+	<animation>
+		<name>sides lights rotate</name>
+		<type>rotate</type>
+		<object-name>sides.switch</object-name>
+		<property>controls/lighting/taxi-lights[1]</property>
 		<interpolation>
 			<entry><ind>0</ind><dep>15</dep></entry>
 			<entry><ind>1</ind><dep>-15</dep></entry>
