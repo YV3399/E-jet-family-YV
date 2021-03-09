@@ -40,5 +40,53 @@
    <object-name>beacon</object-name>
  </effect>
 
+  
+    <light>
+        <type>point</type>
+        <name>Spotlight</name>
+        <position>
+            <x-m>0</x-m>
+            <y-m>0</y-m>
+            <z-m>0</z-m>
+        </position>
+        <direction>
+            <heading-deg>0</heading-deg>
+            <roll-deg>0</roll-deg>
+            <pitch-deg>180</pitch-deg>
+        </direction>
+        <ambient>
+            <r>1.0</r>
+            <g>0.2</g>
+            <b>0.1</b>
+            <a>1.0</a>
+        </ambient>
+        <diffuse>
+            <r>1.0</r>
+            <g>0.2</g>
+            <b>0.1</b>
+            <a>0.7</a>
+        </diffuse>
+        <specular>
+            <r>1.0</r>
+            <g>0.2</g>
+            <b>0.1</b>
+            <a>0.7</a>
+        </specular>
+        <dim-factor>
+            <property>/sim/model/lights/beacon/state</property>
+            <factor>1</factor>
+            <offset>0</offset>
+            <min>0</min>
+            <max>1</max>
+        </dim-factor>
+        <attenuation>
+            <c>5.0</c>
+            <l>2.0</l>
+            <q>2.0</q>
+        </attenuation>
+        <range-m>10</range-m>
+        <near-m>0.02</near-m>
+        <far-m>10</far-m>
+    </light>
 
 </PropertyList>

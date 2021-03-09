@@ -40,8 +40,8 @@
             <max>1</max>
         </dim-factor>
         <attenuation>
-            <c>0.2</c>
-            <l>0.04</l>
+            <c>1</c>
+            <l>0.08</l>
             <q>0.0001</q>
         </attenuation>
         <spot-exponent>20.0</spot-exponent>

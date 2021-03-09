@@ -102,7 +102,7 @@
             <max>1</max>
         </dim-factor>
         <attenuation>
-            <c>0.2</c>
+            <c>1</c>
             <l>0.01</l>
             <q>0.0</q>
         </attenuation>

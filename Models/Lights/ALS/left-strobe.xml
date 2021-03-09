@@ -41,6 +41,58 @@
   </interpolation>
  </animation>
  
+    <light>
+        <type>point</type>
+        <name>Spotlight</name>
+        <position>
+            <x-m>0</x-m>
+            <y-m>0</y-m>
+            <z-m>0</z-m>
+        </position>
+        <direction>
+            <heading-deg>0</heading-deg>
+            <roll-deg>0</roll-deg>
+            <pitch-deg>85</pitch-deg>
+        </direction>
+        <ambient>
+            <r>1.0</r>
+            <g>1.0</g>
+            <b>1.0</b>
+            <a>1.0</a>
+        </ambient>
+        <diffuse>
+            <r>1.0</r>
+            <g>1.0</g>
+            <b>1.0</b>
+            <a>0.7</a>
+        </diffuse>
+        <specular>
+            <r>1.0</r>
+            <g>1.0</g>
+            <b>1.0</b>
+            <a>0.7</a>
+        </specular>
+        <dim-factor>
+            <expression>
+                <product>
+                    <property>systems/electrical/outputs/strobe-lights-norm</property>
+                    <property>sim/model/lights/strobe/state</property>
+                </product>
+            </expression>
+            <factor>1</factor>
+            <offset>0</offset>
+            <min>0</min>
+            <max>1</max>
+        </dim-factor>
+        <attenuation>
+            <c>4</c>
+            <l>0.2</l>
+            <q>0.5</q>
+        </attenuation>
+        <range-m>30</range-m>
+        <near-m>0.1</near-m>
+        <far-m>30</far-m>
+    </light>
 
 
 </PropertyList>
