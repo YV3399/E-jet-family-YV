@@ -36,22 +36,4 @@
     </animation>
     -->
 
-    <animation>
-        <name>LitElems</name>
-        <object-name>base</object-name>
-    </animation>
-
-    <animation>
-        <type>material</type>
-        <object-name>LitElems</object-name>
-        <condition>
-            <property>controls/lighting/dome</property>
-        </condition>
-        <emission>
-            <red>0.35</red>
-            <green>0.3</green>
-            <blue>0.14</blue>
-        </emission>
-    </animation>
-
 </PropertyList>

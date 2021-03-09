@@ -34,7 +34,7 @@ MATERIAL "ac3dmat1.053" rgb 1.000 1.000 1.000  amb 0.600 0.600 0.600  emis 0.000
 MATERIAL "ac3dmat1.054" rgb 1.000 1.000 1.000  amb 0.600 0.600 0.600  emis 0.000 0.000 0.000  spec 0.500 0.500 0.500  shi 95 trans 0.000
 OBJECT world
 name "Blender_exporter_v2.26__erj-flightdeck.ac"
-kids 515
+kids 517
 OBJECT poly
 name "ALT"
 data 12
@@ -31363,6 +31363,17 @@ refs 4
 79 0.29231 0.030019
 kids 0
 OBJECT poly
+name "e1.start.axis"
+data 17
+e1.start.mesh.000
+crease 45.0
+texture "engine-control.png"
+texrep 1 1
+numvert 2
+-12.31027 0.71018 0.03534
+-12.30679 0.72011 0.03565
+kids 0
+OBJECT poly
 name "e2.case"
 data 16
 e2.case.mesh.004
@@ -32586,6 +32597,17 @@ refs 4
 20 0.295433 0.040957
 61 0.279856 0.043528
 82 0.274144 0.032333
+kids 0
+OBJECT poly
+name "e2.start.axis"
+data 17
+e2.start.mesh.000
+crease 45.0
+texture "engine-control.png"
+texrep 1 1
+numvert 2
+-12.31027 0.71018 -0.02829
+-12.30679 0.72012 -0.028
 kids 0
 OBJECT poly
 name "FD"
