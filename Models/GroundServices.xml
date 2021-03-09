@@ -15,6 +15,7 @@
             </less-than>
         </condition>
     </model>
+
     <model>
         <name>Fuel Truck</name>
         <path>Aircraft/E-jet-family/Models/Fuel-Truck/Fuel_Truck_Short_VolvoFM.ac</path>
@@ -35,9 +36,69 @@
         </condition>
     </model>
 
+    <model>
+        <name>Fuel Truck Headlights</name>
+        <path>Aircraft/E-jet-family/Models/Lights/ALS/fuelTruckLights.xml</path>
+        <offsets>
+            <x-m>-2.8</x-m>
+            <y-m>13.75</y-m>
+            <z-m>-1.4</z-m>
+            <heading-deg>-160</heading-deg>
+        </offsets>
+        <condition>
+            <greater-than>
+                <property>/services/fuel-truck/position</property>
+                <value type="double">0.0</value>
+            </greater-than>
+            <less-than>
+                <property>velocities/groundspeed-kt</property>
+                <value>2</value>
+            </less-than>
+        </condition>
+    </model>
+
+    <animation>
+        <type>material</type>
+        <object-name>HeadlightsLeft</object-name>
+        <object-name>HeadlightsRight</object-name>
+        <object-name>Beacon</object-name>
+        <emission>
+            <red>2.0</red>
+            <green>2.0</green>
+            <blue>2.0</blue>
+        </emission>
+    </animation>
+
+    <animation>
+        <type>material</type>
+        <object-name>TailLightRight</object-name>
+        <object-name>TailLightLeft</object-name>
+        <emission>
+            <red>2.0</red>
+            <green>0.0</green>
+            <blue>0.0</blue>
+        </emission>
+    </animation>
+
+    <animation>
+        <type>material</type>
+        <object-name>BrakeLightRight</object-name>
+        <object-name>BrakeLightLeft</object-name>
+        <emission>
+            <red>2.0</red>
+            <green>0.0</green>
+            <blue>0.0</blue>
+        </emission>
+        <condition>
+            <property>/services/fuel-truck/braking</property>
+        </condition>
+    </animation>
+
+
     <animation>
         <type>rotate</type>
         <object-name>Fuel Truck</object-name>
+        <object-name>Fuel Truck Headlights</object-name>
         <axis>
             <x>1</x>
             <y>0</y>
@@ -49,6 +110,7 @@
     <animation>
         <type>rotate</type>
         <object-name>Fuel Truck</object-name>
+        <object-name>Fuel Truck Headlights</object-name>
         <axis>
             <x>0</x>
             <y>-1</y>
@@ -60,6 +122,7 @@
     <animation>
         <type>translate</type>
         <object-name>Fuel Truck</object-name>
+        <object-name>Fuel Truck Headlights</object-name>
         <axis>
             <x>-3</x>
             <y>-1</y>
@@ -80,15 +143,6 @@
             <entry> <ind>0.9</ind><dep>0</dep> </entry>
             <entry> <ind>1</ind><dep>0</dep> </entry>
         </interpolation>
-    </animation>
-
-    <animation>
-        <type>material</type>
-        <object-name>Fuel Truck</object-name>
-        <transparency>
-            <alpha-prop>/services/fuel-truck/position</alpha-prop>
-            <factor>100</factor>
-        </transparency>
     </animation>
 
 </PropertyList>

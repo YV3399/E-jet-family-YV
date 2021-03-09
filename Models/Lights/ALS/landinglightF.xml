@@ -131,5 +131,17 @@
 			<z-m>0</z-m>
 		</center>
 	</animation>
+
+    <animation>
+        <type>select</type>
+        <object-name>landinglight</object-name>
+        <object-name>Spotlight</object-name>
+        <condition>
+            <greater-than>
+                <property>/gear/gear[0]/position-norm</property>
+                <value>0.9</value>
+            </greater-than>
+        </condition>
+    </animation>
     
 </PropertyList>

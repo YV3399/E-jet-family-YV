@@ -72,12 +72,7 @@
             <a>0.7</a>
         </specular>
         <dim-factor>
-            <expression>
-                <product>
-                    <property>systems/electrical/outputs/strobe-lights-norm</property>
-                    <property>sim/model/lights/strobe/state</property>
-                </product>
-            </expression>
+            <property>sim/model/lights/strobe/state</property>
             <factor>1</factor>
             <offset>0</offset>
             <min>0</min>

@@ -13,6 +13,64 @@
         <input>/controls/switches/fuel-truck</input>
         <output>/services/fuel-truck/position</output>
     </filter>
+
+    <filter>
+        <type>gain</type>
+        <input>
+            <condition>
+                <greater-than>
+                    <property>/controls/switches/fuel-truck</property>
+                    <property>/services/fuel-truck/position</property>
+                </greater-than>
+            </condition>
+            <value>1</value>
+        </input>
+        <input>
+            <condition>
+                <less-than>
+                    <property>/controls/switches/fuel-truck</property>
+                    <property>/services/fuel-truck/position</property>
+                </less-than>
+            </condition>
+            <value>-1</value>
+        </input>
+        <input>
+            <value>0</value>
+        </input>
+        <output>/services/fuel-truck/direction</output>
+    </filter>
+
+    <logic>
+        <input>
+            <or>
+                <and>
+                    <greater-than>
+                        <property>/services/fuel-truck/position</property>
+                        <value>0.5</value>
+                    </greater-than>
+                    <equals>
+                        <property>/services/fuel-truck/direction</property>
+                        <value>1</value>
+                    </equals>
+                </and>
+                <and>
+                    <less-than>
+                        <property>/services/fuel-truck/position</property>
+                        <value>0.5</value>
+                    </less-than>
+                    <equals>
+                        <property>/services/fuel-truck/direction</property>
+                        <value>-1</value>
+                    </equals>
+                </and>
+                <equals>
+                    <property>/services/fuel-truck/direction</property>
+                    <value>0</value>
+                </equals>
+            </or>
+        </input>
+        <output>/services/fuel-truck/braking</output>
+    </logic>
     <logic>
         <input>
             <greater-than>
