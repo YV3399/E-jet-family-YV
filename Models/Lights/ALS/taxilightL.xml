@@ -11,7 +11,7 @@
         <direction>
             <heading-deg>20</heading-deg>
             <roll-deg>0</roll-deg>
-            <pitch-deg>80</pitch-deg>
+            <pitch-deg>78</pitch-deg>
         </direction>
         <ambient>
             <r>1.0</r>
@@ -40,10 +40,10 @@
         </dim-factor>
         <attenuation>
             <c>1</c>
-            <l>0.08</l>
-            <q>0.0001</q>
+            <l>0.1</l>
+            <q>0.0004</q>
         </attenuation>
-        <spot-exponent>20.0</spot-exponent>
+        <spot-exponent>15.0</spot-exponent>
         <spot-cutoff>50.0</spot-cutoff>
         <range-m>200</range-m>
         <near-m>0.1</near-m>
