@@ -2,7 +2,159 @@
 <PropertyList>
     <path>../../Models/OHpanel/OHpanel.ac</path>
 
+    <!-- backlight -->
+    <animation>
+        <name>BacklitObjects</name>
+        <object-name>labels.apu</object-name>
+        <object-name>labels.cockpit-lights</object-name>
+        <object-name>labels.dvdr</object-name>
+        <object-name>labels.electric</object-name>
+        <object-name>labels.external-lights</object-name>
+        <object-name>labels.extg</object-name>
+        <object-name>labels.extg1</object-name>
+        <object-name>labels.extg2</object-name>
+        <object-name>labels.fuel</object-name>
+        <object-name>labels.heating</object-name>
+        <object-name>labels.hydraulic</object-name>
+        <object-name>labels.passenger-signs</object-name>
+        <object-name>labels.pneumatic</object-name>
+        <object-name>labels.pressurization</object-name>
+        <object-name>labels.system3</object-name>
+        <object-name>labels.wipers</object-name>
+        <object-name>extg.left.001</object-name>
+        <object-name>extg.right.001</object-name>
+        <object-name>PanelMarkings_1</object-name>
+        <object-name>PanelMarkings_1.001</object-name>
+        <object-name>PanelMarkings_1.002</object-name>
+        <object-name>PanelMarkings_1.003</object-name>
+        <object-name>PanelMarkings_1.004</object-name>
+        <object-name>PanelMarkings_1.005</object-name>
+        <object-name>PanelMarkings_1.006</object-name>
+        <object-name>PanelMarkings_1.007</object-name>
+        <object-name>PanelMarkings_1.008</object-name>
+        <object-name>PanelMarkings_1.009</object-name>
+        <object-name>PanelMarkings_1.010</object-name>
+        <object-name>PanelMarkings_1.011</object-name>
+        <object-name>PanelMarkings_1.012</object-name>
+        <object-name>PanelMarkings_1.013</object-name>
+        <object-name>PanelMarkings_1.014</object-name>
+        <object-name>PanelMarkings_1.015</object-name>
+        <object-name>PanelMarkings_1.016</object-name>
+        <object-name>PanelMarkings_1.017</object-name>
+        <object-name>PanelMarkings_1.018</object-name>
+        <object-name>PanelMarkings_1.019</object-name>
+        <object-name>PanelMarkings_1.020</object-name>
+        <object-name>PanelMarkings_1.021</object-name>
+        <object-name>PanelMarkings_1.022</object-name>
+        <object-name>PanelMarkings_1.023</object-name>
+        <object-name>PanelMarkings_1.024</object-name>
+        <object-name>PanelMarkings_1.025</object-name>
+        <object-name>PanelMarkings_1.026</object-name>
+        <object-name>PanelMarkings_1.027</object-name>
+        <object-name>PanelMarkings_1.028</object-name>
+        <object-name>PanelMarkings_1.029</object-name>
+        <object-name>PanelMarkings_1.030</object-name>
+        <object-name>PanelMarkings_1.031</object-name>
+        <object-name>PanelMarkings_1.032</object-name>
+        <object-name>PanelMarkings_1.033</object-name>
+        <object-name>PanelMarkings_1.034</object-name>
+        <object-name>PanelMarkings_1.035</object-name>
+        <object-name>PanelMarkings_1.036</object-name>
+        <object-name>PanelMarkings_1.037</object-name>
+        <object-name>PanelMarkings_1.038</object-name>
+    </animation>
+
+    <animation>
+        <name>Backlight</name>
+        <type>material</type>
+        <object-name>BacklitObjects</object-name>
+        <emission>
+            <red>0.7</red>
+            <green>0.85</green>
+            <blue>1.0</blue>
+            <factor-prop>/controls/lighting/overhead-panel</factor-prop>
+        </emission>
+    </animation>
+
+    <animation>
+        <type>knob</type>
+        <object-name>Brightness.MainPanel</object-name>
+        <property>/controls/lighting/main-panel</property>
+        <factor>-270</factor>
+        <offset-deg>135</offset-deg>
+        <axis>
+            <x1-m>-12.29645</x1-m>
+            <y1-m>-0.44536</y1-m>
+            <z1-m>1.63108</z1-m>
+            <x2-m>-12.28200</x2-m>
+            <y2-m>-0.43902</y2-m>
+            <z2-m>1.60500</z2-m>
+        </axis>
+        <action>
+            <binding>
+                <command>property-adjust</command>
+                <property>/controls/lighting/main-panel</property>
+                <factor>0.05</factor>
+                <min>0</min>
+                <max>1</max>
+                <wrap>false</wrap>
+            </binding>
+        </action>
+    </animation>
+    <animation>
+        <type>knob</type>
+        <object-name>Brightness.OHP</object-name>
+        <property>/controls/lighting/overhead-panel</property>
+        <factor>-270</factor>
+        <offset-deg>135</offset-deg>
+        <axis>
+            <x1-m>-12.29940</x1-m>
+            <y1-m>-0.39552</y1-m>
+            <z1-m>1.63935</z1-m>
+            <x2-m>-12.28495</x2-m>
+            <y2-m>-0.38918</y2-m>
+            <z2-m>1.61328</z2-m>
+        </axis>
+        <action>
+            <binding>
+                <command>property-adjust</command>
+                <property>/controls/lighting/overhead-panel</property>
+                <factor>0.05</factor>
+                <min>0</min>
+                <max>1</max>
+                <wrap>false</wrap>
+            </binding>
+        </action>
+    </animation>
+    <animation>
+        <type>knob</type>
+        <object-name>Brightness.Pedestal</object-name>
+        <property>/controls/lighting/pedestal</property>
+        <factor>-270</factor>
+        <offset-deg>135</offset-deg>
+        <axis>
+            <x1-m>-12.30602</x1-m>
+            <y1-m>-0.34423</y1-m>
+            <z1-m>1.64819</z1-m>
+            <x2-m>-12.29157</x2-m>
+            <y2-m>-0.33789</y2-m>
+            <z2-m>1.62211</z2-m>
+        </axis>
+        <action>
+            <binding>
+                <command>property-adjust</command>
+                <property>/controls/lighting/pedestal</property>
+                <factor>0.05</factor>
+                <min>0</min>
+                <max>1</max>
+                <wrap>false</wrap>
+            </binding>
+        </action>
+    </animation>
+
     <!-- Overhead Panel Pick and Select Animations -->
+
+    <!-- Cockpit lighting controls -->
 
     <!-- Windshield Wiper Controls -->
 
@@ -522,10 +674,10 @@
         <property>controls/lighting/dome</property>
         <interpolation>
             <entry>
-                <ind>0</ind><dep>15</dep>
+                <ind>0</ind><dep>-15</dep>
             </entry>
             <entry>
-                <ind>1</ind><dep>-15</dep>
+                <ind>1</ind><dep>15</dep>
             </entry>
         </interpolation>
         <axis>

@@ -1259,8 +1259,9 @@
             <taxi-lights n="0" type="bool">false</taxi-lights>
             <taxi-lights n="1" type="bool">false</taxi-lights>
             <nav-lights-switch type="int">0</nav-lights-switch>
-            <overhead-panel-norm type="double">0.8</overhead-panel-norm>
-            <main-panel-pedestal-norm type="double">0.8</main-panel-pedestal-norm>
+            <main-panel type="double">0.8</main-panel>
+            <overhead-panel type="double">0.8</overhead-panel>
+            <pedestal type="double">0.8</pedestal>
             <strobe type="bool">false</strobe>
         </lighting>
 
