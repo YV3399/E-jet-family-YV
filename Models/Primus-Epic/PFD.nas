@@ -528,7 +528,7 @@ var canvas_ED_only = {
             me["ils.fmsloc"].show();
             me["ils.fmsvert"].show();
             me["ils.fmsloc"].setTranslation(math.round((me.props["/instrumentation/gps/cdi-deflection"].getValue() or 0) * 10.0), 0);
-            me["ils.fmsvert"].setTranslation(0, math.min(1000, math.max(-1000, me.props["/fms/vnav/alt-deviation"].getValue())) * -0.1);
+            me["ils.fmsvert"].setTranslation(0, math.min(1000, math.max(-1000, me.props["/fms/vnav/alt-deviation"].getValue())) * 0.1);
         }
         else {
             ilssrc = "/instrumentation/nav[" ~ (navsrc - 1) ~ "]";
