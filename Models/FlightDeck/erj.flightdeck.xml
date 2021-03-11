@@ -100,10 +100,111 @@
         <range-m>2</range-m>
     </light>
 
+    <light>
+        <type>spot</type>
+        <name>MainPanelSpotlight.Left</name>
+        <position>
+            <x-m>-12.4</x-m>
+            <y-m>-0.4</y-m>
+            <z-m>1.14</z-m>
+        </position>
+        <direction>
+            <heading-deg>0</heading-deg>
+            <roll-deg>0</roll-deg>
+            <pitch-deg>45</pitch-deg>
+        </direction>
+        <ambient>
+            <r>1.0</r>
+            <g>1.0</g>
+            <b>1.0</b>
+            <a>1.0</a>
+        </ambient>
+        <diffuse>
+            <r>1.0</r>
+            <g>1.0</g>
+            <b>1.0</b>
+            <a>0.7</a>
+        </diffuse>
+        <specular>
+            <r>1.0</r>
+            <g>1.0</g>
+            <b>1.0</b>
+            <a>0.7</a>
+        </specular>
+        <dim-factor>
+            <property>/controls/lighting/main-panel</property>
+            <factor>1</factor>
+            <offset>0</offset>
+            <min>0</min>
+            <max>1</max>
+        </dim-factor>
+        <attenuation>
+            <c>5</c>
+            <l>5</l>
+            <q>5</q>
+        </attenuation>
+        <spot-exponent>2</spot-exponent>
+        <spot-cutoff>75.0</spot-cutoff>
+        <range-m>0.5</range-m>
+        <near-m>0.1</near-m>
+        <far-m>0.5</far-m>
+    </light>
+    <light>
+        <type>spot</type>
+        <name>MainPanelSpotlight.Right</name>
+        <position>
+            <x-m>-12.4</x-m>
+            <y-m>0.4</y-m>
+            <z-m>1.14</z-m>
+        </position>
+        <direction>
+            <heading-deg>0</heading-deg>
+            <roll-deg>0</roll-deg>
+            <pitch-deg>45</pitch-deg>
+        </direction>
+        <ambient>
+            <r>1.0</r>
+            <g>1.0</g>
+            <b>1.0</b>
+            <a>1.0</a>
+        </ambient>
+        <diffuse>
+            <r>1.0</r>
+            <g>1.0</g>
+            <b>1.0</b>
+            <a>0.7</a>
+        </diffuse>
+        <specular>
+            <r>1.0</r>
+            <g>1.0</g>
+            <b>1.0</b>
+            <a>0.7</a>
+        </specular>
+        <dim-factor>
+            <property>/controls/lighting/main-panel</property>
+            <factor>1</factor>
+            <offset>0</offset>
+            <min>0</min>
+            <max>1</max>
+        </dim-factor>
+        <attenuation>
+            <c>5</c>
+            <l>5</l>
+            <q>5</q>
+        </attenuation>
+        <spot-exponent>2</spot-exponent>
+        <spot-cutoff>75.0</spot-cutoff>
+        <range-m>0.5</range-m>
+        <near-m>0.1</near-m>
+        <far-m>0.5</far-m>
+    </light>
+
     <animation>
         <type>select</type>
         <object-name>DomeLight.Left</object-name>
         <object-name>DomeLight.Right</object-name>
+        <object-name>MainPanelSpotlight.Left</object-name>
+        <object-name>MainPanelSpotlight.Right</object-name>
         <condition>
             <property>/sim/current-view/internal</property>
         </condition>
