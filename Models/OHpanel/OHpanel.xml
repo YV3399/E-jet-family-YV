@@ -76,6 +76,8 @@
         </emission>
     </animation>
 
+    <!-- Cockpit lighting controls -->
+
     <animation>
         <type>knob</type>
         <object-name>Brightness.MainPanel</object-name>
@@ -153,8 +155,6 @@
     </animation>
 
     <!-- Overhead Panel Pick and Select Animations -->
-
-    <!-- Cockpit lighting controls -->
 
     <!-- Windshield Wiper Controls -->
 
@@ -960,6 +960,7 @@
         </center>
     </animation>
 
+    <!--
     <animation>
         <name>landing lights pick</name>
         <type>pick</type>
@@ -983,48 +984,48 @@
             </binding>
         </action>
     </animation>
+    -->
 
-    <!--
-  <animation>
-    <name>landing lights pick</name>
-    <type>pick</type>
-    <object-name>landing.nose</object-name>
-    <action>
-      <button>0</button>
-      <repeatable type="bool">false</repeatable>
-      <binding>
-        <command>property-toggle</command>
-        <property>controls/lighting/landing-lights[0]</property>
-      </binding>
-    </action>
-  </animation>
-  <animation>
-    <name>landing lights pick1</name>
-    <type>pick</type>
-    <object-name>landing.left</object-name>
-    <action>
-      <button>0</button>
-      <repeatable type="bool">false</repeatable>
-      <binding>
-        <command>property-toggle</command>
-        <property>controls/lighting/landing-lights[1]</property>
-      </binding>
-    </action>
-  </animation>
-  <animation>
-    <name>landing lights pick2</name>
-    <type>pick</type>
-    <object-name>landing.right</object-name>
-    <action>
-      <button>0</button>
-      <repeatable type="bool">false</repeatable>
-      <binding>
-        <command>property-toggle</command>
-        <property>controls/lighting/landing-lights[2]</property>
-      </binding>
-    </action>
-  </animation>
--->
+    <animation>
+        <name>landing lights pick</name>
+        <type>pick</type>
+        <object-name>landing.nose</object-name>
+        <action>
+            <button>0</button>
+            <repeatable type="bool">false</repeatable>
+            <binding>
+                <command>property-toggle</command>
+                <property>controls/lighting/landing-lights[0]</property>
+            </binding>
+        </action>
+    </animation>
+    <animation>
+        <name>landing lights pick1</name>
+        <type>pick</type>
+        <object-name>landing.left</object-name>
+        <action>
+            <button>0</button>
+            <repeatable type="bool">false</repeatable>
+            <binding>
+                <command>property-toggle</command>
+                <property>controls/lighting/landing-lights[1]</property>
+            </binding>
+        </action>
+    </animation>
+    <animation>
+        <name>landing lights pick2</name>
+        <type>pick</type>
+        <object-name>landing.right</object-name>
+        <action>
+            <button>0</button>
+            <repeatable type="bool">false</repeatable>
+            <binding>
+                <command>property-toggle</command>
+                <property>controls/lighting/landing-lights[2]</property>
+            </binding>
+        </action>
+    </animation>
+
     <animation>
         <name>landing lights rotate</name>
         <type>rotate</type>

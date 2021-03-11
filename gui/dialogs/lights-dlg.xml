@@ -1,113 +1,189 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <PropertyList>
+    
+    <name>lights</name>
+    <layout>vbox</layout>
+    
+    <text>
+        <label>External Lights</label>
+    </text>
+    <hrule />
 
-	<name>lights</name>
-	<layout>vbox</layout>
+    <group>
+        <layout>hbox</layout>
+        <checkbox>
+            <label>Nav</label>
+            <property>controls/lighting/nav-lights-switch</property>
+            <binding>
+                <command>dialog-apply</command>
+            </binding>
+            <live>false</live>
+        </checkbox>
+        <checkbox>
+            <label>Strobe</label>
+            <property>controls/lighting/strobe</property>
+            <binding>
+                <command>dialog-apply</command>
+            </binding>
+            <live>false</live>
+        </checkbox>
+        <checkbox>
+            <label>Beacon</label>
+            <property>controls/lighting/beacon</property>
+            <binding>
+                <command>dialog-apply</command>
+            </binding>
+            <live>false</live>
+        </checkbox>
+    </group>
+    
+    <group>
+        <layout>hbox</layout>
+        <checkbox>
+            <label>Logo</label>
+            <property>controls/lighting/logo-lights</property>
+            <binding>
+                <command>dialog-apply</command>
+            </binding>
+            <live>false</live>
+        </checkbox>
+        <checkbox>
+            <label>Nose (Taxi)</label>
+            <property>controls/lighting/taxi-lights[0]</property>
+            <binding>
+                <command>dialog-apply</command>
+            </binding>
+            <live>false</live>
+        </checkbox>
+        <checkbox>
+            <label>Side (RW turnoff)</label>
+            <property>controls/lighting/taxi-lights[1]</property>
+            <binding>
+                <command>dialog-apply</command>
+            </binding>
+            <live>false</live>
+        </checkbox>
+    </group>
+    <text>
+        <label>Landing Lights</label>
+    </text>
+    <group>
+        <layout>hbox</layout>
+        <checkbox>
+            <label>Left</label>
+            <property>controls/lighting/landing-lights[1]</property>
+            <binding>
+                <command>dialog-apply</command>
+            </binding>
+            <live>false</live>
+        </checkbox>
+        <checkbox>
+            <label>Nose</label>
+            <property>controls/lighting/landing-lights[0]</property>
+            <binding>
+                <command>dialog-apply</command>
+            </binding>
+            <live>false</live>
+        </checkbox>
+        <checkbox>
+            <label>Right</label>
+            <property>controls/lighting/landing-lights[2]</property>
+            <binding>
+                <command>dialog-apply</command>
+            </binding>
+            <live>false</live>
+        </checkbox>
+    </group>
+    <checkbox>
+        <label>Enable 3D-cones (non-ALS)</label>
+        <property>controls/lighting/cones</property>
+        <binding>
+            <command>dialog-apply</command>
+        </binding>
+        <live>true</live>
+    </checkbox>
+    <hrule />
 
-	<text>
-		<label>Embraer Lights</label>
-	</text>
+    <text>
+        <label>Cockpit Lights</label>
+    </text>
+    <hrule />
+    
+    <checkbox>
+        <label>Dome</label>
+        <property>controls/lighting/dome</property>
+        <binding>
+            <command>dialog-apply</command>
+        </binding>
+        <live>true</live>
+    </checkbox>
 
-	<hrule />
-
-		<checkbox>
-			<label>Landing Lights</label>
-			<property>controls/lighting/landing-lights[0]</property>
-			<property>controls/lighting/landing-lights[1]</property>
-			<property>controls/lighting/landing-lights[2]</property>
-			<binding>
-				<command>dialog-apply</command>
-			</binding>
-			<live>false</live>
-		</checkbox>
-
-		<checkbox>
-			<label>Navigation lights</label>
-			<property>controls/lighting/nav-lights-switch</property>
-			<binding>
-				<command>dialog-apply</command>
-			</binding>
-			<live>false</live>
-		</checkbox>
-
-		<checkbox>
-			<label>Strobe lights</label>
-			<property>controls/lighting/strobe</property>
-			<binding>
-				<command>dialog-apply</command>
-			</binding>
-			<live>false</live>
-		</checkbox>
-
-		<checkbox>
-			<label>Beacon</label>
-			<property>controls/lighting/beacon</property>
-			<binding>
-				<command>dialog-apply</command>
-			</binding>
-			<live>false</live>
-		</checkbox>
-
-		<checkbox>
-			<label>Logo Lights</label>
-			<property>controls/lighting/logo-lights</property>
-			<binding>
-				<command>dialog-apply</command>
-			</binding>
-			<live>false</live>
-		</checkbox>
-
-		<checkbox>
-			<label>Cockpit dome light</label>
-			<property>controls/lighting/dome</property>
-			<binding>
-				<command>dialog-apply</command>
-			</binding>
-			<live>true</live>
-		</checkbox>
-
-	<hrule />
-
-		<text>
-			<label>Cabin lighting</label>
-		</text>
-
-		<slider>
-			<width>200</width>
-			<property>controls/lighting/cabin</property>
-			<step>0.05</step>
-			<min>0</min>
-			<max>1</max>
-			<binding>
-				<command>dialog-apply</command>
-			</binding>
-		</slider>
-
-	<hrule />
-
-		<checkbox>
-			<label>Enable 3D-cones</label>
-			<property>controls/lighting/cones</property>
-			<binding>
-				<command>dialog-apply</command>
-			</binding>
-			<live>true</live>
-		</checkbox>
-
-	<hrule />
-
-		<button>
-			<legend>Close</legend>
-			<default>true</default>
-			<key>Esc</key>
-		<padding>10</padding>
-			<binding>
-				<command>dialog-apply</command>
-			</binding>
-			<binding>
-				<command>dialog-close</command>
-			</binding>
-		</button>
-
+    <slider>
+        <label>Main Panel</label>
+        <width>400</width>
+        <property>controls/lighting/main-panel</property>
+        <step>0.05</step>
+        <min>0</min>
+        <max>1</max>
+        <binding>
+            <command>dialog-apply</command>
+        </binding>
+    </slider>
+    <slider>
+        <label>Overhd Panel</label>
+        <width>400</width>
+        <property>controls/lighting/overhead-panel</property>
+        <step>0.05</step>
+        <min>0</min>
+        <max>1</max>
+        <binding>
+            <command>dialog-apply</command>
+        </binding>
+    </slider>
+    <slider>
+        <label>Pedestal</label>
+        <width>400</width>
+        <property>controls/lighting/pedestal</property>
+        <step>0.05</step>
+        <min>0</min>
+        <max>1</max>
+        <binding>
+            <command>dialog-apply</command>
+        </binding>
+    </slider>
+    
+    <hrule />
+    
+    <text>
+        <label>Cabin lighting</label>
+    </text>
+    
+    <slider>
+        <width>400</width>
+        <property>controls/lighting/cabin</property>
+        <step>0.05</step>
+        <min>0</min>
+        <max>1</max>
+        <binding>
+            <command>dialog-apply</command>
+        </binding>
+    </slider>
+    
+    <hrule />
+    
+    
+    <button>
+        <legend>Close</legend>
+        <default>true</default>
+        <key>Esc</key>
+        <padding>10</padding>
+        <binding>
+            <command>dialog-apply</command>
+        </binding>
+        <binding>
+            <command>dialog-close</command>
+        </binding>
+    </button>
+    
 </PropertyList>
