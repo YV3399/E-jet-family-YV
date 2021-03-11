@@ -1086,11 +1086,15 @@
 
     <controls>
         <anti-ice>
-            <wiper type="int">0</wiper>
-            <wiper type="int">0</wiper>
-            <wing type="int">0</wing>
-            <eng0 type="int">0</eng0>
-            <eng1 type="int">0</eng1>
+            <wing-heat type="bool">0</wing-heat>
+            <pitot-heat type="bool">0</pitot-heat>
+            <window-heat type="bool">0</window-heat>
+            <engine n="0">
+                <inlet-heat type="bool">false</inlet-heat>
+            </engine>
+            <engine n="1">
+                <inlet-heat type="bool">false</inlet-heat>
+            </engine>
         </anti-ice>
 
         <autoflight>
