@@ -179,6 +179,12 @@
             <autopilot>
                 <path>Aircraft/E-jet-family/Systems/speed-limits.xml</path>
             </autopilot>
+            <property-rule n="110">
+                <path>Aircraft/E-jet-family/Systems/iess.xml</path>
+            </property-rule>
+            <property-rule n="111">
+                <path>Aircraft/E-jet-family/Systems/chrono.xml</path>
+            </property-rule>
 
             <!--Disable XML electrical system-->
             <electrical>
@@ -1440,6 +1446,13 @@
                 <bearing type="double">0</bearing>
                 <visible type="bool">false</visible>
             </bearing>
+            <qnh-mode>0</qnh-mode>
+            <minimums-mode>0</minimums-mode>
+            <minimums-radio>200</minimums-radio>
+            <minimums-baro>400</minimums-baro>
+            <minimums-visible type="bool">true</minimums-visible>
+            <groundspeed-kt type="int">0</groundspeed-kt>
+            <wind-speed-kt type="int">0</wind-speed-kt>
         </pfd>
 
         <pfd>
@@ -1459,6 +1472,13 @@
                 <bearing type="double">0</bearing>
                 <visible type="bool">false</visible>
             </bearing>
+            <qnh-mode>0</qnh-mode>
+            <minimums-mode>0</minimums-mode>
+            <minimums-radio>200</minimums-radio>
+            <minimums-baro>400</minimums-baro>
+            <minimums-visible type="bool">true</minimums-visible>
+            <groundspeed-kt type="int">0</groundspeed-kt>
+            <wind-speed-kt type="int">0</wind-speed-kt>
         </pfd>
 
         <mfd>

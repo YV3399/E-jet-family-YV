@@ -13,53 +13,9 @@
 var ED_only = [nil, nil];
 var PFD_master = [nil, nil];
 var PFD_display = [nil, nil];
-var DC=0.01744;
-
-setprop("/engines/engine[0]/n1", 0);
-setprop("/engines/engine[1]/n1", 0);
-setprop("/engines/engine[0]/n2", 0);
-setprop("/engines/engine[1]/n2", 0);
-setprop("/engines/engine[0]/itt_degc", 0);
-setprop("/engines/engine[1]/itt_degc", 0);
-setprop("/engines/engine[0]/oil-pressure-psi", 0);
-setprop("/MFD/oil-pressure-needle[0]", 0);
-setprop("/engines/engine[1]/oil-pressure-psi", 0);
-setprop("/MFD/oil-pressure-needle[1]", 0);
-setprop("/engines/engine[0]/oil-temperature-degc", 0);
-setprop("/MFD/oil-temperature-needle[0]", 0);
-setprop("/engines/engine[1]/oil-temperature-degc", 0);
-setprop("/MFD/oil-temperature-needle[1]", 0);
-setprop("/engines/engine[0]/fuel-flow_pph", 0);
-setprop("/engines/engine[1]/fuel-flow_pph", 0);
-setprop("/engines/engine[0]/reverser-pos-norm", 0);
-setprop("/engines/engine[1]/reverser-pos-norm", 0);
-setprop("/consumables/fuel/tank[0]/temperature-degc", 0);
-setprop("/consumables/fuel/tank[1]/temperature-degc", 0);
-setprop("/controls/engines/engine[0]/condition-lever-state", 0);
-setprop("/controls/engines/engine[1]/condition-lever-state", 0);
-setprop("/controls/engines/engine[0]/throttle-int", 0);
-setprop("/controls/engines/engine[1]/throttle-int", 0);
-setprop("/instrumentation/pfd[0]/qnh-mode", 0);
-setprop("/instrumentation/pfd[0]/minimums-mode", 0);
-setprop("/instrumentation/pfd[0]/minimums-radio", 200);
-setprop("/instrumentation/pfd[0]/minimums-baro", 400);
-setprop("/instrumentation/pfd[1]/qnh-mode", 0);
-setprop("/instrumentation/pfd[1]/minimums-mode", 0);
-setprop("/instrumentation/pfd[1]/minimums-radio", 200);
-setprop("/instrumentation/pfd[1]/minimums-baro", 400);
-setprop("/instrumentation/pfd[1]/minimums-visible", 1);
 
 setprop("/systems/electrical/outputs/efis", 0);
 
-
-var roundToNearest = func(n, m) {
-    var x = int(n/m)*m;
-    if((math.mod(n,m)) > (m/2) and n > 0)
-            x = x + m;
-    if((m - (math.mod(n,m))) > (m/2) and n < 0)
-            x = x - m;
-    return x;
-}
 
 var odoDigitRaw = func(v, p) {
     if (p == 0) {
@@ -143,7 +99,7 @@ var canvas_ED_only = {
         m.props["/autopilot/route-manager/wp/eta-seconds"] = props.globals.getNode("/autopilot/route-manager/wp/eta-seconds");
         m.props["/autopilot/route-manager/wp/id"] = props.globals.getNode("/autopilot/route-manager/wp/id");
         m.props["/environment/wind-from-heading-deg"] = props.globals.getNode("/environment/wind-from-heading-deg");
-        m.props["/environment/wind-speed-kt"] = props.globals.getNode("/environment/wind-speed-kt");
+        m.props["/environment/wind-speed-kt"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/wind-speed-kt");
         m.props["/instrumentation/airspeed-indicator/indicated-mach"] = props.globals.getNode("/instrumentation/airspeed-indicator/indicated-mach");
         m.props["/instrumentation/airspeed-indicator/indicated-speed-kt"] = props.globals.getNode("/instrumentation/airspeed-indicator/indicated-speed-kt");
         m.props["/instrumentation/altimeter/indicated-altitude-ft"] = props.globals.getNode("/instrumentation/altimeter/indicated-altitude-ft");
@@ -223,6 +179,7 @@ var canvas_ED_only = {
         m.props["/instrumentation/pfd/minimums-radio"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/minimums-radio");
         m.props["/instrumentation/pfd/minimums-baro"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/minimums-baro");
         m.props["/instrumentation/pfd/minimums-visible"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/minimums-visible");
+        m.props["/instrumentation/pfd/groundspeed-kt"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/groundspeed-kt");
         m.props["/instrumentation/pfd/nav-src"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/nav-src");
         m.props["/instrumentation/pfd/preview"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/preview");
         m.props["/instrumentation/pfd/bearing[0]/bearing"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/bearing[0]/bearing");
@@ -392,12 +349,15 @@ var canvas_ED_only = {
             "waypoint.eteunit",
             "waypoint.id",
             "wind.kt",
-            "wind.pointer"
+            "wind.pointer",
+            "wind.pointer.wrapper",
         ];
     },
 
     setupListeners: func () {
         var self = me;
+
+        # bearing pointers / sources
         setlistener(me.props["/instrumentation/pfd/bearing[0]/source"], func (node) {
             var hsiLabelText = ["----", "VOR1", "ADF1", "FMS1"];
             var mode = node.getValue();
@@ -408,34 +368,110 @@ var canvas_ED_only = {
             var mode = node.getValue();
             self["hsi.label.diamond"].setText(hsiLabelText[mode]);
         }, 1, 0);
+
+        # selected heading
+        setlistener(me.props["/it-autoflight/input/hdg"], func (node) {
+            var selectedheading = node.getValue() or 0;
+            self["selectedheading.digital"].setText(sprintf("%03d", selectedheading));
+            self["selectedheading.pointer"].setRotation(selectedheading * D2R);
+        }, 1, 0);
+
+        # current heading
+        setlistener(me.props["/orientation/heading-magnetic-deg"], func (node) {
+            var heading = me.props["/orientation/heading-magnetic-deg"].getValue() or 0;
+            self["wind.pointer.wrapper"].setRotation(heading * -D2R);
+            self["compass"].setRotation(heading * -D2R);
+            self["heading.digital"].setText(sprintf("%03d", heading));
+        }, 1, 0);
+
+        # wind direction
+        setlistener(me.props["/environment/wind-from-heading-deg"], func (node) {
+            self["wind.pointer"].setRotation((node.getValue() or 0) * D2R);
+        }, 1, 0);
+
+        # wind speed
+        setlistener(me.props["/environment/wind-speed-kt"], func (node) {
+            var windSpeed = node.getValue() or 0;
+            if (windSpeed > 1) {
+                me["wind.pointer"].show();
+            }
+            else {
+                me["wind.pointer"].hide();
+            }
+            me["wind.kt"].setText(sprintf("%u", windSpeed));
+        }, 1, 0);
+
+        # groundspeed
+        setlistener(me.props["/instrumentation/pfd/groundspeed-kt"], func (node) {
+            self["groundspeed"].setText(sprintf("%3d", node.getValue() or 0));
+        }, 1, 0);
+
+        # selected altitude
+        setlistener(me.props["/controls/flight/selected-alt"], func (node) {
+            self["selectedalt.digital100"].setText(sprintf("%02d", (node.getValue() or 0) * 0.01));
+        }, 1, 0);
+
+        # comm/nav
+        setlistener(me.props["/instrumentation/comm[0]/frequencies/selected-mhz"], func (node) {
+            self["vhf1.act"].setText(sprintf("%.2f", node.getValue() or 0));
+        }, 1, 0);
+        setlistener(me.props["/instrumentation/comm[0]/frequencies/standby-mhz"], func (node) {
+            self["vhf1.sby"].setText(sprintf("%.2f", node.getValue() or 0));
+        }, 1, 0);
+        setlistener(me.props["/instrumentation/nav[0]/frequencies/selected-mhz"], func (node) {
+            self["nav1.act"].setText(sprintf("%.2f", node.getValue() or 0));
+        }, 1, 0);
+        setlistener(me.props["/instrumentation/nav[0]/frequencies/standby-mhz"], func (node) {
+            self["nav1.sby"].setText(sprintf("%.2f", node.getValue() or 0));
+        }, 1, 0);
+
+        # VNAV annunciations
+        # TODO
+        me["VNAV.constraints1"].hide();
+        me["VNAV.constraints2"].hide();
+
+        # QNH
+        var updateQNH = func {
+            if (self.props["/instrumentation/pfd/qnh-mode"].getValue()) {
+                # 1 = inhg
+                self["QNH.digital"].setText(
+                    sprintf("%5.2f", self.props["/instrumentation/altimeter/setting-inhg"].getValue()));
+                self["QNH.unit"].setText("IN");
+            }
+            else {
+                # 0 = hpa
+                self["QNH.digital"].setText(
+                    sprintf("%4.0f", self.props["/instrumentation/altimeter/setting-hpa"].getValue()));
+                self["QNH.unit"].setText("hPa");
+            }
+        };
+        setlistener(self.props["/instrumentation/pfd/qnh-mode"], updateQNH, 1, 0);
+        setlistener(self.props["/instrumentation/altimeter/setting-inhg"], updateQNH, 1, 0);
+        setlistener(self.props["/instrumentation/altimeter/setting-hpa"], updateQNH, 1, 0);
     },
 
     update: func() {
         var pitch = (me.props["/instrumentation/pfd/pitch-scale"].getValue() or 0);
         var roll =  me.props["/orientation/roll-deg"].getValue() or 0;
         me.h_trans.setTranslation(0,pitch*8.05);
-        me.h_rot.setRotation(-roll*DC,me["horizon"].getCenter());
+        me.h_rot.setRotation(-roll*D2R,me["horizon"].getCenter());
         if(math.abs(roll)<=45){
-            me["roll.pointer"].setRotation(roll*(-DC));
+            me["roll.pointer"].setRotation(roll*(-D2R));
         }
         me["slip.pointer"].setTranslation(math.round((me.props["/instrumentation/slip-skid-ball/indicated-slip-skid"].getValue() or 0)*50), 0);
-
-        me["groundspeed"].setText(sprintf("%3d", me.props["/velocities/groundspeed-kt"].getValue() or 0));
 
         var navsrc = me.props["/instrumentation/pfd/nav-src"].getValue() or 0;
         var preview = me.props["/instrumentation/pfd/preview"].getValue() or 0;
         var dmesrc = navsrc or preview or 0;
         var coursesrc = navsrc or preview or 0;
 
-        var heading = me.props["/orientation/heading-magnetic-deg"].getValue() or 0;
-        var selectedheading = me.props["/it-autoflight/input/hdg"].getValue() or 0;
         var selectedcourse = nil;
-        var coursecolor = [0, 1, 0];
+        var coursecolor = [0, 255, 0];
         if (coursesrc > 0) {
             selectedcourse = me.props["/instrumentation/nav[" ~ (coursesrc - 1) ~ "]/radials/selected-deg"].getValue() or 0;
         }
         if (navsrc == 0) {
-            coursecolor = [0, 1, 1];
+            coursecolor = [0, 192, 255];
         }
         if (selectedcourse == nil) {
             me["selectedcourse.digital"].hide();
@@ -443,22 +479,8 @@ var canvas_ED_only = {
         else {
             me["selectedcourse.digital"].setText(sprintf("%03d", selectedcourse));
             me["selectedcourse.digital"].show();
-            me["selectedcourse.digital"].setColor(coursecolor[0], coursecolor[1], coursecolor[2]);
+            me["selectedcourse.digital"].setColorFill(coursecolor[0], coursecolor[1], coursecolor[2]);
         }
-
-        me["wind.pointer"].setRotation(((me.props["/environment/wind-from-heading-deg"].getValue() or 0) - heading + 180) * DC);
-        if (me.props["/environment/wind-speed-kt"].getValue() > 1) {
-            me["wind.pointer"].show();
-        }
-        else {
-            me["wind.pointer"].hide();
-        }
-        me["wind.kt"].setText(sprintf("%u", math.round(me.props["/environment/wind-speed-kt"].getValue() or 0)));
-
-        me["compass"].setRotation(heading * -DC);
-        me["heading.digital"].setText(sprintf("%03d", heading));
-        me["selectedheading.digital"].setText(sprintf("%03d", selectedheading));
-        me["selectedheading.pointer"].setRotation((selectedheading - heading) * DC);
 
         # FD
         var pitchBar = me.props["/it-autoflight/fd/pitch-bar"].getValue() or 0;
@@ -487,8 +509,8 @@ var canvas_ED_only = {
         me["hsi.nav1"].setColor(hsiColor[0], hsiColor[1], hsiColor[2]);
         me["hsi.nav1track"].setColor(hsiColor[0], hsiColor[1], hsiColor[2]);
 
-        me["hsi.nav1"].setRotation((hsiHeading - heading) * DC);
-        me["hsi.dots"].setRotation((hsiHeading - heading) * DC);
+        me["hsi.nav1"].setRotation(hsiHeading * D2R);
+        me["hsi.dots"].setRotation(hsiHeading * D2R);
         me["hsi.nav1track"].setTranslation(hsiDeflection * 120, 0);
         if (navsrc == 0) {
             me["hsi.from"].hide();
@@ -505,17 +527,9 @@ var canvas_ED_only = {
             }
         }
         me["hsi.pointer.circle"].setVisible(me.props["/instrumentation/pfd/bearing[0]/visible"].getBoolValue());
-        me["hsi.pointer.circle"].setRotation(me.props["/instrumentation/pfd/bearing[0]/bearing"].getValue() * DC);
+        me["hsi.pointer.circle"].setRotation(me.props["/instrumentation/pfd/bearing[0]/bearing"].getValue() * D2R);
         me["hsi.pointer.diamond"].setVisible(me.props["/instrumentation/pfd/bearing[1]/visible"].getBoolValue());
-        me["hsi.pointer.diamond"].setRotation(me.props["/instrumentation/pfd/bearing[1]/bearing"].getValue() * DC);
-
-        me["selectedalt.digital100"].setText(sprintf("%02d", (me.props["/controls/flight/selected-alt"].getValue() or 0) * 0.01));
-
-        #COMM/NAV
-        me["vhf1.act"].setText(sprintf("%.2f", me.props["/instrumentation/comm[0]/frequencies/selected-mhz"].getValue() or 0));
-        me["vhf1.sby"].setText(sprintf("%.2f", me.props["/instrumentation/comm[0]/frequencies/standby-mhz"].getValue() or 0));
-        me["nav1.act"].setText(sprintf("%.2f", me.props["/instrumentation/nav[0]/frequencies/selected-mhz"].getValue() or 0));
-        me["nav1.sby"].setText(sprintf("%.2f", me.props["/instrumentation/nav[0]/frequencies/standby-mhz"].getValue() or 0));
+        me["hsi.pointer.diamond"].setRotation(me.props["/instrumentation/pfd/bearing[1]/bearing"].getValue() * D2R);
 
         var ilscolor = [0,255,0];
         var ilssrc = nil;
@@ -748,25 +762,6 @@ var canvas_ED_only = {
         }
         else {
             me["alt.10000.zero"].hide();
-        }
-
-        # VNAV annunciations
-        # TODO
-        me["VNAV.constraints1"].hide();
-        me["VNAV.constraints2"].hide();
-
-        # QNH
-        if (me.props["/instrumentation/pfd/qnh-mode"].getValue()) {
-            # 1 = inhg
-            me["QNH.digital"].setText(
-                sprintf("%5.2f", me.props["/instrumentation/altimeter/setting-inhg"].getValue()));
-            me["QNH.unit"].setText("IN");
-        }
-        else {
-            # 0 = hpa
-            me["QNH.digital"].setText(
-                sprintf("%4.0f", me.props["/instrumentation/altimeter/setting-hpa"].getValue()));
-            me["QNH.unit"].setText("hPa");
         }
 
         # Minimums
@@ -1104,7 +1099,7 @@ var canvas_ED_only = {
 };
 
 setlistener("sim/signals/fdm-initialized", func {
-    for (var i = 0; i <= 1; i += 1) {
+    for (var i = 0; i < 2; i += 1) {
         PFD_display[i] = canvas.new({
             "name": "PFD" ~ i,
             "size": [1024, 1560],
@@ -1132,8 +1127,3 @@ setlistener("sim/signals/fdm-initialized", func {
     });
     timer.start();
 });
-
-# var showPFD = func {
-#     var dlg = canvas.Window.new([512, 765], "dialog").set("resize", 1);
-#     dlg.setCanvas(PFD_display);
-# }
