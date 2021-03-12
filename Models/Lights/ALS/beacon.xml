@@ -82,5 +82,12 @@
         <near-m>0.02</near-m>
         <far-m>10</far-m>
     </light>
+
+    <animation>
+        <type>select</type>
+        <condition>
+            <not><property>/sim/current-view/internal</property></not>
+        </condition>
+    </animation>
     
 </PropertyList>
