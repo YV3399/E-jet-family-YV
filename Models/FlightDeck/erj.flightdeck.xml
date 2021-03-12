@@ -1078,6 +1078,11 @@
             <button>0</button>
             <binding>
                 <command>property-assign</command>
+                <property>instrumentation/altimeter/setting-hpa</property>
+                <value>1013.1</value>
+            </binding>
+            <binding>
+                <command>property-assign</command>
                 <property>instrumentation/altimeter/setting-inhg</property>
                 <value>29.92</value>
             </binding>
