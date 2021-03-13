@@ -115,20 +115,20 @@
         </direction>
         <ambient>
             <r>1.0</r>
-            <g>1.0</g>
-            <b>1.0</b>
+            <g>0.9</g>
+            <b>0.8</b>
             <a>1.0</a>
         </ambient>
         <diffuse>
             <r>1.0</r>
-            <g>1.0</g>
-            <b>1.0</b>
+            <g>0.9</g>
+            <b>0.8</b>
             <a>0.7</a>
         </diffuse>
         <specular>
             <r>1.0</r>
-            <g>1.0</g>
-            <b>1.0</b>
+            <g>0.9</g>
+            <b>0.8</b>
             <a>0.7</a>
         </specular>
         <dim-factor>
@@ -139,9 +139,9 @@
             <max>1</max>
         </dim-factor>
         <attenuation>
-            <c>5</c>
-            <l>5</l>
-            <q>5</q>
+            <c>4</c>
+            <l>3</l>
+            <q>3</q>
         </attenuation>
         <spot-exponent>2</spot-exponent>
         <spot-cutoff>75.0</spot-cutoff>
@@ -164,20 +164,20 @@
         </direction>
         <ambient>
             <r>1.0</r>
-            <g>1.0</g>
-            <b>1.0</b>
+            <g>0.9</g>
+            <b>0.8</b>
             <a>1.0</a>
         </ambient>
         <diffuse>
             <r>1.0</r>
-            <g>1.0</g>
-            <b>1.0</b>
+            <g>0.9</g>
+            <b>0.8</b>
             <a>0.7</a>
         </diffuse>
         <specular>
             <r>1.0</r>
-            <g>1.0</g>
-            <b>1.0</b>
+            <g>0.9</g>
+            <b>0.8</b>
             <a>0.7</a>
         </specular>
         <dim-factor>
@@ -188,9 +188,9 @@
             <max>1</max>
         </dim-factor>
         <attenuation>
-            <c>5</c>
-            <l>5</l>
-            <q>5</q>
+            <c>4</c>
+            <l>3</l>
+            <q>3</q>
         </attenuation>
         <spot-exponent>2</spot-exponent>
         <spot-cutoff>75.0</spot-cutoff>
@@ -298,9 +298,9 @@
         <type>material</type>
         <object-name>BacklitObjectsMain</object-name>
         <emission>
-            <red>0.7</red>
-            <green>0.85</green>
-            <blue>1.0</blue>
+            <red>1.0</red>
+            <green>0.75</green>
+            <blue>0.5</blue>
             <factor-prop>/controls/lighting/main-panel</factor-prop>
         </emission>
     </animation>
