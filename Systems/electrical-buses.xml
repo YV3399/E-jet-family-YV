@@ -1,0 +1,1122 @@
+<PropertyList>
+    <!-- ************************ AC ************************ -->
+
+    <!-- AC BUS TIE LOGIC -->
+    <!-- priorities:
+        1. APU
+        2. GPU
+        3. AC BUS 1
+        4. AC BUS 2
+    -->
+    <filter>
+        <name>AC BUS TIE FEED</name>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <condition>
+                <greater-than>
+                    <property>/systems/electrical/sources/generator[0]/volts</property>
+                    <value>110</value>
+                </greater-than>
+            </condition>
+            <value>1</value>
+        </input>
+        <input>
+            <condition>
+                <greater-than>
+                    <property>/systems/electrical/sources/ac-gpu/volts</property>
+                    <value>110</value>
+                </greater-than>
+            </condition>
+            <value>2</value>
+        </input>
+        <input>
+            <condition>
+                <and>
+                    <greater-than>
+                        <property>/systems/electrical/sources/generator[1]/volts</property>
+                        <value>110</value>
+                    </greater-than>
+                    <not>
+                        <equals>
+                            <property>/controls/electric/bus-tie-ac</property>
+                            <value>-1</value>
+                        </equals>
+                    </not>
+                </and>
+            </condition>
+            <value>3</value>
+        </input>
+        <input>
+            <condition>
+                <and>
+                    <greater-than>
+                        <property>/systems/electrical/sources/generator[2]/volts</property>
+                        <value>110</value>
+                    </greater-than>
+                    <not>
+                        <equals>
+                            <property>/controls/electric/bus-tie-ac</property>
+                            <value>1</value>
+                        </equals>
+                    </not>
+                </and>
+            </condition>
+            <value>4</value>
+        </input>
+        <output>/systems/electrical/buses/ac[0]/feed</output>
+    </filter>
+    <filter>
+        <name>AC BUS TIE volts</name>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <condition>
+                <equals>
+                    <property>/systems/electrical/buses/ac[0]/feed</property>
+                    <value>1</value>
+                </equals>
+            </condition>
+            <property>/systems/electrical/sources/generator[0]/volts</property>
+        </input>
+        <input>
+            <condition>
+                <equals>
+                    <property>/systems/electrical/buses/ac[0]/feed</property>
+                    <value>2</value>
+                </equals>
+            </condition>
+            <property>/systems/electrical/sources/ac-gpu/volts</property>
+        </input>
+        <input>
+            <condition>
+                <equals>
+                    <property>/systems/electrical/buses/ac[0]/feed</property>
+                    <value>3</value>
+                </equals>
+            </condition>
+            <property>/systems/electrical/buses/ac[1]/volts</property>
+        </input>
+        <input>
+            <condition>
+                <equals>
+                    <property>/systems/electrical/buses/ac[0]/feed</property>
+                    <value>4</value>
+                </equals>
+            </condition>
+            <property>/systems/electrical/buses/ac[2]/volts</property>
+        </input>
+        <output>/systems/electrical/buses/ac[0]/volts</output>
+    </filter>
+    <filter>
+        <name>AC BUS TIE powered</name>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <condition>
+                <greater-than>
+                    <property>/systems/electrical/buses/ac[0]/volts</property>
+                    <value>110</value>
+                </greater-than>
+            </condition>
+            <value>1</value>
+        </input>
+        <output>/systems/electrical/buses/ac[0]/powered</output>
+    </filter>
+
+    <!-- AC BUS 1 -->
+    <!-- priorities:
+        1. IDG 1
+        2. AC BUS TIE
+    -->
+    <filter>
+        <name>AC BUS 1 FEED</name>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <condition>
+                <greater-than>
+                    <property>/systems/electrical/sources/generator[1]/volts</property>
+                    <value>110</value>
+                </greater-than>
+            </condition>
+            <value>1</value>
+        </input>
+        <input>
+            <condition>
+                <and>
+                    <greater-than>
+                        <property>/systems/electrical/buses/ac[0]/volts</property>
+                        <value>110</value>
+                    </greater-than>
+                    <not>
+                        <equals>
+                            <property>/controls/electric/bus-tie-ac</property>
+                            <value>-1</value>
+                        </equals>
+                    </not>
+                </and>
+            </condition>
+            <value>2</value>
+        </input>
+        <output>/systems/electrical/buses/ac[1]/feed</output>
+    </filter>
+    <filter>
+        <name>AC BUS 1 volts</name>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <condition>
+                <equals>
+                    <property>/systems/electrical/buses/ac[1]/feed</property>
+                    <value>1</value>
+                </equals>
+            </condition>
+            <property>/systems/electrical/sources/generator[1]/volts</property>
+        </input>
+        <input>
+            <condition>
+                <equals>
+                    <property>/systems/electrical/buses/ac[1]/feed</property>
+                    <value>2</value>
+                </equals>
+            </condition>
+            <property>/systems/electrical/buses/ac[0]/volts</property>
+        </input>
+        <output>/systems/electrical/buses/ac[1]/volts</output>
+    </filter>
+    <filter>
+        <name>AC BUS 1 powered</name>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <condition>
+                <greater-than>
+                    <property>/systems/electrical/buses/ac[1]/volts</property>
+                    <value>110</value>
+                </greater-than>
+            </condition>
+            <value>1</value>
+        </input>
+        <output>/systems/electrical/buses/ac[1]/powered</output>
+    </filter>
+
+    <!-- AC BUS 2 -->
+    <!-- priorities:
+        1. IDG 2
+        2. AC BUS TIE
+    -->
+    <filter>
+        <name>AC BUS 2 FEED</name>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <condition>
+                <greater-than>
+                    <property>/systems/electrical/sources/generator[2]/volts</property>
+                    <value>110</value>
+                </greater-than>
+            </condition>
+            <value>1</value>
+        </input>
+        <input>
+            <condition>
+                <and>
+                    <greater-than>
+                        <property>/systems/electrical/buses/ac[0]/volts</property>
+                        <value>110</value>
+                    </greater-than>
+                    <not>
+                        <equals>
+                            <property>/controls/electric/bus-tie-ac</property>
+                            <value>1</value>
+                        </equals>
+                    </not>
+                </and>
+            </condition>
+            <value>2</value>
+        </input>
+        <output>/systems/electrical/buses/ac[2]/feed</output>
+    </filter>
+    <filter>
+        <name>AC BUS 2 volts</name>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <condition>
+                <equals>
+                    <property>/systems/electrical/buses/ac[2]/feed</property>
+                    <value>1</value>
+                </equals>
+            </condition>
+            <property>/systems/electrical/sources/generator[2]/volts</property>
+        </input>
+        <input>
+            <condition>
+                <equals>
+                    <property>/systems/electrical/buses/ac[2]/feed</property>
+                    <value>2</value>
+                </equals>
+            </condition>
+            <property>/systems/electrical/buses/ac[0]/volts</property>
+        </input>
+        <output>/systems/electrical/buses/ac[2]/volts</output>
+    </filter>
+    <filter>
+        <name>AC BUS 2 powered</name>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <condition>
+                <greater-than>
+                    <property>/systems/electrical/buses/ac[2]/volts</property>
+                    <value>110</value>
+                </greater-than>
+            </condition>
+            <value>1</value>
+        </input>
+        <output>/systems/electrical/buses/ac[2]/powered</output>
+    </filter>
+
+    <!-- AC ESS -->
+    <!-- priorities:
+        1. AC BUS 2
+        2. AC BUS 1
+        3. RAT
+    -->
+    <filter>
+        <name>AC ESS FEED</name>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <condition>
+                <greater-than>
+                    <property>/systems/electrical/buses/ac[2]/volts</property>
+                    <value>110</value>
+                </greater-than>
+            </condition>
+            <value>1</value>
+        </input>
+        <input>
+            <condition>
+                <greater-than>
+                    <property>/systems/electrical/buses/ac[1]/volts</property>
+                    <value>110</value>
+                </greater-than>
+            </condition>
+            <value>2</value>
+        </input>
+        <input>
+            <condition>
+                <greater-than>
+                    <property>/systems/electrical/sources/generator[3]/volts</property>
+                    <value>110</value>
+                </greater-than>
+            </condition>
+            <value>3</value>
+        </input>
+        <output>/systems/electrical/buses/ac[3]/feed</output>
+    </filter>
+    <filter>
+        <name>AC ESS volts</name>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <condition>
+                <equals>
+                    <property>/systems/electrical/buses/ac[3]/feed</property>
+                    <value>1</value>
+                </equals>
+            </condition>
+            <property>/systems/electrical/buses/ac[2]/volts</property>
+        </input>
+        <input>
+            <condition>
+                <equals>
+                    <property>/systems/electrical/buses/ac[3]/feed</property>
+                    <value>2</value>
+                </equals>
+            </condition>
+            <property>/systems/electrical/buses/ac[1]/volts</property>
+        </input>
+        <input>
+            <condition>
+                <equals>
+                    <property>/systems/electrical/buses/ac[3]/feed</property>
+                    <value>3</value>
+                </equals>
+            </condition>
+            <property>/systems/electrical/sources/generator[3]/volts</property>
+        </input>
+        <output>/systems/electrical/buses/ac[3]/volts</output>
+    </filter>
+    <filter>
+        <name>AC ESS powered</name>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <condition>
+                <greater-than>
+                    <property>/systems/electrical/buses/ac[3]/volts</property>
+                    <value>110</value>
+                </greater-than>
+            </condition>
+            <value>1</value>
+        </input>
+        <output>/systems/electrical/buses/ac[3]/powered</output>
+    </filter>
+
+    <!-- AC STBY -->
+    <!-- priorities:
+        1. AC ESS
+        2. INVERTER
+    -->
+    <filter>
+        <name>AC STBY FEED</name>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <condition>
+                <greater-than>
+                    <property>/systems/electrical/buses/ac[3]/volts</property>
+                    <value>110</value>
+                </greater-than>
+            </condition>
+            <value>1</value>
+        </input>
+        <input>
+            <condition>
+                <greater-than>
+                    <property>/systems/electrical/sources/inverter/volts</property>
+                    <value>110</value>
+                </greater-than>
+            </condition>
+            <value>2</value>
+        </input>
+        <output>/systems/electrical/buses/ac[4]/feed</output>
+    </filter>
+    <filter>
+        <name>AC STBY volts</name>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <condition>
+                <equals>
+                    <property>/systems/electrical/buses/ac[4]/feed</property>
+                    <value>1</value>
+                </equals>
+            </condition>
+            <property>/systems/electrical/buses/ac[3]/volts</property>
+        </input>
+        <input>
+            <condition>
+                <equals>
+                    <property>/systems/electrical/buses/ac[4]/feed</property>
+                    <value>2</value>
+                </equals>
+            </condition>
+            <property>/systems/electrical/sources/inverter/volts</property>
+        </input>
+        <output>/systems/electrical/buses/ac[4]/volts</output>
+    </filter>
+    <filter>
+        <name>AC STBY powered</name>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <condition>
+                <greater-than>
+                    <property>/systems/electrical/buses/ac[4]/volts</property>
+                    <value>110</value>
+                </greater-than>
+            </condition>
+            <value>1</value>
+        </input>
+        <output>/systems/electrical/buses/ac[4]/powered</output>
+    </filter>
+
+    <!-- ************************ DC ************************ -->
+
+    <!-- DC BUS 1 LOGIC -->
+    <!-- priorities:
+        1. TRU 1
+        2. DC BUS 2 (via bus tie)
+    -->
+    <filter>
+        <name>DC BUS 1 FEED</name>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <condition>
+                <greater-than>
+                    <property>/systems/electrical/sources/tru[1]/volts</property>
+                    <value>18</value>
+                </greater-than>
+            </condition>
+            <value>1</value>
+        </input>
+        <input>
+            <condition>
+                <and>
+                    <not>
+                        <property>/controls/electric/bus-tie-dc</property>
+                    </not>
+                    <greater-than>
+                        <property>/systems/electrical/sources/tru[2]/volts</property>
+                        <value>18</value>
+                    </greater-than>
+                </and>
+            </condition>
+            <value>2</value>
+        </input>
+        <output>/systems/electrical/buses/dc[1]/feed</output>
+    </filter>
+    <filter>
+        <name>DC BUS 1 volts</name>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <condition>
+                <equals>
+                    <property>/systems/electrical/buses/dc[1]/feed</property>
+                    <value>1</value>
+                </equals>
+            </condition>
+            <property>/systems/electrical/sources/tru[1]/volts</property>
+        </input>
+        <input>
+            <condition>
+                <equals>
+                    <property>/systems/electrical/buses/dc[1]/feed</property>
+                    <value>2</value>
+                </equals>
+            </condition>
+            <property>/systems/electrical/buses/dc[2]/volts</property>
+        </input>
+        <output>/systems/electrical/buses/dc[1]/volts</output>
+    </filter>
+    <filter>
+        <name>DC BUS 1 powered</name>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <condition>
+                <greater-than>
+                    <property>/systems/electrical/buses/dc[1]/volts</property>
+                    <value>18</value>
+                </greater-than>
+            </condition>
+            <value>1</value>
+        </input>
+        <output>/systems/electrical/buses/dc[1]/powered</output>
+    </filter>
+
+    <!-- DC BUS 2 LOGIC -->
+    <!-- priorities:
+        1. TRU 2
+        2. DC BUS 1 (via bus tie)
+    -->
+    <filter>
+        <name>DC BUS 2 FEED</name>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <condition>
+                <greater-than>
+                    <property>/systems/electrical/sources/tru[2]/volts</property>
+                    <value>18</value>
+                </greater-than>
+            </condition>
+            <value>1</value>
+        </input>
+        <input>
+            <condition>
+                <and>
+                    <not>
+                        <property>/controls/electric/bus-tie-dc</property>
+                    </not>
+                    <greater-than>
+                        <property>/systems/electrical/sources/tru[1]/volts</property>
+                        <value>18</value>
+                    </greater-than>
+                </and>
+            </condition>
+            <value>2</value>
+        </input>
+        <output>/systems/electrical/buses/dc[2]/feed</output>
+    </filter>
+    <filter>
+        <name>DC BUS 2 volts</name>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <condition>
+                <equals>
+                    <property>/systems/electrical/buses/dc[2]/feed</property>
+                    <value>1</value>
+                </equals>
+            </condition>
+            <property>/systems/electrical/sources/tru[2]/volts</property>
+        </input>
+        <input>
+            <condition>
+                <equals>
+                    <property>/systems/electrical/buses/dc[2]/feed</property>
+                    <value>2</value>
+                </equals>
+            </condition>
+            <property>/systems/electrical/buses/dc[1]/volts</property>
+        </input>
+        <output>/systems/electrical/buses/dc[2]/volts</output>
+    </filter>
+    <filter>
+        <name>DC BUS 2 powered</name>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <condition>
+                <greater-than>
+                    <property>/systems/electrical/buses/dc[2]/volts</property>
+                    <value>18</value>
+                </greater-than>
+            </condition>
+            <value>1</value>
+        </input>
+        <output>/systems/electrical/buses/dc[2]/powered</output>
+    </filter>
+
+    <!-- DC ESS 1 LOGIC -->
+    <!-- priorities:
+        1. DC BUS 1
+        2. DC ESS 3 (via tie)
+        3. BATT 1
+    -->
+    <filter>
+        <name>DC ESS 1 FEED</name>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <condition>
+                <greater-than>
+                    <property>/systems/electrical/buses/dc[1]/volts</property>
+                    <value>18</value>
+                </greater-than>
+            </condition>
+            <value>1</value>
+        </input>
+        <input>
+            <condition>
+                <and>
+                    <not>
+                        <property>/controls/electric/bus-tie-dc</property>
+                    </not>
+                    <or>
+                        <!-- we can pull from ESS 3 if it feeds on TRU ESS -->
+                        <equals>
+                            <property>/systems/electrical/buses/dc[5]/feed</property>
+                            <value>1</value>
+                        </equals>
+                        <!-- we may also pull from ESS 3 if BATT 1 is not available -->
+                        <not>
+                            <greater-than>
+                                <property>/systems/electrical/sources/battery[0]/volts</property>
+                                <value>18</value>
+                            </greater-than>
+                        </not>
+                    </or>
+                    <greater-than>
+                        <property>/systems/electrical/buses/dc[5]/volts</property>
+                        <value>18</value>
+                    </greater-than>
+                </and>
+            </condition>
+            <value>2</value>
+        </input>
+        <input>
+            <condition>
+                <greater-than>
+                    <property>/systems/electrical/sources/battery[0]/volts</property>
+                    <value>18</value>
+                </greater-than>
+            </condition>
+            <value>3</value>
+        </input>
+        <output>/systems/electrical/buses/dc[3]/feed</output>
+    </filter>
+    <filter>
+        <name>DC ESS 1 volts</name>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <condition>
+                <equals>
+                    <property>/systems/electrical/buses/dc[3]/feed</property>
+                    <value>1</value>
+                </equals>
+            </condition>
+            <property>/systems/electrical/buses/dc[1]/volts</property>
+        </input>
+        <input>
+            <condition>
+                <equals>
+                    <property>/systems/electrical/buses/dc[3]/feed</property>
+                    <value>2</value>
+                </equals>
+            </condition>
+            <property>/systems/electrical/buses/dc[5]/volts</property>
+        </input>
+        <input>
+            <condition>
+                <equals>
+                    <property>/systems/electrical/buses/dc[3]/feed</property>
+                    <value>3</value>
+                </equals>
+            </condition>
+            <property>/systems/electrical/sources/battery[0]/volts</property>
+        </input>
+        <output>/systems/electrical/buses/dc[3]/volts</output>
+    </filter>
+    <filter>
+        <name>DC ESS 1 powered</name>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <condition>
+                <greater-than>
+                    <property>/systems/electrical/buses/dc[3]/volts</property>
+                    <value>18</value>
+                </greater-than>
+            </condition>
+            <value>1</value>
+        </input>
+        <output>/systems/electrical/buses/dc[3]/powered</output>
+    </filter>
+
+    <!-- DC ESS 2 LOGIC -->
+    <!-- priorities:
+        1. DC BUS 2
+        2. DC ESS 3 (via tie)
+        3. BATT 2 (if not used by APU START)
+    -->
+    <filter>
+        <name>DC ESS 2 FEED</name>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <condition>
+                <greater-than>
+                    <property>/systems/electrical/buses/dc[2]/volts</property>
+                    <value>18</value>
+                </greater-than>
+            </condition>
+            <value>1</value>
+        </input>
+        <input>
+            <condition>
+                <and>
+                    <not>
+                        <property>/controls/electric/bus-tie-dc</property>
+                    </not>
+                    <or>
+                        <!-- we can pull from ESS 3 if it feeds on TRU ESS -->
+                        <equals>
+                            <property>/systems/electrical/buses/dc[5]/feed</property>
+                            <value>1</value>
+                        </equals>
+                        <!-- we may also pull from ESS 3 if BATT 2 is not available -->
+                        <not>
+                            <greater-than>
+                                <property>/systems/electrical/sources/battery[1]/volts</property>
+                                <value>18</value>
+                            </greater-than>
+                        </not>
+                        <!-- or when the APU START bus pulls from BATT 2 -->
+                        <equals>
+                            <property>/systems/electrical/buses/dc[6]/feed</property>
+                            <value>2</value>
+                        </equals>
+                    </or>
+                    <greater-than>
+                        <property>/systems/electrical/buses/dc[5]/volts</property>
+                        <value>18</value>
+                    </greater-than>
+                </and>
+            </condition>
+            <value>2</value>
+        </input>
+        <input>
+            <condition>
+                <and>
+                    <greater-than>
+                        <property>/systems/electrical/sources/battery[1]/volts</property>
+                        <value>18</value>
+                    </greater-than>
+                    <not>
+                        <equals>
+                            <property>/systems/electrical/buses/dc[6]/feed</property>
+                            <value>2</value>
+                        </equals>
+                    </not>
+                </and>
+            </condition>
+            <value>3</value>
+        </input>
+        <output>/systems/electrical/buses/dc[4]/feed</output>
+    </filter>
+    <filter>
+        <name>DC ESS 2 volts</name>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <condition>
+                <equals>
+                    <property>/systems/electrical/buses/dc[4]/feed</property>
+                    <value>1</value>
+                </equals>
+            </condition>
+            <property>/systems/electrical/buses/dc[2]/volts</property>
+        </input>
+        <input>
+            <condition>
+                <equals>
+                    <property>/systems/electrical/buses/dc[4]/feed</property>
+                    <value>2</value>
+                </equals>
+            </condition>
+            <property>/systems/electrical/buses/dc[5]/volts</property>
+        </input>
+        <input>
+            <condition>
+                <equals>
+                    <property>/systems/electrical/buses/dc[4]/feed</property>
+                    <value>3</value>
+                </equals>
+            </condition>
+            <property>/systems/electrical/sources/battery[1]/volts</property>
+        </input>
+        <output>/systems/electrical/buses/dc[4]/volts</output>
+    </filter>
+    <filter>
+        <name>DC ESS 2 powered</name>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <condition>
+                <greater-than>
+                    <property>/systems/electrical/buses/dc[4]/volts</property>
+                    <value>18</value>
+                </greater-than>
+            </condition>
+            <value>1</value>
+        </input>
+        <output>/systems/electrical/buses/dc[4]/powered</output>
+    </filter>
+
+    <!-- DC ESS 3 LOGIC -->
+    <!-- priorities:
+        1. TRU ESS
+        2. DC ESS 1 (via tie, but not if tied already)
+        3. DC ESS 2 (via tie, but not if tied already)
+    -->
+    <filter>
+        <name>DC ESS 3 FEED</name>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <condition>
+                <greater-than>
+                    <property>/systems/electrical/sources/tru[0]/volts</property>
+                    <value>18</value>
+                </greater-than>
+            </condition>
+            <value>1</value>
+        </input>
+        <input>
+            <condition>
+                <and>
+                    <not>
+                        <property>/controls/electric/bus-tie-dc</property>
+                    </not>
+                    <not>
+                        <equals>
+                            <property>/systems/electrical/buses/dc[3]/feed</property>
+                            <value>2</value>
+                        </equals>
+                    </not>
+                    <greater-than>
+                        <property>/systems/electrical/buses/dc[3]/volts</property>
+                        <value>18</value>
+                    </greater-than>
+                </and>
+            </condition>
+            <value>2</value>
+        </input>
+        <input>
+            <condition>
+                <and>
+                    <not>
+                        <property>/controls/electric/bus-tie-dc</property>
+                    </not>
+                    <not>
+                        <equals>
+                            <property>/systems/electrical/buses/dc[4]/feed</property>
+                            <value>2</value>
+                        </equals>
+                    </not>
+                    <greater-than>
+                        <property>/systems/electrical/buses/dc[4]/volts</property>
+                        <value>18</value>
+                    </greater-than>
+                </and>
+            </condition>
+            <value>3</value>
+        </input>
+        <output>/systems/electrical/buses/dc[5]/feed</output>
+    </filter>
+    <filter>
+        <name>DC ESS 3 volts</name>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <condition>
+                <equals>
+                    <property>/systems/electrical/buses/dc[5]/feed</property>
+                    <value>1</value>
+                </equals>
+            </condition>
+            <property>/systems/electrical/sources/tru[0]/volts</property>
+        </input>
+        <input>
+            <condition>
+                <equals>
+                    <property>/systems/electrical/buses/dc[5]/feed</property>
+                    <value>2</value>
+                </equals>
+            </condition>
+            <property>/systems/electrical/buses/dc[3]/volts</property>
+        </input>
+        <input>
+            <condition>
+                <equals>
+                    <property>/systems/electrical/buses/dc[5]/feed</property>
+                    <value>3</value>
+                </equals>
+            </condition>
+            <property>/systems/electrical/buses/dc[4]/volts</property>
+        </input>
+        <output>/systems/electrical/buses/dc[5]/volts</output>
+    </filter>
+    <filter>
+        <name>DC ESS 3 powered</name>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <condition>
+                <greater-than>
+                    <property>/systems/electrical/buses/dc[5]/volts</property>
+                    <value>18</value>
+                </greater-than>
+            </condition>
+            <value>1</value>
+        </input>
+        <output>/systems/electrical/buses/dc[5]/powered</output>
+    </filter>
+
+    <!-- DC ESS 3 LOGIC -->
+    <!-- priorities:
+        1. TRU ESS
+        2. DC ESS 1 (via tie, but not if tied already)
+        3. DC ESS 2 (via tie, but not if tied already)
+    -->
+    <filter>
+        <name>DC ESS 3 FEED</name>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <condition>
+                <greater-than>
+                    <property>/systems/electrical/sources/tru[0]/volts</property>
+                    <value>18</value>
+                </greater-than>
+            </condition>
+            <value>1</value>
+        </input>
+        <input>
+            <condition>
+                <and>
+                    <not>
+                        <property>/controls/electric/bus-tie-dc</property>
+                    </not>
+                    <not>
+                        <equals>
+                            <property>/systems/electrical/buses/dc[3]/feed</property>
+                            <value>2</value>
+                        </equals>
+                    </not>
+                    <greater-than>
+                        <property>/systems/electrical/buses/dc[3]/volts</property>
+                        <value>18</value>
+                    </greater-than>
+                </and>
+            </condition>
+            <value>2</value>
+        </input>
+        <input>
+            <condition>
+                <and>
+                    <not>
+                        <property>/controls/electric/bus-tie-dc</property>
+                    </not>
+                    <not>
+                        <equals>
+                            <property>/systems/electrical/buses/dc[4]/feed</property>
+                            <value>2</value>
+                        </equals>
+                    </not>
+                    <greater-than>
+                        <property>/systems/electrical/buses/dc[4]/volts</property>
+                        <value>18</value>
+                    </greater-than>
+                </and>
+            </condition>
+            <value>3</value>
+        </input>
+        <output>/systems/electrical/buses/dc[5]/feed</output>
+    </filter>
+    <filter>
+        <name>DC ESS 3 volts</name>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <condition>
+                <equals>
+                    <property>/systems/electrical/buses/dc[5]/feed</property>
+                    <value>1</value>
+                </equals>
+            </condition>
+            <property>/systems/electrical/sources/tru[0]/volts</property>
+        </input>
+        <input>
+            <condition>
+                <equals>
+                    <property>/systems/electrical/buses/dc[5]/feed</property>
+                    <value>2</value>
+                </equals>
+            </condition>
+            <property>/systems/electrical/buses/dc[3]/volts</property>
+        </input>
+        <input>
+            <condition>
+                <equals>
+                    <property>/systems/electrical/buses/dc[5]/feed</property>
+                    <value>3</value>
+                </equals>
+            </condition>
+            <property>/systems/electrical/buses/dc[4]/volts</property>
+        </input>
+        <output>/systems/electrical/buses/dc[5]/volts</output>
+    </filter>
+    <filter>
+        <name>DC ESS 3 powered</name>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <condition>
+                <greater-than>
+                    <property>/systems/electrical/buses/dc[5]/volts</property>
+                    <value>18</value>
+                </greater-than>
+            </condition>
+            <value>1</value>
+        </input>
+        <output>/systems/electrical/buses/dc[5]/powered</output>
+    </filter>
+
+    <!-- APU START LOGIC -->
+    <!-- priorities:
+        1. DC GPU
+        2. BATT 2
+    -->
+    <filter>
+        <name>APU START FEED</name>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <!-- if not starting APU, don't use anything -->
+            <condition>
+                <not>
+                    <equals>
+                        <property>/controls/apu/starter</property>
+                        <value>2</value>
+                    </equals>
+                </not>
+            </condition>
+            <value>0</value>
+        </input>
+        <input>
+            <condition>
+                <property>/controls/electric/external-power-connected</property>
+            </condition>
+            <value>1</value>
+        </input>
+        <input>
+            <condition>
+                <greater-than>
+                    <property>/systems/electrical/sources/battery[1]/volts</property>
+                    <value>18</value>
+                </greater-than>
+            </condition>
+            <value>2</value>
+        </input>
+        <output>/systems/electrical/buses/dc[6]/feed</output>
+    </filter>
+    <filter>
+        <name>APU START volts</name>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <condition>
+                <equals>
+                    <property>/systems/electrical/buses/dc[6]/feed</property>
+                    <value>1</value>
+                </equals>
+            </condition>
+            <property>/systems/electrical/sources/dc-gpu/volts</property>
+        </input>
+        <input>
+            <condition>
+                <equals>
+                    <property>/systems/electrical/buses/dc[6]/feed</property>
+                    <value>2</value>
+                </equals>
+            </condition>
+            <property>/systems/electrical/sources/battery[1]/volts</property>
+        </input>
+        <output>/systems/electrical/buses/dc[6]/volts</output>
+    </filter>
+    <filter>
+        <name>APU START powered</name>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <condition>
+                <greater-than>
+                    <property>/systems/electrical/buses/dc[6]/volts</property>
+                    <value>18</value>
+                </greater-than>
+            </condition>
+            <value>1</value>
+        </input>
+        <input>
+            <condition>
+                <equals>
+                    <property>/controls/apu/starter</property>
+                    <value>2</value>
+                </equals>
+            </condition>
+            <value>-1</value>
+        </input>
+        <output>/systems/electrical/buses/dc[6]/powered</output>
+    </filter>
+
+</PropertyList>

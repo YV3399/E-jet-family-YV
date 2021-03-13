@@ -112,16 +112,16 @@
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
      inkscape:zoom="0.87828"
-     inkscape:cx="253.9"
+     inkscape:cx="441.2"
      inkscape:cy="384.28"
      inkscape:document-units="px"
      inkscape:current-layer="layer2"
      showgrid="false"
      units="px"
-     inkscape:window-width="1440"
-     inkscape:window-height="886"
-     inkscape:window-x="0"
-     inkscape:window-y="14"
+     inkscape:window-width="1920"
+     inkscape:window-height="1080"
+     inkscape:window-x="1440"
+     inkscape:window-y="0"
      inkscape:window-maximized="0"
      scale-x="1"
      showguides="true"
@@ -158,7 +158,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title />
+        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -1057,5 +1057,11 @@
        id="status.oil-level.right.pointer"
        d="m 339.62,280 v 22 l -21,-11 z"
        style="fill:#000600;stroke:#00ff00;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none;fill-opacity:1" />
+    <path
+       style="fill:none;stroke:#ffffff;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="M 0,766.5 H 1024"
+       id="path2552"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cc" />
   </g>
 </svg>

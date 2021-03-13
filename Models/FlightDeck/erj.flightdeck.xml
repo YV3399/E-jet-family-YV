@@ -36,7 +36,7 @@
             <a>0.7</a>
         </specular>
         <dim-factor>
-            <property>/controls/lighting/dome</property>
+            <property>/systems/electrical/outputs/dome-light</property>
             <factor>1</factor>
             <offset>0</offset>
             <min>0</min>
@@ -83,7 +83,7 @@
             <a>0.7</a>
         </specular>
         <dim-factor>
-            <property>/controls/lighting/dome</property>
+            <property>/systems/electrical/outputs/dome-light</property>
             <factor>1</factor>
             <offset>0</offset>
             <min>0</min>
@@ -131,7 +131,7 @@
             <a>0.7</a>
         </specular>
         <dim-factor>
-            <property>/controls/lighting/main-panel</property>
+            <property>/systems/electrical/outputs/main-panel-light</property>
             <factor>1</factor>
             <offset>0</offset>
             <min>0</min>
@@ -180,7 +180,7 @@
             <a>0.7</a>
         </specular>
         <dim-factor>
-            <property>/controls/lighting/main-panel</property>
+            <property>/systems/electrical/outputs/main-panel-light</property>
             <factor>1</factor>
             <offset>0</offset>
             <min>0</min>
@@ -230,7 +230,7 @@
             <a>0.7</a>
         </specular>
         <dim-factor>
-            <property>/controls/lighting/pedestal</property>
+            <property>/systems/electrical/outputs/pedestal-light</property>
             <factor>1</factor>
             <offset>0</offset>
             <min>0</min>
@@ -351,7 +351,7 @@
             <red>1.0</red>
             <green>0.75</green>
             <blue>0.5</blue>
-            <factor-prop>/controls/lighting/main-panel</factor-prop>
+            <factor-prop>/systems/electrical/outputs/main-panel-light</factor-prop>
         </emission>
     </animation>
 
@@ -374,7 +374,7 @@
             <red>1.0</red>
             <green>0.75</green>
             <blue>0.5</blue>
-            <factor-prop>/controls/lighting/pedestal</factor-prop>
+            <factor-prop>/systems/electrical/outputs/pedestal-light</factor-prop>
         </emission>
     </animation>
 
@@ -402,7 +402,7 @@
             <and>
                 <property>/instrumentation/eicas/master/warning</property>
                 <greater-than>
-                    <property>systems/electrical/outputs/efis</property>
+                    <property>systems/electrical/outputs/master-warn-caution</property>
                     <value>15</value>
                 </greater-than>
             </and>
@@ -423,7 +423,7 @@
             <and>
                 <property>/instrumentation/eicas/master/caution</property>
                 <greater-than>
-                    <property>systems/electrical/outputs/efis</property>
+                    <property>systems/electrical/outputs/master-warn-caution</property>
                     <value>15</value>
                 </greater-than>
             </and>
@@ -1740,6 +1740,7 @@
         <object-name>FD.light</object-name>
         <condition>
             <property>it-autoflight/output/fd1</property>
+            <property>/systems/electrical/outputs/pushbutton-lights</property>
         </condition>
     </animation>
 
@@ -1760,6 +1761,7 @@
         <object-name>FD2.light</object-name>
         <condition>
             <property>it-autoflight/output/fd2</property>
+            <property>/systems/electrical/outputs/pushbutton-lights</property>
         </condition>
     </animation>
 <!-- NAV -->
@@ -1836,6 +1838,7 @@
                     <value>2</value>
                 </equals>
             </or>
+            <property>/systems/electrical/outputs/pushbutton-lights</property>
         </condition>
     </animation>
 
@@ -1863,6 +1866,7 @@
                 <property>it-autoflight/input/lat</property>
                 <value>0</value>
             </equals>
+            <property>/systems/electrical/outputs/pushbutton-lights</property>
         </condition>
     </animation>
 
@@ -1896,6 +1900,7 @@
                 <property>it-autoflight/input/vert</property>
                 <value>2</value>
             </equals>
+            <property>/systems/electrical/outputs/pushbutton-lights</property>
         </condition>
     </animation>
 
@@ -1923,6 +1928,7 @@
                 <property>it-autoflight/input/bank-limit-sw</property>
                 <value>0</value>
             </greater-than>
+            <property>/systems/electrical/outputs/pushbutton-lights</property>
         </condition>
     </animation>
 
@@ -1971,6 +1977,7 @@
                 <property>it-autoflight/input/ap1</property>
                 <property>it-autoflight/input/ap2</property>
             </or>
+            <property>/systems/electrical/outputs/pushbutton-lights</property>
         </condition>
     </animation>
 
@@ -1996,6 +2003,7 @@
         <condition>
             <!-- <property>controls/autoflight/yaw-damper[0]/engage</property> -->
             <property>fdm/jsbsim/fcs/yaw-damper-enable</property>
+            <property>/systems/electrical/outputs/pushbutton-lights</property>
         </condition>
     </animation>
 
@@ -2023,6 +2031,7 @@
                 <property>controls/flight/nav-src/side</property>
                 <value>0</value>
             </equals>
+            <property>/systems/electrical/outputs/pushbutton-lights</property>
         </condition>
     </animation>
     <animation>
@@ -2033,6 +2042,7 @@
                 <property>controls/flight/nav-src/side</property>
                 <value>1</value>
             </equals>
+            <property>/systems/electrical/outputs/pushbutton-lights</property>
         </condition>
     </animation>
 
@@ -2359,6 +2369,7 @@
         <object-name>AT.light</object-name>
         <condition>
             <property>it-autoflight/input/athr</property>
+            <property>/systems/electrical/outputs/pushbutton-lights</property>
         </condition>
     </animation>
 
@@ -2381,6 +2392,7 @@
         <object-name>VNAV.light</object-name>
         <condition>
             <property>controls/flight/vnav-enabled</property>
+            <property>/systems/electrical/outputs/pushbutton-lights</property>
         </condition>
     </animation>
 
@@ -2436,6 +2448,7 @@
                 <property>it-autoflight/output/vert</property>
                 <value>4</value>
             </equals>
+            <property>/systems/electrical/outputs/pushbutton-lights</property>
         </condition>
     </animation>
 
@@ -2464,6 +2477,7 @@
                 <property>it-autoflight/input/vert</property>
                 <value>0</value>
             </equals>
+            <property>/systems/electrical/outputs/pushbutton-lights</property>
         </condition>
     </animation>
 
@@ -2490,6 +2504,7 @@
                 <property>it-autoflight/input/vert</property>
                 <value>5</value>
             </equals>
+            <property>/systems/electrical/outputs/pushbutton-lights</property>
         </condition>
     </animation>
 
@@ -2517,6 +2532,7 @@
                 <property>it-autoflight/input/vert</property>
                 <value>1</value>
             </equals>
+            <property>/systems/electrical/outputs/pushbutton-lights</property>
         </condition>
     </animation>
 

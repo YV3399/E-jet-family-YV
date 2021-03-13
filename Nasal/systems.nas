@@ -39,49 +39,6 @@ setlistener("controls/switches/no-smoking-sign", func {
 
 ## ENGINES
 ##########
-
-# APU loop function
-var apuLoop = func {
-	var on_fireNode = props.getNode("engines/apu/on-fire");
-	var serviceableNode = props.getNode("engines/apu/serviceable");
-	var starterNode = props.getNode("controls/APU/starter");
-	var master_switchNode = props.getNode("controls/APU/master-switch");
-	var runningNode = props.getNode("engines/apu/running");
-	if (on_fireNode.getBoolValue()) {
-		serviceableNode.setBoolValue(0);
-	}
-
-	if (props.getNode("controls/APU/fire-switch").getBoolValue()) {
-		on_fireNode.setBoolValue(0);
-	}
-
-	if (serviceableNode.getBoolValue() and (master_switchNode.getBoolValue() or starterNode.getBoolValue())) {
-		if (starterNode.getBoolValue()) {
-			var rpm = getprop("engines/apu/rpm");
-
-			rpm += getprop("sim/time/delta-realtime-sec") * 25;
-			if (rpm >= 100) {
-				rpm = 100;
-			}
-			setprop("engines/apu/rpm", rpm);
-		}
-
-		if (master_switchNode.getBoolValue() and getprop("engines/apu/rpm") == 100) {
-			runningNode.setBoolValue(1);
-		}
-	} else {
-		runningNode.setBoolValue(0);
-
-		var rpm = getprop("engines/apu/rpm");
-		rpm -= getprop("sim/time/delta-realtime-sec") * 30;
-		if (rpm < 0) {
-			rpm = 0;
-		}
-		setprop("engines/apu/rpm", rpm);
-	}
-
-	settimer(apuLoop, 0);
- };
  
 # engine loop function
 var engineLoop = func(engine_no) {
@@ -121,7 +78,6 @@ setlistener("sim/signals/fdm-initialized", func {
 	settimer(func {
 		engineLoop(0);
 		engineLoop(1);
-		apuLoop();
 	}, 2);
 	# itaf.ap_init();
 });
@@ -131,8 +87,6 @@ var startup = func {
 	setprop("controls/electric/battery-switch", 1);
 	props.setAll("controls/electric/engine", "generator", 1);
 	props.setAll("controls/engines/engine", "cutoff-switch", 1);
-	setprop("controls/APU/master-switch", 1);
-	setprop("controls/APU/starter", 1);
 
 	var listener1 = setlistener("engines/apu/running", func {
 		if (props.getNode("engines/apu/running").getBoolValue()) {
@@ -146,8 +100,6 @@ var startup = func {
 	var listener2 = setlistener("engines/engine[0]/running", func {
 		if (props.getNode("engines/engine[0]/running").getBoolValue()) {
 			settimer(func {
-				setprop("controls/APU/master-switch", 0);
-				setprop("controls/APU/starter", 0);
 				setprop("controls/electric/battery-switch", 0);
 			}, 2);
 			removelistener(listener2);

@@ -95,7 +95,7 @@
             <a>0.7</a>
         </specular>
         <dim-factor>
-            <property>systems/electrical/outputs/landing-lights[0]</property>
+            <property>systems/electrical/outputs/landing-lights-norm[0]</property>
             <factor>1</factor>
             <offset>0</offset>
             <min>0</min>

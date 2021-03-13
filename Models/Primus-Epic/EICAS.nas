@@ -43,7 +43,7 @@ var engParam = {
 var engLoff	=	props.globals.getNode("controls/engines/engine[0]/cutoff-switch", 1);
 var engRoff	=	props.globals.getNode("controls/engines/engine[1]/cutoff-switch", 1);
 
-setprop("/systems/electrical/outputs/efis", 0);
+setprop("/systems/electrical/outputs/eicas", 0);
 
 var trsModeLabels = {
 	0: "TO",

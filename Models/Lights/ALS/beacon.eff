@@ -15,7 +15,7 @@
     <light_color_center_r type="float">0.98</light_color_center_r>
     <light_color_center_g type="float">0.8</light_color_center_g>
     <light_color_center_b type="float">0.4</light_color_center_b>
-    <intensity_scale type="float"><use>sim/model/lights/beacon/state</use></intensity_scale>
+    <intensity_scale type="float"><use>/systems/electrical/outputs/beacon</use></intensity_scale>
     <pointing_x type="float">1.0</pointing_x>
     <pointing_y type="float">0.0</pointing_y>
     <pointing_z type="float">0.0</pointing_z>

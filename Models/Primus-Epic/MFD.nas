@@ -12,6 +12,14 @@ var cos30 = math.cos(30 * D2R);
 
 var noTakeoffBrakeTemp = 300.0;
 
+var SUBMODE_STATUS = 0;
+var SUBMODE_ELECTRICAL = 1;
+
+var submodeNames = [
+    'Status',
+    'Elec',
+];
+
 var toggleBoolProp = func(node) {
     if (node != nil) { node.toggleBoolValue(); }
 };
@@ -115,6 +123,7 @@ var MFD = {
         me.elems = {};
         me.props = {
                 'page': props.globals.getNode('/instrumentation/mfd[' ~ index ~ ']/page'),
+                'submode': props.globals.getNode('/instrumentation/mfd[' ~ index ~ ']/submode'),
                 'altitude-amsl': props.globals.getNode('/position/altitude-ft'),
                 'altitude': props.globals.getNode('/instrumentation/altimeter/indicated-altitude-ft'),
                 'altitude-selected': props.globals.getNode('/controls/flight/selected-alt'),
@@ -221,6 +230,8 @@ var MFD = {
         me.systemsPages = {};
         me.systemsPages.status = me.systemsContainer.createChild("group");
         canvas.parsesvg(me.systemsPages.status, "Aircraft/E-jet-family/Models/Primus-Epic/MFD-systems-status.svg", {'font-mapper': font_mapper});
+        me.systemsPages.electrical = me.systemsContainer.createChild("group");
+        canvas.parsesvg(me.systemsPages.electrical, "Aircraft/E-jet-family/Models/Primus-Epic/MFD-systems-electrical.svg", {'font-mapper': font_mapper});
 
         me.underlay = me.pageContainer.createChild("group");
         me.terrainViz = me.underlay.createChild("image");
@@ -358,6 +369,7 @@ var MFD = {
             ];
         var guikeys = [
                 'mapMenu',
+                'submodeMenu',
                 'checkNavaids',
                 'checkAirports',
                 'checkWptIdent',
@@ -367,6 +379,8 @@ var MFD = {
                 'radioWeather',
                 'radioTerrain',
                 'radioOff',
+
+                'btnSystems.mode.label',
 
                 'weatherMenu',
                 'weatherMenu.radioWX',
@@ -436,6 +450,80 @@ var MFD = {
                 'status.oil-level.right.pointer',
                 'status.sat.digital',
                 'status.tat.digital',
+
+
+                'elec.feed.ac1-ac12',
+                'elec.feed.ac1-idg1',
+                'elec.feed.ac12',
+                'elec.feed.ac12-acgpu',
+                'elec.feed.ac12-apu',
+                'elec.feed.ac2-ac12',
+                'elec.feed.ac2-idg2',
+                'elec.feed.acess-ac1',
+                'elec.feed.acess-ac2',
+                'elec.feed.acstby-acess',
+                'elec.feed.apustart-batt2',
+                'elec.feed.apustart-dcgpu',
+                'elec.feed.dc1-tru1',
+                'elec.feed.dc12',
+                'elec.feed.dc2-tru2',
+                'elec.feed.dcess1-batt1',
+                'elec.feed.dcess1-dc1',
+                'elec.feed.dcess1-dcess3',
+                'elec.feed.dcess2-batt2',
+                'elec.feed.dcess2-dc2',
+                'elec.feed.dcess2-dcess3',
+                'elec.feed.dcess3-truess',
+                'elec.feed.dcess3-truess-mask',
+                'elec.feed.dcess3-dcess1',
+                'elec.feed.dcess3-dcess2',
+                'elec.feed.tru1-ac1',
+                'elec.feed.tru2-ac2',
+                'elec.feed.truess-acess',
+
+                'elec.ac1.symbol',
+                'elec.ac2.symbol',
+                'elec.acess.symbol',
+                'elec.acgpu.group',
+                'elec.acgpu.hz.digital',
+                'elec.acgpu.kva.digital',
+                'elec.acgpu.symbol',
+                'elec.acgpu.volts.digital',
+                'elec.acstby.symbol',
+                'elec.apu.hz.digital',
+                'elec.apu.kva.digital',
+                'elec.apu.group',
+                'elec.apu.symbol',
+                'elec.apu.volts.digital',
+                'elec.apustart.symbol',
+                'elec.battery1.symbol',
+                'elec.battery1.temp.digital',
+                'elec.battery1.volts.digital',
+                'elec.battery2.symbol',
+                'elec.battery2.temp.digital',
+                'elec.battery2.volts.digital',
+                'elec.dc1.symbol',
+                'elec.dc2.symbol',
+                'elec.dcess1.symbol',
+                'elec.dcess2.symbol',
+                'elec.dcess3.symbol',
+                'elec.dcgpu.group',
+                'elec.dcgpu.inuse',
+                'elec.dcgpu.symbol',
+                'elec.idg1.hz.digital',
+                'elec.idg1.kva.digital',
+                'elec.idg1.symbol',
+                'elec.idg1.volts.digital',
+                'elec.idg2.hz.digital',
+                'elec.idg2.kva.digital',
+                'elec.idg2.symbol',
+                'elec.idg2.volts.digital',
+                'elec.tru1.symbol',
+                'elec.tru1.volts.digital',
+                'elec.tru2.symbol',
+                'elec.tru2.volts.digital',
+                'elec.truess.symbol',
+                'elec.truess.volts.digital',
         ];
         foreach (var key; mapkeys) {
             me.elems[key] = me.mapOverlay.getElementById(key);
@@ -477,6 +565,7 @@ var MFD = {
         me.elems['arc'].setCenter(512, 530);
         me.elems['arc.heading-bug'].setCenter(512, 530);
         me.elems['mapMenu'].hide();
+        me.elems['submodeMenu'].hide();
         me.elems['weatherMenu'].hide();
 
         me.elems['greenarc'] = me.elems['arc.master'].createChild("path");
@@ -486,6 +575,7 @@ var MFD = {
         me.widgets = [
             { key: 'btnMap', ontouch: func { self.touchMap(); } },
             { key: 'btnPlan', ontouch: func { self.touchPlan(); } },
+            { key: 'btnSystems.mode', ontouch: func { self.touchSystemsSubmode(); } },
             { key: 'btnSystems', ontouch: func { self.touchSystems(); } },
             { key: 'btnTCAS', ontouch: func { debug.dump("TCAS"); } },
             { key: 'btnWeather', ontouch: func { self.elems['weatherMenu'].toggleVisibility(); } },
@@ -498,6 +588,9 @@ var MFD = {
             { key: 'radioWeather', active: func { self.elems['mapMenu'].getVisible() }, ontouch: func { self.selectUnderlay('WX'); } },
             { key: 'radioTerrain', active: func { self.elems['mapMenu'].getVisible() }, ontouch: func { self.selectUnderlay('TERRAIN'); } },
             { key: 'radioOff', active: func { self.elems['mapMenu'].getVisible() }, ontouch: func { self.selectUnderlay(nil); } },
+
+            { key: 'submodeStatus', active: func { self.elems['submodeMenu'].getVisible() }, ontouch: func { self.selectSystemsSubmode(SUBMODE_STATUS); } },
+            { key: 'submodeElectrical', active: func { self.elems['submodeMenu'].getVisible() }, ontouch: func { self.selectSystemsSubmode(SUBMODE_ELECTRICAL); } },
 
             { key: 'weatherMenu.radioOff', active: func { self.elems['weatherMenu'].getVisible() }, ontouch: func { self.setWxMode(0); } },
             { key: 'weatherMenu.radioSTBY', active: func { self.elems['weatherMenu'].getVisible() }, ontouch: func { self.setWxMode(1); } },
@@ -617,6 +710,10 @@ var MFD = {
         setlistener(me.props['page'], func (node) {
             self.updatePage();
         }, 1, 0);
+        setlistener(me.props['submode'], func (node) {
+            self.elems['btnSystems.mode.label'].setText(submodeNames[node.getValue()]);
+            self.updatePage();
+        }, 1, 0);
         setlistener(me.props['cursor'], func (node) {
             self.cursor.setTranslation(
                 self.props['cursor.x'].getValue(),
@@ -693,6 +790,12 @@ var MFD = {
         setlistener(me.props['gross-weight'], func (node) {
             self.elems['status.grossweight.digital'].setText(sprintf("%5.0f", node.getValue()));
         }, 1, 0);
+        setlistener('/systems/electrical/sources/battery[0]/volts-avail', func (node) {
+            self.elems['status.battery1.voltage.digital'].setText(sprintf("%03.1f", node.getValue()));
+        }, 1, 0);
+        setlistener('/systems/electrical/sources/battery[1]/volts-avail', func (node) {
+            self.elems['status.battery2.voltage.digital'].setText(sprintf("%03.1f", node.getValue()));
+        }, 1, 0);
 
         var doornames = ['l1', 'r1', 'l2', 'r2', 'cargo1', 'cargo2', 'fuel-panel', 'avionics-front', 'avionics-mid'];
         foreach (var doorname; doornames) {
@@ -734,6 +837,238 @@ var MFD = {
                 }, 1, 0);
             })();
         }
+
+        var fillColorByStatus = func (target, status) {
+            if (status == 0) {
+                target.setColorFill(255, 255, 255);
+            }
+            else if (status == 1) {
+                target.setColorFill(0, 255, 0);
+            }
+            else {
+                target.setColorFill(255, 255, 0);
+            }
+        }
+
+        # GPU connection
+
+        setlistener('/controls/electric/external-power-connected', func (node) {
+            var connected = node.getBoolValue();
+            me.elems['elec.acgpu.group'].setVisible(connected);
+            me.elems['elec.dcgpu.group'].setVisible(connected);
+        }, 1, 0);
+
+        # Electrical sources
+
+        setlistener('/systems/electrical/sources/generator[0]/visible', func (node) {
+            me.elems['elec.apu.group'].setVisible(node.getBoolValue());
+        }, 1, 0);
+        setlistener('/systems/electrical/sources/generator[0]/volts', func (node) {
+            me.elems['elec.apu.volts.digital'].setText(sprintf("%3.0f", node.getValue()));
+        }, 1, 0);
+        setlistener('/systems/electrical/sources/generator[0]/status', func (node) {
+            fillColorByStatus(me.elems['elec.apu.symbol'], node.getValue());
+        }, 1, 0);
+        setlistener('/systems/electrical/sources/generator[1]/volts', func (node) {
+            me.elems['elec.idg1.volts.digital'].setText(sprintf("%3.0f", node.getValue()));
+        }, 1, 0);
+        setlistener('/systems/electrical/sources/generator[1]/status', func (node) {
+            fillColorByStatus(me.elems['elec.idg1.symbol'], node.getValue());
+        }, 1, 0);
+        setlistener('/systems/electrical/sources/generator[2]/volts', func (node) {
+            me.elems['elec.idg2.volts.digital'].setText(sprintf("%3.0f", node.getValue()));
+        }, 1, 0);
+        setlistener('/systems/electrical/sources/generator[2]/status', func (node) {
+            fillColorByStatus(me.elems['elec.idg2.symbol'], node.getValue());
+        }, 1, 0);
+
+        # TODO: Add RAT symbol to SVG
+        # setlistener('/controls/electric/ram-air-turbine', func (node) {
+        #     me.elems['elec.rat.group'].setVisible(node.getBoolValue());
+        # }, 1, 0);
+        # setlistener('/systems/electrical/sources/generator[3]/volts', func (node) {
+        #     me.elems['elec.rat.volts.digital'].setText(sprintf("%3.0f", node.getValue()));
+        # }, 1, 0);
+        # setlistener('/systems/electrical/sources/generator[3]/status', func (node) {
+        #     fillColorByStatus(me.elems['elec.rat.symbol'], node.getValue());
+        # }, 1, 0);
+
+        setlistener('/systems/electrical/sources/ac-gpu/volts', func (node) {
+            me.elems['elec.acgpu.volts.digital'].setText(sprintf("%3.0f", node.getValue()));
+        }, 1, 0);
+        setlistener('/systems/electrical/sources/ac-gpu/status', func (node) {
+            fillColorByStatus(me.elems['elec.acgpu.symbol'], node.getValue());
+        }, 1, 0);
+
+        setlistener('/systems/electrical/sources/dc-gpu/status', func (node) {
+            fillColorByStatus(me.elems['elec.dcgpu.symbol'], node.getValue());
+        }, 1, 0);
+
+        setlistener('/systems/electrical/sources/battery[0]/volts-avail', func (node) {
+            me.elems['elec.battery1.volts.digital'].setText(sprintf("%4.1f", node.getValue()));
+        }, 1, 0);
+        setlistener('/systems/electrical/sources/battery[0]/status', func (node) {
+            fillColorByStatus(me.elems['elec.battery1.symbol'], node.getValue());
+        }, 1, 0);
+        setlistener('/systems/electrical/sources/battery[1]/volts-avail', func (node) {
+            me.elems['elec.battery2.volts.digital'].setText(sprintf("%4.1f", node.getValue()));
+        }, 1, 0);
+        setlistener('/systems/electrical/sources/battery[1]/status', func (node) {
+            fillColorByStatus(me.elems['elec.battery2.symbol'], node.getValue());
+        }, 1, 0);
+
+        setlistener('/systems/electrical/sources/tru[0]/volts', func (node) {
+            me.elems['elec.truess.volts.digital'].setText(sprintf("%4.1f", node.getValue()));
+        }, 1, 0);
+        setlistener('/systems/electrical/sources/tru[0]/status', func (node) {
+            fillColorByStatus(me.elems['elec.truess.symbol'], node.getValue());
+        }, 1, 0);
+        setlistener('/systems/electrical/sources/tru[1]/volts', func (node) {
+            me.elems['elec.tru1.volts.digital'].setText(sprintf("%4.1f", node.getValue()));
+        }, 1, 0);
+        setlistener('/systems/electrical/sources/tru[1]/status', func (node) {
+            fillColorByStatus(me.elems['elec.tru1.symbol'], node.getValue());
+        }, 1, 0);
+        setlistener('/systems/electrical/sources/tru[2]/volts', func (node) {
+            me.elems['elec.tru2.volts.digital'].setText(sprintf("%4.1f", node.getValue()));
+        }, 1, 0);
+        setlistener('/systems/electrical/sources/tru[2]/status', func (node) {
+            fillColorByStatus(me.elems['elec.tru2.symbol'], node.getValue());
+        }, 1, 0);
+
+        # Electric buses
+        setlistener('/systems/electrical/buses/ac[1]/powered', func (node) {
+            fillColorByStatus(me.elems['elec.ac1.symbol'], node.getValue());
+        }, 1, 0);
+        setlistener('/systems/electrical/buses/ac[2]/powered', func (node) {
+            fillColorByStatus(me.elems['elec.ac2.symbol'], node.getValue());
+        }, 1, 0);
+        setlistener('/systems/electrical/buses/ac[3]/powered', func (node) {
+            fillColorByStatus(me.elems['elec.acess.symbol'], node.getValue());
+        }, 1, 0);
+        setlistener('/systems/electrical/buses/ac[4]/powered', func (node) {
+            fillColorByStatus(me.elems['elec.acstby.symbol'], node.getValue());
+        }, 1, 0);
+
+        setlistener('/systems/electrical/buses/dc[1]/powered', func (node) {
+            fillColorByStatus(me.elems['elec.dc1.symbol'], node.getValue());
+        }, 1, 0);
+        setlistener('/systems/electrical/buses/dc[2]/powered', func (node) {
+            fillColorByStatus(me.elems['elec.dc2.symbol'], node.getValue());
+        }, 1, 0);
+        setlistener('/systems/electrical/buses/dc[3]/powered', func (node) {
+            fillColorByStatus(me.elems['elec.dcess1.symbol'], node.getValue());
+        }, 1, 0);
+        setlistener('/systems/electrical/buses/dc[4]/powered', func (node) {
+            fillColorByStatus(me.elems['elec.dcess2.symbol'], node.getValue());
+        }, 1, 0);
+        setlistener('/systems/electrical/buses/dc[5]/powered', func (node) {
+            fillColorByStatus(me.elems['elec.dcess3.symbol'], node.getValue());
+        }, 1, 0);
+        setlistener('/systems/electrical/buses/dc[6]/powered', func (node) {
+            fillColorByStatus(me.elems['elec.apustart.symbol'], node.getValue());
+        }, 1, 0);
+
+        var fillIfConnected = func (target, value) {
+            if (value) {
+                target.show().setColorFill(0, 255, 0);
+            }
+            else {
+                target.hide();
+            }
+        }
+
+        var updateACshared = func () {
+            var feed12 = getprop('/systems/electrical/buses/ac[0]/feed');
+            var feed1 = getprop('/systems/electrical/buses/ac[1]/feed');
+            var feed2 = getprop('/systems/electrical/buses/ac[2]/feed');
+            var tieUsed = (feed1 == 2) or (feed2 == 2);
+            var tieAvail = getprop('/systems/electrical/buses/ac[0]/powered');
+
+            fillIfConnected(me.elems['elec.feed.ac1-ac12'], tieUsed and ((feed1 == 2) or (feed12 == 3)));
+            fillIfConnected(me.elems['elec.feed.ac2-ac12'], tieUsed and ((feed2 == 2) or (feed12 == 4)));
+            fillIfConnected(me.elems['elec.feed.ac12'], tieUsed and tieAvail);
+        };
+
+        setlistener('/systems/electrical/buses/ac[0]/powered', func (node) {
+            updateACshared();
+        }, 1, 0);
+        setlistener('/systems/electrical/buses/ac[0]/feed', func (node) {
+            var feed = node.getValue();
+            fillIfConnected(me.elems['elec.feed.ac12-apu'], feed == 1);
+            fillIfConnected(me.elems['elec.feed.ac12-acgpu'], feed == 2);
+            updateACshared();
+        }, 1, 0);
+        setlistener('/systems/electrical/buses/ac[1]/feed', func (node) {
+            var feed = node.getValue();
+            fillIfConnected(me.elems['elec.feed.ac1-idg1'], feed == 1);
+            updateACshared();
+        }, 1, 0);
+        setlistener('/systems/electrical/buses/ac[2]/feed', func (node) {
+            var feed = node.getValue();
+            fillIfConnected(me.elems['elec.feed.ac2-idg2'], feed == 1);
+            updateACshared();
+        }, 1, 0);
+        setlistener('/systems/electrical/buses/ac[3]/feed', func (node) {
+            var feed = node.getValue();
+            fillIfConnected(me.elems['elec.feed.acess-ac2'], feed == 1);
+            fillIfConnected(me.elems['elec.feed.acess-ac1'], feed == 2);
+            # TODO: Add RAT symbol to SVG
+            # fillIfConnected(me.elems['elec.feed.acess-rat'], feed == 3);
+        }, 1, 0);
+        setlistener('/systems/electrical/buses/ac[4]/feed', func (node) {
+            var feed = node.getValue();
+            fillIfConnected(me.elems['elec.feed.acstby-acess'], feed == 1);
+        }, 1, 0);
+
+        setlistener('/systems/electrical/sources/tru[0]/status', func (node) {
+            var status = node.getValue();
+            fillIfConnected(me.elems['elec.feed.truess-acess'], status == 1);
+        }, 1, 0);
+        setlistener('/systems/electrical/sources/tru[1]/status', func (node) {
+            var status = node.getValue();
+            fillIfConnected(me.elems['elec.feed.tru1-ac1'], status == 1);
+        }, 1, 0);
+        setlistener('/systems/electrical/sources/tru[2]/status', func (node) {
+            var status = node.getValue();
+            fillIfConnected(me.elems['elec.feed.tru2-ac2'], status == 1);
+        }, 1, 0);
+
+        var updateDCshared = func () {
+            var feed1 = getprop('/systems/electrical/buses/dc[1]/feed');
+            var feed2 = getprop('/systems/electrical/buses/dc[2]/feed');
+            fillIfConnected(me.elems['elec.feed.dc1-tru1'], feed1 == 1);
+            fillIfConnected(me.elems['elec.feed.dc2-tru2'], feed2 == 1);
+            fillIfConnected(me.elems['elec.feed.dc12'], (feed1 == 2) or (feed2 == 2));
+        };
+        setlistener('/systems/electrical/buses/dc[1]/feed', updateDCshared, 1, 0);
+        setlistener('/systems/electrical/buses/dc[2]/feed', updateDCshared, 1, 0);
+
+        setlistener('/systems/electrical/buses/dc[3]/feed', func (node) {
+            var feed = node.getValue();
+            fillIfConnected(me.elems['elec.feed.dcess1-dc1'], feed == 1);
+            fillIfConnected(me.elems['elec.feed.dcess1-dcess3'], feed == 2);
+            fillIfConnected(me.elems['elec.feed.dcess1-batt1'], feed == 3);
+        }, 1, 0);
+        setlistener('/systems/electrical/buses/dc[4]/feed', func (node) {
+            var feed = node.getValue();
+            fillIfConnected(me.elems['elec.feed.dcess2-dc2'], feed == 1);
+            fillIfConnected(me.elems['elec.feed.dcess2-dcess3'], feed == 2);
+            fillIfConnected(me.elems['elec.feed.dcess2-batt2'], feed == 3);
+        }, 1, 0);
+        setlistener('/systems/electrical/buses/dc[5]/feed', func (node) {
+            var feed = node.getValue();
+            fillIfConnected(me.elems['elec.feed.dcess3-truess'], feed == 1);
+            me.elems['elec.feed.dcess3-truess-mask'].setVisible(feed == 1);
+            fillIfConnected(me.elems['elec.feed.dcess3-dcess1'], feed == 2);
+            fillIfConnected(me.elems['elec.feed.dcess3-dcess2'], feed == 3);
+        }, 1, 0);
+
+        setlistener('/systems/electrical/buses/dc[6]/feed', func (node) {
+            var feed = node.getValue();
+            fillIfConnected(me.elems['elec.feed.apustart-dcgpu'], feed == 1);
+            fillIfConnected(me.elems['elec.feed.apustart-batt2'], feed == 2);
+        }, 1, 0);
 
         return me;
     },
@@ -1160,6 +1495,15 @@ var MFD = {
        me.props['page'].setValue(2);
     },
 
+    touchSystemsSubmode: func () {
+        me.props['page'].setValue(2);
+        me.elems['submodeMenu'].toggleVisibility();
+    },
+
+    selectSystemsSubmode: func (submode) {
+        me.props['submode'].setValue(submode);
+    },
+
     toggleMapCheckbox: func (which) {
         toggleBoolProp(me.props['show-' ~ which]);
     },
@@ -1231,6 +1575,7 @@ var MFD = {
             me.mapOverlay.show();
             me.plan.hide();
             me.systemsContainer.hide();
+            me.elems['submodeMenu'].hide();
             me.elems['vnav.range.left'].hide();
             me.elems['vnav.range.left.digital'].hide();
             me.elems['vnav.range.right'].hide();
@@ -1250,6 +1595,7 @@ var MFD = {
             me.plan.show();
             me.systemsContainer.hide();
             me.elems['mapMenu'].hide();
+            me.elems['submodeMenu'].hide();
             me.elems['weatherMenu'].hide();
             me.elems['vnav.range.left'].show();
             me.elems['vnav.range.left.digital'].show();
@@ -1268,6 +1614,9 @@ var MFD = {
             me.mapOverlay.hide();
             me.plan.hide();
             me.systemsContainer.show();
+            var submode = me.props['submode'].getValue();
+            me.systemsPages.status.setVisible(submode == SUBMODE_STATUS);
+            me.systemsPages.electrical.setVisible(submode == SUBMODE_ELECTRICAL);
             me.elems['mapMenu'].hide();
             me.elems['weatherMenu'].hide();
             me.elems['vnav.range.left'].hide();
@@ -1468,10 +1817,12 @@ setlistener("sim/signals/fdm-initialized", func {
                 "Aircraft/E-jet-family/Models/Primus-Epic/MFD.svg",
                 i);
     }
-    setlistener("/systems/electrical/outputs/efis", func (node) {
-        var visible = (node.getValue() >= 15);
-        printf("Set MFD visibility: %s", visible ? "ON" : "OFF");
+    setlistener("/systems/electrical/outputs/mfd[0]", func (node) {
+        var visible = ((node.getValue() or 0) >= 15);
         mfd_master[0].setVisible(visible);
+    }, 1, 0);
+    setlistener("/systems/electrical/outputs/mfd[1]", func (node) {
+        var visible = ((node.getValue() or 0) >= 15);
         mfd_master[1].setVisible(visible);
     }, 1, 0);
 

@@ -1114,10 +1114,12 @@ setlistener("sim/signals/fdm-initialized", func {
             "Aircraft/E-jet-family/Models/Primus-Epic/PFD.svg",
             i);
     }
-    setlistener("/systems/electrical/outputs/efis", func (node) {
-        var visible = (node.getValue() >= 15);
-        printf("Set PFD visibility: %s", visible ? "ON" : "OFF");
+    setlistener("/systems/electrical/outputs/pfd[0]", func (node) {
+        var visible = ((node.getValue() or 0) >= 15);
         PFD_master[0].setVisible(visible);
+    }, 1, 0);
+    setlistener("/systems/electrical/outputs/pfd[1]", func (node) {
+        var visible = ((node.getValue() or 0) >= 15);
         PFD_master[1].setVisible(visible);
     }, 1, 0);
 

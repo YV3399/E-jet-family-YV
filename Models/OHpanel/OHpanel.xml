@@ -72,7 +72,7 @@
             <red>1.0</red>
             <green>0.75</green>
             <blue>0.5</blue>
-            <factor-prop>/controls/lighting/overhead-panel</factor-prop>
+            <factor-prop>/systems/electrical/outputs/overhead-panel-light</factor-prop>
         </emission>
     </animation>
 
@@ -373,6 +373,58 @@
         </action>
     </animation>
     <animation>
+        <name>TRU 1 pick</name>
+        <type>pick</type>
+        <object-name>tru1</object-name>
+        <action>
+            <button>0</button>
+            <repeatable type="bool">false</repeatable>
+            <binding>
+                <command>property-toggle</command>
+                <property>controls/electric/tru-switch[1]</property>
+            </binding>
+        </action>
+    </animation>
+    <animation>
+        <name>TRU ESS pick</name>
+        <type>pick</type>
+        <object-name>truess</object-name>
+        <action>
+            <button>0</button>
+            <repeatable type="bool">false</repeatable>
+            <binding>
+                <command>property-toggle</command>
+                <property>controls/electric/tru-switch[0]</property>
+            </binding>
+        </action>
+    </animation>
+    <animation>
+        <name>TRU 2 pick</name>
+        <type>pick</type>
+        <object-name>tru2</object-name>
+        <action>
+            <button>0</button>
+            <repeatable type="bool">false</repeatable>
+            <binding>
+                <command>property-toggle</command>
+                <property>controls/electric/tru-switch[2]</property>
+            </binding>
+        </action>
+    </animation>
+    <animation>
+        <name>DC BUS TIES pick</name>
+        <type>pick</type>
+        <object-name>dcbusties</object-name>
+        <action>
+            <button>0</button>
+            <repeatable type="bool">false</repeatable>
+            <binding>
+                <command>property-toggle</command>
+                <property>controls/electric/bus-tie-dc</property>
+            </binding>
+        </action>
+    </animation>
+    <animation>
         <name>Generator 1 pick</name>
         <type>pick</type>
         <object-name>generator.1</object-name>
@@ -407,7 +459,7 @@
             <repeatable type="bool">false</repeatable>
             <binding>
                 <command>property-toggle</command>
-                <property>controls/electric/APU-generator</property>
+                <property>controls/electric/apu-generator</property>
             </binding>
         </action>
     </animation>
@@ -415,9 +467,27 @@
     <!-- Pneumatics -->
     <animation>
         <type>select</type>
+        <object-name>ATBtnLt</object-name>
+        <object-name>ATBtnLt.001</object-name>
+        <condition>
+            <!-- currently unused, 'always' on -->
+            <property>/systems/electrical/outputs/pushbutton-lights</property>
+        </condition>
+    </animation>
+    <animation>
+        <type>select</type>
+        <object-name>ATBtnLt.001</object-name>
+        <condition>
+            <!-- currently unused, 'always' on -->
+            <property>/systems/electrical/outputs/pushbutton-lights</property>
+        </condition>
+    </animation>
+    <animation>
+        <type>select</type>
         <object-name>pack.1.light</object-name>
         <condition>
             <property>controls/pressurization/pack[0]/pack-on</property>
+            <property>/systems/electrical/outputs/pushbutton-lights</property>
         </condition>
     </animation>
     <animation>
@@ -425,6 +495,7 @@
         <object-name>bleed.1.light</object-name>
         <condition>
             <property>controls/pneumatic/engine/bleed</property>
+            <property>/systems/electrical/outputs/pushbutton-lights</property>
         </condition>
     </animation>
     <animation>
@@ -432,6 +503,7 @@
         <object-name>bleed.apu.light</object-name>
         <condition>
             <property>controls/pneumatic/APU-bleed</property>
+            <property>/systems/electrical/outputs/pushbutton-lights</property>
         </condition>
     </animation>
     <animation>
@@ -439,6 +511,7 @@
         <object-name>bleed.2.light</object-name>
         <condition>
             <property>controls/pneumatic/engine[1]/bleed</property>
+            <property>/systems/electrical/outputs/pushbutton-lights</property>
         </condition>
     </animation>
     <animation>
@@ -446,6 +519,7 @@
         <object-name>pack.2.light</object-name>
         <condition>
             <property>controls/pressurization/pack[1]/pack-on</property>
+            <property>/systems/electrical/outputs/pushbutton-lights</property>
         </condition>
     </animation>
 
@@ -523,6 +597,7 @@
         <object-name>heat.wing.light</object-name>
         <condition>
             <property>controls/anti-ice/wing-heat</property>
+            <property>/systems/electrical/outputs/pushbutton-lights</property>
         </condition>
     </animation>
     <animation>
@@ -530,6 +605,7 @@
         <object-name>heat.e1.light</object-name>
         <condition>
             <property>controls/anti-ice/engine/inlet-heat</property>
+            <property>/systems/electrical/outputs/pushbutton-lights</property>
         </condition>
     </animation>
     <animation>
@@ -537,6 +613,7 @@
         <object-name>heat.e2.light</object-name>
         <condition>
             <property>controls/anti-ice/engine[1]/inlet-heat</property>
+            <property>/systems/electrical/outputs/pushbutton-lights</property>
         </condition>
     </animation>
     <animation>
@@ -545,6 +622,7 @@
         <object-name>heat.w2.l</object-name>
         <condition>
             <property>controls/anti-ice/pitot-heat</property>
+            <property>/systems/electrical/outputs/pushbutton-lights</property>
         </condition>
     </animation>
 
@@ -614,7 +692,11 @@
         <type>select</type>
         <object-name>master.light</object-name>
         <condition>
-            <property>controls/APU/master-switch</property>
+            <and>
+                <property>controls/electric/external-power</property>
+                <property>controls/electric/external-power-connected</property>
+                <property>/systems/electrical/outputs/pushbutton-lights</property>
+            </and>
         </condition>
     </animation>
 
@@ -622,12 +704,13 @@
         <type>select</type>
         <object-name>APUGen.light</object-name>
         <condition>
-            <property>controls/electric/APU-generator</property>
+            <property>controls/electric/apu-generator</property>
+            <property>/systems/electrical/outputs/pushbutton-lights</property>
         </condition>
     </animation>
 
     <animation>
-        <name>APU master switch pick</name>
+        <name>GPU switch</name>
         <type>pick</type>
         <object-name>master</object-name>
         <action>
@@ -635,7 +718,7 @@
             <repeatable type="bool">false</repeatable>
             <binding>
                 <command>property-toggle</command>
-                <property>controls/APU/master-switch</property>
+                <property>controls/electric/external-power</property>
             </binding>
         </action>
     </animation>
@@ -647,8 +730,10 @@
             <button>0</button>
             <repeatable type="bool">false</repeatable>
             <binding>
-                <command>property-toggle</command>
-                <property>controls/APU/starter</property>
+                <command>property-cycle</command>
+                <property>controls/apu/starter</property>
+                <value>0</value>
+                <value>2</value>
             </binding>
         </action>
     </animation>
@@ -1102,6 +1187,30 @@
     <!-- Knobs Rotate Animation -->
 
     <animation>
+        <type>knob</type>
+        <object-name>acbusties</object-name>
+        <property>/controls/electric/bus-tie-ac</property>
+        <factor>-45</factor>
+        <action>
+            <binding>
+                <command>property-adjust</command>
+                <property>/controls/electric/bus-tie-ac</property>
+                <factor>1</factor>
+                <min>-1</min>
+                <max>1</max>
+                <wrap>false</wrap>
+            </binding>
+        </action>
+        <axis>
+            <x1-m>-12.12230</x1-m>
+            <y1-m>-0.39228</y1-m>
+            <z1-m>1.73654</z1-m>
+            <x2-m>-12.10715</x2-m>
+            <y2-m>-0.38564</y2-m>
+            <z2-m>1.70921</z2-m>
+        </axis>
+    </animation>
+    <animation>
         <type>rotate</type>
         <object-name>BATT1</object-name>
         <property>controls/electric/battery-switch</property>
@@ -1133,23 +1242,71 @@
             <z-m>1.68882</z-m>
         </center>
     </animation>
-    <!--<animation>
-    <type>rotate</type>
-    <object-name>BATT1</object-name>
-    <property>controls/electric/battery-switch</property>
-    <interpolation>
-      <entry><ind>0</ind><dep>90</dep></entry>
-      <entry><ind>1</ind><dep>0</dep></entry>
-    </interpolation>
-    <axis>
-      <x1-m>-12.2185</x1-m>
-      <y1-m>-0.4413</y1-m>
-      <z1-m>1.6709</z1-m>
-      <x2-m>-12.2045</x2-m>
-      <y2-m>-0.4368</y2-m>
-      <z2-m>1.6470</z2-m>
-    </axis>
-        </animation>-->
+    <animation>
+        <type>rotate</type>
+        <object-name>dcbusties</object-name>
+        <property>controls/electric/bus-tie-dc</property>
+        <factor>30</factor>
+        <offset-deg>-30</offset-deg>
+        <axis>
+            <x>0</x>
+            <y>1</y>
+            <z>0</z>
+        </axis>
+        <center>
+            <x-m>-12.2223</x-m>
+            <y-m>0</y-m>
+            <z-m>1.67925</z-m>
+        </center>
+    </animation>
+    <animation>
+        <type>rotate</type>
+        <object-name>tru1</object-name>
+        <property>controls/electric/tru-switch[1]</property>
+        <factor>-30</factor>
+        <axis>
+            <x>0</x>
+            <y>1</y>
+            <z>0</z>
+        </axis>
+        <center>
+            <x-m>-12.15942</x-m>
+            <y-m>-0.44422</y-m>
+            <z-m>1.70377</z-m>
+        </center>
+    </animation>
+    <animation>
+        <type>rotate</type>
+        <object-name>tru2</object-name>
+        <property>controls/electric/tru-switch[2]</property>
+        <factor>-30</factor>
+        <axis>
+            <x>0</x>
+            <y>1</y>
+            <z>0</z>
+        </axis>
+        <center>
+            <x-m>-12.16962</x-m>
+            <y-m>-0.34205</y-m>
+            <z-m>1.72089</z-m>
+        </center>
+    </animation>
+    <animation>
+        <type>rotate</type>
+        <object-name>truess</object-name>
+        <property>controls/electric/tru-switch[0]</property>
+        <factor>-30</factor>
+        <axis>
+            <x>0</x>
+            <y>1</y>
+            <z>0</z>
+        </axis>
+        <center>
+            <x-m>-12.16412</x-m>
+            <y-m>-0.39250</y-m>
+            <z-m>1.71217</z-m>
+        </center>
+    </animation>
     <animation>
         <type>rotate</type>
         <object-name>generator.1</object-name>
@@ -1259,13 +1416,16 @@
     <animation>
         <type>rotate</type>
         <object-name>APU.knob</object-name>
-        <property>controls/APU/starter</property>
+        <property>controls/apu/starter</property>
         <interpolation>
             <entry>
                 <ind>0</ind><dep>0</dep>
             </entry>
             <entry>
-                <ind>1</ind><dep>-90</dep>
+                <ind>1</ind><dep>-45</dep>
+            </entry>
+            <entry>
+                <ind>2</ind><dep>-90</dep>
             </entry>
         </interpolation>
         <axis>

@@ -6,7 +6,7 @@
         <object-name>base</object-name>
         <parameters>
             <implicit-lightmap-intensity>
-                <use>/controls/lighting/main-panel</use>
+                <use>/systems/electrical/outputs/main-panel-light</use>
             </implicit-lightmap-intensity>
         </parameters>
     </effect>

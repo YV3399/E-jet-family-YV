@@ -37,7 +37,7 @@ setprop("/controls/engines/engine[1]/throttle-int", 0);
 setprop("/test", 0);
 setprop("instrumentation/airspeed-indicator/indicated-speed-deg-2", 0);
 
-setprop("/systems/electrical/outputs/efis", 0);
+setprop("/systems/electrical/outputs/iess", 0);
 
 var roundToNearest = func(n, m) {
 	var x = int(n/m)*m;
@@ -91,7 +91,7 @@ var canvas_ED_base = {
 		return [];
 	},
 	update: func() {
-		if (getprop("systems/electrical/outputs/efis") >= 15) {
+		if (getprop("systems/electrical/outputs/iess") >= 15) {
 				ED_only.page.show();
 		} else {
 			ED_only.page.hide();

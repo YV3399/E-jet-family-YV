@@ -1,0 +1,135 @@
+<PropertyList>
+    <filter>
+        <name>APU starter power source</name>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <condition>
+                <property>/controls/electric/external-power-connected</property>
+            </condition>
+            <value>2</value>
+        </input>
+        <input>
+            <condition>
+                <property>/controls/electric/battery-switch[1]</property>
+            </condition>
+            <value>1</value>
+        </input>
+        <input>
+            <value>0</value>
+        </input>
+        <output>/engines/apu/starter-power-source</output>
+    </filter>
+
+    <filter>
+        <name>APU starter power</name>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <condition>
+                <equals>
+                    <property>/engines/apu/starter-power-source</property>
+                    <value>2</value>
+                </equals>
+            </condition>
+            <property>/systems/electrical/sources/dc-gpu/volts</property>
+        </input>
+        <input>
+            <condition>
+                <equals>
+                    <property>/engines/apu/starter-power-source</property>
+                    <value>1</value>
+                </equals>
+            </condition>
+            <property>/systems/electrical/sources/battery[1]/volts</property>
+        </input>
+        <input><value>0</value></input>
+        <output>/engines/apu/starter-power</output>
+    </filter>
+
+    <filter>
+        <name>APU RPM target</name>
+        <type>gain</type>
+        <gain>100</gain>
+        <enable>
+            <condition>
+                <not>
+                    <equals>
+                        <property>/controls/apu/starter</property>
+                        <value>1</value>
+                    </equals>
+                </not>
+            </condition>
+        </enable>
+        <input>
+            <!-- insufficient power for starter -->
+            <condition>
+                <less-than>
+                    <property>/engines/apu/starter-power</property>
+                    <value>18</value>
+                </less-than>
+            </condition>
+            <value>0</value>
+        </input>
+        <input>
+            <!-- starter switch in "OFF" position -->
+            <condition>
+                <not>
+                    <property>/controls/apu/starter</property>
+                </not>
+            </condition>
+            <value>0</value>
+        </input>
+        <input>
+            <!-- starter switch in "START" position -->
+            <value>1</value>
+        </input>
+        <output>/engines/apu/rpm-target</output>
+    </filter>
+
+    <filter>
+        <name>APU RPM</name>
+        <type>noise-spike</type>
+        <max-rate-of-change>6.0</max-rate-of-change>
+        <input><property>/engines/apu/rpm-target</property></input>
+        <output>/engines/apu/rpm</output>
+    </filter>
+
+    <filter>
+        <name>APU ready</name>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <condition>
+                <greater-than>
+                    <property>/engines/apu/rpm</property>
+                    <value>99</value>
+                </greater-than>
+            </condition>
+            <value>1</value>
+        </input>
+        <input>
+            <value>0</value>
+        </input>
+        <output>/engines/apu/running</output>
+    </filter>
+
+    <filter>
+        <name>APU switch flipback</name>
+        <type>gain</type>
+        <gain>1</gain>
+        <enable>
+            <condition>
+                <and>
+                    <property>/engines/apu/running</property>
+                    <equals>
+                        <property>/controls/apu/starter</property>
+                        <value>2</value>
+                    </equals>
+                </and>
+            </condition>
+        </enable>
+        <input><value>1</value></input>
+        <output>/controls/apu/starter</output>
+    </filter>
+</PropertyList>

@@ -146,6 +146,22 @@
                 <name>Pushback</name>
                 <path>Aircraft/E-jet-family/Systems/pushback-steering.xml</path>
             </autopilot>
+            <autopilot>
+                <name>APU</name>
+                <path>Aircraft/E-jet-family/Systems/apu.xml</path>
+            </autopilot>
+            <autopilot>
+                <name>Electrical: Sources</name>
+                <path>Aircraft/E-jet-family/Systems/electrical-sources.xml</path>
+            </autopilot>
+            <autopilot>
+                <name>Electrical: Buses</name>
+                <path>Aircraft/E-jet-family/Systems/electrical-buses.xml</path>
+            </autopilot>
+            <autopilot>
+                <name>Electrical: Outputs</name>
+                <path>Aircraft/E-jet-family/Systems/electrical-outputs.xml</path>
+            </autopilot>
             <property-rule n="100">
                 <path>Aircraft/E-jet-family/Systems/pfd1.xml</path>
             </property-rule>
@@ -1084,6 +1100,245 @@
 
     </fms>
 
+    <systems>
+        <electrical>
+            <sources>
+                <!-- A/C SOURCES -->
+
+                <!-- APU gen -->
+                <generator n="0">
+                    <!-- 115V, 400Hz, 40kW (~347 A)-->
+                    <name>APU GEN</name>
+                    <volts type="double">0</volts>
+                    <watts type="double">0</watts>
+                    <load type="double">0</load>
+                    <status type="int">0</status>
+                </generator>
+                <!-- left engine gen -->
+                <generator n="1">
+                    <!-- 115V, 400Hz, 40kW (~347 A)-->
+                    <name>IDG 1</name>
+                    <volts type="double">0</volts>
+                    <watts type="double">0</watts>
+                    <load type="double">0</load>
+                    <status type="int">0</status>
+                </generator>
+                <!-- right engine gen -->
+                <generator n="2">
+                    <!-- 115V, 400Hz, 40kW (~347 A)-->
+                    <name>IDG 2</name>
+                    <volts type="double">0</volts>
+                    <watts type="double">0</watts>
+                    <load type="double">0</load>
+                    <status type="int">0</status>
+                </generator>
+                <!-- RAT -->
+                <generator n="3">
+                    <!-- 115V, 400Hz, 15kW -->
+                    <name>RAT</name>
+                    <volts type="double">0</volts>
+                    <watts type="double">0</watts>
+                    <load type="double">0</load>
+                    <status type="int">0</status>
+                </generator>
+                <!-- ground power A/C -->
+                <ac-gpu>
+                    <!-- 115V, 400Hz, 60kW (~522 A)-->
+                    <name>AC GPU</name>
+                    <volts type="double">0</volts>
+                    <watts type="double">0</watts>
+                    <load type="double">0</load>
+                    <status type="int">0</status>
+                </ac-gpu>
+
+                <!-- D/C SOURCES -->
+
+                <!-- TRU's (Transformer-Rectifier Units)
+                     These fellows act as sources on the D/C side, but are
+                     also sinks on the A/C side. We put them as D/C sources
+                     here, because the D/C side is more relevant in
+                     calculating the supply/demand equations for them.
+                  -->
+
+                <!-- TRU ESS -->
+                <tru n="0">
+                    <name>TRU ESS</name>
+                    <volts type="double">0</volts>
+                    <amps type="double">0</amps>
+                    <load type="double">0</load>
+                    <status type="int">0</status>
+                </tru>
+                <!-- left TRU -->
+                <tru n="1">
+                    <name>TRU 1</name>
+                    <volts type="double">0</volts>
+                    <amps type="double">0</amps>
+                    <load type="double">0</load>
+                    <status type="int">0</status>
+                </tru>
+                <!-- right TRU -->
+                <tru n="2">
+                    <name>TRU 2</name>
+                    <volts type="double">0</volts>
+                    <amps type="double">0</amps>
+                    <load type="double">0</load>
+                    <status type="int">0</status>
+                </tru>
+
+                <!-- inverter -->
+                <inverter>
+                    <name>INVERTER</name>
+                    <volts type="double">0</volts>
+                    <watts type="double">0</watts>
+                    <load type="double">0</load>
+                    <status type="int">0</status>
+                </inverter>
+
+                <!-- batteries -->
+                <battery n="0">
+                    <!-- 22.8V, 27A, 200 Ah (wild guess) -->
+                    <name>BATT 1</name>
+                    <volts type="double">0</volts>
+                    <volts-avail type="double">22.8</volts-avail>
+                    <load type="double">0</load>
+                    <charge type="double">1</charge>
+                    <capacity type="double">200</capacity>
+                    <status type="int">0</status>
+                </battery>
+                <battery n="1">
+                    <!-- 22.8V, 27A, 200 Ah (wild guess) -->
+                    <name>BATT 2</name>
+                    <volts type="double">0</volts>
+                    <volts-avail type="double">22.8</volts-avail>
+                    <load type="double">0</load>
+                    <charge type="double">1</charge>
+                    <capacity type="double">200</capacity>
+                    <available-for-bus type="bool">true</available-for-bus>
+                    <status type="int">0</status>
+                </battery>
+                <!-- ground power D/C -->
+                <dc-gpu>
+                    <!-- 28V -->
+                    <name>DC GPU</name>
+                    <volts type="double">0</volts>
+                    <watts type="double">0</watts>
+                    <load type="double">0</load>
+                    <status type="int">0</status>
+                </dc-gpu>
+            </sources>
+            <buses>
+                <!-- Each bus uses the following:
+                    - volts: current bus voltage (output)
+                    - watts: max load permitted
+                    - load: actual load demanded
+                    - feed: which source or bus to draw power from. mapping is
+                        bus-specific; by convention, "0" means no power
+                        connected, "1" means "normal operation", and subsequent
+                        indices map to further sources in the bus's priority
+                        list.
+
+                    Bus ties are also modeled as separate buses, to make the
+                    whole connection logic easier.
+
+                    AC buses are 115V, 400Hz
+                    DC buses are 28V
+                -->
+                <ac n="0">
+                    <name>AC BUS TIE</name>
+                    <volts type="double">0</volts>
+                    <load type="double">0</load>
+                    <powered type="int">false</powered>
+                    <feed type="int">0</feed>
+                </ac>
+                <ac n="1">
+                    <name>AC 1</name>
+                    <volts type="double">0</volts>
+                    <load type="double">0</load>
+                    <powered type="int">false</powered>
+                    <feed type="int">0</feed>
+                </ac>
+                <ac n="2">
+                    <name>AC 2</name>
+                    <volts type="double">0</volts>
+                    <load type="double">0</load>
+                    <powered type="int">false</powered>
+                    <feed type="int">0</feed>
+                </ac>
+                <ac n="3">
+                    <name>AC ESS</name>
+                    <volts type="double">0</volts>
+                    <load type="double">0</load>
+                    <powered type="int">false</powered>
+                    <feed type="int">0</feed>
+                </ac>
+                <ac n="4">
+                    <name>AC STBY</name>
+                    <volts type="double">0</volts>
+                    <load type="double">0</load>
+                    <powered type="int">false</powered>
+                    <feed type="int">0</feed>
+                </ac>
+                <ac n="5">
+                    <name>AC GND</name>
+                    <volts type="double">0</volts>
+                    <load type="double">0</load>
+                    <powered type="int">false</powered>
+                    <feed type="int">0</feed>
+                </ac>
+
+                <dc n="0">
+                    <name>UNUSED BUS TIE</name>
+                    <volts type="double">0</volts>
+                    <load type="double">0</load>
+                    <powered type="int">0</powered>
+                    <feed type="int">0</feed>
+                </dc>
+                <dc n="1">
+                    <name>DC 1</name>
+                    <volts type="double">0</volts>
+                    <load type="double">0</load>
+                    <powered type="int">0</powered>
+                    <feed type="int">0</feed>
+                </dc>
+                <dc n="2">
+                    <name>DC 2</name>
+                    <volts type="double">0</volts>
+                    <load type="double">0</load>
+                    <powered type="int">0</powered>
+                    <feed type="int">0</feed>
+                </dc>
+                <dc n="3">
+                    <name>DC ESS 1</name>
+                    <volts type="double">0</volts>
+                    <load type="double">0</load>
+                    <powered type="int">0</powered>
+                    <feed type="int">0</feed>
+                </dc>
+                <dc n="4">
+                    <name>DC ESS 2</name>
+                    <volts type="double">0</volts>
+                    <load type="double">0</load>
+                    <powered type="int">0</powered>
+                    <feed type="int">0</feed>
+                </dc>
+                <dc n="5">
+                    <name>DC ESS 3</name>
+                    <volts type="double">0</volts>
+                    <load type="double">0</load>
+                    <powered type="int">0</powered>
+                    <feed type="int">0</feed>
+                </dc>
+                <dc n="6">
+                    <name>APU START</name>
+                    <volts type="double">0</volts>
+                    <load type="double">0</load>
+                    <powered type="int">0</powered>
+                    <feed type="int">0</feed>
+                </dc>
+            </buses>
+        </electrical>
+    </systems>
+
     <controls>
         <anti-ice>
             <wing-heat type="bool">0</wing-heat>
@@ -1132,15 +1387,34 @@
             <vertical-speed-select type="double">1800</vertical-speed-select>
         </autoflight>
 
-        <APU>
+        <apu>
             <fire-switch type="bool">false</fire-switch>
             <master-switch type="bool">false</master-switch>
-            <starter type="bool">false</starter>
-        </APU>
+            <starter type="int">0</starter>
+        </apu>
 
         <electric>
             <avionics-switch type="bool">true</avionics-switch>
+            <battery-switch n="0" type="bool">0</battery-switch>
             <battery-switch n="1" type="bool">0</battery-switch>
+            <apu-generator type="bool">false</apu-generator>
+            <engine n="0">
+                <generator type="bool">true</generator>
+            </engine>
+            <engine n="1">
+                <generator type="bool">true</generator>
+            </engine>
+            <tru-switch n="0" type="bool">1</tru-switch>
+            <tru-switch n="1" type="bool">1</tru-switch>
+            <tru-switch n="2" type="bool">1</tru-switch>
+            <!-- 0 = tied, -1 = isolate bus 1, 1 = isolate bus 2 -->
+            <bus-tie-ac type="int">0</bus-tie-ac>
+            <!-- 0 = tied, 1 = isolate -->
+            <bus-tie-dc type="int">0</bus-tie-dc>
+
+            <!-- GPU (ground power unit) -->
+            <external-power type="bool">false</external-power>
+            <external-power-connected type="bool">false</external-power-connected>
         </electric>
 
         <engines>
@@ -1289,6 +1563,7 @@
     <engines>
         <apu>
             <rpm type="double">0</rpm>
+            <rpm-target type="double">0</rpm-target>
             <on-fire type="bool">false</on-fire>
             <running type="bool">false</running>
             <serviceable type="bool">true</serviceable>
@@ -1490,6 +1765,8 @@
             <lateral-range type="double">20</lateral-range>
             <!-- 0 = Map, 1 = Plan, 2 = Systems -->
             <page>0</page>
+            <!-- 0 = Status, 1 = Electrical -->
+            <submode>0</submode>
             <cursor>
                 <x>32</x>
                 <y>32</y>
@@ -1502,6 +1779,8 @@
             <lateral-range type="double">20</lateral-range>
             <!-- 0 = Map, 1 = Plan, 2 = Systems -->
             <page>0</page>
+            <!-- 0 = Status, 1 = Electrical -->
+            <submode>0</submode>
             <cursor>
                 <x>32</x>
                 <y>32</y>
@@ -1898,9 +2177,6 @@
             <file>Aircraft/E-jet-family/Nasal/systems.nas</file>
             <file>Aircraft/E-jet-family/Nasal/limits.nas</file>
         </systems>
-        <electrical>
-            <file>Aircraft/E-jet-family/Nasal/electrical.nas</file>
-        </electrical>
         <reversethrust>
             <file>Aircraft/E-jet-family/Nasal/reversethrust.nas</file>
         </reversethrust>

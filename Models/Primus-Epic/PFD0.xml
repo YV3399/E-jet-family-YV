@@ -16,7 +16,7 @@
 		<object-name>off</object-name>
 		<condition>
 			<less-than>
-				<property>systems/electrical/outputs/efis</property>
+				<property>systems/electrical/outputs/pfd[0]</property>
 				<value>15</value>
 			</less-than>
 		</condition>

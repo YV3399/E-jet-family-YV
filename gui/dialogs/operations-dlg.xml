@@ -37,6 +37,16 @@
     
     <checkbox>
       <halign>left</halign>
+      <label>Ground Power Unit (GPU)</label>
+      <property>controls/electric/external-power-connected</property>
+      <binding>
+        <command>property-toggle</command>
+        <property>controls/electric/external-power-connected</property>
+      </binding>
+    </checkbox>
+    
+    <checkbox>
+      <halign>left</halign>
       <label>Cones</label>
       <property>controls/switches/cones</property>
       <binding>

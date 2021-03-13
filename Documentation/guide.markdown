@@ -120,17 +120,23 @@ something like this:
 
 1. Verify that throttle levers are in the "idle" position, and the IGNITION
    switches (center pedestal) are in the "AUTO" position.
-2. Switch on both batteries (overhead panel, bottom left).
+2. Switch on both batteries (overhead panel, bottom left), and verify that the
+   DC BUS TIES switch is in the AUTO position (up).
 3. Start the APU (overhead panel, center column, second panel from top).
-4. Turn on APU GEN and AC BUS MASTER (overhead panel, leftmost panel).
-5. Open the engine switch covers (center pedestal), and flip the left engine
+4. Wait for the APU switch to flip from the "START" position into the "ON"
+   position - the APU is now ready.
+5. Turn on APU GEN (overhead panel, leftmost panel).
+7. Verify that the AC BUS TIES knob is in the AUTO position.
+8. Verify that all three TRU's are on (TRU1, TRU ESS, TRU2 switches all in the
+   up position).
+9. Open the engine switch covers (center pedestal), and flip the left engine
    switch into the "START" position.
-6. Watch N1 and N2 for the left engine come alive (EICAS screen)
-7. When the left starter switch has flipped back into the "RUN" position,
+10. Watch N1 and N2 for the left engine come alive (EICAS screen)
+11. When the left starter switch has flipped back into the "RUN" position,
    repeat steps 4 and 5 for the right engine.
-8. Close the engine switch covers.
-9. Turn on IDG 1 and IDG 2 (overhead panel, top left)
-10. Turn off batteries and APU (overhead panel)
+12. Close the engine switch covers.
+13. Turn on IDG 1 and IDG 2 (overhead panel, top left)
+14. Turn off APU GEN and APU (overhead panel)
 
 ## Autopilot
 
