@@ -1,7 +1,6 @@
 <?xml version="1.0"?>
 
 <PropertyList>
-
     <path>Aircraft/E-jet-family/Models/FlightDeck/erj-flightdeck.ac</path>
 
     <!-- dome light -->
@@ -199,6 +198,56 @@
         <far-m>0.5</far-m>
     </light>
 
+    <light>
+        <type>spot</type>
+        <name>PedestalSpotlight</name>
+        <position>
+            <x-m>-12.4</x-m>
+            <y-m>0</y-m>
+            <z-m>1.14</z-m>
+        </position>
+        <direction>
+            <heading-deg>0</heading-deg>
+            <roll-deg>0</roll-deg>
+            <pitch-deg>-60</pitch-deg>
+        </direction>
+        <ambient>
+            <r>1.0</r>
+            <g>0.9</g>
+            <b>0.8</b>
+            <a>1.0</a>
+        </ambient>
+        <diffuse>
+            <r>1.0</r>
+            <g>0.9</g>
+            <b>0.8</b>
+            <a>0.7</a>
+        </diffuse>
+        <specular>
+            <r>1.0</r>
+            <g>0.9</g>
+            <b>0.8</b>
+            <a>0.7</a>
+        </specular>
+        <dim-factor>
+            <property>/controls/lighting/pedestal</property>
+            <factor>1</factor>
+            <offset>0</offset>
+            <min>0</min>
+            <max>1</max>
+        </dim-factor>
+        <attenuation>
+            <c>4</c>
+            <l>3</l>
+            <q>3</q>
+        </attenuation>
+        <spot-exponent>2</spot-exponent>
+        <spot-cutoff>75.0</spot-cutoff>
+        <range-m>0.5</range-m>
+        <near-m>0.1</near-m>
+        <far-m>0.5</far-m>
+    </light>
+
     <animation>
         <type>select</type>
         <object-name>DomeLight.Left</object-name>
@@ -326,6 +375,19 @@
             <green>0.75</green>
             <blue>0.5</blue>
             <factor-prop>/controls/lighting/pedestal</factor-prop>
+        </emission>
+    </animation>
+
+    <animation>
+        <name>BacklightEngineControl</name>
+        <type>material</type>
+        <object-name>engines.plate</object-name>
+        <object-name>e1.case</object-name>
+        <object-name>e2.case</object-name>
+        <emission>
+            <red>1.0</red>
+            <green>1.0</green>
+            <blue>1.0</blue>
         </emission>
     </animation>
 
