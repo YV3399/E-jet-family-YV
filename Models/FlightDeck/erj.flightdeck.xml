@@ -291,6 +291,7 @@
         <object-name>VNAV</object-name>
         <object-name>VS</object-name>
         <object-name>YD</object-name>
+        <object-name>compass.indicator</object-name>
     </animation>
 
     <animation>
@@ -302,6 +303,29 @@
             <green>0.75</green>
             <blue>0.5</blue>
             <factor-prop>/controls/lighting/main-panel</factor-prop>
+        </emission>
+    </animation>
+
+    <animation>
+        <name>BacklitObjectsPedestal</name>
+        <object-name>pedestal</object-name>
+        <object-name>pedestal.001</object-name>
+        <object-name>pedestal.002</object-name>
+        <object-name>pedestal.005</object-name>
+        <object-name>pedestal.008</object-name>
+        <object-name>box.004</object-name>
+        <object-name>rat-deploy</object-name>
+    </animation>
+
+    <animation>
+        <name>BacklightPedestal</name>
+        <type>material</type>
+        <object-name>BacklitObjectsPedestal</object-name>
+        <emission>
+            <red>1.0</red>
+            <green>0.75</green>
+            <blue>0.5</blue>
+            <factor-prop>/controls/lighting/pedestal</factor-prop>
         </emission>
     </animation>
 

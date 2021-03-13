@@ -1,10 +1,14 @@
 <PropertyList>
     <path>../../Models/Panels/autobrake.ac</path>
 
-
     <effect>
-        <inherits-from>Models/Effects/panel-lighting</inherits-from>
+        <inherits-from>Aircraft/E-jet-family/Models/Effects/panel-lighting</inherits-from>
         <object-name>base</object-name>
+        <parameters>
+            <implicit-lightmap-intensity>
+                <use>/controls/lighting/main-panel</use>
+            </implicit-lightmap-intensity>
+        </parameters>
     </effect>
 
     <animation>

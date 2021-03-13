@@ -1,141 +1,129 @@
 <PropertyList>
- <path>../../Models/Instruments/Chrono/chronometer.ac</path>
-
-<animation>
-	<type>pick</type>
-	<object-name>chrono_screen</object-name>
-	<action>
-		<button>0</button>
-		<repeatable>false</repeatable>
-		<binding>
-			<command>nasal</command>
-			<script>canvas_chrono.showChrono();</script>
-		</binding>
-	</action>
-</animation>
-
-  <!--Set Altimeter-->
-  <animation>
-        <type>knob</type>
-        <object-name>baroknob</object-name><!--
-				<property>instrumentation/altimeter/setting-inhg</property>
-                                <factor>100</factor>
-    <center>
-      <y-m> -0.63869 </y-m>
-    </center>
-    <axis>
-            <x1-m>-12.3027</x1-m>
-            <z1-m>2.1334</z1-m>
-            <x2-m>-12.2916</x2-m>
-            <z2-m>2.1366</z2-m>
-        </axis>-->
+    <path>../../Models/Instruments/Chrono/chronometer.ac</path>
+    
+    <animation>
+        <type>pick</type>
+        <object-name>chrono_screen</object-name>
         <action>
+            <button>0</button>
+            <repeatable>false</repeatable>
             <binding>
-				<command>property-adjust</command>
-				<property>instrumentation/altimeter/setting-hpa</property>
-				<factor>1</factor>
-				<min>950</min>
-				<max>1050</max>
-				<wrap>false</wrap>
+                <command>nasal</command>
+                <script>canvas_chrono.showChrono();</script>
             </binding>
         </action>
-       <hovered>
+    </animation>
+    
+    <!--Set Altimeter-->
+    <animation>
+        <type>knob</type>
+        <object-name>baroknob</object-name>
+        <action>
+            <binding>
+                <command>property-adjust</command>
+                <property>instrumentation/altimeter/setting-hpa</property>
+                <factor>1</factor>
+                <min>950</min>
+                <max>1050</max>
+                <wrap>false</wrap>
+            </binding>
+        </action>
+        <hovered>
             <binding>
                 <command>set-tooltip</command>
                 <tooltip-id>hpa</tooltip-id>
                 <label>QNH: %u hPa</label>
                 <mapping>QNH</mapping>
-				<property>instrumentation/altimeter/setting-hpa</property>
+                <property>instrumentation/altimeter/setting-hpa</property>
             </binding>
         </hovered>
     </animation>
-
-  
-     <animation>
+    
+    
+    <animation>
         <type>pick</type>
         <object-name>et</object-name>
         <action>
             <button>0</button>
             <repeatable>false</repeatable>
             <binding>
-            	<command>property-toggle</command>
-				<property>instrumentation/chrono/elapsed_time/reset</property>
+                <command>property-toggle</command>
+                <property>instrumentation/chrono/elapsed_time/reset</property>
             </binding>
-    </action>
+        </action>
     </animation>
     
-     <animation>
+    <animation>
         <type>pick</type>
         <object-name>ILS</object-name>
         <action>
             <button>0</button>
             <repeatable>false</repeatable>
             <binding>
-            	<command>property-toggle</command>
-				<property>instrumentation/IESS/ILS-ind</property>
+                <command>property-toggle</command>
+                <property>instrumentation/IESS/ILS-ind</property>
             </binding>
-    </action>
+        </action>
     </animation>
     
-     <animation>
+    <animation>
         <type>pick</type>
         <object-name>brightness_plus</object-name>
         <action>
             <button>0</button>
             <repeatable>false</repeatable>
             <binding>
-            	<command>property-adjust</command>
-		<property>instrumentation/IESS/brightness</property>
-			<step>0.1</step>
-			<min>0.1</min>
-			<max>1</max>
-			<wrap>false</wrap>
+                <command>property-adjust</command>
+                <property>instrumentation/IESS/brightness</property>
+                <step>0.1</step>
+                <min>0.1</min>
+                <max>1</max>
+                <wrap>false</wrap>
             </binding>
-    </action>
+        </action>
     </animation>
     
     
-     <animation>
+    <animation>
         <type>pick</type>
         <object-name>brightness_minus</object-name>
         <action>
             <button>0</button>
             <repeatable>false</repeatable>
             <binding>
-            	<command>property-adjust</command>
-		<property>instrumentation/IESS/brightness</property>
-			<step>-0.1</step>
-			<min>0.1</min>
-			<max>1</max>
-			<wrap>false</wrap>
+                <command>property-adjust</command>
+                <property>instrumentation/IESS/brightness</property>
+                <step>-0.1</step>
+                <min>0.1</min>
+                <max>1</max>
+                <wrap>false</wrap>
             </binding>
-    </action>
+        </action>
     </animation>
     
-
     
-     <animation> 
-  <type>material</type> 
-  <object-name>IESS_screen</object-name>
-  <property-base>instrumentation/IESS/</property-base>
-    <emission>
-   <red>1.0</red>
-   <green>1.0</green>
-   <blue>1.0</blue>
-   <factor-prop>brightness</factor-prop>
-  </emission>
-    <ambient>
-   <red>1.0</red>
-   <green>1.0</green>
-   <blue>1.0</blue>
-   <factor-prop>brightness</factor-prop>
-  </ambient>
-    <diffuse>
-   <red>1.0</red>
-   <green>1.0</green>
-   <blue>1.0</blue>
-   <factor-prop>brightness</factor-prop>
-  </diffuse>
- </animation>
-
+    
+    <animation> 
+        <type>material</type> 
+        <object-name>chrono_screen</object-name>
+        <property-base>instrumentation/IESS/</property-base>
+        <emission>
+            <red>0.9</red>
+            <green>1.0</green>
+            <blue>1.0</blue>
+            <factor-prop>brightness</factor-prop>
+        </emission>
+    </animation>
+    <animation> 
+        <type>material</type> 
+        <object-name>IESS_screen</object-name>
+        <property-base>instrumentation/IESS/</property-base>
+        <emission>
+            <red>1.0</red>
+            <green>1.0</green>
+            <blue>1.0</blue>
+            <factor-prop>brightness</factor-prop>
+        </emission>
+    </animation>
+    
 </PropertyList>

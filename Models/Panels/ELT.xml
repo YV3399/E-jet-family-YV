@@ -2,38 +2,12 @@
     <path>../../Models/Panels/ELT.ac</path>
 
     <effect>
-        <inherits-from>Models/Effects/panel-lighting</inherits-from>
+        <inherits-from>Aircraft/E-jet-family/Models/Effects/panel-lighting</inherits-from>
         <object-name>base</object-name>
+        <parameters>
+            <implicit-lightmap-intensity>
+                <use>/controls/lighting/main-panel</use>
+            </implicit-lightmap-intensity>
+        </parameters>
     </effect>
-
-
-    <!--
-    <animation>
-        <type>pick</type>
-        <object-name>lever</object-name>
-        <action>
-            <button>0</button>
-            <repeatable>false</repeatable>
-            <binding>
-                <command>property-toggle</command>
-                <property>controls/gear/gear-down</property>
-                <value>1013</value>
-            </binding>
-        </action>
-    </animation>
-    <animation>
-        <type>rotate</type>
-        <object-name>lever</object-name>
-        <property>controls/gear/gear-down</property>
-        <factor>62</factor>
-        <center>
-            <x-m> -0.01033 </x-m>
-            <z-m>-0.00917</z-m>
-        </center>
-        <axis>
-            <y>1</y>
-        </axis>
-    </animation>
-    -->
-
 </PropertyList>
