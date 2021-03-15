@@ -475,8 +475,6 @@ var MFD = {
                 'elec.feed.dcess2-dcess3',
                 'elec.feed.dcess3-truess',
                 'elec.feed.dcess3-truess-mask',
-                'elec.feed.dcess3-dcess1',
-                'elec.feed.dcess3-dcess2',
                 'elec.feed.tru1-ac1',
                 'elec.feed.tru2-ac2',
                 'elec.feed.truess-acess',
@@ -840,13 +838,13 @@ var MFD = {
 
         var fillColorByStatus = func (target, status) {
             if (status == 0) {
-                target.setColorFill(255, 255, 255);
+                target.setColorFill(1, 1, 1);
             }
             else if (status == 1) {
-                target.setColorFill(0, 255, 0);
+                target.setColorFill(0, 1, 0);
             }
             else {
-                target.setColorFill(255, 255, 0);
+                target.setColorFill(1, 1, 0);
             }
         }
 
@@ -971,10 +969,10 @@ var MFD = {
 
         var fillIfConnected = func (target, value) {
             if (value) {
-                target.show().setColorFill(0, 255, 0);
+                target.setColorFill(0, 1, 0);
             }
             else {
-                target.hide();
+                target.setColorFill(0.25, 0.25, 0.25);
             }
         }
 
@@ -1044,30 +1042,42 @@ var MFD = {
         setlistener('/systems/electrical/buses/dc[1]/feed', updateDCshared, 1, 0);
         setlistener('/systems/electrical/buses/dc[2]/feed', updateDCshared, 1, 0);
 
+        var updateDCESS1 = func () {
+            var feed1 = getprop('/systems/electrical/buses/dc[3]/feed');
+            var feed3 = getprop('/systems/electrical/buses/dc[5]/feed');
+            fillIfConnected(me.elems['elec.feed.dcess1-dcess3'], (feed1 == 2) or (feed3 == 2));
+        };
+        var updateDCESS2 = func () {
+            var feed2 = getprop('/systems/electrical/buses/dc[4]/feed');
+            var feed3 = getprop('/systems/electrical/buses/dc[5]/feed');
+            fillIfConnected(me.elems['elec.feed.dcess2-dcess3'], (feed2 == 2) or (feed3 == 3));
+        };
+
         setlistener('/systems/electrical/buses/dc[3]/feed', func (node) {
             var feed = node.getValue();
             fillIfConnected(me.elems['elec.feed.dcess1-dc1'], feed == 1);
-            fillIfConnected(me.elems['elec.feed.dcess1-dcess3'], feed == 2);
             fillIfConnected(me.elems['elec.feed.dcess1-batt1'], feed == 3);
+            updateDCESS1();
         }, 1, 0);
         setlistener('/systems/electrical/buses/dc[4]/feed', func (node) {
             var feed = node.getValue();
             fillIfConnected(me.elems['elec.feed.dcess2-dc2'], feed == 1);
             fillIfConnected(me.elems['elec.feed.dcess2-dcess3'], feed == 2);
-            fillIfConnected(me.elems['elec.feed.dcess2-batt2'], feed == 3);
+            updateDCESS2();
         }, 1, 0);
         setlistener('/systems/electrical/buses/dc[5]/feed', func (node) {
             var feed = node.getValue();
             fillIfConnected(me.elems['elec.feed.dcess3-truess'], feed == 1);
-            me.elems['elec.feed.dcess3-truess-mask'].setVisible(feed == 1);
-            fillIfConnected(me.elems['elec.feed.dcess3-dcess1'], feed == 2);
-            fillIfConnected(me.elems['elec.feed.dcess3-dcess2'], feed == 3);
+            updateDCESS1();
+            updateDCESS2();
         }, 1, 0);
 
         setlistener('/systems/electrical/buses/dc[6]/feed', func (node) {
             var feed = node.getValue();
             fillIfConnected(me.elems['elec.feed.apustart-dcgpu'], feed == 1);
             fillIfConnected(me.elems['elec.feed.apustart-batt2'], feed == 2);
+            me.elems['elec.dcgpu.inuse'].setVisible(feed == 1);
+            fillColorByStatus(me.elems['elec.dcgpu.symbol'], feed == 1);
         }, 1, 0);
 
         return me;
