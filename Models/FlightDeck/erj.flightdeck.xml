@@ -396,13 +396,12 @@
     <animation>
         <type>material</type>
         <object-name>MasterWarningBtn.left</object-name>
-        <object-name>MasterWarningBtn.right</object-name>
 
         <condition>
             <and>
                 <property>/instrumentation/eicas/master/warning</property>
                 <greater-than>
-                    <property>systems/electrical/outputs/master-warn-caution</property>
+                    <property>systems/electrical/outputs/master-warn-caution[0]</property>
                     <value>15</value>
                 </greater-than>
             </and>
@@ -417,13 +416,50 @@
     <animation>
         <type>material</type>
         <object-name>MasterCautionBtn.left</object-name>
-        <object-name>MasterCautionBtn.right</object-name>
-
         <condition>
             <and>
                 <property>/instrumentation/eicas/master/caution</property>
                 <greater-than>
-                    <property>systems/electrical/outputs/master-warn-caution</property>
+                    <property>systems/electrical/outputs/master-warn-caution[0]</property>
+                    <value>15</value>
+                </greater-than>
+            </and>
+        </condition>
+        <emission>
+            <red>1</red>
+            <green>1</green>
+            <blue>1</blue>
+        </emission>
+    </animation>
+
+    <animation>
+        <type>material</type>
+        <object-name>MasterWarningBtn.right</object-name>
+
+        <condition>
+            <and>
+                <property>/instrumentation/eicas/master/warning</property>
+                <greater-than>
+                    <property>systems/electrical/outputs/master-warn-caution[1]</property>
+                    <value>15</value>
+                </greater-than>
+            </and>
+        </condition>
+        <emission>
+            <red>1</red>
+            <green>1</green>
+            <blue>1</blue>
+        </emission>
+    </animation>
+
+    <animation>
+        <type>material</type>
+        <object-name>MasterCautionBtn.right</object-name>
+        <condition>
+            <and>
+                <property>/instrumentation/eicas/master/caution</property>
+                <greater-than>
+                    <property>systems/electrical/outputs/master-warn-caution[1]</property>
                     <value>15</value>
                 </greater-than>
             </and>
