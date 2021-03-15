@@ -461,6 +461,7 @@ var MFD = {
                 'elec.feed.ac2-idg2',
                 'elec.feed.acess-ac1',
                 'elec.feed.acess-ac2',
+                'elec.feed.acess-rat',
                 'elec.feed.acstby-acess',
                 'elec.feed.apustart-batt2',
                 'elec.feed.apustart-dcgpu',
@@ -508,6 +509,10 @@ var MFD = {
                 'elec.dcgpu.group',
                 'elec.dcgpu.inuse',
                 'elec.dcgpu.symbol',
+                'elec.rat.group',
+                'elec.rat.volts.digital',
+                'elec.rat.hz.digital',
+                'elec.rat.symbol',
                 'elec.idg1.hz.digital',
                 'elec.idg1.kva.digital',
                 'elec.idg1.symbol',
@@ -880,16 +885,15 @@ var MFD = {
             fillColorByStatus(me.elems['elec.idg2.symbol'], node.getValue());
         }, 1, 0);
 
-        # TODO: Add RAT symbol to SVG
-        # setlistener('/controls/electric/ram-air-turbine', func (node) {
-        #     me.elems['elec.rat.group'].setVisible(node.getBoolValue());
-        # }, 1, 0);
-        # setlistener('/systems/electrical/sources/generator[3]/volts', func (node) {
-        #     me.elems['elec.rat.volts.digital'].setText(sprintf("%3.0f", node.getValue()));
-        # }, 1, 0);
-        # setlistener('/systems/electrical/sources/generator[3]/status', func (node) {
-        #     fillColorByStatus(me.elems['elec.rat.symbol'], node.getValue());
-        # }, 1, 0);
+        setlistener('/controls/electric/ram-air-turbine', func (node) {
+            me.elems['elec.rat.group'].setVisible(node.getBoolValue());
+        }, 1, 0);
+        setlistener('/systems/electrical/sources/generator[3]/volts', func (node) {
+            me.elems['elec.rat.volts.digital'].setText(sprintf("%3.0f", node.getValue()));
+        }, 1, 0);
+        setlistener('/systems/electrical/sources/generator[3]/status', func (node) {
+            fillColorByStatus(me.elems['elec.rat.symbol'], node.getValue());
+        }, 1, 0);
 
         setlistener('/systems/electrical/sources/ac-gpu/volts', func (node) {
             me.elems['elec.acgpu.volts.digital'].setText(sprintf("%3.0f", node.getValue()));
@@ -1011,8 +1015,7 @@ var MFD = {
             var feed = node.getValue();
             fillIfConnected(me.elems['elec.feed.acess-ac2'], feed == 1);
             fillIfConnected(me.elems['elec.feed.acess-ac1'], feed == 2);
-            # TODO: Add RAT symbol to SVG
-            # fillIfConnected(me.elems['elec.feed.acess-rat'], feed == 3);
+            fillIfConnected(me.elems['elec.feed.acess-rat'], feed == 3);
         }, 1, 0);
         setlistener('/systems/electrical/buses/ac[4]/feed', func (node) {
             var feed = node.getValue();
@@ -1062,7 +1065,7 @@ var MFD = {
         setlistener('/systems/electrical/buses/dc[4]/feed', func (node) {
             var feed = node.getValue();
             fillIfConnected(me.elems['elec.feed.dcess2-dc2'], feed == 1);
-            fillIfConnected(me.elems['elec.feed.dcess2-dcess3'], feed == 2);
+            fillIfConnected(me.elems['elec.feed.dcess2-batt2'], feed == 3);
             updateDCESS2();
         }, 1, 0);
         setlistener('/systems/electrical/buses/dc[5]/feed', func (node) {

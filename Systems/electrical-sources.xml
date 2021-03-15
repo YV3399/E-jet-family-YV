@@ -679,7 +679,6 @@
     </filter>
 
     <!-- RAT -->
-    <!--
     <filter>
         <name>RAT amps</name>
         <type>gain</type>
@@ -698,7 +697,6 @@
         </input>
         <output>/systems/electrical/sources/generator[3]/watts</output>
     </filter>
-    -->
     <filter>
         <name>RAT voltage</name>
         <type>gain</type>
