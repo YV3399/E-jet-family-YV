@@ -1352,6 +1352,15 @@
             </engine>
         </anti-ice>
 
+        <pressurization>
+            <pack n="0">
+                <pack-on type="bool">false</pack-on>
+            </pack>
+            <pack n="1">
+                <pack-on type="bool">false</pack-on>
+            </pack>
+        </pressurization>
+
         <autoflight>
             <autopilot>
                 <engage type="bool">false</engage>
@@ -1643,12 +1652,17 @@
                 <fuel-low-left type="bool">false</fuel-low-left>
                 <fuel-low-right type="bool">false</fuel-low-right>
                 <fuel-imbalance type="bool">false</fuel-imbalance>
+                <parking-brake type="bool">false</parking-brake>
                 <doors>
                     <l1><open type="bool">false</open></l1>
                     <l2><open type="bool">false</open></l2>
                     <r1><open type="bool">false</open></r1>
                     <r2><open type="bool">false</open></r2>
                 </doors>
+                <electrical>
+                    <emergency type="bool">false</emergency>
+                    <external-power-connected type="bool">false</external-power-connected>
+                </electrical>
             </messages>
         </eicas>
 

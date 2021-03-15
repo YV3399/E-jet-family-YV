@@ -52,10 +52,20 @@ var setMessage = func (level, text, priority) {
 
 var clearMessage = func (level, text, priority) {
     var newMessages = [];
+    var blinking = { MSG_WARNING: 0, MSG_CAUTION: 0 };
     foreach (var msg; messages) {
         if (msg.text != text or msg.level != level) {
             append(newMessages, msg);
+            if (msg.blink) {
+                blinking[msg.level] = 1;
+            }
         }
+    }
+    if (!blinking[MSG_WARNING]) {
+        masterWarningProp.setBoolValue(0);
+    }
+    if (!blinking[MSG_CAUTION]) {
+        masterCautionProp.setBoolValue(0);
     }
     messages = newMessages;
     raiseSignal();
@@ -109,10 +119,10 @@ setlistener("sim/signals/fdm-initialized", func {
     var yes = func (val) { return !!val; }
     var no = func (val) { return !val; }
 
-    listenOnProp("/controls/gear/brake-parking", yes, MSG_CAUTION, 'PRK BRK NOT REL', 0);
     listenOnProp("/engines/engine[0]/running", no, MSG_CAUTION, 'ENG 1 FAIL', 0);
     listenOnProp("/engines/engine[1]/running", no, MSG_CAUTION, 'ENG 2 FAIL', 0);
     listenOnProp("/gear/brake-overheat", yes, MSG_CAUTION, 'BRK OVERHEAT', 0);
+    listenOnProp("/instrumentation/eicas/messages/parking-brake", yes, MSG_CAUTION, 'PRK BRK NOT REL', 0);
     listenOnProp("/instrumentation/eicas/messages/xpdr-stby", yes, MSG_CAUTION, 'XPDR 1 IN STBY', 0);
     listenOnProp("/instrumentation/eicas/messages/fuel-imbalance", yes, MSG_CAUTION, 'FUEL IMBALANCE', 0);
     listenOnProp("/instrumentation/eicas/messages/fuel-low-left", yes, MSG_WARNING, 'FUEL 1 LO LEVEL', 10);
@@ -121,4 +131,20 @@ setlistener("sim/signals/fdm-initialized", func {
     listenOnProp("/instrumentation/eicas/messages/doors/l2/open", yes, MSG_WARNING, 'DOOR PAX AFT OPEN', 0);
     listenOnProp("/instrumentation/eicas/messages/doors/r1/open", yes, MSG_WARNING, 'DOOR SERV FWD OPEN', 0);
     listenOnProp("/instrumentation/eicas/messages/doors/r2/open", yes, MSG_WARNING, 'DOOR SERV AFT OPEN', 0);
+    listenOnProp("/instrumentation/eicas/messages/electrical/emergency", yes, MSG_WARNING, 'ELEC EMERGENCY', 0);
+    listenOnProp("/instrumentation/eicas/messages/electrical/batteries-off", yes, MSG_WARNING, 'BATT 1-2 OFF', 0);
+    listenOnProp("/instrumentation/eicas/messages/electrical/external-power-connected", yes, MSG_CAUTION, 'GPU CONNECTED', 0);
+    listenOnProp("/instrumentation/eicas/messages/electrical/idg1", yes, MSG_CAUTION, 'IDG 1 OFF', 0);
+    listenOnProp("/instrumentation/eicas/messages/electrical/idg2", yes, MSG_CAUTION, 'IDG 2 OFF', 0);
+    listenOnProp("/systems/electrical/buses/ac[1]/powered", no, MSG_CAUTION, 'AC BUS 1 OFF', 0);
+    listenOnProp("/systems/electrical/buses/ac[2]/powered", no, MSG_CAUTION, 'AC BUS 2 OFF', 0);
+    listenOnProp("/systems/electrical/buses/ac[3]/powered", no, MSG_CAUTION, 'AC ESS BUS OFF', 0);
+    listenOnProp("/systems/electrical/buses/ac[4]/powered", no, MSG_CAUTION, 'AC STBY BUS OFF', 0);
+    listenOnProp("/systems/electrical/buses/dc[1]/powered", no, MSG_CAUTION, 'DC BUS 1 OFF', 0);
+    listenOnProp("/systems/electrical/buses/dc[2]/powered", no, MSG_CAUTION, 'DC BUS 2 OFF', 0);
+    listenOnProp("/systems/electrical/buses/dc[3]/powered", no, MSG_CAUTION, 'DC ESS BUS 1 OFF', 0);
+    listenOnProp("/systems/electrical/buses/dc[4]/powered", no, MSG_CAUTION, 'DC ESS BUS 2 OFF', 0);
+    listenOnProp("/systems/electrical/buses/dc[5]/powered", no, MSG_CAUTION, 'DC ESS BUS 3 OFF', 0);
+    listenOnProp("fdm/jsbsim/fcs/yaw-damper-enable", no, MSG_ADVISORY, 'YD OFF', 0);
+    listenOnProp("/instrumentation/eicas/messages/apu/shutdown", yes, MSG_STATUS, 'APU SHUTTING DOWN', 0);
 });

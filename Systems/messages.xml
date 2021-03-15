@@ -1,4 +1,23 @@
 <PropertyList>
+
+    <logic>
+        <input>
+            <and>
+                <property>/controls/gear/brake-parking</property>
+                <or>
+                    <greater-than>
+                        <property>/controls/engines/engine[0]/throttle</property>
+                        <value>0.1</value>
+                    </greater-than>
+                    <greater-than>
+                        <property>/controls/engines/engine[1]/throttle</property>
+                        <value>0.1</value>
+                    </greater-than>
+                </or>
+            </and>
+        </input>
+        <output>/instrumentation/eicas/messages/parking-brake</output>
+    </logic>
     
     <logic>
         <input>
@@ -115,6 +134,79 @@
             </and>
         </input>
         <output>/instrumentation/eicas/messages/doors/r2/open</output>
+    </logic>
+
+    <logic>
+        <input>
+            <and>
+                <or>
+                    <not><property>/systems/electrical/buses/ac[1]/powered</property></not>
+                    <not><property>/systems/electrical/buses/ac[2]/powered</property></not>
+                </or>
+                <or>
+                    <not><property>/gear/gear[0]/wow</property></not>
+                    <not><property>/gear/gear[1]/wow</property></not>
+                    <not><property>/gear/gear[2]/wow</property></not>
+                </or>
+            </and>
+        </input>
+        <output>/instrumentation/eicas/messages/electrical/emergency</output>
+    </logic>
+    <logic>
+        <input>
+            <and>
+                <property>/controls/electric/external-power-connected</property>
+                <not><property>/controls/gear/brake-parking</property></not>
+            </and>
+        </input>
+        <output>/instrumentation/eicas/messages/electrical/external-power-connected</output>
+    </logic>
+    <logic>
+        <input>
+            <and>
+                <not><property>/controls/electric/battery-switch[0]/</property></not>
+                <not><property>/controls/electric/battery-switch[1]/</property></not>
+            </and>
+        </input>
+        <output>/instrumentation/eicas/messages/electrical/batteries-off</output>
+    </logic>
+    <logic>
+        <input>
+            <and>
+                <greater-than>
+                    <property>/engines/apu/rpm</property>
+                    <value>0</value>
+                </greater-than>
+                <equals>
+                    <property>/engines/apu/rpm-target</property>
+                    <value>0</value>
+                </equals>
+            </and>
+        </input>
+        <output>/instrumentation/eicas/messages/apu/shutdown</output>
+    </logic>
+
+    <logic>
+        <input>
+            <not>
+                <equals>
+                    <property>/systems/electrical/sources/generator[1]/status</property>
+                    <value>1</value>
+                </equals>
+            </not>
+        </input>
+        <output>/instrumentation/eicas/messages/electrical/idg1</output>
+    </logic>
+    <logic>
+        <input>
+            <not>
+                <equals>
+                    <property>/systems/electrical/sources/generator[2]/status</property>
+                    <value>1</value>
+                </equals>
+            </not>
+        </input>
+        <output>/instrumentation/eicas/messages/electrical/idg2</output>
     </logic>
     
 </PropertyList>
