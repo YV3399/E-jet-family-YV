@@ -152,15 +152,15 @@
             </autopilot>
             <autopilot>
                 <name>Electrical: Sources</name>
-                <path>Aircraft/E-jet-family/Systems/electrical-sources.xml</path>
+                <path>Aircraft/E-jet-family/Systems/electrical/sources.xml</path>
             </autopilot>
             <autopilot>
                 <name>Electrical: Buses</name>
-                <path>Aircraft/E-jet-family/Systems/electrical-buses.xml</path>
+                <path>Aircraft/E-jet-family/Systems/electrical/buses.xml</path>
             </autopilot>
             <autopilot>
                 <name>Electrical: Outputs</name>
-                <path>Aircraft/E-jet-family/Systems/electrical-outputs.xml</path>
+                <path>Aircraft/E-jet-family/Systems/electrical/outputs.xml</path>
             </autopilot>
             <property-rule n="100">
                 <path>Aircraft/E-jet-family/Systems/pfd1.xml</path>
@@ -188,6 +188,9 @@
             </property-rule>
             <property-rule n="108">
                 <path>Aircraft/E-jet-family/Systems/EFB.xml</path>
+            </property-rule>
+            <property-rule n="109">
+                <path>Aircraft/E-jet-family/Systems/electrical/batteries.xml</path>
             </property-rule>
             <autopilot>
                 <path>Aircraft/E-jet-family/Systems/vspeeds.xml</path>
@@ -1201,7 +1204,8 @@
                     <volts type="double">0</volts>
                     <volts-avail type="double">22.8</volts-avail>
                     <load type="double">0</load>
-                    <charge type="double">1</charge>
+                    <charge-norm type="double">1</charge-norm>
+                    <charge type="double">200</charge>
                     <capacity type="double">200</capacity>
                     <status type="int">0</status>
                 </battery>
@@ -1211,7 +1215,8 @@
                     <volts type="double">0</volts>
                     <volts-avail type="double">22.8</volts-avail>
                     <load type="double">0</load>
-                    <charge type="double">1</charge>
+                    <charge-norm type="double">1</charge-norm>
+                    <charge type="double">200</charge>
                     <capacity type="double">200</capacity>
                     <available-for-bus type="bool">true</available-for-bus>
                     <status type="int">0</status>

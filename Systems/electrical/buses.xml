@@ -1095,6 +1095,26 @@
         <output>/systems/electrical/buses/dc[6]/volts</output>
     </filter>
     <filter>
+        <name>APU START load</name>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <!-- if not starting APU, don't use anything -->
+            <condition>
+                <equals>
+                    <property>/controls/apu/starter</property>
+                    <value>2</value>
+                </equals>
+                <less-than>
+                    <property>/engines/apu/rpm</property>
+                    <value>50</value>
+                </less-than>
+            </condition>
+            <value>500</value>
+        </input>
+        <output>/systems/electrical/buses/dc[6]/load</output>
+    </filter>
+    <filter>
         <name>APU START powered</name>
         <type>gain</type>
         <gain>1</gain>

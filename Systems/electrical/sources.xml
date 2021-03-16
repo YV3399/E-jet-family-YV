@@ -417,8 +417,44 @@
         <gain>1</gain>
         <input>
             <expression>
-                <table>
+                <div>
                     <property>/systems/electrical/sources/battery[0]/charge</property>
+                    <property>/systems/electrical/sources/battery[0]/capacity</property>
+                </div>
+            </expression>
+        </input>
+        <output>/systems/electrical/sources/battery[0]/charge-norm</output>
+    </filter>
+    <filter>
+        <name>Battery 1 load</name>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <!-- connected to DC ESS 1 -->
+            <condition>
+                <equals>
+                    <property>/systems/electrical/buses/dc[3]/feed</property>
+                    <value>3</value>
+                </equals>
+            </condition>
+            <property>/systems/electrical/buses/dc[3]/load</property>
+        </input>
+        <input>
+            <!-- charging -->
+            <condition>
+                <property>/systems/electrical/buses/ac[0]/powered</property>
+            </condition>
+            <value>-20</value>
+        </input>
+        <output>/systems/electrical/sources/battery[0]/load</output>
+    </filter>
+    <filter>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <expression>
+                <table>
+                    <property>/systems/electrical/sources/battery[0]/charge-norm</property>
                     <entry>
                         <ind>0</ind><dep>0</dep>
                     </entry>
@@ -476,8 +512,54 @@
         <gain>1</gain>
         <input>
             <expression>
-                <table>
+                <div>
                     <property>/systems/electrical/sources/battery[1]/charge</property>
+                    <property>/systems/electrical/sources/battery[1]/capacity</property>
+                </div>
+            </expression>
+        </input>
+        <output>/systems/electrical/sources/battery[1]/charge-norm</output>
+    </filter>
+    <filter>
+        <name>Battery 2 load</name>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <condition>
+                <!-- APU START feeds from BATTERY 2 -->
+                <equals>
+                    <property>/systems/electrical/buses/dc[6]/feed</property>
+                    <value>2</value>
+                </equals>
+            </condition>
+            <property>/systems/electrical/buses/dc[6]/load</property>
+        </input>
+        <input>
+            <!-- connected to DC ESS 2 -->
+            <condition>
+                <equals>
+                    <property>/systems/electrical/buses/dc[4]/feed</property>
+                    <value>3</value>
+                </equals>
+            </condition>
+            <property>/systems/electrical/buses/dc[4]/load</property>
+        </input>
+        <input>
+            <!-- charging -->
+            <condition>
+                <property>/systems/electrical/buses/ac[2]/powered</property>
+            </condition>
+            <value>-20</value>
+        </input>
+        <output>/systems/electrical/sources/battery[1]/load</output>
+    </filter>
+    <filter>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <expression>
+                <table>
+                    <property>/systems/electrical/sources/battery[1]/charge-norm</property>
                     <entry>
                         <ind>0</ind><dep>0</dep>
                     </entry>

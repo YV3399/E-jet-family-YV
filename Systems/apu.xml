@@ -90,7 +90,7 @@
     <filter>
         <name>APU RPM</name>
         <type>noise-spike</type>
-        <max-rate-of-change>6.0</max-rate-of-change>
+        <max-rate-of-change>3.0</max-rate-of-change>
         <input><property>/engines/apu/rpm-target</property></input>
         <output>/engines/apu/rpm</output>
     </filter>
