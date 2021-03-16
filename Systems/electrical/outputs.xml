@@ -137,6 +137,8 @@
             <property>/systems/electrical/buses/dc[5]/volts</property>
         </input>
         <output>/systems/electrical/outputs/pushbutton-lights</output>
+        <output>/systems/electrical/outputs/rudder-trim</output>
+        <output>/systems/electrical/outputs/crossfeed-valve</output>
     </filter>
     <!-- loads -->
     <filter>
@@ -163,10 +165,20 @@
                     </div>
                     <property>/systems/electrical/buses/dc[5]/loads/dc[3]</property>
                     <property>/systems/electrical/buses/dc[5]/loads/dc[4]</property>
+                    <property>/systems/electrical/buses/dc[5]/loads/rudder-trim</property>
                 </sum>
             </expression>
         </input>
     </filter>
+
+    <!--
+    <filter>
+        <type>derivative</type>
+        <input>/controls/flight/rudder-trim-norm</input>
+        <filter-time>0.1</filter-time>
+        <output>/systems/electrical/buses/dc[5]/loads/rudder-trim</output>
+    </filter>
+    -->
 
     <!-- DC BUS 1 OUTPUTS -->
     <filter>
