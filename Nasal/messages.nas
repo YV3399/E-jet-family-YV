@@ -133,6 +133,8 @@ setlistener("sim/signals/fdm-initialized", func {
     listenOnProp("/instrumentation/eicas/messages/doors/r2/open", yes, MSG_WARNING, 'DOOR SERV AFT OPEN', 0);
     listenOnProp("/instrumentation/eicas/messages/electrical/emergency", yes, MSG_WARNING, 'ELEC EMERGENCY', 0);
     listenOnProp("/instrumentation/eicas/messages/electrical/batteries-off", yes, MSG_WARNING, 'BATT 1-2 OFF', 0);
+    listenOnProp("/systems/electrical/sources/battery[0]/status", no, MSG_CAUTION, 'BATT 1 OFF', 0);
+    listenOnProp("/systems/electrical/sources/battery[1]/status", no, MSG_CAUTION, 'BATT 2 OFF', 0);
     listenOnProp("/instrumentation/eicas/messages/electrical/external-power-connected", yes, MSG_CAUTION, 'GPU CONNECTED', 0);
     listenOnProp("/instrumentation/eicas/messages/electrical/idg1", yes, MSG_CAUTION, 'IDG 1 OFF', 0);
     listenOnProp("/instrumentation/eicas/messages/electrical/idg2", yes, MSG_CAUTION, 'IDG 2 OFF', 0);
