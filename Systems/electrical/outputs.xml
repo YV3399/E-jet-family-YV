@@ -16,6 +16,51 @@
         <output>/systems/electrical/outputs/iess[0]</output>
         <output>/systems/electrical/outputs/master-warn-caution[0]</output>
     </filter>
+    <!-- loads -->
+    <filter>
+        <type>gain</type>
+        <condition>
+            <property>/systems/electrical/buses/dc[3]/powered</property>
+        </condition>
+        <output>/systems/electrical/buses/dc[3]/load</output>
+        <input>
+            <expression>
+                <sum>
+                    <div>
+                        <sum>
+                            <product>
+                                <property>/systems/electrical/outputs/adf[0]</property>
+                                <value>0.5</value>
+                            </product>
+                            <product>
+                                <property>/systems/electrical/outputs/clock</property>
+                                <value>0.1</value>
+                            </product>
+                            <product>
+                                <property>/systems/electrical/outputs/dme[0]</property>
+                                <value>0.5</value>
+                            </product>
+                            <product>
+                                <property>/systems/electrical/outputs/eicas</property>
+                                <value>2</value>
+                            </product>
+                            <product>
+                                <property>/systems/electrical/outputs/iess[0]</property>
+                                <value>2</value>
+                            </product>
+                            <product>
+                                <property>/systems/electrical/outputs/master-warn-caution[0]</property>
+                                <value>0.5</value>
+                            </product>
+                        </sum>
+                        <property>/systems/electrical/buses/dc[3]/volts</property>
+                    </div>
+                    <property>/systems/electrical/buses/dc[3]/loads/inverter</property>
+                    <property>/systems/electrical/buses/dc[3]/loads/dc[5]</property>
+                </sum>
+            </expression>
+        </input>
+    </filter>
 
     <!-- DC ESS BUS 2 OUTPUTS -->
     <!-- unswitched outputs -->
@@ -25,10 +70,46 @@
         <input>
             <property>/systems/electrical/buses/dc[4]/volts</property>
         </input>
-        <output>/systems/electrical/outputs/master-warn-caution[1]</output>
         <output>/systems/electrical/outputs/mcdu[1]</output>
         <output>/systems/electrical/outputs/mfd[0]</output>
         <output>/systems/electrical/outputs/iess[1]</output>
+        <output>/systems/electrical/outputs/master-warn-caution[1]</output>
+    </filter>
+    <!-- loads -->
+    <filter>
+        <type>gain</type>
+        <condition>
+            <property>/systems/electrical/buses/dc[4]/powered</property>
+        </condition>
+        <output>/systems/electrical/buses/dc[4]/load</output>
+        <input>
+            <expression>
+                <sum>
+                    <div>
+                        <sum>
+                            <product>
+                                <property>/systems/electrical/outputs/mcdu[1]</property>
+                                <value>2</value>
+                            </product>
+                            <product>
+                                <property>/systems/electrical/outputs/mfd[0]</property>
+                                <value>2</value>
+                            </product>
+                            <product>
+                                <property>/systems/electrical/outputs/iess[1]</property>
+                                <value>2</value>
+                            </product>
+                            <product>
+                                <property>/systems/electrical/outputs/master-warn-caution[1]</property>
+                                <value>0.5</value>
+                            </product>
+                        </sum>
+                        <property>/systems/electrical/buses/dc[4]/volts</property>
+                    </div>
+                    <property>/systems/electrical/buses/dc[4]/loads/dc[5]</property>
+                </sum>
+            </expression>
+        </input>
     </filter>
 
     <!-- DC ESS BUS 3 OUTPUTS -->
@@ -41,11 +122,13 @@
                     <property>/systems/electrical/buses/dc[5]/volts</property>
                     <value>18</value>
                 </greater-than>
+                <property>/controls/lighting/dome</property>
             </condition>
-            <property>/controls/lighting/dome</property>
+            <property>/systems/electrical/buses/dc[5]/volts</property>
         </input>
         <output>/systems/electrical/outputs/dome-light</output>
     </filter>
+            
     <!-- unswitched outputs -->
     <filter>
         <type>gain</type>
@@ -54,6 +137,35 @@
             <property>/systems/electrical/buses/dc[5]/volts</property>
         </input>
         <output>/systems/electrical/outputs/pushbutton-lights</output>
+    </filter>
+    <!-- loads -->
+    <filter>
+        <type>gain</type>
+        <condition>
+            <property>/systems/electrical/buses/dc[5]/powered</property>
+        </condition>
+        <output>/systems/electrical/buses/dc[5]/load</output>
+        <input>
+            <expression>
+                <sum>
+                    <div>
+                        <sum>
+                            <product>
+                                <property>/systems/electrical/outputs/dome-light</property>
+                                <value>2.5</value>
+                            </product>
+                            <product>
+                                <property>/systems/electrical/outputs/pushbutton-lights</property>
+                                <value>0.5</value>
+                            </product>
+                        </sum>
+                        <property>/systems/electrical/buses/dc[5]/volts</property>
+                    </div>
+                    <property>/systems/electrical/buses/dc[5]/loads/dc[3]</property>
+                    <property>/systems/electrical/buses/dc[5]/loads/dc[4]</property>
+                </sum>
+            </expression>
+        </input>
     </filter>
 
     <!-- DC BUS 1 OUTPUTS -->
@@ -187,8 +299,7 @@
     </filter>
     <filter>
         <type>gain</type>
-        <gain>0.1</gain>
-        <max>1</max>
+        <gain>1</gain>
         <input>
             <condition>
                 <property>/sim/model/lights/beacon/state</property>
@@ -199,8 +310,7 @@
     </filter>
     <filter>
         <type>gain</type>
-        <gain>0.1</gain>
-        <max>1</max>
+        <gain>1</gain>
         <input>
             <condition>
                 <property>/controls/lighting/nav-lights-switch</property>
@@ -208,7 +318,6 @@
             <property>/systems/electrical/buses/ac[1]/volts</property>
         </input>
         <output>/systems/electrical/outputs/nav-lights</output>
-        <output>/systems/electrical/outputs/nav-lights-norm</output>
     </filter>
 
     <!-- AC BUS 2 OUTPUTS -->
@@ -236,8 +345,7 @@
     </filter>
     <filter>
         <type>gain</type>
-        <gain>0.1</gain>
-        <max>1</max>
+        <gain>1</gain>
         <input>
             <condition>
                 <property>/sim/model/lights/strobe/state</property>
@@ -331,6 +439,63 @@
             <value>1</value>
         </input>
         <output>/systems/electrical/outputs/taxi-lights-norm[2]</output>
+    </filter>
+
+    <filter>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <condition>
+                <greater-than>
+                    <property>/systems/electrical/outputs/logo-lights</property>
+                    <value>110</value>
+                </greater-than>
+            </condition>
+            <value>1</value>
+        </input>
+        <output>/systems/electrical/outputs/logo-lights-norm</output>
+    </filter>
+    <filter>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <condition>
+                <greater-than>
+                    <property>/systems/electrical/outputs/nav-lights</property>
+                    <value>110</value>
+                </greater-than>
+            </condition>
+            <value>1</value>
+        </input>
+        <output>/systems/electrical/outputs/nav-lights-norm</output>
+    </filter>
+    <filter>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <condition>
+                <greater-than>
+                    <property>/systems/electrical/outputs/beacon</property>
+                    <value>110</value>
+                </greater-than>
+            </condition>
+            <value>1</value>
+        </input>
+        <output>/systems/electrical/outputs/beacon-norm</output>
+    </filter>
+    <filter>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <condition>
+                <greater-than>
+                    <property>/systems/electrical/outputs/strobe</property>
+                    <value>110</value>
+                </greater-than>
+            </condition>
+            <value>1</value>
+        </input>
+        <output>/systems/electrical/outputs/strobe-norm</output>
     </filter>
 
 </PropertyList>

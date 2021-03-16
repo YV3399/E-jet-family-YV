@@ -72,7 +72,7 @@
             <a>0.7</a>
         </specular>
         <dim-factor>
-            <property>/systems/electrical/outputs/strobe</property>
+            <property>/systems/electrical/outputs/strobe-norm</property>
             <factor>1</factor>
             <offset>0</offset>
             <min>0</min>

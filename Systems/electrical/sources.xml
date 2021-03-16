@@ -393,6 +393,35 @@
         </input>
         <output>/systems/electrical/sources/inverter/status</output>
     </filter>
+    <filter>
+        <name>INVERTER DC BUS LOAD</name>
+        <type>gain</type>
+        <input>
+            <condition>
+                <equals>
+                    <property>/systems/electrical/buses/ac[4]/feed</property>
+                    <value>2</value>
+                </equals>
+            </condition>
+            <!-- bus load in amps is inverter A/C load in watts divided by
+                 efficiency divided by D/C voltage plus idle load -->
+            <expression>
+                <sum>
+                    <!-- 500 mA idle load -->
+                    <value>0.5</value>
+                    <div>
+                        <property>/systems/electrical/buses/ac[4]/load</property>
+                        <product>
+                            <!-- 85% efficiency -->
+                            <value>0.85</value>
+                            <property>/systems/electrical/buses/dc[3]/volts</property>
+                        </product>
+                    </div>
+                </sum>
+            </expression>
+        </input>
+        <output>/systems/electrical/buses/dc[3]/loads/inverter</output>
+    </filter>
 
 
     <!-- ************************ DC ************************ -->

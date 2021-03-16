@@ -1,0 +1,44 @@
+<PropertyList>
+    <filter>
+        <name>Battery 1 charge/discharge</name>
+        <type>gain</type>
+        <gain>1</gain>
+        <debug type="bool">true</debug>
+        <min>0</min>
+        <max><property>/systems/electrical/sources/battery[0]/capacity</property></max>
+        <update-interval-secs>0.1</update-interval-secs>
+        <input>
+            <expression>
+                <sum>
+                    <product>
+                        <property>/systems/electrical/sources/battery[0]/load</property>
+                        <value>-0.00002777778</value>
+                    </product>
+                    <property>/systems/electrical/sources/battery[0]/charge</property>
+                </sum>
+            </expression>
+        </input>
+        <output>/systems/electrical/sources/battery[0]/charge</output>
+    </filter>
+    <filter>
+        <name>Battery 2 charge/discharge</name>
+        <type>gain</type>
+        <gain>1</gain>
+        <debug type="bool">true</debug>
+        <min>0</min>
+        <max><property>/systems/electrical/sources/battery[1]/capacity</property></max>
+        <update-interval-secs>0.1</update-interval-secs>
+        <input>
+            <expression>
+                <sum>
+                    <product>
+                        <property>/systems/electrical/sources/battery[1]/load</property>
+                        <value>-0.00002777778</value>
+                    </product>
+                    <property>/systems/electrical/sources/battery[1]/charge</property>
+                </sum>
+            </expression>
+        </input>
+        <output>/systems/electrical/sources/battery[1]/charge</output>
+    </filter>
+</PropertyList>

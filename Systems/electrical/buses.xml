@@ -677,6 +677,36 @@
         <output>/systems/electrical/buses/dc[3]/volts</output>
     </filter>
     <filter>
+        <name>DC ESS 1 load to DC ESS 3</name>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <condition>
+                <equals>
+                    <property>/systems/electrical/buses/dc[3]/feed</property>
+                    <value>2</value>
+                </equals>
+            </condition>
+            <property>/systems/electrical/buses/dc[3]/load</property>
+        </input>
+        <output>/systems/electrical/buses/dc[5]/loads/dc[3]</output>
+    </filter>
+    <filter>
+        <name>DC ESS 1 load to DC 1</name>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <condition>
+                <equals>
+                    <property>/systems/electrical/buses/dc[3]/feed</property>
+                    <value>1</value>
+                </equals>
+            </condition>
+            <property>/systems/electrical/buses/dc[3]/load</property>
+        </input>
+        <output>/systems/electrical/buses/dc[1]/loads/dc[3]</output>
+    </filter>
+    <filter>
         <name>DC ESS 1 powered</name>
         <type>gain</type>
         <gain>1</gain>
@@ -797,6 +827,36 @@
         <output>/systems/electrical/buses/dc[4]/volts</output>
     </filter>
     <filter>
+        <name>DC ESS 2 load to DC ESS 3</name>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <condition>
+                <equals>
+                    <property>/systems/electrical/buses/dc[4]/feed</property>
+                    <value>2</value>
+                </equals>
+            </condition>
+            <property>/systems/electrical/buses/dc[4]/load</property>
+        </input>
+        <output>/systems/electrical/buses/dc[5]/loads/dc[4]</output>
+    </filter>
+    <filter>
+        <name>DC ESS 2 load to DC 2</name>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <condition>
+                <equals>
+                    <property>/systems/electrical/buses/dc[4]/feed</property>
+                    <value>1</value>
+                </equals>
+            </condition>
+            <property>/systems/electrical/buses/dc[4]/load</property>
+        </input>
+        <output>/systems/electrical/buses/dc[2]/loads/dc[4]</output>
+    </filter>
+    <filter>
         <name>DC ESS 2 powered</name>
         <type>gain</type>
         <gain>1</gain>
@@ -905,6 +965,36 @@
             <property>/systems/electrical/buses/dc[4]/volts</property>
         </input>
         <output>/systems/electrical/buses/dc[5]/volts</output>
+    </filter>
+    <filter>
+        <name>DC ESS 3 load to DC ESS 1</name>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <condition>
+                <equals>
+                    <property>/systems/electrical/buses/dc[5]/feed</property>
+                    <value>2</value>
+                </equals>
+            </condition>
+            <property>/systems/electrical/buses/dc[5]/load</property>
+        </input>
+        <output>/systems/electrical/buses/dc[3]/loads/dc[5]</output>
+    </filter>
+    <filter>
+        <name>DC ESS 3 load to DC ESS 2</name>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <condition>
+                <equals>
+                    <property>/systems/electrical/buses/dc[5]/feed</property>
+                    <value>3</value>
+                </equals>
+            </condition>
+            <property>/systems/electrical/buses/dc[5]/load</property>
+        </input>
+        <output>/systems/electrical/buses/dc[4]/loads/dc[5]</output>
     </filter>
     <filter>
         <name>DC ESS 3 powered</name>

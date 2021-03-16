@@ -31,7 +31,7 @@
     <type>select</type>
     <object-name>Light</object-name>
     <condition>
-            <property>/systems/electrical/outputs/beacon</property>
+        <property>/systems/electrical/outputs/beacon-norm</property>
     </condition>
   </animation>
 

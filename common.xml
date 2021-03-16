@@ -1234,19 +1234,21 @@
             <buses>
                 <!-- Each bus uses the following:
                     - volts: current bus voltage (output)
-                    - watts: max load permitted
                     - load: actual load demanded
                     - feed: which source or bus to draw power from. mapping is
                         bus-specific; by convention, "0" means no power
                         connected, "1" means "normal operation", and subsequent
-                        indices map to further sources in the bus's priority
-                        list.
+                        indices map to further (non-normal) sources in the
+                        bus's priority list.
 
-                    Bus ties are also modeled as separate buses, to make the
-                    whole connection logic easier.
+                    The A/C bus tie is modeled as a separate bus, to make the
+                    connection logic easier.
 
                     AC buses are 115V, 400Hz
                     DC buses are 28V
+
+                    Loads are in ampères (A) for DC circuitry, watts (VA / W)
+                    for AC circuitry.
                 -->
                 <ac n="0">
                     <name>AC BUS TIE</name>
