@@ -401,6 +401,88 @@
         <output>/systems/electrical/outputs/strobe</output>
     </filter>
 
+    <!-- AC STBY BUS OUTPUTS -->
+    <filter>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <property>/systems/electrical/buses/ac[4]/volts</property>
+        </input>
+        <output>/systems/electrical/outputs/exciter[0]</output>
+        <output>/systems/electrical/outputs/exciter[1]</output>
+    </filter>
+    <filter>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <condition>
+                <property>/systems/electrical/buses/ac[4]/powered</property>
+                <property>/systems/electrical/outputs/exciter[0]</property>
+                <or>
+                    <equals>
+                        <property>/fadec/engine-switch[0]</property>
+                        <value>2</value>
+                    </equals>
+                    <equals>
+                        <property>/fadec/ignition-switch[0]</property>
+                        <value>2</value>
+                    </equals>
+                </or>
+            </condition>
+            <expression>
+                <product>
+                    <property>/systems/electrical/outputs/exciter[0]</property>
+                    <value>0.02</value>
+                </product>
+            </expression>
+        </input>
+        <output>/systems/electrical/buses/ac[4]/loads/exciter[0]</output>
+    </filter>
+    <filter>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <condition>
+                <property>/systems/electrical/buses/ac[4]/powered</property>
+                <property>/systems/electrical/outputs/exciter[1]</property>
+                <or>
+                    <equals>
+                        <property>/fadec/engine-switch[1]</property>
+                        <value>2</value>
+                    </equals>
+                    <equals>
+                        <property>/fadec/ignition-switch[1]</property>
+                        <value>2</value>
+                    </equals>
+                </or>
+            </condition>
+            <expression>
+                <product>
+                    <property>/systems/electrical/outputs/exciter[1]</property>
+                    <value>0.02</value>
+                </product>
+            </expression>
+        </input>
+        <output>/systems/electrical/buses/ac[4]/loads/exciter[1]</output>
+    </filter>
+    <filter>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <condition>
+                <property>/systems/electrical/buses/ac[4]/powered</property>
+            </condition>
+            <expression>
+                <sum>
+                    <property>/systems/electrical/buses/ac[4]/loads/exciter[0]</property>
+                    <property>/systems/electrical/buses/ac[4]/loads/exciter[1]</property>
+                </sum>
+            </expression>
+        </input>
+        <output>/systems/electrical/buses/ac[4]/load</output>
+    </filter>
+
+
     <!-- landing-light-norm outputs -->
     <filter>
         <type>gain</type>

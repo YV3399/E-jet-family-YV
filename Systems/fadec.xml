@@ -60,24 +60,11 @@
         </input>
         <input>
             <condition>
-                <or>
-                    <!-- OVRD: always ignite -->
-                    <equals>
-                        <property>fadec/ignition-switch[0]</property>
-                        <value>2</value>
-                    </equals>
-                    <!-- AUTO: ignite when N2 >= 20% -->
-                    <and>
-                        <equals>
-                            <property>fadec/ignition-switch[0]</property>
-                            <value>1</value>
-                        </equals>
-                        <greater-than>
-                            <property>/engines/engine[0]/n2</property>
-                            <value>20</value>
-                        </greater-than>
-                    </and>
-                </or>
+                <!-- introduce fuel when N2 >= 20% -->
+                <greater-than>
+                    <property>/engines/engine[0]/n2</property>
+                    <value>20</value>
+                </greater-than>
             </condition>
             <value>0</value>
         </input>
@@ -224,24 +211,11 @@
         </input>
         <input>
             <condition>
-                <or>
-                    <!-- OVRD: always ignite -->
-                    <equals>
-                        <property>fadec/ignition-switch[1]</property>
-                        <value>2</value>
-                    </equals>
-                    <!-- AUTO: ignite when N2 >= 20% -->
-                    <and>
-                        <equals>
-                            <property>fadec/ignition-switch[1]</property>
-                            <value>1</value>
-                        </equals>
-                        <greater-than>
-                            <property>/engines/engine[1]/n2</property>
-                            <value>20</value>
-                        </greater-than>
-                    </and>
-                </or>
+                <!-- introduce fuel when N2 >= 20% -->
+                <greater-than>
+                    <property>/engines/engine[1]/n2</property>
+                    <value>20</value>
+                </greater-than>
             </condition>
             <value>0</value>
         </input>
