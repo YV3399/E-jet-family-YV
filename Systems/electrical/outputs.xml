@@ -241,6 +241,16 @@
                         </sum>
                         <property>/systems/electrical/buses/dc[1]/volts</property>
                     </div>
+                    <product>
+                        <!-- this one is pre-normalized! -->
+                        <property>/systems/electrical/outputs/main-panel-light</property>
+                        <value>0.5</value>
+                    </product>
+                    <product>
+                        <!-- this one is pre-normalized! -->
+                        <property>/systems/electrical/outputs/pedestal-light</property>
+                        <value>0.5</value>
+                    </product>
                     <property>/systems/electrical/buses/dc[1]/loads/dc[2]</property>
                     <property>/systems/electrical/buses/dc[1]/loads/dc[3]</property>
                 </sum>
@@ -262,6 +272,21 @@
             <property>/controls/lighting/overhead-panel</property>
         </input>
         <output>/systems/electrical/outputs/overhead-panel-light</output>
+    </filter>
+    <filter>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <condition>
+                <greater-than>
+                    <property>/systems/electrical/buses/dc[2]/volts</property>
+                    <value>18</value>
+                </greater-than>
+                <property>/controls/lighting/logo-lights</property>
+            </condition>
+            <property>/systems/electrical/buses/dc[2]/volts</property>
+        </input>
+        <output>/systems/electrical/outputs/logo-lights</output>
     </filter>
     
     <!-- unswitched outputs -->
@@ -319,9 +344,18 @@
                                 </abs>
                                 <value>120</value>
                             </product>
+                            <product>
+                                <property>/systems/electrical/outputs/logo-lights</property>
+                                <value>100</value>
+                            </product>
                         </sum>
                         <property>/systems/electrical/buses/dc[2]/volts</property>
                     </div>
+                    <product>
+                        <!-- this one is pre-normalized! -->
+                        <property>/systems/electrical/outputs/overhead-panel-light</property>
+                        <value>0.5</value>
+                    </product>
                     <property>/systems/electrical/buses/dc[2]/loads/dc[1]</property>
                     <property>/systems/electrical/buses/dc[2]/loads/dc[3]</property>
                 </sum>
@@ -342,6 +376,8 @@
         <output>/systems/electrical/outputs/dme[0]</output>
         <output>/systems/electrical/outputs/eicas</output>
         <output>/systems/electrical/outputs/iess[0]</output>
+        <output>/systems/electrical/outputs/nav[0]</output>
+        <output>/systems/electrical/outputs/transponder[0]</output>
         <output>/systems/electrical/outputs/master-warn-caution[0]</output>
     </filter>
     <filter>
@@ -359,6 +395,14 @@
                             <product>
                                 <property>/systems/electrical/outputs/adf[0]</property>
                                 <value>0.5</value>
+                            </product>
+                            <product>
+                                <property>/systems/electrical/outputs/nav[0]</property>
+                                <value>0.5</value>
+                            </product>
+                            <product>
+                                <property>/systems/electrical/outputs/transponder[0]</property>
+                                <value>2</value>
                             </product>
                             <product>
                                 <property>/systems/electrical/outputs/clock</property>
@@ -402,6 +446,8 @@
         <output>/systems/electrical/outputs/mfd[0]</output>
         <output>/systems/electrical/outputs/iess[1]</output>
         <output>/systems/electrical/outputs/master-warn-caution[1]</output>
+        <!-- no idea where this goes, AOM doesn't say... -->
+        <output>/systems/electrical/outputs/mk-viii</output>
     </filter>
     <filter>
         <name>DC ESS 2 loads</name>
@@ -430,6 +476,10 @@
                             <product>
                                 <property>/systems/electrical/outputs/master-warn-caution[1]</property>
                                 <value>0.5</value>
+                            </product>
+                            <product>
+                                <property>/systems/electrical/outputs/mk-viii</property>
+                                <value>1.0</value>
                             </product>
                         </sum>
                         <property>/systems/electrical/buses/dc[4]/volts</property>
@@ -969,7 +1019,7 @@
             <condition>
                 <greater-than>
                     <property>/systems/electrical/outputs/logo-lights</property>
-                    <value>110</value>
+                    <value>18</value>
                 </greater-than>
             </condition>
             <value>1</value>

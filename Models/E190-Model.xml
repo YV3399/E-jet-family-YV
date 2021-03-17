@@ -1388,7 +1388,7 @@
         <name>RedLight</name>
         <path>Aircraft/E-jet-family/Models/Lights/RedLight.xml</path>
         <offsets>
-            <x-m>2.69</x-m>
+            <x-m>2.49</x-m>
             <y-m>-13.6</y-m>
             <z-m>0.769</z-m>  
         </offsets>
@@ -1397,7 +1397,7 @@
         <name>RedLight-ALS</name>
         <path>Aircraft/E-jet-family/Models/Lights/ALS/red-navlight.xml</path>
         <offsets>
-            <x-m>2.69</x-m>
+            <x-m>2.49</x-m>
             <y-m>-13.6</y-m>
             <z-m>0.769</z-m>  
         </offsets>
@@ -1407,7 +1407,7 @@
         <name>GreenLight</name>
         <path>Aircraft/E-jet-family/Models/Lights/GreenLight.xml</path>
         <offsets>
-            <x-m>2.69</x-m>
+            <x-m>2.49</x-m>
             <y-m>13.6</y-m>
             <z-m>0.769</z-m>  
         </offsets>
@@ -1416,7 +1416,7 @@
         <name>GreenLight-ALS</name>
         <path>Aircraft/E-jet-family/Models/Lights/ALS/green-navlight.xml</path>
         <offsets>
-            <x-m>2.69</x-m>
+            <x-m>2.49</x-m>
             <y-m>13.6</y-m>
             <z-m>0.769</z-m>  
         </offsets>
@@ -1426,7 +1426,7 @@
         <name>LeftStrobe</name>
         <path>Aircraft/E-jet-family/Models/Lights/StrobeLight.xml</path>
         <offsets>
-            <x-m>2.69</x-m>
+            <x-m>2.49</x-m>
             <y-m>-13.6</y-m>
             <z-m>0.769</z-m> 
         </offsets>
@@ -1435,7 +1435,7 @@
         <name>LeftStrobe-ALS</name>
         <path>Aircraft/E-jet-family/Models/Lights/ALS/left-strobe.xml</path>
         <offsets>
-            <x-m>2.69</x-m>
+            <x-m>2.49</x-m>
             <y-m>-13.6</y-m>
             <z-m>0.769</z-m> 
         </offsets>
@@ -1445,7 +1445,7 @@
         <name>RightStrobe</name>
         <path>Aircraft/E-jet-family/Models/Lights/StrobeLight.xml</path>
         <offsets>
-            <x-m>2.69</x-m>
+            <x-m>2.49</x-m>
             <y-m>13.6</y-m>
             <z-m>0.769</z-m> 
         </offsets>
@@ -1454,7 +1454,7 @@
         <name>RightStrobe-ALS</name>
         <path>Aircraft/E-jet-family/Models/Lights/ALS/right-strobe.xml</path>
         <offsets>
-            <x-m>2.69</x-m>
+            <x-m>2.49</x-m>
             <y-m>13.6</y-m>
             <z-m>0.769</z-m> 
         </offsets>
