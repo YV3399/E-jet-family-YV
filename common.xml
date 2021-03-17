@@ -1248,7 +1248,14 @@
                     DC buses are 28V
 
                     Loads are in ampères (A) for DC circuitry, watts (VA / W)
-                    for AC circuitry.
+                    for AC circuitry. This is done because in the DC circuitry,
+                    things may end up pulling from the battery, and that means
+                    we need to account in ampère-hours (Ah) to calculate
+                    battery charges, so ampères are easier; in the AC
+                    circuitry, it's all about watts, so we use those. The only
+                    points where we have to be careful is the TRUs and the
+                    inverter, which form bridges between the AC and DC parts of
+                    the network.
                 -->
                 <ac n="0">
                     <name>AC BUS TIE</name>

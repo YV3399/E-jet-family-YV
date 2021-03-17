@@ -1,5 +1,333 @@
 <PropertyList>
 
+    <!-- DC BUS 1 OUTPUTS -->
+    <!-- AFT ENTRANCE LIGHTS -->
+    <!-- AFT FLASH LIGHTS CHARGER / AFT LAV LIGHTS -->
+    <!-- COCKPIT CHART LIGHTS -->
+    <!-- DIGITAL AUDIO CONTROL PANEL 3 -->
+    <!-- EFB 1 and 2 -->
+    <!-- ENGINE 1 THRUST QUADRAND -->
+    <!-- ENGINE 1 THRUST REV LEVER SW -->
+    <!-- ENGINE 1 NACELLE ANTI-ICE VALVE -->
+    <!-- FWD FLASH LIGHT CHARGER / WARDROBE LIGHT -->
+    <!-- FWD LAV LIGHTS -->
+    <!-- FWD LAV / RECIRCULATION -->
+    <!-- FWD / MAIN ENTRANCE LIGHTS -->
+    <!-- GALLEY AREA LIGHTS -->
+    <!-- GALLEY G3 CONTROL -->
+    <!-- GASPER VALVE -->
+    <!-- GUIDANCE PANEL 2 (DISPLAY CONTROLLER 2) -->
+    <!-- HS-ACE CH 1 -->
+    <!-- HYD MOTOR PUMP 2 COMMAND -->
+    <!-- LEFT IDLE LOCK SOLENOID -->
+    <!-- LH FLIGHT ATTND READING LT 1 COMMAND -->
+    <!-- LH FLIGHT ATTND READING LT 2 COMMAND -->
+    <!-- LH FLIGHT ATTND SEAT READING LT -->
+    <!-- MAU 1 FCM 1 PWR B -->
+    <!-- MAU 1 FCM 2 PWR B -->
+    <!-- MAU 1 PWR SUPPLY 3 -->
+    <!-- MICRO IRU 2 (PWR 2) -->
+    <!-- MLS RECEIVER 1 -->
+    <!-- OXYGEN DEPLOY 1 -->
+    <!-- P-ACE #2-1 LEFT INBOARD ELEVATOR (P) -->
+    <!-- P-ACE #2-2 RIGHT INBOARD ELEVATOR (S) -->
+    <!-- PITOT / STATIC / AOA1 HEATER PWR -->
+    <!-- PITOT / STATIC / AOA1 SENSOR -->
+    <!-- PITOT / STATIC / AOA2 HEATER PWR -->
+    <!-- PITOT / STATIC / AOA2 SENSOR -->
+    <!-- PRINTER -->
+    <!-- READING LIGHTS AFT LEFT -->
+    <!-- READING LIGHTS FWD LEFT -->
+    <!-- REFUEL 1 -->
+    <!-- RH FLIGHT ATTND SEAT READING LT -->
+    <!-- SATELLITE DATA UNIT -->
+    <!-- SF-ACE 1 SLAT CH 1 DC FEED -->
+    <!-- SPDA1 PWR SUPPLY FEED 1 -->
+    <!-- TAT 1 HEATER PWR -->
+    <!-- VHF COMM MOD 3 -->
+    <!-- VOR 3 -->
+    <!-- WATER AND WASTE SYSTEM CONTROLLER PWR 2 -->
+    <!-- WINDSHIELD HEATER 2 CONTROL -->
+    <!-- WINDSHIELD WIPER 2 CONTROL -->
+    <!-- WING INSPECTION LIGHTS -->
+
+    <!-- COCKPIT MAIN PANEL LIGHTING -->
+    <filter>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <condition>
+                <greater-than>
+                    <property>/systems/electrical/buses/dc[1]/volts</property>
+                    <value>18</value>
+                </greater-than>
+            </condition>
+            <property>/controls/lighting/main-panel</property>
+        </input>
+        <output>/systems/electrical/outputs/main-panel-light</output>
+    </filter>
+    <!-- COCKPIT PEDESTAL LIGHTING -->
+    <filter>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <condition>
+                <greater-than>
+                    <property>/systems/electrical/buses/dc[1]/volts</property>
+                    <value>18</value>
+                </greater-than>
+            </condition>
+            <property>/controls/lighting/pedestal</property>
+        </input>
+        <output>/systems/electrical/outputs/pedestal-light</output>
+    </filter>
+    <!-- unswitched outputs -->
+    <filter>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <property>/systems/electrical/buses/dc[1]/volts</property>
+        </input>
+        <!-- COPILOT MFD -->
+        <output>/systems/electrical/outputs/mfd[1]</output>
+        <!-- PILOT MCDU -->
+        <output>/systems/electrical/outputs/mcdu[0]</output>
+        <!-- PILOT PFD -->
+        <output>/systems/electrical/outputs/pfd[0]</output>
+        <!-- AIRSTAIR ACTUATOR -->
+        <output>/systems/electrical/outputs/airstairs</output>
+        <!-- COPILOT CURSOR CONTROL DEVICE -->
+        <!-- CURSOR CONTROL DEVICE 2 -->
+        <output>/systems/electrical/outputs/ccd[1]</output>
+        <!-- PASSENGER SIGNS -->
+        <output>/systems/electrical/outputs/passenger-signs</output>
+        <!-- EMERGENCY LIGHTS POWER UNITS (ELPU) -->
+        <output>/systems/electrical/outputs/elpu</output>
+        <!-- RADIO ALTIMETER 1 -->
+        <output>/systems/electrical/outputs/radar-altimeter[0]</output>
+        <!-- WEATHER RADAR CONTROL 1 -->
+        <output>/systems/electrical/outputs/wx-radar-control[0]</output>
+        <!-- WEATHER RADAR RECEIVER / TRANSMITTER (WEATHER RADAR / ANTENNA) -->
+        <output>/systems/electrical/outputs/wx-radar</output>
+    </filter>
+    <filter>
+        <name>Airstairs Moving 1</name>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <condition>
+                <or>
+                    <equals>
+                        <property>/sim/model/door-positions/l1-stairs/position-norm</property>
+                        <value>0</value>
+                    </equals>
+                    <equals>
+                        <property>/sim/model/door-positions/l1-stairs/position-norm</property>
+                        <value>1</value>
+                    </equals>
+                </or>
+            </condition>
+            <value>0</value>
+        </input>
+        <input><value>1</value></input>
+        <output>/sim/model/door-positions/l1-stairs/moving</output>
+    </filter>
+    <filter>
+        <name>Airstairs Moving 2</name>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <condition>
+                <or>
+                    <equals>
+                        <property>/sim/model/door-positions/l2-stairs/position-norm</property>
+                        <value>0</value>
+                    </equals>
+                    <equals>
+                        <property>/sim/model/door-positions/l2-stairs/position-norm</property>
+                        <value>1</value>
+                    </equals>
+                </or>
+            </condition>
+            <value>0</value>
+        </input>
+        <input><value>1</value></input>
+        <output>/sim/model/door-positions/l2-stairs/moving</output>
+    </filter>
+    <filter>
+        <name>WXR antenna power draw</name>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <condition>
+                <less-than>
+                    <property>/systems/electrical/outputs/wx-radar</property>
+                    <value>27.9</value>
+                </less-than>
+            </condition>
+            <value>0</value>
+        </input>
+        <input>
+            <condition>
+                <equals>
+                    <property>/instrumentation/wxr/mode</property>
+                    <value>1</value>
+                </equals>
+            </condition>
+            <value>1000</value>
+        </input>
+        <input>
+            <condition>
+                <equals>
+                    <property>/instrumentation/wxr/mode</property>
+                    <value>2</value>
+                </equals>
+            </condition>
+            <value>10000</value>
+        </input>
+        <input>
+            <condition>
+                <equals>
+                    <property>/instrumentation/wxr/mode</property>
+                    <value>3</value>
+                </equals>
+            </condition>
+            <value>10000</value>
+        </input>
+        <output>/instrumentation/wxr/power-draw</output>
+    </filter>
+    <filter>
+        <name>DC BUS 1 loads</name>
+        <type>gain</type>
+        <output>/systems/electrical/buses/dc[1]/load</output>
+        <input>
+            <condition>
+                <property>/systems/electrical/buses/dc[1]/powered</property>
+            </condition>
+            <expression>
+                <sum>
+                    <div>
+                        <sum>
+                            <product>
+                                <property>/systems/electrical/outputs/airstairs</property>
+                                <sum>
+                                    <property>/sim/model/door-positions/l1-stairs/moving</property>
+                                    <property>/sim/model/door-positions/l2-stairs/moving</property>
+                                </sum>
+                                <value>8</value>
+                            </product>
+                            <product>
+                                <property>/systems/electrical/outputs/passenger-signs</property>
+                                <property>/controls/switches/seatbelt-sign</property>
+                                <value>0.5</value>
+                            </product>
+                            <product>
+                                <property>/systems/electrical/outputs/pfd[0]</property>
+                                <value>2</value>
+                            </product>
+                            <product>
+                                <property>/systems/electrical/outputs/mcdu[0]</property>
+                                <value>2</value>
+                            </product>
+                            <product>
+                                <property>/systems/electrical/outputs/mfd[1]</property>
+                                <value>2</value>
+                            </product>
+                            <product>
+                                <property>/systems/electrical/outputs/elpu</property>
+                                <value>0.5</value>
+                            </product>
+                            <property>/instrumentation/wxr/power-draw</property>
+                        </sum>
+                        <property>/systems/electrical/buses/dc[1]/volts</property>
+                    </div>
+                    <property>/systems/electrical/buses/dc[1]/loads/dc[2]</property>
+                    <property>/systems/electrical/buses/dc[1]/loads/dc[3]</property>
+                </sum>
+            </expression>
+        </input>
+    </filter>
+
+    <!-- DC BUS 2 OUTPUTS -->
+    <filter>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <condition>
+                <greater-than>
+                    <property>/systems/electrical/buses/dc[2]/volts</property>
+                    <value>18</value>
+                </greater-than>
+            </condition>
+            <property>/controls/lighting/overhead-panel</property>
+        </input>
+        <output>/systems/electrical/outputs/overhead-panel-light</output>
+    </filter>
+    
+    <!-- unswitched outputs -->
+    <filter>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <property>/systems/electrical/buses/dc[2]/volts</property>
+        </input>
+        <output>/systems/electrical/outputs/pfd[1]</output>
+        <output>/systems/electrical/outputs/nosewheel-steering</output>
+        <output>/systems/electrical/outputs/nav[1]</output>
+        <output>/systems/electrical/outputs/dme[1]</output>
+        <output>/systems/electrical/outputs/adf[1]</output>
+    </filter>
+    <filter>
+        <name>Nosewheel steering rate</name>
+        <type>derivative</type>
+        <input>/gear/gear[0]/steering-norm</input>
+        <filter-time>0.1</filter-time>
+        <output>/gear/gear[0]/steering-rate</output>
+    </filter>
+    <filter>
+        <name>DC BUS 2 loads</name>
+        <type>gain</type>
+        <output>/systems/electrical/buses/dc[2]/load</output>
+        <input>
+            <condition>
+                <property>/systems/electrical/buses/dc[2]/powered</property>
+            </condition>
+            <expression>
+                <sum>
+                    <div>
+                        <sum>
+                            <product>
+                                <property>/systems/electrical/outputs/pfd[1]</property>
+                                <value>2</value>
+                            </product>
+                            <product>
+                                <property>/systems/electrical/outputs/adf[1]</property>
+                                <value>0.5</value>
+                            </product>
+                            <product>
+                                <property>/systems/electrical/outputs/dme[1]</property>
+                                <value>0.5</value>
+                            </product>
+                            <product>
+                                <property>/systems/electrical/outputs/nav[1]</property>
+                                <value>0.5</value>
+                            </product>
+                            <product>
+                                <property>/systems/electrical/outputs/nosewheel-steering</property>
+                                <abs>
+                                    <property>/gear/gear[0]/steering-rate</property>
+                                </abs>
+                                <value>120</value>
+                            </product>
+                        </sum>
+                        <property>/systems/electrical/buses/dc[2]/volts</property>
+                    </div>
+                    <property>/systems/electrical/buses/dc[2]/loads/dc[1]</property>
+                    <property>/systems/electrical/buses/dc[2]/loads/dc[3]</property>
+                </sum>
+            </expression>
+        </input>
+    </filter>
 
     <!-- DC ESS BUS 1 OUTPUTS -->
     <!-- unswitched outputs -->
@@ -16,8 +344,8 @@
         <output>/systems/electrical/outputs/iess[0]</output>
         <output>/systems/electrical/outputs/master-warn-caution[0]</output>
     </filter>
-    <!-- loads -->
     <filter>
+        <name>DC ESS 1 loads</name>
         <type>gain</type>
         <output>/systems/electrical/buses/dc[3]/load</output>
         <input>
@@ -75,8 +403,8 @@
         <output>/systems/electrical/outputs/iess[1]</output>
         <output>/systems/electrical/outputs/master-warn-caution[1]</output>
     </filter>
-    <!-- loads -->
     <filter>
+        <name>DC ESS 2 loads</name>
         <type>gain</type>
         <output>/systems/electrical/buses/dc[4]/load</output>
         <input>
@@ -128,7 +456,6 @@
         </input>
         <output>/systems/electrical/outputs/dome-light</output>
     </filter>
-            
     <!-- unswitched outputs -->
     <filter>
         <type>gain</type>
@@ -140,8 +467,8 @@
         <output>/systems/electrical/outputs/rudder-trim</output>
         <output>/systems/electrical/outputs/crossfeed-valve</output>
     </filter>
-    <!-- loads -->
     <filter>
+        <name>DC ESS 3 loads</name>
         <type>gain</type>
         <output>/systems/electrical/buses/dc[5]/load</output>
         <input>
@@ -214,77 +541,6 @@
         <output>/systems/electrical/buses/dc[5]/loads/rudder-trim</output>
     </filter>
 
-    <!-- DC BUS 1 OUTPUTS -->
-    <filter>
-        <type>gain</type>
-        <gain>1</gain>
-        <input>
-            <condition>
-                <greater-than>
-                    <property>/systems/electrical/buses/dc[1]/volts</property>
-                    <value>18</value>
-                </greater-than>
-            </condition>
-            <property>/controls/lighting/main-panel</property>
-        </input>
-        <output>/systems/electrical/outputs/main-panel-light</output>
-    </filter>
-    <filter>
-        <type>gain</type>
-        <gain>1</gain>
-        <input>
-            <condition>
-                <greater-than>
-                    <property>/systems/electrical/buses/dc[1]/volts</property>
-                    <value>18</value>
-                </greater-than>
-            </condition>
-            <property>/controls/lighting/pedestal</property>
-        </input>
-        <output>/systems/electrical/outputs/pedestal-light</output>
-    </filter>
-    <!-- unswitched outputs -->
-    <filter>
-        <type>gain</type>
-        <gain>1</gain>
-        <input>
-            <property>/systems/electrical/buses/dc[1]/volts</property>
-        </input>
-        <output>/systems/electrical/outputs/mfd[1]</output>
-        <output>/systems/electrical/outputs/mcdu[0]</output>
-        <output>/systems/electrical/outputs/pfd[0]</output>
-        <output>/systems/electrical/outputs/airstairs</output>
-    </filter>
-
-    <!-- DC BUS 2 OUTPUTS -->
-    <filter>
-        <type>gain</type>
-        <gain>1</gain>
-        <input>
-            <condition>
-                <greater-than>
-                    <property>/systems/electrical/buses/dc[2]/volts</property>
-                    <value>18</value>
-                </greater-than>
-            </condition>
-            <property>/controls/lighting/overhead-panel</property>
-        </input>
-        <output>/systems/electrical/outputs/overhead-panel-light</output>
-    </filter>
-    
-    <!-- unswitched outputs -->
-    <filter>
-        <type>gain</type>
-        <gain>1</gain>
-        <input>
-            <property>/systems/electrical/buses/dc[2]/volts</property>
-        </input>
-        <output>/systems/electrical/outputs/pfd[1]</output>
-        <output>/systems/electrical/outputs/nosewheel-steering</output>
-        <output>/systems/electrical/outputs/nav[1]</output>
-        <output>/systems/electrical/outputs/dme[1]</output>
-        <output>/systems/electrical/outputs/adf[1]</output>
-    </filter>
 
     <!-- AC ESS BUS OUTPUTS -->
     <filter>
@@ -401,9 +657,40 @@
             </condition>
             <expression>
                 <sum>
+                    <div>
+                        <sum>
+                            <product>
+                                <property>/systems/electrical/outputs/beacon</property>
+                                <value>250</value>
+                            </product>
+                            <product>
+                                <property>/systems/electrical/outputs/nav-lights</property>
+                                <value>250</value>
+                            </product>
+                            <product>
+                                <property>/systems/electrical/outputs/taxi-lights[0]</property>
+                                <value>250</value>
+                            </product>
+                            <product>
+                                <property>/systems/electrical/outputs/taxi-lights[1]</property>
+                                <value>250</value>
+                            </product>
+                            <product>
+                                <property>/systems/electrical/outputs/landing-lights[0]</property>
+                                <value>1000</value>
+                            </product>
+                            <product>
+                                <property>/systems/electrical/outputs/landing-lights[1]</property>
+                                <value>1000</value>
+                            </product>
+                        </sum>
+                        <property>/systems/electrical/buses/ac[1]/volts</property>
+                    </div>
                     <property>/systems/electrical/buses/ac[1]/loads/exciter[2]</property>
                     <property>/systems/electrical/buses/ac[1]/loads/ac[0]</property>
                     <property>/systems/electrical/buses/ac[1]/loads/ac[3]</property>
+                    <property>/systems/electrical/buses/ac[1]/loads/tru[1]</property>
+
                 </sum>
             </expression>
         </input>
@@ -480,9 +767,27 @@
             </condition>
             <expression>
                 <sum>
+                    <div>
+                        <sum>
+                            <product>
+                                <property>/systems/electrical/outputs/strobe</property>
+                                <value>1000</value>
+                            </product>
+                            <product>
+                                <property>/systems/electrical/outputs/taxi-lights[2]</property>
+                                <value>250</value>
+                            </product>
+                            <product>
+                                <property>/systems/electrical/outputs/landing-lights[2]</property>
+                                <value>1000</value>
+                            </product>
+                        </sum>
+                        <property>/systems/electrical/buses/ac[1]/volts</property>
+                    </div>
                     <property>/systems/electrical/buses/ac[2]/loads/exciter[3]</property>
                     <property>/systems/electrical/buses/ac[2]/loads/ac[0]</property>
                     <property>/systems/electrical/buses/ac[2]/loads/ac[3]</property>
+                    <property>/systems/electrical/buses/ac[2]/loads/tru[2]</property>
                 </sum>
             </expression>
         </input>
@@ -500,6 +805,7 @@
             <expression>
                 <sum>
                     <property>/systems/electrical/buses/ac[3]/loads/ac[4]</property>
+                    <property>/systems/electrical/buses/ac[3]/loads/tru[0]</property>
                 </sum>
             </expression>
         </input>

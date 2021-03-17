@@ -690,6 +690,30 @@
         </input>
         <output>/systems/electrical/sources/tru[0]/status</output>
     </filter>
+    <filter>
+        <name>TRU ESS load to AC ESS</name>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <condition>
+                <equals>
+                    <property>/systems/electrical/sources/tru[0]/status</property>
+                    <value>1</value>
+                </equals>
+            </condition>
+            <expression>
+                <div>
+                    <product>
+                        <property>/systems/electrical/sources/tru[0]/load</property>
+                        <property>/systems/electrical/sources/tru[0]/volts</property>
+                    </product>
+                    <!-- efficiency: 80% -->
+                    <value>0.8</value>
+                </div>
+            </expression>
+        </input>
+        <output>/systems/electrical/buses/ac[3]/loads/tru[0]</output>
+    </filter>
     <!-- TRU left -->
     <filter>
         <type>gain</type>
@@ -739,6 +763,30 @@
         </input>
         <output>/systems/electrical/sources/tru[1]/status</output>
     </filter>
+    <filter>
+        <name>TRU 1 load to AC 1</name>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <condition>
+                <equals>
+                    <property>/systems/electrical/sources/tru[1]/status</property>
+                    <value>1</value>
+                </equals>
+            </condition>
+            <expression>
+                <div>
+                    <product>
+                        <property>/systems/electrical/sources/tru[1]/load</property>
+                        <property>/systems/electrical/sources/tru[1]/volts</property>
+                    </product>
+                    <!-- efficiency: 80% -->
+                    <value>0.8</value>
+                </div>
+            </expression>
+        </input>
+        <output>/systems/electrical/buses/ac[1]/loads/tru[1]</output>
+    </filter>
     <!-- TRU right -->
     <filter>
         <type>gain</type>
@@ -787,6 +835,30 @@
             <value>-1</value>
         </input>
         <output>/systems/electrical/sources/tru[2]/status</output>
+    </filter>
+    <filter>
+        <name>TRU 2 load to AC 2</name>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <condition>
+                <equals>
+                    <property>/systems/electrical/sources/tru[2]/status</property>
+                    <value>1</value>
+                </equals>
+            </condition>
+            <expression>
+                <div>
+                    <product>
+                        <property>/systems/electrical/sources/tru[2]/load</property>
+                        <property>/systems/electrical/sources/tru[2]/volts</property>
+                    </product>
+                    <!-- efficiency: 80% -->
+                    <value>0.8</value>
+                </div>
+            </expression>
+        </input>
+        <output>/systems/electrical/buses/ac[2]/loads/tru[2]</output>
     </filter>
 
     <!-- RAT -->

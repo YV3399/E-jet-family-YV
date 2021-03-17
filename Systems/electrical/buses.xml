@@ -128,12 +128,74 @@
         <type>gain</type>
         <gain>1</gain>
         <input>
-            <sum>
-                <property>/systems/electrical/buses/ac[0]/loads/ac[1]</property>
-                <property>/systems/electrical/buses/ac[0]/loads/ac[2]</property>
-            </sum>
+            <expression>
+                <sum>
+                    <property>/systems/electrical/buses/ac[0]/loads/ac[1]</property>
+                    <property>/systems/electrical/buses/ac[0]/loads/ac[2]</property>
+                </sum>
+            </expression>
         </input>
         <output>/systems/electrical/buses/ac[0]/load</output>
+    </filter>
+    <filter>
+        <name>AC BUS TIE load to APU</name>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <condition>
+                <equals>
+                    <property>/systems/electrical/buses/ac[0]/feed</property>
+                    <value>1</value>
+                </equals>
+            </condition>
+            <property>/systems/electrical/buses/ac[0]/load</property>
+        </input>
+        <output>/systems/electrical/sources/generator[0]/load</output>
+    </filter>
+    <filter>
+        <name>AC BUS TIE load to AC-GPU</name>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <condition>
+                <equals>
+                    <property>/systems/electrical/buses/ac[0]/feed</property>
+                    <value>2</value>
+                </equals>
+            </condition>
+            <property>/systems/electrical/buses/ac[0]/load</property>
+        </input>
+        <output>/systems/electrical/sources/ac-gpu/load</output>
+    </filter>
+    <filter>
+        <name>AC BUS TIE load to AC BUS 1</name>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <condition>
+                <equals>
+                    <property>/systems/electrical/buses/ac[0]/feed</property>
+                    <value>3</value>
+                </equals>
+            </condition>
+            <property>/systems/electrical/buses/ac[0]/load</property>
+        </input>
+        <output>/systems/electrical/buses/ac[1]/loads/ac[0]</output>
+    </filter>
+    <filter>
+        <name>AC BUS TIE load to AC BUS 2</name>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <condition>
+                <equals>
+                    <property>/systems/electrical/buses/ac[0]/feed</property>
+                    <value>4</value>
+                </equals>
+            </condition>
+            <property>/systems/electrical/buses/ac[0]/load</property>
+        </input>
+        <output>/systems/electrical/buses/ac[2]/loads/ac[0]</output>
     </filter>
 
     <!-- AC BUS 1 -->
@@ -628,6 +690,36 @@
         <output>/systems/electrical/buses/dc[1]/volts</output>
     </filter>
     <filter>
+        <name>DC 1 load to TRU 1</name>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <condition>
+                <equals>
+                    <property>/systems/electrical/buses/dc[1]/feed</property>
+                    <value>1</value>
+                </equals>
+            </condition>
+            <property>/systems/electrical/buses/dc[1]/load</property>
+        </input>
+        <output>/systems/electrical/sources/tru[1]/load</output>
+    </filter>
+    <filter>
+        <name>DC 1 load to DC 2 (via bus tie)</name>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <condition>
+                <equals>
+                    <property>/systems/electrical/buses/dc[1]/feed</property>
+                    <value>2</value>
+                </equals>
+            </condition>
+            <property>/systems/electrical/buses/dc[1]/load</property>
+        </input>
+        <output>/systems/electrical/buses/dc[2]/loads/dc[1]</output>
+    </filter>
+    <filter>
         <name>DC BUS 1 powered</name>
         <type>gain</type>
         <gain>1</gain>
@@ -700,6 +792,36 @@
             <property>/systems/electrical/buses/dc[1]/volts</property>
         </input>
         <output>/systems/electrical/buses/dc[2]/volts</output>
+    </filter>
+    <filter>
+        <name>DC 2 load to TRU 2</name>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <condition>
+                <equals>
+                    <property>/systems/electrical/buses/dc[2]/feed</property>
+                    <value>1</value>
+                </equals>
+            </condition>
+            <property>/systems/electrical/buses/dc[2]/load</property>
+        </input>
+        <output>/systems/electrical/sources/tru[2]/load</output>
+    </filter>
+    <filter>
+        <name>DC 2 load to DC 1 (via bus tie)</name>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <condition>
+                <equals>
+                    <property>/systems/electrical/buses/dc[2]/feed</property>
+                    <value>2</value>
+                </equals>
+            </condition>
+            <property>/systems/electrical/buses/dc[2]/load</property>
+        </input>
+        <output>/systems/electrical/buses/dc[1]/loads/dc[2]</output>
     </filter>
     <filter>
         <name>DC BUS 2 powered</name>
@@ -1099,6 +1221,21 @@
         <output>/systems/electrical/buses/dc[5]/volts</output>
     </filter>
     <filter>
+        <name>DC ESS 3 load to TRU ESS</name>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <condition>
+                <equals>
+                    <property>/systems/electrical/buses/dc[5]/feed</property>
+                    <value>1</value>
+                </equals>
+            </condition>
+            <property>/systems/electrical/buses/dc[5]/load</property>
+        </input>
+        <output>/systems/electrical/sources/tru[0]/load</output>
+    </filter>
+    <filter>
         <name>DC ESS 3 load to DC ESS 1</name>
         <type>gain</type>
         <gain>1</gain>
@@ -1127,116 +1264,6 @@
             <property>/systems/electrical/buses/dc[5]/load</property>
         </input>
         <output>/systems/electrical/buses/dc[4]/loads/dc[5]</output>
-    </filter>
-    <filter>
-        <name>DC ESS 3 powered</name>
-        <type>gain</type>
-        <gain>1</gain>
-        <input>
-            <condition>
-                <greater-than>
-                    <property>/systems/electrical/buses/dc[5]/volts</property>
-                    <value>18</value>
-                </greater-than>
-            </condition>
-            <value>1</value>
-        </input>
-        <output>/systems/electrical/buses/dc[5]/powered</output>
-    </filter>
-
-    <!-- DC ESS 3 LOGIC -->
-    <!-- priorities:
-        1. TRU ESS
-        2. DC ESS 1 (via tie, but not if tied already)
-        3. DC ESS 2 (via tie, but not if tied already)
-    -->
-    <filter>
-        <name>DC ESS 3 FEED</name>
-        <type>gain</type>
-        <gain>1</gain>
-        <input>
-            <condition>
-                <greater-than>
-                    <property>/systems/electrical/sources/tru[0]/volts</property>
-                    <value>18</value>
-                </greater-than>
-            </condition>
-            <value>1</value>
-        </input>
-        <input>
-            <condition>
-                <and>
-                    <not>
-                        <property>/controls/electric/bus-tie-dc</property>
-                    </not>
-                    <not>
-                        <equals>
-                            <property>/systems/electrical/buses/dc[3]/feed</property>
-                            <value>2</value>
-                        </equals>
-                    </not>
-                    <greater-than>
-                        <property>/systems/electrical/buses/dc[3]/volts</property>
-                        <value>18</value>
-                    </greater-than>
-                </and>
-            </condition>
-            <value>2</value>
-        </input>
-        <input>
-            <condition>
-                <and>
-                    <not>
-                        <property>/controls/electric/bus-tie-dc</property>
-                    </not>
-                    <not>
-                        <equals>
-                            <property>/systems/electrical/buses/dc[4]/feed</property>
-                            <value>2</value>
-                        </equals>
-                    </not>
-                    <greater-than>
-                        <property>/systems/electrical/buses/dc[4]/volts</property>
-                        <value>18</value>
-                    </greater-than>
-                </and>
-            </condition>
-            <value>3</value>
-        </input>
-        <output>/systems/electrical/buses/dc[5]/feed</output>
-    </filter>
-    <filter>
-        <name>DC ESS 3 volts</name>
-        <type>gain</type>
-        <gain>1</gain>
-        <input>
-            <condition>
-                <equals>
-                    <property>/systems/electrical/buses/dc[5]/feed</property>
-                    <value>1</value>
-                </equals>
-            </condition>
-            <property>/systems/electrical/sources/tru[0]/volts</property>
-        </input>
-        <input>
-            <condition>
-                <equals>
-                    <property>/systems/electrical/buses/dc[5]/feed</property>
-                    <value>2</value>
-                </equals>
-            </condition>
-            <property>/systems/electrical/buses/dc[3]/volts</property>
-        </input>
-        <input>
-            <condition>
-                <equals>
-                    <property>/systems/electrical/buses/dc[5]/feed</property>
-                    <value>3</value>
-                </equals>
-            </condition>
-            <property>/systems/electrical/buses/dc[4]/volts</property>
-        </input>
-        <output>/systems/electrical/buses/dc[5]/volts</output>
     </filter>
     <filter>
         <name>DC ESS 3 powered</name>
