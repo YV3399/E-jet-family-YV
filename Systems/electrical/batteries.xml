@@ -3,7 +3,6 @@
         <name>Battery 1 charge/discharge</name>
         <type>gain</type>
         <gain>1</gain>
-        <debug type="bool">true</debug>
         <min>0</min>
         <max><property>/systems/electrical/sources/battery[0]/capacity</property></max>
         <update-interval-secs>0.1</update-interval-secs>
@@ -24,7 +23,6 @@
         <name>Battery 2 charge/discharge</name>
         <type>gain</type>
         <gain>1</gain>
-        <debug type="bool">true</debug>
         <min>0</min>
         <max><property>/systems/electrical/sources/battery[1]/capacity</property></max>
         <update-interval-secs>0.1</update-interval-secs>

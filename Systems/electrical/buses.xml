@@ -1189,7 +1189,7 @@
         <type>gain</type>
         <gain>1</gain>
         <input>
-            <!-- if not starting APU, don't use anything -->
+            <!-- APU starter running -->
             <condition>
                 <equals>
                     <property>/controls/apu/starter</property>
@@ -1202,6 +1202,19 @@
             </condition>
             <value>500</value>
         </input>
+        <input>
+            <!-- APU starter disengaged, APU FADEC still pulls a bit of load -->
+            <condition>
+                <equals>
+                    <property>/controls/apu/starter</property>
+                    <value>2</value>
+                </equals>
+            </condition>
+            <value>2</value>
+        </input>
+        <!-- once APU is running and self-sustaining, all power is drawn from
+             the APU's own generator; we never get to see this bit. -->
+        <input><value>0</value></input>
         <output>/systems/electrical/buses/dc[6]/load</output>
     </filter>
     <filter>

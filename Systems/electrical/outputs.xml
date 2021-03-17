@@ -19,11 +19,11 @@
     <!-- loads -->
     <filter>
         <type>gain</type>
-        <condition>
-            <property>/systems/electrical/buses/dc[3]/powered</property>
-        </condition>
         <output>/systems/electrical/buses/dc[3]/load</output>
         <input>
+            <condition>
+                <property>/systems/electrical/buses/dc[3]/powered</property>
+            </condition>
             <expression>
                 <sum>
                     <div>
@@ -78,11 +78,11 @@
     <!-- loads -->
     <filter>
         <type>gain</type>
-        <condition>
-            <property>/systems/electrical/buses/dc[4]/powered</property>
-        </condition>
         <output>/systems/electrical/buses/dc[4]/load</output>
         <input>
+            <condition>
+                <property>/systems/electrical/buses/dc[4]/powered</property>
+            </condition>
             <expression>
                 <sum>
                     <div>
@@ -143,11 +143,11 @@
     <!-- loads -->
     <filter>
         <type>gain</type>
-        <condition>
-            <property>/systems/electrical/buses/dc[5]/powered</property>
-        </condition>
         <output>/systems/electrical/buses/dc[5]/load</output>
         <input>
+            <condition>
+                <property>/systems/electrical/buses/dc[5]/powered</property>
+            </condition>
             <expression>
                 <sum>
                     <div>
@@ -171,14 +171,48 @@
         </input>
     </filter>
 
-    <!--
     <filter>
+        <name>Rudder trim power draw</name>
         <type>derivative</type>
-        <input>/controls/flight/rudder-trim-norm</input>
+        <input>/controls/flight/rudder-trim</input>
         <filter-time>0.1</filter-time>
+        <output>/controls/flight/rudder-trim-motor</output>
+    </filter>
+
+    <filter>
+        <type>moving-average</type>
+        <samples>60</samples>
+        <input>
+            <condition>
+                <greater-than>
+                    <property>/systems/electrical/outputs/rudder-trim</property>
+                    <value>18</value>
+                </greater-than>
+                <expression>
+                    <greater-than>
+                        <abs>
+                            <property>/controls/flight/rudder-trim-motor</property>
+                        </abs>
+                        <value>0.00001</value>
+                    </greater-than>
+                </expression>
+            </condition>
+            <expression>
+                <product>
+                    <abs>
+                        <property>/controls/flight/rudder-trim-motor</property>
+                    </abs>
+                    <!-- convert samples to s^-1 -->
+                    <value>120</value>
+
+                    <!-- convert movement units per second to amps -->
+                    <value>40</value>
+                </product>
+            </expression>
+        </input>
+        <input><value>0</value></input>
         <output>/systems/electrical/buses/dc[5]/loads/rudder-trim</output>
     </filter>
-    -->
 
     <!-- DC BUS 1 OUTPUTS -->
     <filter>
