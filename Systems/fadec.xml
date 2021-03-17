@@ -33,7 +33,7 @@
                     </equals>
                     <greater-than>
                         <property>engines/engine[0]/n1</property>
-						<property>fadec/configuration/idle-n1</property>
+                        <property>fadec/configuration/idle-n1</property>
                     </greater-than>
                 </and>
             </condition>
@@ -44,15 +44,51 @@
         <output>fadec/engine-switch[0]</output>
     </filter>
 
+    <logic>
+        <name>Ignition Left</name>
+        <input>
+            <and>
+                <or>
+                    <greater-than>
+                        <property>/systems/electrical/outputs/exciter[0]</property>
+                        <value>110</value>
+                    </greater-than>
+                    <greater-than>
+                        <property>/systems/electrical/outputs/exciter[2]</property>
+                        <value>110</value>
+                    </greater-than>
+                </or>
+                <or>
+                    <!-- ignition switch in "OVRD" position -->
+                    <equals>
+                        <property>/fadec/ignition-switch[0]</property>
+                        <value>2</value>
+                    </equals>
+                    <!-- ignition switch in "AUTO" position and starter switch in "START" position -->
+                    <and>
+                        <equals>
+                            <property>/fadec/ignition-switch[0]</property>
+                            <value>1</value>
+                        </equals>
+                        <equals>
+                            <property>/fadec/engine-switch[0]</property>
+                            <value>2</value>
+                        </equals>
+                    </and>
+                </or>
+            </and>
+        </input>
+        <output>/fadec/ignition[0]</output>
+    </logic>
+
     <filter>
         <name>Cutoff Left</name>
         <type>gain</type>
         <gain>1</gain>
         <input>
-            <!-- engine switch "OFF": always cutoff fuel -->
             <condition>
                 <equals>
-                    <property>fadec/engine-switch[0]</property>
+                    <property>/fadec/engine-switch[0]</property>
                     <value>0</value>
                 </equals>
             </condition>
@@ -60,11 +96,22 @@
         </input>
         <input>
             <condition>
-                <!-- introduce fuel when N2 >= 20% -->
-                <greater-than>
-                    <property>/engines/engine[0]/n2</property>
-                    <value>20</value>
-                </greater-than>
+                <and>
+                    <!-- introduce fuel when N2 >= 20% -->
+                    <greater-than>
+                        <property>/engines/engine[0]/n2</property>
+                        <value>20</value>
+                    </greater-than>
+                    <or>
+                        <!-- ...provided ignition is available -->
+                        <property>/fadec/ignition[0]</property>
+                        <!-- ...or engine is running stable -->
+                        <greater-than>
+                            <property>/engines/engine[0]/n2</property>
+                            <value>50</value>
+                        </greater-than>
+                    </or>
+                </and>
             </condition>
             <value>0</value>
         </input>
@@ -184,7 +231,7 @@
                     </equals>
                     <greater-than>
                         <property>engines/engine[1]/n1</property>
-						<property>fadec/configuration/idle-n1</property>
+                        <property>fadec/configuration/idle-n1</property>
                     </greater-than>
                 </and>
             </condition>
@@ -195,15 +242,51 @@
         <output>fadec/engine-switch[1]</output>
     </filter>
 
+    <logic>
+        <name>Ignition Right</name>
+        <input>
+            <and>
+                <or>
+                    <greater-than>
+                        <property>/systems/electrical/outputs/exciter[1]</property>
+                        <value>110</value>
+                    </greater-than>
+                    <greater-than>
+                        <property>/systems/electrical/outputs/exciter[3]</property>
+                        <value>110</value>
+                    </greater-than>
+                </or>
+                <or>
+                    <!-- ignition switch in "OVRD" position -->
+                    <equals>
+                        <property>/fadec/ignition-switch[1]</property>
+                        <value>2</value>
+                    </equals>
+                    <!-- ignition switch in "AUTO" position and starter switch in "START" position -->
+                    <and>
+                        <equals>
+                            <property>/fadec/ignition-switch[1]</property>
+                            <value>1</value>
+                        </equals>
+                        <equals>
+                            <property>/fadec/engine-switch[1]</property>
+                            <value>2</value>
+                        </equals>
+                    </and>
+                </or>
+            </and>
+        </input>
+        <output>/fadec/ignition[1]</output>
+    </logic>
+
     <filter>
         <name>Cutoff Right</name>
         <type>gain</type>
         <gain>1</gain>
         <input>
-            <!-- engine switch "OFF": always cutoff fuel -->
             <condition>
                 <equals>
-                    <property>fadec/engine-switch[1]</property>
+                    <property>/fadec/engine-switch[1]</property>
                     <value>0</value>
                 </equals>
             </condition>
@@ -211,11 +294,22 @@
         </input>
         <input>
             <condition>
-                <!-- introduce fuel when N2 >= 20% -->
-                <greater-than>
-                    <property>/engines/engine[1]/n2</property>
-                    <value>20</value>
-                </greater-than>
+                <and>
+                    <!-- introduce fuel when N2 >= 20% -->
+                    <greater-than>
+                        <property>/engines/engine[1]/n2</property>
+                        <value>20</value>
+                    </greater-than>
+                    <or>
+                        <!-- ...provided ignition is available -->
+                        <property>/fadec/ignition[1]</property>
+                        <!-- ...or engine is running stable -->
+                        <greater-than>
+                            <property>/engines/engine[1]/n2</property>
+                            <value>50</value>
+                        </greater-than>
+                    </or>
+                </and>
             </condition>
             <value>0</value>
         </input>

@@ -123,6 +123,18 @@
         </input>
         <output>/systems/electrical/buses/ac[0]/powered</output>
     </filter>
+    <filter>
+        <name>AC BUS TIE LOAD</name>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <sum>
+                <property>/systems/electrical/buses/ac[0]/loads/ac[1]</property>
+                <property>/systems/electrical/buses/ac[0]/loads/ac[2]</property>
+            </sum>
+        </input>
+        <output>/systems/electrical/buses/ac[0]/load</output>
+    </filter>
 
     <!-- AC BUS 1 -->
     <!-- priorities:
@@ -200,6 +212,36 @@
         </input>
         <output>/systems/electrical/buses/ac[1]/powered</output>
     </filter>
+    <filter>
+        <name>AC BUS 1 load to IDG 1</name>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <condition>
+                <equals>
+                    <property>/systems/electrical/buses/ac[1]/feed</property>
+                    <value>1</value>
+                </equals>
+            </condition>
+            <property>/systems/electrical/buses/ac[1]/load</property>
+        </input>
+        <output>/systems/electrical/sources/generator[1]/load</output>
+    </filter>
+    <filter>
+        <name>AC BUS 1 load to AC BUS TIE</name>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <condition>
+                <equals>
+                    <property>/systems/electrical/buses/ac[1]/feed</property>
+                    <value>2</value>
+                </equals>
+            </condition>
+            <property>/systems/electrical/buses/ac[1]/load</property>
+        </input>
+        <output>/systems/electrical/buses/ac[0]/loads/ac[1]</output>
+    </filter>
 
     <!-- AC BUS 2 -->
     <!-- priorities:
@@ -276,6 +318,36 @@
             <value>1</value>
         </input>
         <output>/systems/electrical/buses/ac[2]/powered</output>
+    </filter>
+    <filter>
+        <name>AC BUS 2 load to IDG 2</name>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <condition>
+                <equals>
+                    <property>/systems/electrical/buses/ac[2]/feed</property>
+                    <value>1</value>
+                </equals>
+            </condition>
+            <property>/systems/electrical/buses/ac[2]/load</property>
+        </input>
+        <output>/systems/electrical/sources/generator[2]/load</output>
+    </filter>
+    <filter>
+        <name>AC BUS 2 load to AC BUS TIE</name>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <condition>
+                <equals>
+                    <property>/systems/electrical/buses/ac[2]/feed</property>
+                    <value>2</value>
+                </equals>
+            </condition>
+            <property>/systems/electrical/buses/ac[2]/load</property>
+        </input>
+        <output>/systems/electrical/buses/ac[0]/loads/ac[2]</output>
     </filter>
 
     <!-- AC ESS -->
@@ -365,6 +437,36 @@
         </input>
         <output>/systems/electrical/buses/ac[3]/powered</output>
     </filter>
+    <filter>
+        <name>AC ESS load to AC 2</name>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <condition>
+                <equals>
+                    <property>/systems/electrical/buses/ac[3]/feed</property>
+                    <value>1</value>
+                </equals>
+            </condition>
+            <property>/systems/electrical/buses/ac[3]/load</property>
+        </input>
+        <output>/systems/electrical/buses/ac[2]/loads/ac[3]</output>
+    </filter>
+    <filter>
+        <name>AC ESS load to AC 1</name>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <condition>
+                <equals>
+                    <property>/systems/electrical/buses/ac[3]/feed</property>
+                    <value>2</value>
+                </equals>
+            </condition>
+            <property>/systems/electrical/buses/ac[3]/load</property>
+        </input>
+        <output>/systems/electrical/buses/ac[1]/loads/ac[2]</output>
+    </filter>
 
     <!-- AC STBY -->
     <!-- priorities:
@@ -433,6 +535,36 @@
             <value>1</value>
         </input>
         <output>/systems/electrical/buses/ac[4]/powered</output>
+    </filter>
+    <filter>
+        <name>AC STBY load to AC ESS</name>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <condition>
+                <equals>
+                    <property>/systems/electrical/buses/ac[4]/feed</property>
+                    <value>1</value>
+                </equals>
+            </condition>
+            <property>/systems/electrical/buses/ac[4]/load</property>
+        </input>
+        <output>/systems/electrical/buses/ac[3]/loads/ac[4]</output>
+    </filter>
+    <filter>
+        <name>AC STBY load to INVERTER</name>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <condition>
+                <equals>
+                    <property>/systems/electrical/buses/ac[4]/feed</property>
+                    <value>2</value>
+                </equals>
+            </condition>
+            <property>/systems/electrical/buses/ac[4]/load</property>
+        </input>
+        <output>/systems/electrical/sources/inverter/load</output>
     </filter>
 
     <!-- ************************ DC ************************ -->

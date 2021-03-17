@@ -298,6 +298,14 @@
 
     <!-- AC BUS 1 OUTPUTS -->
     <filter>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <property>/systems/electrical/buses/ac[1]/volts</property>
+        </input>
+        <output>/systems/electrical/outputs/exciter[2]</output>
+    </filter>
+    <filter>
         <!-- actually on the GND SVC bus, but we're not modelling that -->
         <type>gain</type>
         <gain>1</gain>
@@ -365,8 +373,52 @@
         </input>
         <output>/systems/electrical/outputs/nav-lights</output>
     </filter>
+    <!-- AC BUS 1 LOAD -->
+    <filter>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <condition>
+                <property>/systems/electrical/buses/ac[1]/powered</property>
+                <property>/systems/electrical/outputs/exciter[2]</property>
+                <property>/fadec/ignition[0]</property>
+            </condition>
+            <expression>
+                <product>
+                    <property>/systems/electrical/outputs/exciter[2]</property>
+                    <value>0.02</value>
+                </product>
+            </expression>
+        </input>
+        <output>/systems/electrical/buses/ac[1]/loads/exciter[2]</output>
+    </filter>
+    <filter>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <condition>
+                <property>/systems/electrical/buses/ac[1]/powered</property>
+            </condition>
+            <expression>
+                <sum>
+                    <property>/systems/electrical/buses/ac[1]/loads/exciter[2]</property>
+                    <property>/systems/electrical/buses/ac[1]/loads/ac[0]</property>
+                    <property>/systems/electrical/buses/ac[1]/loads/ac[3]</property>
+                </sum>
+            </expression>
+        </input>
+        <output>/systems/electrical/buses/ac[1]/load</output>
+    </filter>
 
     <!-- AC BUS 2 OUTPUTS -->
+    <filter>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <property>/systems/electrical/buses/ac[2]/volts</property>
+        </input>
+        <output>/systems/electrical/outputs/exciter[3]</output>
+    </filter>
     <filter>
         <type>gain</type>
         <gain>1</gain>
@@ -400,6 +452,59 @@
         </input>
         <output>/systems/electrical/outputs/strobe</output>
     </filter>
+    <!-- AC BUS 2 LOAD -->
+    <filter>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <condition>
+                <property>/systems/electrical/buses/ac[2]/powered</property>
+                <property>/systems/electrical/outputs/exciter[3]</property>
+                <property>/fadec/ignition[1]</property>
+            </condition>
+            <expression>
+                <product>
+                    <property>/systems/electrical/outputs/exciter[3]</property>
+                    <value>0.02</value>
+                </product>
+            </expression>
+        </input>
+        <output>/systems/electrical/buses/ac[2]/loads/exciter[3]</output>
+    </filter>
+    <filter>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <condition>
+                <property>/systems/electrical/buses/ac[2]/powered</property>
+            </condition>
+            <expression>
+                <sum>
+                    <property>/systems/electrical/buses/ac[2]/loads/exciter[3]</property>
+                    <property>/systems/electrical/buses/ac[2]/loads/ac[0]</property>
+                    <property>/systems/electrical/buses/ac[2]/loads/ac[3]</property>
+                </sum>
+            </expression>
+        </input>
+        <output>/systems/electrical/buses/ac[2]/load</output>
+    </filter>
+
+    <!-- AC ESS OUTPUTS -->
+    <filter>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <condition>
+                <property>/systems/electrical/buses/ac[3]/powered</property>
+            </condition>
+            <expression>
+                <sum>
+                    <property>/systems/electrical/buses/ac[3]/loads/ac[4]</property>
+                </sum>
+            </expression>
+        </input>
+        <output>/systems/electrical/buses/ac[3]/load</output>
+    </filter>
 
     <!-- AC STBY BUS OUTPUTS -->
     <filter>
@@ -418,16 +523,7 @@
             <condition>
                 <property>/systems/electrical/buses/ac[4]/powered</property>
                 <property>/systems/electrical/outputs/exciter[0]</property>
-                <or>
-                    <equals>
-                        <property>/fadec/engine-switch[0]</property>
-                        <value>2</value>
-                    </equals>
-                    <equals>
-                        <property>/fadec/ignition-switch[0]</property>
-                        <value>2</value>
-                    </equals>
-                </or>
+                <property>/fadec/ignition[0]</property>
             </condition>
             <expression>
                 <product>
@@ -445,16 +541,7 @@
             <condition>
                 <property>/systems/electrical/buses/ac[4]/powered</property>
                 <property>/systems/electrical/outputs/exciter[1]</property>
-                <or>
-                    <equals>
-                        <property>/fadec/engine-switch[1]</property>
-                        <value>2</value>
-                    </equals>
-                    <equals>
-                        <property>/fadec/ignition-switch[1]</property>
-                        <value>2</value>
-                    </equals>
-                </or>
+                <property>/fadec/ignition[1]</property>
             </condition>
             <expression>
                 <product>
