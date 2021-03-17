@@ -162,7 +162,7 @@
             <condition>
                 <less-than>
                     <property>/systems/electrical/outputs/wx-radar</property>
-                    <value>27.9</value>
+                    <value>21</value>
                 </less-than>
             </condition>
             <value>0</value>
@@ -174,7 +174,7 @@
                     <value>1</value>
                 </equals>
             </condition>
-            <value>1000</value>
+            <value>60</value>
         </input>
         <input>
             <condition>
@@ -183,7 +183,7 @@
                     <value>2</value>
                 </equals>
             </condition>
-            <value>10000</value>
+            <value>110</value>
         </input>
         <input>
             <condition>
@@ -192,7 +192,7 @@
                     <value>3</value>
                 </equals>
             </condition>
-            <value>10000</value>
+            <value>110</value>
         </input>
         <output>/instrumentation/wxr/power-draw</output>
     </filter>
