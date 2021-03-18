@@ -34,6 +34,8 @@ var engParam = {
     "N1R": props.globals.getNode("engines/engine[1]/n1"),
     "N1L.target": props.globals.getNode("fadec/target[0]"),
     "N1R.target": props.globals.getNode("fadec/target[1]"),
+    "N1L.trs-limit": props.globals.getNode("fadec/trs-limit"),
+    "N1R.trs-limit": props.globals.getNode("fadec/trs-limit"),
     "N2L": props.globals.getNode("engines/engine[0]/n2"),
     "N2R": props.globals.getNode("engines/engine[1]/n2"),
     "offL": props.globals.getNode("controls/engines/engine[0]/cutoff-switch"),
@@ -93,10 +95,21 @@ var canvas_ED_only = {
 			}
 		}
 
+        me["N1L.target"] = canvas_group.createChild('path');
+        me["N1L.target"]
+            .set('z-index', -20)
+            .setColor(1.0, 1.0, 1.0)
+            .setStrokeLineWidth(3);
+        me["N1R.target"] = canvas_group.createChild('path');
+        me["N1R.target"]
+            .set('z-index', -20)
+            .setColor(1.0, 1.0, 1.0)
+            .setStrokeLineWidth(3);
+
         me["N1L.shade"] = canvas_group.createChild('path');
-        me["N1L.shade"].set('z-index', -100).setColorFill(0.5, 0.5, 0.5);
+        me["N1L.shade"].set('z-index', -10).setColorFill(0.5, 0.5, 0.5);
         me["N1R.shade"] = canvas_group.createChild('path');
-        me["N1R.shade"].set('z-index', -100).setColorFill(0.5, 0.5, 0.5);
+        me["N1R.shade"].set('z-index', -10).setColorFill(0.5, 0.5, 0.5);
 
 		me.page = canvas_group;
 
@@ -199,8 +212,8 @@ var canvas_ED_only = {
             "apu.DEGC",
             "N1L.needle",
             "N1R.needle",
-            "N1L.target",
-            "N1R.target",
+            "N1L.rated-max",
+            "N1R.rated-max",
             "parkbrake",
             "engL.off",
             "engR.off",
@@ -347,22 +360,25 @@ var canvas_ED_only = {
         foreach (var gauge; ["N1L", "N1R"]) {
             var n1 = engParam[gauge].getValue();
             var tgt = engParam[gauge ~ ".target"].getValue();
+            var trs = engParam[gauge ~ ".trs-limit"].getValue();
             me[gauge ~ ".needle"].setRotation(n1*D2R*2.568);
-            me[gauge ~ ".target"].setRotation(tgt*D2R*2.568);
+            me[gauge ~ ".rated-max"].setRotation(trs*D2R*2.568);
+
             me[gauge].setText(sprintf("%.1f", n1));
+
+            var r = 110;
+            var ri = 90;
+            var rd = r - ri;
+            var sc45 = math.sin(45 * D2R);
+            var (cx, cy) = me[gauge ~ ".needle"].getCenter();
 
             var dn1 = n1 * 2.568 - 45;
             var rn1 = dn1 * D2R;
             var sn1 = math.sin(rn1);
             var cn1 = math.cos(rn1);
-            var r = 110;
-            var (cx, cy) = me[gauge ~ ".needle"].getCenter();
-            var sc45 = math.sin(45 * D2R);
 		
             var shade = me[gauge ~ ".shade"];
-
             shade.reset();
-
             if (n1 >= 0.05) {
                 shade
                     .moveTo(cx, cy)
@@ -374,6 +390,25 @@ var canvas_ED_only = {
                     shade.arcSmallCWTo(r, r, 0, cx - r * cn1, cy - r * sn1);
                 } 
                 shade.lineTo(cx, cy);
+            }
+
+            var dtgt = tgt * 2.568 - 45;
+            var rtgt = dtgt * D2R;
+            var stgt = math.sin(rtgt);
+            var ctgt = math.cos(rtgt);
+
+            var target = me[gauge ~ ".target"];
+            target.reset();
+            if (tgt >= 0.05) {
+                target.moveTo(cx - ri * sc45, cy + ri * sc45);
+
+                if (dtgt > 135) {
+                    target.arcLargeCWTo(ri, ri, 0, cx - ri * ctgt, cy - ri * stgt);
+                }
+                else {
+                    target.arcSmallCWTo(ri, ri, 0, cx - ri * ctgt, cy - ri * stgt);
+                } 
+                target.line(-rd * ctgt, -rd * stgt);
             }
         }
 
