@@ -43,7 +43,7 @@ Present pack includes the following Embraer Family variants:
 - Embraer 190
 - Embraer 195
 - Embraer Lineage 1000
-- *Embraer 175-E2*
+- ~~Embraer 175-E2~~
 
 **A note on the -E2**
 
@@ -55,7 +55,13 @@ to the E2. In its current state, it should be considered "broken". Doing the E2
 right would be a gargantuan task, and I feel that doing it wrong isn't worth
 doing at all.
 
-Hence, the E2 is provided "as-is"; it probably doesn't work at all, and if it
+~~Hence, the E2 is provided "as-is"; it probably doesn't work at all, and if it
 does, then it is almost guaranteed to be incorrect in all sorts of ways. If
 anyone wants to step forward, feel free to send patches - but for the time
-being at least, consider the E2 "highly experimental" at best.
+being at least, consider the E2 "highly experimental" at best.~~
+
+**Update (2021-03-18):** By now, the E2 has drifted from the rest of the family
+to the point of not working at all anymore, so I decided to remove it. If at
+any point anyone decides to dig it up and make it work, then resurrecting the
+relevant files from git should be no problem; but in its current shape, the
+only thing it did was confuse people.

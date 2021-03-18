@@ -17,7 +17,6 @@ cp -R \
     FDM \
     gui \
     License.txt \
-    Lineage1000.xml \
     Models \
     Nasal \
     README.md \
