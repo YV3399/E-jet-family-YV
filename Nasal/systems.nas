@@ -56,16 +56,6 @@ var engineLoop = func(engine_no) {
 	if (props.getNode("sim/failure-manager/engines/engine[" ~ engine_no ~ "]/serviceable").getBoolValue()) {
 		props.getNode(tree2 ~ "cutoff").setBoolValue(props.getNode(tree2 ~ "cutoff-switch").getBoolValue());
 	}
-	props.getNode(tree2 ~ "starter").setBoolValue(props.getNode(tree2 ~ "starter-switch").getBoolValue());
-
-	var eng_start_sw = getprop("controls/engines/engine-start-switch");
-	if (eng_start_sw == 0 or eng_start_sw == 2) {
-		props.getNode(tree2 ~ "starter").setBoolValue(1);
-	}
-
-	if (!props.getNode("engines/apu/running").getBoolValue()) {
-		props.getNode(tree2 ~ "starter").setBoolValue(0);
-	}
 
 	settimer(func {
 		engineLoop(engine_no);
