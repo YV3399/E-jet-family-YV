@@ -2272,6 +2272,10 @@
         <simbrief>
             <file>Aircraft/E-jet-family/Nasal/simbrief.nas</file>
         </simbrief>
+
+        <keyboardFixes>
+            <file>Aircraft/E-jet-family/Nasal/keyboard.nas</file>
+        </keyboardFixes>
     </nasal>
 
     <fdm>
