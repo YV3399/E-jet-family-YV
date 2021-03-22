@@ -115,28 +115,123 @@ mapping works as follows:
 ## Startup Procedure
 
 The E-Jet has a largely automatic engine start procedure, driven by the FADEC
-(Fully Autonomous Digital Engine Control). Normal startup procedure goes
-something like this:
+(Fully Autonomous Digital Engine Control). On the ground, there are several
+ways of starting the engines.
 
-1. Verify that throttle levers are in the "idle" position, and the IGNITION
-   switches (center pedestal) are in the "AUTO" position.
-2. Switch on both batteries (overhead panel, bottom left), and verify that the
-   DC BUS TIES switch is in the AUTO position (up).
-3. Start the APU (overhead panel, center column, second panel from top).
-4. Wait for the APU switch to flip from the "START" position into the "ON"
-   position - the APU is now ready.
-5. Turn on APU GEN (overhead panel, leftmost panel).
-7. Verify that the AC BUS TIES knob is in the AUTO position.
-8. Verify that all three TRU's are on (TRU1, TRU ESS, TRU2 switches all in the
-   up position).
-9. Open the engine switch covers (center pedestal), and flip the left engine
-   switch into the "START" position.
-10. Watch N1 and N2 for the left engine come alive (EICAS screen)
-11. When the left starter switch has flipped back into the "RUN" position,
-   repeat steps 4 and 5 for the right engine.
-12. Close the engine switch covers.
-13. Turn on IDG 1 and IDG 2 (overhead panel, top left)
-14. Turn off APU GEN and APU (overhead panel)
+### Engine Start - Ground Power Unit (GPU) Connected
+
+- GPU AC POWER - ON
+- IDG 1 - AUTO
+- IDG 2 - AUTO
+- AC BUS TIE - AUTO
+- TRU 1 - ON
+- TRU ESS - ON
+- TRU 2 - ON
+- BATTERY 1 - ON
+- BATTERY 2 - ON
+- DC BUS TIES - AUTO
+- THRUST LEVERS - IDLE
+- ENGINE 1 IGNITION - AUTO
+- ENGINE 1 STARTER - START
+- ENGINE 1 N2 - >50%
+- ENGINE 1 STARTER - VERIFY ON
+- ENGINE 2 IGNITION - AUTO
+- ENGINE 2 STARTER - START
+- ENGINE 2 N2 - >50%
+- ENGINE 2 STARTER - VERIFY ON
+- ENGINE 1 BLEED - ON
+- ENGINE 2 BLEED - ON
+- GPU AC POWER - OFF
+- GPU - DISCONNECT
+
+### Engine Start - Ground Power Unit (GPU) Connected, Single-Engine Taxi
+
+- GPU AC POWER - ON
+- IDG 1 - AUTO
+- IDG 2 - AUTO
+- AC BUS TIE - AUTO
+- TRU 1 - ON
+- TRU ESS - ON
+- TRU 2 - ON
+- BATTERY 1 - ON
+- BATTERY 2 - ON
+- DC BUS TIES - AUTO
+- THRUST LEVERS - IDLE
+- ENGINE 1 IGNITION - AUTO
+- ENGINE 1 STARTER - START
+- ENGINE 1 N2 - >50%
+- ENGINE 1 STARTER - VERIFY ON
+- GPU AC POWER - OFF
+- GPU - DISCONNECT
+
+#### Before Takeoff
+
+- ENGINE 2 IGNITION - AUTO
+- ENGINE 2 STARTER - START
+- ENGINE 2 N2 - >50%
+- ENGINE 2 STARTER - VERIFY ON
+- ENGINE 1 BLEED - ON
+- ENGINE 2 BLEED - ON
+
+### Engine Start - Ground Power Unit (GPU) Not Connected
+
+- IDG 1 - AUTO
+- IDG 2 - AUTO
+- AC BUS TIE - AUTO
+- TRU 1 - ON
+- TRU ESS - ON
+- TRU 2 - ON
+- BATTERY 1 - ON
+- BATTERY 2 - ON
+- DC BUS TIES - AUTO
+- APU GEN - AUTO
+- APU - START
+- APU RPM - WAIT FOR 100%
+- APU BLEED - ON
+- THRUST LEVERS - IDLE
+- ENGINE 1 IGNITION - AUTO
+- ENGINE 1 STARTER - START
+- ENGINE 1 N2 - >50%
+- ENGINE 1 STARTER - VERIFY ON
+- ENGINE 2 IGNITION - AUTO
+- ENGINE 2 STARTER - START
+- ENGINE 2 N2 - >50%
+- ENGINE 2 STARTER - VERIFY ON
+- ENGINE 1 BLEED - ON
+- ENGINE 2 BLEED - ON
+- APU GEN - OFF
+- APU BLEED - OFF
+- APU - OFF
+
+### Engine Start - Ground Power Unit (GPU) Not Connected, Cross-Bleed Start
+
+- IDG 1 - AUTO
+- IDG 2 - AUTO
+- AC BUS TIE - AUTO
+- TRU 1 - ON
+- TRU ESS - ON
+- TRU 2 - ON
+- BATTERY 1 - ON
+- BATTERY 2 - ON
+- DC BUS TIES - AUTO
+- APU GEN - AUTO
+- APU - START
+- APU RPM - WAIT FOR 100%
+- APU BLEED - ON
+- THRUST LEVERS - IDLE
+- ENGINE 1 IGNITION - AUTO
+- ENGINE 1 STARTER - START
+- ENGINE 1 N2 - >50%
+- ENGINE 1 STARTER - VERIFY ON
+- ENGINE 1 BLEED - ON
+- APU GEN - OFF
+- APU BLEED - OFF
+- APU - OFF
+- ENGINE 2 IGNITION - AUTO
+- ENGINE 2 STARTER - START
+- ENGINE 2 N2 - >50%
+- ENGINE 2 STARTER - VERIFY ON
+- ENGINE 2 BLEED - ON
 
 ## Autopilot
 
