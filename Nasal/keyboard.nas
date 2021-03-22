@@ -23,7 +23,6 @@ var setupViewKeys = func () {
         var key = binding.key;
         var viewNumRaw = binding.view;
         var viewNum = mapping[viewNumRaw];
-        printf("Bind key %i -> %i = #%i\n", key, viewNumRaw, viewNum);
         setprop('/input/keyboard/key[' ~ key ~ ']/binding/value', viewNum);
     }
 }
