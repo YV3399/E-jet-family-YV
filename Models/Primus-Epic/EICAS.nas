@@ -166,6 +166,14 @@ var canvas_ED_only = {
                 i += 1;
             }
         });
+        setlistener('/instrumentation/eicas/declutter/active', func (node) {
+            var visible = !(node.getBoolValue());
+            self["flaps-spoilers.section"].setVisible(visible);
+            self["vib.section"].setVisible(visible);
+            self["oil.section"].setVisible(visible);
+            self["gear.section"].setVisible(visible);
+            self["apu.section"].setVisible(visible);
+        }, 1, 0);
 
 		return me;
     },
@@ -240,6 +248,11 @@ var canvas_ED_only = {
             "msg.13",
             "msg.14",
             "msg.15",
+            "flaps-spoilers.section",
+            "vib.section",
+            "oil.section",
+            "gear.section",
+            "apu.section",
         ];
 	},
 	update: func() {

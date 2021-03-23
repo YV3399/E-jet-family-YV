@@ -169,27 +169,30 @@
                 <path>Aircraft/E-jet-family/Systems/pfd2.xml</path>
             </property-rule>
             <property-rule n="102">
-                <path>Aircraft/E-jet-family/Systems/fms.xml</path>
+                <path>Aircraft/E-jet-family/Systems/eicas.xml</path>
             </property-rule>
             <property-rule n="103">
-                <path>Aircraft/E-jet-family/Systems/wxr-rules.xml</path>
+                <path>Aircraft/E-jet-family/Systems/fms.xml</path>
             </property-rule>
             <property-rule n="104">
-                <path>Aircraft/E-jet-family/Systems/doors.xml</path>
+                <path>Aircraft/E-jet-family/Systems/wxr-rules.xml</path>
             </property-rule>
             <property-rule n="105">
-                <path>Aircraft/E-jet-family/Systems/brakes.xml</path>
+                <path>Aircraft/E-jet-family/Systems/doors.xml</path>
             </property-rule>
             <property-rule n="106">
-                <path>Aircraft/E-jet-family/Systems/messages.xml</path>
+                <path>Aircraft/E-jet-family/Systems/brakes.xml</path>
             </property-rule>
             <property-rule n="107">
-                <path>Aircraft/E-jet-family/Systems/services.xml</path>
+                <path>Aircraft/E-jet-family/Systems/messages.xml</path>
             </property-rule>
             <property-rule n="108">
-                <path>Aircraft/E-jet-family/Systems/EFB.xml</path>
+                <path>Aircraft/E-jet-family/Systems/services.xml</path>
             </property-rule>
             <property-rule n="109">
+                <path>Aircraft/E-jet-family/Systems/EFB.xml</path>
+            </property-rule>
+            <property-rule n="110">
                 <path>Aircraft/E-jet-family/Systems/electrical/batteries.xml</path>
             </property-rule>
             <autopilot>
@@ -198,10 +201,10 @@
             <autopilot>
                 <path>Aircraft/E-jet-family/Systems/speed-limits.xml</path>
             </autopilot>
-            <property-rule n="110">
+            <property-rule n="111">
                 <path>Aircraft/E-jet-family/Systems/iess.xml</path>
             </property-rule>
-            <property-rule n="111">
+            <property-rule n="112">
                 <path>Aircraft/E-jet-family/Systems/chrono.xml</path>
             </property-rule>
 
@@ -1678,6 +1681,12 @@
                     <external-power-connected type="bool">false</external-power-connected>
                 </electrical>
             </messages>
+            <declutter>
+                <active type="bool">false</active>
+                <cond type="bool">false</cond>
+                <eicas-full type="bool">false</eicas-full>
+                <inhibit type="bool">false</inhibit>
+            </declutter>
         </eicas>
 
         <mcdu>

@@ -1,0 +1,73 @@
+<PropertyList>
+    <name>EICAS Declutter Inhibit Condition</name>
+    <logic>
+        <input>
+            <or>
+                <not-equals>
+                    <property>/controls/flight/flaps</property>
+                    <value>0</value>
+                </not-equals>
+                <not-equals>
+                    <property>/fdm/jsbsim/fcs/slat-pos-norm</property>
+                    <value>0</value>
+                </not-equals>
+                <not-equals>
+                    <property>/fdm/jsbsim/fcs/flap-pos-norm</property>
+                    <value>0</value>
+                </not-equals>
+                <not-equals>
+                    <property>/fdm/jsbsim/fcs/spoiler-pos-norm</property>
+                    <value>0</value>
+                </not-equals>
+                <not-equals>
+                    <property>/engines/apu/rpm</property>
+                    <value>0</value>
+                </not-equals>
+                <property>/engines/apu/on-fire</property>
+                <not-equals>
+                    <property>/gear/gear[0]/position-norm</property>
+                    <value>0</value>
+                </not-equals>
+                <not-equals>
+                    <property>/gear/gear[1]/position-norm</property>
+                    <value>0</value>
+                </not-equals>
+                <not-equals>
+                    <property>/gear/gear[2]/position-norm</property>
+                    <value>0</value>
+                </not-equals>
+                <not-equals>
+                    <property>/autopilot/autobrake/step</property>
+                    <value>0</value>
+                </not-equals>
+                <property>/controls/engines/engine[0]/cutoff-switch</property>
+                <property>/controls/engines/engine[1]/cutoff-switch</property>
+                <!-- not implemented: oil pressure -->
+            </or>
+        </input>
+        <output>/instrumentation/eicas/declutter/inhibit-cond</output>
+    </logic>
+    <flipflop>
+        <name>EICAS Declutter Inhibit</name>
+        <type>monostable</type>
+        <S><property>/instrumentation/eicas/declutter/inhibit-cond</property></S>
+        <time><value>30.0</value></time>
+        <output>
+            <property>/instrumentation/eicas/declutter/inhibit</property>
+        </output>
+    </flipflop>
+    <logic>
+        <name>EICAS Declutter Master</name>
+        <input>
+            <not>
+                <or>
+                    <property>/instrumentation/eicas/declutter/inhibit</property>
+                    <property>/instrumentation/eicas/declutter/eicas-full</property>
+                </or>
+            </not>
+        </input>
+        <output>
+            <property>/instrumentation/eicas/declutter/active</property>
+        </output>
+    </logic>
+</PropertyList>
