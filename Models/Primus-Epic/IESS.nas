@@ -28,8 +28,6 @@ setprop("/engines/engine[0]/fuel-flow_pph", 0);
 setprop("/engines/engine[1]/fuel-flow_pph", 0);
 setprop("/engines/engine[0]/reverser-pos-norm", 0);
 setprop("/engines/engine[1]/reverser-pos-norm", 0);
-setprop("/consumables/fuel/tank[0]/temperature-degc", 0);
-setprop("/consumables/fuel/tank[1]/temperature-degc", 0);
 setprop("/controls/engines/engine[0]/condition-lever-state", 0);
 setprop("/controls/engines/engine[1]/condition-lever-state", 0);
 setprop("/controls/engines/engine[0]/throttle-int", 0);

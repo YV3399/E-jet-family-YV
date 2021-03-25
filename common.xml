@@ -698,13 +698,7 @@
                 <name>Left Wing Fuel Tank</name>
             </tank>
             <tank n="1">
-                <name>Central Fuel Tank</name>
-            </tank>
-            <tank n="2">
                 <name>Right Wing Fuel Tank</name>
-            </tank>
-            <tank n="3">
-                <name>Tail Trimmer Fuel Tank</name>
             </tank>
         </fuel>
     </consumables>

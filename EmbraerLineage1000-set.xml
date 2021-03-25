@@ -108,7 +108,7 @@
 
     <consumables>
         <fuel>
-            <tank n="4">
+            <tank n="2">
                 <name>Lower Deck Tank</name>
             </tank>
         </fuel>

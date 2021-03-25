@@ -170,15 +170,12 @@ var importFOB = func (ofp) {
         unallocated -= amount;
     }
     
-    # first, put a suitable amount in the tail trimmer tank
-    allocate(3, unallocated * 0.05);
-    # now fill wing tanks equally (up to half the remaining amount)
+    # fill wing tanks equally (up to half the remaining amount)
     var wingTankMax = unallocated * 0.5;
     allocate(0, wingTankMax);
-    allocate(2, wingTankMax);
-    # now the central tank, then lower deck tank if installed
-    allocate(1);
-    allocate(4);
+    allocate(1, wingTankMax);
+    # now the lower deck tank if installed
+    allocate(2);
     printf("Fuel not allocated: %1.1f kg", unallocated);
 };
 

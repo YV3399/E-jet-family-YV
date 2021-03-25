@@ -343,7 +343,6 @@
                 <roll>   0.00 </roll>
                 <yaw>   0.00 </yaw>
             </orient>
-            <feed>1</feed>
             <feed>0</feed>
             <thruster file="direct">
                 <location unit="IN">
@@ -371,7 +370,6 @@
                 <yaw>   0.00 </yaw>
             </orient>
             <feed>1</feed>
-            <feed>2</feed>
             <thruster file="direct">
                 <location unit="IN">
                     <x> -95.44  </x>
@@ -393,41 +391,19 @@
                 <y> -133.96 </y>
                 <z> -5.91 </z>
             </location>
-            <capacity unit="KG"> 3680 </capacity>
+            <capacity unit="KG"> 6550 </capacity>
             <contents unit="KG"> 2000 </contents>
         </tank>
 
-        <!-- Central Fuel Tank -->
-        <tank type="FUEL" number="1">
-            <location unit="IN">
-                <x> -30.072 </x>
-                <y> 0.00 </y>
-                <z> -36.642 </z>
-            </location>
-            <capacity unit="KG"> 4400 </capacity>
-            <contents unit="KG"> 0 </contents>
-        </tank>
-
         <!-- Wing Fuel Tank RIGHT -->
-        <tank type="FUEL" number="2">
+        <tank type="FUEL" number="1">
             <location unit="IN">
                 <x> 33.096 </x>
                 <y> 133.96 </y>
                 <z> -5.91 </z>
             </location>
-            <capacity unit="KG"> 3680 </capacity>
+            <capacity unit="KG"> 6550 </capacity>
             <contents unit="KG"> 2000 </contents>
-        </tank>
-
-        <!-- Trim Fuel Tank -->
-        <tank type="FUEL" number="3">
-            <location unit="IN">
-                <x> 494.864 </x>
-                <y> 0 </y>
-                <z> 54.372 </z>
-            </location>
-            <capacity unit="KG"> 1211 </capacity>
-            <contents unit="KG"> 100 </contents>
         </tank>
 
     </propulsion>

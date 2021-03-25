@@ -46,7 +46,7 @@
     <logic>
         <input>
             <less-than>
-                <property>/consumables/fuel/tank[2]/level-kg</property>
+                <property>/consumables/fuel/tank[1]/level-kg</property>
                 <value>400</value>
             </less-than>
         </input>
@@ -60,7 +60,7 @@
                     <abs>
                         <difference>
                             <property>/consumables/fuel/tank[0]/level-kg</property>
-                            <property>/consumables/fuel/tank[2]/level-kg</property>
+                            <property>/consumables/fuel/tank[1]/level-kg</property>
                         </difference>
                     </abs>
                 </expression>
@@ -73,7 +73,7 @@
                     <abs>
                         <difference>
                             <property>/consumables/fuel/tank[0]/level-kg</property>
-                            <property>/consumables/fuel/tank[2]/level-kg</property>
+                            <property>/consumables/fuel/tank[1]/level-kg</property>
                         </difference>
                     </abs>
                 </expression>

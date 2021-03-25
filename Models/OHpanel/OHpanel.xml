@@ -314,7 +314,7 @@
             <repeatable type="bool">false</repeatable>
             <binding>
                 <command>property-toggle</command>
-                <property>consumables/fuel/tank[1]/selected</property>
+                <property>consumables/fuel/tank[0]/selected</property>
             </binding>
         </action>
     </animation>
@@ -327,7 +327,7 @@
             <repeatable type="bool">false</repeatable>
             <binding>
                 <command>property-toggle</command>
-                <property>consumables/fuel/tank[2]/selected</property>
+                <property>consumables/fuel/tank[1]/selected</property>
             </binding>
         </action>
     </animation>
@@ -335,14 +335,33 @@
         <name>Center fuel tank pumps pick</name>
         <type>pick</type>
         <object-name>fuel.pump.center</object-name>
+        <enable>
+            <condition>
+                <equals>
+                    <property>/sim/aircraft</property>
+                    <value>EmbraerLineage1000</value>
+                </equals>
+            </condition>
+        </enable>
         <action>
             <button>0</button>
             <repeatable type="bool">false</repeatable>
             <binding>
                 <command>property-toggle</command>
-                <property>consumables/fuel/tank[0]/selected</property>
+                <property>consumables/fuel/tank[2]/selected</property>
             </binding>
         </action>
+    </animation>
+    <animation>
+        <name>Center fuel tank pump visible</name>
+        <type>select</type>
+        <object-name>fuel.pump.center</object-name>
+        <condition>
+            <equals>
+                <property>/sim/aircraft</property>
+                <value>EmbraerLineage1000</value>
+            </equals>
+        </condition>
     </animation>
 
     <!-- Electrical -->
@@ -1353,7 +1372,7 @@
     <animation>
         <type>rotate</type>
         <object-name>fuel.pump.left</object-name>
-        <property>consumables/fuel/tank[1]/selected</property>
+        <property>consumables/fuel/tank[0]/selected</property>
         <interpolation>
             <entry>
                 <ind>0</ind><dep>90</dep>
@@ -1374,7 +1393,7 @@
     <animation>
         <type>rotate</type>
         <object-name>fuel.pump.right</object-name>
-        <property>consumables/fuel/tank[2]/selected</property>
+        <property>consumables/fuel/tank[1]/selected</property>
         <interpolation>
             <entry>
                 <ind>0</ind><dep>90</dep>
@@ -1395,7 +1414,15 @@
     <animation>
         <type>rotate</type>
         <object-name>fuel.pump.center</object-name>
-        <property>consumables/fuel/tank[0]/selected</property>
+        <property>consumables/fuel/tank[2]/selected</property>
+        <enable>
+            <condition>
+                <equals>
+                    <property>/sim/aircraft</property>
+                    <value>EmbraerLineage1000</value>
+                </equals>
+            </condition>
+        </enable>
         <interpolation>
             <entry>
                 <ind>0</ind><dep>90</dep>
@@ -1405,12 +1432,12 @@
             </entry>
         </interpolation>
         <axis>
-            <x1-m>-12.1633</x1-m>
-            <y1-m>-0.19901</y1-m>
-            <z1-m>1.73306</z1-m>
-            <x2-m>-12.1485</x2-m>
-            <y2-m>-0.19901</y2-m>
-            <z2-m>1.70639</z2-m>
+            <x1-m>-12.23938</x1-m>
+            <y1-m>-0.21756</y1-m>
+            <z1-m>1.69182</z1-m>
+            <x2-m>-12.22456</x2-m>
+            <y2-m>-0.21756</y2-m>
+            <z2-m>1.66515</z2-m>
         </axis>
     </animation>
     <animation>
