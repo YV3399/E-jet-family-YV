@@ -86,15 +86,25 @@
     <logic>
         <input>
             <and>
-                <not><property>sim/model/door-positions/l1/closed</property></not>
-                <or>
-                    <not><property>/gear/gear[1]/wow</property></not>
-                    <property>/engines/engine[0]/running</property>
-                    <property>/engines/engine[1]/running</property>
-                </or>
+                <not><property>/instrumentation/eicas/messages/fuel-imbalance</property></not>
+                <property>/systems/fuel/crossfeed-valve</property>
             </and>
         </input>
-        <output>/instrumentation/eicas/messages/doors/l1/open</output>
+        <output>/instrumentation/eicas/messages/fuel-equal-xfeed-open</output>
+    </logic>
+
+<logic>
+    <input>
+        <and>
+            <not><property>sim/model/door-positions/l1/closed</property></not>
+            <or>
+                <not><property>/gear/gear[1]/wow</property></not>
+                <property>/engines/engine[0]/running</property>
+                <property>/engines/engine[1]/running</property>
+            </or>
+        </and>
+    </input>
+    <output>/instrumentation/eicas/messages/doors/l1/open</output>
     </logic>
     <logic>
         <input>
