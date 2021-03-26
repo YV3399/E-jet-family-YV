@@ -450,6 +450,17 @@
         <output>/systems/electrical/outputs/mk-viii</output>
     </filter>
     <filter>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <condition>
+                <property>/controls/fuel/tank[1]/boost-pump[1]</property>
+            </condition>
+            <property>/systems/electrical/buses/dc[4]/volts</property>
+        </input>
+        <output>/systems/electrical/outputs/fuel-pump[3]</output>
+    </filter>
+    <filter>
         <name>DC ESS 2 loads</name>
         <type>gain</type>
         <output>/systems/electrical/buses/dc[4]/load</output>
@@ -480,6 +491,10 @@
                             <product>
                                 <property>/systems/electrical/outputs/mk-viii</property>
                                 <value>1.0</value>
+                            </product>
+                            <product>
+                                <property>/systems/electrical/outputs/fuel-pump[3]</property>
+                                <value>4.0</value>
                             </product>
                         </sum>
                         <property>/systems/electrical/buses/dc[4]/volts</property>
@@ -679,6 +694,17 @@
         </input>
         <output>/systems/electrical/outputs/nav-lights</output>
     </filter>
+    <filter>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <condition>
+                <property>/controls/fuel/tank[0]/boost-pump[0]</property>
+            </condition>
+            <property>/systems/electrical/buses/ac[1]/volts</property>
+        </input>
+        <output>/systems/electrical/outputs/fuel-pump[0]</output>
+    </filter>
     <!-- AC BUS 1 LOAD -->
     <filter>
         <type>gain</type>
@@ -732,6 +758,10 @@
                             <product>
                                 <property>/systems/electrical/outputs/landing-lights[1]</property>
                                 <value>1000</value>
+                            </product>
+                            <product>
+                                <property>/systems/electrical/outputs/fuel-pump[0]</property>
+                                <value>50</value>
                             </product>
                         </sum>
                         <property>/systems/electrical/buses/ac[1]/volts</property>
@@ -789,6 +819,17 @@
         </input>
         <output>/systems/electrical/outputs/strobe</output>
     </filter>
+    <filter>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <condition>
+                <property>/controls/fuel/tank[2]/boost-pump[0]</property>
+            </condition>
+            <property>/systems/electrical/buses/ac[3]/volts</property>
+        </input>
+        <output>/systems/electrical/outputs/fuel-pump[2]</output>
+    </filter>
     <!-- AC BUS 2 LOAD -->
     <filter>
         <type>gain</type>
@@ -831,6 +872,10 @@
                                 <property>/systems/electrical/outputs/landing-lights[2]</property>
                                 <value>1000</value>
                             </product>
+                            <product>
+                                <property>/systems/electrical/outputs/fuel-pump[2]</property>
+                                <value>50</value>
+                            </product>
                         </sum>
                         <property>/systems/electrical/buses/ac[1]/volts</property>
                     </div>
@@ -850,10 +895,30 @@
         <gain>1</gain>
         <input>
             <condition>
+                <property>/controls/fuel/tank[1]/boost-pump[0]</property>
+            </condition>
+            <property>/systems/electrical/buses/ac[3]/volts</property>
+        </input>
+        <output>/systems/electrical/outputs/fuel-pump[1]</output>
+    </filter>
+    <filter>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <condition>
                 <property>/systems/electrical/buses/ac[3]/powered</property>
             </condition>
             <expression>
                 <sum>
+                    <div>
+                        <sum>
+                            <product>
+                                <property>/systems/electrical/outputs/fuel-pump[1]</property>
+                                <value>50</value>
+                            </product>
+                        </sum>
+                        <property>/systems/electrical/buses/ac[3]/volts</property>
+                    </div>
                     <property>/systems/electrical/buses/ac[3]/loads/ac[4]</property>
                     <property>/systems/electrical/buses/ac[3]/loads/tru[0]</property>
                 </sum>

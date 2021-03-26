@@ -162,6 +162,10 @@
                 <name>Electrical: Outputs</name>
                 <path>Aircraft/E-jet-family/Systems/electrical/outputs.xml</path>
             </autopilot>
+            <autopilot>
+                <name>Fuel</name>
+                <path>Aircraft/E-jet-family/Systems/fuel.xml</path>
+            </autopilot>
             <property-rule n="100">
                 <path>Aircraft/E-jet-family/Systems/pfd1.xml</path>
             </property-rule>
@@ -1348,6 +1352,21 @@
                 </dc>
             </buses>
         </electrical>
+        <fuel>
+            <difference type="double">0</difference>
+            <imbalance type="int">0</imbalance>
+            <imbalance-left-low type="int">0</imbalance-left-low>
+            <imbalance-right-low type="int">0</imbalance-right-low>
+            <external-flow n="0">
+                <apu type="double">0</apu>
+            </external-flow>
+            <external-flow n="1">
+                <apu type="double">0</apu>
+            </external-flow>
+            <external-flow n="2">
+                <apu type="double">0</apu>
+            </external-flow>
+        </fuel>
     </systems>
 
     <controls>
@@ -1454,6 +1473,11 @@
                 <starter-switch type="bool">false</starter-switch>
             </engine>
         </engines>
+        
+        <fuel n="0">
+            <!-- 1 = low 2, -1 = low 1, 0 = auto -->
+            <crossfeed type="int">0</crossfeed>
+        </fuel>
 
         <flight>
             <ground-spoilers-armed type="bool">false</ground-spoilers-armed>

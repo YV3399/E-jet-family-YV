@@ -1,0 +1,296 @@
+<PropertyList>
+    <filter>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <expression>
+                <difference>
+                    <property>/consumables/fuel/tank[1]/level-kg</property>
+                    <property>/consumables/fuel/tank[0]/level-kg</property>
+                </difference>
+            </expression>
+        </input>
+        <output>/systems/fuel/difference</output>
+    </filter>
+    <flipflop>
+        <type>RS</type>
+        <name>Fuel Imbalance Low 1</name>
+        <S>
+            <greater-than>
+                <property>/systems/fuel/difference</property>
+                <value>360</value>
+            </greater-than>
+        </S>
+        <R>
+            <less-than>
+                <property>/systems/fuel/difference</property>
+                <value>45</value>
+            </less-than>
+        </R>
+        <output>/systems/fuel/imbalance-left-low</output>
+    </flipflop>
+    <flipflop>
+        <type>RS</type>
+        <name>Fuel Imbalance Low 2</name>
+        <S>
+            <less-than>
+                <property>/systems/fuel/difference</property>
+                <value>-360</value>
+            </less-than>
+        </S>
+        <R>
+            <greater-than>
+                <property>/systems/fuel/difference</property>
+                <value>-45</value>
+            </greater-than>
+        </R>
+        <output>/systems/fuel/imbalance-right-low</output>
+    </flipflop>
+    <filter>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <condition>
+                <property>/systems/fuel/imbalance-left-low</property>
+            </condition>
+            <value>-1</value>
+        </input>
+        <input>
+            <condition>
+                <property>/systems/fuel/imbalance-right-low</property>
+            </condition>
+            <value>1</value>
+        </input>
+        <input>
+            <value>0</value>
+        </input>
+        <output>/systems/fuel/imbalance</output>
+    </filter>
+
+    <filter>
+        <name>Crossfeed Valve</name>
+        <type>gain</type>
+        <output>/systems/fuel/crossfeed-valve</output>
+        <input>
+            <condition>
+                <and>
+                    <equals>
+                        <property>/controls/fuel/crossfeed</property>
+                        <value>0</value>
+                    </equals>
+                </and>
+            </condition>
+            <property>/systems/fuel/imbalance</property>
+        </input>
+        <input>
+            <property>/controls/fuel/crossfeed</property>
+        </input>
+    </filter>
+    
+    <filter>
+        <name>Left Wing Tank Fuel Pump</name>
+        <type>gain</type>
+        <debug type="bool">true</debug>
+        <input>
+            <condition>
+                <and>
+                    <!-- AC pump -->
+                    <less-than>
+                        <property>/systems/electrical/outputs/fuel-pump[0]</property>
+                        <value>110</value>
+                    </less-than>
+                    <!-- Ejector pump -->
+                    <not>
+                        <property>/engines/engine[0]/running</property>
+                    </not>
+                </and>
+            </condition>
+            <value>0</value>
+        </input>
+        <input>
+            <value>2</value>
+        </input>
+        <output>/fdm/jsbsim/propulsion/tank[0]/priority</output>
+    </filter>
+    <filter>
+        <name>Right Wing Tank Fuel Pump</name>
+        <type>gain</type>
+        <debug type="bool">true</debug>
+        <input>
+            <condition>
+                <and>
+                    <!-- AC pump -->
+                    <less-than>
+                        <property>/systems/electrical/outputs/fuel-pump[1]</property>
+                        <value>110</value>
+                    </less-than>
+                    <!-- DC pump -->
+                    <less-than>
+                        <property>/systems/electrical/outputs/fuel-pump[3]</property>
+                        <value>18</value>
+                    </less-than>
+                    <!-- Ejector pump -->
+                    <not>
+                        <property>/engines/engine[1]/running</property>
+                    </not>
+                </and>
+            </condition>
+            <value>0</value>
+        </input>
+        <input>
+            <value>2</value>
+        </input>
+        <output>/fdm/jsbsim/propulsion/tank[1]/priority</output>
+    </filter>
+    <filter>
+        <name>Auxiliary Wing Tank Fuel Pump (Lineage 1000)</name>
+        <type>gain</type>
+        <debug type="bool">true</debug>
+        <input>
+            <condition>
+                <!-- AC pump -->
+                <less-than>
+                    <property>/systems/electrical/outputs/fuel-pump[2]</property>
+                    <value>110</value>
+                </less-than>
+                <!-- Ejector pump 1 -->
+                <not>
+                    <property>/engines/engine[0]/running</property>
+                </not>
+                <!-- Ejector pump 2 -->
+                <not>
+                    <property>/engines/engine[1]/running</property>
+                </not>
+            </condition>
+            <value>0</value>
+        </input>
+        <input>
+            <value>1</value>
+        </input>
+        <output>/fdm/jsbsim/propulsion/tank[2]/priority</output>
+    </filter>
+
+    <filter>
+        <name>Crossfeed Flow</name>
+        <type>gain</type>
+        <gain>1</gain>
+        <output>/systems/fuel/crossfeed-flow-pps</output>
+        <input>
+            <condition>
+                <and>
+                    <!-- crossfeed valve open in L <- R direction -->
+                    <equals>
+                        <property>/systems/fuel/crossfeed-valve</property>
+                        <value>-1</value>
+                    </equals>
+                    <!-- Right wing tank available -->
+                    <property>/fdm/jsbsim/propulsion/tank[1]/priority</property>
+                    <!-- Right wing tank not empty -->
+                    <greater-than>
+                        <property>/fdm/jsbsim/propulsion/tank[1]/contents-lbs</property>
+                        <value>0</value>
+                    </greater-than>
+                </and>
+            </condition>
+            <expression>
+                <difference>
+                    <property>/fdm/jsbsim/propulsion/engine[1]/fuel-flow-rate-pps</property>
+                    <value>4</value>
+                </difference>
+            </expression>
+        </input>
+        <input>
+            <condition>
+                <and>
+                    <!-- crossfeed valve open in R <- L direction -->
+                    <equals>
+                        <property>/systems/fuel/crossfeed-valve</property>
+                        <value>1</value>
+                    </equals>
+                    <!-- Left wing tank available -->
+                    <property>/fdm/jsbsim/propulsion/tank[0]/priority</property>
+                    <!-- Left wing tank not empty -->
+                    <greater-than>
+                        <property>/fdm/jsbsim/propulsion/tank[0]/contents-lbs</property>
+                        <value>0</value>
+                    </greater-than>
+                </and>
+            </condition>
+            <expression>
+                <difference>
+                    <value>4</value>
+                    <property>/fdm/jsbsim/propulsion/engine[1]/fuel-flow-rate-pps</property>
+                </difference>
+            </expression>
+        </input>
+        <input><value>0</value></input>
+    </filter>
+
+    <filter>
+        <name>Crossfeed flow to right tank</name>
+        <type>gain</type>
+        <gain>3600</gain>
+        <input>
+            <property>/systems/fuel/crossfeed-flow-pps</property>
+        </input>
+        <output>/systems/fuel/external-flow[1]/crossfeed</output>
+    </filter>
+    <filter>
+        <name>Crossfeed flow to left tank</name>
+        <type>gain</type>
+        <gain>-3600</gain>
+        <input>
+            <property>/systems/fuel/crossfeed-flow-pps</property>
+        </input>
+        <output>/systems/fuel/external-flow[0]/crossfeed</output>
+    </filter>
+
+    <filter>
+        <name>Tank 0 external flow</name>
+        <type>gain</type>
+        <output>/fdm/jsbsim/propulsion/tank[0]/external-flow-rate-pps</output>
+        <input>
+            <expression>
+                <div>
+                    <sum>
+                        <property>/systems/fuel/external-flow[0]/apu</property>
+                        <property>/systems/fuel/external-flow[0]/crossfeed</property>
+                    </sum>
+                    <value>3600</value>
+                </div>
+            </expression>
+        </input>
+    </filter>
+    <filter>
+        <name>Tank 1 external flow</name>
+        <type>gain</type>
+        <output>/fdm/jsbsim/propulsion/tank[1]/external-flow-rate-pps</output>
+        <input>
+            <expression>
+                <div>
+                    <sum>
+                        <property>/systems/fuel/external-flow[1]/apu</property>
+                        <property>/systems/fuel/external-flow[1]/crossfeed</property>
+                    </sum>
+                    <value>3600</value>
+                </div>
+            </expression>
+        </input>
+    </filter>
+    <filter>
+        <name>Tank 2 external flow</name>
+        <type>gain</type>
+        <output>/fdm/jsbsim/propulsion/tank[2]/external-flow-rate-pps</output>
+        <input>
+            <expression>
+                <div>
+                    <sum>
+                        <property>/systems/fuel/external-flow[2]/apu</property>
+                    </sum>
+                    <value>3600</value>
+                </div>
+            </expression>
+        </input>
+    </filter>
+
+</PropertyList>

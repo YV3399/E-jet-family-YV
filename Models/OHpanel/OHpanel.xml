@@ -314,7 +314,7 @@
             <repeatable type="bool">false</repeatable>
             <binding>
                 <command>property-toggle</command>
-                <property>consumables/fuel/tank[0]/selected</property>
+                <property>/controls/fuel/tank[0]/boost-pump</property>
             </binding>
         </action>
     </animation>
@@ -327,7 +327,20 @@
             <repeatable type="bool">false</repeatable>
             <binding>
                 <command>property-toggle</command>
-                <property>consumables/fuel/tank[1]/selected</property>
+                <property>/controls/fuel/tank[1]/boost-pump</property>
+            </binding>
+        </action>
+    </animation>
+    <animation>
+        <name>Right DC fuel tank pump pick</name>
+        <type>pick</type>
+        <object-name>fuel.pump.dc</object-name>
+        <action>
+            <button>0</button>
+            <repeatable type="bool">false</repeatable>
+            <binding>
+                <command>property-toggle</command>
+                <property>/controls/fuel/tank[1]/boost-pump[1]</property>
             </binding>
         </action>
     </animation>
@@ -348,7 +361,7 @@
             <repeatable type="bool">false</repeatable>
             <binding>
                 <command>property-toggle</command>
-                <property>consumables/fuel/tank[2]/selected</property>
+                <property>/controls/fuel/tank[2]/boost-pump</property>
             </binding>
         </action>
     </animation>
@@ -1372,7 +1385,7 @@
     <animation>
         <type>rotate</type>
         <object-name>fuel.pump.left</object-name>
-        <property>consumables/fuel/tank[0]/selected</property>
+        <property>/controls/fuel/tank[0]/boost-pump</property>
         <interpolation>
             <entry>
                 <ind>0</ind><dep>90</dep>
@@ -1393,7 +1406,7 @@
     <animation>
         <type>rotate</type>
         <object-name>fuel.pump.right</object-name>
-        <property>consumables/fuel/tank[1]/selected</property>
+        <property>/controls/fuel/tank[1]/boost-pump</property>
         <interpolation>
             <entry>
                 <ind>0</ind><dep>90</dep>
@@ -1413,8 +1426,29 @@
     </animation>
     <animation>
         <type>rotate</type>
+        <object-name>fuel.pump.dc</object-name>
+        <property>/controls/fuel/tank[1]/boost-pump[1]</property>
+        <interpolation>
+            <entry>
+                <ind>0</ind><dep>90</dep>
+            </entry>
+            <entry>
+                <ind>1</ind><dep>0</dep>
+            </entry>
+        </interpolation>
+        <axis>
+            <x1-m>-12.1633</x1-m>
+            <y1-m>-0.19901</y1-m>
+            <z1-m>1.73306</z1-m>
+            <x2-m>-12.1485</x2-m>
+            <y2-m>-0.19901</y2-m>
+            <z2-m>1.70639</z2-m>
+        </axis>
+    </animation>
+    <animation>
+        <type>rotate</type>
         <object-name>fuel.pump.center</object-name>
-        <property>consumables/fuel/tank[2]/selected</property>
+        <property>/controls/fuel/tank[2]/boost-pump</property>
         <enable>
             <condition>
                 <equals>
