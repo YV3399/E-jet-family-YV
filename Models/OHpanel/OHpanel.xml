@@ -1383,6 +1383,31 @@
     </animation>
 
     <animation>
+        <type>knob</type>
+        <object-name>fuel.crossfeed</object-name>
+        <property>/controls/fuel/crossfeed</property>
+        <factor>-90</factor>
+        <offset-deg>0</offset-deg>
+        <axis>
+            <x1-m>-12.12090</x1-m>
+            <y1-m>-0.19818</y1-m>
+            <z1-m>1.75821</z1-m>
+            <x2-m>-12.10540</x2-m>
+            <y2-m>-0.19819</y2-m>
+            <z2-m>1.73028</z2-m>
+        </axis>
+        <action>
+            <binding>
+                <command>property-adjust</command>
+                <property>/controls/fuel/crossfeed</property>
+                <min>-1</min>
+                <max>1</max>
+                <wrap>false</wrap>
+            </binding>
+        </action>
+    </animation>
+
+    <animation>
         <type>rotate</type>
         <object-name>fuel.pump.left</object-name>
         <property>/controls/fuel/tank[0]/boost-pump</property>
