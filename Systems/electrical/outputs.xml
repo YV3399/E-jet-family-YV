@@ -494,6 +494,7 @@
                             </product>
                             <product>
                                 <property>/systems/electrical/outputs/fuel-pump[3]</property>
+                                <property>/systems/fuel/fuel-pump[3]/demand</property>
                                 <value>4.0</value>
                             </product>
                         </sum>
@@ -761,6 +762,7 @@
                             </product>
                             <product>
                                 <property>/systems/electrical/outputs/fuel-pump[0]</property>
+                                <property>/systems/fuel/fuel-pump[0]/demand</property>
                                 <value>50</value>
                             </product>
                         </sum>
@@ -874,6 +876,7 @@
                             </product>
                             <product>
                                 <property>/systems/electrical/outputs/fuel-pump[2]</property>
+                                <property>/systems/fuel/fuel-pump[2]/demand</property>
                                 <value>50</value>
                             </product>
                         </sum>
@@ -914,6 +917,7 @@
                         <sum>
                             <product>
                                 <property>/systems/electrical/outputs/fuel-pump[1]</property>
+                                <property>/systems/fuel/fuel-pump[1]/demand</property>
                                 <value>50</value>
                             </product>
                         </sum>

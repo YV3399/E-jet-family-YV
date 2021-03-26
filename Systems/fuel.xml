@@ -90,7 +90,6 @@
     <filter>
         <name>Left Wing Tank Fuel Pump</name>
         <type>gain</type>
-        <debug type="bool">true</debug>
         <input>
             <condition>
                 <and>
@@ -112,10 +111,27 @@
         </input>
         <output>/fdm/jsbsim/propulsion/tank[0]/priority</output>
     </filter>
+    <logic>
+        <name>Left Wing AC Pump Demand</name>
+        <input>
+            <and>
+                <property>/controls/fuel/tank[0]/boost-pump[0]</property>
+                <or>
+                    <greater-than>
+                        <property>/systems/fuel/crossfeed-valve</property>
+                        <value>0</value>
+                    </greater-than>
+                    <not>
+                        <property>/engines/engine[0]/running</property>
+                    </not>
+                </or>
+            </and>
+        </input>
+        <output>/systems/fuel/fuel-pump[0]/demand</output>
+    </logic>
     <filter>
         <name>Right Wing Tank Fuel Pump</name>
         <type>gain</type>
-        <debug type="bool">true</debug>
         <input>
             <condition>
                 <and>
@@ -142,10 +158,42 @@
         </input>
         <output>/fdm/jsbsim/propulsion/tank[1]/priority</output>
     </filter>
+    <logic>
+        <name>Right Wing AC Pump Demand</name>
+        <input>
+            <and>
+                <property>/controls/fuel/tank[1]/boost-pump[0]</property>
+                <or>
+                    <less-than>
+                        <property>/systems/fuel/crossfeed-valve</property>
+                        <value>0</value>
+                    </less-than>
+                    <not>
+                        <property>/engines/engine[1]/running</property>
+                    </not>
+                </or>
+            </and>
+        </input>
+        <output>/systems/fuel/fuel-pump[1]/demand</output>
+    </logic>
+    <logic>
+        <name>Right Wing DC Pump Demand</name>
+        <input>
+            <and>
+                <property>/controls/fuel/tank[1]/boost-pump[1]</property>
+                <not>
+                    <property>/systems/fuel/fuel-pump[3]/demand</property>
+                </not>
+                <not>
+                    <property>/engines/engine[1]/running</property>
+                </not>
+            </and>
+        </input>
+        <output>/systems/fuel/fuel-pump[2]/demand</output>
+    </logic>
     <filter>
-        <name>Auxiliary Wing Tank Fuel Pump (Lineage 1000)</name>
+        <name>Auxiliary Tank Fuel Pump (Lineage 1000)</name>
         <type>gain</type>
-        <debug type="bool">true</debug>
         <input>
             <condition>
                 <!-- AC pump -->
@@ -169,6 +217,21 @@
         </input>
         <output>/fdm/jsbsim/propulsion/tank[2]/priority</output>
     </filter>
+    <logic>
+        <name>Auxiliary Tank AC Pump Demand</name>
+        <input>
+            <and>
+                <property>/controls/fuel/tank[2]/boost-pump[0]</property>
+                <not>
+                    <property>/engines/engine[0]/running</property>
+                </not>
+                <not>
+                    <property>/engines/engine[1]/running</property>
+                </not>
+            </and>
+        </input>
+        <output>/systems/fuel/fuel-pump[2]/demand</output>
+    </logic>
 
     <filter>
         <name>Crossfeed Flow</name>
