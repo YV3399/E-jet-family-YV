@@ -111,6 +111,17 @@
                         <property>/fdm/jsbsim/propulsion/tank[0]/contents-lbs</property>
                         <value>0</value>
                     </greater-than>
+                    <!-- may feed on left tank when crossfeed valve is open,
+                         set to "LOW 2", and either the left wing ejector pump
+                         or the left wing AC pump are running -->
+                    <equals>
+                        <property>/systems/fuel/crossfeed-valve</property>
+                        <value>1</value>
+                    </equals>
+                    <or>
+                        <property>/system/fuel/fuel-pump[0]/running</property>
+                        <property>/engines/engine[0]/running</property>
+                    </or>
                 </and>
             </condition>
             <value>0</value>
@@ -123,6 +134,8 @@
                         <property>/fdm/jsbsim/propulsion/tank[2]/contents-lbs</property>
                         <value>2</value>
                     </greater-than>
+                    <!-- can only use tank 3 if AC fuel pump 3 is running -->
+                    <property>/system/fuel/fuel-pump[2]/running</property>
                 </and>
             </condition>
             <value>2</value>
