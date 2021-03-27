@@ -53,4 +53,48 @@
         <output>/fms/fuel/gw-kg</output>
     </filter>
 
+    <filter>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <expression>
+                <floor>
+                    <property>/consumables/fuel/total-fuel-kg</property>
+                </floor>
+            </expression>
+        </input>
+        <output>/fms/fuel/current</output>
+    </filter>
+
+    <filter>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <expression>
+                <difference>
+                    <property>/fms/fuel/original</property>
+                    <property>/consumables/fuel/total-fuel-kg</property>
+                </difference>
+            </expression>
+        </input>
+        <output>/fms/fuel/used</output>
+    </filter>
+
+    <filter>
+        <type>gain</type>
+        <gain>1</gain>
+        <enable>
+            <condition>
+                <greater-than>
+                    <property>/consumables/fuel/total-fuel-kg</property>
+                    <property>/fms/fuel/original</property>
+                </greater-than>
+            </condition>
+        </enable>
+        <input>
+            <property>/consumables/fuel/total-fuel-kg</property>
+        </input>
+        <output>/fms/fuel/original</output>
+    </filter>
+
 </PropertyList>

@@ -129,6 +129,16 @@
         </input>
         <output>/systems/fuel/fuel-pump[0]/demand</output>
     </logic>
+    <logic>
+        <name>Left Wing AC Pump Running</name>
+        <input>
+            <and>
+                <property>/systems/electrical/outputs/fuel-pump[0]</property>
+                <property>/systems/fuel/fuel-pump[0]/demand</property>
+            </and>
+        </input>
+        <output>/systems/fuel/fuel-pump[0]/running</output>
+    </logic>
     <filter>
         <name>Right Wing Tank Fuel Pump</name>
         <type>gain</type>
@@ -177,19 +187,54 @@
         <output>/systems/fuel/fuel-pump[1]/demand</output>
     </logic>
     <logic>
+        <name>Right Wing AC Pump Running</name>
+        <input>
+            <and>
+                <property>/systems/electrical/outputs/fuel-pump[1]</property>
+                <property>/systems/fuel/fuel-pump[1]/demand</property>
+            </and>
+        </input>
+        <output>/systems/fuel/fuel-pump[1]/running</output>
+    </logic>
+    <logic>
         <name>Right Wing DC Pump Demand</name>
         <input>
             <and>
                 <property>/controls/fuel/tank[1]/boost-pump[1]</property>
                 <not>
-                    <property>/systems/fuel/fuel-pump[3]/demand</property>
+                    <!-- AC pump 2 is running, DC pump not needed -->
+                    <property>/systems/fuel/fuel-pump[1]/running</property>
                 </not>
                 <not>
+                    <!-- EJ pump 2 is running, DC pump not needed -->
                     <property>/engines/engine[1]/running</property>
+                </not>
+                <not>
+                    <!-- Crossfeeding from left side, DC pump not needed -->
+                    <and>
+                        <equals>
+                            <property>/systems/fuel/crossfeed-valve</property>
+                            <value>1</value>
+                        </equals>
+                        <or>
+                            <property>/engines/engine[0]/running</property>
+                            <property>/systems/fuel/fuel-pump[0]/running</property>
+                        </or>
+                    </and>
                 </not>
             </and>
         </input>
-        <output>/systems/fuel/fuel-pump[2]/demand</output>
+        <output>/systems/fuel/fuel-pump[3]/demand</output>
+    </logic>
+    <logic>
+        <name>Right Wing DC Pump Running</name>
+        <input>
+            <and>
+                <property>/systems/electrical/outputs/fuel-pump[3]</property>
+                <property>/systems/fuel/fuel-pump[3]/demand</property>
+            </and>
+        </input>
+        <output>/systems/fuel/fuel-pump[3]/running</output>
     </logic>
     <filter>
         <name>Auxiliary Tank Fuel Pump (Lineage 1000)</name>
@@ -231,6 +276,16 @@
             </and>
         </input>
         <output>/systems/fuel/fuel-pump[2]/demand</output>
+    </logic>
+    <logic>
+        <name>Auxiliary Tank AC Pump Running</name>
+        <input>
+            <and>
+                <property>/systems/electrical/outputs/fuel-pump[2]</property>
+                <property>/systems/fuel/fuel-pump[2]/demand</property>
+            </and>
+        </input>
+        <output>/systems/fuel/fuel-pump[2]/running</output>
     </logic>
 
     <filter>

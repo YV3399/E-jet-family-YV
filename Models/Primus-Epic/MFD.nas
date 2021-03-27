@@ -14,10 +14,12 @@ var noTakeoffBrakeTemp = 300.0;
 
 var SUBMODE_STATUS = 0;
 var SUBMODE_ELECTRICAL = 1;
+var SUBMODE_FUEL = 2;
 
 var submodeNames = [
     'Status',
     'Elec',
+    'Fuel',
 ];
 
 var toggleBoolProp = func(node) {
@@ -232,6 +234,8 @@ var MFD = {
         canvas.parsesvg(me.systemsPages.status, "Aircraft/E-jet-family/Models/Primus-Epic/MFD-systems-status.svg", {'font-mapper': font_mapper});
         me.systemsPages.electrical = me.systemsContainer.createChild("group");
         canvas.parsesvg(me.systemsPages.electrical, "Aircraft/E-jet-family/Models/Primus-Epic/MFD-systems-electrical.svg", {'font-mapper': font_mapper});
+        me.systemsPages.fuel = me.systemsContainer.createChild("group");
+        canvas.parsesvg(me.systemsPages.fuel, "Aircraft/E-jet-family/Models/Primus-Epic/MFD-systems-fuel.svg", {'font-mapper': font_mapper});
 
         me.underlay = me.pageContainer.createChild("group");
         me.terrainViz = me.underlay.createChild("image");
@@ -527,6 +531,24 @@ var MFD = {
                 'elec.tru2.volts.digital',
                 'elec.truess.symbol',
                 'elec.truess.volts.digital',
+
+                'fuel.apu.symbol',
+                'fuel.crossfeed.mode',
+                'fuel.line.apu',
+                'fuel.line.engineL',
+                'fuel.line.engR',
+                'fuel.pump.ac1',
+                'fuel.pump.ac2',
+                'fuel.pump.dc',
+                'fuel.pump.e1',
+                'fuel.pump.e2',
+                'fuel.temp.digital',
+                'fuel.total.digital',
+                'fuel.used.digital',
+                'fuel.valve.apu',
+                'fuel.valve.crossfeed',
+                'fuel.valve.cutoffL',
+                'fuel.valve.cutoffR',
         ];
         foreach (var key; mapkeys) {
             me.elems[key] = me.mapOverlay.getElementById(key);
@@ -594,6 +616,7 @@ var MFD = {
 
             { key: 'submodeStatus', active: func { self.elems['submodeMenu'].getVisible() }, ontouch: func { self.selectSystemsSubmode(SUBMODE_STATUS); } },
             { key: 'submodeElectrical', active: func { self.elems['submodeMenu'].getVisible() }, ontouch: func { self.selectSystemsSubmode(SUBMODE_ELECTRICAL); } },
+            { key: 'submodeFuel', active: func { self.elems['submodeMenu'].getVisible() }, ontouch: func { self.selectSystemsSubmode(SUBMODE_FUEL); } },
 
             { key: 'weatherMenu.radioOff', active: func { self.elems['weatherMenu'].getVisible() }, ontouch: func { self.setWxMode(0); } },
             { key: 'weatherMenu.radioSTBY', active: func { self.elems['weatherMenu'].getVisible() }, ontouch: func { self.setWxMode(1); } },
@@ -798,6 +821,64 @@ var MFD = {
         }, 1, 0);
         setlistener('/systems/electrical/sources/battery[1]/volts-avail', func (node) {
             self.elems['status.battery2.voltage.digital'].setText(sprintf("%03.1f", node.getValue()));
+        }, 1, 0);
+
+        setlistener('/controls/fuel/crossfeed', func (node) {
+            var state = node.getValue();
+            self.elems['fuel.valve.crossfeed'].setRotation(state * math.pi * 0.5);
+            self.elems['fuel.crossfeed.mode']
+                .setText((state == 1) ? "LOW 2" : "LOW 1")
+                .setVisible(state != 0);
+
+        }, 1, 0);
+        setlistener('/engines/engine[0]/cutoff', func (node) {
+            var c = node.getBoolValue() ? [1,1,1] : [0,1,0];
+            self.elems['fuel.valve.cutoffL']
+                .setRotation(node.getValue() * math.pi * 0.5)
+                .setColorFill(c[0], c[1], c[2]);
+        }, 1, 0);
+        setlistener('/engines/engine[1]/cutoff', func (node) {
+            var c = node.getBoolValue() ? [1,1,1] : [0,1,0];
+            self.elems['fuel.valve.cutoffR']
+                .setRotation(node.getValue() * math.pi * 0.5)
+                .setColorFill(c[0], c[1], c[2]);
+        }, 1, 0);
+        setlistener('/engines/apu/cutoff', func (node) {
+            var c = node.getBoolValue() ? [1,1,1] : [0,1,0];
+            self.elems['fuel.valve.apu']
+                .setRotation(node.getValue() * math.pi * 0.5)
+                .setColorFill(c[0], c[1], c[2]);
+        }, 1, 0);
+        setlistener('/engines/engine[0]/running', func (node) {
+            var c = node.getBoolValue() ? [0,1,0] : [0.5, 0.5, 0.5];
+            self.elems['fuel.pump.e1']
+                .setColorFill(c[0], c[1], c[2]);
+        }, 1, 0);
+        setlistener('/engines/engine[1]/running', func (node) {
+            var c = node.getBoolValue() ? [0,1,0] : [0.5, 0.5, 0.5];
+            self.elems['fuel.pump.e2']
+                .setColorFill(c[0], c[1], c[2]);
+        }, 1, 0);
+        setlistener('/systems/fuel/fuel-pump[0]/running', func (node) {
+            var c = node.getBoolValue() ? [0,1,0] : [1, 1, 1];
+            self.elems['fuel.pump.ac1']
+                .setColorFill(c[0], c[1], c[2]);
+        }, 1, 0);
+        setlistener('/systems/fuel/fuel-pump[1]/running', func (node) {
+            var c = node.getBoolValue() ? [0,1,0] : [1, 1, 1];
+            self.elems['fuel.pump.ac2']
+                .setColorFill(c[0], c[1], c[2]);
+        }, 1, 0);
+        setlistener('/systems/fuel/fuel-pump[3]/running', func (node) {
+            var c = node.getBoolValue() ? [0,1,0] : [1, 1, 1];
+            self.elems['fuel.pump.dc']
+                .setColorFill(c[0], c[1], c[2]);
+        }, 1, 0);
+        setlistener('/fms/fuel/current', func (node) {
+            self.elems['fuel.total.digital'].setText(sprintf("%5.0f", node.getValue()));
+        }, 1, 0);
+        setlistener('/fms/fuel/used', func (node) {
+            self.elems['fuel.used.digital'].setText(sprintf("%5.0f", node.getValue()));
         }, 1, 0);
 
         var doornames = ['l1', 'r1', 'l2', 'r2', 'cargo1', 'cargo2', 'fuel-panel', 'avionics-front', 'avionics-mid'];
@@ -1630,6 +1711,7 @@ var MFD = {
             var submode = me.props['submode'].getValue();
             me.systemsPages.status.setVisible(submode == SUBMODE_STATUS);
             me.systemsPages.electrical.setVisible(submode == SUBMODE_ELECTRICAL);
+            me.systemsPages.fuel.setVisible(submode == SUBMODE_FUEL);
             me.elems['mapMenu'].hide();
             me.elems['weatherMenu'].hide();
             me.elems['vnav.range.left'].hide();

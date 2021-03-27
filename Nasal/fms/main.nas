@@ -120,9 +120,19 @@ var initDeparture = func () {
     }
 };
 
+var updateOrigFuel = func (engineChanged, otherEngine) {
+    if (!getprop("/engines/engine[" ~ otherEngine ~ "]/running")) {
+        setprop("/fms/fuel/original",
+            getprop("/consumables/fuel/total-kg"));
+    }
+};
+
 setlistener("/autopilot/route-manager/departure/runway", func () { updateTakeoffRunway(); });
 setlistener("fms/takeoff-conditions/qnh", func () { updateTakeoffPressureAlt(); });
 setlistener("fms/takeoff-conditions/runway-elevation", func () { updateTakeoffPressureAlt(); });
+
+setlistener("/engines/engine[0]/running", func (node) { if (node.getBoolValue()) { updateOrigFuel(0, 1); } }, 1, 0);
+setlistener("/engines/engine[1]/running", func (node) { if (node.getBoolValue()) { updateOrigFuel(1, 0); } }, 1, 0);
 
 setlistener("sim/signals/fdm-initialized", func {
     initDeparture();

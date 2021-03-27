@@ -187,9 +187,9 @@
     </filter>
 
     <filter>
-        <name>APU fuel flow</name>
+        <name>APU fuel valve</name>
         <type>gain</type>
-        <gain>-250</gain>
+        <gain>1</gain>
         <input>
             <!-- shutting down: no fuel used -->
             <condition>
@@ -198,7 +198,7 @@
                     <value>1</value>
                 </less-than>
             </condition>
-            <value>0</value>
+            <value>1</value>
         </input>
         <input>
             <!-- fuel injection starts at 25% RPM -->
@@ -207,6 +207,21 @@
                     <property>/engines/apu/rpm</property>
                     <value>25</value>
                 </less-than>
+            </condition>
+            <value>1</value>
+        </input>
+        <input>
+            <value>0</value>
+        </input>
+        <output>/engines/apu/cutoff</output>
+    </filter>
+    <filter>
+        <name>APU fuel flow</name>
+        <type>gain</type>
+        <gain>-250</gain>
+        <input>
+            <condition>
+                <property>/engines/apu/cutoff</property>
             </condition>
             <value>0</value>
         </input>

@@ -1085,6 +1085,12 @@
             <contingency type="double">300</contingency>
 
             <tow type="double"></tow>
+
+            <current type="double">0</current>
+            <!-- Set to the current fuel quantity when powering up, or when
+                 actual fuel exceeds this value -->
+            <original type="double">0</original>
+            <used type="double">0</used>
         </fuel>
 
         <performance>
@@ -1612,6 +1618,8 @@
             <on-fire type="bool">false</on-fire>
             <running type="bool">false</running>
             <serviceable type="bool">true</serviceable>
+            <feed type="int">-1</feed>
+            <cutoff type="bool">true</cutoff>
         </apu>
 
         <engine n="0">
