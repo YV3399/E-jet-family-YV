@@ -107,7 +107,17 @@
             <value>0</value>
         </input>
         <input>
+            <!-- higher priority if crossfeed valve in "low 2" state -->
+            <condition>
+                <equals>
+                    <property>/systems/fuel/crossfeed-valve</property>
+                    <value>1</value>
+                </equals>
+            </condition>
             <value>2</value>
+        </input>
+        <input>
+            <value>3</value>
         </input>
         <output>/fdm/jsbsim/propulsion/tank[0]/priority</output>
     </filter>
@@ -154,7 +164,17 @@
             <value>0</value>
         </input>
         <input>
+            <!-- higher priority if crossfeed valve in "low 2" state -->
+            <condition>
+                <equals>
+                    <property>/systems/fuel/crossfeed-valve</property>
+                    <value>-1</value>
+                </equals>
+            </condition>
             <value>2</value>
+        </input>
+        <input>
+            <value>3</value>
         </input>
         <output>/fdm/jsbsim/propulsion/tank[1]/priority</output>
     </filter>
