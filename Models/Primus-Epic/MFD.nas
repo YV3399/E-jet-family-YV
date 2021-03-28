@@ -536,7 +536,14 @@ var MFD = {
                 'fuel.crossfeed.mode',
                 'fuel.line.apu',
                 'fuel.line.engineL',
-                'fuel.line.engR',
+                'fuel.line.engineR',
+                'fuel.line.tankL',
+                'fuel.line.tankR',
+                'fuel.line.epump1',
+                'fuel.line.epump2',
+                'fuel.line.acpump1',
+                'fuel.line.acpump2',
+                'fuel.line.dcpump',
                 'fuel.pump.ac1',
                 'fuel.pump.ac2',
                 'fuel.pump.dc',
@@ -825,7 +832,10 @@ var MFD = {
 
         setlistener('/controls/fuel/crossfeed', func (node) {
             var state = node.getValue();
-            self.elems['fuel.valve.crossfeed'].setRotation(state * math.pi * 0.5);
+            var c = (state == 0) ? [1,1,1] : [0,1,0];
+            self.elems['fuel.valve.crossfeed']
+                .setRotation(state * math.pi * 0.5)
+                .setColorFill(c);
             self.elems['fuel.crossfeed.mode']
                 .setText((state == 1) ? "LOW 2" : "LOW 1")
                 .setVisible(state != 0);
@@ -874,6 +884,54 @@ var MFD = {
             self.elems['fuel.pump.dc']
                 .setColorFill(c[0], c[1], c[2]);
         }, 1, 0);
+
+        setlistener('/systems/fuel/pressure/pump[0]', func (node) {
+            var c = node.getBoolValue() ? [0,1,0] : [1, 1, 1];
+            self.elems['fuel.line.acpump1'].setColorFill(c[0], c[1], c[2]);
+        }, 1, 0);
+        setlistener('/systems/fuel/pressure/pump[1]', func (node) {
+            var c = node.getBoolValue() ? [0,1,0] : [1, 1, 1];
+            self.elems['fuel.line.acpump2'].setColorFill(c[0], c[1], c[2]);
+        }, 1, 0);
+        # TODO
+        # setlistener('/systems/fuel/pressure/pump[2]', func (node) {
+        #     var c = node.getBoolValue() ? [0,1,0] : [1, 1, 1];
+        #     self.elems['fuel.line.acpump3'].setColorFill(c[0], c[1], c[2]);
+        # }, 1, 0);
+        setlistener('/systems/fuel/pressure/pump[3]', func (node) {
+            var c = node.getBoolValue() ? [0,1,0] : [1, 1, 1];
+            self.elems['fuel.line.dcpump'].setColorFill(c[0], c[1], c[2]);
+        }, 1, 0);
+        setlistener('/systems/fuel/pressure/pump[4]', func (node) {
+            var c = node.getBoolValue() ? [0,1,0] : [1, 1, 1];
+            self.elems['fuel.line.epump1'].setColorFill(c[0], c[1], c[2]);
+        }, 1, 0);
+        setlistener('/systems/fuel/pressure/pump[5]', func (node) {
+            var c = node.getBoolValue() ? [0,1,0] : [1, 1, 1];
+            self.elems['fuel.line.epump2'].setColorFill(c[0], c[1], c[2]);
+        }, 1, 0);
+
+        setlistener('/systems/fuel/pressure/tank[0]', func (node) {
+            var c = node.getBoolValue() ? [0,1,0] : [1, 1, 1];
+            self.elems['fuel.line.tankL'].setColorFill(c[0], c[1], c[2]);
+        }, 1, 0);
+        setlistener('/systems/fuel/pressure/tank[1]', func (node) {
+            var c = node.getBoolValue() ? [0,1,0] : [1, 1, 1];
+            self.elems['fuel.line.tankR'].setColorFill(c[0], c[1], c[2]);
+        }, 1, 0);
+        setlistener('/systems/fuel/pressure/engine[0]', func (node) {
+            var c = node.getBoolValue() ? [0,1,0] : [1, 1, 1];
+            self.elems['fuel.line.engineL'].setColorFill(c[0], c[1], c[2]);
+        }, 1, 0);
+        setlistener('/systems/fuel/pressure/engine[1]', func (node) {
+            var c = node.getBoolValue() ? [0,1,0] : [1, 1, 1];
+            self.elems['fuel.line.engineR'].setColorFill(c[0], c[1], c[2]);
+        }, 1, 0);
+        setlistener('/systems/fuel/pressure/apu', func (node) {
+            var c = node.getBoolValue() ? [0,1,0] : [1, 1, 1];
+            self.elems['fuel.line.apu'].setColorFill(c[0], c[1], c[2]);
+        }, 1, 0);
+
         setlistener('/fms/fuel/current', func (node) {
             self.elems['fuel.total.digital'].setText(sprintf("%5.0f", node.getValue()));
         }, 1, 0);

@@ -111,17 +111,17 @@
      borderopacity="1.0"
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
-     inkscape:zoom="1.1357549"
-     inkscape:cx="677.09028"
-     inkscape:cy="512.916"
+     inkscape:zoom="1.6062"
+     inkscape:cx="494.63123"
+     inkscape:cy="492.39291"
      inkscape:document-units="px"
      inkscape:current-layer="layer2"
      showgrid="true"
      units="px"
-     inkscape:window-width="1440"
-     inkscape:window-height="886"
-     inkscape:window-x="0"
-     inkscape:window-y="14"
+     inkscape:window-width="1920"
+     inkscape:window-height="1080"
+     inkscape:window-x="1440"
+     inkscape:window-y="0"
      inkscape:window-maximized="0"
      scale-x="1"
      showguides="true"
@@ -1532,14 +1532,43 @@ QmCC
      style="display:inline;opacity:1">
     <path
        style="fill:#00ff00;stroke:none;stroke-width:3;stroke-miterlimit:4;stroke-dasharray:none"
+       d="m 858,178 v 113.29688 a 23.347031,23.347031 0 0 1 2.80664,-0.19922 A 23.347031,23.347031 0 0 1 866,291.70508 V 178 Z"
+       id="fuel.line.engineR"
+       inkscape:connector-curvature="0" />
+    <path
+       style="fill:#00ff00;stroke:none;stroke-width:3;stroke-miterlimit:4;stroke-dasharray:none"
+       d="m 652,386 h 98 v -8 h -98 z"
+       id="fuel.line.dcpump"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="ccccc" />
+    <path
+       sodipodi:nodetypes="ccccccccccccccccccc"
+       inkscape:connector-curvature="0"
+       id="fuel.line.tankR"
+       d="M 644,304 V 450 H 492.78516 c 0.19971,1.21976 0.30225,2.45346 0.30664,3.68945 -0.005,1.4467 -0.1454,2.88975 -0.41797,4.31055 H 508 v 34.69141 c 1.32088,-0.23053 2.65916,-0.34685 4,-0.34766 1.34141,0.007 2.67969,0.13011 4,0.36719 V 458 h 350 v -8 -112.82227 c -1.70262,0.39893 -3.44466,0.6053 -5.19336,0.61524 -0.9385,-0.007 -1.87575,-0.07 -2.80664,-0.18945 V 450 H 652 V 304 Z"
+       style="fill:#00ff00;stroke:none;stroke-width:3;stroke-miterlimit:4;stroke-dasharray:none" />
+    <path
+       sodipodi:nodetypes="ccccc"
+       inkscape:connector-curvature="0"
+       id="fuel.line.epump2"
+       d="m 644,218 v 86 h 8 v -86 z"
+       style="fill:#00ff00;stroke:none;stroke-width:3;stroke-miterlimit:4;stroke-dasharray:none" />
+    <path
+       sodipodi:nodetypes="ccccccccc"
+       inkscape:connector-curvature="0"
+       id="fuel.line.acpump2"
+       d="m 652,312 h 100 8 v -8 -72 h -8 v 72 H 652 Z"
+       style="fill:#00ff00;stroke:none;stroke-width:3;stroke-miterlimit:4;stroke-dasharray:none" />
+    <path
+       style="fill:#00ff00;stroke:none;stroke-width:3;stroke-miterlimit:4;stroke-dasharray:none"
        d="m 372,218 v 86 h 8 v -86 z"
-       id="path1367"
+       id="fuel.line.epump1"
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="ccccc" />
     <path
        sodipodi:nodetypes="ccccccccc"
        inkscape:connector-curvature="0"
-       id="path1488"
+       id="fuel.line.acpump1"
        d="M 380,304 H 272 v -72 h -8 v 80 h 8 100 8 z"
        style="fill:#00ff00;stroke:none;stroke-width:3;stroke-miterlimit:4;stroke-dasharray:none" />
     <text
@@ -1661,17 +1690,6 @@ QmCC
        d="m 158,178 v 113.625 a 23.347031,23.347031 0 0 1 4.80664,-0.52734 A 23.347031,23.347031 0 0 1 166,291.3457 V 178 Z"
        id="fuel.line.engineL"
        inkscape:connector-curvature="0" />
-    <path
-       style="fill:#00ff00;stroke:none;stroke-width:3;stroke-miterlimit:4;stroke-dasharray:none"
-       d="m 858,178 v 113.29688 a 23.347031,23.347031 0 0 1 2.80664,-0.19922 A 23.347031,23.347031 0 0 1 866,291.70508 V 178 Z"
-       id="fuel.line.engR"
-       inkscape:connector-curvature="0" />
-    <path
-       style="fill:#00ff00;stroke:none;stroke-width:3;stroke-miterlimit:4;stroke-dasharray:none"
-       d="m 644,218 v 160 8 64 H 492.78516 c 0.19971,1.21976 0.30225,2.45346 0.30664,3.68945 -0.005,1.4467 -0.1454,2.88975 -0.41797,4.31055 H 508 v 34.69141 c 1.32088,-0.23053 2.65916,-0.34685 4,-0.34766 1.34141,0.007 2.67969,0.13011 4,0.36719 V 458 h 350 v -8 -112.82227 c -1.70262,0.39893 -3.44466,0.6053 -5.19336,0.61524 -0.9385,-0.007 -1.87575,-0.07 -2.80664,-0.18945 V 450 H 652 v -64 h 98 v -8 h -98 v -66 h 100 8 v -8 -72 h -8 v 72 H 652 v -86 z"
-       id="path1365"
-       inkscape:connector-curvature="0"
-       sodipodi:nodetypes="ccccccccccccccccccccccccccccccccc" />
     <path
        style="fill:#00ff00;stroke:none;stroke-width:3;stroke-miterlimit:4;stroke-dasharray:none"
        d="M 508,538.66797 V 588 v 8 h 30 v -8 h -22 v -49.31055 a 23.347031,23.347031 0 0 1 -4,0.34766 23.347031,23.347031 0 0 1 -4,-0.36914 z"
@@ -1865,7 +1883,7 @@ QmCC
        style="color:#000000;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:medium;line-height:normal;font-family:sans-serif;font-variant-ligatures:normal;font-variant-position:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-alternates:normal;font-feature-settings:normal;text-indent:0;text-align:start;text-decoration:none;text-decoration-line:none;text-decoration-style:solid;text-decoration-color:#000000;letter-spacing:normal;word-spacing:normal;text-transform:none;writing-mode:lr-tb;direction:ltr;text-orientation:mixed;dominant-baseline:auto;baseline-shift:baseline;text-anchor:start;white-space:normal;shape-padding:0;clip-rule:nonzero;display:inline;overflow:visible;visibility:visible;opacity:1;isolation:auto;mix-blend-mode:normal;color-interpolation:sRGB;color-interpolation-filters:linearRGB;solid-color:#000000;solid-opacity:1;vector-effect:none;fill:#00ff00;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;color-rendering:auto;image-rendering:auto;shape-rendering:auto;text-rendering:auto;enable-background:accumulate"
        inkscape:connector-curvature="0" />
     <path
-       id="path1486"
+       id="fuel.line.tankL"
        d="m 380,304 h -8 V 450 H 166 V 337.54688 c -1.05757,0.15503 -2.12453,0.23726 -3.19336,0.24609 -1.61554,-0.003 -3.22638,-0.174 -4.80664,-0.50977 V 450 v 8 h 8 280.8125 c -0.27192,-1.42086 -0.41119,-2.86391 -0.41602,-4.31055 0.01,-1.23641 0.11732,-2.47011 0.32227,-3.68945 H 380 Z"
        style="fill:#00ff00;stroke:none;stroke-width:3;stroke-miterlimit:4;stroke-dasharray:none"
        inkscape:connector-curvature="0"

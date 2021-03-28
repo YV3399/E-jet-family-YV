@@ -411,4 +411,151 @@
         </input>
     </filter>
 
+    <logic>
+        <name>Fuel Line Pressure Engine 1</name>
+        <output>/systems/fuel/pressure/engine[0]</output>
+        <input>
+            <and>
+                <not><property>/engines/engine[0]/cutoff</property></not>
+                <property>/systems/fuel/pressure/tank[0]</property>
+            </and>
+        </input>
+    </logic>
+    <logic>
+        <name>Fuel Line Pressure Engine 2</name>
+        <output>/systems/fuel/pressure/engine[1]</output>
+        <input>
+            <and>
+                <not><property>/engines/engine[1]/cutoff</property></not>
+                <property>/systems/fuel/pressure/tank[1]</property>
+            </and>
+        </input>
+    </logic>
+    <logic>
+        <name>Fuel Line Pressure APU</name>
+        <output>/systems/fuel/pressure/apu</output>
+        <input>
+            <and>
+                <not><property>/engines/apu/cutoff</property></not>
+                <property>/systems/fuel/pressure/tank[1]</property>
+            </and>
+        </input>
+    </logic>
+    <logic>
+        <name>Fuel Line Pressure Left Tank</name>
+        <output>/systems/fuel/pressure/tank[0]</output>
+        <input>
+            <or>
+                <property>/systems/fuel/pressure/pump[0]</property>
+                <property>/systems/fuel/pressure/pump[2]</property>
+                <property>/systems/fuel/pressure/pump[4]</property>
+                <and>
+                    <equals>
+                        <property>/systems/fuel/crossfeed-valve</property>
+                        <value>-1</value>
+                    </equals>
+                    <property>/systems/fuel/pressure/tank[1]</property>
+                </and>
+            </or>
+        </input>
+    </logic>
+    <logic>
+        <name>Fuel Line Pressure Right Tank</name>
+        <output>/systems/fuel/pressure/tank[1]</output>
+        <input>
+            <or>
+                <property>/systems/fuel/pressure/pump[1]</property>
+                <property>/systems/fuel/pressure/pump[2]</property>
+                <property>/systems/fuel/pressure/pump[3]</property>
+                <property>/systems/fuel/pressure/pump[5]</property>
+                <and>
+                    <equals>
+                        <property>/systems/fuel/crossfeed-valve</property>
+                        <value>1</value>
+                    </equals>
+                    <property>/systems/fuel/pressure/tank[0]</property>
+                </and>
+            </or>
+        </input>
+    </logic>
+
+    <logic>
+        <name>Fuel Line Pressure AC pump 1</name>
+        <output>/systems/fuel/pressure/pump[0]</output>
+        <input>
+            <and>
+                <property>/systems/fuel/fuel-pump[0]/running</property>
+                <greater-than>
+                    <property>/fdm/jsbsim/propulsion/tank[0]/contents-lbs</property>
+                    <value>0</value>
+                </greater-than>
+            </and>
+        </input>
+    </logic>
+    <logic>
+        <name>Fuel Line Pressure AC pump 2</name>
+        <output>/systems/fuel/pressure/pump[1]</output>
+        <input>
+            <and>
+                <property>/systems/fuel/fuel-pump[1]/running</property>
+                <greater-than>
+                    <property>/fdm/jsbsim/propulsion/tank[1]/contents-lbs</property>
+                    <value>0</value>
+                </greater-than>
+            </and>
+        </input>
+    </logic>
+    <logic>
+        <name>Fuel Line Pressure AC pump 3</name>
+        <output>/systems/fuel/pressure/pump[2]</output>
+        <input>
+            <and>
+                <property>/systems/fuel/fuel-pump[2]/running</property>
+                <greater-than>
+                    <property>/fdm/jsbsim/propulsion/tank[2]/contents-lbs</property>
+                    <value>0</value>
+                </greater-than>
+            </and>
+        </input>
+    </logic>
+    <logic>
+        <name>Fuel Line Pressure DC pump</name>
+        <output>/systems/fuel/pressure/pump[3]</output>
+        <input>
+            <and>
+                <property>/systems/fuel/fuel-pump[3]/running</property>
+                <greater-than>
+                    <property>/fdm/jsbsim/propulsion/tank[1]/contents-lbs</property>
+                    <value>0</value>
+                </greater-than>
+            </and>
+        </input>
+    </logic>
+    <logic>
+        <name>Fuel Line Pressure Ejector pump 1</name>
+        <output>/systems/fuel/pressure/pump[4]</output>
+        <input>
+            <and>
+                <property>/engines/engine[0]/running</property>
+                <greater-than>
+                    <property>/fdm/jsbsim/propulsion/tank[0]/contents-lbs</property>
+                    <value>0</value>
+                </greater-than>
+            </and>
+        </input>
+    </logic>
+    <logic>
+        <name>Fuel Line Pressure Ejector pump 2</name>
+        <output>/systems/fuel/pressure/pump[5]</output>
+        <input>
+            <and>
+                <property>/engines/engine[1]/running</property>
+                <greater-than>
+                    <property>/fdm/jsbsim/propulsion/tank[1]/contents-lbs</property>
+                    <value>0</value>
+                </greater-than>
+            </and>
+        </input>
+    </logic>
+
 </PropertyList>
