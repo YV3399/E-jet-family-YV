@@ -131,6 +131,7 @@ ways of starting the engines.
 - BATTERY 2 - ON
 - DC BUS TIES - AUTO
 - THRUST LEVERS - IDLE
+- FUEL PUMPS (AC1, AC2, AC3 (Lineage 1000 only), DC) - AUTO
 - ENGINE 1 IGNITION - AUTO
 - ENGINE 1 STARTER - START
 - ENGINE 1 N2 - >50%
@@ -157,6 +158,7 @@ ways of starting the engines.
 - BATTERY 2 - ON
 - DC BUS TIES - AUTO
 - THRUST LEVERS - IDLE
+- FUEL PUMPS (AC1, AC2, AC3 (Lineage 1000 only), DC) - AUTO
 - ENGINE 1 IGNITION - AUTO
 - ENGINE 1 STARTER - START
 - ENGINE 1 N2 - >50%
@@ -189,6 +191,7 @@ ways of starting the engines.
 - APU RPM - WAIT FOR 100%
 - APU BLEED - ON
 - THRUST LEVERS - IDLE
+- FUEL PUMPS (AC1, AC2, AC3 (Lineage 1000 only), DC) - AUTO
 - ENGINE 1 IGNITION - AUTO
 - ENGINE 1 STARTER - START
 - ENGINE 1 N2 - >50%
@@ -219,6 +222,7 @@ ways of starting the engines.
 - APU RPM - WAIT FOR 100%
 - APU BLEED - ON
 - THRUST LEVERS - IDLE
+- FUEL PUMPS (AC1, AC2, AC3 (Lineage 1000 only), DC) - AUTO
 - ENGINE 1 IGNITION - AUTO
 - ENGINE 1 STARTER - START
 - ENGINE 1 N2 - >50%
