@@ -86,6 +86,61 @@
             <property>/controls/fuel/crossfeed</property>
         </input>
     </filter>
+
+    <flipflop>
+        <type>RS</type>
+        <name>Fuel Full 1</name>
+        <S>
+            <greater-than>
+                <property>/consumables/fuel/tank[0]/level-m3</property>
+                <expression>
+                    <product>
+                        <property>/consumables/fuel/tank[0]/capacity-m3</property>
+                        <value>0.99</value>
+                    </product>
+                </expression>
+            </greater-than>
+        </S>
+        <R>
+            <less-than>
+                <property>/consumables/fuel/tank[0]/level-m3</property>
+                <expression>
+                    <product>
+                        <property>/consumables/fuel/tank[0]/capacity-m3</property>
+                        <value>0.98</value>
+                    </product>
+                </expression>
+            </less-than>
+        </R>
+        <output>/systems/fuel/full-left</output>
+    </flipflop>
+    <flipflop>
+        <type>RS</type>
+        <name>Fuel Full 2</name>
+        <S>
+            <greater-than>
+                <property>/consumables/fuel/tank[1]/level-m3</property>
+                <expression>
+                    <product>
+                        <property>/consumables/fuel/tank[1]/capacity-m3</property>
+                        <value>0.99</value>
+                    </product>
+                </expression>
+            </greater-than>
+        </S>
+        <R>
+            <less-than>
+                <property>/consumables/fuel/tank[1]/level-m3</property>
+                <expression>
+                    <product>
+                        <property>/consumables/fuel/tank[1]/capacity-m3</property>
+                        <value>0.98</value>
+                    </product>
+                </expression>
+            </less-than>
+        </R>
+        <output>/systems/fuel/full-right</output>
+    </flipflop>
     
     <filter>
         <name>Left Wing Tank Fuel Pump</name>
@@ -267,12 +322,6 @@
         <input>
             <and>
                 <property>/controls/fuel/tank[2]/boost-pump[0]</property>
-                <not>
-                    <property>/engines/engine[0]/running</property>
-                </not>
-                <not>
-                    <property>/engines/engine[1]/running</property>
-                </not>
             </and>
         </input>
         <output>/systems/fuel/fuel-pump[2]/demand</output>
@@ -364,6 +413,84 @@
     </filter>
 
     <filter>
+        <name>Feed Aux Tank -> Left Tank</name>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <condition>
+                <and>
+                    <property>/fdm/jsbsim/propulsion/tank[2]/priority</property>
+                    <greater-than>
+                        <property>/consumables/fuel/tank[2]/level-m3</property>
+                        <value>0</value>
+                    </greater-than>
+                    <not><property>/systems/fuel/full-left</property></not>
+                </and>
+            </condition>
+            <value>4</value>
+        </input>
+        <input>
+            <value>0</value>
+        </input>
+        <output>/systems/fuel/crossfeed-flow-aux-left-pps</output>
+    </filter>
+    <filter>
+        <name>Crossfeed Aux Tank -> Right Tank</name>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <condition>
+                <and>
+                    <property>/fdm/jsbsim/propulsion/tank[2]/priority</property>
+                    <greater-than>
+                        <property>/consumables/fuel/tank[2]/level-m3</property>
+                        <value>0</value>
+                    </greater-than>
+                    <not><property>/systems/fuel/full-right</property></not>
+                </and>
+            </condition>
+            <value>4</value>
+        </input>
+        <input>
+            <value>0</value>
+        </input>
+        <output>/systems/fuel/crossfeed-flow-aux-right-pps</output>
+    </filter>
+
+    <filter>
+        <name>Crossfeed aux flow to left tank</name>
+        <type>gain</type>
+        <gain>3600</gain>
+        <input>
+            <property>/systems/fuel/crossfeed-flow-aux-left-pps</property>
+        </input>
+        <output>/systems/fuel/external-flow[0]/crossfeed-aux</output>
+    </filter>
+    <filter>
+        <name>Crossfeed aux flow to right tank</name>
+        <type>gain</type>
+        <gain>3600</gain>
+        <input>
+            <property>/systems/fuel/crossfeed-flow-aux-right-pps</property>
+        </input>
+        <output>/systems/fuel/external-flow[1]/crossfeed-aux</output>
+    </filter>
+    <filter>
+        <name>Crossfeed aux flow from aux tank</name>
+        <type>gain</type>
+        <gain>-3600</gain>
+        <input>
+            <expression>
+                <sum>
+                    <property>/systems/fuel/crossfeed-flow-aux-left-pps</property>
+                    <property>/systems/fuel/crossfeed-flow-aux-right-pps</property>
+                </sum>
+            </expression>
+        </input>
+        <output>/systems/fuel/external-flow[2]/crossfeed-aux</output>
+    </filter>
+
+    <filter>
         <name>Tank 0 external flow</name>
         <type>gain</type>
         <output>/fdm/jsbsim/propulsion/tank[0]/external-flow-rate-pps</output>
@@ -373,6 +500,7 @@
                     <sum>
                         <property>/systems/fuel/external-flow[0]/apu</property>
                         <property>/systems/fuel/external-flow[0]/crossfeed</property>
+                        <property>/systems/fuel/external-flow[0]/crossfeed-aux</property>
                     </sum>
                     <value>3600</value>
                 </div>
@@ -389,6 +517,7 @@
                     <sum>
                         <property>/systems/fuel/external-flow[1]/apu</property>
                         <property>/systems/fuel/external-flow[1]/crossfeed</property>
+                        <property>/systems/fuel/external-flow[1]/crossfeed-aux</property>
                     </sum>
                     <value>3600</value>
                 </div>
@@ -404,6 +533,7 @@
                 <div>
                     <sum>
                         <property>/systems/fuel/external-flow[2]/apu</property>
+                        <property>/systems/fuel/external-flow[2]/crossfeed-aux</property>
                     </sum>
                     <value>3600</value>
                 </div>

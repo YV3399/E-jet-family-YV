@@ -198,6 +198,35 @@
     <filter>
         <type>gain</type>
         <gain>1</gain>
+        <name>Fuel Pointer 3</name>
+        <input>
+            <condition>
+                <greater-than>
+                    <property>/consumables/fuel/tank[2]/capacity-m3</property>
+                    <value>0</value>
+                </greater-than>
+            </condition>
+            <expression>
+                <floor>
+                    <product>
+                        <div>
+                            <property>/consumables/fuel/tank[2]/level-kg</property>
+                            <product>
+                                <property>/consumables/fuel/tank[2]/capacity-m3</property>
+                                <property>/consumables/fuel/tank[2]/density-kgpm3</property>
+                            </product>
+                        </div>
+                        <value>-200</value>
+                    </product>
+                </floor>
+            </expression>
+        </input>
+        <input><value>0</value></input>
+        <output>/fms/fuel/gauge[2]/pointer</output>
+    </filter>
+    <filter>
+        <type>gain</type>
+        <gain>1</gain>
         <name>Fuel Indicated 1</name>
         <output>/fms/fuel/gauge[0]/indicated</output>
         <input>

@@ -111,9 +111,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.8031"
-     inkscape:cx="601.09054"
-     inkscape:cy="371.42116"
+     inkscape:zoom="1.1357549"
+     inkscape:cx="684.91521"
+     inkscape:cy="416.41329"
      inkscape:document-units="px"
      inkscape:current-layer="layer2"
      showgrid="true"
@@ -1987,5 +1987,87 @@ QmCC
        id="fuel.quantityR.pointer"
        d="m 937.50271,468 v -24 l -18,12 z"
        style="fill:#00ff00;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+    <g
+       id="fuel.tank3.group">
+      <rect
+         y="5.7884865"
+         x="429.01556"
+         height="313.44791"
+         width="165.9689"
+         id="rect2408"
+         style="fill:none;stroke:#ffffff;stroke-width:3;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+      <path
+         inkscape:connector-curvature="0"
+         id="fuel.line.acpump3"
+         d="m 508,276 v 92 H 380 v 8 h 128 8 128 v -8 H 516 v -92 z"
+         style="fill:#00ff00;stroke:none;stroke-width:3;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+      <text
+         id="text2385"
+         y="40.38324"
+         x="524.52869"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:37.33332825px;line-height:0;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none"
+         xml:space="preserve"><tspan
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Liberation Sans';-inkscape-font-specification:'Liberation Sans';text-align:center;text-anchor:middle;fill:#ffffff"
+           y="40.38324"
+           x="524.52869"
+           id="tspan2383"
+           sodipodi:role="line">TANK 3</tspan></text>
+      <text
+         id="fuel.quantityC.digital"
+         y="91.721283"
+         x="573.86328"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:37.33332825px;line-height:0;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:end;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:end;fill:#00ff00;fill-opacity:1;stroke:none"
+         xml:space="preserve"><tspan
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Liberation Sans';-inkscape-font-specification:'Liberation Sans';fill:#00ff00"
+           y="91.721283"
+           x="573.86328"
+           id="tspan2387"
+           sodipodi:role="line">10000</tspan></text>
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:37.33332825px;line-height:0;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:end;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:end;fill:#ffffff;fill-opacity:1;stroke:none"
+         x="553.86328"
+         y="137.72131"
+         id="fuel.quantityC.unit"><tspan
+           sodipodi:role="line"
+           id="tspan2391"
+           x="553.86328"
+           y="137.72131"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Liberation Sans';-inkscape-font-specification:'Liberation Sans';fill:#ffffff">KG</tspan></text>
+      <path
+         style="fill:none;stroke:#ffffff;stroke-width:3.00542307;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         d="m 444,16 h 12 v 200 h -12"
+         id="path2395"
+         inkscape:connector-curvature="0"
+         sodipodi:nodetypes="cccc" />
+      <path
+         style="fill:#00ff00;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         d="m 436,228 v -24 l 18,12 z"
+         id="fuel.quantityC.pointer"
+         inkscape:connector-curvature="0"
+         sodipodi:nodetypes="cccc" />
+      <text
+         id="text2412"
+         y="196.38322"
+         x="512.68359"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:37.33332825px;line-height:0;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none"
+         xml:space="preserve"><tspan
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Liberation Sans';-inkscape-font-specification:'Liberation Sans';text-align:center;text-anchor:middle;fill:#ffffff"
+           y="196.38322"
+           x="512.68359"
+           id="tspan2410"
+           sodipodi:role="line">AC</tspan></text>
+      <circle
+         style="fill:#808080;stroke:none;stroke-width:3;stroke-miterlimit:4;stroke-dasharray:none"
+         id="circle2414"
+         cx="512"
+         cy="247.5"
+         r="32" />
+      <path
+         style="fill:#00ff00;stroke:none;stroke-width:2.53305936;stroke-miterlimit:4;stroke-dasharray:none"
+         d="m 492.89441,228.39442 c -1.66257,1.66257 -3.10801,3.54097 -4.29374,5.5947 l 16.43886,11.55816 a 7.2367349,7.2367349 0 0 0 -0.003,3.90842 l -16.43609,11.55539 c 2.37144,4.10746 5.781,7.51702 9.88845,9.88845 l 11.55816,-16.43885 a 7.2367349,7.2367349 0 0 0 3.90842,0.003 l 11.55539,16.43608 c 4.10746,-2.37143 7.51702,-5.78099 9.88845,-9.88845 l -16.43885,-11.55816 a 7.2367349,7.2367349 0 0 0 0.003,-3.90841 l 16.43609,-11.5554 c -2.37143,-4.10745 -5.78099,-7.51701 -9.88845,-9.88845 l -11.55817,16.43886 a 7.2367349,7.2367349 0 0 0 -3.90841,-0.003 l -11.5554,-16.43609 c -2.05373,1.18573 -3.93213,2.63117 -5.59471,4.29375 z"
+         id="fuel.pump.ac3"
+         inkscape:connector-curvature="0" />
+    </g>
   </g>
 </svg>

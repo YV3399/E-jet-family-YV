@@ -543,9 +543,11 @@ var MFD = {
                 'fuel.line.epump2',
                 'fuel.line.acpump1',
                 'fuel.line.acpump2',
+                'fuel.line.acpump3',
                 'fuel.line.dcpump',
                 'fuel.pump.ac1',
                 'fuel.pump.ac2',
+                'fuel.pump.ac3',
                 'fuel.pump.dc',
                 'fuel.pump.e1',
                 'fuel.pump.e2',
@@ -562,6 +564,10 @@ var MFD = {
                 'fuel.quantityR.digital',
                 'fuel.quantityR.unit',
                 'fuel.quantityR.pointer',
+                'fuel.quantityC.digital',
+                'fuel.quantityC.unit',
+                'fuel.quantityC.pointer',
+                'fuel.tank3.group',
         ];
         foreach (var key; mapkeys) {
             me.elems[key] = me.mapOverlay.getElementById(key);
@@ -885,6 +891,11 @@ var MFD = {
             self.elems['fuel.pump.ac2']
                 .setColorFill(c[0], c[1], c[2]);
         }, 1, 0);
+        setlistener('/systems/fuel/fuel-pump[2]/running', func (node) {
+            var c = node.getBoolValue() ? [0,1,0] : [1, 1, 1];
+            self.elems['fuel.pump.ac3']
+                .setColorFill(c[0], c[1], c[2]);
+        }, 1, 0);
         setlistener('/systems/fuel/fuel-pump[3]/running', func (node) {
             var c = node.getBoolValue() ? [0,1,0] : [1, 1, 1];
             self.elems['fuel.pump.dc']
@@ -899,11 +910,10 @@ var MFD = {
             var c = node.getBoolValue() ? [0,1,0] : [1, 1, 1];
             self.elems['fuel.line.acpump2'].setColorFill(c[0], c[1], c[2]);
         }, 1, 0);
-        # TODO
-        # setlistener('/systems/fuel/pressure/pump[2]', func (node) {
-        #     var c = node.getBoolValue() ? [0,1,0] : [1, 1, 1];
-        #     self.elems['fuel.line.acpump3'].setColorFill(c[0], c[1], c[2]);
-        # }, 1, 0);
+        setlistener('/systems/fuel/pressure/pump[2]', func (node) {
+            var c = node.getBoolValue() ? [0,1,0] : [1, 1, 1];
+            self.elems['fuel.line.acpump3'].setColorFill(c[0], c[1], c[2]);
+        }, 1, 0);
         setlistener('/systems/fuel/pressure/pump[3]', func (node) {
             var c = node.getBoolValue() ? [0,1,0] : [1, 1, 1];
             self.elems['fuel.line.dcpump'].setColorFill(c[0], c[1], c[2]);
@@ -950,16 +960,18 @@ var MFD = {
         setlistener('/fms/fuel/gauge[1]/pointer', func (node) {
             self.elems['fuel.quantityR.pointer'].setTranslation(0, node.getValue());
         }, 1, 0);
+        setlistener('/fms/fuel/gauge[2]/pointer', func (node) {
+            self.elems['fuel.quantityC.pointer'].setTranslation(0, node.getValue());
+        }, 1, 0);
         setlistener('/fms/fuel/gauge[0]/indicated', func (node) {
             self.elems['fuel.quantityL.digital'].setText(sprintf("%5.0f", node.getValue()));
         }, 1, 0);
         setlistener('/fms/fuel/gauge[1]/indicated', func (node) {
             self.elems['fuel.quantityR.digital'].setText(sprintf("%5.0f", node.getValue()));
         }, 1, 0);
-        # TODO: aux fuel tank gauges
-        # setlistener('/fms/fuel/gauge[2]/indicated', func (node) {
-        #     self.elems['fuel.quantityC.digital'].setText(sprintf("%5.0f", node.getValue()));
-        # }, 1, 0);
+        setlistener('/fms/fuel/gauge[2]/indicated', func (node) {
+            self.elems['fuel.quantityC.digital'].setText(sprintf("%5.0f", node.getValue()));
+        }, 1, 0);
         setlistener('/instrumentation/eicas/messages/fuel-low-left', func (node) {
             var c = node.getBoolValue() ? [1,0,0] : [0,1,0];
             self.elems['fuel.quantityL.digital'].setColor(c[0], c[1], c[2]);
@@ -1253,6 +1265,13 @@ var MFD = {
             me.elems['elec.dcgpu.inuse'].setVisible(feed == 1);
             fillColorByStatus(me.elems['elec.dcgpu.symbol'], feed == 1);
         }, 1, 0);
+
+        # Hide extra stuff when not Lineage 1000
+        if (getprop('/sim/aircraft') == 'EmbraerLineage1000') {
+        }
+        else {
+            me.elems['fuel.tank3.group'].hide();
+        }
 
         return me;
     },
