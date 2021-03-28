@@ -948,6 +948,7 @@
             <oat type="double">20</oat>
             <wind-dir type="double">0</wind-dir>
             <wind-speed type="double">0</wind-speed>
+            <weight-kg type="double">0.0</weight-kg>
         </takeoff-conditions>
 
         <landing-conditions>
@@ -962,6 +963,7 @@
                 3 = CAT III
             -->
             <approach-cat>1</approach-cat>
+            <weight-kg type="double">0.0</weight-kg>
         </landing-conditions>
 
         <speed-limits>

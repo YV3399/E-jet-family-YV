@@ -1888,10 +1888,10 @@ var MFD = {
                 var wpi = fp.current;
                 var dsti = fms.performanceProfile.destRunwayIndex;
                 if (wpi >= 0 and wpi < size(fms.performanceProfile.estimated)) {
-                    nextEFOB = fms.performanceProfile.estimated[wpi].fob;
+                    nextEFOB = fms.performanceProfile.estimated[wpi].fob * LB2KG;
                 }
                 if (dsti != nil and dsti < size(fms.performanceProfile.estimated)) {
-                    destEFOB = fms.performanceProfile.estimated[dsti].fob;
+                    destEFOB = fms.performanceProfile.estimated[dsti].fob * LB2KG;
                 }
             }
 

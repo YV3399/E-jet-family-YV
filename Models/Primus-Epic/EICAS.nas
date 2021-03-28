@@ -329,11 +329,11 @@ var canvas_ED_only = {
 
 		var litt=getprop("/engines/engine[0]/itt_degc");
 		var ritt=getprop("/engines/engine[1]/itt_degc");
-		var lff=getprop("/engines/engine[0]/fuel-flow_pph");
-		var rff=getprop("/engines/engine[1]/fuel-flow_pph");
-		var fq=getprop("/consumables/fuel/total-fuel-lbs");
-		var lfq=getprop("/consumables/fuel/tank[0]/level-lbs");
-		var rfq=getprop("/consumables/fuel/tank[1]/level-lbs");
+		var lff=getprop("/engines/engine[0]/fuel-flow_pph") * LB2KG;
+		var rff=getprop("/engines/engine[1]/fuel-flow_pph") * LB2KG;
+		var fq=getprop("/consumables/fuel/total-fuel-kg");
+		var lfq=getprop("/consumables/fuel/tank[0]/level-kg");
+		var rfq=getprop("/consumables/fuel/tank[1]/level-kg");
 		var lop=getprop("/engines/engine[0]/oil-pressure-psi");
 		var rop=getprop("/engines/engine[1]/oil-pressure-psi");
 		var lot=getprop("/engines/engine[0]/oil-temperature-degc");

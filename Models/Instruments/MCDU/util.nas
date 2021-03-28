@@ -324,6 +324,7 @@ var formatZulu = func (time_secs) {
 };
 
 var formatDist = func (dist) {
+    if (dist == nil) return "----";
     if (dist >= 10000) return "++++";
     if (dist >= 100) return sprintf("%4.0f", dist);
     if (dist >= 0) return sprintf("%4.1f", dist);

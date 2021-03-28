@@ -112,15 +112,15 @@
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
      inkscape:zoom="0.62104"
-     inkscape:cx="481.33"
+     inkscape:cx="474.88919"
      inkscape:cy="137.28"
      inkscape:document-units="px"
-     inkscape:current-layer="layer2"
+     inkscape:current-layer="progress.master"
      showgrid="false"
      units="px"
-     inkscape:window-width="1918"
-     inkscape:window-height="1078"
-     inkscape:window-x="1440"
+     inkscape:window-width="1280"
+     inkscape:window-height="1024"
+     inkscape:window-x="3360"
      inkscape:window-y="0"
      inkscape:window-maximized="0"
      scale-x="1"
@@ -148,7 +148,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -1410,15 +1410,15 @@
            style="font-size:31.99047px;text-align:end;text-anchor:end;fill:#ff00ff;fill-opacity:1;stroke-width:1.99998;stroke-miterlimit:4;stroke-dasharray:none">-----</tspan></text>
       <text
          xml:space="preserve"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:13.32917px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:sans-serif;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1.99998;stroke-miterlimit:4;stroke-dasharray:none"
-         x="793.92"
-         y="699.55"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:13.32917023px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:sans-serif;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1.99997997;stroke-miterlimit:4;stroke-dasharray:none"
+         x="793.91998"
+         y="699.54999"
          id="next.fuel.unit"><tspan
            sodipodi:role="line"
            id="tspan1022"
-           x="793.92"
-           y="699.55"
-           style="font-size:31.99047px;text-align:start;text-anchor:start;fill:#ffffff;fill-opacity:1;stroke-width:1.99998;stroke-miterlimit:4;stroke-dasharray:none">LB</tspan></text>
+           x="793.91998"
+           y="699.54999"
+           style="font-size:31.99047089px;text-align:start;text-anchor:start;fill:#ffffff;fill-opacity:1;stroke-width:1.99997997;stroke-miterlimit:4;stroke-dasharray:none">KG</tspan></text>
       <text
          id="text1074"
          y="735.55"
@@ -1487,15 +1487,15 @@
            sodipodi:role="line">-----</tspan></text>
       <text
          id="dest.fuel.unit"
-         y="735.55"
-         x="793.92"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:13.32917px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:sans-serif;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1.99998;stroke-miterlimit:4;stroke-dasharray:none"
+         y="735.54999"
+         x="793.91998"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:13.32917023px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:sans-serif;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1.99997997;stroke-miterlimit:4;stroke-dasharray:none"
          xml:space="preserve"><tspan
-           style="font-size:31.99047px;text-align:start;text-anchor:start;fill:#ffffff;fill-opacity:1;stroke-width:1.99998;stroke-miterlimit:4;stroke-dasharray:none"
-           y="735.55"
-           x="793.92"
+           style="font-size:31.99047089px;text-align:start;text-anchor:start;fill:#ffffff;fill-opacity:1;stroke-width:1.99997997;stroke-miterlimit:4;stroke-dasharray:none"
+           y="735.54999"
+           x="793.91998"
            id="tspan1098"
-           sodipodi:role="line">LB</tspan></text>
+           sodipodi:role="line">KG</tspan></text>
       <text
          id="text1110"
          y="659.55"

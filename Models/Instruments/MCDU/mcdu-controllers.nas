@@ -396,14 +396,14 @@ var ValueController = {
         var scale = contains(options, "scale") ? options["scale"] : 1;
         m.amounts = [ scale, scale * 10, scale * 100, scale * 1000 ];
         m.min = contains(options, "min") ? options["min"] : 0;
-        m.max = contains(options, "max") ? options["max"] : 500;
+        m.max = contains(options, "max") ? options["max"] : nil;
         m.goto = contains(options, "goto") ? options["goto"] : nil;
         m.boxable = contains(options, "boxable") ? options["boxable"] : 0;
         return m;
     },
 
     parse: func (val) {
-        if (val >= me.min and val <= me.max) { return val; }
+        if ((me.min == nil or val >= me.min) and (me.max == nil or val <= me.max)) { return val; }
         return nil;
     },
 

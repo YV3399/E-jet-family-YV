@@ -135,8 +135,9 @@ var keyProps = {
     # Weights and fuel
     "WGT-EMPTY": "/fdm/jsbsim/inertia/empty-weight-lbs",
     "WGT-CUR": "/fdm/jsbsim/inertia/weight-lbs",
+    "WGT-LND": "/fms/landing-conditions/weight-kg",
+    "WGT-TO": "/fms/takeoff-conditions/weight-kg",
     "WGT-ZF": "/fms/fuel/zfw-kg",
-    "WGT-TO": "/fms/fuel/tow",
     "FUEL-CUR": "/consumables/fuel/total-fuel-kg",
     "FUEL-RESERVE": "/fms/fuel/reserve",
     "FUEL-TAKEOFF": "/fms/fuel/takeoff",
@@ -287,7 +288,6 @@ var keyProps = {
 };
 
 var keyDefs = {
-    "WGT-TO": func () { return getprop("/fdm/jsbsim/inertia/weight-lbs") * LB2KG; },
     "DEPARTURE-AIRPORT": func () {
         var apts = findAirportsWithinRange(4.0);
         if (size(apts) == 0) return nil;

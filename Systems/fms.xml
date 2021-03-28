@@ -54,6 +54,39 @@
     </filter>
 
     <filter>
+        <name>Landing weight (kg)</name>
+        <type>gain</type>
+        <enable>
+            <condition>
+                <equals>
+                    <property>/fms/landing-conditions/weight-kg</property>
+                    <value>0</value>
+                </equals>
+            </condition>
+        </enable>
+        <input>
+            <property>/fms/fuel/gw-kg</property>
+        </input>
+        <output>/fms/landing-conditions/weight-kg</output>
+    </filter>
+    <filter>
+        <name>Takeoff weight (kg)</name>
+        <type>gain</type>
+        <enable>
+            <condition>
+                <equals>
+                    <property>/fms/takeoff-conditions/weight-kg</property>
+                    <value>0</value>
+                </equals>
+            </condition>
+        </enable>
+        <input>
+            <property>/fms/fuel/gw-kg</property>
+        </input>
+        <output>/fms/takeoff-conditions/weight-kg</output>
+    </filter>
+
+    <filter>
         <type>gain</type>
         <gain>1</gain>
         <input>
