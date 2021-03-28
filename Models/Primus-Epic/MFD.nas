@@ -556,6 +556,12 @@ var MFD = {
                 'fuel.valve.crossfeed',
                 'fuel.valve.cutoffL',
                 'fuel.valve.cutoffR',
+                'fuel.quantityL.digital',
+                'fuel.quantityL.unit',
+                'fuel.quantityL.pointer',
+                'fuel.quantityR.digital',
+                'fuel.quantityR.unit',
+                'fuel.quantityR.pointer',
         ];
         foreach (var key; mapkeys) {
             me.elems[key] = me.mapOverlay.getElementById(key);
@@ -937,6 +943,32 @@ var MFD = {
         }, 1, 0);
         setlistener('/fms/fuel/used', func (node) {
             self.elems['fuel.used.digital'].setText(sprintf("%5.0f", node.getValue()));
+        }, 1, 0);
+        setlistener('/fms/fuel/gauge[0]/pointer', func (node) {
+            self.elems['fuel.quantityL.pointer'].setTranslation(0, node.getValue());
+        }, 1, 0);
+        setlistener('/fms/fuel/gauge[1]/pointer', func (node) {
+            self.elems['fuel.quantityR.pointer'].setTranslation(0, node.getValue());
+        }, 1, 0);
+        setlistener('/fms/fuel/gauge[0]/indicated', func (node) {
+            self.elems['fuel.quantityL.digital'].setText(sprintf("%5.0f", node.getValue()));
+        }, 1, 0);
+        setlistener('/fms/fuel/gauge[1]/indicated', func (node) {
+            self.elems['fuel.quantityR.digital'].setText(sprintf("%5.0f", node.getValue()));
+        }, 1, 0);
+        # TODO: aux fuel tank gauges
+        # setlistener('/fms/fuel/gauge[2]/indicated', func (node) {
+        #     self.elems['fuel.quantityC.digital'].setText(sprintf("%5.0f", node.getValue()));
+        # }, 1, 0);
+        setlistener('/instrumentation/eicas/messages/fuel-low-left', func (node) {
+            var c = node.getBoolValue() ? [1,0,0] : [0,1,0];
+            self.elems['fuel.quantityL.digital'].setColor(c[0], c[1], c[2]);
+            self.elems['fuel.quantityL.pointer'].setColorFill(c[0], c[1], c[2]);
+        }, 1, 0);
+        setlistener('/instrumentation/eicas/messages/fuel-low-right', func (node) {
+            var c = node.getBoolValue() ? [1,0,0] : [0,1,0];
+            self.elems['fuel.quantityR.digital'].setColor(c[0], c[1], c[2]);
+            self.elems['fuel.quantityR.pointer'].setColorFill(c[0], c[1], c[2]);
         }, 1, 0);
 
         var doornames = ['l1', 'r1', 'l2', 'r2', 'cargo1', 'cargo2', 'fuel-panel', 'avionics-front', 'avionics-mid'];

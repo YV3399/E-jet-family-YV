@@ -123,7 +123,7 @@ var initDeparture = func () {
 var updateOrigFuel = func (engineChanged, otherEngine) {
     if (!getprop("/engines/engine[" ~ otherEngine ~ "]/running")) {
         setprop("/fms/fuel/original",
-            getprop("/consumables/fuel/total-kg"));
+            getprop("/consumables/fuel/total-kg") or 0);
     }
 };
 

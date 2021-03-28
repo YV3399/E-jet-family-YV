@@ -175,9 +175,9 @@
             <property-rule n="102">
                 <path>Aircraft/E-jet-family/Systems/eicas.xml</path>
             </property-rule>
-            <property-rule n="103">
+            <autopilot>
                 <path>Aircraft/E-jet-family/Systems/fms.xml</path>
-            </property-rule>
+            </autopilot>
             <property-rule n="104">
                 <path>Aircraft/E-jet-family/Systems/wxr-rules.xml</path>
             </property-rule>
@@ -868,6 +868,19 @@
     </trs>
 
     <fms>
+        <units>
+            <weight>
+                <!-- 0 = kg, 1 = lbs -->
+                <ident type="int">0</ident>
+                <name type="string">kg</name>
+            </weight>
+            <temp>
+                <!-- 0 = °C, 1 = °F -->
+                <ident type="int">0</ident>
+                <name type="string">°C</name>
+            </temp>
+        </units>
+
         <flightplan-modifications type="bool">false</flightplan-modifications>
         <!-- flight phase -->
         <phase type="int">0</phase>
@@ -1083,6 +1096,18 @@
             <takeoff type="double">100</takeoff>
             <landing type="double">70</landing>
             <contingency type="double">300</contingency>
+            <gauge n="0">
+                <pointer type="double">0</pointer>
+                <indicated type="double">0</indicated>
+            </gauge>
+            <gauge n="1">
+                <pointer type="double">0</pointer>
+                <indicated type="double">0</indicated>
+            </gauge>
+            <gauge n="2">
+                <pointer type="double">0</pointer>
+                <indicated type="double">0</indicated>
+            </gauge>
 
             <tow type="double"></tow>
 

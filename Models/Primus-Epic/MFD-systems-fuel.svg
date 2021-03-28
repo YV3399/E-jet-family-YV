@@ -111,17 +111,17 @@
      borderopacity="1.0"
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
-     inkscape:zoom="1.6062"
-     inkscape:cx="494.63123"
-     inkscape:cy="492.39291"
+     inkscape:zoom="0.8031"
+     inkscape:cx="601.09054"
+     inkscape:cy="371.42116"
      inkscape:document-units="px"
      inkscape:current-layer="layer2"
      showgrid="true"
      units="px"
-     inkscape:window-width="1920"
-     inkscape:window-height="1080"
-     inkscape:window-x="1440"
-     inkscape:window-y="0"
+     inkscape:window-width="1440"
+     inkscape:window-height="886"
+     inkscape:window-x="0"
+     inkscape:window-y="14"
      inkscape:window-maximized="0"
      scale-x="1"
      showguides="true"
@@ -168,7 +168,7 @@
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
      id="layer1"
-     style="display:none"
+     style="display:inline"
      sodipodi:insensitive="true">
     <image
        y="-101.47828"
@@ -1888,5 +1888,104 @@ QmCC
        style="fill:#00ff00;stroke:none;stroke-width:3;stroke-miterlimit:4;stroke-dasharray:none"
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="ccccccccccccccc" />
+    <text
+       id="fuel.quantityL.digital"
+       y="503.72128"
+       x="143.86325"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:37.33332825px;line-height:0;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:end;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:end;fill:#00ff00;fill-opacity:1;stroke:none"
+       xml:space="preserve"><tspan
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Liberation Sans';-inkscape-font-specification:'Liberation Sans';fill:#00ff00"
+         y="503.72128"
+         x="143.86325"
+         id="tspan2333"
+         sodipodi:role="line">10000</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:37.33332825px;line-height:0;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:end;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:end;fill:#ffffff;fill-opacity:1;stroke:none"
+       x="123.86325"
+       y="549.72131"
+       id="fuel.quantityL.unit"><tspan
+         sodipodi:role="line"
+         id="tspan2337"
+         x="123.86325"
+         y="549.72131"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Liberation Sans';-inkscape-font-specification:'Liberation Sans';fill:#ffffff">KG</tspan></text>
+    <g
+       id="g2350">
+      <path
+         sodipodi:nodetypes="ccc"
+         inkscape:connector-curvature="0"
+         id="path2341"
+         d="M 108,456 V 256 H 96"
+         style="fill:none;stroke:#ffffff;stroke-width:3.00542307;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+      <path
+         sodipodi:nodetypes="ccc"
+         inkscape:connector-curvature="0"
+         id="path2345"
+         d="M 108,408 V 360 H 96"
+         style="fill:none;stroke:#ff8000;stroke-width:3.00542307;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+      <path
+         style="fill:none;stroke:#ff0000;stroke-width:3.00542307;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         d="m 96,456 h 12 V 408 H 96"
+         id="path2343"
+         inkscape:connector-curvature="0"
+         sodipodi:nodetypes="cccc" />
+    </g>
+    <path
+       style="fill:#00ff00;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 88,468 v -24 l 18,12 z"
+       id="fuel.quantityL.pointer"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cccc" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:37.33332825px;line-height:0;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:end;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:end;fill:#00ff00;fill-opacity:1;stroke:none"
+       x="975.86328"
+       y="503.72128"
+       id="fuel.quantityR.digital"><tspan
+         sodipodi:role="line"
+         id="tspan2365"
+         x="975.86328"
+         y="503.72128"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Liberation Sans';-inkscape-font-specification:'Liberation Sans';fill:#00ff00">10000</tspan></text>
+    <text
+       id="fuel.quantityR.unit"
+       y="549.72131"
+       x="955.86328"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:37.33332825px;line-height:0;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:end;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:end;fill:#ffffff;fill-opacity:1;stroke:none"
+       xml:space="preserve"><tspan
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Liberation Sans';-inkscape-font-specification:'Liberation Sans';fill:#ffffff"
+         y="549.72131"
+         x="955.86328"
+         id="tspan2369"
+         sodipodi:role="line">KG</tspan></text>
+    <g
+       id="g2379"
+       transform="matrix(-1,0,0,1,1025.5027,0)">
+      <path
+         style="fill:none;stroke:#ffffff;stroke-width:3.00542307;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         d="M 108,456 V 256 H 96"
+         id="path2373"
+         inkscape:connector-curvature="0"
+         sodipodi:nodetypes="ccc" />
+      <path
+         style="fill:none;stroke:#ff8000;stroke-width:3.00542307;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         d="M 108,408 V 360 H 96"
+         id="path2375"
+         inkscape:connector-curvature="0"
+         sodipodi:nodetypes="ccc" />
+      <path
+         sodipodi:nodetypes="cccc"
+         inkscape:connector-curvature="0"
+         id="path2377"
+         d="m 96,456 h 12 V 408 H 96"
+         style="fill:none;stroke:#ff0000;stroke-width:3.00542307;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+    </g>
+    <path
+       sodipodi:nodetypes="cccc"
+       inkscape:connector-curvature="0"
+       id="fuel.quantityR.pointer"
+       d="m 937.50271,468 v -24 l -18,12 z"
+       style="fill:#00ff00;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
   </g>
 </svg>
