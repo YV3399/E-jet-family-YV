@@ -202,11 +202,11 @@ var lookupTable = func (table, path) {
 };
 
 var modelKeys = {
-    'E170': 'E170',
-    'E175': 'E170',
-    'E190': 'E190',
-    'E195': 'E190',
-    'Lineage1000': 'E190',
+    'FDM/E170': 'E170',
+    'FDM/E175': 'E170',
+    'FDM/E190': 'E190',
+    'FDM/E195': 'E190',
+    'FDM/Lineage1000': 'E190',
 };
 
 var getModel = func () {
@@ -222,7 +222,7 @@ var calcMinV = func (which) {
     toMode = math.min(2, math.max(1, toMode));
     var altitude = getprop('/fms/takeoff-conditions/pressure-alt');
     var oat = getprop('/fms/takeoff-conditions/oat');
-    var tow = getprop('/fms/fuel/tow') or 0;
+    var tow = getprop('/fms/takeoff-conditions/weight-kg') or 0;
     if (tow < 1000) {
         tow = (getprop('/fdm/jsbsim/inertia/weight-lbs') or 60000) * LB2KG;
     }
@@ -247,7 +247,7 @@ var calcV = func (which) {
     toMode = math.min(2, math.max(1, toMode));
     var altitude = getprop('/fms/takeoff-conditions/pressure-alt');
     var oat = getprop('/fms/takeoff-conditions/oat');
-    var tow = getprop('/fms/fuel/tow') or 0;
+    var tow = getprop('/fms/takeoff-conditions/weight-kg') or 0;
     if (tow < 1000) {
         tow = (getprop('/fdm/jsbsim/inertia/weight-lbs') or 60000) * LB2KG;
     }
@@ -329,10 +329,10 @@ var update_departure_vspeeds = func () {
     var vr = calcV('VR');
     var v2 = calcV('V2');
     var vfs = calcVFS();
-    printf("V1: %3.0f", (v1 == nil) ? "9999" : v1);
-    printf("VR: %3.0f", (vr == nil) ? "9999" : vr);
-    printf("V2: %3.0f", (v2 == nil) ? "9999" : v2);
-    printf("VFS: %3.0f", (vfs == nil) ? "9999" : vfs);
+    printf("V1: %3.0f", (v1 == nil) ? "---" : v1);
+    printf("VR: %3.0f", (vr == nil) ? "---" : vr);
+    printf("V2: %3.0f", (v2 == nil) ? "---" : v2);
+    printf("VFS: %3.0f", (vfs == nil) ? "---" : vfs);
     if (v1 != nil and v1 > 0) { setprop('/fms/vspeeds-calculated/departure/v1', v1); }
     if (vr != nil and vr > 0) { setprop('/fms/vspeeds-calculated/departure/vr', vr); }
     if (v2 != nil and v2 > 0) { setprop('/fms/vspeeds-calculated/departure/v2', v2); }
@@ -340,9 +340,10 @@ var update_departure_vspeeds = func () {
 };
 
 var update_approach_vspeeds = func () {
-    var vac = calcVAC();
-    var vref = calcVref();
-    var vfs = calcVFS();
+    var law = getprop('/fms/landing-conditions/weight-kg') or 0;
+    var vac = calcVAC(law);
+    var vref = calcVref(law);
+    var vfs = calcVFS(law);
     var vappr = (vref == nil) ? nil : (vref + 10);
     if (vac != nil and vac > 0) { setprop('/fms/vspeeds-calculated/approach/vac', vac); }
     if (vref != nil and vref > 0) { setprop('/fms/vspeeds-calculated/approach/vref', vref); }
@@ -350,6 +351,8 @@ var update_approach_vspeeds = func () {
     if (vfs != nil and vfs > 0) { setprop('/fms/vspeeds-calculated/approach/vfs', vfs); }
 };
 
-setlistener('/fms/takeoff-conditions', func () { update_departure_vspeeds(); }, 1, 2);
-setlistener('/controls/flight/trs/to', func () { update_departure_vspeeds(); }, 1, 0);
-setlistener('/fms/landing-conditions', func () { update_approach_vspeeds(); }, 1, 2);
+# setlistener("sim/signals/fdm-initialized", func {
+#     setlistener('/fms/takeoff-conditions', func () { update_departure_vspeeds(); }, 1, 2);
+#     setlistener('/controls/flight/trs/to', func () { update_departure_vspeeds(); }, 1, 0);
+#     setlistener('/fms/landing-conditions', func () { update_approach_vspeeds(); }, 1, 2);
+# });

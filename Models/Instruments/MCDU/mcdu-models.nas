@@ -98,7 +98,7 @@ var ObjectFieldModel = {
 };
 
 var PropModel = {
-    new: func (key, defval = nil) {
+    new: func (key, defval = '') {
         var m = BaseModel.new();
         m.parents = prepended(PropModel, m.parents);
         m.key = key;

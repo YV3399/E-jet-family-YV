@@ -1003,6 +1003,7 @@ var TakeoffPerfModule = {
             };
         }
         else if (n == 2) {
+            fms.update_departure_vspeeds();
             me.views = [
                 StaticView.new(1, 1, "V1", mcdu_white),
                 FormatView.new(0, 2, mcdu_large | mcdu_magenta, "DEP-EFF-V1", 3),
@@ -1067,6 +1068,7 @@ var LandingPerfModule = {
             };
         }
         else if (n == 1) {
+            fms.update_approach_vspeeds();
             me.views = [
                 StaticView.new(1, 1, "VREF", mcdu_white),
                 FormatView.new(0, 2, mcdu_large | mcdu_yellow, "APP-EFF-VREF", 3),
