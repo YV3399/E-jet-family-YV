@@ -455,6 +455,45 @@ var canvas_ED_only = {
         setlistener(self.props["/instrumentation/pfd/qnh-mode"], updateQNH, 1, 0);
         setlistener(self.props["/instrumentation/altimeter/setting-inhg"], updateQNH, 1, 0);
         setlistener(self.props["/instrumentation/altimeter/setting-hpa"], updateQNH, 1, 0);
+
+        var updateNavAnn = func () {
+            var navsrc = self.props["/instrumentation/pfd/nav-src"].getValue() or 0;
+            var preview = self.props["/instrumentation/pfd/preview"].getValue() or 0;
+
+            if (navsrc == 0) {
+                self["navsrc.primary.selection"].setText("FMS");
+                self["navsrc.primary.selection"].setColor(1, 0, 1);
+                self["navsrc.primary.id"].setText("");
+
+                if (preview) {
+                    self["navsrc.preview"].show();
+                    if (self.props["/instrumentation/nav[" ~ (preview - 1) ~ "]/nav-loc"].getValue() or 0) {
+                        self["navsrc.preview.selection"].setText("LOC" ~ preview);
+                    }
+                    else {
+                        self["navsrc.preview.selection"].setText("VOR" ~ preview);
+                    }
+                    self["navsrc.preview.id"].setText(self.props["/instrumentation/nav[" ~ (preview - 1) ~ "]/nav-id"].getValue() or "");
+                }
+                else {
+                    self["navsrc.preview"].hide();
+                }
+            }
+            else {
+                self["navsrc.primary"].show();
+                if (self.props["/instrumentation/nav[" ~ (navsrc - 1) ~ "]/nav-loc"].getValue() or 0) {
+                    self["navsrc.primary.selection"].setText("LOC" ~ navsrc);
+                }
+                else {
+                    self["navsrc.primary.selection"].setText("VOR" ~ navsrc);
+                }
+                self["navsrc.primary.selection"].setColor(0, 1, 0);
+                self["navsrc.primary.id"].setText(self.props["/instrumentation/nav[" ~ (navsrc - 1) ~ "]/nav-id"].getValue() or "");
+                self["navsrc.primary.id"].setColor(0, 1, 0);
+                self["navsrc.preview"].hide();
+            }
+        };
+
         setlistener(self.props["/instrumentation/pfd/bearing[0]/visible"],
             func (node) { self["hsi.pointer.circle"].setVisible(node.getBoolValue()); },
             1, 0);
@@ -467,6 +506,13 @@ var canvas_ED_only = {
         setlistener(self.props["/instrumentation/pfd/bearing[1]/bearing"],
             func (node) { self["hsi.pointer.diamond"].setRotation(node.getValue() * D2R); },
             1, 0);
+
+        setlistener(self.props["/instrumentation/pfd/preview"], func { updateNavAnn(); }, 1, 0);
+        setlistener(self.props["/instrumentation/nav[0]/nav-loc"], func { updateNavAnn(); }, 1, 0);
+        setlistener(self.props["/instrumentation/nav[0]/nav-id"], func { updateNavAnn(); }, 1, 0);
+        setlistener(self.props["/instrumentation/nav[1]/nav-loc"], func { updateNavAnn(); }, 1, 0);
+        setlistener(self.props["/instrumentation/nav[1]/nav-id"], func { updateNavAnn(); }, 1, 0);
+
         setlistener(self.props["/instrumentation/pfd/nav-src"],
             func (node) {
                 var courseColor = [0, 1, 0];
@@ -479,6 +525,7 @@ var canvas_ED_only = {
                 self["selectedcourse.digital"].setColorFill(courseColor[0], courseColor[1], courseColor[2]);
                 self["hsi.nav1"].setColor(hsiColor[0], hsiColor[1], hsiColor[2]);
                 self["hsi.nav1track"].setColor(hsiColor[0], hsiColor[1], hsiColor[2]);
+                updateNavAnn();
             }, 1, 0);
         setlistener(self.props["/instrumentation/pfd/nav/course-source"],
             func (node) {
@@ -509,6 +556,7 @@ var canvas_ED_only = {
                 self["hsi.from"].setVisible(flag == 1);
                 self["hsi.to"].setVisible(flag == 0);
             }, 1, 0);
+
     },
 
     update: func() {
@@ -591,39 +639,6 @@ var canvas_ED_only = {
             else {
                 me["ils.locneedle"].hide();
             }
-        }
-
-        if (navsrc == 0) {
-            me["navsrc.primary.selection"].setText("FMS");
-            me["navsrc.primary.selection"].setColor(1, 0, 1);
-            me["navsrc.primary.id"].setText("");
-
-            if (preview) {
-                me["navsrc.preview"].show();
-                if (me.props["/instrumentation/nav[" ~ (preview - 1) ~ "]/nav-loc"].getValue() or 0) {
-                    me["navsrc.preview.selection"].setText("LOC" ~ preview);
-                }
-                else {
-                    me["navsrc.preview.selection"].setText("VOR" ~ preview);
-                }
-                me["navsrc.preview.id"].setText(me.props["/instrumentation/nav[" ~ (preview - 1) ~ "]/nav-id"].getValue() or "");
-            }
-            else {
-                me["navsrc.preview"].hide();
-            }
-        }
-        else {
-            me["navsrc.primary"].show();
-            if (me.props["/instrumentation/nav[" ~ (navsrc - 1) ~ "]/nav-loc"].getValue() or 0) {
-                me["navsrc.primary.selection"].setText("LOC" ~ navsrc);
-            }
-            else {
-                me["navsrc.primary.selection"].setText("VOR" ~ navsrc);
-            }
-            me["navsrc.primary.selection"].setColor(0, 1, 0);
-            me["navsrc.primary.id"].setText(me.props["/instrumentation/nav[" ~ (navsrc - 1) ~ "]/nav-id"].getValue() or "");
-            me["navsrc.primary.id"].setColor(0, 1, 0);
-            me["navsrc.preview"].hide();
         }
 
         if (me.props["/autopilot/route-manager/active"].getValue() or 0) {
