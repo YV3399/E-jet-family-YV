@@ -526,4 +526,178 @@
         </input>
         <output>instrumentation/pfd[0]/wind-speed-kt</output>
     </filter>
+
+    <!-- HSI -->
+    <filter>
+        <name>DME source</name>
+        <type>gain</type>
+        <gain>1</gain>
+        <output>instrumentation/pfd[0]/nav/dme-source</output>
+        <input>
+            <condition>
+                <property>/instrumentation/pfd[0]/nav-src</property>
+            </condition>
+            <property>/instrumentation/pfd[0]/nav-src</property>
+        </input>
+        <input>
+            <condition>
+                <property>/instrumentation/pfd[0]/preview</property>
+            </condition>
+            <property>/instrumentation/pfd[0]/preview</property>
+        </input>
+        <input><value>0</value></input>
+    </filter>
+    <filter>
+        <name>Course source</name>
+        <type>gain</type>
+        <gain>1</gain>
+        <output>instrumentation/pfd[0]/nav/course-source</output>
+        <input>
+            <condition>
+                <property>/instrumentation/pfd[0]/nav-src</property>
+            </condition>
+            <property>/instrumentation/pfd[0]/nav-src</property>
+        </input>
+        <input>
+            <condition>
+                <property>/instrumentation/pfd[0]/preview</property>
+            </condition>
+            <property>/instrumentation/pfd[0]/preview</property>
+        </input>
+        <input><value>0</value></input>
+    </filter>
+    <filter>
+        <name>Course source type</name>
+        <type>gain</type>
+        <gain>1</gain>
+        <output>instrumentation/pfd[0]/nav/course-source-type</output>
+        <input>
+            <condition>
+                <property>/instrumentation/pfd[0]/nav-src</property>
+            </condition>
+            <!-- NAV -->
+            <value>1</value>
+        </input>
+        <input>
+            <condition>
+                <property>/instrumentation/pfd[0]/preview</property>
+            </condition>
+            <!-- PREVIEW -->
+            <value>2</value>
+        </input>
+        <input>
+            <!-- OFF -->
+            <value>0</value>
+        </input>
+    </filter>
+
+    <filter>
+        <name>Nav Selected Radial</name>
+        <type>gain</type>
+        <gain>1</gain>
+        <output>instrumentation/pfd[0]/nav/selected-radial</output>
+        <input>
+            <condition>
+                <equals>
+                    <property>/instrumentation/pfd/course-src</property>
+                    <value>1</value>
+                </equals>
+            </condition>
+            <property>/instrumentation/nav[0]/radials/selected-deg</property>
+        </input>
+        <input>
+            <condition>
+                <equals>
+                    <property>/instrumentation/pfd/course-src</property>
+                    <value>2</value>
+                </equals>
+            </condition>
+            <property>/instrumentation/nav[1]/radials/selected-deg</property>
+        </input>
+    </filter>
+    <filter>
+        <name>HSI heading</name>
+        <type>gain</type>
+        <gain>1</gain>
+        <output>instrumentation/pfd[0]/hsi/heading</output>
+        <input>
+            <condition>
+                <equals>
+                    <property>/instrumentation/pfd/nav-src</property>
+                    <value>1</value>
+                </equals>
+            </condition>
+            <property>/instrumentation/nav[0]/radials/selected-deg</property>
+        </input>
+        <input>
+            <condition>
+                <equals>
+                    <property>/instrumentation/pfd/nav-src</property>
+                    <value>2</value>
+                </equals>
+            </condition>
+            <property>/instrumentation/nav[1]/radials/selected-deg</property>
+        </input>
+        <input>
+            <property>/instrumentation/gps/desired-course-deg</property>
+        </input>
+    </filter>
+    <filter>
+        <name>HSI deflection</name>
+        <type>gain</type>
+        <gain>1</gain>
+        <output>instrumentation/pfd[0]/hsi/deflection</output>
+        <input>
+            <condition>
+                <equals>
+                    <property>/instrumentation/pfd/nav-src</property>
+                    <value>1</value>
+                </equals>
+            </condition>
+            <property>/instrumentation/nav[0]/heading-needle-deflection-norm</property>
+        </input>
+        <input>
+            <condition>
+                <equals>
+                    <property>/instrumentation/pfd/nav-src</property>
+                    <value>2</value>
+                </equals>
+            </condition>
+            <property>/instrumentation/nav[1]/heading-needle-deflection-norm</property>
+        </input>
+        <input>
+            <product>
+                <property>/instrumentation/gps/cdi-deflection</property>
+                <value>0.1</value>
+            </product>
+        </input>
+    </filter>
+    <filter>
+        <name>HSI from flag</name>
+        <type>gain</type>
+        <gain>1</gain>
+        <output>instrumentation/pfd[0]/hsi/from-flag</output>
+        <input>
+            <condition>
+                <equals>
+                    <property>/instrumentation/pfd/nav-src</property>
+                    <value>1</value>
+                </equals>
+            </condition>
+            <property>/instrumentation/nav[0]/from-flag</property>
+        </input>
+        <input>
+            <condition>
+                <equals>
+                    <property>/instrumentation/pfd/nav-src</property>
+                    <value>2</value>
+                </equals>
+            </condition>
+            <property>/instrumentation/nav[1]/from-flag</property>
+        </input>
+        <input>
+            <value>-1</value>
+        </input>
+    </filter>
+
 </PropertyList>

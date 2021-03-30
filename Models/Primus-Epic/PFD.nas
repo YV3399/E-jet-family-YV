@@ -182,6 +182,13 @@ var canvas_ED_only = {
         m.props["/instrumentation/pfd/groundspeed-kt"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/groundspeed-kt");
         m.props["/instrumentation/pfd/nav-src"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/nav-src");
         m.props["/instrumentation/pfd/preview"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/preview");
+        m.props["/instrumentation/pfd/nav/dme-source"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/nav/dme-source");
+        m.props["/instrumentation/pfd/nav/course-source"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/nav/course-source");
+        m.props["/instrumentation/pfd/nav/course-source-type"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/nav/course-source-type");
+        m.props["/instrumentation/pfd/nav/selected-radial"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/nav/selected-radial");
+        m.props["/instrumentation/pfd/hsi/heading"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/hsi/heading");
+        m.props["/instrumentation/pfd/hsi/deflection"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/hsi/deflection");
+        m.props["/instrumentation/pfd/hsi/from-flag"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/hsi/from-flag");
         m.props["/instrumentation/pfd/bearing[0]/bearing"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/bearing[0]/bearing");
         m.props["/instrumentation/pfd/bearing[0]/visible"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/bearing[0]/visible");
         m.props["/instrumentation/pfd/bearing[0]/source"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/bearing[0]/source");
@@ -448,6 +455,60 @@ var canvas_ED_only = {
         setlistener(self.props["/instrumentation/pfd/qnh-mode"], updateQNH, 1, 0);
         setlistener(self.props["/instrumentation/altimeter/setting-inhg"], updateQNH, 1, 0);
         setlistener(self.props["/instrumentation/altimeter/setting-hpa"], updateQNH, 1, 0);
+        setlistener(self.props["/instrumentation/pfd/bearing[0]/visible"],
+            func (node) { self["hsi.pointer.circle"].setVisible(node.getBoolValue()); },
+            1, 0);
+        setlistener(self.props["/instrumentation/pfd/bearing[0]/bearing"],
+            func (node) { self["hsi.pointer.circle"].setRotation(node.getValue() * D2R); },
+            1, 0);
+        setlistener(self.props["/instrumentation/pfd/bearing[1]/visible"],
+            func (node) { self["hsi.pointer.diamond"].setVisible(node.getBoolValue()); },
+            1, 0);
+        setlistener(self.props["/instrumentation/pfd/bearing[1]/bearing"],
+            func (node) { self["hsi.pointer.diamond"].setRotation(node.getValue() * D2R); },
+            1, 0);
+        setlistener(self.props["/instrumentation/pfd/nav-src"],
+            func (node) {
+                var courseColor = [0, 1, 0];
+                var hsiColor = [0, 1, 0];
+
+                if (node.getValue() == 0) {
+                    courseColor = [0, 0.75, 1];
+                    hsiColor = [1, 0, 1];
+                }
+                self["selectedcourse.digital"].setColorFill(courseColor[0], courseColor[1], courseColor[2]);
+                self["hsi.nav1"].setColor(hsiColor[0], hsiColor[1], hsiColor[2]);
+                self["hsi.nav1track"].setColor(hsiColor[0], hsiColor[1], hsiColor[2]);
+            }, 1, 0);
+        setlistener(self.props["/instrumentation/pfd/nav/course-source"],
+            func (node) {
+                if (node.getValue() == 0) {
+                    self["selectedcourse.digital"].hide();
+                }
+                else {
+                    self["selectedcourse.digital"].show();
+                }
+            }, 1, 0);
+        setlistener(self.props["/instrumentation/pfd/nav/selected-radial"],
+            func (node) {
+                self["selectedcourse.digital"].setText(sprintf("%03d", node.getValue()));
+            }, 1, 0);
+        setlistener(self.props["/instrumentation/pfd/hsi/heading"],
+            func (node) {
+                var hsiHeading = node.getValue() * D2R;
+                self["hsi.nav1"].setRotation(hsiHeading);
+                self["hsi.dots"].setRotation(hsiHeading);
+            }, 1, 0);
+        setlistener(self.props["/instrumentation/pfd/hsi/deflection"],
+            func (node) {
+                self["hsi.nav1track"].setTranslation(node.getValue() * 120, 0);
+            }, 1, 0);
+        setlistener(self.props["/instrumentation/pfd/hsi/from-flag"],
+            func (node) {
+                var flag = node.getValue();
+                self["hsi.from"].setVisible(flag == 1);
+                self["hsi.to"].setVisible(flag == 0);
+            }, 1, 0);
     },
 
     update: func() {
@@ -460,28 +521,6 @@ var canvas_ED_only = {
         }
         me["slip.pointer"].setTranslation(math.round((me.props["/instrumentation/slip-skid-ball/indicated-slip-skid"].getValue() or 0)*50), 0);
 
-        var navsrc = me.props["/instrumentation/pfd/nav-src"].getValue() or 0;
-        var preview = me.props["/instrumentation/pfd/preview"].getValue() or 0;
-        var dmesrc = navsrc or preview or 0;
-        var coursesrc = navsrc or preview or 0;
-
-        var selectedcourse = nil;
-        var coursecolor = [0, 255, 0];
-        if (coursesrc > 0) {
-            selectedcourse = me.props["/instrumentation/nav[" ~ (coursesrc - 1) ~ "]/radials/selected-deg"].getValue() or 0;
-        }
-        if (navsrc == 0) {
-            coursecolor = [0, 192, 255];
-        }
-        if (selectedcourse == nil) {
-            me["selectedcourse.digital"].hide();
-        }
-        else {
-            me["selectedcourse.digital"].setText(sprintf("%03d", selectedcourse));
-            me["selectedcourse.digital"].show();
-            me["selectedcourse.digital"].setColorFill(coursecolor[0], coursecolor[1], coursecolor[2]);
-        }
-
         # FD
         var pitchBar = me.props["/it-autoflight/fd/pitch-bar"].getValue() or 0;
         var rollBar = me.props["/it-autoflight/fd/roll-bar"].getValue() or 0;
@@ -492,44 +531,10 @@ var canvas_ED_only = {
         var t = me.props["/instrumentation/chrono/elapsed_time/total"].getValue() or 0;
         me["chrono.digital"].setText(sprintf("%02d:%02d", math.floor(t / 60), math.mod(t, 60)));
 
-        # HSI NAV1
-        var hsiHeading = 0;
-        var hsiDeflection = 0;
-        var hsiColor = [0, 1, 0];
-        if (navsrc == 0) {
-            # FMS
-            hsiHeading = me.props["/instrumentation/gps/desired-course-deg"].getValue() or 0;
-            hsiDeflection = (me.props["/instrumentation/gps/cdi-deflection"].getValue() or 0) * 0.1;
-            hsiColor = [1, 0, 1];
-        }
-        else {
-            hsiHeading = me.props["/instrumentation/nav[" ~ (navsrc - 1) ~ "]/radials/selected-deg"].getValue() or 0;
-            hsiDeflection = me.props["/instrumentation/nav[" ~ (navsrc - 1) ~ "]/heading-needle-deflection-norm"].getValue() or 0;
-        }
-        me["hsi.nav1"].setColor(hsiColor[0], hsiColor[1], hsiColor[2]);
-        me["hsi.nav1track"].setColor(hsiColor[0], hsiColor[1], hsiColor[2]);
-
-        me["hsi.nav1"].setRotation(hsiHeading * D2R);
-        me["hsi.dots"].setRotation(hsiHeading * D2R);
-        me["hsi.nav1track"].setTranslation(hsiDeflection * 120, 0);
-        if (navsrc == 0) {
-            me["hsi.from"].hide();
-            me["hsi.to"].hide();
-        }
-        else {
-            if (me.props["/instrumentation/nav[" ~ (navsrc - 1) ~ "]/from-flag"].getValue()) {
-                me["hsi.from"].show();
-                me["hsi.to"].hide();
-            }
-            else {
-                me["hsi.from"].hide();
-                me["hsi.to"].show();
-            }
-        }
-        me["hsi.pointer.circle"].setVisible(me.props["/instrumentation/pfd/bearing[0]/visible"].getBoolValue());
-        me["hsi.pointer.circle"].setRotation(me.props["/instrumentation/pfd/bearing[0]/bearing"].getValue() * D2R);
-        me["hsi.pointer.diamond"].setVisible(me.props["/instrumentation/pfd/bearing[1]/visible"].getBoolValue());
-        me["hsi.pointer.diamond"].setRotation(me.props["/instrumentation/pfd/bearing[1]/bearing"].getValue() * D2R);
+        var navsrc = me.props["/instrumentation/pfd/nav-src"].getValue() or 0;
+        var preview = me.props["/instrumentation/pfd/preview"].getValue() or 0;
+        var dmesrc = navsrc or preview or 0;
+        var coursesrc = navsrc or preview or 0;
 
         var ilscolor = [0,255,0];
         var ilssrc = nil;
