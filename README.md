@@ -13,7 +13,7 @@ This aircraft was modified and updated in a joint effort by the following people
 ## From a Release Bundle (recommended)
 
 - Get the latest release from
-  https://github.com/YV3399/E-jet-family-YV/release/latest
+  https://github.com/YV3399/E-jet-family-YV/releases/latest
 - Unzip in your Aircraft directory
 
 ## Github source bundle
