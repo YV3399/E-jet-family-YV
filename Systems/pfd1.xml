@@ -743,44 +743,44 @@
         <name>ILS GS In Range</name>
         <output>/instrumentation/pfd[0]/ils/gs-in-range</output>
         <input>
-            <condition>
-                <equals>
-                    <property>/instrumentation/pfd[0]/ils/source</property>
-                    <value>1</value>
-                </equals>
-            </condition>
-            <property>/instrumentation/nav[0]/gs-in-range</property>
-        </input>
-        <input>
-            <condition>
-                <equals>
-                    <property>/instrumentation/pfd[0]/ils/source</property>
-                    <value>1</value>
-                </equals>
-            </condition>
-            <property>/instrumentation/nav[1]/gs-in-range</property>
+            <or>
+                <and>
+                    <equals>
+                        <property>/instrumentation/pfd[0]/ils/source</property>
+                        <value>1</value>
+                    </equals>
+                    <property>/instrumentation/nav[0]/gs-in-range</property>
+                </and>
+                <and>
+                    <equals>
+                        <property>/instrumentation/pfd[0]/ils/source</property>
+                        <value>2</value>
+                    </equals>
+                    <property>/instrumentation/nav[1]/gs-in-range</property>
+                </and>
+            </or>
         </input>
     </logic>
     <logic>
         <name>ILS Has GS</name>
         <output>/instrumentation/pfd[0]/ils/has-gs</output>
         <input>
-            <condition>
-                <equals>
-                    <property>/instrumentation/pfd[0]/ils/source</property>
-                    <value>1</value>
-                </equals>
-            </condition>
-            <property>/instrumentation/nav[0]/has-gs</property>
-        </input>
-        <input>
-            <condition>
-                <equals>
-                    <property>/instrumentation/pfd[0]/ils/source</property>
-                    <value>1</value>
-                </equals>
-            </condition>
-            <property>/instrumentation/nav[1]/has-gs</property>
+            <or>
+                <and>
+                    <equals>
+                        <property>/instrumentation/pfd[0]/ils/source</property>
+                        <value>1</value>
+                    </equals>
+                    <property>/instrumentation/nav[0]/has-gs</property>
+                </and>
+                <and>
+                    <equals>
+                        <property>/instrumentation/pfd[0]/ils/source</property>
+                        <value>2</value>
+                    </equals>
+                    <property>/instrumentation/nav[1]/has-gs</property>
+                </and>
+            </or>
         </input>
     </logic>
 
@@ -812,44 +812,44 @@
         <name>ILS LOC In Range</name>
         <output>/instrumentation/pfd[0]/ils/loc-in-range</output>
         <input>
-            <condition>
-                <equals>
-                    <property>/instrumentation/pfd[0]/ils/source</property>
-                    <value>1</value>
-                </equals>
-            </condition>
-            <property>/instrumentation/nav[0]/in-range</property>
-        </input>
-        <input>
-            <condition>
-                <equals>
-                    <property>/instrumentation/pfd[0]/ils/source</property>
-                    <value>1</value>
-                </equals>
-            </condition>
-            <property>/instrumentation/nav[1]/in-range</property>
+            <or>
+                <and>
+                    <equals>
+                        <property>/instrumentation/pfd[0]/ils/source</property>
+                        <value>1</value>
+                    </equals>
+                    <property>/instrumentation/nav[0]/in-range</property>
+                </and>
+                <and>
+                    <equals>
+                        <property>/instrumentation/pfd[0]/ils/source</property>
+                        <value>2</value>
+                    </equals>
+                    <property>/instrumentation/nav[1]/in-range</property>
+                </and>
+            </or>
         </input>
     </logic>
     <logic>
         <name>ILS Has LOC</name>
         <output>/instrumentation/pfd[0]/ils/has-loc</output>
         <input>
-            <condition>
-                <equals>
-                    <property>/instrumentation/pfd[0]/ils/source</property>
-                    <value>1</value>
-                </equals>
-            </condition>
-            <property>/instrumentation/nav[0]/nav-loc</property>
-        </input>
-        <input>
-            <condition>
-                <equals>
-                    <property>/instrumentation/pfd[0]/ils/source</property>
-                    <value>1</value>
-                </equals>
-            </condition>
-            <property>/instrumentation/nav[1]/nav-loc</property>
+            <or>
+                <and>
+                    <equals>
+                        <property>/instrumentation/pfd[0]/ils/source</property>
+                        <value>1</value>
+                    </equals>
+                    <property>/instrumentation/nav[0]/nav-loc</property>
+                </and>
+                <and>
+                    <equals>
+                        <property>/instrumentation/pfd[0]/ils/source</property>
+                        <value>2</value>
+                    </equals>
+                    <property>/instrumentation/nav[1]/nav-loc</property>
+                </and>
+            </or>
         </input>
     </logic>
 

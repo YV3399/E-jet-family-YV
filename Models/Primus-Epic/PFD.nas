@@ -586,9 +586,10 @@ var canvas_ED_only = {
 
         updateILSColors = func {
             var ilssrc = self.props["/instrumentation/pfd/ils/source"].getValue();
+            var navsrc = self.props["/instrumentation/pfd/nav-src"].getValue();
             var gsInRange = self.props["/instrumentation/pfd/ils/gs-in-range"].getBoolValue();
             var locInRange = self.props["/instrumentation/pfd/ils/loc-in-range"].getBoolValue();
-            if (ilssrc == 0) {
+            if (navsrc == 0) {
                 self.ilscolor = [0, 0.75, 1]; # preview mode
             }
             else {
@@ -596,20 +597,21 @@ var canvas_ED_only = {
             }
             self["ils.gsneedle"].setColor(self.ilscolor[0], self.ilscolor[1], self.ilscolor[2]);
             if (gsInRange) {
-                self["ils.gsneedle"].setColorFill(0, 0, 0);
+                self["ils.gsneedle"].setColorFill(self.ilscolor[0], self.ilscolor[1], self.ilscolor[2]);
             }
             else {
-                self["ils.gsneedle"].setColorFill(self.ilscolor[0], self.ilscolor[1], self.ilscolor[2]);
+                self["ils.gsneedle"].setColorFill(0, 0, 0);
             }
             self["ils.locneedle"].setColor(self.ilscolor[0], self.ilscolor[1], self.ilscolor[2]);
             if (locInRange) {
-                self["ils.locneedle"].setColorFill(0, 0, 0);
+                self["ils.locneedle"].setColorFill(self.ilscolor[0], self.ilscolor[1], self.ilscolor[2]);
             }
             else {
-                self["ils.locneedle"].setColorFill(self.ilscolor[0], self.ilscolor[1], self.ilscolor[2]);
+                self["ils.locneedle"].setColorFill(0, 0, 0);
             }
         };
         setlistener(self.props["/instrumentation/pfd/ils/source"], updateILSColors, 1, 0);
+        setlistener(self.props["/instrumentation/pfd/nav-src"], updateILSColors, 1, 0);
         setlistener(self.props["/instrumentation/pfd/ils/gs-in-range"], updateILSColors, 1, 0);
         setlistener(self.props["/instrumentation/pfd/ils/loc-in-range"], updateILSColors, 1, 0);
         setlistener(self.props["/instrumentation/pfd/ils/has-gs"], func (node) {
