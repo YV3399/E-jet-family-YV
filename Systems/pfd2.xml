@@ -590,16 +590,31 @@
             <value>0</value>
         </input>
     </filter>
+    <filter>
+        <name>ILS Source</name>
+        <type>gain</type>
+        <gain>1</gain>
+        <output>instrumentation/pfd[1]/ils/source</output>
+        <input>
+            <condition>
+                <property>/instrumentation/pfd[1]/nav-src</property>
+            </condition>
+            <property>/instrumentation/pfd[1]/nav-src</property>
+        </input>
+        <input>
+            <property>/instrumentation/pfd[1]/preview</property>
+        </input>
+    </filter>
 
     <filter>
         <name>Nav Selected Radial</name>
         <type>gain</type>
         <gain>1</gain>
-        <output>instrumentation/pfd[1]/nav/selected-radial</output>
+        <output>/instrumentation/pfd[1]/nav/selected-radial</output>
         <input>
             <condition>
                 <equals>
-                    <property>/instrumentation/pfd[1]/course-src</property>
+                    <property>/instrumentation/pfd[1]/nav/course-source</property>
                     <value>1</value>
                 </equals>
             </condition>
@@ -608,7 +623,7 @@
         <input>
             <condition>
                 <equals>
-                    <property>/instrumentation/pfd[1]/course-src</property>
+                    <property>/instrumentation/pfd[1]/nav/course-source</property>
                     <value>2</value>
                 </equals>
             </condition>

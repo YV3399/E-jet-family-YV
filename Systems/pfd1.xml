@@ -610,11 +610,11 @@
         <name>Nav Selected Radial</name>
         <type>gain</type>
         <gain>1</gain>
-        <output>instrumentation/pfd[0]/nav/selected-radial</output>
+        <output>/instrumentation/pfd[0]/nav/selected-radial</output>
         <input>
             <condition>
                 <equals>
-                    <property>/instrumentation/pfd/course-src</property>
+                    <property>/instrumentation/pfd[0]/nav/course-source</property>
                     <value>1</value>
                 </equals>
             </condition>
@@ -623,7 +623,7 @@
         <input>
             <condition>
                 <equals>
-                    <property>/instrumentation/pfd/course-src</property>
+                    <property>/instrumentation/pfd[0]/nav/course-source</property>
                     <value>2</value>
                 </equals>
             </condition>
@@ -638,7 +638,7 @@
         <input>
             <condition>
                 <equals>
-                    <property>/instrumentation/pfd/nav-src</property>
+                    <property>/instrumentation/pfd[0]/nav-src</property>
                     <value>1</value>
                 </equals>
             </condition>
@@ -647,7 +647,7 @@
         <input>
             <condition>
                 <equals>
-                    <property>/instrumentation/pfd/nav-src</property>
+                    <property>/instrumentation/pfd[0]/nav-src</property>
                     <value>2</value>
                 </equals>
             </condition>
@@ -665,7 +665,7 @@
         <input>
             <condition>
                 <equals>
-                    <property>/instrumentation/pfd/nav-src</property>
+                    <property>/instrumentation/pfd[0]/nav-src</property>
                     <value>1</value>
                 </equals>
             </condition>
@@ -674,7 +674,7 @@
         <input>
             <condition>
                 <equals>
-                    <property>/instrumentation/pfd/nav-src</property>
+                    <property>/instrumentation/pfd[0]/nav-src</property>
                     <value>2</value>
                 </equals>
             </condition>
@@ -695,7 +695,7 @@
         <input>
             <condition>
                 <equals>
-                    <property>/instrumentation/pfd/nav-src</property>
+                    <property>/instrumentation/pfd[0]/nav-src</property>
                     <value>1</value>
                 </equals>
             </condition>
@@ -704,7 +704,7 @@
         <input>
             <condition>
                 <equals>
-                    <property>/instrumentation/pfd/nav-src</property>
+                    <property>/instrumentation/pfd[0]/nav-src</property>
                     <value>2</value>
                 </equals>
             </condition>
