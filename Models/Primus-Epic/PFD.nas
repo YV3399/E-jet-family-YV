@@ -189,6 +189,16 @@ var canvas_ED_only = {
         m.props["/instrumentation/pfd/hsi/heading"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/hsi/heading");
         m.props["/instrumentation/pfd/hsi/deflection"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/hsi/deflection");
         m.props["/instrumentation/pfd/hsi/from-flag"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/hsi/from-flag");
+        m.props["/instrumentation/pfd/ils/source"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/ils/source");
+        m.props["/instrumentation/pfd/ils/gs-needle"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/ils/gs-needle");
+        m.props["/instrumentation/pfd/ils/gs-in-range"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/ils/gs-in-range");
+        m.props["/instrumentation/pfd/ils/has-gs"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/ils/has-gs");
+        m.props["/instrumentation/pfd/ils/loc-needle"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/ils/loc-needle");
+        m.props["/instrumentation/pfd/ils/loc-in-range"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/ils/loc-in-range");
+        m.props["/instrumentation/pfd/ils/has-loc"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/ils/has-loc");
+        m.props["/instrumentation/pfd/waypoint/dist10"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/waypoint/dist10");
+        m.props["/instrumentation/pfd/waypoint/ete"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/waypoint/ete");
+        m.props["/instrumentation/pfd/waypoint/ete-unit"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/waypoint/ete-unit");
         m.props["/instrumentation/pfd/bearing[0]/bearing"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/bearing[0]/bearing");
         m.props["/instrumentation/pfd/bearing[0]/visible"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/bearing[0]/visible");
         m.props["/instrumentation/pfd/bearing[0]/source"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/bearing[0]/source");
@@ -215,6 +225,7 @@ var canvas_ED_only = {
         m.props["/controls/flight/speed-mode"] = props.globals.getNode("/controls/flight/speed-mode");
         m.props["/gear/gear/wow"] = props.globals.getNode("/gear/gear/wow");
         m.props["/controls/flight/flaps"] = props.globals.getNode("/controls/flight/flaps");
+        m.ilscolor = [0,1,0];
         m.setupListeners();
         return m;
     },
@@ -521,6 +532,12 @@ var canvas_ED_only = {
                 if (node.getValue() == 0) {
                     courseColor = [0, 0.75, 1];
                     hsiColor = [1, 0, 1];
+                    me["ils.fmsloc"].show();
+                    me["ils.fmsvert"].show();
+                }
+                else {
+                    me["ils.fmsloc"].hide();
+                    me["ils.fmsvert"].hide();
                 }
                 self["selectedcourse.digital"].setColorFill(courseColor[0], courseColor[1], courseColor[2]);
                 self["hsi.nav1"].setColor(hsiColor[0], hsiColor[1], hsiColor[2]);
@@ -557,6 +574,87 @@ var canvas_ED_only = {
                 self["hsi.to"].setVisible(flag == 0);
             }, 1, 0);
 
+        setlistener(self.props["/instrumentation/gps/cdi-deflection"],
+            func (node) {
+                self["ils.fmsloc"].setTranslation(math.round((node.getValue() or 0) * 10.0), 0);
+            }, 1, 0);
+
+        setlistener(self.props["/instrumentation/gps/cdi-deflection"],
+            func (node) {
+                self["ils.fmsvert"].setTranslation(0, math.min(1000, math.max(-1000, node.getValue())) * 0.1);
+            }, 1, 0);
+
+        updateILSColors = func {
+            var ilssrc = self.props["/instrumentation/pfd/ils/source"].getValue();
+            var gsInRange = self.props["/instrumentation/pfd/ils/gs-in-range"].getBoolValue();
+            var locInRange = self.props["/instrumentation/pfd/ils/loc-in-range"].getBoolValue();
+            if (ilssrc == 0) {
+                self.ilscolor = [0, 0.75, 1]; # preview mode
+            }
+            else {
+                self.ilscolor = [0, 1, 0]; # V/L mode
+            }
+            self["ils.gsneedle"].setColor(self.ilscolor[0], self.ilscolor[1], self.ilscolor[2]);
+            if (gsInRange) {
+                self["ils.gsneedle"].setColorFill(0, 0, 0);
+            }
+            else {
+                self["ils.gsneedle"].setColorFill(self.ilscolor[0], self.ilscolor[1], self.ilscolor[2]);
+            }
+            self["ils.locneedle"].setColor(self.ilscolor[0], self.ilscolor[1], self.ilscolor[2]);
+            if (locInRange) {
+                self["ils.locneedle"].setColorFill(0, 0, 0);
+            }
+            else {
+                self["ils.locneedle"].setColorFill(self.ilscolor[0], self.ilscolor[1], self.ilscolor[2]);
+            }
+        };
+        setlistener(self.props["/instrumentation/pfd/ils/source"], updateILSColors, 1, 0);
+        setlistener(self.props["/instrumentation/pfd/ils/gs-in-range"], updateILSColors, 1, 0);
+        setlistener(self.props["/instrumentation/pfd/ils/loc-in-range"], updateILSColors, 1, 0);
+        setlistener(self.props["/instrumentation/pfd/ils/has-gs"], func (node) {
+                self["ils.gsneedle"].setVisible(node.getBoolValue());
+            }, 1, 0);
+        setlistener(self.props["/instrumentation/pfd/ils/has-loc"], func (node) {
+                self["ils.locneedle"].setVisible(node.getBoolValue());
+            }, 1, 0);
+        setlistener(self.props["/instrumentation/pfd/ils/gs-needle"], func (node) {
+                self["ils.gsneedle"].setTranslation(0, math.round((node.getValue() or 0) * -100.0));
+            }, 1, 0);
+        setlistener(self.props["/instrumentation/pfd/ils/loc-needle"], func (node) {
+                self["ils.locneedle"].setTranslation(math.round((node.getValue() or 0) * 100.0), 0);
+            }, 1, 0);
+
+        setlistener(self.props["/autopilot/route-manager/active"], func (node) {
+            self["waypoint"].setVisible(node.getBoolValue());
+            }, 1, 0);
+
+        setlistener(self.props["/autopilot/route-manager/wp/id"], func (node) {
+            self["waypoint.id"].setText(node.getValue() or "");
+            }, 1, 0);
+
+        setlistener(self.props["/instrumentation/pfd/waypoint/dist10"], func (node) {
+            self["waypoint.dist"].setText(
+                sprintf("%5.1f", (node.getValue() or 0) * 0.1));
+            }, 1, 0);
+
+        setlistener(self.props["/instrumentation/pfd/waypoint/ete"], func (node) {
+                self["waypoint.ete"].setText(sprintf("%3d", node.getValue()));
+            }, 1, 0);
+        setlistener(self.props["/instrumentation/pfd/waypoint/ete-unit"], func (node) {
+                if (node.getBoolValue()) {
+                    self["waypoint.eteunit"].setText("MIN");
+                }
+                else {
+                    self["waypoint.eteunit"].setText("SEC");
+                }
+            }, 1, 0);
+    },
+
+    updateSlow: func() {
+        # CHR
+        var t = me.props["/instrumentation/chrono/elapsed_time/total"].getValue() or 0;
+        me["chrono.digital"].setText(sprintf("%02d:%02d", math.floor(t / 60), math.mod(t, 60)));
     },
 
     update: func() {
@@ -575,91 +673,10 @@ var canvas_ED_only = {
         me["fd.pitch"].setTranslation(0, pitchBar * 8.05);
         me["fd.roll"].setTranslation(rollBar * 8.05, 0);
 
-        # CHR
-        var t = me.props["/instrumentation/chrono/elapsed_time/total"].getValue() or 0;
-        me["chrono.digital"].setText(sprintf("%02d:%02d", math.floor(t / 60), math.mod(t, 60)));
-
         var navsrc = me.props["/instrumentation/pfd/nav-src"].getValue() or 0;
         var preview = me.props["/instrumentation/pfd/preview"].getValue() or 0;
         var dmesrc = navsrc or preview or 0;
         var coursesrc = navsrc or preview or 0;
-
-        var ilscolor = [0,255,0];
-        var ilssrc = nil;
-        if (navsrc == 0) {
-            # FMS
-            if (preview != 0) {
-                ilssrc = "/instrumentation/nav[" ~ (preview - 1) ~ "]";
-                ilscolor = [0,192,255];
-            }
-            me["ils.fmsloc"].show();
-            me["ils.fmsvert"].show();
-            me["ils.fmsloc"].setTranslation(math.round((me.props["/instrumentation/gps/cdi-deflection"].getValue() or 0) * 10.0), 0);
-            me["ils.fmsvert"].setTranslation(0, math.min(1000, math.max(-1000, me.props["/fms/vnav/alt-deviation"].getValue())) * 0.1);
-        }
-        else {
-            ilssrc = "/instrumentation/nav[" ~ (navsrc - 1) ~ "]";
-            me["ils.fmsloc"].hide();
-            me["ils.fmsvert"].hide();
-        }
-
-        if (ilssrc == nil) {
-            me["ils.gsneedle"].hide();
-            me["ils.locneedle"].hide();
-        }
-        else {
-            if (me.props[ilssrc ~ "/has-gs"].getValue()) {
-                me["ils.gsneedle"].show();
-                me["ils.gsneedle"].setColor(ilscolor[0], ilscolor[1], ilscolor[2]);
-                if (me.props[ilssrc ~ "/gs-in-range"].getValue()) {
-                    me["ils.gsneedle"].setTranslation(0, math.round((me.props[ilssrc ~ "/gs-needle-deflection-norm"].getValue() or 0) * -100.0));
-                    me["ils.gsneedle"].setColorFill(ilscolor[0], ilscolor[1], ilscolor[2]);
-                }
-                else {
-                    me["ils.gsneedle"].setTranslation(0, 0);
-                    me["ils.gsneedle"].setColorFill(0, 0, 0);
-                }
-            }
-            else {
-                me["ils.gsneedle"].hide();
-            }
-
-            if (me.props[ilssrc ~ "/nav-loc"].getValue()) {
-                me["ils.locneedle"].show();
-                me["ils.locneedle"].setColor(ilscolor[0], ilscolor[1], ilscolor[2]);
-                if (me.props[ilssrc ~ "/in-range"].getValue()) {
-                    me["ils.locneedle"].setTranslation(math.round((me.props[ilssrc ~ "/heading-needle-deflection-norm"].getValue() or 0) * 100.0), 0);
-                    me["ils.locneedle"].setColorFill(ilscolor[0], ilscolor[1], ilscolor[2]);
-                }
-                else {
-                    me["ils.locneedle"].setTranslation(0, 0);
-                    me["ils.locneedle"].setColorFill(0, 0, 0);
-                }
-            }
-            else {
-                me["ils.locneedle"].hide();
-            }
-        }
-
-        if (me.props["/autopilot/route-manager/active"].getValue() or 0) {
-            me["waypoint"].show();
-            me["waypoint.id"].setText(me.props["/autopilot/route-manager/wp/id"].getValue() or "");
-            me["waypoint.dist"].setText(
-                sprintf("%5.1f", me.props["/autopilot/route-manager/wp/dist"].getValue() or 0));
-            var ete = me.props["/autopilot/route-manager/wp/eta-seconds"].getValue() or 0;
-            if (ete < 60) {
-                me["waypoint.ete"].setText(sprintf("%3d", math.round(ete)));
-                me["waypoint.eteunit"].setText("SEC");
-            }
-            else {
-                me["waypoint.ete"].setText(sprintf("%3d", math.round(ete) / 60));
-                me["waypoint.eteunit"].setText("MIN");
-            }
-
-        }
-        else {
-            me["waypoint"].hide();
-        }
 
         if (dmesrc and (me.props["/instrumentation/dme[" ~ (dmesrc - 1) ~ "]/in-range"].getValue() or 0)) {
             me["dme"].show();
@@ -1148,4 +1165,9 @@ setlistener("sim/signals/fdm-initialized", func {
         ED_only[1].update();
     });
     timer.start();
+    var timerSlow = maketimer(1.0, func() {
+        ED_only[0].updateSlow();
+        ED_only[1].updateSlow();
+    });
+    timerSlow.start();
 });

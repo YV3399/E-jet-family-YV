@@ -1823,11 +1823,25 @@
                 <course-source-type type="int">0</course-source-type>
                 <selected-radial type="int">0</selected-radial>
             </nav>
+            <ils>
+                <source type="int">0</source>
+                <gs-needle type="double">0</gs-needle>
+                <gs-in-range type="bool">0</gs-in-range>
+                <has-gs type="bool">0</has-gs>
+                <loc-needle type="double">0</loc-needle>
+                <loc-in-range type="bool">0</loc-in-range>
+                <has-loc type="bool">0</has-loc>
+            </ils>
             <hsi>
                 <heading type="double">0</heading>
                 <deflection type="double">0</deflection>
                 <from-flag type="int">0</from-flag>
             </hsi>
+            <waypoint>
+                <dist10 type="int">0</dist10>
+                <ete type="int">0</ete>
+                <ete-unit type="int">0</ete-unit>
+            </waypoint>
             <qnh-mode>0</qnh-mode>
             <minimums-mode>0</minimums-mode>
             <minimums-radio>200</minimums-radio>
@@ -1860,11 +1874,25 @@
                 <course-source-type type="int">0</course-source-type>
                 <selected-radial type="int">0</selected-radial>
             </nav>
+            <ils>
+                <source type="int">0</source>
+                <gs-needle type="double">0</gs-needle>
+                <gs-in-range type="bool">0</gs-in-range>
+                <has-gs type="bool">0</has-gs>
+                <loc-needle type="double">0</loc-needle>
+                <loc-in-range type="bool">0</loc-in-range>
+                <has-loc type="bool">0</has-loc>
+            </ils>
             <hsi>
                 <heading type="double">0</heading>
                 <deflection type="double">0</deflection>
                 <from-flag type="int">0</from-flag>
             </hsi>
+            <waypoint>
+                <dist10 type="int">0</dist10>
+                <ete type="int">0</ete>
+                <ete-unit type="int">0</ete-unit>
+            </waypoint>
             <qnh-mode>0</qnh-mode>
             <minimums-mode>0</minimums-mode>
             <minimums-radio>200</minimums-radio>
