@@ -186,6 +186,11 @@ var canvas_ED_only = {
         m.props["/instrumentation/pfd/nav/course-source"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/nav/course-source");
         m.props["/instrumentation/pfd/nav/course-source-type"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/nav/course-source-type");
         m.props["/instrumentation/pfd/nav/selected-radial"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/nav/selected-radial");
+        m.props["/instrumentation/pfd/dme/ete-unit"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/dme/ete-unit");
+        m.props["/instrumentation/pfd/dme/ete"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/dme/ete");
+        m.props["/instrumentation/pfd/dme/dist10"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/dme/dist10");
+        m.props["/instrumentation/pfd/dme/in-range"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/dme/in-range");
+        m.props["/instrumentation/pfd/dme/hold"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/dme/hold");
         m.props["/instrumentation/pfd/hsi/heading"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/hsi/heading");
         m.props["/instrumentation/pfd/hsi/deflection"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/hsi/deflection");
         m.props["/instrumentation/pfd/hsi/from-flag"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/hsi/from-flag");
@@ -557,6 +562,53 @@ var canvas_ED_only = {
             func (node) {
                 self["selectedcourse.digital"].setText(sprintf("%03d", node.getValue()));
             }, 1, 0);
+
+        # DME
+        var dme_id_listener = nil;
+
+        setlistener(self.props["/instrumentation/pfd/nav/dme-source"], func (node) {
+            var dmesrc = node.getValue();
+            if (dme_id_listener != nil) {
+                removelistener(dme_id_listener);
+            }
+            if (dmesrc > 0) {
+                self["dme"].show();
+                self["dme.selection"].setText("DME" ~ dmesrc);
+                dme_id_listener = setlistener(self.props["/instrumentation/nav[" ~ (dmesrc - 1) ~ "]/nav-id"],
+                    func (node) {
+                        self["dme.id"].setText(node.getValue() or "");
+                    }, 1, 0);
+            }
+            else {
+                self["dme"].hide();
+                dme_id_listener = nil;
+            }
+        }, 1, 0);
+        setlistener(self.props["/instrumentation/pfd/dme/dist10"], func (node) {
+            self["dme.dist"].setText(sprintf("%5.1f", node.getValue() * 0.1));
+        }, 1, 0);
+        setlistener(self.props["/instrumentation/pfd/dme/ete"], func (node) {
+            var ete = node.getValue();
+            if (ete >= 600) {
+                self["dme.ete"].setText("+++");
+            }
+            else {
+                self["dme.ete"].setText(sprintf("%3.0d", ete));
+            }
+        }, 1, 0);
+        setlistener(self.props["/instrumentation/pfd/dme/ete-unit"], func (node) {
+            if (node.getValue()) {
+                self["dme.eteunit"].setText("MIN");
+            }
+            else {
+                self["dme.eteunit"].setText("SEC");
+            }
+        }, 1, 0);
+        setlistener(self.props["/instrumentation/pfd/dme/hold"], func (node) {
+            self["dme.hold"].setVisible(node.getBoolValue());
+        }, 1, 0);
+
+        # HSI
         setlistener(self.props["/instrumentation/pfd/hsi/heading"],
             func (node) {
                 var hsiHeading = node.getValue() * D2R;
@@ -651,6 +703,15 @@ var canvas_ED_only = {
                     self["waypoint.eteunit"].setText("SEC");
                 }
             }, 1, 0);
+
+        # FMA
+        setlistener(self.props["/it-autoflight/output/ap1"], func (node) {
+                self["fma.ap"].setVisible(node.getBoolValue());
+            }, 1, 0);
+        setlistener(self.props["/it-autoflight/output/athr"], func (node) {
+                self["fma.at"].setVisible(node.getBoolValue());
+            }, 1, 0);
+
     },
 
     updateSlow: func() {
@@ -677,39 +738,7 @@ var canvas_ED_only = {
 
         var navsrc = me.props["/instrumentation/pfd/nav-src"].getValue() or 0;
         var preview = me.props["/instrumentation/pfd/preview"].getValue() or 0;
-        var dmesrc = navsrc or preview or 0;
         var coursesrc = navsrc or preview or 0;
-
-        if (dmesrc and (me.props["/instrumentation/dme[" ~ (dmesrc - 1) ~ "]/in-range"].getValue() or 0)) {
-            me["dme"].show();
-            me["dme.selection"].setText("DME" ~ dmesrc);
-            me["dme.id"].setText(me.props["/instrumentation/nav[" ~ (dmesrc - 1) ~ "]/nav-id"].getValue() or "");
-            me["dme.dist"].setText(
-                sprintf("%5.1f", me.props["/instrumentation/dme[" ~ (dmesrc - 1) ~ "]/indicated-distance-nm"].getValue() or 0));
-            var ete = me.props["/instrumentation/dme[" ~ (dmesrc - 1) ~ "]/indicated-time-min"].getValue() or 600.0;
-            if (ete >= 600) {
-                me["dme.ete"].setText("+++");
-                me["dme.eteunit"].setText("+++");
-            }
-            elsif (ete < 1) {
-                me["dme.ete"].setText(sprintf("%3d", math.round(ete * 60.0)));
-                me["dme.eteunit"].setText("SEC");
-            }
-            else {
-                me["dme.ete"].setText(sprintf("%3d", math.round(ete)));
-                me["dme.eteunit"].setText("MIN");
-            }
-            if (me.props["/instrumentation/dme[" ~ (dmesrc - 1) ~ "]/frequencies/source"].getValue() == "/instrumentation/dme[" ~ (dmesrc - 1) ~ "]/frequencies/selected-mhz") {
-                me["dme.hold"].show();
-            }
-            else {
-                me["dme.hold"].hide();
-            }
-        }
-        else {
-            me["dme"].hide();
-        }
-
 
         # V/S
         var vspeed = me.props["/instrumentation/vertical-speed-indicator/indicated-speed-fpm"].getValue() or 0;
@@ -1006,19 +1035,6 @@ var canvas_ED_only = {
         }
 
         # FMA
-        if (me.props["/it-autoflight/output/ap1"].getValue() or me.props["/it-autoflight/output/ap2"].getValue()) {
-            me["fma.ap"].show();
-        }
-        else {
-            me["fma.ap"].hide();
-        }
-        if (me.props["/it-autoflight/output/athr"].getValue()) {
-            me["fma.at"].show();
-        }
-        else {
-            me["fma.at"].hide();
-        }
-
         var activeNav = (navsrc or preview or 1) - 1;
         var vorOrLoc = "VOR";
         if (me.props["/instrumentation/nav[" ~ activeNav ~ "]/nav-loc"].getValue() or 0) {

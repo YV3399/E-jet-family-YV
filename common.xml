@@ -1823,6 +1823,14 @@
                 <course-source-type type="int">0</course-source-type>
                 <selected-radial type="int">0</selected-radial>
             </nav>
+            <dme>
+                <dist10 type="double">0</dist10>
+                <ete type="double">0</ete>
+                <ete-sec type="double">0</ete-sec>
+                <ete-unit type="int">0</ete-unit>
+                <in-range type="bool">false</in-range>
+                <hold type="bool">false</hold>
+            </dme>
             <ils>
                 <source type="int">0</source>
                 <gs-needle type="double">0</gs-needle>
@@ -1874,6 +1882,14 @@
                 <course-source-type type="int">0</course-source-type>
                 <selected-radial type="int">0</selected-radial>
             </nav>
+            <dme>
+                <dist10 type="double">0</dist10>
+                <ete type="double">0</ete>
+                <ete-sec type="double">0</ete-sec>
+                <ete-unit type="int">0</ete-unit>
+                <in-range type="bool">false</in-range>
+                <hold type="bool">false</hold>
+            </dme>
             <ils>
                 <source type="int">0</source>
                 <gs-needle type="double">0</gs-needle>

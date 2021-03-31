@@ -2,7 +2,7 @@
 
 <PropertyList>
     <!-- MINIMUMS -->
-    
+
     <!-- mk-viii does not support actual baro minimums, so we provide fake
          radio minimums based on configured baro minimums, current barometric
          altitude, and current radar altimeter reading. -->
@@ -32,7 +32,7 @@
         <seconds>10.0</seconds>
         <filter-gain>0.0</filter-gain>
     </predict-simple>
-    
+
     <!-- forward either fake-baro or radio minimums to mk-viii -->
     <filter>
         <name>Forward minimums</name>
@@ -117,7 +117,7 @@
         </S>
         <output>/instrumentation/pfd[1]/minimums-visible</output>
     </flipflop>
-    
+
     <filter>
         <name>VSneedle</name>
         <type>gain</type>
@@ -126,7 +126,7 @@
             <expression>
                 <table>
                     <prod>
-                        <property>/velocities/vertical-speed-fps</property> 
+                        <property>/velocities/vertical-speed-fps</property>
                         <value>60</value>
                     </prod>
                     <entry>
@@ -155,7 +155,7 @@
         </input>
         <output>instrumentation/pfd[1]/vs-needle</output>
     </filter>
-    
+
     <!-- Various -->
     <filter>
         <name>Pitchscale</name>
@@ -185,7 +185,7 @@
         </input>
         <output>instrumentation/pfd[1]/pitch-scale</output>
     </filter>
-    
+
     <filter>
         <name>HDGBUGDiff</name>
         <type>gain</type>
@@ -193,8 +193,8 @@
         <input>
             <expression>
                 <dif>
-                    <property>/orientation/heading-deg</property> 
-                    <property>/it-autoflight/input/hdg</property> 
+                    <property>/orientation/heading-deg</property>
+                    <property>/it-autoflight/input/hdg</property>
                 </dif>
             </expression>
         </input>
@@ -207,8 +207,8 @@
         <input>
             <expression>
                 <dif>
-                    <property>/it-autoflight/input/alt</property> 
-                    <property>/instrumentation/altimeter/indicated-altitude-ft</property> 
+                    <property>/it-autoflight/input/alt</property>
+                    <property>/instrumentation/altimeter/indicated-altitude-ft</property>
                 </dif>
             </expression>
         </input>
@@ -221,8 +221,8 @@
         <input>
             <expression>
                 <dif>
-                    <property>/instrumentation/airspeed-indicator/indicated-speed-kt</property> 
-                    <property>/instrumentation/pfd[1]/ias-bugs/bug1</property> 
+                    <property>/instrumentation/airspeed-indicator/indicated-speed-kt</property>
+                    <property>/instrumentation/pfd[1]/ias-bugs/bug1</property>
                 </dif>
             </expression>
         </input>
@@ -237,8 +237,8 @@
         <input>
             <expression>
                 <dif>
-                    <property>/instrumentation/airspeed-indicator/indicated-speed-kt</property> 
-                    <property>/instrumentation/pfd[1]/ias-bugs/bug2</property> 
+                    <property>/instrumentation/airspeed-indicator/indicated-speed-kt</property>
+                    <property>/instrumentation/pfd[1]/ias-bugs/bug2</property>
                 </dif>
             </expression>
         </input>
@@ -261,7 +261,7 @@
             </condition>
             <expression>
                 <table>
-                    <property>/position/altitude-ft</property> 
+                    <property>/position/altitude-ft</property>
                     <entry>
                         <ind>0</ind><dep>300</dep>
                     </entry>
@@ -289,7 +289,7 @@
             </condition>
             <expression>
                 <table>
-                    <property>/controls/flight/flaps</property> 
+                    <property>/controls/flight/flaps</property>
                     <entry>
                         <ind>0.1</ind><dep>230</dep>
                     </entry>
@@ -527,7 +527,7 @@
         <output>instrumentation/pfd[1]/wind-speed-kt</output>
     </filter>
 
-    <!-- HSI -->
+    <!-- HSI/NAV/DME -->
     <filter>
         <name>DME source</name>
         <type>gain</type>
@@ -545,8 +545,173 @@
             </condition>
             <property>/instrumentation/pfd[1]/preview</property>
         </input>
-        <input><value>0</value></input>
+        <input>
+            <value>0</value>
+        </input>
     </filter>
+    <filter>
+        <name>DME hold</name>
+        <type>gain</type>
+        <output>/instrumentation/pfd[1]/dme/hold</output>
+        <input>
+            <condition>
+                <equals>
+                    <property>/instrumentation/pfd[1]/nav/dme-source</property>
+                    <value>1</value>
+                </equals>
+            </condition>
+            <property>/instrumentation/dme[0]/hold</property>
+        </input>
+        <input>
+            <condition>
+                <equals>
+                    <property>/instrumentation/pfd[1]/nav/dme-source</property>
+                    <value>2</value>
+                </equals>
+            </condition>
+            <property>/instrumentation/dme[1]/hold</property>
+        </input>
+    </filter>
+    <filter>
+        <name>DME in range</name>
+        <type>gain</type>
+        <output>/instrumentation/pfd[1]/dme/in-range</output>
+        <input>
+            <condition>
+                <equals>
+                    <property>/instrumentation/pfd[1]/nav/dme-source</property>
+                    <value>1</value>
+                </equals>
+            </condition>
+            <property>/instrumentation/dme[0]/in-range</property>
+        </input>
+        <input>
+            <condition>
+                <equals>
+                    <property>/instrumentation/pfd[1]/nav/dme-source</property>
+                    <value>2</value>
+                </equals>
+            </condition>
+            <property>/instrumentation/dme[1]/in-range</property>
+        </input>
+    </filter>
+    <filter>
+        <name>DME Dist</name>
+        <type>gain</type>
+        <output>/instrumentation/pfd[1]/dme/dist10</output>
+        <input>
+            <condition>
+                <equals>
+                    <property>/instrumentation/pfd[1]/nav/dme-source</property>
+                    <value>1</value>
+                </equals>
+            </condition>
+            <expression>
+                <floor>
+                    <product>
+                        <property>/instrumentation/dme[0]/indicated-distance-nm</property>
+                        <value>10</value>
+                    </product>
+                </floor>
+            </expression>
+        </input>
+        <input>
+            <condition>
+                <equals>
+                    <property>/instrumentation/pfd[1]/nav/dme-source</property>
+                    <value>2</value>
+                </equals>
+            </condition>
+            <expression>
+                <floor>
+                    <product>
+                        <property>/instrumentation/dme[1]/indicated-distance-nm</property>
+                        <value>10</value>
+                    </product>
+                </floor>
+            </expression>
+        </input>
+    </filter>
+    <filter>
+        <name>DME ETE seconds</name>
+        <type>gain</type>
+        <output>/instrumentation/pfd[1]/dme/ete-sec</output>
+        <input>
+            <condition>
+                <equals>
+                    <property>/instrumentation/pfd[1]/nav/dme-source</property>
+                    <value>1</value>
+                </equals>
+            </condition>
+            <expression>
+                <floor>
+                    <product>
+                        <property>/instrumentation/dme[0]/indicated-time-min</property>
+                        <value>60</value>
+                    </product>
+                </floor>
+            </expression>
+        </input>
+        <input>
+            <condition>
+                <equals>
+                    <property>/instrumentation/pfd[1]/nav/dme-source</property>
+                    <value>2</value>
+                </equals>
+            </condition>
+            <expression>
+                <floor>
+                    <product>
+                        <property>/instrumentation/dme[1]/indicated-time-min</property>
+                        <value>60</value>
+                    </product>
+                </floor>
+            </expression>
+        </input>
+    </filter>
+    <filter>
+        <name>DME ETE unit</name>
+        <type>gain</type>
+        <output>/instrumentation/pfd[1]/dme/ete-unit</output>
+        <input>
+            <condition>
+                <less-than>
+                    <property>/instrumentation/pfd[1]/dme/ete-sec</property>
+                    <value>60</value>
+                </less-than>
+            </condition>
+            <value>0</value>
+        </input>
+        <input>
+            <value>1</value>
+        </input>
+    </filter>
+    <filter>
+        <name>DME ETE</name>
+        <type>gain</type>
+        <output>/instrumentation/pfd[1]/dme/ete</output>
+        <input>
+            <condition>
+                <property>/instrumentation/pfd[1]/dme/ete-unit</property>
+            </condition>
+            <expression>
+                <floor>
+                    <div>
+                        <property>/instrumentation/pfd[1]/dme/ete-sec</property>
+                        <value>60</value>
+                    </div>
+                </floor>
+            </expression>
+        </input>
+        <input>
+            <expression>
+                <floor>
+                    <property>/instrumentation/pfd[1]/dme/ete-sec</property>
+                </floor>
+            </expression>
+        </input>
+    </filter>
+
     <filter>
         <name>Course source</name>
         <type>gain</type>
@@ -564,7 +729,9 @@
             </condition>
             <property>/instrumentation/pfd[1]/preview</property>
         </input>
-        <input><value>0</value></input>
+        <input>
+            <value>0</value>
+        </input>
     </filter>
     <filter>
         <name>Course source type</name>
