@@ -963,7 +963,7 @@
                     <value>1</value>
                 </equals>
             </condition>
-            <property>/instrumentation/nav[0]/loc-needle-deflection-norm</property>
+            <property>/instrumentation/nav[0]/heading-needle-deflection-norm</property>
         </input>
         <input>
             <condition>
@@ -972,7 +972,7 @@
                     <value>1</value>
                 </equals>
             </condition>
-            <property>/instrumentation/nav[1]/loc-needle-deflection-norm</property>
+            <property>/instrumentation/nav[1]/heading-needle-deflection-norm</property>
         </input>
     </filter>
     <logic>
