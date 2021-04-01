@@ -16,6 +16,66 @@ var PFD_display = [nil, nil];
 
 setprop("/systems/electrical/outputs/efis", 0);
 
+var vertModeMap = {
+    "ALT HLD": "ALT",
+    "V/S": "VS",
+    "G/S": "GS",
+    "ALT CAP": "ASEL",
+    "SPD DES": "FLCH",
+    "SPD CLB": "FLCH",
+    "FPA": "PATH",
+    "LAND 3": "LAND",
+    "FLARE": "FLARE",
+    "ROLLOUT": "ROLLOUT",
+    "T/O CLB": "TO",
+    "G/A CLB": "GA"
+};
+var vertModeArmedMap = {
+    "V/S": "ASEL",
+    "G/S": "ASEL",
+    "ALT CAP": "ALT",
+    "SPD DES": "ASEL",
+    "SPD CLB": "ASEL",
+    "FPA": "ASEL",
+    "T/O CLB": "FLCH",
+    "G/A CLB": "FLCH"
+};
+
+var latModeMap = {
+    "HDG": "HDG",
+    "HDG HLD": "ROLL",
+    "HDG SEL": "HDG",
+    "LNAV": "LNAV",
+    "LOC": "LOC",
+    "ALGN": "ROLL",
+    "RLOU": "ROLL",
+    "T/O": "TRACK"
+};
+var latModeArmedMap = {
+    "LNV": "LNAV",
+    "LOC": "LOC",
+    "ILS": "LOC",
+    "HDG": "HDG",
+    "HDG HLD": "ROLL",
+    "HDG SEL": "HDG",
+    "T/O": "TRACK"
+};
+var spdModeMap = {
+    "THRUST": "SPDt",
+    "PITCH": "SPDe",
+    " PITCH": "SPDe", # yes, this is correct, ITAF 4.0 is buggy here
+    "RETARD": "SPDe",
+    "T/O CLB": "TO",
+    "G/A CLB": "GA"
+};
+var spdModeArmedMap = {
+    "THRUST": "",
+    "PITCH": "SPDt",
+    " PITCH": "SPDt",
+    "RETARD": "SPDt",
+    "T/O CLB": "SPDt",
+    "G/A CLB": "SPDt"
+};
 
 var odoDigitRaw = func(v, p) {
     if (p == 0) {
@@ -712,6 +772,137 @@ var canvas_ED_only = {
                 self["fma.at"].setVisible(node.getBoolValue());
             }, 1, 0);
 
+        var updateFMAVert = func () {
+            var vertModeLabel = vertModeMap[self.props["/it-autoflight/mode/vert"].getValue() or ""] or "";
+            if (self.props["/controls/flight/vnav-enabled"].getValue()) {
+                vertModeLabel = "V" ~ vertModeLabel;
+            }
+            self["fma.vert"].setText(vertModeLabel);
+            if (self.props["/it-autoflight/output/appr-armed"].getValue() and self.props["/it-autoflight/mode/vert"].getValue != "G/S") {
+                self["fma.vertarmed"].setText("GS");
+            }
+            else {
+                self["fma.vertarmed"].setText(vertModeArmedMap[self.props["/it-autoflight/mode/vert"].getValue() or ""] or "");
+            }
+        };
+        var updateFMALat = func () {
+            var vorOrLoc = "VOR";
+            if (self.props["/instrumentation/pfd/ils/has-loc"].getBoolValue()) {
+                vorOrLoc = "LOC";
+            }
+
+            var latModeLabel = latModeMap[self.props["/it-autoflight/mode/lat"].getValue() or ""] or "";
+            if (latModeLabel == "LOC") {
+                latModeLabel = vorOrLoc;
+            }
+            self["fma.lat"].setText(latModeLabel);
+            if (self.props["/it-autoflight/output/lnav-armed"].getValue()) {
+                self["fma.latarmed"].setText("LNAV");
+            }
+            else if (self.props["/it-autoflight/output/loc-armed"].getValue() or self.props["/it-autoflight/output/appr-armed"].getValue()) {
+                self["fma.latarmed"].setText("LOC");
+            }
+            else if (self.props["/it-autoflight/mode/lat"].getValue() == "T/O") {
+                # In T/O mode, if LNAV wasn't armed, the A/P will transition to HDG mode.
+                self["fma.latarmed"].setText("HDG");
+            }
+            else {
+                self["fma.latarmed"].setText(latModeArmedMap[self.props["/it-autoflight/mode/arm"].getValue()]);
+            }
+        };
+        var updateFMASpeed = func () {
+            self["fma.spd"].setText(
+                    spdModeMap[self.props["/it-autoflight/mode/vert"].getValue() or ""] or
+                    spdModeMap[self.props["/it-autoflight/mode/thr"].getValue() or ""] or
+                    "");
+            self["fma.spdarmed"].setText(
+                    spdModeArmedMap[self.props["/it-autoflight/mode/vert"].getValue() or ""] or
+                    spdModeArmedMap[self.props["/it-autoflight/mode/thr"].getValue() or ""] or
+                    "");
+        };
+        var updateApprArmed = func {
+            if (self.props["/it-autoflight/output/appr-armed"].getValue() or
+                self.props["/it-autoflight/mode/lat"].getValue() == "LOC") {
+                self["fma.apprarmed"].show();
+                if (radarAlt <= 1500) {
+                    self["fma.appr"].show();
+                }
+                else {
+                    self["fma.appr"].hide();
+                }
+            }
+            else {
+                self["fma.appr"].hide();
+                self["fma.apprarmed"].hide();
+            }
+        };
+        var updateSelectedVSpeed = func {
+            var vertMode = self.props["/it-autoflight/mode/vert"].getValue();
+            if (vertMode == "V/S") {
+                self["selectedvspeed.digital"].setText(sprintf("%-04d", (self.props["/it-autoflight/input/vs"].getValue() or 0)));
+                self["selectedvspeed.digital"].show();
+            }
+            else if (vertMode == "FPA") {
+                self["selectedvspeed.digital"].setText(sprintf("%+4.1f", (self.props["/it-autoflight/input/fpa"].getValue() or 0)));
+                self["selectedvspeed.digital"].show();
+            }
+            else {
+                self["selectedvspeed.digital"].hide();
+            }
+        };
+
+        setlistener(self.props["/it-autoflight/mode/vert"], func {
+            updateFMAVert();
+            updateFMASpeed();
+            updateSelectedVSpeed();
+        }, 1, 0);
+        setlistener(self.props["/controls/flight/vnav-enabled"], updateFMAVert, 1, 0);
+        setlistener(self.props["/it-autoflight/mode/thr"], updateFMASpeed, 1, 0);
+        setlistener(self.props["/it-autoflight/input/vs"], updateSelectedVSpeed, 1, 0);
+        setlistener(self.props["/it-autoflight/input/fpa"], updateSelectedVSpeed, 1, 0);
+
+        setlistener(self.props["/instrumentation/pfd/ils/has-loc"], updateFMALat, 1, 0);
+        setlistener(self.props["/it-autoflight/mode/lat"], func {
+            updateFMALat();
+            updateApprArmed();
+        }, 1, 0);
+        setlistener(self.props["/it-autoflight/mode/arm"], updateFMALat, 1, 0);
+        setlistener(self.props["/it-autoflight/output/lnav-armed"], updateFMALat, 1, 0);
+        setlistener(self.props["/it-autoflight/output/loc-armed"], updateFMALat, 1, 0);
+
+        setlistener(self.props["/it-autoflight/output/appr-armed"],
+            func {
+                updateFMAVert();
+                updateFMALat();
+            }, 1, 0);
+
+        setlistener(self.props["/it-autoflight/output/appr-armed"], updateApprArmed, 1, 0);
+
+        var updateSelectedSpeed = func {
+            if (self.props["/it-autoflight/input/kts-mach"].getValue()) {
+                var selectedMach = (self.props["/it-autoflight/input/mach"].getValue() or 0);
+                self["selectedspeed.digital"].setText(sprintf(".%03dM", selectedMach * 1000));
+            }
+            else {
+                var selectedKts = (self.props["/it-autoflight/input/kts"].getValue() or 0);
+                self["selectedspeed.digital"].setText(sprintf("%03d", selectedKts));
+            }
+        };
+
+        setlistener(self.props["/it-autoflight/input/kts"], updateSelectedSpeed, 1, 0);
+        setlistener(self.props["/it-autoflight/input/mach"], updateSelectedSpeed, 1, 0);
+        setlistener(self.props["/it-autoflight/input/kts-mach"], updateSelectedSpeed, 1, 0);
+
+        setlistener(self.props["/controls/flight/speed-mode"], func(node) {
+            if (node.getValue() == 1) {
+                self["selectedspeed.digital"].setColor(1, 0, 1);
+            }
+            else {
+                self["selectedspeed.digital"].setColor(0, 0.75, 1);
+            }
+        }, 1, 0);
+
+
     },
 
     updateSlow: func() {
@@ -885,44 +1076,6 @@ var canvas_ED_only = {
         var currentMach = me.props["/instrumentation/airspeed-indicator/indicated-mach"].getValue() or 0;
         var selectedKts = 0;
 
-        if (me.props["/it-autoflight/input/kts-mach"].getValue()) {
-            var selectedMach = (me.props["/it-autoflight/input/mach"].getValue() or 0);
-            me["selectedspeed.digital"].setText(sprintf(".%03dM", selectedMach * 1000));
-            if (currentMach > 0.001) {
-                selectedKts = selectedMach * airspeed / currentMach;
-            }
-            else {
-                # this shouldn't happen in practice, but when it does, use the
-                # least objectionable default.
-                selectedKts = me.props["/it-autoflight/input/kts"].getValue();
-            }
-        }
-        else {
-            selectedKts = (me.props["/it-autoflight/input/kts"].getValue() or 0);
-            me["selectedspeed.digital"].setText(sprintf("%03d", selectedKts));
-        }
-        if (me.props["/controls/flight/speed-mode"].getValue() == 1) {
-            me["selectedspeed.digital"].setColor(1, 0, 1);
-        }
-        else {
-            me["selectedspeed.digital"].setColor(0, 0.75, 1);
-        }
-        me["mach.digital"].setText(sprintf(".%03d", currentMach * 1000));
-
-
-        var vertMode = me.props["/it-autoflight/mode/vert"].getValue();
-        if (vertMode == "V/S") {
-            me["selectedvspeed.digital"].setText(sprintf("%-04d", (me.props["/it-autoflight/input/vs"].getValue() or 0)));
-            me["selectedvspeed.digital"].show();
-        }
-        else if (vertMode == "FPA") {
-            me["selectedvspeed.digital"].setText(sprintf("%+4.1f", (me.props["/it-autoflight/input/fpa"].getValue() or 0)));
-            me["selectedvspeed.digital"].show();
-        }
-        else {
-            me["selectedvspeed.digital"].hide();
-        }
-
         me["speedtrend.vector"].reset();
         me["speedtrend.vector"].rect(152, 450, 15,
             math.max(-40.0, math.min(40.0, (airspeedLookahead - airspeed))) * -6.42);
@@ -972,6 +1125,23 @@ var canvas_ED_only = {
             me["asi.10.0"].show();
             me["asi.10.9"].show();
         }
+
+        if (me.props["/it-autoflight/input/kts-mach"].getValue()) {
+            var selectedMach = (me.props["/it-autoflight/input/mach"].getValue() or 0);
+            if (currentMach > 0.001) {
+                selectedKts = selectedMach * airspeed / currentMach;
+            }
+            else {
+                # this shouldn't happen in practice, but when it does, use the
+                # least objectionable default.
+                selectedKts = me.props["/it-autoflight/input/kts"].getValue();
+            }
+        }
+        else {
+            selectedKts = (me.props["/it-autoflight/input/kts"].getValue() or 0);
+        }
+        me["mach.digital"].setText(sprintf(".%03d", currentMach * 1000));
+
 
         # Speed ref bugs
         foreach (var spdref; ["v1", "vr", "v2", "vfs"]) {
@@ -1034,122 +1204,6 @@ var canvas_ED_only = {
             flapsElem.show();
         }
 
-        # FMA
-        var activeNav = (navsrc or preview or 1) - 1;
-        var vorOrLoc = "VOR";
-        if (me.props["/instrumentation/nav[" ~ activeNav ~ "]/nav-loc"].getValue() or 0) {
-            vorOrLoc = "LOC";
-        }
-
-        var latModeMap = {
-            "HDG": "HDG",
-            "HDG HLD": "ROLL",
-            "HDG SEL": "HDG",
-            "LNAV": "LNAV",
-            "LOC": vorOrLoc,
-            "ALGN": "ROLL",
-            "RLOU": "ROLL",
-            "T/O": "TRACK"
-        };
-        var latModeArmedMap = {
-            "LNV": "LNAV",
-            "LOC": vorOrLoc,
-            "ILS": "LOC",
-            "HDG": "HDG",
-            "HDG HLD": "ROLL",
-            "HDG SEL": "HDG",
-            "T/O": "TRACK"
-        };
-        var vertModeMap = {
-            "ALT HLD": "ALT",
-            "V/S": "VS",
-            "G/S": "GS",
-            "ALT CAP": "ASEL",
-            "SPD DES": "FLCH",
-            "SPD CLB": "FLCH",
-            "FPA": "PATH",
-            "LAND 3": "LAND",
-            "FLARE": "FLARE",
-            "ROLLOUT": "ROLLOUT",
-            "T/O CLB": "TO",
-            "G/A CLB": "GA"
-        };
-        var vertModeArmedMap = {
-            "V/S": "ASEL",
-            "G/S": "ASEL",
-            "ALT CAP": "ALT",
-            "SPD DES": "ASEL",
-            "SPD CLB": "ASEL",
-            "FPA": "ASEL",
-            "T/O CLB": "FLCH",
-            "G/A CLB": "FLCH"
-        };
-        var spdModeMap = {
-            "THRUST": "SPDt",
-            "PITCH": "SPDe",
-            " PITCH": "SPDe", # yes, this is correct, ITAF 4.0 is buggy here
-            "RETARD": "SPDe",
-            "T/O CLB": "TO",
-            "G/A CLB": "GA"
-        };
-        var spdModeArmedMap = {
-            "THRUST": "",
-            "PITCH": "SPDt",
-            " PITCH": "SPDt",
-            "RETARD": "SPDt",
-            "T/O CLB": "SPDt",
-            "G/A CLB": "SPDt"
-        };
-
-        me["fma.lat"].setText(latModeMap[me.props["/it-autoflight/mode/lat"].getValue() or ""] or "");
-        var vertModeLabel = vertModeMap[me.props["/it-autoflight/mode/vert"].getValue() or ""] or "";
-        if (me.props["/controls/flight/vnav-enabled"].getValue()) {
-            vertModeLabel = "V" ~ vertModeLabel;
-        }
-        me["fma.vert"].setText(vertModeLabel);
-        if (me.props["/it-autoflight/output/appr-armed"].getValue() and me.props["/it-autoflight/mode/vert"].getValue != "G/S") {
-            me["fma.vertarmed"].setText("GS");
-        }
-        else {
-            me["fma.vertarmed"].setText(vertModeArmedMap[me.props["/it-autoflight/mode/vert"].getValue() or ""] or "");
-        }
-        me["fma.spd"].setText(
-                spdModeMap[me.props["/it-autoflight/mode/vert"].getValue() or ""] or
-                spdModeMap[me.props["/it-autoflight/mode/thr"].getValue() or ""] or
-                "");
-        me["fma.spdarmed"].setText(
-                spdModeArmedMap[me.props["/it-autoflight/mode/vert"].getValue() or ""] or
-                spdModeArmedMap[me.props["/it-autoflight/mode/thr"].getValue() or ""] or
-                "");
-
-        if (me.props["/it-autoflight/output/lnav-armed"].getValue()) {
-            me["fma.latarmed"].setText("LNAV");
-        }
-        else if (me.props["/it-autoflight/output/loc-armed"].getValue() or me.props["/it-autoflight/output/appr-armed"].getValue()) {
-            me["fma.latarmed"].setText("LOC");
-        }
-        else if (me.props["/it-autoflight/mode/lat"].getValue() == "T/O") {
-            # In T/O mode, if LNAV wasn't armed, the A/P will transition to HDG mode.
-            me["fma.latarmed"].setText("HDG");
-        }
-        else {
-            me["fma.latarmed"].setText(latModeArmedMap[me.props["/it-autoflight/mode/arm"].getValue()]);
-        }
-        # show APPR2 arm when approach armed
-        if (me.props["/it-autoflight/output/appr-armed"].getValue() or
-            me.props["/it-autoflight/mode/lat"].getValue() == "LOC") {
-            me["fma.apprarmed"].show();
-            if (radarAlt <= 1500) {
-                me["fma.appr"].show();
-            }
-            else {
-                me["fma.appr"].hide();
-            }
-        }
-        else {
-            me["fma.appr"].hide();
-            me["fma.apprarmed"].hide();
-        }
     },
 };
 
