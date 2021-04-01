@@ -157,6 +157,17 @@
     </filter>
 
     <!-- Various -->
+    <logic>
+        <name>Airspeed Alive</name>
+        <input>
+            <greater-than>
+                <property>/instrumentation/airspeed-indicator/indicated-speed-kt</property>
+                <value>40</value>
+            </greater-than>
+        </input>
+        <output>/instrumentation/pfd[1]/airspeed-alive</output>
+    </logic>
+    
     <filter>
         <name>Pitchscale</name>
         <type>gain</type>
@@ -963,7 +974,7 @@
                     <value>1</value>
                 </equals>
             </condition>
-            <property>/instrumentation/nav[0]/loc-needle-deflection-norm</property>
+            <property>/instrumentation/nav[0]/heading-needle-deflection-norm</property>
         </input>
         <input>
             <condition>
@@ -972,7 +983,7 @@
                     <value>1</value>
                 </equals>
             </condition>
-            <property>/instrumentation/nav[1]/loc-needle-deflection-norm</property>
+            <property>/instrumentation/nav[1]/heading-needle-deflection-norm</property>
         </input>
     </filter>
     <logic>

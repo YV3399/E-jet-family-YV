@@ -157,6 +157,17 @@
     </filter>
 
     <!-- Various -->
+    <logic>
+        <name>Airspeed Alive</name>
+        <input>
+            <greater-than>
+                <property>/instrumentation/airspeed-indicator/indicated-speed-kt</property>
+                <value>40</value>
+            </greater-than>
+        </input>
+        <output>/instrumentation/pfd[0]/airspeed-alive</output>
+    </logic>
+    
     <filter>
         <name>Pitchscale</name>
         <type>gain</type>

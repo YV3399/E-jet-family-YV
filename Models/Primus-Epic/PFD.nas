@@ -203,6 +203,7 @@ var canvas_ED_only = {
         m.props["/instrumentation/pfd/asi-10"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/asi-10");
         m.props["/instrumentation/pfd/asi-100"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/asi-100");
         m.props["/instrumentation/pfd/pitch-scale"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/pitch-scale");
+        m.props["/instrumentation/pfd/airspeed-alive"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/airspeed-alive");
         m.props["/instrumentation/slip-skid-ball/indicated-slip-skid"] = props.globals.getNode("/instrumentation/slip-skid-ball/indicated-slip-skid");
         m.props["/instrumentation/vertical-speed-indicator/indicated-speed-fpm"] = props.globals.getNode("/instrumentation/vertical-speed-indicator/indicated-speed-fpm");
         m.props["/instrumentation/altimeter/setting-hpa"] = props.globals.getNode("/instrumentation/altimeter/setting-hpa");
@@ -347,6 +348,11 @@ var canvas_ED_only = {
             "asi.1_clip",
             "asi.tape",
             "asi.tape_clip",
+            "asi.vspeeds",
+            "asi.preview-v1.digital",
+            "asi.preview-vr.digital",
+            "asi.preview-v2.digital",
+            "asi.preview-vfs.digital",
             "barberpole",
             "chrono.digital",
             "compass",
@@ -512,6 +518,23 @@ var canvas_ED_only = {
         # TODO
         me["VNAV.constraints1"].hide();
         me["VNAV.constraints2"].hide();
+
+        # V-speed previews
+        setlistener(me.props["/fms/vspeeds-effective/departure/v1"], func (node) {
+            self["asi.preview-v1.digital"].setText(sprintf("%-3.0d", node.getValue()));
+        }, 1, 0);
+        setlistener(me.props["/fms/vspeeds-effective/departure/vr"], func (node) {
+            self["asi.preview-vr.digital"].setText(sprintf("%-3.0d", node.getValue()));
+        }, 1, 0);
+        setlistener(me.props["/fms/vspeeds-effective/departure/v2"], func (node) {
+            self["asi.preview-v2.digital"].setText(sprintf("%-3.0d", node.getValue()));
+        }, 1, 0);
+        setlistener(me.props["/fms/vspeeds-effective/departure/vfs"], func (node) {
+            self["asi.preview-vfs.digital"].setText(sprintf("%-3.0d", node.getValue()));
+        }, 1, 0);
+        setlistener(me.props["/instrumentation/pfd/airspeed-alive"], func (node) {
+            self["asi.vspeeds"].setVisible(!node.getBoolValue());
+        }, 1, 0);
 
         # QNH
         var updateQNH = func {
