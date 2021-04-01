@@ -105,7 +105,7 @@ var odoDigit = func(v, p) {
 var canvas_ED_base = {
     init: func(canvas_group, file) {
         var font_mapper = func(family, weight) {
-            return "LiberationFonts/LiberationSans-Regular.ttf";
+            return "e190.ttf";
         };
 
 
@@ -997,11 +997,11 @@ var canvas_ED_only = {
 
         var altR = math.max(-20, alt);
         var o100 = odoDigit(altR / 10, 1);
-        me["alt.100"].setTranslation(0, o100 * 42.6);
+        me["alt.100"].setTranslation(0, o100 * 44);
         var o1000 = odoDigit(altR / 10, 2);
-        me["alt.1000"].setTranslation(0, o1000 * 42.6);
+        me["alt.1000"].setTranslation(0, o1000 * 44);
         var o10000 = odoDigit(altR / 10, 3);
-        me["alt.10000"].setTranslation(0, o10000 * 42.6);
+        me["alt.10000"].setTranslation(0, o10000 * 44);
 
         if (alt < 0) {
             me["alt.100.tape"].hide();
@@ -1149,13 +1149,13 @@ var canvas_ED_only = {
 
         o = odoDigit(airspeed, 0);
 
-        me["asi.1"].setTranslation(0, o * 53.25);
+        me["asi.1"].setTranslation(0, o * 64);
 
         o = odoDigit(airspeed, 1);
-        me["asi.10"].setTranslation(0, o * 53.25);
+        me["asi.10"].setTranslation(0, o * 64);
 
         o = odoDigit(airspeed, 2);
-        me["asi.100"].setTranslation(0, o * 53.25);
+        me["asi.100"].setTranslation(0, o * 64);
 
         if (airspeed < 90.0) {
             me["asi.10.0"].hide();
