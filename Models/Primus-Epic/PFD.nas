@@ -1076,6 +1076,23 @@ var canvas_ED_only = {
         var currentMach = me.props["/instrumentation/airspeed-indicator/indicated-mach"].getValue() or 0;
         var selectedKts = 0;
 
+        if (me.props["/it-autoflight/input/kts-mach"].getValue()) {
+            var selectedMach = (me.props["/it-autoflight/input/mach"].getValue() or 0);
+            if (currentMach > 0.001) {
+                selectedKts = selectedMach * airspeed / currentMach;
+            }
+            else {
+                # this shouldn't happen in practice, but when it does, use the
+                # least objectionable default.
+                selectedKts = me.props["/it-autoflight/input/kts"].getValue();
+            }
+        }
+        else {
+            selectedKts = (me.props["/it-autoflight/input/kts"].getValue() or 0);
+        }
+        me["mach.digital"].setText(sprintf(".%03d", currentMach * 1000));
+
+
         me["speedtrend.vector"].reset();
         me["speedtrend.vector"].rect(152, 450, 15,
             math.max(-40.0, math.min(40.0, (airspeedLookahead - airspeed))) * -6.42);
@@ -1125,22 +1142,6 @@ var canvas_ED_only = {
             me["asi.10.0"].show();
             me["asi.10.9"].show();
         }
-
-        if (me.props["/it-autoflight/input/kts-mach"].getValue()) {
-            var selectedMach = (me.props["/it-autoflight/input/mach"].getValue() or 0);
-            if (currentMach > 0.001) {
-                selectedKts = selectedMach * airspeed / currentMach;
-            }
-            else {
-                # this shouldn't happen in practice, but when it does, use the
-                # least objectionable default.
-                selectedKts = me.props["/it-autoflight/input/kts"].getValue();
-            }
-        }
-        else {
-            selectedKts = (me.props["/it-autoflight/input/kts"].getValue() or 0);
-        }
-        me["mach.digital"].setText(sprintf(".%03d", currentMach * 1000));
 
 
         # Speed ref bugs
