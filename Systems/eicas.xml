@@ -20,6 +20,10 @@
                     <value>0</value>
                 </not-equals>
                 <not-equals>
+                    <property>/fdm/jsbsim/fcs/speedbrake-pos-norm</property>
+                    <value>0</value>
+                </not-equals>
+                <not-equals>
                     <property>/engines/apu/rpm</property>
                     <value>0</value>
                 </not-equals>
