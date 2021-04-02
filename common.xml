@@ -1858,6 +1858,7 @@
             <groundspeed-kt type="int">0</groundspeed-kt>
             <wind-speed-kt type="int">0</wind-speed-kt>
             <airspeed-alive type="bool">false</airspeed-alive>
+            <vsi-needle-deg type="double">0</vsi-needle-deg>
         </pfd>
 
         <pfd>
@@ -1918,6 +1919,7 @@
             <groundspeed-kt type="int">0</groundspeed-kt>
             <wind-speed-kt type="int">0</wind-speed-kt>
             <airspeed-alive type="bool">false</airspeed-alive>
+            <vsi-needle-deg type="double">0</vsi-needle-deg>
         </pfd>
 
         <mfd>
