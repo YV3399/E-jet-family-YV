@@ -139,7 +139,11 @@ var make_profile = func () {
     var s = nil;
     var dist = 0.0;
     var alt = 0;
-    if (fp.departure != nil and fp.departure.elevation != nil) {
+    var tocNeeded = 1;
+    if (fp.getWP(0).alt_cstr_type == "at") {
+        alt = fp.getWP(0).alt_cstr;
+    }
+    else if (fp.departure != nil and fp.departure.elevation != nil) {
         alt = fp.departure.elevation * M2FT;
     }
     else {
