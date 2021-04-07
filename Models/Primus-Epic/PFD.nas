@@ -887,6 +887,7 @@ var canvas_ED_only = {
             if (self.props["/it-autoflight/output/appr-armed"].getValue() or
                 self.props["/it-autoflight/mode/lat"].getValue() == "LOC") {
                 self["fma.apprarmed"].show();
+                var radarAlt = me.props["/position/gear-agl-ft"].getValue() or 0.0;
                 if (radarAlt <= 1500) {
                     self["fma.appr"].show();
                 }
