@@ -70,7 +70,7 @@ var wpLowerBound = func(wp) {
     }
 }
 
-var make_profile = func () {
+var make_profile = func (tocReached) {
     var descent_fpa = -math.abs(getprop("/controls/flight/speed-schedule/descent-fpa"));
     var descent_feet_per_nm = fpaToGradient(descent_fpa);
     var fp = flightplan();
@@ -142,6 +142,9 @@ var make_profile = func () {
     var tocNeeded = 1;
     if (fp.getWP(0).alt_cstr_type == "at") {
         alt = fp.getWP(0).alt_cstr;
+        if (tocReached) {
+            tocNeeded = 0;
+        }
     }
     else if (fp.departure != nil and fp.departure.elevation != nil) {
         alt = fp.departure.elevation * M2FT;
@@ -191,14 +194,16 @@ var make_profile = func () {
 
     ############################# cruise ############################# 
     
-    append(profile.waypoints,
-            {
-                "name": "TOC",
-                "dist": nil,
-                "mode": "flch",
-                "fpa": 3, # dummy
-                "alt": cruiseAltitude
-            });
+    if (tocNeeded) {
+        append(profile.waypoints,
+                {
+                    "name": "TOC",
+                    "dist": nil,
+                    "mode": "flch",
+                    "fpa": 3, # dummy
+                    "alt": cruiseAltitude
+                });
+    }
 
     ############################# descent ############################# 
 
@@ -425,6 +430,10 @@ var VNAV = {
             while (i < size(me.profile.waypoints) and me.profile.waypoints[i]["name"] != "TOC") {
                 i += 1;
             }
+            # but undo this if there's no TOC waypoint in the route anymore
+            if (i >= size(me.profile.waypoints)) {
+                i = 0;
+            }
         }
         me.current = i;
     },
@@ -625,7 +634,7 @@ setlistener("controls/flight/vnav-enabled", func {
 setlistener("autopilot/route-manager/signals/edited", func {
     print("VNAV: Flightplan edited");
     if (getprop("autopilot/route-manager/active")) {
-        var profile = make_profile(flightplan());
+        var profile = make_profile(vnav.tocReached);
         print_profile(profile);
         vnav.loadProfile(profile);
     }
@@ -637,7 +646,7 @@ setlistener("autopilot/route-manager/signals/edited", func {
 setlistener("autopilot/route-manager/cruise/altitude-ft", func {
     print("VNAV: Cruise altitude changed");
     if (getprop("autopilot/route-manager/active")) {
-        var profile = make_profile(flightplan());
+        var profile = make_profile(vnav.tocReached);
         print_profile(profile);
         vnav.loadProfile(profile);
     }
@@ -649,7 +658,7 @@ setlistener("autopilot/route-manager/cruise/altitude-ft", func {
 setlistener("autopilot/route-manager/active", func {
     print("VNAV: Flightplan activated or closed");
     if (getprop("autopilot/route-manager/active")) {
-        var profile = make_profile(flightplan());
+        var profile = make_profile(vnav.tocReached);
         print_profile(profile);
         vnav.loadProfile(profile);
     }
