@@ -789,69 +789,6 @@
         </axis>
     </animation>
 
-<!-- Autobrake Settings -->
-
-    <animation>
-        <type>pick</type>
-        <object-name>AB.0</object-name>
-        <object-name>AB.1</object-name>
-        <object-name>AB.2</object-name>
-        <object-name>AB.3</object-name>
-        <action>
-            <button>0</button>
-            <repeatable type="bool">false</repeatable>
-            <binding>
-                <command>property-cycle</command>
-                <property>autopilot/autobrake/step</property>
-                <value>0</value>
-                <value>1</value>
-                <value>2</value>
-                <value>3</value>
-            </binding>
-        </action>
-    </animation>
-
-    <animation>
-        <type>select</type>
-        <object-name>AB.0</object-name>
-        <condition>
-                <equals>
-                    <property>autopilot/autobrake/step</property>
-                    <value>0</value>
-                </equals>
-        </condition>
-    </animation>
-    <animation>
-        <type>select</type>
-        <object-name>AB.1</object-name>
-        <condition>
-                <equals>
-                    <property>autopilot/autobrake/step</property>
-                    <value>1</value>
-                </equals>
-        </condition>
-    </animation>
-    <animation>
-        <type>select</type>
-        <object-name>AB.2</object-name>
-        <condition>
-                <equals>
-                    <property>autopilot/autobrake/step</property>
-                    <value>2</value>
-                </equals>
-        </condition>
-    </animation>
-    <animation>
-        <type>select</type>
-        <object-name>AB.3</object-name>
-        <condition>
-                <equals>
-                    <property>autopilot/autobrake/step</property>
-                    <value>3</value>
-                </equals>
-        </condition>
-    </animation>
-
 <!-- Overhead Panel -->
 
     <model>
@@ -2681,37 +2618,6 @@
                 <step>-.1</step>
                 <min>0</min>
                 <max>.6</max>
-            </binding>
-        </action>
-    </animation>
-
-<!-- Gear Lever -->
-
-    <animation>
-        <type>rotate</type>
-        <object-name>GearLever</object-name>
-        <property>/controls/gear/gear-down</property>
-        <factor>50</factor>
-        <center>
-            <x-m>-12.5523</x-m>
-            <y-m>0</y-m>
-            <z-m>0.8938</z-m>
-        </center>
-        <axis>
-            <x>0</x>
-            <y>1</y>
-            <z>0</z>
-        </axis>
-    </animation>
-    <animation>
-        <type>pick</type>
-        <object-name>GearLever</object-name>
-        <action>
-            <button>0</button>
-            <repeatable>false</repeatable>
-            <binding>
-                <command>property-toggle</command>
-                <property>/controls/gear/gear-down</property>
             </binding>
         </action>
     </animation>

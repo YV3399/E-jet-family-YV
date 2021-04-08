@@ -1499,7 +1499,7 @@
     <!-- Contrails -->
     
     <model>
-        <path>Aircraft/E-jet-family/Models/Effects/contrail/contrail.xml</path>
+        <path>Aircraft/E-jet-family/Models/Effects/Contrail/contrail.xml</path>
         <name>contrails.left</name>     
         <offsets>
             <x-m>-1.07</x-m>
@@ -1509,7 +1509,7 @@
     </model>
     
     <model>
-        <path>Aircraft/E-jet-family/Models/Effects/contrail/contrail.xml</path>
+        <path>Aircraft/E-jet-family/Models/Effects/Contrail/contrail.xml</path>
         <name>contrails.right</name>     
         <offsets>
             <x-m>-1.07</x-m>

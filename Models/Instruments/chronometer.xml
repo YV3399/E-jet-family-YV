@@ -14,32 +14,6 @@
         </action>
     </animation>
     
-    <!--Set Altimeter-->
-    <animation>
-        <type>knob</type>
-        <object-name>baroknob</object-name>
-        <action>
-            <binding>
-                <command>property-adjust</command>
-                <property>instrumentation/altimeter/setting-hpa</property>
-                <factor>1</factor>
-                <min>950</min>
-                <max>1050</max>
-                <wrap>false</wrap>
-            </binding>
-        </action>
-        <hovered>
-            <binding>
-                <command>set-tooltip</command>
-                <tooltip-id>hpa</tooltip-id>
-                <label>QNH: %u hPa</label>
-                <mapping>QNH</mapping>
-                <property>instrumentation/altimeter/setting-hpa</property>
-            </binding>
-        </hovered>
-    </animation>
-    
-    
     <animation>
         <type>pick</type>
         <object-name>et</object-name>
@@ -53,73 +27,12 @@
         </action>
     </animation>
     
-    <animation>
-        <type>pick</type>
-        <object-name>ILS</object-name>
-        <action>
-            <button>0</button>
-            <repeatable>false</repeatable>
-            <binding>
-                <command>property-toggle</command>
-                <property>instrumentation/IESS/ILS-ind</property>
-            </binding>
-        </action>
-    </animation>
-    
-    <animation>
-        <type>pick</type>
-        <object-name>brightness_plus</object-name>
-        <action>
-            <button>0</button>
-            <repeatable>false</repeatable>
-            <binding>
-                <command>property-adjust</command>
-                <property>instrumentation/IESS/brightness</property>
-                <step>0.1</step>
-                <min>0.1</min>
-                <max>1</max>
-                <wrap>false</wrap>
-            </binding>
-        </action>
-    </animation>
-    
-    
-    <animation>
-        <type>pick</type>
-        <object-name>brightness_minus</object-name>
-        <action>
-            <button>0</button>
-            <repeatable>false</repeatable>
-            <binding>
-                <command>property-adjust</command>
-                <property>instrumentation/IESS/brightness</property>
-                <step>-0.1</step>
-                <min>0.1</min>
-                <max>1</max>
-                <wrap>false</wrap>
-            </binding>
-        </action>
-    </animation>
-    
-    
-    
     <animation> 
         <type>material</type> 
         <object-name>chrono_screen</object-name>
         <property-base>instrumentation/IESS/</property-base>
         <emission>
             <red>0.9</red>
-            <green>1.0</green>
-            <blue>1.0</blue>
-            <factor-prop>brightness</factor-prop>
-        </emission>
-    </animation>
-    <animation> 
-        <type>material</type> 
-        <object-name>IESS_screen</object-name>
-        <property-base>instrumentation/IESS/</property-base>
-        <emission>
-            <red>1.0</red>
             <green>1.0</green>
             <blue>1.0</blue>
             <factor-prop>brightness</factor-prop>
