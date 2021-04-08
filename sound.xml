@@ -115,13 +115,13 @@
 			</condition>
 			<volume>
 				<property>engines/engine[0]/n1</property>
-				<offset>0</offset>
+				<offset>0.5</offset>
 				<factor>0.01</factor>
 			</volume>
 			<pitch>
 				<property>engines/engine[0]/n1</property>
 				<offset>0</offset>
-				<factor>0.02</factor>
+				<factor>0.01</factor>
 			</pitch>
             <position>
                 <x>0</x>
@@ -242,13 +242,13 @@
 			</condition>
 			<volume>
 				<property>engines/engine[1]/n1</property>
-				<offset>0</offset>
+				<offset>0.5</offset>
 				<factor>0.01</factor>
 			</volume>
 			<pitch>
 				<property>engines/engine[1]/n1</property>
 				<offset>0</offset>
-				<factor>0.02</factor>
+				<factor>0.01</factor>
 			</pitch>
             <position>
                 <x>0</x>
@@ -258,6 +258,82 @@
 			<reference-dist>10</reference-dist>
 			<max-dist>50</max-dist>
 		</engine>
+
+		<!-- APU, same for inside and outside -->
+		<apu>
+			<name>APU starting</name>
+			<mode>once</mode>
+			<path>Sounds/apu_start.wav</path>
+			<condition>
+				<and>
+					<greater-than>
+						<property>engines/apu/rpm</property>
+						<value>0</value>
+					</greater-than>
+					<greater-than>
+						<property>engines/apu/rpm-target</property>
+						<value>50</value>
+					</greater-than>
+					<less-than>
+                        <property>engines/apu/rpm</property>
+                        <value>95</value>
+					</less-than>
+				</and>
+			</condition>
+			<reference-dist>10</reference-dist>
+			<max-dist>50</max-dist>
+			<position>
+				<x>15.24</x>
+				<y>0.01</y>
+				<z>-0.70</z>
+			</position>
+		</apu>
+		<apu>
+			<name>APU running</name>
+			<mode>looped</mode>
+			<path>Sounds/apu_run.wav</path>
+			<condition>
+                <greater-than>
+                    <property>engines/apu/rpm</property>
+                    <value>94.99</value>
+                </greater-than>
+			</condition>
+			<reference-dist>10</reference-dist>
+			<max-dist>50</max-dist>
+			<position>
+				<x>15.24</x>
+				<y>0.01</y>
+				<z>-0.70</z>
+			</position>
+		</apu>
+		<apu>
+			<name>APU shutdown</name>
+			<mode>once</mode>
+			<path>Sounds/apu_shutdown.wav</path>
+			<condition>
+				<and>
+					<greater-than>
+						<property>engines/apu/rpm</property>
+						<value>0</value>
+					</greater-than>
+					<less-than>
+						<property>engines/apu/rpm-target</property>
+						<value>50</value>
+					</less-than>
+					<less-than>
+                        <property>engines/apu/rpm</property>
+                        <value>95</value>
+					</less-than>
+				</and>
+			</condition>
+			<reference-dist>10</reference-dist>
+			<max-dist>50</max-dist>
+			<position>
+				<x>15.24</x>
+				<y>0.01</y>
+				<z>-0.70</z>
+			</position>
+		</apu>
 
         <gear>
             <name>gear</name>
@@ -436,8 +512,8 @@
         <flap>
             <name>flaps</name>
             <mode>in-transit</mode>
-            <path>Aircraft/E-jet-family/Sounds/SoundPack/flaps.wav</path>
-            <property>/surface-positions/flap-pos-norm</property>
+            <path>Aircraft/E-jet-family/Sounds/flaps.wav</path>
+            <property>/fdm/jsbsim/fcs/flap-pos-norm</property>
             <volume>
                 <property>sim/sound/effects/volume</property>
                 <max>0.5</max>
@@ -448,8 +524,25 @@
                 <z>0</z>
             </position>
             <reference-dist>5.0</reference-dist>
-            <max-dist>10.0</max-dist>
+            <max-dist>20.0</max-dist>
         </flap>
+        <slat>
+            <name>slats</name>
+            <mode>in-transit</mode>
+            <path>Aircraft/E-jet-family/Sounds/slats.wav</path>
+            <property>/fdm/jsbsim/fcs/slat-pos-norm</property>
+            <volume>
+                <property>sim/sound/effects/volume</property>
+                <max>0.5</max>
+            </volume>
+            <position>
+                <x>-9</x>
+                <y>0</y>
+                <z>0</z>
+            </position>
+            <reference-dist>5.0</reference-dist>
+            <max-dist>20.0</max-dist>
+        </slat>
 
         <wind>
             <name>wind</name>
@@ -982,6 +1075,35 @@
         </ap-disconnect>
 
 
+        <!-- Master warning / caution -->
+        <alarm>
+            <name>Master warning</name>
+            <mode>once</mode>
+            <path>Sounds/triple-chime.wav</path>
+            <condition>
+                <greater-than>
+                    <property>/instrumentation/eicas/master/warning</property>
+                    <value>0</value>
+                </greater-than>
+            </condition>
+            <volume>
+                <property>sim/current-view/internal</property>
+            </volume>
+        </alarm>
+        <alarm>
+            <name>Master caution</name>
+            <mode>once</mode>
+            <path>Sounds/single-chime.wav</path>
+            <condition>
+                <greater-than>
+                    <property>/instrumentation/eicas/master/caution</property>
+                    <value>0</value>
+                </greater-than>
+            </condition>
+            <volume>
+                <property>sim/current-view/internal</property>
+            </volume>
+        </alarm>
     </fx>
 
 </PropertyList>
