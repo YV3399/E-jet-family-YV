@@ -1407,6 +1407,15 @@
     </systems>
 
     <controls>
+        <keyboard>
+            <!--
+                -1 = not grabbed
+                0 = MCDU1
+                1 = MCDU2
+            -->
+            <grabbed type="int">-1</grabbed>
+        </keyboard>
+
         <anti-ice>
             <wing-heat type="bool">0</wing-heat>
             <pitot-heat type="bool">0</pitot-heat>
@@ -2066,6 +2075,17 @@
                     <value>0.75</value>
                     <value>1</value>
                 </binding>
+                <mod-shift>
+                    <binding>
+                        <command>property-cycle</command>
+                        <property>controls/flight/speedbrake-lever</property>
+                        <value>1</value>
+                        <value>0.75</value>
+                        <value>0.5</value>
+                        <value>0.25</value>
+                        <value>0</value>
+                    </binding>
+                </mod-shift>
             </key>
             <key n="61">
                 <name>=</name>

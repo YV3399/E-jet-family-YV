@@ -51,6 +51,60 @@ var setupViewKeys = func () {
         bindingNode.setValue('value', viewNum);
         bindingNode.setValue('condition/not/property', '/options/system/keyboard-mode');
     }
-}
+};
+
+var setupMCDUKeys = func () {
+    var ordA = utf8.strc('a', 0);
+    var ordZ = utf8.strc('z', 0);
+    var ord0 = utf8.strc('0', 0);
+    var ord9 = utf8.strc('9', 0);
+    var ordDot = utf8.strc('.', 0);
+    var ordSlash = utf8.strc('/', 0);
+    var ordDash = utf8.strc('-', 0);
+    var ordSpace = utf8.strc(' ', 0);
+
+    var registerKey = func (key, cmd) {
+        # First, establish a <key> node with the right key number.
+        var keyNode = props.globals.getNode('/input/keyboard/key[' ~ key ~ ']');
+        if (keyNode == nil) {
+            keyNode = props.globals.getNode('/input/keyboard').addChild('key', key, 0);
+            keyNode.setValue('name', 'MCDU ' ~ cmd);
+        }
+
+        # Now walk the existing bindings, if any, so they only fire when
+        # keyboard mode is enabled.
+        var existingBindings = keyNode.getChildren('binding');
+        foreach (var existingBinding; existingBindings) {
+            var existingConditionNode = existingBinding.getChild('condition');
+            if (existingConditionNode == nil) {
+                existingConditionNode = existingBinding.addChild('condition');
+            }
+            var equalsNode = existingConditionNode.addChild('equals');
+            equalsNode.setValue('property', '/controls/keyboard/grabbed');
+            equalsNode.setValue('value', -1);
+        }
+
+        # And now we append our own bindings.
+        for (var i = 0; i < 2; i += 1) {
+            var bindingNode = keyNode.addChild('binding');
+            bindingNode.setValue('command', 'property-assign');
+            bindingNode.setValue('property', '/instrumentation/mcdu[' ~ i ~ ']/command');
+            bindingNode.setValue('value', cmd);
+            var equalsNode = bindingNode.addChild('condition').addChild('equals');
+            equalsNode.setValue('property', '/controls/keyboard/grabbed');
+            equalsNode.setValue('value', i);
+        }
+    };
+
+    for (var key = ordA; key <= ordZ; key += 1) { registerKey(key, string.uc(chr(key))); }
+    for (var key = ord0; key <= ord9; key += 1) { registerKey(key, chr(key)); }
+    registerKey(ordDot, '.');
+    registerKey(ordSlash, '/');
+    registerKey(ordDash, '-');
+    registerKey(ordSpace, 'SP');
+    registerKey(127, 'DEL');
+    registerKey(8, 'CLR');
+};
 
 setupViewKeys();
+setupMCDUKeys();

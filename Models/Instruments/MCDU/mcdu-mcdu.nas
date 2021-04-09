@@ -9,6 +9,7 @@ var MCDU = {
             display: nil,
             scratchpad: "",
             scratchpadElem: nil,
+            scratchpadBorderElem: nil,
             scratchpadMsg: "",
             scratchpadMsgColor: mcdu_white,
             dividers: [],
@@ -23,7 +24,24 @@ var MCDU = {
         setlistener("/instrumentation/mcdu[" ~ n ~ "]/command", func () {
             m.handleCommand();
         });
+        setlistener("/controls/keyboard/grabbed", func (node) {
+            var have = (node.getValue() == n);
+            if (have) {
+                m.handleKeyboardGrab();
+            }
+            else {
+                m.handleKeyboardRelease();
+            }
+        }, 1, 0);
         return m;
+    },
+
+    handleKeyboardGrab: func () {
+        me.scratchpadBorderElem.show();
+    },
+
+    handleKeyboardRelease: func () {
+        me.scratchpadBorderElem.hide();
     },
 
     powerOn: func () {
@@ -361,6 +379,12 @@ var MCDU = {
 
         me.repaintScreen();
 
+        me.scratchpadBorderElem = me.g.createChild("path", "scratchpad-border");
+        me.scratchpadBorderElem.setColor(0, 1, 1);
+        me.scratchpadBorderElem.setColorFill(0, 0.2, 0.2);
+        me.scratchpadBorderElem.rect(
+            margin_left - 1, cells_y * cell_h + margin_top + 5, 
+            512 - 2 * margin_left + 2, cell_h + 2 - 5);
         me.scratchpadElem = me.g.createChild("text", "scratchpad");
         me.scratchpadElem.setText("");
         me.scratchpadElem.setFontSize(font_size_large);

@@ -1060,10 +1060,18 @@
     <action>
         <button>0</button>
         <repeatable>false</repeatable>
+        <!--
         <binding>
             <command>property-assign</command>
             <property alias="../../../../params/command-target" />
             <value>EASTEREGG</value>
+        </binding>
+        -->
+        <binding>
+            <command>property-cycle</command>
+            <property>/controls/keyboard/grabbed</property>
+            <value alias="../../../../params/index" />
+            <value>-1</value>
         </binding>
     </action>
 </animation>
