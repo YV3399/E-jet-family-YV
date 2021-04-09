@@ -27,7 +27,7 @@ var setupViewKeys = func () {
         # First, establish a <key> node with the right key number.
         var keyNode = props.globals.getNode('/input/keyboard/key[' ~ key ~ ']');
         if (keyNode == nil) {
-            keyNode = props.globals.getNode('/input/keyboard').addChild('key', key);
+            keyNode = props.globals.getNode('/input/keyboard').addChild('key', key, 0);
             keyNode.setValue('name', binding.name);
         }
 
