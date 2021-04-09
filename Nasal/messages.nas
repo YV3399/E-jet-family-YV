@@ -61,12 +61,12 @@ var clearMessage = func (level, text, priority) {
             }
         }
     }
-    if (!blinking[MSG_WARNING]) {
-        masterWarningProp.setBoolValue(0);
-    }
-    if (!blinking[MSG_CAUTION]) {
-        masterCautionProp.setBoolValue(0);
-    }
+    # if (!blinking[MSG_WARNING]) {
+    #     masterWarningProp.setBoolValue(0);
+    # }
+    # if (!blinking[MSG_CAUTION]) {
+    #     masterCautionProp.setBoolValue(0);
+    # }
     messages = newMessages;
     raiseSignal();
 };

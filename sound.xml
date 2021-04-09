@@ -1053,7 +1053,7 @@
         <ap-disconnect>
             <name>AP Disconnect</name>
             <mode>once</mode>
-            <path>Aircraft/E-jet-family/Sounds/Apdisco.wav</path>
+            <path>Aircraft/E-jet-family/Sounds/APdisco.wav</path>
             <condition>
                 <property>/it-autoflight/sound/apoffsound</property>
             </condition>
@@ -1065,7 +1065,7 @@
         <ap-disconnect>
             <name>AP Disconnect 2</name>
             <mode>once</mode>
-            <path>Aircraft/E-jet-family/Sounds/Apdisco.wav</path>
+            <path>Aircraft/E-jet-family/Sounds/APdisco.wav</path>
             <condition>
                 <property>/it-autoflight/sound/apoffsound2</property>
             </condition>
