@@ -64,6 +64,7 @@
             <path>/sim/simbrief/options/import-fob</path>
             <path>/sim/simbrief/options/import-perfinit</path>
             <path>/sim/simbrief/options/import-winds-aloft</path>
+            <path>/options/system/keyboard-mode</path>
             <path>/instrumentation/efb/available</path>
             <path>/instrumentation/efb/brightness</path>
             <path>/instrumentation/efb/flightbag-companion-uri</path>
@@ -646,10 +647,13 @@
                 <string alias="/sim/multiplay/callsign"/>
             </generic>
         </multiplay>
-
-
-
     </sim>
+
+    <options>
+        <system>
+            <keyboard-mode type="bool" userarchive="y">0</keyboard-mode>
+        </system>
+    </options>
 
 
     <it-autoflight>
@@ -2019,117 +2023,6 @@
 
     <input>
         <keyboard>
-            <!--
-			<key n="96">
-				<name>`</name>
-				<desc>Electronic Flight Bag View</desc>
-				<binding>
-					<condition>
-						<not><property>/options/system/keyboard-mode</property></not>
-					</condition>
-					<command>property-assign</command>
-					<property>/sim/current-view/view-number</property>
-					<value>17</value>
-				</binding>
-			</key>
-			<key n="49">
-				<name>1</name>
-				<desc>Captain View</desc>
-				<binding>
-					<condition>
-						<not><property>/options/system/keyboard-mode</property></not>
-					</condition>
-					<command>property-assign</command>
-					<property>/sim/current-view/view-number</property>
-					<value>0</value>
-				</binding>
-			</key>
-			<key n="50">
-				<name>2</name>
-				<desc>First Officer View</desc>
-				<binding>
-					<condition>
-						<not><property>/options/system/keyboard-mode</property></not>
-					</condition>
-					<command>property-assign</command>
-					<property>/sim/current-view/view-number</property>
-					<value>11</value>
-				</binding>
-			</key>
-			<key n="51">
-				<name>3</name>
-				<desc>Overhead Panel View</desc>
-				<binding>
-					<condition>
-						<not><property>/options/system/keyboard-mode</property></not>
-					</condition>
-					<command>property-assign</command>
-					<property>/sim/current-view/view-number</property>
-					<value>13</value>
-				</binding>
-			</key>
-			<key n="52">
-				<name>4</name>
-				<desc>Glareshield View</desc>
-				<binding>
-					<condition>
-						<not><property>/options/system/keyboard-mode</property></not>
-					</condition>
-					<command>property-assign</command>
-					<property>/sim/current-view/view-number</property>
-					<value>14</value>
-				</binding>
-			</key>
-			<key n="53">
-				<name>5</name>
-				<desc>MCDU View</desc>
-				<binding>
-					<condition>
-						<not><property>/options/system/keyboard-mode</property></not>
-					</condition>
-					<command>property-assign</command>
-					<property>/sim/current-view/view-number</property>
-					<value>15</value>
-				</binding>
-			</key>
-			<key n="54">
-				<name>6</name>
-				<desc>Center Pedestal View</desc>
-				<binding>
-					<condition>
-						<not><property>/options/system/keyboard-mode</property></not>
-					</condition>
-					<command>property-assign</command>
-					<property>/sim/current-view/view-number</property>
-					<value>16</value>
-				</binding>
-			</key>
-			<key n="55">
-				<name>7</name>
-				<desc>Helicopter View</desc>
-				<binding>
-					<condition>
-						<not><property>/options/system/keyboard-mode</property></not>
-					</condition>
-					<command>property-assign</command>
-					<property>/sim/current-view/view-number</property>
-					<value>1</value>
-				</binding>
-			</key>
-			<key n="56">
-				<name>8</name>
-				<desc>Tower AGL View</desc>
-				<binding>
-					<condition>
-						<not><property>/options/system/keyboard-mode</property></not>
-					</condition>
-					<command>property-assign</command>
-					<property>/sim/current-view/view-number</property>
-					<value>7</value>
-				</binding>
-			</key>
-            -->
-
             <key n="127">
                 <name>Delete</name>
                 <desc>Toggle thrust reversers</desc>
