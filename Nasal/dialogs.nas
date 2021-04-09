@@ -15,6 +15,7 @@ var Dialogs = {
     pfd2: gui.Dialog.new("sim/gui/dialogs/pfd2/dialog", dialogs_path~"pfd2-dlg.xml"),
     mfd1: gui.Dialog.new("sim/gui/dialogs/mfd1/dialog", dialogs_path~"mfd1-dlg.xml"),
     mfd2: gui.Dialog.new("sim/gui/dialogs/mfd2/dialog", dialogs_path~"mfd2-dlg.xml"),
+    eicas: gui.Dialog.new("sim/gui/dialogs/eicas/dialog", dialogs_path~"eicas-dlg.xml"),
     simbrief: gui.Dialog.new("sim/gui/dialogs/simbrief/dialog", dialogs_path~"simbrief.xml"),
 };
 

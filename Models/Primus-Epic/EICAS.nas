@@ -71,6 +71,9 @@ var canvas_ED_only = {
 
 
 		canvas.parsesvg(canvas_group, file, {'font-mapper': font_mapper});
+        setlistener("/systems/electrical/outputs/eicas", func (node) {
+            canvas_group.setVisible(node.getValue() > 18);
+        }, 1, 0);
 
 		 var svg_keys = me.getKeys();
 		 

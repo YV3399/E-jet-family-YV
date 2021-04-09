@@ -445,6 +445,14 @@
                         </binding>
                     </item>
                     <item>
+                        <name>eicas</name>
+                        <label>EICAS</label>
+                        <binding>
+                            <command>dialog-show</command>
+                            <dialog-name>eicas</dialog-name>
+                        </binding>
+                    </item>
+                    <item>
                         <name>mcdu1</name>
                         <label>MCDU 1</label>
                         <binding>
