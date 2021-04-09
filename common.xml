@@ -2019,6 +2019,7 @@
 
     <input>
         <keyboard>
+            <!--
 			<key n="96">
 				<name>`</name>
 				<desc>Electronic Flight Bag View</desc>
@@ -2127,6 +2128,7 @@
 					<value>7</value>
 				</binding>
 			</key>
+            -->
 
             <key n="127">
                 <name>Delete</name>
