@@ -1,0 +1,394 @@
+<PropertyList>
+    <!-- General conditions -->
+    <logic>
+        <output>/autopilot/autoland/conditions/app-btn</output>
+        <input>
+            <or>
+                <property>it-autoflight/output/appr-armed</property>
+                <equals>
+                    <property>it-autoflight/mode/lat</property>
+                    <value>LOC</value>
+                </equals>
+            </or>
+        </input>
+    </logic>
+    <logic>
+        <output>/autopilot/autoland/conditions/alt1500</output>
+        <input>
+            <less-than>
+                <property>/position/gear-agl-ft</property>
+                <value>1500</value>
+            </less-than>
+        </input>
+    </logic>
+    <logic>
+        <output>/autopilot/autoland/conditions/alt800</output>
+        <input>
+            <less-than>
+                <property>/position/gear-agl-ft</property>
+                <value>800</value>
+            </less-than>
+        </input>
+    </logic>
+
+    <!-- APPR1 conditions -->
+    <logic>
+        <output>/autopilot/autoland/conditions/appr1/ra-baro</output>
+
+        <input>
+            <or>
+                <!-- Capt side active -->
+                <and>
+                    <equals>
+                        <property>/controls/flight/nav-src/side</property>
+                        <value>0</value>
+                    </equals>
+                    <equals>
+                        <property>/instrumentation/pfd[0]/minimums-mode</property>
+                        <value>1</value>
+                    </equals>
+                </and>
+                <!-- FO side active -->
+                <and>
+                    <equals>
+                        <property>/controls/flight/nav-src/side</property>
+                        <value>1</value>
+                    </equals>
+                    <equals>
+                        <property>/instrumentation/pfd[1]/minimums-mode</property>
+                        <value>1</value>
+                    </equals>
+                </and>
+            </or>
+        </input>
+    </logic>
+
+    <logic>
+        <output>/autopilot/autoland/conditions/appr1/nav-freq</output>
+
+        <input>
+            <or>
+                <!-- Capt side active -->
+                <and>
+                    <equals>
+                        <property>/controls/flight/nav-src/side</property>
+                        <value>0</value>
+                    </equals>
+                    <or>
+                        <and>
+                            <equals>
+                                <property>/instrumentation/pfd[0]/nav/course-source</property>
+                                <value>1</value>
+                            </equals>
+                            <equals>
+                                <property>/instrumentation/nav[0]/frequencies/selected-mhz</property>
+                                <property>/fms/radio/destination-ils-mhz</property>
+                            </equals>
+                        </and>
+                        <and>
+                            <equals>
+                                <property>/instrumentation/pfd[0]/nav/course-source</property>
+                                <value>2</value>
+                            </equals>
+                            <equals>
+                                <property>/instrumentation/nav[1]/frequencies/selected-mhz</property>
+                                <property>/fms/radio/destination-ils-mhz</property>
+                            </equals>
+                        </and>
+                    </or>
+                </and>
+                <!-- FO side active -->
+                <and>
+                    <equals>
+                        <property>/controls/flight/nav-src/side</property>
+                        <value>1</value>
+                    </equals>
+                    <or>
+                        <and>
+                            <equals>
+                                <property>/instrumentation/pfd[1]/nav/course-source</property>
+                                <value>1</value>
+                            </equals>
+                            <equals>
+                                <property>/instrumentation/nav[0]/frequencies/selected-mhz</property>
+                                <property>/fms/radio/destination-ils-mhz</property>
+                            </equals>
+                        </and>
+                        <and>
+                            <equals>
+                                <property>/instrumentation/pfd[1]/nav/course-source</property>
+                                <value>2</value>
+                            </equals>
+                            <equals>
+                                <property>/instrumentation/nav[1]/frequencies/selected-mhz</property>
+                                <property>/fms/radio/destination-ils-mhz</property>
+                            </equals>
+                        </and>
+                    </or>
+                </and>
+            </or>
+        </input>
+    </logic>
+
+    <logic>
+        <output>/autopilot/autoland/conditions/appr1/available</output>
+        <input>
+            <property>/autopilot/autoland/conditions/appr1/nav-freq</property>
+        </input>
+    </logic>
+
+    <!-- APPR2 conditions -->
+    <!-- RA/BARO set to RA -->
+    <logic>
+        <output>/autopilot/autoland/conditions/appr2/ra-baro[0]</output>
+
+        <input>
+            <equals>
+                <property>/instrumentation/pfd[0]/minimums-mode</property>
+                <value>0</value>
+            </equals>
+        </input>
+    </logic>
+    <logic>
+        <output>/autopilot/autoland/conditions/appr2/ra-baro[1]</output>
+
+        <input>
+            <equals>
+                <property>/instrumentation/pfd[1]/minimums-mode</property>
+                <value>0</value>
+            </equals>
+        </input>
+    </logic>
+
+    <!-- NAV frequencies set to the correct source and freq -->
+    <logic>
+        <output>/autopilot/autoland/conditions/appr2/nav-freq[0]</output>
+
+        <input>
+            <equals>
+                <property>/instrumentation/pfd[0]/nav/course-source</property>
+                <value>1</value>
+            </equals>
+            <equals>
+                <property>/instrumentation/nav[0]/frequencies/selected-mhz</property>
+                <property>/fms/radio/destination-ils-mhz</property>
+            </equals>
+        </input>
+    </logic>
+    <logic>
+        <output>/autopilot/autoland/conditions/appr2/nav-freq[1]</output>
+
+        <input>
+            <equals>
+                <property>/instrumentation/pfd[1]/nav/course-source</property>
+                <value>2</value>
+            </equals>
+            <equals>
+                <property>/instrumentation/nav[1]/frequencies/selected-mhz</property>
+                <property>/fms/radio/destination-ils-mhz</property>
+            </equals>
+        </input>
+    </logic>
+    <logic>
+        <output>/autopilot/autoland/conditions/appr2/ra-match</output>
+        <input>
+            <equals>
+                <property>/instrumentation/pfd[0]/minimums-radio</property>
+                <property>/instrumentation/pfd[1]/minimums-radio</property>
+            </equals>
+        </input>
+    </logic>
+
+    <!-- Flaps 5 selected -->
+    <logic>
+        <output>/autopilot/autoland/conditions/appr2/flaps5</output>
+
+        <input>
+            <equals>
+                <property>/controls/flight/flaps</property>
+                <value>0.625</value>
+            </equals>
+        </input>
+    </logic>
+
+    <logic>
+        <output>/autopilot/autoland/conditions/appr2/available-arm</output>
+        <input>
+            <property>/autopilot/autoland/conditions/appr2/ra-baro[0]</property>
+            <property>/autopilot/autoland/conditions/appr2/ra-baro[1]</property>
+            <property>/autopilot/autoland/conditions/appr2/ra-match</property>
+            <property>/autopilot/autoland/conditions/appr2/nav-freq[0]</property>
+            <property>/autopilot/autoland/conditions/appr2/nav-freq[1]</property>
+        </input>
+    </logic>
+
+    <logic>
+        <output>/autopilot/autoland/conditions/appr2/available</output>
+        <input>
+            <property>/autopilot/autoland/conditions/appr2/available-arm</property>
+            <property>/autopilot/autoland/conditions/appr2/flaps5</property>
+        </input>
+    </logic>
+
+    <!-- Mode selection logic -->
+    <filter>
+        <type>gain</type>
+        <gain>1</gain>
+        <output>/autopilot/autoland/mode</output>
+        <enable>
+            <condition>
+                <or>
+                    <!-- upgrades possible above 800 ft -->
+                    <not>
+                        <property>/autopilot/autoland/conditions/alt800</property>
+                    </not>
+
+                    <!-- can always cancel approach mode entirely -->
+                    <not>
+                        <property>/autopilot/autoland/conditions/app-btn</property>
+                    </not>
+
+                    <!-- upon reaching 800 ft with APPR2 armed, but flaps 5 not
+                         selected, downgrade to APPR1 ONLY. -->
+                    <and>
+                        <property>/autopilot/autoland/conditions/alt800</property>
+                        <not>
+                            <property>/autopilot/autoland/conditions/appr2/available</property>
+                        </not>
+                        <equals>
+                            <property>/autopilot/autoland/mode</property>
+                            <value>3</value>
+                        </equals>
+                    </and>
+                </or>
+            </condition>
+        </enable>
+        <input>
+            <!-- APP button not active -> disarm & disengage everything. -->
+            <condition>
+                <not>
+                    <property>/autopilot/autoland/conditions/app-btn</property>
+                </not>
+            </condition>
+            <value>0</value>
+        </input>
+        <input>
+            <!-- APPR2 conditions met above 800 ft -> engage or arm APPR2 -->
+            <condition>
+                <property>/autopilot/autoland/conditions/appr2/available</property>
+            </condition>
+            <value>3</value>
+        </input>
+        <input>
+            <!-- APPR2 conditions except flaps 5 met above 800 ft -> arm APPR2 -->
+            <condition>
+                <property>/autopilot/autoland/conditions/appr2/available-arm</property>
+                <not>
+                    <property>/autopilot/autoland/conditions/alt800</property>
+                </not>
+            </condition>
+            <value>3</value>
+        </input>
+        <input>
+            <!-- BARO selected, and APPR1 conditions met -> arm/engage APPR1 -->
+            <condition>
+                <property>/autopilot/autoland/conditions/appr1/available</property>
+                <property>/autopilot/autoland/conditions/appr1/ra-baro</property>
+            </condition>
+            <value>1</value>
+        </input>
+        <input>
+            <!-- RA selected, and APPR1 conditions met -> arm/engage APPR1 ONLY -->
+            <condition>
+                <property>/autopilot/autoland/conditions/appr1/available</property>
+            </condition>
+            <value>2</value>
+        </input>
+        <input>
+            <!-- No APPR conditions met -> don't arm anything -->
+            <value>0</value>
+        </input>
+    </filter>
+
+    <logic>
+        <output>/autopilot/autoland/engaged</output>
+        <input>
+            <!-- never engage anything below 1500 -->
+            <property>/autopilot/autoland/conditions/alt1500</property>
+
+            <or>
+                <!-- APPR2 armed and available -->
+                <and>
+                    <equals>
+                        <property>/autopilot/autoland/mode</property>
+                        <value>3</value>
+                    </equals>
+                    <property>/autopilot/autoland/conditions/appr2/available</property>
+                </and>
+                <!-- APPR1 ONLY armed and available -->
+                <and>
+                    <equals>
+                        <property>/autopilot/autoland/mode</property>
+                        <value>2</value>
+                    </equals>
+                    <property>/autopilot/autoland/conditions/appr1/available</property>
+                </and>
+                <!-- APPR1 armed and available -->
+                <and>
+                    <equals>
+                        <property>/autopilot/autoland/mode</property>
+                        <value>1</value>
+                    </equals>
+                    <property>/autopilot/autoland/conditions/appr1/available</property>
+                </and>
+            </or>
+        </input>
+    </logic>
+
+    <filter>
+        <type>gain</type>
+        <gain>1</gain>
+        <output>/autopilot/autoland/armed-mode</output>
+        <input>
+            <condition>
+                <property>/autopilot/autoland/engaged</property>
+            </condition>
+            <value>0</value>
+        </input>
+        <input>
+            <property>/autopilot/autoland/mode</property>
+        </input>
+    </filter>
+
+    <filter>
+        <type>gain</type>
+        <gain>1</gain>
+        <output>/autopilot/autoland/engaged-mode</output>
+        <input>
+            <condition>
+                <property>/autopilot/autoland/engaged</property>
+            </condition>
+            <property>/autopilot/autoland/mode</property>
+        </input>
+        <input>
+            <value>0</value>
+        </input>
+    </filter>
+
+    <filter>
+        <type>gain</type>
+        <gain>1</gain>
+        <output>/it-autoflight/settings/land-enable</output>
+        <output>/it-autoflight/settings/retard-enable</output>
+        <input>
+            <condition>
+                <equals>
+                    <property>/autopilot/autoland/engaged-mode</property>
+                    <value>3</value>
+                </equals>
+            </condition>
+            <value>1</value>
+        </input>
+    </filter>
+
+</PropertyList>

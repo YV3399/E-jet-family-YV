@@ -174,6 +174,8 @@ var canvas_ED_only = {
         m.props["/autopilot/route-manager/wp/dist"] = props.globals.getNode("/autopilot/route-manager/wp/dist");
         m.props["/autopilot/route-manager/wp/eta-seconds"] = props.globals.getNode("/autopilot/route-manager/wp/eta-seconds");
         m.props["/autopilot/route-manager/wp/id"] = props.globals.getNode("/autopilot/route-manager/wp/id");
+        m.props["/autopilot/autoland/armed-mode"] = props.globals.getNode("/autopilot/autoland/armed-mode");
+        m.props["/autopilot/autoland/engaged-mode"] = props.globals.getNode("/autopilot/autoland/engaged-mode");
         m.props["/controls/flight/flaps"] = props.globals.getNode("/controls/flight/flaps");
         m.props["/controls/flight/nav-src/side"] = props.globals.getNode("/controls/flight/nav-src/side");
         m.props["/controls/flight/selected-alt"] = props.globals.getNode("/controls/flight/selected-alt");
@@ -883,21 +885,52 @@ var canvas_ED_only = {
                     spdMinorModeArmedMap[self.props["/it-autoflight/mode/thr"].getValue() or ""] or
                     " ");
         };
-        var updateApprArmed = func {
-            if (self.props["/it-autoflight/output/appr-armed"].getValue() or
-                self.props["/it-autoflight/mode/lat"].getValue() == "LOC") {
-                self["fma.apprarmed"].show();
-                var radarAlt = me.props["/position/gear-agl-ft"].getValue() or 0.0;
-                if (radarAlt <= 1500) {
-                    self["fma.appr"].show();
-                }
-                else {
-                    self["fma.appr"].hide();
-                }
+        var updateApprArmed = func (node) {
+            var mode = node.getValue();
+            if (mode == 1) {
+                # APPR1
+                self["fma.apprarmed"].setColor(1, 1, 1)
+                                     .setText("APPR1")
+                                     .show();
+            }
+            else if (mode == 2) {
+                # APPR1 ONLY
+                self["fma.apprarmed"].setColor(1, 0.5, 0)
+                                     .setText("APPR1 ONLY")
+                                     .show();
+            }
+            else if (mode == 3) {
+                # APPR1 ONLY
+                self["fma.apprarmed"].setColor(1, 1, 1)
+                                     .setText("APPR2")
+                                     .show();
+            }
+            else {
+                self["fma.apprarmed"].hide();
+            }
+        };
+        var updateApprEngaged = func (node) {
+            var mode = node.getValue();
+            if (mode == 1) {
+                # APPR1
+                self["fma.appr"].setColor(0, 1, 0)
+                                     .setText("APPR1")
+                                     .show();
+            }
+            else if (mode == 2) {
+                # APPR1 ONLY
+                self["fma.appr"].setColor(0, 1, 0)
+                                     .setText("APPR1")
+                                     .show();
+            }
+            else if (mode == 3) {
+                # APPR1 ONLY
+                self["fma.appr"].setColor(0, 1, 0)
+                                     .setText("APPR2")
+                                     .show();
             }
             else {
                 self["fma.appr"].hide();
-                self["fma.apprarmed"].hide();
             }
         };
         var updateSelectedVSpeed = func {
@@ -928,7 +961,6 @@ var canvas_ED_only = {
         setlistener(self.props["/instrumentation/pfd/ils/has-loc"], updateFMALat, 1, 0);
         setlistener(self.props["/it-autoflight/mode/lat"], func {
             updateFMALat();
-            updateApprArmed();
         }, 1, 0);
         setlistener(self.props["/it-autoflight/mode/arm"], updateFMALat, 1, 0);
         setlistener(self.props["/it-autoflight/output/lnav-armed"], updateFMALat, 1, 0);
@@ -940,7 +972,8 @@ var canvas_ED_only = {
                 updateFMALat();
             }, 1, 0);
 
-        setlistener(self.props["/it-autoflight/output/appr-armed"], updateApprArmed, 1, 0);
+        setlistener(self.props["/autopilot/autoland/armed-mode"], updateApprArmed, 1, 0);
+        setlistener(self.props["/autopilot/autoland/engaged-mode"], updateApprEngaged, 1, 0);
 
         var updateSelectedSpeed = func {
             if (self.props["/it-autoflight/input/kts-mach"].getValue()) {

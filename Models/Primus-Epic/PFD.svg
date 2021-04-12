@@ -171,17 +171,17 @@
      borderopacity="1.0"
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
-     inkscape:zoom="2"
-     inkscape:cx="1047.7704"
-     inkscape:cy="1114.8636"
+     inkscape:zoom="0.70710678"
+     inkscape:cx="1063.5446"
+     inkscape:cy="1100.7603"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
      units="px"
-     inkscape:window-width="1440"
-     inkscape:window-height="886"
-     inkscape:window-x="0"
-     inkscape:window-y="14"
+     inkscape:window-width="1920"
+     inkscape:window-height="1080"
+     inkscape:window-x="1440"
+     inkscape:window-y="0"
      inkscape:window-maximized="0"
      showguides="true"
      inkscape:guide-bbox="true"
@@ -2465,15 +2465,15 @@
          y="111.71259"
          style="font-size:42.66666794px;line-height:0px;stroke-width:1.00001001px">SPD</tspan></text>
     <text
-       style="font-style:normal;font-weight:normal;font-size:42.66666794px;line-height:0px;font-family:E190;letter-spacing:0px;word-spacing:0px;fill:#00ff00;fill-opacity:1;stroke:none;stroke-width:1.00002003px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       x="535.46997"
+       style="font-style:normal;font-weight:normal;font-size:42.66666794px;line-height:0px;font-family:E190;text-align:end;letter-spacing:0px;word-spacing:0px;text-anchor:end;fill:#00ff00;fill-opacity:1;stroke:none;stroke-width:1.00002003px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="730.84033"
        y="51.973"
        id="fma.appr"><tspan
          sodipodi:role="line"
          id="tspan4714"
-         x="535.46997"
+         x="730.84033"
          y="51.973"
-         style="font-size:42.66666794px;line-height:0px;stroke-width:1.00002003px">APPR2</tspan></text>
+         style="font-size:42.66666794px;line-height:0px;text-align:end;text-anchor:end;stroke-width:1.00002003px">APPR2</tspan></text>
     <text
        id="fma.lat"
        y="111.71259"
@@ -4014,13 +4014,13 @@
     <text
        id="fma.apprarmed"
        y="51.973"
-       x="272.70001"
+       x="216.70001"
        style="font-style:normal;font-weight:normal;font-size:42.66666794px;line-height:0px;font-family:E190;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1.00002003px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"><tspan
          style="font-size:42.66666794px;line-height:0px;fill:#ffffff;stroke-width:1.00002003px"
          y="51.973"
-         x="272.70001"
+         x="216.70001"
          id="tspan1469"
-         sodipodi:role="line">APPR2</tspan></text>
+         sodipodi:role="line">APPR1 ONLY</tspan></text>
     <path
        style="color:#000000;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:medium;line-height:normal;font-family:E190;font-variant-ligatures:normal;font-variant-position:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-alternates:normal;font-feature-settings:normal;text-indent:0;text-align:start;text-decoration:none;text-decoration-line:none;text-decoration-style:solid;text-decoration-color:#000000;letter-spacing:normal;word-spacing:normal;text-transform:none;writing-mode:lr-tb;direction:ltr;text-orientation:mixed;dominant-baseline:auto;baseline-shift:baseline;text-anchor:start;white-space:normal;shape-padding:0;clip-rule:nonzero;display:inline;overflow:visible;visibility:visible;opacity:1;isolation:auto;mix-blend-mode:normal;color-interpolation:sRGB;color-interpolation-filters:linearRGB;solid-color:#000000;solid-opacity:1;vector-effect:none;fill:#00c0ff;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:3;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;color-rendering:auto;image-rendering:auto;shape-rendering:auto;text-rendering:auto;enable-background:accumulate"
        d="m 472.16,919.19 v 82.21 c -7.64,0.8 -13.65,7.3 -13.65,15.1 0,8.3 6.8,15.1 15.14,15.1 8.34,0 15.14,-6.8 15.14,-15.1 0,-7.8 -5.99,-14.3 -13.63,-15.1 v -82.21 z m 1.49,85.21 c 6.72,0 12.14,5.4 12.14,12.1 0,6.7 -5.42,12.1 -12.14,12.1 -6.72,0 -12.14,-5.4 -12.14,-12.1 0,-6.7 5.42,-12.1 12.14,-12.1 z m -1.49,194.6 v 69.7 h 3 V 1199 Z"

@@ -124,6 +124,10 @@
                 <path>Aircraft/E-jet-family/Systems/autobrake.xml</path>
             </autopilot>
             <autopilot>
+                <name>Autoland</name>
+                <path>Aircraft/E-jet-family/Systems/autoland.xml</path>
+            </autopilot>
+            <autopilot>
                 <name>Trust Rating System</name>
                 <path>Aircraft/E-jet-family/Systems/trs.xml</path>
             </autopilot>
@@ -846,6 +850,58 @@
         <autoflight-serviceable type="bool">true</autoflight-serviceable>
         <autothrottle-serviceable type="bool">true</autothrottle-serviceable>
         <yaw-damper-serviceable type="bool">true</yaw-damper-serviceable>
+        <autoland>
+            <!-- p. 1464 -->
+            <!-- 0 = none
+                 1 = ARM APPR 1
+                 2 = ARM APPR 1 ONLY
+                 3 = ARM APPR 2
+             -->
+
+            <!-- actual mode -->
+            <mode type="int">0</mode>
+            <engaged type="bool">false</engaged>
+
+            <armed-mode type="int">0</armed-mode>
+            <engaged-mode type="int">0</engaged-mode>
+
+            <conditions>
+                <!-- start arming when APP button pressed -->
+                <app-btn type="bool">false</app-btn>
+                <!-- start engaging highest possible APPR mode from here -->
+                <alt1500 type="bool">false</alt1500>
+                <!-- freeze APPR mode from here -->
+                <alt800 type="bool">false</alt800>
+                <appr1>
+                    <!-- RA/BARO must be set to BARO -->
+                    <ra-baro type="bool">false</ra-baro>
+                    <!-- Correct ILS frequency must be set, and V/L or preview selected -->
+                    <nav-freq type="bool">false</nav-freq>
+
+                    <available type="bool">false</available>
+                </appr1>
+                <appr2>
+                    <!-- [0] = Capt side / [1] = FO side-->
+
+                    <!-- RA/BARO must be set to RA -->
+                    <ra-baro type="bool">false</ra-baro>
+                    <ra-baro type="bool">false</ra-baro>
+                    <ra-match type="bool">false</ra-match>
+
+                    <!-- Correct ILS frequency must be set, and on-side V/L or preview selected -->
+                    <nav-freq type="bool">false</nav-freq>
+                    <nav-freq type="bool">false</nav-freq>
+
+                    <flaps5 type="bool">false</flaps5>
+
+                    <!-- APPR 2 may arm -->
+                    <available-arm type="bool">false</available-arm>
+
+                    <!-- APPR 2 may engage -->
+                    <available type="bool">false</available>
+                </appr2>
+            </conditions>
+        </autoland>
     </autopilot>
 
     <fadec>
@@ -923,6 +979,7 @@
             <time-to-toc type="double">864000</time-to-toc>
         </vnav>
         <radio>
+            <destination-ils-mhz type="double">0</destination-ils-mhz>
             <nav-auto type="bool">false</nav-auto>
             <nav-auto type="bool">false</nav-auto>
             <tcas-xpdr>
