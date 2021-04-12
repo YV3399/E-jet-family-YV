@@ -57,8 +57,10 @@
 <li>Shift + scroll wheel: twist inner ring of CCD data entry knob.</li>
 </ul>
 <h2 id="startup-procedure">Startup Procedure</h2>
-<p>The E-Jet has a largely automatic engine start procedure, driven by the FADEC (Fully Autonomous Digital Engine Control). On the ground, there are several ways of starting the engines.</p>
+<p>The E-Jet has a largely automatic engine start procedure, driven by the FADEC (Fully Autonomous Digital Engine Control).</p>
+<p>On the ground, there are several ways of starting the engines; the engine start itself is the same, what differs is how we set up the aircraft to feed electricity, bleed air, and fuel to the engines so that they can start.</p>
 <h3 id="engine-start---ground-power-unit-gpu-connected">Engine Start - Ground Power Unit (GPU) Connected</h3>
+<p>This is the preferred method at airports that have ground power units available.</p>
 <ul>
 <li>GPU AC POWER - ON</li>
 <li>IDG 1 - AUTO</li>
@@ -86,6 +88,7 @@
 <li>GPU - DISCONNECT</li>
 </ul>
 <h3 id="engine-start---ground-power-unit-gpu-connected-single-engine-taxi">Engine Start - Ground Power Unit (GPU) Connected, Single-Engine Taxi</h3>
+<p>This procedure can be used if a lengthy taxi or hold on the ground is expected. Only the #1 engine is started at the gate, the #2 engine is started using cross-bleed from #1 just before takeoff.</p>
 <ul>
 <li>GPU AC POWER - ON</li>
 <li>IDG 1 - AUTO</li>
@@ -108,14 +111,15 @@
 </ul>
 <h4 id="before-takeoff">Before Takeoff</h4>
 <ul>
+<li>ENGINE 1 BLEED - ON</li>
 <li>ENGINE 2 IGNITION - AUTO</li>
 <li>ENGINE 2 STARTER - START</li>
 <li>ENGINE 2 N2 - &gt;50%</li>
 <li>ENGINE 2 STARTER - VERIFY ON</li>
-<li>ENGINE 1 BLEED - ON</li>
 <li>ENGINE 2 BLEED - ON</li>
 </ul>
 <h3 id="engine-start---ground-power-unit-gpu-not-connected">Engine Start - Ground Power Unit (GPU) Not Connected</h3>
+<p>Without ground power, we can use the APU to provide electricity and bleed air.</p>
 <ul>
 <li>IDG 1 - AUTO</li>
 <li>IDG 2 - AUTO</li>
@@ -147,6 +151,7 @@
 <li>APU - OFF</li>
 </ul>
 <h3 id="engine-start---ground-power-unit-gpu-not-connected-cross-bleed-start">Engine Start - Ground Power Unit (GPU) Not Connected, Cross-Bleed Start</h3>
+<p>An alternative method, starting the #1 engine using the APU, and then performing a cross-bleed start once #1 is running. This method can also be adapted for a single-engine taxi.</p>
 <ul>
 <li>IDG 1 - AUTO</li>
 <li>IDG 2 - AUTO</li>
@@ -266,6 +271,36 @@
 <li>When flaps are set during the approach phase, reduce speed for the next flap setting, down to final approach speed (Vref + 5 or Vref + 10).</li>
 <li>Speed restrictions in the flight plan overrule the above when they are lower (e.g., a speed restriction of 220 KIAS on the departure will prevent the aircraft from speeding up to 250 KIAS for the climb).</li>
 </ul>
+<h3 id="autoland">Autoland</h3>
+<p>All flavors of E-Jet in this package are equipped with CAT-II autoland.</p>
+<p>The aircraft has two precision approach modes: APPR1 (CAT-I ILS approach, manual landing), and APPR2 (CAT-II ILS approach, autoland). The BARO/RA knob on the active side selects the desired approach type: “BARO” for CAT-I, “RA” for CAT-II. Autoland is only possible when APPR2 has successfully engaged.</p>
+<p>Conditions for <em>arming APPR1</em>:</p>
+<ul>
+<li>Arrival runway configured as part of the current MCDU flightplan (NAV -&gt; ARRIVAL)</li>
+<li>Correct ILS frequency set on the selected NAV src on the active side</li>
+<li>APP mode armed or engaged</li>
+</ul>
+<p>Conditions for <em>arming APPR2</em>:</p>
+<ul>
+<li>BARO/RA set to “RA” on both PFD’s (Captain and FO)</li>
+<li>Same minimums altitude set on both PFD’s</li>
+<li>Arrival runway configured as part of the current MCDU flightplan</li>
+<li>Correct ILS frequency set on both NAV radios</li>
+<li>Captain’s NAV SRC set to NAV1</li>
+<li>FO’s NAV SRC set to NAV2</li>
+<li>APP mode armed or engaged</li>
+</ul>
+<p>The armed approach mode is annunciated on the PFD in white. If the BARO/RA knob on the active side is set to “BARO”, only APPR1 will arm, requiring a manual landing. If the BARO/RA knob on the active side is set to “RA”, but one or more of the other conditions are not met, an amber “APPR1 ONLY” annunciation displays, indicating that despite RA being selected, only APPR1 can be engaged.</p>
+<p>Below 1500 ft, the armed approach mode engages, producing a green annunciation. APPR2, however, can only be engaged if <strong>flaps 5</strong> is set. If all the conditions for APPR2 are met except flaps, the APPR2 mode will remain armed until flaps 5 is set, or the aircraft descends below 800 ft AGL.</p>
+<p>At 800 ft AGL, the best possible approach mode locks in and cannot be upgraded anymore. If at this point APPR2 was armed, but flaps 5 isn’t set, the approach downgrades to APPR1.</p>
+<p>Procedure for a CAT-II approach and autoland:</p>
+<p>DURING DESCENT: - ARRIVAL RUNWAY - CONFIGURED IN MCDU FPL - NAV1 FREQUENCY - SET TO ILS FREQUENCY - NAV2 FREQUENCY - SET TO ILS FREQUENCY - CAPTAIN’S NAV SRC - LOC1 OR FMS + PREVIEW LOC1 - FO’S NAV SRC - LOC2 OR FMS + PREVIEW LOC2 - BARO/RA - RA ON BOTH SIDES - MINIMUMS - SET AND MATCHING ON BOTH SIDES - ALTIMETERS - SET TO LOCAL QNH - AUTOBRAKE - AS NEEDED</p>
+<p>APPROACH: - APP MODE - ARM - APPR MODE ANNUNCIATION - VERIFY WHITE APPR2 - LOCALIZER - INTERCEPT - GLIDESLOPE - INTERCEPT</p>
+<p>AT 1500 FT: - APPR MODE ANNUNCIATION - VERIFY WHITE APPR2 - FLAPS - 5 - APPR MODE ANNUNCIATION - VERIFY GREEN APPR2</p>
+<p>AT 800 FT: - APPR MODE ANNUNCIATION - VERIFY GREEN APPR2</p>
+<p>TOUCHDOWN: - THROTTLE - VERIFY IDLE - REVERSERS - DEPLOY AS NEEDED - THROTTLE - REVERSE THRUST AS NEEDED - SPOILERS - VERIFY EXTENDED - AUTOPILOT - DISENGAGE</p>
+<p>60 KNOTS: - THROTTLE - IDLE - BRAKE - MANUALLY</p>
+<p>40 KNOTS: - REVERSERS - STOW</p>
 <h2 id="flight-controls">Flight Controls</h2>
 <h3 id="throttles">Throttles</h3>
 <p>The E-Jet family is equipped with a FADEC system and TRS (Thrust Rating System).</p>

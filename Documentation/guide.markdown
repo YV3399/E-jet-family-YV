@@ -115,10 +115,16 @@ mapping works as follows:
 ## Startup Procedure
 
 The E-Jet has a largely automatic engine start procedure, driven by the FADEC
-(Fully Autonomous Digital Engine Control). On the ground, there are several
-ways of starting the engines.
+(Fully Autonomous Digital Engine Control).
+
+On the ground, there are several ways of starting the engines; the engine
+start itself is the same, what differs is how we set up the aircraft to feed
+electricity, bleed air, and fuel to the engines so that they can start.
 
 ### Engine Start - Ground Power Unit (GPU) Connected
+
+This is the preferred method at airports that have ground power units
+available.
 
 - GPU AC POWER - ON
 - IDG 1 - AUTO
@@ -147,6 +153,10 @@ ways of starting the engines.
 
 ### Engine Start - Ground Power Unit (GPU) Connected, Single-Engine Taxi
 
+This procedure can be used if a lengthy taxi or hold on the ground is expected.
+Only the #1 engine is started at the gate, the #2 engine is started using
+cross-bleed from #1 just before takeoff.
+
 - GPU AC POWER - ON
 - IDG 1 - AUTO
 - IDG 2 - AUTO
@@ -168,14 +178,16 @@ ways of starting the engines.
 
 #### Before Takeoff
 
+- ENGINE 1 BLEED - ON
 - ENGINE 2 IGNITION - AUTO
 - ENGINE 2 STARTER - START
 - ENGINE 2 N2 - >50%
 - ENGINE 2 STARTER - VERIFY ON
-- ENGINE 1 BLEED - ON
 - ENGINE 2 BLEED - ON
 
 ### Engine Start - Ground Power Unit (GPU) Not Connected
+
+Without ground power, we can use the APU to provide electricity and bleed air.
 
 - IDG 1 - AUTO
 - IDG 2 - AUTO
@@ -207,6 +219,10 @@ ways of starting the engines.
 - APU - OFF
 
 ### Engine Start - Ground Power Unit (GPU) Not Connected, Cross-Bleed Start
+
+An alternative method, starting the #1 engine using the APU, and then
+performing a cross-bleed start once #1 is running. This method can also be
+adapted for a single-engine taxi.
 
 - IDG 1 - AUTO
 - IDG 2 - AUTO
@@ -443,6 +459,88 @@ Managed speed will use the following logic:
 - Speed restrictions in the flight plan overrule the above when they are lower
   (e.g., a speed restriction of 220 KIAS on the departure will prevent the
   aircraft from speeding up to 250 KIAS for the climb).
+
+### Autoland
+
+All flavors of E-Jet in this package are equipped with CAT-II autoland.
+
+The aircraft has two precision approach modes: APPR1 (CAT-I ILS approach,
+manual landing), and APPR2 (CAT-II ILS approach, autoland). The BARO/RA knob on
+the active side selects the desired approach type: "BARO" for CAT-I, "RA" for
+CAT-II. Autoland is only possible when APPR2 has successfully engaged.
+
+Conditions for *arming APPR1*:
+
+- Arrival runway configured as part of the current MCDU flightplan
+  (NAV -> ARRIVAL)
+- Correct ILS frequency set on the selected NAV src on the active side
+- APP mode armed or engaged
+
+Conditions for *arming APPR2*:
+
+- BARO/RA set to "RA" on both PFD's (Captain and FO)
+- Same minimums altitude set on both PFD's
+- Arrival runway configured as part of the current MCDU flightplan
+- Correct ILS frequency set on both NAV radios
+- Captain's NAV SRC set to NAV1
+- FO's NAV SRC set to NAV2
+- APP mode armed or engaged
+
+The armed approach mode is annunciated on the PFD in white. If the BARO/RA knob
+on the active side is set to "BARO", only APPR1 will arm, requiring a manual
+landing. If the BARO/RA knob on the active side is set to "RA", but one or more
+of the other conditions are not met, an amber "APPR1 ONLY" annunciation
+displays, indicating that despite RA being selected, only APPR1 can be engaged.
+
+Below 1500 ft, the armed approach mode engages, producing a green annunciation.
+APPR2, however, can only be engaged if **flaps 5** is set. If all the
+conditions for APPR2 are met except flaps, the APPR2 mode will remain armed
+until flaps 5 is set, or the aircraft descends below 800 ft AGL.
+
+At 800 ft AGL, the best possible approach mode locks in and cannot be upgraded
+anymore. If at this point APPR2 was armed, but flaps 5 isn't set, the approach
+downgrades to APPR1.
+
+Procedure for a CAT-II approach and autoland:
+
+DURING DESCENT:
+- ARRIVAL RUNWAY - CONFIGURED IN MCDU FPL
+- NAV1 FREQUENCY - SET TO ILS FREQUENCY
+- NAV2 FREQUENCY - SET TO ILS FREQUENCY
+- CAPTAIN'S NAV SRC - LOC1 OR FMS + PREVIEW LOC1
+- FO'S NAV SRC - LOC2 OR FMS + PREVIEW LOC2
+- BARO/RA - RA ON BOTH SIDES
+- MINIMUMS - SET AND MATCHING ON BOTH SIDES
+- ALTIMETERS - SET TO LOCAL QNH
+- AUTOBRAKE - AS NEEDED
+
+APPROACH:
+- APP MODE - ARM
+- APPR MODE ANNUNCIATION - VERIFY WHITE APPR2
+- LOCALIZER - INTERCEPT
+- GLIDESLOPE - INTERCEPT
+
+AT 1500 FT:
+- APPR MODE ANNUNCIATION - VERIFY WHITE APPR2
+- FLAPS - 5
+- APPR MODE ANNUNCIATION - VERIFY GREEN APPR2
+
+AT 800 FT:
+- APPR MODE ANNUNCIATION - VERIFY GREEN APPR2
+
+TOUCHDOWN:
+- THROTTLE - VERIFY IDLE
+- REVERSERS - DEPLOY AS NEEDED
+- THROTTLE - REVERSE THRUST AS NEEDED
+- SPOILERS - VERIFY EXTENDED
+- AUTOPILOT - DISENGAGE
+
+60 KNOTS:
+- THROTTLE - IDLE
+- BRAKE - MANUALLY
+
+40 KNOTS:
+- REVERSERS - STOW
 
 ## Flight Controls
 
