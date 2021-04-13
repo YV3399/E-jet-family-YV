@@ -247,6 +247,8 @@ var canvas_ED_only = {
         m.props["/instrumentation/pfd/airspeed-lookahead-10s"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/airspeed-lookahead-10s");
         m.props["/instrumentation/pfd/asi-10"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/asi-10");
         m.props["/instrumentation/pfd/asi-100"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/asi-100");
+        m.props["/instrumentation/pfd/alt-tape-offset"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/alt-tape-offset");
+        m.props["/instrumentation/pfd/alt-tape-thousands"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/alt-tape-thousands");
         m.props["/instrumentation/pfd/bearing[0]/bearing"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/bearing[0]/bearing");
         m.props["/instrumentation/pfd/bearing[0]/source"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/bearing[0]/source");
         m.props["/instrumentation/pfd/bearing[0]/visible"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/bearing[0]/visible");
@@ -999,7 +1001,16 @@ var canvas_ED_only = {
             }
         }, 1, 0);
 
+        setlistener(self.props["/instrumentation/pfd/alt-tape-offset"], func(node) {
+            me["alt.tape"].setTranslation(0, node.getValue() * 0.45);
+        }, 1, 0);
 
+        setlistener(self.props["/instrumentation/pfd/alt-tape-thousands"], func(node) {
+            var altTapeThousands = node.getValue() * 1000;
+            me["altNumLow1"].setText(sprintf("%5.0f", altTapeThousands - 1000));
+            me["altNumHigh1"].setText(sprintf("%5.0f", altTapeThousands));
+            me["altNumHigh2"].setText(sprintf("%5.0f", altTapeThousands + 1000));
+        }, 1, 0);
     },
 
     updateSlow: func() {
@@ -1024,10 +1035,6 @@ var canvas_ED_only = {
         me["fd.pitch"].setTranslation(0, pitchBar * 8.05);
         me["fd.roll"].setTranslation(rollBar * 8.05, 0);
 
-        var navsrc = me.props["/instrumentation/pfd/nav-src"].getValue() or 0;
-        var preview = me.props["/instrumentation/pfd/preview"].getValue() or 0;
-        var coursesrc = navsrc or preview or 0;
-
         # V/S
         var vspeed = me.props["/instrumentation/vertical-speed-indicator/indicated-speed-fpm"].getValue() or 0;
         me["VS.digital"].setText(sprintf("%+05d", vspeed));
@@ -1037,21 +1044,6 @@ var canvas_ED_only = {
 
         # Altitude
         var alt = me.props["/instrumentation/altimeter/indicated-altitude-ft"].getValue() or 0;
-
-        var altTapeOffset = math.mod(alt, 1000);
-        var altTapeThousands = math.floor(alt / 1000) * 1000;
-
-        me["alt.tape"].setTranslation(0, altTapeOffset * 0.45);
-        me["altNumLow1"].setText(sprintf("%5.0f", altTapeThousands - 1000));
-        me["altNumHigh1"].setText(sprintf("%5.0f", altTapeThousands));
-        me["altNumHigh2"].setText(sprintf("%5.0f", altTapeThousands + 1000));
-
-        var alt100 = alt / 100;
-        var alt100Abs = math.abs(math.floor(alt100));
-        var altStr = "  0";
-        if (alt100Abs >= 1) {
-            altStr = sprintf("%3.0d", alt100Abs) or "  0";
-        }
 
         var o = odoDigit(alt / 10, 0);
         me["alt.rollingdigits"].setTranslation(0, o * 18);

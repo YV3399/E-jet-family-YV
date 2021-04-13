@@ -1937,6 +1937,8 @@
             <wind-speed-kt type="int">0</wind-speed-kt>
             <airspeed-alive type="bool">false</airspeed-alive>
             <vsi-needle-deg type="double">0</vsi-needle-deg>
+            <alt-tape-offset type="double">0</alt-tape-offset>
+            <alt-tape-thousands type="int">0</alt-tape-thousands>
         </pfd>
 
         <pfd>
@@ -1998,6 +2000,8 @@
             <wind-speed-kt type="int">0</wind-speed-kt>
             <airspeed-alive type="bool">false</airspeed-alive>
             <vsi-needle-deg type="double">0</vsi-needle-deg>
+            <alt-tape-offset type="double">0</alt-tape-offset>
+            <alt-tape-thousands type="int">0</alt-tape-thousands>
         </pfd>
 
         <mfd>
