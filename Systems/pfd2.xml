@@ -12,12 +12,15 @@ re-run build.sh.
     <name>Alt Tape Offset</name>
     <type>gain</type>
     <gain>1</gain>
+    <period>
+      <min>0</min>
+      <max>1000</max>
+    </period>
     <input>
       <expression>
-        <mod>
+        <floor>
           <property>/instrumentation/altimeter/indicated-altitude-ft</property>
-          <value>1000</value>
-        </mod>
+        </floor>
       </expression>
     </input>
     <output>/instrumentation/pfd[1]/alt-tape-offset</output>
