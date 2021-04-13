@@ -70,15 +70,6 @@ re-run build.sh.
                 <output>/instrumentation/pfd[<xsl:value-of select="$index"/>]/minimums-fake-baro</output>
             </filter>
 
-            <predict-simple>
-                <name>airspeed predictor</name>
-                <update-interval-secs type="double">0.1</update-interval-secs>
-                <input>instrumentation/airspeed-indicator/indicated-speed-kt</input>
-                <output>instrumentation/pfd[<xsl:value-of select="$index"/>]/airspeed-lookahead-10s</output>
-                <seconds>10.0</seconds>
-                <filter-gain>0.0</filter-gain>
-            </predict-simple>
-
             <!-- forward either fake-baro or radio minimums to mk-viii -->
             <filter>
                 <name>Forward minimums</name>
@@ -161,9 +152,88 @@ re-run build.sh.
                 <S>
                     <property>/instrumentation/pfd[<xsl:value-of select="$index"/>]/minimums-delta</property>
                 </S>
-                <output>/instrumentation/pfd[<xsl:value-of select="$index"/>]/minimums-visible</output>
+                <output>/instrumentation/pfd[<xsl:value-of select="$index"/>]/minimums-changed</output>
             </flipflop>
 
+            <filter>
+                <name>Minimums reference alt</name>
+                <type>gain</type>
+                <output>/instrumentation/pfd[<xsl:value-of select="$index"/>]/minimums-reference-altitude</output>
+                <input>
+                    <condition>
+                        <property>/instrumentation/pfd[<xsl:value-of select="$index"/>]/minimums-mode</property>
+                    </condition>
+                    <property>/instrumentation/altimeter/indicated-altitude-ft</property>
+                </input>
+                <input>
+                    <property>/position/gear-agl-ft</property>
+                </input>
+            </filter>
+            <filter>
+                <name>Minimums decision alt</name>
+                <type>gain</type>
+                <output>/instrumentation/pfd[<xsl:value-of select="$index"/>]/minimums-decision-altitude</output>
+                <input>
+                    <condition>
+                        <property>/instrumentation/pfd[<xsl:value-of select="$index"/>]/minimums-mode</property>
+                    </condition>
+                    <property>/instrumentation/pfd[<xsl:value-of select="$index"/>]/minimums-baro</property>
+                </input>
+                <input>
+                    <property>/instrumentation/pfd[<xsl:value-of select="$index"/>]/minimums-radio</property>
+                </input>
+            </filter>
+            <filter>
+                <name>Radio altitude</name>
+                <type>gain</type>
+                <output>/instrumentation/pfd[<xsl:value-of select="$index"/>]/radio-alt</output>
+                <input>
+                    <expression>
+                        <floor>
+                            <property>/position/gear-agl-ft</property>
+                        </floor>
+                    </expression>
+                </input>
+                <min>0</min>
+                <max>4000</max>
+            </filter>
+
+            <logic>
+                <name>Minimums indicator visible</name>
+                <output>/instrumentation/pfd[<xsl:value-of select="$index"/>]/minimums-indicator-visible</output>
+                <input>
+                    <less-than>
+                        <property>/instrumentation/pfd[<xsl:value-of select="$index"/>]/minimums-reference-altitude</property>
+                        <property>/instrumentation/pfd[<xsl:value-of select="$index"/>]/minimums-decision-altitude</property>
+                    </less-than>
+                </input>
+            </logic>
+            <logic>
+                <name>Radio altimeter visible</name>
+                <output>/instrumentation/pfd[<xsl:value-of select="$index"/>]/radio-altimeter-visible</output>
+                <input>
+                    <or>
+                        <property>/instrumentation/pfd[<xsl:value-of select="$index"/>]/minimums-indicator-visible</property>
+                        <less-than>
+                            <property>/position/gear-agl-ft</property>
+                            <value>4000</value>
+                        </less-than>
+                    </or>
+                </input>
+            </logic>
+            <logic>
+                <name>Minimums visible</name>
+                <output>/instrumentation/pfd[<xsl:value-of select="$index"/>]/minimums-visible</output>
+                <input>
+                    <or>
+                        <property>/instrumentation/pfd[<xsl:value-of select="$index"/>]/minimums-indicator-visible</property>
+                        <property>/instrumentation/pfd[<xsl:value-of select="$index"/>]/minimums-changed</property>
+                        <property>/instrumentation/pfd[<xsl:value-of select="$index"/>]/radio-altimeter-visible</property>
+                    </or>
+                </input>
+            </logic>
+
+            <!-- V/S -->
             <filter>
                 <name>VSneedle</name>
                 <type>gain</type>
@@ -213,6 +283,15 @@ re-run build.sh.
                 </input>
                 <output>/instrumentation/pfd[<xsl:value-of select="$index"/>]/airspeed-alive</output>
             </logic>
+
+            <predict-simple>
+                <name>airspeed predictor</name>
+                <update-interval-secs type="double">0.1</update-interval-secs>
+                <input>instrumentation/airspeed-indicator/indicated-speed-kt</input>
+                <output>instrumentation/pfd[<xsl:value-of select="$index"/>]/airspeed-lookahead-10s</output>
+                <seconds>10.0</seconds>
+                <filter-gain>0.0</filter-gain>
+            </predict-simple>
             
             <filter>
                 <name>Pitchscale</name>

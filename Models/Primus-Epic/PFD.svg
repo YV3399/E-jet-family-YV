@@ -171,17 +171,17 @@
      borderopacity="1.0"
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.70710678"
-     inkscape:cx="1063.5446"
-     inkscape:cy="1100.7603"
+     inkscape:zoom="2"
+     inkscape:cx="972.07312"
+     inkscape:cy="657.77919"
      inkscape:document-units="px"
-     inkscape:current-layer="layer1"
+     inkscape:current-layer="alt.tape"
      showgrid="false"
      units="px"
-     inkscape:window-width="1920"
-     inkscape:window-height="1080"
-     inkscape:window-x="1440"
-     inkscape:window-y="0"
+     inkscape:window-width="1440"
+     inkscape:window-height="886"
+     inkscape:window-x="0"
+     inkscape:window-y="14"
      inkscape:window-maximized="0"
      showguides="true"
      inkscape:guide-bbox="true"
@@ -976,26 +976,26 @@
        id="alt.tape">
       <text
          id="altNumHigh1"
-         y="421.73001"
-         x="875.38"
-         style="font-style:normal;font-weight:normal;font-size:12.00014973px;line-height:0%;font-family:E190;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1.00001001px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         y="458.73001"
+         x="911.94128"
+         style="font-style:normal;font-weight:normal;font-size:12.00014973px;line-height:0%;font-family:E190;text-align:end;letter-spacing:0px;word-spacing:0px;text-anchor:end;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1.00001001px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
          inkscape:label="#text5494"><tspan
-           y="421.73001"
-           x="875.38"
+           y="458.73001"
+           x="911.94128"
            id="tspan5496"
            sodipodi:role="line"
-           style="font-size:32.47629166px;line-height:1.25;stroke-width:1.00001001px">00000</tspan></text>
+           style="font-size:32.47629166px;line-height:1.25;text-align:end;text-anchor:end;stroke-width:1.00001001px">00000</tspan></text>
       <text
-         style="font-style:normal;font-weight:normal;font-size:12.00014973px;line-height:0%;font-family:E190;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1.00001001px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-         x="875.77002"
-         y="8.0778999"
+         style="font-style:normal;font-weight:normal;font-size:12.00014973px;line-height:0%;font-family:E190;text-align:end;letter-spacing:0px;word-spacing:0px;text-anchor:end;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1.00001001px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         x="912.3313"
+         y="12.0779"
          id="altNumHigh2"
          inkscape:label="#text5498"><tspan
            sodipodi:role="line"
            id="tspan5500"
-           x="875.77002"
-           y="8.0778999"
-           style="font-size:32.47629166px;line-height:1.25;stroke-width:1.00001001px">00000</tspan></text>
+           x="912.3313"
+           y="12.0779"
+           style="font-size:32.47629166px;line-height:1.25;text-align:end;text-anchor:end;stroke-width:1.00001001px">00000</tspan></text>
       <path
          inkscape:connector-curvature="0"
          id="path5584"
@@ -1173,14 +1173,14 @@
       <text
          inkscape:label="#text5498"
          id="altNumLow1"
-         y="836.5"
-         x="875.77002"
-         style="font-style:normal;font-weight:normal;font-size:12.00014973px;line-height:0%;font-family:E190;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1.00001001px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"><tspan
-           y="836.5"
-           x="875.77002"
+         y="904.5"
+         x="912.3313"
+         style="font-style:normal;font-weight:normal;font-size:12.00014973px;line-height:0%;font-family:E190;text-align:end;letter-spacing:0px;word-spacing:0px;text-anchor:end;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1.00001001px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"><tspan
+           y="904.5"
+           x="912.3313"
            id="tspan5720"
            sodipodi:role="line"
-           style="font-size:32.47629166px;line-height:1.25;stroke-width:1.00001001px">00000</tspan></text>
+           style="font-size:32.47629166px;line-height:1.25;text-align:end;text-anchor:end;stroke-width:1.00001001px">00000</tspan></text>
     </g>
     <rect
        style="opacity:0.98999999;fill:#505050;fill-opacity:1;stroke:none;stroke-width:4;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"

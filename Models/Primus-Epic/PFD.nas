@@ -170,12 +170,12 @@ var canvas_ED_only = {
         var m = { parents: [canvas_ED_only,canvas_ED_base] };
         m.init(canvas_group, file);
         m.props = {};
+        m.props["/autopilot/autoland/armed-mode"] = props.globals.getNode("/autopilot/autoland/armed-mode");
+        m.props["/autopilot/autoland/engaged-mode"] = props.globals.getNode("/autopilot/autoland/engaged-mode");
         m.props["/autopilot/route-manager/active"] = props.globals.getNode("/autopilot/route-manager/active");
         m.props["/autopilot/route-manager/wp/dist"] = props.globals.getNode("/autopilot/route-manager/wp/dist");
         m.props["/autopilot/route-manager/wp/eta-seconds"] = props.globals.getNode("/autopilot/route-manager/wp/eta-seconds");
         m.props["/autopilot/route-manager/wp/id"] = props.globals.getNode("/autopilot/route-manager/wp/id");
-        m.props["/autopilot/autoland/armed-mode"] = props.globals.getNode("/autopilot/autoland/armed-mode");
-        m.props["/autopilot/autoland/engaged-mode"] = props.globals.getNode("/autopilot/autoland/engaged-mode");
         m.props["/controls/flight/flaps"] = props.globals.getNode("/controls/flight/flaps");
         m.props["/controls/flight/nav-src/side"] = props.globals.getNode("/controls/flight/nav-src/side");
         m.props["/controls/flight/selected-alt"] = props.globals.getNode("/controls/flight/selected-alt");
@@ -193,11 +193,11 @@ var canvas_ED_only = {
         m.props["/fms/vspeeds-effective/approach/vref"] = props.globals.getNode("/fms/vspeeds-effective/approach/vref");
         m.props["/fms/vspeeds-effective/departure/v1"] = props.globals.getNode("/fms/vspeeds-effective/departure/v1");
         m.props["/fms/vspeeds-effective/departure/v2"] = props.globals.getNode("/fms/vspeeds-effective/departure/v2");
-        m.props["/fms/vspeeds-effective/departure/vf"] = props.globals.getNode("/fms/vspeeds-effective/departure/vf");
         m.props["/fms/vspeeds-effective/departure/vf1"] = props.globals.getNode("/fms/vspeeds-effective/departure/vf1");
         m.props["/fms/vspeeds-effective/departure/vf2"] = props.globals.getNode("/fms/vspeeds-effective/departure/vf2");
         m.props["/fms/vspeeds-effective/departure/vf3"] = props.globals.getNode("/fms/vspeeds-effective/departure/vf3");
         m.props["/fms/vspeeds-effective/departure/vf4"] = props.globals.getNode("/fms/vspeeds-effective/departure/vf4");
+        m.props["/fms/vspeeds-effective/departure/vf"] = props.globals.getNode("/fms/vspeeds-effective/departure/vf");
         m.props["/fms/vspeeds-effective/departure/vfs"] = props.globals.getNode("/fms/vspeeds-effective/departure/vfs");
         m.props["/fms/vspeeds-effective/departure/vr"] = props.globals.getNode("/fms/vspeeds-effective/departure/vr");
         m.props["/gear/gear/wow"] = props.globals.getNode("/gear/gear/wow");
@@ -211,14 +211,14 @@ var canvas_ED_only = {
         m.props["/instrumentation/comm[0]/frequencies/standby-mhz"] = props.globals.getNode("/instrumentation/comm[0]/frequencies/standby-mhz");
         m.props["/instrumentation/dme[0]/frequencies/selected-mhz"] = props.globals.getNode("/instrumentation/dme[0]/frequencies/selected-mhz");
         m.props["/instrumentation/dme[0]/frequencies/source"] = props.globals.getNode("/instrumentation/dme[0]/frequencies/source");
-        m.props["/instrumentation/dme[0]/in-range"] = props.globals.getNode("/instrumentation/dme[0]/in-range");
         m.props["/instrumentation/dme[0]/indicated-distance-nm"] = props.globals.getNode("/instrumentation/dme[0]/indicated-distance-nm");
         m.props["/instrumentation/dme[0]/indicated-time-min"] = props.globals.getNode("/instrumentation/dme[0]/indicated-time-min");
+        m.props["/instrumentation/dme[0]/in-range"] = props.globals.getNode("/instrumentation/dme[0]/in-range");
         m.props["/instrumentation/dme[1]/frequencies/selected-mhz"] = props.globals.getNode("/instrumentation/dme[1]/frequencies/selected-mhz");
         m.props["/instrumentation/dme[1]/frequencies/source"] = props.globals.getNode("/instrumentation/dme[1]/frequencies/source");
-        m.props["/instrumentation/dme[1]/in-range"] = props.globals.getNode("/instrumentation/dme[1]/in-range");
         m.props["/instrumentation/dme[1]/indicated-distance-nm"] = props.globals.getNode("/instrumentation/dme[1]/indicated-distance-nm");
         m.props["/instrumentation/dme[1]/indicated-time-min"] = props.globals.getNode("/instrumentation/dme[1]/indicated-time-min");
+        m.props["/instrumentation/dme[1]/in-range"] = props.globals.getNode("/instrumentation/dme[1]/in-range");
         m.props["/instrumentation/gps/cdi-deflection"] = props.globals.getNode("/instrumentation/gps/cdi-deflection");
         m.props["/instrumentation/gps/desired-course-deg"] = props.globals.getNode("/instrumentation/gps/desired-course-deg");
         m.props["/instrumentation/nav[0]/frequencies/selected-mhz"] = props.globals.getNode("/instrumentation/nav[0]/frequencies/selected-mhz");
@@ -245,10 +245,10 @@ var canvas_ED_only = {
         m.props["/instrumentation/nav[1]/radials/selected-deg"] = props.globals.getNode("/instrumentation/nav[1]/radials/selected-deg");
         m.props["/instrumentation/pfd/airspeed-alive"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/airspeed-alive");
         m.props["/instrumentation/pfd/airspeed-lookahead-10s"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/airspeed-lookahead-10s");
-        m.props["/instrumentation/pfd/asi-10"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/asi-10");
-        m.props["/instrumentation/pfd/asi-100"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/asi-100");
         m.props["/instrumentation/pfd/alt-tape-offset"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/alt-tape-offset");
         m.props["/instrumentation/pfd/alt-tape-thousands"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/alt-tape-thousands");
+        m.props["/instrumentation/pfd/asi-100"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/asi-100");
+        m.props["/instrumentation/pfd/asi-10"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/asi-10");
         m.props["/instrumentation/pfd/bearing[0]/bearing"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/bearing[0]/bearing");
         m.props["/instrumentation/pfd/bearing[0]/source"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/bearing[0]/source");
         m.props["/instrumentation/pfd/bearing[0]/visible"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/bearing[0]/visible");
@@ -261,7 +261,6 @@ var canvas_ED_only = {
         m.props["/instrumentation/pfd/dme/hold"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/dme/hold");
         m.props["/instrumentation/pfd/dme/in-range"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/dme/in-range");
         m.props["/instrumentation/pfd/groundspeed-kt"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/groundspeed-kt");
-        m.props["/instrumentation/pfd/vsi-needle-deg"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/vsi-needle-deg");
         m.props["/instrumentation/pfd/hsi/deflection"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/hsi/deflection");
         m.props["/instrumentation/pfd/hsi/from-flag"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/hsi/from-flag");
         m.props["/instrumentation/pfd/hsi/heading"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/hsi/heading");
@@ -273,17 +272,24 @@ var canvas_ED_only = {
         m.props["/instrumentation/pfd/ils/loc-needle"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/ils/loc-needle");
         m.props["/instrumentation/pfd/ils/source"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/ils/source");
         m.props["/instrumentation/pfd/minimums-baro"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/minimums-baro");
+        m.props["/instrumentation/pfd/minimums-decision-altitude"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/minimums-decision-altitude");
+        m.props["/instrumentation/pfd/minimums-indicator-visible"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/minimums-indicator-visible");
+        m.props["/instrumentation/pfd/minimums-mode"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/minimums-mode");
         m.props["/instrumentation/pfd/minimums-mode"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/minimums-mode");
         m.props["/instrumentation/pfd/minimums-radio"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/minimums-radio");
         m.props["/instrumentation/pfd/minimums-visible"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/minimums-visible");
-        m.props["/instrumentation/pfd/nav-src"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/nav-src");
+        m.props["/instrumentation/pfd/minimums-visible"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/minimums-visible");
         m.props["/instrumentation/pfd/nav/course-source"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/nav/course-source");
         m.props["/instrumentation/pfd/nav/course-source-type"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/nav/course-source-type");
         m.props["/instrumentation/pfd/nav/dme-source"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/nav/dme-source");
         m.props["/instrumentation/pfd/nav/selected-radial"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/nav/selected-radial");
+        m.props["/instrumentation/pfd/nav-src"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/nav-src");
         m.props["/instrumentation/pfd/pitch-scale"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/pitch-scale");
         m.props["/instrumentation/pfd/preview"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/preview");
         m.props["/instrumentation/pfd/qnh-mode"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/qnh-mode");
+        m.props["/instrumentation/pfd/radio-altimeter-visible"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/radio-altimeter-visible");
+        m.props["/instrumentation/pfd/radio-alt"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/radio-alt");
+        m.props["/instrumentation/pfd/vsi-needle-deg"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/vsi-needle-deg");
         m.props["/instrumentation/pfd/waypoint/dist10"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/waypoint/dist10");
         m.props["/instrumentation/pfd/waypoint/ete"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/waypoint/ete");
         m.props["/instrumentation/pfd/waypoint/ete-unit"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/waypoint/ete-unit");
@@ -294,8 +300,8 @@ var canvas_ED_only = {
         m.props["/it-autoflight/input/alt"] = props.globals.getNode("/it-autoflight/input/alt");
         m.props["/it-autoflight/input/fpa"] = props.globals.getNode("/it-autoflight/input/fpa");
         m.props["/it-autoflight/input/hdg"] = props.globals.getNode("/it-autoflight/input/hdg");
-        m.props["/it-autoflight/input/kts"] = props.globals.getNode("/it-autoflight/input/kts");
         m.props["/it-autoflight/input/kts-mach"] = props.globals.getNode("/it-autoflight/input/kts-mach");
+        m.props["/it-autoflight/input/kts"] = props.globals.getNode("/it-autoflight/input/kts");
         m.props["/it-autoflight/input/mach"] = props.globals.getNode("/it-autoflight/input/mach");
         m.props["/it-autoflight/input/vs"] = props.globals.getNode("/it-autoflight/input/vs");
         m.props["/it-autoflight/mode/arm"] = props.globals.getNode("/it-autoflight/mode/arm");
@@ -1002,14 +1008,42 @@ var canvas_ED_only = {
         }, 1, 0);
 
         setlistener(self.props["/instrumentation/pfd/alt-tape-offset"], func(node) {
-            me["alt.tape"].setTranslation(0, node.getValue() * 0.45);
+            self["alt.tape"].setTranslation(0, node.getValue() * 0.45);
         }, 1, 0);
 
         setlistener(self.props["/instrumentation/pfd/alt-tape-thousands"], func(node) {
             var altTapeThousands = node.getValue() * 1000;
-            me["altNumLow1"].setText(sprintf("%5.0f", altTapeThousands - 1000));
-            me["altNumHigh1"].setText(sprintf("%5.0f", altTapeThousands));
-            me["altNumHigh2"].setText(sprintf("%5.0f", altTapeThousands + 1000));
+            self["altNumLow1"].setText(sprintf("%5.0f", altTapeThousands - 1000));
+            self["altNumHigh1"].setText(sprintf("%5.0f", altTapeThousands));
+            self["altNumHigh2"].setText(sprintf("%5.0f", altTapeThousands + 1000));
+        }, 1, 0);
+
+        # Minimums
+        setlistener(self.props["/instrumentation/pfd/radio-alt"], func(node) {
+            var ra = node.getValue();
+            self["radioalt.digital"].setText(sprintf("%04d", ra));
+        }, 1, 0);
+        setlistener(self.props["/instrumentation/pfd/minimums-visible"], func(node) {
+            self["minimums"].setVisible(node.getBoolValue());
+        }, 1, 0);
+        setlistener(self.props["/instrumentation/pfd/minimums-indicator-visible"], func(node) {
+            self["minimums.indicator"].setVisible(node.getBoolValue());   
+        }, 1, 0);
+        setlistener(self.props["/instrumentation/pfd/radio-altimeter-visible"], func(node) {
+            self["radioalt"].setVisible(node.getBoolValue());   
+        }, 1, 0);
+        setlistener(self.props["/instrumentation/pfd/minimums-mode"], func(node) {
+            if (node.getValue()) {
+                self["minimums.barora"].setText("BARO");
+                self["minimums.digital"].setColor(1, 1, 0);
+            }
+            else {
+                self["minimums.barora"].setText("RA");
+                self["minimums.digital"].setColor(1, 1, 1);
+            }
+        }, 1, 0);
+        setlistener(self.props["/instrumentation/pfd/minimums-decision-altitude"], func(node) {
+            self["minimums.digital"].setText(sprintf("%d", node.getValue()));
         }, 1, 0);
     },
 
@@ -1112,52 +1146,6 @@ var canvas_ED_only = {
         }
         else {
             me["alt.10000.zero"].hide();
-        }
-
-        # Minimums
-        var radarAlt = me.props["/position/gear-agl-ft"].getValue() or 0.0;
-        var minimumsMode = me.props["/instrumentation/pfd/minimums-mode"].getValue();
-        var decisionHeight = 0;
-        var comparisonAlt = radarAlt;
-        if (minimumsMode) {
-            decisionHeight = me.props["/instrumentation/pfd/minimums-baro"].getValue();
-            comparisonAlt = alt;
-        }
-        else {
-            decisionHeight = me.props["/instrumentation/pfd/minimums-radio"].getValue();
-            comparisonAlt = radarAlt;
-        }
-
-        var minimumsVisible = me.props["/instrumentation/pfd/minimums-visible"].getBoolValue();
-
-        if (radarAlt <= 4000) {
-            me["radioalt.digital"].setText(sprintf("%04d", radarAlt));
-            if (comparisonAlt <= decisionHeight) {
-                me["minimums.indicator"].show();
-            }
-            else {
-                me["minimums.indicator"].hide();
-            }
-            me["radioalt"].show();
-        }
-        else {
-            me["radioalt"].hide();
-        }
-
-        if (radarAlt <= 4000 or minimumsVisible) {
-            if (minimumsMode) {
-                me["minimums.barora"].setText("BARO");
-                me["minimums.digital"].setColor(1, 1, 0);
-            }
-            else {
-                me["minimums.barora"].setText("RA");
-                me["minimums.digital"].setColor(1, 1, 1);
-            }
-            me["minimums.digital"].setText(sprintf("%d", decisionHeight));
-            me["minimums"].show();
-        }
-        else {
-            me["minimums"].hide();
         }
 
         # Airspeed

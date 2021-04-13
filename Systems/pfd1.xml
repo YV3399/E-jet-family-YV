@@ -55,14 +55,6 @@ re-run build.sh.
     </input>
     <output>/instrumentation/pfd[0]/minimums-fake-baro</output>
   </filter>
-  <predict-simple>
-    <name>airspeed predictor</name>
-    <update-interval-secs type="double">0.1</update-interval-secs>
-    <input>instrumentation/airspeed-indicator/indicated-speed-kt</input>
-    <output>instrumentation/pfd[0]/airspeed-lookahead-10s</output>
-    <seconds>10.0</seconds>
-    <filter-gain>0.0</filter-gain>
-  </predict-simple>
   <filter>
     <name>Forward minimums</name>
     <type>gain</type>
@@ -139,8 +131,84 @@ re-run build.sh.
     <S>
       <property>/instrumentation/pfd[0]/minimums-delta</property>
     </S>
-    <output>/instrumentation/pfd[0]/minimums-visible</output>
+    <output>/instrumentation/pfd[0]/minimums-changed</output>
   </flipflop>
+  <filter>
+    <name>Minimums reference alt</name>
+    <type>gain</type>
+    <output>/instrumentation/pfd[0]/minimums-reference-altitude</output>
+    <input>
+      <condition>
+        <property>/instrumentation/pfd[0]/minimums-mode</property>
+      </condition>
+      <property>/instrumentation/altimeter/indicated-altitude-ft</property>
+    </input>
+    <input>
+      <property>/position/gear-agl-ft</property>
+    </input>
+  </filter>
+  <filter>
+    <name>Minimums decision alt</name>
+    <type>gain</type>
+    <output>/instrumentation/pfd[0]/minimums-decision-altitude</output>
+    <input>
+      <condition>
+        <property>/instrumentation/pfd[0]/minimums-mode</property>
+      </condition>
+      <property>/instrumentation/pfd[0]/minimums-baro</property>
+    </input>
+    <input>
+      <property>/instrumentation/pfd[0]/minimums-radio</property>
+    </input>
+  </filter>
+  <filter>
+    <name>Radio altitude</name>
+    <type>gain</type>
+    <output>/instrumentation/pfd[0]/radio-alt</output>
+    <input>
+      <expression>
+        <floor>
+          <property>/position/gear-agl-ft</property>
+        </floor>
+      </expression>
+    </input>
+    <min>0</min>
+    <max>4000</max>
+  </filter>
+  <logic>
+    <name>Minimums indicator visible</name>
+    <output>/instrumentation/pfd[0]/minimums-indicator-visible</output>
+    <input>
+      <less-than>
+        <property>/instrumentation/pfd[0]/minimums-reference-altitude</property>
+        <property>/instrumentation/pfd[0]/minimums-decision-altitude</property>
+      </less-than>
+    </input>
+  </logic>
+  <logic>
+    <name>Radio altimeter visible</name>
+    <output>/instrumentation/pfd[0]/radio-altimeter-visible</output>
+    <input>
+      <or>
+        <property>/instrumentation/pfd[0]/minimums-indicator-visible</property>
+        <less-than>
+          <property>/position/gear-agl-ft</property>
+          <value>4000</value>
+        </less-than>
+      </or>
+    </input>
+  </logic>
+  <logic>
+    <name>Minimums visible</name>
+    <output>/instrumentation/pfd[0]/minimums-visible</output>
+    <input>
+      <or>
+        <property>/instrumentation/pfd[0]/minimums-indicator-visible</property>
+        <property>/instrumentation/pfd[0]/minimums-changed</property>
+        <property>/instrumentation/pfd[0]/radio-altimeter-visible</property>
+      </or>
+    </input>
+  </logic>
   <filter>
     <name>VSneedle</name>
     <type>gain</type>
@@ -195,6 +263,14 @@ re-run build.sh.
     </input>
     <output>/instrumentation/pfd[0]/airspeed-alive</output>
   </logic>
+  <predict-simple>
+    <name>airspeed predictor</name>
+    <update-interval-secs type="double">0.1</update-interval-secs>
+    <input>instrumentation/airspeed-indicator/indicated-speed-kt</input>
+    <output>instrumentation/pfd[0]/airspeed-lookahead-10s</output>
+    <seconds>10.0</seconds>
+    <filter-gain>0.0</filter-gain>
+  </predict-simple>
   <filter>
     <name>Pitchscale</name>
     <type>gain</type>
