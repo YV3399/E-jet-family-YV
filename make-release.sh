@@ -15,6 +15,7 @@ cp -R \
     common.xml \
     sound.xml \
     FDM \
+    Fonts \
     gui \
     License.txt \
     Models \
