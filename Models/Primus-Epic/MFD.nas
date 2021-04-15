@@ -333,6 +333,7 @@ var MFD = {
                 'arc.master',
                 'arc.range.left',
                 'arc.range.right',
+                'arc.track',
                 'dest.dist',
                 'dest.eta',
                 'dest.fuel',
@@ -608,6 +609,7 @@ var MFD = {
         me.elems['arc'].set("clip-frame", canvas.Element.PARENT);
         me.elems['arc'].setCenter(512, 530);
         me.elems['arc.heading-bug'].setCenter(512, 530);
+        me.elems['arc.track'].setCenter(512, 530);
         me.elems['mapMenu'].hide();
         me.elems['submodeMenu'].hide();
         me.elems['weatherMenu'].hide();
@@ -738,6 +740,9 @@ var MFD = {
         }, 1, 0);
         setlistener(me.props['heading-bug'], func (node) {
             self.elems['arc.heading-bug'].setRotation(node.getValue() * DC);
+        }, 1, 0);
+        setlistener(me.props['track-mag'], func (node) {
+            self.elems['arc.track'].setRotation(node.getValue() * DC);
         }, 1, 0);
         setlistener(me.props['nav-src'], func (node) {
             self.updateNavSrc();
