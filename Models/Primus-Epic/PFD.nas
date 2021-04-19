@@ -505,11 +505,6 @@ var canvas_ED_only = {
             self["heading.digital"].setText(sprintf("%03d", heading));
         }, 1, 0);
 
-        # wind direction
-        setlistener(me.props["/environment/wind-from-heading-deg"], func (node) {
-            self["wind.pointer"].setRotation((node.getValue() or 0) * D2R);
-        }, 1, 0);
-
         # wind speed
         setlistener(me.props["/environment/wind-speed-kt"], func (node) {
             var windSpeed = node.getValue() or 0;
@@ -1023,6 +1018,7 @@ var canvas_ED_only = {
             var ra = node.getValue();
             self["radioalt.digital"].setText(sprintf("%04d", ra));
         }, 1, 0);
+        self["radioalt.digital"].setText(sprintf("%04d", 0));
         setlistener(self.props["/instrumentation/pfd/minimums-visible"], func(node) {
             self["minimums"].setVisible(node.getBoolValue());
         }, 1, 0);
@@ -1062,6 +1058,11 @@ var canvas_ED_only = {
             me["roll.pointer"].setRotation(roll*(-D2R));
         }
         me["slip.pointer"].setTranslation(math.round((me.props["/instrumentation/slip-skid-ball/indicated-slip-skid"].getValue() or 0)*50), 0);
+
+        # wind direction
+        # For some reason, if we attempt to do this in a listener, it will
+        # be extremely unreliable.
+        me["wind.pointer"].setRotation((me.props["/environment/wind-from-heading-deg"].getValue() or 0) * D2R);
 
         # FD
         var pitchBar = me.props["/it-autoflight/fd/pitch-bar"].getValue() or 0;
