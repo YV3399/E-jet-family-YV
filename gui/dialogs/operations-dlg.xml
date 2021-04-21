@@ -1,114 +1,125 @@
 <?xml version="1.0"?>
 <PropertyList>
-  
-
-<name>Airport operations</name>
-  <layout>vbox</layout>
-
-  <text>
-    <label>Airport Operations</label>
-  </text>
-
-  <hrule/>
-
-  <group>
+    
+    
+    <name>Airport operations</name>
     <layout>vbox</layout>
-    <halign>center</halign>
-
-    <checkbox>
-      <halign>left</halign>
-      <label>Follow Me Vehicle</label>
-      <property>controls/switches/followme</property>
-      <binding>
-        <command>property-toggle</command>
-        <property>controls/switches/followme</property>
-      </binding>
-    </checkbox>
     
-    <checkbox>
-      <halign>left</halign>
-      <label>Fuel Truck</label>
-      <property>controls/switches/fuel-truck</property>
-      <binding>
-        <command>property-toggle</command>
-        <property>controls/switches/fuel-truck</property>
-      </binding>
-    </checkbox>
+    <text>
+        <label>Airport Operations</label>
+    </text>
     
-    <checkbox>
-      <halign>left</halign>
-      <label>Ground Power Unit (GPU)</label>
-      <property>controls/electric/external-power-connected</property>
-      <binding>
-        <command>property-toggle</command>
-        <property>controls/electric/external-power-connected</property>
-      </binding>
-    </checkbox>
+    <hrule/>
     
-    <checkbox>
-      <halign>left</halign>
-      <label>Cones</label>
-      <property>controls/switches/cones</property>
-      <binding>
-        <command>property-toggle</command>
-        <property>controls/switches/cones</property>
-      </binding>
-    </checkbox>
+    <group>
+        <layout>vbox</layout>
+        <halign>center</halign>
+        
+        <checkbox>
+            <halign>left</halign>
+            <label>Follow Me Vehicle</label>
+            <property>controls/switches/followme</property>
+            <binding>
+                <command>property-toggle</command>
+                <property>controls/switches/followme</property>
+            </binding>
+            <live>true</live>
+        </checkbox>
+        
+        <checkbox>
+            <halign>left</halign>
+            <label>Fuel Truck</label>
+            <property>controls/switches/fuel-truck</property>
+            <binding>
+                <command>property-toggle</command>
+                <property>controls/switches/fuel-truck</property>
+            </binding>
+            <live>true</live>
+        </checkbox>
+        
+        <checkbox>
+            <halign>left</halign>
+            <label>Ground Power Unit (GPU)</label>
+            <property>controls/electric/external-power-connected</property>
+            <binding>
+                <command>property-toggle</command>
+                <property>controls/electric/external-power-connected</property>
+            </binding>
+            <live>true</live>
+        </checkbox>
+        
+        <checkbox>
+            <halign>left</halign>
+            <label>Cones</label>
+            <property>controls/switches/cones</property>
+            <binding>
+                <command>property-toggle</command>
+                <property>controls/switches/cones</property>
+            </binding>
+            <live>true</live>
+        </checkbox>
+        
+        <checkbox>
+            <halign>left</halign>
+            <label>Chocks</label>
+            <property>controls/switches/chocks</property>
+            <binding>
+                <command>property-toggle</command>
+                <property>controls/switches/chocks</property>
+            </binding>
+            <live>true</live>
+        </checkbox>
+        
+        <hrule/>
+        
+        <text>
+            <label>Emergency Operations</label>
+        </text>
+        
+        <checkbox>
+            <halign>left</halign>
+            <label>Ground Emergency Operations</label>
+            <property>controls/switches/emer.ground</property>
+            <binding>
+                <command>property-toggle</command>
+                <property>controls/switches/emer.ground</property>
+            </binding>
+            <live>true</live>
+        </checkbox>
+        
+        <checkbox>
+            <halign>left</halign>
+            <label>Water Emergency Operation</label>
+            <property>controls/switches/emer.water.left</property>
+            <binding>
+                <command>property-toggle</command>
+                <property>controls/switches/emer.water.left</property>
+            </binding>
+            <live>true</live>
+        </checkbox>
+        
+    </group>
     
-    <checkbox>
-      <halign>left</halign>
-      <label>Chocks</label>
-      <property>controls/switches/chocks</property>
-      <binding>
-        <command>property-toggle</command>
-        <property>controls/switches/chocks</property>
-      </binding>
-    </checkbox>
-
-  <hrule/>
-
-  <text>
-    <label>Emergency Operations</label>
-  </text>
-
-    <checkbox>
-      <halign>left</halign>
-      <label>Ground Emergency Operations</label>
-      <property>controls/switches/emer.ground</property>
-      <binding>
-        <command>property-toggle</command>
-        <property>controls/switches/emer.ground</property>
-      </binding>
-    </checkbox>
-
-    <checkbox>
-      <halign>left</halign>
-      <label>Water Emergency Operation</label>
-      <property>controls/switches/emer.water.left</property>
-      <binding>
-        <command>property-toggle</command>
-        <property>controls/switches/emer.water.left</property>
-      </binding>
-    </checkbox>
-
-  </group>
-
-  <hrule/>
-
-  <group>
-    <layout>hbox</layout>
-    <empty><stretch>true</stretch></empty>
-
-    <button>
-      <legend>Close</legend>
-      <default>true</default>
-      <key>Esc</key>
-      <binding>
-        <command>dialog-close</command>
-      </binding>
-    </button>
-
-    <empty><stretch>true</stretch></empty>
-  </group>
-
+    <hrule/>
+    
+    <group>
+        <layout>hbox</layout>
+        <empty>
+            <stretch>true</stretch>
+        </empty>
+        
+        <button>
+            <legend>Close</legend>
+            <default>true</default>
+            <key>Esc</key>
+            <binding>
+                <command>dialog-close</command>
+            </binding>
+        </button>
+        
+        <empty>
+            <stretch>true</stretch>
+        </empty>
+    </group>
+    
 </PropertyList>

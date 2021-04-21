@@ -476,16 +476,13 @@
                 <menu n="100">
                     <label>E-jet-family</label>
                     <enabled type="bool">true</enabled>
-                    <!--
                     <item>
-                        <name>autostart</name>
                         <label>Autostart</label>
                         <binding>
-                            <command>property-toggle</command>
-                            <property>sim/model/start-idling</property>
+                            <command>dialog-show</command>
+                            <dialog-name>Autostart</dialog-name>
                         </binding>
                     </item>
-                    -->
                     <item>
                         <label>Select Livery</label>
                         <binding>
@@ -2364,6 +2361,9 @@
         <autopush_route>
             <file>Nasal/Autopush/route.nas</file>
         </autopush_route>
+        <autostart>
+            <file>Nasal/autostart.nas</file>
+        </autostart>
 
         <mcdu>
             <file>Aircraft/E-jet-family/Models/Instruments/MCDU/util.nas</file>
