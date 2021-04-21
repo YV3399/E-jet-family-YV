@@ -981,7 +981,7 @@ var canvas_ED_only = {
         var updateSelectedSpeed = func {
             if (self.props["/it-autoflight/input/kts-mach"].getValue()) {
                 var selectedMach = (self.props["/it-autoflight/input/mach"].getValue() or 0);
-                self["selectedspeed.digital"].setText(sprintf(".%03dM", selectedMach * 1000));
+                self["selectedspeed.digital"].setText(sprintf(".%03dM", selectedMach * 1000 + 0.5));
             }
             else {
                 var selectedKts = (self.props["/it-autoflight/input/kts"].getValue() or 0);
