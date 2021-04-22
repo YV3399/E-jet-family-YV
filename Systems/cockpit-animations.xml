@@ -1,0 +1,14 @@
+<PropertyList>
+    <filter>
+        <type>noise-spike</type>
+        <input>/controls/switches/hud-flip[0]</input>
+        <output>/controls/switches/hud-flip-pos[0]</output>
+        <max-rate-of-change>2</max-rate-of-change>
+    </filter>
+    <filter>
+        <type>noise-spike</type>
+        <input>/controls/switches/hud-flip[1]</input>
+        <output>/controls/switches/hud-flip-pos[1]</output>
+        <max-rate-of-change>2</max-rate-of-change>
+    </filter>
+</PropertyList>

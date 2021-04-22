@@ -216,6 +216,9 @@
             <property-rule n="112">
                 <path>Aircraft/E-jet-family/Systems/chrono.xml</path>
             </property-rule>
+            <property-rule n="113">
+                <path>Aircraft/E-jet-family/Systems/cockpit-animations.xml</path>
+            </property-rule>
 
             <!--Disable XML electrical system-->
             <electrical>
@@ -258,7 +261,7 @@
             <internal archive="y">true</internal>
             <config>
                 <x-offset-m archive="y">-0.53</x-offset-m>
-                <y-offset-m archive="y">1.43</y-offset-m>
+                <y-offset-m archive="y">1.405</y-offset-m>
                 <pitch-offset-deg archive="y">-8.0</pitch-offset-deg>
                 <default-field-of-view-deg type="double">70.0</default-field-of-view-deg>
             </config>
@@ -271,8 +274,8 @@
             <config>
                 <from-model type="bool">true</from-model>
                 <x-offset-m>-0.52</x-offset-m>
-                <y-offset-m>1.43</y-offset-m>
-                <pitch-offset-deg>-22.3</pitch-offset-deg>
+                <y-offset-m>1.405</y-offset-m>
+                <pitch-offset-deg>-21.3</pitch-offset-deg>
                 <heading-offset-deg>28.875</heading-offset-deg>
                 <default-field-of-view-deg type="double">30.0</default-field-of-view-deg>
             </config>
@@ -313,9 +316,9 @@
             <config>
                 <from-model type="bool">true</from-model>
                 <x-offset-m>0</x-offset-m>
-                <y-offset-m>1.5</y-offset-m>
+                <y-offset-m>1.405</y-offset-m>
                 <z-offset-m>-13.6</z-offset-m>
-                <pitch-offset-deg>-30</pitch-offset-deg>
+                <pitch-offset-deg>-28</pitch-offset-deg>
                 <default-field-of-view-deg type="double">70.0</default-field-of-view-deg>
             </config>
         </view>
@@ -394,7 +397,7 @@
             <config>
                 <from-model type="bool">true</from-model>
                 <x-offset-m archive="y">0.53</x-offset-m>
-                <y-offset-m archive="y">1.43</y-offset-m>
+                <y-offset-m archive="y">1.405</y-offset-m>
                 <pitch-offset-deg archive="y">-8.0</pitch-offset-deg>
                 <default-field-of-view-deg type="double">70.0</default-field-of-view-deg>
             </config>

@@ -1,0 +1,83 @@
+<?xml version="1.0"?>
+<PropertyList>
+    <name>Autostart</name>
+    <layout>vbox</layout>
+    
+    <text>
+        <label>Autostart</label>
+    </text>
+    
+    <hrule/>
+    
+    <group>
+        <layout>vbox</layout>
+        <halign>center</halign>
+
+        <button>
+            <legend>Cold And Dark</legend>
+            <binding>
+                <command>nasal</command>
+                <script>autostart.coldAndDark();</script>
+            </binding>
+        </button>
+        <button>
+            <legend>Battery-Powered</legend>
+            <binding>
+                <command>nasal</command>
+                <script>autostart.batteryPowered();</script>
+            </binding>
+        </button>
+        <button>
+            <legend>Ground-Powered</legend>
+            <binding>
+                <command>nasal</command>
+                <script>autostart.groundPowered();</script>
+            </binding>
+        </button>
+        <button>
+            <legend>APU-powered</legend>
+            <binding>
+                <command>nasal</command>
+                <script>autostart.startAPU(func { gui.popupTip("APU started"); });</script>
+            </binding>
+        </button>
+
+        <hrule/>
+
+        <button>
+            <legend>Ready To Taxi (use APU)</legend>
+            <binding>
+                <command>nasal</command>
+                <script>autostart.readyToTaxi(0);</script>
+            </binding>
+        </button>
+        <button>
+            <legend>Ready To Taxi (use ground power)</legend>
+            <binding>
+                <command>nasal</command>
+                <script>autostart.readyToTaxi(1);</script>
+            </binding>
+        </button>
+        
+        <hrule/>
+
+        <button>
+            <legend>Cancel Autostart</legend>
+            <binding>
+                <command>nasal</command>
+                <script>autostart.cancelOngoing();</script>
+            </binding>
+        </button>
+        
+        <button>
+            <legend>Close</legend>
+            <default>true</default>
+            <key>Esc</key>
+            <binding>
+                <command>dialog-close</command>
+            </binding>
+        </button>
+    </group>
+    
+</PropertyList>
+
