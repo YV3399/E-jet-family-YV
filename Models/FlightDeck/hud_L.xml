@@ -19,11 +19,13 @@
             </binding>
         </action>
     </animation>
+    <!--
     <animation>
         <type>material</type>
         <object-name>Screen</object-name>
         <texture>hud1.png</texture>
     </animation>
+    -->
     <animation>
         <type>pick</type>
         <object-name>Screen</object-name>
