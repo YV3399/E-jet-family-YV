@@ -50,6 +50,55 @@ re-run build.sh.
                 <output>/instrumentation/pfd[<xsl:value-of select="$index"/>]/alt-tape-thousands</output>
             </filter>
 
+            <filter>
+                <name>FPA</name>
+                <type>gain</type>
+                <input>
+                    <condition>
+                        <greater-than>
+                            <property>/velocities/groundspeed-kt</property>
+                            <value>40</value>
+                        </greater-than>
+                    </condition>
+                    <expression>
+                        <atan2>
+                            <product>
+                                <property>/velocities/vertical-speed-fps</property>
+                                <value>0.5925</value>
+                            </product>
+                            <property>/velocities/groundspeed-kt</property>
+                        </atan2>
+                    </expression>
+                </input>
+                <input>
+                    <value>0</value>
+                </input>
+                <output>/instrumentation/pfd[<xsl:value-of select="$index"/>]/fpa-rad</output>
+            </filter>
+            <filter>
+                <name>FPA deg</name>
+                <type>gain</type>
+                <gain>57.29577951308232</gain>
+                <input>
+                    <property>/instrumentation/pfd[<xsl:value-of select="$index"/>]/fpa-rad</property>
+                </input>
+                <output>/instrumentation/pfd[<xsl:value-of select="$index"/>]/fpa-deg</output>
+            </filter>
+            <filter>
+                <name>Track Error</name>
+                <type>gain</type>
+                <gain>1</gain>
+                <input>
+                    <expression>
+                        <difference>
+                            <property>/orientation/track-magnetic-deg</property>
+                            <property>/orientation/heading-magnetic-deg</property>
+                        </difference>
+                    </expression>
+                </input>
+                <output>/instrumentation/pfd[<xsl:value-of select="$index"/>]/track-error-deg</output>
+            </filter>
+
             <!-- MINIMUMS -->
 
             <!-- mk-viii does not support actual baro minimums, so we provide fake

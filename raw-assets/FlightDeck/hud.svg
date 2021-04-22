@@ -29,17 +29,17 @@
      borderopacity="1.0"
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.89078882"
-     inkscape:cx="961.8616"
-     inkscape:cy="1251.1049"
+     inkscape:zoom="0.62988281"
+     inkscape:cx="999.60828"
+     inkscape:cy="1074.5997"
      inkscape:document-units="mm"
-     inkscape:current-layer="layer1"
+     inkscape:current-layer="svg8"
      showgrid="false"
      units="px"
      inkscape:snap-global="false"
      showguides="true"
      inkscape:guide-bbox="true"
-     inkscape:pagecheckerboard="false"
+     inkscape:pagecheckerboard="true"
      inkscape:window-width="1440"
      inkscape:window-height="886"
      inkscape:window-x="0"
@@ -114,7 +114,7 @@
      inkscape:label="Horizon"
      style="display:inline">
     <g
-       id="horizon.group">
+       id="horizon">
       <path
          sodipodi:nodetypes="cc"
          inkscape:connector-curvature="0"
@@ -887,7 +887,7 @@
      style="display:inline">
     <rect
        style="display:inline;opacity:1;fill:none;fill-opacity:1;stroke:#ff0000;stroke-width:0.26458332;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       id="horizon-clip"
+       id="horizon_clip"
        width="158.75"
        height="116.41666"
        x="191.55833"
@@ -897,11 +897,11 @@
        x="350.30826"
        height="79.375"
        width="33.866665"
-       id="alttape-clip"
+       id="alttape_clip"
        style="opacity:1;fill:none;fill-opacity:1;stroke:#ff0000;stroke-width:0.26458332;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
     <rect
        style="opacity:1;fill:none;fill-opacity:1;stroke:#ff0000;stroke-width:0.26458332;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       id="speedtape-clip"
+       id="speedtape_clip"
        width="33.866665"
        height="79.375"
        x="157.69159"

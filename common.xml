@@ -1939,6 +1939,9 @@
             <vsi-needle-deg type="double">0</vsi-needle-deg>
             <alt-tape-offset type="double">0</alt-tape-offset>
             <alt-tape-thousands type="int">0</alt-tape-thousands>
+            <fpa-rad type="double">0</fpa-rad>
+            <fpa-deg type="double">0</fpa-deg>
+            <track-error-deg type="double">0</track-error-deg>
         </pfd>
 
         <pfd>
@@ -2002,6 +2005,9 @@
             <vsi-needle-deg type="double">0</vsi-needle-deg>
             <alt-tape-offset type="double">0</alt-tape-offset>
             <alt-tape-thousands type="int">0</alt-tape-thousands>
+            <fpa-rad type="double">0</fpa-rad>
+            <fpa-deg type="double">0</fpa-deg>
+            <track-error-deg type="double">0</track-error-deg>
         </pfd>
 
         <mfd>
@@ -2306,6 +2312,9 @@
         <canvas_pfd>
             <file>Aircraft/E-jet-family/Models/Primus-Epic/PFD.nas</file>
         </canvas_pfd>
+        <canvas_hud>
+            <file>Aircraft/E-jet-family/Models/Primus-Epic/HUD.nas</file>
+        </canvas_hud>
         <canvas_iess>
             <file>Aircraft/E-jet-family/Models/Primus-Epic/IESS.nas</file>
         </canvas_iess>
