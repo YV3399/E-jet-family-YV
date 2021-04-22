@@ -7,6 +7,15 @@
         <inherits-from>Effects/model-transparent</inherits-from>
     </effect>
     <animation>
+        <type>material</type>
+        <object-name>Screen</object-name>
+        <emission>
+            <red>0.1</red>
+            <green>1</green>
+            <blue>0.5</blue>
+        </emission>
+    </animation>
+    <animation>
         <type>pick</type>
         <object-name>Socket</object-name>
         <object-name>Frame</object-name>

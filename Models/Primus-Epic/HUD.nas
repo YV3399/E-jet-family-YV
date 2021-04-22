@@ -325,14 +325,17 @@ var canvas_ED_only = {
     },
     getKeys: func() {
         return [
+            "alttape",
             "bankPtr",
             "fpv",
-            "horizon",
-            "alttape",
-            "speedtape",
             "heading-scale",
-            "track-ptr",
+            "horizon",
             "slip",
+            "speedtape",
+            "track-ptr",
+            "asi.1",
+            "asi.10",
+            "asi.100",
         ];
     },
 
@@ -1015,12 +1018,12 @@ var canvas_ED_only = {
         #     me["alt.10000.zero"].hide();
         # }
 
-        # # Airspeed
-        # var airspeedRaw = me.props["/instrumentation/airspeed-indicator/indicated-speed-kt"].getValue() or 0;
-        # var airspeed = math.max(40, airspeedRaw);
-        # var airspeedLookahead = me.props["/instrumentation/pfd/airspeed-lookahead-10s"].getValue() or 0;
-        # var currentMach = me.props["/instrumentation/airspeed-indicator/indicated-mach"].getValue() or 0;
-        # var selectedKts = 0;
+        # Airspeed
+        var airspeedRaw = me.props["/instrumentation/airspeed-indicator/indicated-speed-kt"].getValue() or 0;
+        var airspeed = math.max(40, airspeedRaw);
+        var airspeedLookahead = me.props["/instrumentation/pfd/airspeed-lookahead-10s"].getValue() or 0;
+        var currentMach = me.props["/instrumentation/airspeed-indicator/indicated-mach"].getValue() or 0;
+        var selectedKts = 0;
 
         # if (me.props["/it-autoflight/input/kts-mach"].getValue()) {
         #     var selectedMach = (me.props["/it-autoflight/input/mach"].getValue() or 0);
@@ -1041,20 +1044,20 @@ var canvas_ED_only = {
 
         # me["speedtrend.vector"].reset();
         # me["speedtrend.vector"].rect(152, 450, 15,
-        #     math.max(-40.0, math.min(40.0, (airspeedLookahead - airspeed))) * -6.42);
+        #     math.max(-40.0, math.min(40.0, (airspeedLookahead - airspeed))) * -3.4);
 
-        # me["asi.tape"].setTranslation(0,airspeed * 6.42);
-        # me["airspeed.bug"].setTranslation(0, (airspeed-selectedKts) * 6.42);
+        me["speedtape"].setTranslation(0, (airspeed - 40) * 3.4);
+        # me["airspeed.bug"].setTranslation(0, (airspeed-selectedKts) * 3.4);
 
         # var redSpeed = me.props["/fms/speed-limits/vstall-kt"].getValue() or 0;
         # var amberSpeed = me.props["/fms/speed-limits/vwarn-kt"].getValue() or 0;
         # var greenSpeed = me.props["/fms/speed-limits/green-dot-kt"].getValue() or 0;
         # var maxSpeed = me.props["/fms/speed-limits/vmo-effective"].getValue() or 0;
 
-        # me["speedbar.red"].setTranslation(0, math.max(-41, (airspeed-redSpeed)) * 6.42);
-        # me["speedbar.amber"].setTranslation(0, math.max(-41, (airspeed-amberSpeed)) * 6.42);
-        # me["barberpole"].setTranslation(0, math.max(-41, (airspeed-maxSpeed)) * 6.42);
-        # me["greendot"].setTranslation(0, (airspeed-greenSpeed) * 6.42);
+        # me["speedbar.red"].setTranslation(0, math.max(-41, (airspeed-redSpeed)) * 3.4);
+        # me["speedbar.amber"].setTranslation(0, math.max(-41, (airspeed-amberSpeed)) * 3.4);
+        # me["barberpole"].setTranslation(0, math.max(-41, (airspeed-maxSpeed)) * 3.4);
+        # me["greendot"].setTranslation(0, (airspeed-greenSpeed) * 3.4);
         # if (greenSpeed > airspeed + 40 or greenSpeed < airspeed - 40) {
         #     me["greendot"].hide();
         # }
@@ -1162,14 +1165,15 @@ setlistener("sim/signals/fdm-initialized", func {
             "view": [2048, 2048],
             "mipmapping": 1
         });
+        HUD_display[i].set("additive-blend", 1);
         HUD_display[i].setColorBackground(0, 0, 0, 0.1);
         HUD_display[i].addPlacement({"texture": "hud" ~ (i+1) ~ ".png"});
         HUD_master[i] = HUD_display[i].createGroup();
         ED_only[i] =
             canvas_ED_only.new(
-            HUD_master[i],
-            "Aircraft/E-jet-family/Models/Primus-Epic/HUD.svg",
-            i);
+                HUD_master[i],
+                "Aircraft/E-jet-family/Models/Primus-Epic/HUD.svg",
+                i);
     }
 
     var timer0 = maketimer(0.04, func() {
