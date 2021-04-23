@@ -2,8 +2,19 @@
 <PropertyList>
     <path>Aircraft/E-jet-family/Models/FlightDeck/hud2.ac</path>
     <effect>
-        <object-name>Glass</object-name>
         <object-name>Screen</object-name>
+        <inherits-from>Effects/model-transparent</inherits-from>
+        <technique n="11">
+            <pass n="0">
+                <blend n="0">
+                    <source>one</source>
+                    <destination>src-alpha</destination>
+                </blend>
+            </pass>
+        </technique>
+    </effect>
+    <effect>
+        <object-name>Glass</object-name>
         <inherits-from>Effects/model-transparent</inherits-from>
     </effect>
     <animation>
@@ -20,6 +31,7 @@
         <object-name>Socket</object-name>
         <object-name>Frame</object-name>
         <object-name>Glass</object-name>
+        <object-name>Screen</object-name>
         <action>
             <button>0</button>
             <binding>
@@ -29,17 +41,23 @@
         </action>
     </animation>
     <animation>
-        <type>pick</type>
+        <type>rotate</type>
+        <object-name>Stem</object-name>
+        <object-name>Frame</object-name>
+        <object-name>Glass</object-name>
         <object-name>Screen</object-name>
-        <action>
-            <button>0</button>
-            <binding>
-                <command>property-toggle</command>
-                <property>/controls/switches/hud[1]</property>
-                <value>0</value>
-                <value>1</value>
-            </binding>
-        </action>
+        <property>/controls/switches/hud-flip-pos[1]</property>
+        <factor>-40</factor>
+        <center>
+            <x-m>0</x-m>
+            <y-m>0</y-m>
+            <z-m>0</z-m>
+        </center>
+        <axis>
+            <x>0</x>
+            <y>0</y>
+            <z>1</z>
+        </axis>
     </animation>
     <animation>
         <type>rotate</type>

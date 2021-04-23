@@ -151,6 +151,9 @@ var canvas_ED_base = {
 
         me.h_trans = me["horizon"].createTransform();
         me.h_rot = me["horizon"].createTransform();
+        me["asi.odo-frame"]
+            .set("blend-source-alpha", "zero")
+            .set("blend-destination-alpha", "zero");
 
         me.page = canvas_group;
 
@@ -333,6 +336,7 @@ var canvas_ED_only = {
             "slip",
             "speedtape",
             "track-ptr",
+            "asi.odo-frame",
             "asi.1",
             "asi.10",
             "asi.100",
@@ -1166,7 +1170,7 @@ setlistener("sim/signals/fdm-initialized", func {
             "mipmapping": 1
         });
         HUD_display[i].set("additive-blend", 1);
-        HUD_display[i].setColorBackground(0, 0, 0, 0.1);
+        HUD_display[i].setColorBackground(0, 0, 0, 1);
         HUD_display[i].addPlacement({"texture": "hud" ~ (i+1) ~ ".png"});
         HUD_master[i] = HUD_display[i].createGroup();
         ED_only[i] =
