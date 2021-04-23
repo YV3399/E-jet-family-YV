@@ -930,7 +930,7 @@ var canvas_ED_only = {
             me["bankPtr"].setRotation(roll*(-D2R));
         }
         me["slip"].setTranslation(math.round((me.props["/instrumentation/slip-skid-ball/indicated-slip-skid"].getValue() or 0)*50), 0);
-        me["fpv"].setTranslation(trackError * 43, fpa * -43).setRotation(roll * D2R);
+        me["fpv"].setTranslation(geo.normdeg180(trackError) * 43, fpa * -43).setRotation(roll * D2R);
 
         # # wind direction
         # # For some reason, if we attempt to do this in a listener, it will
@@ -1077,15 +1077,15 @@ var canvas_ED_only = {
         #     me["speedbar.amber"].show();
         # }
 
-        # o = odoDigit(airspeed, 0);
+        o = odoDigit(airspeed, 0);
 
-        # me["asi.1"].setTranslation(0, o * 64);
+        me["asi.1"].setTranslation(0, o * 32);
 
-        # o = odoDigit(airspeed, 1);
-        # me["asi.10"].setTranslation(0, o * 64);
+        o = odoDigit(airspeed, 1);
+        me["asi.10"].setTranslation(0, o * 32);
 
-        # o = odoDigit(airspeed, 2);
-        # me["asi.100"].setTranslation(0, o * 64);
+        o = odoDigit(airspeed, 2);
+        me["asi.100"].setTranslation(0, o * 32);
 
         # if (airspeed < 90.0) {
         #     me["asi.10.0"].hide();
