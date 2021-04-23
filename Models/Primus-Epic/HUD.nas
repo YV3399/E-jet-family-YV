@@ -335,11 +335,29 @@ var canvas_ED_only = {
             "horizon",
             "slip",
             "speedtape",
-            "track-ptr",
             "asi.odo-frame",
             "asi.1",
             "asi.10",
             "asi.100",
+            "heading.digital",
+            "selectedheading.digital",
+            "selectedcourse.digital",
+            "groundspeed",
+            "VS.digital",
+            "minimums.barora",
+            "minimums.digital",
+            "compass",
+            "hsi",
+            "hsi.nav1",
+            "hsi.nav1track",
+            "hsi.to",
+            "hsi.from",
+            "hsi.dots",
+            "mach.digital",
+            "selectedspeed.digital",
+            "selectedspeed.fms",
+            "selectedalt.digital100",
+            "QNH.digital",
         ];
     },
 
@@ -361,7 +379,7 @@ var canvas_ED_only = {
         # selected heading
         setlistener(me.props["/it-autoflight/input/hdg"], func (node) {
             var selectedheading = node.getValue() or 0;
-            # self["selectedheading.digital"].setText(sprintf("%03d", selectedheading));
+            self["selectedheading.digital"].setText(sprintf("%03d", selectedheading));
             # self["selectedheading.pointer"].setRotation(selectedheading * D2R);
         }, 1, 0);
 
@@ -369,15 +387,9 @@ var canvas_ED_only = {
         setlistener(me.props["/orientation/heading-magnetic-deg"], func (node) {
             var heading = node.getValue() or 0;
             # self["wind.pointer.wrapper"].setRotation(heading * -D2R);
-            # self["compass"].setRotation(heading * -D2R);
-            # self["heading.digital"].setText(sprintf("%03d", heading));
+            self["compass"].setRotation(heading * -D2R);
+            self["heading.digital"].setText(sprintf("%03d", heading));
             self["heading-scale"].setTranslation(geo.normdeg180(heading) * -43, 0);
-        }, 1, 0);
-
-        # ground track
-        setlistener(me.props["/instrumentation/pfd/track-error-deg"], func (node) {
-            var error = node.getValue() or 0;
-            self["track-ptr"].setTranslation(geo.normdeg180(error) * 43, 0);
         }, 1, 0);
 
         # wind speed
@@ -394,12 +406,12 @@ var canvas_ED_only = {
 
         # groundspeed
         setlistener(me.props["/instrumentation/pfd/groundspeed-kt"], func (node) {
-            # self["groundspeed"].setText(sprintf("%3d", node.getValue() or 0));
+            self["groundspeed"].setText(sprintf("%3d", node.getValue() or 0));
         }, 1, 0);
 
         # selected altitude
         setlistener(me.props["/controls/flight/selected-alt"], func (node) {
-            # self["selectedalt.digital100"].setText(sprintf("%02d", (node.getValue() or 0) * 0.01));
+            self["selectedalt.digital100"].setText(sprintf("%02d", (node.getValue() or 0) * 0.01));
         }, 1, 0);
 
         # comm/nav
@@ -442,20 +454,18 @@ var canvas_ED_only = {
         var updateQNH = func {
             if (self.props["/instrumentation/pfd/qnh-mode"].getValue()) {
                 # 1 = inhg
-                # self["QNH.digital"].setText(
-                #     sprintf("%5.2f", self.props["/instrumentation/altimeter/setting-inhg"].getValue()));
-                # self["QNH.unit"].setText("IN");
+                self["QNH.digital"].setText(
+                    sprintf("%5.2f IN", self.props["/instrumentation/altimeter/setting-inhg"].getValue()));
             }
             else {
                 # 0 = hpa
-                # self["QNH.digital"].setText(
-                #     sprintf("%4.0f", self.props["/instrumentation/altimeter/setting-hpa"].getValue()));
-                # self["QNH.unit"].setText("HPA");
+                self["QNH.digital"].setText(
+                    sprintf("%4.0f HPA", self.props["/instrumentation/altimeter/setting-hpa"].getValue()));
             }
         };
-        # setlistener(self.props["/instrumentation/pfd/qnh-mode"], updateQNH, 1, 0);
-        # setlistener(self.props["/instrumentation/altimeter/setting-inhg"], updateQNH, 1, 0);
-        # setlistener(self.props["/instrumentation/altimeter/setting-hpa"], updateQNH, 1, 0);
+        setlistener(self.props["/instrumentation/pfd/qnh-mode"], updateQNH, 1, 0);
+        setlistener(self.props["/instrumentation/altimeter/setting-inhg"], updateQNH, 1, 0);
+        setlistener(self.props["/instrumentation/altimeter/setting-hpa"], updateQNH, 1, 0);
 
         var updateNavAnn = func () {
             # var navsrc = self.props["/instrumentation/pfd/nav-src"].getValue() or 0;
@@ -524,39 +534,33 @@ var canvas_ED_only = {
         # setlistener(self.props["/instrumentation/nav[1]/nav-loc"], func { updateNavAnn(); }, 1, 0);
         # setlistener(self.props["/instrumentation/nav[1]/nav-id"], func { updateNavAnn(); }, 1, 0);
 
-        # setlistener(self.props["/instrumentation/pfd/nav-src"],
-        #     func (node) {
-        #         var courseColor = [0, 1, 0];
-        #         var hsiColor = [0, 1, 0];
-
-        #         if (node.getValue() == 0) {
-        #             courseColor = [0, 0.75, 1];
-        #             hsiColor = [1, 0, 1];
-        #             me["ils.fmsloc"].show();
-        #             me["ils.fmsvert"].show();
-        #         }
-        #         else {
-        #             me["ils.fmsloc"].hide();
-        #             me["ils.fmsvert"].hide();
-        #         }
-        #         self["selectedcourse.digital"].setColorFill(courseColor[0], courseColor[1], courseColor[2]);
-        #         self["hsi.nav1"].setColor(hsiColor[0], hsiColor[1], hsiColor[2]);
-        #         self["hsi.nav1track"].setColor(hsiColor[0], hsiColor[1], hsiColor[2]);
-        #         updateNavAnn();
-        #     }, 1, 0);
-        # setlistener(self.props["/instrumentation/pfd/nav/course-source"],
-        #     func (node) {
-        #         if (node.getValue() == 0) {
-        #             self["selectedcourse.digital"].hide();
-        #         }
-        #         else {
-        #             self["selectedcourse.digital"].show();
-        #         }
-        #     }, 1, 0);
-        # setlistener(self.props["/instrumentation/pfd/nav/selected-radial"],
-        #     func (node) {
-        #         self["selectedcourse.digital"].setText(sprintf("%03d", node.getValue()));
-        #     }, 1, 0);
+        setlistener(self.props["/instrumentation/pfd/nav-src"],
+            func (node) {
+                # if (node.getValue() == 0) {
+                #     courseColor = [0, 0.75, 1];
+                #     hsiColor = [1, 0, 1];
+                #     me["ils.fmsloc"].show();
+                #     me["ils.fmsvert"].show();
+                # }
+                # else {
+                #     me["ils.fmsloc"].hide();
+                #     me["ils.fmsvert"].hide();
+                # }
+                updateNavAnn();
+            }, 1, 0);
+        setlistener(self.props["/instrumentation/pfd/nav/course-source"],
+            func (node) {
+                if (node.getValue() == 0) {
+                    self["selectedcourse.digital"].hide();
+                }
+                else {
+                    self["selectedcourse.digital"].show();
+                }
+            }, 1, 0);
+        setlistener(self.props["/instrumentation/pfd/nav/selected-radial"],
+            func (node) {
+                self["selectedcourse.digital"].setText(sprintf("%03d", node.getValue()));
+            }, 1, 0);
 
         # DME
         var dme_id_listener = nil;
@@ -604,22 +608,22 @@ var canvas_ED_only = {
         # }, 1, 0);
 
         # # HSI
-        # setlistener(self.props["/instrumentation/pfd/hsi/heading"],
-        #     func (node) {
-        #         var hsiHeading = node.getValue() * D2R;
-        #         self["hsi.nav1"].setRotation(hsiHeading);
-        #         self["hsi.dots"].setRotation(hsiHeading);
-        #     }, 1, 0);
-        # setlistener(self.props["/instrumentation/pfd/hsi/deflection"],
-        #     func (node) {
-        #         self["hsi.nav1track"].setTranslation(node.getValue() * 120, 0);
-        #     }, 1, 0);
-        # setlistener(self.props["/instrumentation/pfd/hsi/from-flag"],
-        #     func (node) {
-        #         var flag = node.getValue();
-        #         self["hsi.from"].setVisible(flag == 1);
-        #         self["hsi.to"].setVisible(flag == 0);
-        #     }, 1, 0);
+        setlistener(self.props["/instrumentation/pfd/hsi/heading"],
+            func (node) {
+                var hsiHeading = node.getValue() * D2R;
+                self["hsi.nav1"].setRotation(hsiHeading);
+                self["hsi.dots"].setRotation(hsiHeading);
+            }, 1, 0);
+        setlistener(self.props["/instrumentation/pfd/hsi/deflection"],
+            func (node) {
+                self["hsi.nav1track"].setTranslation(node.getValue() * 48, 0);
+            }, 1, 0);
+        setlistener(self.props["/instrumentation/pfd/hsi/from-flag"],
+            func (node) {
+                var flag = node.getValue();
+                self["hsi.from"].setVisible(flag == 1);
+                self["hsi.to"].setVisible(flag == 0);
+            }, 1, 0);
 
         # setlistener(self.props["/instrumentation/gps/cdi-deflection"],
         #     func (node) {
@@ -853,29 +857,29 @@ var canvas_ED_only = {
         # setlistener(self.props["/autopilot/autoland/armed-mode"], updateApprArmed, 1, 0);
         # setlistener(self.props["/autopilot/autoland/engaged-mode"], updateApprEngaged, 1, 0);
 
-        # var updateSelectedSpeed = func {
-        #     if (self.props["/it-autoflight/input/kts-mach"].getValue()) {
-        #         var selectedMach = (self.props["/it-autoflight/input/mach"].getValue() or 0);
-        #         self["selectedspeed.digital"].setText(sprintf(".%03dM", selectedMach * 1000 + 0.5));
-        #     }
-        #     else {
-        #         var selectedKts = (self.props["/it-autoflight/input/kts"].getValue() or 0);
-        #         self["selectedspeed.digital"].setText(sprintf("%03d", selectedKts));
-        #     }
-        # };
+        var updateSelectedSpeed = func {
+            if (self.props["/it-autoflight/input/kts-mach"].getValue()) {
+                var selectedMach = (self.props["/it-autoflight/input/mach"].getValue() or 0);
+                self["selectedspeed.digital"].setText(sprintf(".%03dM", selectedMach * 1000 + 0.5));
+            }
+            else {
+                var selectedKts = (self.props["/it-autoflight/input/kts"].getValue() or 0);
+                self["selectedspeed.digital"].setText(sprintf("%03d", selectedKts));
+            }
+        };
 
-        # setlistener(self.props["/it-autoflight/input/kts"], updateSelectedSpeed, 1, 0);
-        # setlistener(self.props["/it-autoflight/input/mach"], updateSelectedSpeed, 1, 0);
-        # setlistener(self.props["/it-autoflight/input/kts-mach"], updateSelectedSpeed, 1, 0);
+        setlistener(self.props["/it-autoflight/input/kts"], updateSelectedSpeed, 1, 0);
+        setlistener(self.props["/it-autoflight/input/mach"], updateSelectedSpeed, 1, 0);
+        setlistener(self.props["/it-autoflight/input/kts-mach"], updateSelectedSpeed, 1, 0);
 
-        # setlistener(self.props["/controls/flight/speed-mode"], func(node) {
-        #     if (node.getValue() == 1) {
-        #         self["selectedspeed.digital"].setColor(1, 0, 1);
-        #     }
-        #     else {
-        #         self["selectedspeed.digital"].setColor(0, 0.75, 1);
-        #     }
-        # }, 1, 0);
+        setlistener(self.props["/controls/flight/speed-mode"], func(node) {
+            if (node.getValue() == 1) {
+                self["selectedspeed.fms"].show();
+            }
+            else {
+                self["selectedspeed.fms"].hide();
+            }
+        }, 1, 0);
 
         # setlistener(self.props["/instrumentation/pfd/alt-tape-offset"], func(node) {
         #     self["alt.tape"].setTranslation(0, node.getValue() * 0.45);
@@ -903,19 +907,17 @@ var canvas_ED_only = {
         # setlistener(self.props["/instrumentation/pfd/radio-altimeter-visible"], func(node) {
         #     self["radioalt"].setVisible(node.getBoolValue());   
         # }, 1, 0);
-        # setlistener(self.props["/instrumentation/pfd/minimums-mode"], func(node) {
-        #     if (node.getValue()) {
-        #         self["minimums.barora"].setText("BARO");
-        #         self["minimums.digital"].setColor(1, 1, 0);
-        #     }
-        #     else {
-        #         self["minimums.barora"].setText("RA");
-        #         self["minimums.digital"].setColor(1, 1, 1);
-        #     }
-        # }, 1, 0);
-        # setlistener(self.props["/instrumentation/pfd/minimums-decision-altitude"], func(node) {
-        #     self["minimums.digital"].setText(sprintf("%d", node.getValue()));
-        # }, 1, 0);
+        setlistener(self.props["/instrumentation/pfd/minimums-mode"], func(node) {
+            if (node.getValue()) {
+                self["minimums.barora"].setText("BARO");
+            }
+            else {
+                self["minimums.barora"].setText("RA");
+            }
+        }, 1, 0);
+        setlistener(self.props["/instrumentation/pfd/minimums-decision-altitude"], func(node) {
+            self["minimums.digital"].setText(sprintf("%d", node.getValue()));
+        }, 1, 0);
     },
 
     update: func() {
@@ -944,8 +946,8 @@ var canvas_ED_only = {
         # me["fd.roll"].setTranslation(rollBar * 8.05, 0);
 
         # # V/S
-        # var vspeed = me.props["/instrumentation/vertical-speed-indicator/indicated-speed-fpm"].getValue() or 0;
-        # me["VS.digital"].setText(sprintf("%+05d", vspeed));
+        var vspeed = me.props["/instrumentation/vertical-speed-indicator/indicated-speed-fpm"].getValue() or 0;
+        me["VS.digital"].setText(sprintf("%+05d", vspeed));
         # var vneedle = me.props["/instrumentation/pfd/vsi-needle-deg"].getValue() or 0;
         # me["vs.needle"].setRotation(vneedle * D2R);
         # me["VS.digital.wrapper"].setVisible(math.abs(vspeed) >= 500);
@@ -1043,7 +1045,7 @@ var canvas_ED_only = {
         # else {
         #     selectedKts = (me.props["/it-autoflight/input/kts"].getValue() or 0);
         # }
-        # me["mach.digital"].setText(sprintf(".%03d", currentMach * 1000));
+        me["mach.digital"].setText(sprintf(".%03d", currentMach * 1000));
 
 
         # me["speedtrend.vector"].reset();
