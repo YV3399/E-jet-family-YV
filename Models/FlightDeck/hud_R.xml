@@ -8,7 +8,7 @@
             <pass n="0">
                 <blend n="0">
                     <source>one</source>
-                    <destination>src-alpha</destination>
+                    <destination>one</destination>
                 </blend>
             </pass>
         </technique>
@@ -96,4 +96,48 @@
             <z>0</z>
         </axis>
     </animation>
+
+    <!-- projection simulation -->
+    <!-- Key parameters:
+        - Width of HUD screen in texel space (2048x2048): 1362 px
+        - Width of HUD screen in texture space: 0.665
+        - Width of HUD screen in 3D space (Y axis): 0.2444 * 1.369 =
+          0.3345836
+        Hence, 1m in 3D space = 0.503133 texture units.
+    -->
+    <animation>
+        <type>texmultiple</type>
+        <object-name>Screen</object-name>
+        <transform>
+            <subtype>textranslate</subtype>
+            <property>/sim/current-view/x-offset-m</property>
+            <bias>-0.53</bias>
+            <factor>-1.8</factor>
+            <axis>
+                <x>1</x>
+                <y>0</y>
+            </axis>
+        </transform>
+        <transform>
+            <subtype>textranslate</subtype>
+            <property>/sim/current-view/y-offset-m</property>
+            <bias>-1.42</bias>
+            <factor>-1.8</factor>
+            <axis>
+                <x>0</x>
+                <y>1</y>
+            </axis>
+        </transform>
+        <transform>
+            <subtype>textranslate</subtype>
+            <property>/controls/switches/hud-flip-pos[1]</property>
+            <bias>0</bias>
+            <factor>1</factor>
+            <axis>
+                <x>0.5</x>
+                <y>1</y>
+            </axis>
+        </transform>
+    </animation>
+
 </PropertyList>
