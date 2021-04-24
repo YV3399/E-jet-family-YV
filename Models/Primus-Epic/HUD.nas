@@ -328,36 +328,60 @@ var canvas_ED_only = {
     },
     getKeys: func() {
         return [
-            "alttape",
-            "bankPtr",
-            "fpv",
-            "heading-scale",
-            "horizon",
-            "slip",
-            "speedtape",
-            "asi.odo-frame",
+            "QNH.digital",
+            "VS.digital",
+            "airspeed.bug",
+            "alt.tape",
+            "alt.10000",
+            "alt.10000.tape",
+            "alt.10000.zero",
+            "alt.10000.neg",
+            "alt.10000.z",
+            "alt.1000",
+            "alt.1000.tape",
+            "alt.1000.zero",
+            "alt.1000.neg",
+            "alt.1000.z",
+            "alt.100",
+            "alt.100.tape",
+            "alt.100.neg",
+            "alt.100.z",
+            "alt.rollingdigits",
+            "alt.rollingdigits.neg",
+            "alt.rollingdigits.zero",
+            "alt.rollingdigits.pos",
+            "altNumHigh1",
+            "altNumHigh2",
+            "altNumLow1",
             "asi.1",
             "asi.10",
             "asi.100",
-            "heading.digital",
-            "selectedheading.digital",
-            "selectedcourse.digital",
-            "groundspeed",
-            "VS.digital",
-            "minimums.barora",
-            "minimums.digital",
+            "asi.odo-frame",
+            "bankPtr",
             "compass",
+            "fpv",
+            "groundspeed",
+            "heading-scale",
+            "heading.digital",
+            "horizon",
             "hsi",
+            "hsi.dots",
+            "hsi.from",
             "hsi.nav1",
             "hsi.nav1track",
             "hsi.to",
-            "hsi.from",
-            "hsi.dots",
             "mach.digital",
+            "minimums.barora",
+            "minimums.digital",
+            "selectedalt.digital100",
+            "selectedcourse.digital",
+            "selectedheading.digital",
+            "selectedheading.pointer",
             "selectedspeed.digital",
             "selectedspeed.fms",
-            "selectedalt.digital100",
-            "QNH.digital",
+            "slip",
+            "speedtape",
+            "speedtrend.vector",
         ];
     },
 
@@ -380,7 +404,7 @@ var canvas_ED_only = {
         setlistener(me.props["/it-autoflight/input/hdg"], func (node) {
             var selectedheading = node.getValue() or 0;
             self["selectedheading.digital"].setText(sprintf("%03d", selectedheading));
-            # self["selectedheading.pointer"].setRotation(selectedheading * D2R);
+            self["selectedheading.pointer"].setRotation(selectedheading * D2R);
         }, 1, 0);
 
         # current heading
@@ -881,16 +905,16 @@ var canvas_ED_only = {
             }
         }, 1, 0);
 
-        # setlistener(self.props["/instrumentation/pfd/alt-tape-offset"], func(node) {
-        #     self["alt.tape"].setTranslation(0, node.getValue() * 0.45);
-        # }, 1, 0);
+        setlistener(self.props["/instrumentation/pfd/alt-tape-offset"], func(node) {
+            self["alt.tape"].setTranslation(0, node.getValue() * 0.27);
+        }, 1, 0);
 
-        # setlistener(self.props["/instrumentation/pfd/alt-tape-thousands"], func(node) {
-        #     var altTapeThousands = node.getValue() * 1000;
-        #     self["altNumLow1"].setText(sprintf("%5.0f", altTapeThousands - 1000));
-        #     self["altNumHigh1"].setText(sprintf("%5.0f", altTapeThousands));
-        #     self["altNumHigh2"].setText(sprintf("%5.0f", altTapeThousands + 1000));
-        # }, 1, 0);
+        setlistener(self.props["/instrumentation/pfd/alt-tape-thousands"], func(node) {
+            var altTapeThousands = node.getValue() * 1000;
+            self["altNumLow1"].setText(sprintf("%5.0f", altTapeThousands - 1000));
+            self["altNumHigh1"].setText(sprintf("%5.0f", altTapeThousands));
+            self["altNumHigh2"].setText(sprintf("%5.0f", altTapeThousands + 1000));
+        }, 1, 0);
 
         # # Minimums
         # setlistener(self.props["/instrumentation/pfd/radio-alt"], func(node) {
@@ -953,76 +977,76 @@ var canvas_ED_only = {
         # me["VS.digital.wrapper"].setVisible(math.abs(vspeed) >= 500);
 
         # # Altitude
-        # var alt = me.props["/instrumentation/altimeter/indicated-altitude-ft"].getValue() or 0;
+        var alt = me.props["/instrumentation/altimeter/indicated-altitude-ft"].getValue() or 0;
 
-        # var o = odoDigit(alt / 10, 0);
-        # me["alt.rollingdigits"].setTranslation(0, o * 18);
-        # if (alt >= 100) {
-        #     me["alt.rollingdigits.pos"].show();
-        #     me["alt.rollingdigits.zero"].hide();
-        #     me["alt.rollingdigits.neg"].hide();
-        # }
-        # else if (alt <= -100) {
-        #     me["alt.rollingdigits.pos"].hide();
-        #     me["alt.rollingdigits.zero"].hide();
-        #     me["alt.rollingdigits.neg"].show();
-        # }
-        # else {
-        #     me["alt.rollingdigits.pos"].hide();
-        #     me["alt.rollingdigits.zero"].show();
-        #     me["alt.rollingdigits.neg"].hide();
-        # }
+        var o = odoDigit(alt / 10, 0);
+        me["alt.rollingdigits"].setTranslation(0, o * 12);
+        if (alt >= 100) {
+            me["alt.rollingdigits.pos"].show();
+            me["alt.rollingdigits.zero"].hide();
+            me["alt.rollingdigits.neg"].hide();
+        }
+        else if (alt <= -100) {
+            me["alt.rollingdigits.pos"].hide();
+            me["alt.rollingdigits.zero"].hide();
+            me["alt.rollingdigits.neg"].show();
+        }
+        else {
+            me["alt.rollingdigits.pos"].hide();
+            me["alt.rollingdigits.zero"].show();
+            me["alt.rollingdigits.neg"].hide();
+        }
 
-        # var altR = math.max(-20, alt);
-        # var o100 = odoDigit(altR / 10, 1);
-        # me["alt.100"].setTranslation(0, o100 * 44);
-        # var o1000 = odoDigit(altR / 10, 2);
-        # me["alt.1000"].setTranslation(0, o1000 * 44);
-        # var o10000 = odoDigit(altR / 10, 3);
-        # me["alt.10000"].setTranslation(0, o10000 * 44);
+        var altR = math.max(-20, alt);
+        var o100 = odoDigit(altR / 10, 1);
+        me["alt.100"].setTranslation(0, o100 * 32);
+        var o1000 = odoDigit(altR / 10, 2);
+        me["alt.1000"].setTranslation(0, o1000 * 32);
+        var o10000 = odoDigit(altR / 10, 3);
+        me["alt.10000"].setTranslation(0, o10000 * 32);
 
-        # if (alt < 0) {
-        #     me["alt.100.tape"].hide();
-        #     me["alt.1000.tape"].hide();
-        #     me["alt.10000.tape"].hide();
-        #     me["alt.100.neg"].show();
-        #     me["alt.1000.neg"].show();
-        #     me["alt.10000.neg"].show();
-        # }
-        # else {
-        #     me["alt.100.tape"].show();
-        #     me["alt.1000.tape"].show();
-        #     me["alt.10000.tape"].show();
-        #     me["alt.100.neg"].hide();
-        #     me["alt.1000.neg"].hide();
-        #     me["alt.10000.neg"].hide();
-        # }
+        if (alt < 0) {
+            me["alt.100.tape"].hide();
+            me["alt.1000.tape"].hide();
+            me["alt.10000.tape"].hide();
+            me["alt.100.neg"].show();
+            me["alt.1000.neg"].show();
+            me["alt.10000.neg"].show();
+        }
+        else {
+            me["alt.100.tape"].show();
+            me["alt.1000.tape"].show();
+            me["alt.10000.tape"].show();
+            me["alt.100.neg"].hide();
+            me["alt.1000.neg"].hide();
+            me["alt.10000.neg"].hide();
+        }
 
-        # if (alt < 5000) {
-        #     me["alt.1000.z"].hide();
-        # }
-        # else {
-        #     me["alt.1000.z"].show();
-        # }
-        # if (alt < 50000) {
-        #     me["alt.10000.z"].hide();
-        # }
-        # else {
-        #     me["alt.10000.z"].show();
-        # }
+        if (alt < 5000) {
+            me["alt.1000.z"].hide();
+        }
+        else {
+            me["alt.1000.z"].show();
+        }
+        if (alt < 50000) {
+            me["alt.10000.z"].hide();
+        }
+        else {
+            me["alt.10000.z"].show();
+        }
 
-        # if (alt < 1000) {
-        #     me["alt.1000.zero"].show();
-        # }
-        # else {
-        #     me["alt.1000.zero"].hide();
-        # }
-        # if (alt < 10000) {
-        #     me["alt.10000.zero"].show();
-        # }
-        # else {
-        #     me["alt.10000.zero"].hide();
-        # }
+        if (alt < 1000) {
+            me["alt.1000.zero"].show();
+        }
+        else {
+            me["alt.1000.zero"].hide();
+        }
+        if (alt < 10000) {
+            me["alt.10000.zero"].show();
+        }
+        else {
+            me["alt.10000.zero"].hide();
+        }
 
         # Airspeed
         var airspeedRaw = me.props["/instrumentation/airspeed-indicator/indicated-speed-kt"].getValue() or 0;
@@ -1031,29 +1055,29 @@ var canvas_ED_only = {
         var currentMach = me.props["/instrumentation/airspeed-indicator/indicated-mach"].getValue() or 0;
         var selectedKts = 0;
 
-        # if (me.props["/it-autoflight/input/kts-mach"].getValue()) {
-        #     var selectedMach = (me.props["/it-autoflight/input/mach"].getValue() or 0);
-        #     if (currentMach > 0.001) {
-        #         selectedKts = selectedMach * airspeed / currentMach;
-        #     }
-        #     else {
-        #         # this shouldn't happen in practice, but when it does, use the
-        #         # least objectionable default.
-        #         selectedKts = me.props["/it-autoflight/input/kts"].getValue();
-        #     }
-        # }
-        # else {
-        #     selectedKts = (me.props["/it-autoflight/input/kts"].getValue() or 0);
-        # }
+        if (me.props["/it-autoflight/input/kts-mach"].getValue()) {
+            var selectedMach = (me.props["/it-autoflight/input/mach"].getValue() or 0);
+            if (currentMach > 0.001) {
+                selectedKts = selectedMach * airspeed / currentMach;
+            }
+            else {
+                # this shouldn't happen in practice, but when it does, use the
+                # least objectionable default.
+                selectedKts = me.props["/it-autoflight/input/kts"].getValue();
+            }
+        }
+        else {
+            selectedKts = (me.props["/it-autoflight/input/kts"].getValue() or 0);
+        }
         me["mach.digital"].setText(sprintf(".%03d", currentMach * 1000));
 
 
-        # me["speedtrend.vector"].reset();
-        # me["speedtrend.vector"].rect(152, 450, 15,
-        #     math.max(-40.0, math.min(40.0, (airspeedLookahead - airspeed))) * -3.4);
+        me["speedtrend.vector"].reset();
+        me["speedtrend.vector"].rect(970, 1104, 10,
+            math.max(-40.0, math.min(40.0, (airspeedLookahead - airspeed))) * -2);
 
         me["speedtape"].setTranslation(0, (airspeed - 40) * 3.4);
-        # me["airspeed.bug"].setTranslation(0, (airspeed-selectedKts) * 3.4);
+        me["airspeed.bug"].setTranslation(0, (40 - math.max(40, selectedKts)) * 3.4);
 
         # var redSpeed = me.props["/fms/speed-limits/vstall-kt"].getValue() or 0;
         # var amberSpeed = me.props["/fms/speed-limits/vwarn-kt"].getValue() or 0;
