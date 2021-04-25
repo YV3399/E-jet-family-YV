@@ -29,19 +29,19 @@
      borderopacity="1.0"
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
-     inkscape:zoom="8.1197332"
-     inkscape:cx="1036.51"
-     inkscape:cy="1235.7905"
+     inkscape:zoom="0.7176898"
+     inkscape:cx="911.59627"
+     inkscape:cy="879.7862"
      inkscape:document-units="mm"
-     inkscape:current-layer="layer15"
+     inkscape:current-layer="layer2"
      showgrid="false"
      units="px"
      inkscape:snap-global="true"
      showguides="true"
      inkscape:guide-bbox="true"
      inkscape:pagecheckerboard="false"
-     inkscape:window-width="1440"
-     inkscape:window-height="886"
+     inkscape:window-width="1438"
+     inkscape:window-height="884"
      inkscape:window-x="0"
      inkscape:window-y="14"
      inkscape:window-maximized="0"
@@ -61,6 +61,11 @@
        inkscape:locked="false"
        inkscape:label=""
        inkscape:color="rgb(0,0,255)" />
+    <sodipodi:guide
+       position="679.9595,660.45247"
+       orientation="1,0"
+       id="guide3076"
+       inkscape:locked="false" />
   </sodipodi:namedview>
   <metadata
      id="metadata5">
@@ -78,7 +83,7 @@
      inkscape:label="reference"
      inkscape:groupmode="layer"
      id="layer1"
-     style="display:inline"
+     style="display:none"
      sodipodi:insensitive="true"
      transform="translate(0,1)">
     <image
@@ -1182,7 +1187,7 @@
            x="970"
            height="10"
            width="10"
-           id="speedtrend.vector"
+           id="speederror.vector"
            style="opacity:1;fill:#11ff33;fill-opacity:1;stroke:none;stroke-width:2.99999976;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
       </g>
     </g>
@@ -1251,9 +1256,10 @@
       <path
          inkscape:connector-curvature="0"
          id="airspeed.bug"
-         d="m 678,1141 6,-6 -6,-6 v -8 h 10 v 28 h -10 z"
+         d="m 678,1138 6,-6 -6,-6 v -8 h 10 v 28 h -10 z"
          style="fill:none;stroke:#11ff33;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
       <g
+         transform="translate(0,-3)"
          id="g11698">
         <path
            style="fill:none;stroke:#11ff33;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
@@ -1796,8 +1802,7 @@
      id="layer2"
      inkscape:label="Fixed"
      style="display:inline"
-     transform="translate(0,1)"
-     sodipodi:insensitive="true">
+     transform="translate(0,1)">
     <path
        style="display:inline;fill:none;stroke:#11ff33;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        d="M 967.99997,1023.9997 H 1008 l 16,16 16.0001,-16 h 40"
@@ -2107,6 +2112,120 @@
        id="path9263"
        d="m 1407.9999,1100 h 32 v 64 h -32 v -16 h -60 l -20,-16 20,-16 h 60 z"
        style="display:inline;opacity:1;fill:#000000;fill-opacity:1;stroke:#11ff33;stroke-width:2;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+    <g
+       id="navsrc.primary">
+      <text
+         id="navsrc.primary.selection"
+         y="1391.6139"
+         x="680.17822"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.66666603px;line-height:26.66666794px;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
+         xml:space="preserve"><tspan
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.66666603px;line-height:26.66666794px;font-family:E190;-inkscape-font-specification:E190;text-align:start;text-anchor:start;fill:#11ff33;fill-opacity:1;stroke:none;stroke-opacity:1"
+           y="1391.6139"
+           x="680.17822"
+           id="tspan3062"
+           sodipodi:role="line">FMS1</tspan></text>
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
+         x="760.17822"
+         y="1391.6139"
+         id="navsrc.primary.id"><tspan
+           sodipodi:role="line"
+           id="tspan3068"
+           x="760.17822"
+           y="1391.6139"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:16px;font-family:E190;-inkscape-font-specification:E190;text-align:start;text-anchor:start;fill:#11ff33;fill-opacity:1;stroke:none;stroke-opacity:1">GSPD</tspan></text>
+    </g>
+    <g
+       id="wind.pointer.wrapper">
+      <path
+         style="fill:none;stroke:#11ff33;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         d="m 1223,1370.0563 v 20 m -6,-10 6,10 6,-10"
+         id="wind.pointer"
+         inkscape:connector-curvature="0"
+         sodipodi:nodetypes="ccccc" />
+    </g>
+    <text
+       id="wind.kt"
+       y="1389.6139"
+       x="1206.3796"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';text-align:end;letter-spacing:0px;word-spacing:0px;text-anchor:end;fill:#11ff33;fill-opacity:1;stroke:none"
+       xml:space="preserve"><tspan
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:16px;font-family:E190;-inkscape-font-specification:E190;text-align:end;text-anchor:end;fill:#11ff33;fill-opacity:1;stroke:none;stroke-opacity:1"
+         y="1389.6139"
+         x="1206.3796"
+         id="tspan3081"
+         sodipodi:role="line">99</tspan></text>
+    <g
+       id="waypoint">
+      <text
+         id="waypoint.dist"
+         y="1417.6139"
+         x="724.82153"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';text-align:end;letter-spacing:0px;word-spacing:0px;text-anchor:end;fill:#11ff33;fill-opacity:1;stroke:none"
+         xml:space="preserve"><tspan
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:16px;font-family:E190;-inkscape-font-specification:E190;text-align:end;text-anchor:end;fill:#11ff33;fill-opacity:1;stroke:none;stroke-opacity:1"
+           y="1417.6139"
+           x="724.82153"
+           id="tspan3072"
+           sodipodi:role="line">1158</tspan></text>
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';text-align:start;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#11ff33;fill-opacity:1;stroke:none"
+         x="740.85278"
+         y="1417.6139"
+         id="text3284"><tspan
+           sodipodi:role="line"
+           id="tspan3282"
+           x="740.85278"
+           y="1417.6139"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:16px;font-family:E190;-inkscape-font-specification:E190;text-align:start;text-anchor:start;fill:#11ff33;fill-opacity:1;stroke:none;stroke-opacity:1">NM</tspan></text>
+    </g>
+    <text
+       id="dme.selection"
+       y="1401.6139"
+       x="1288.1782"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
+       xml:space="preserve"><tspan
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:16px;font-family:E190;-inkscape-font-specification:E190;text-align:start;text-anchor:start;fill:#11ff33;fill-opacity:1;stroke:none;stroke-opacity:1"
+         y="1401.6139"
+         x="1288.1782"
+         id="tspan3290"
+         sodipodi:role="line">DME1</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';text-align:end;letter-spacing:0px;word-spacing:0px;text-anchor:end;fill:#11ff33;fill-opacity:1;stroke:none"
+       x="1331.2581"
+       y="1417.6139"
+       id="dme.dist"><tspan
+         sodipodi:role="line"
+         id="tspan3294"
+         x="1331.2581"
+         y="1417.6139"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:16px;font-family:E190;-inkscape-font-specification:E190;text-align:end;text-anchor:end;fill:#11ff33;fill-opacity:1;stroke:none;stroke-opacity:1">125</tspan></text>
+    <text
+       id="text3304"
+       y="1417.6139"
+       x="1344.1782"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
+       xml:space="preserve"><tspan
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:16px;font-family:E190;-inkscape-font-specification:E190;text-align:start;text-anchor:start;fill:#11ff33;fill-opacity:1;stroke:none;stroke-opacity:1"
+         y="1417.6139"
+         x="1344.1782"
+         id="tspan3302"
+         sodipodi:role="line">NM</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
+       x="1250.1782"
+       y="1417.6139"
+       id="dme.hold"><tspan
+         sodipodi:role="line"
+         id="tspan3322"
+         x="1250.1782"
+         y="1417.6139"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:16px;font-family:E190;-inkscape-font-specification:E190;text-align:start;text-anchor:start;fill:#11ff33;fill-opacity:1;stroke:none;stroke-opacity:1">H</tspan></text>
   </g>
   <g
      inkscape:groupmode="layer"
@@ -3629,8 +3748,9 @@
       <path
          id="alt.1000.zero"
          style="fill:none;stroke:#11ff33;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-         d="m 1378.0001,1117 8,8 m -20,16 8,8 m -8,-20 20,20 m -20,-32 20,20"
-         inkscape:connector-curvature="0" />
+         d="m 1381.1293,1116.8258 4.8708,4.8709 m -20,16 11.1292,11.1291 m -11.1292,-23.1291 20,20 m -16.8708,-28.8709 16.8708,16.8709"
+         inkscape:connector-curvature="0"
+         sodipodi:nodetypes="cccccccc" />
     </g>
   </g>
   <g
@@ -3654,7 +3774,8 @@
   <g
      inkscape:groupmode="layer"
      id="layer15"
-     inkscape:label="FMA">
+     inkscape:label="FMA"
+     sodipodi:insensitive="true">
     <text
        xml:space="preserve"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:E190;-inkscape-font-specification:E190;text-align:end;letter-spacing:0px;word-spacing:0px;text-anchor:end;fill:#11ff33;fill-opacity:1;stroke:none"

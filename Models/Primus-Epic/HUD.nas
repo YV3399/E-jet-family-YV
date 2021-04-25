@@ -360,6 +360,10 @@ var canvas_ED_only = {
             "bankPtr",
             "compass",
             "fpv",
+            "dme",
+            "dme.dist",
+            "dme.hold",
+            "dme.selection",
             "fma.ap",
             "fma.appr",
             "fma.apprarmed",
@@ -385,6 +389,9 @@ var canvas_ED_only = {
             "mach.digital",
             "minimums.barora",
             "minimums.digital",
+            "navsrc.primary",
+            "navsrc.primary.id",
+            "navsrc.primary.selection",
             "selectedalt.digital100",
             "selectedcourse.digital",
             "selectedheading.digital",
@@ -393,7 +400,12 @@ var canvas_ED_only = {
             "selectedspeed.fms",
             "slip",
             "speedtape",
-            "speedtrend.vector",
+            "speederror.vector",
+            "waypoint",
+            "waypoint.dist",
+            "wind.kt",
+            "wind.pointer",
+            "wind.pointer.wrapper",
         ];
     },
 
@@ -422,7 +434,7 @@ var canvas_ED_only = {
         # current heading
         setlistener(me.props["/orientation/heading-magnetic-deg"], func (node) {
             var heading = node.getValue() or 0;
-            # self["wind.pointer.wrapper"].setRotation(heading * -D2R);
+            self["wind.pointer.wrapper"].setRotation(heading * -D2R);
             self["compass"].setRotation(heading * -D2R);
             self["heading.digital"].setText(sprintf("%03d", heading));
             self["heading-scale"].setTranslation(geo.normdeg180(heading) * -43, 0);
@@ -432,12 +444,12 @@ var canvas_ED_only = {
         setlistener(me.props["/environment/wind-speed-kt"], func (node) {
             var windSpeed = node.getValue() or 0;
             if (windSpeed > 1) {
-                # me["wind.pointer"].show();
+                me["wind.pointer"].show();
             }
             else {
-                # me["wind.pointer"].hide();
+                me["wind.pointer"].hide();
             }
-            # me["wind.kt"].setText(sprintf("%u", windSpeed));
+            me["wind.kt"].setText(sprintf("%u", windSpeed));
         }, 1, 0);
 
         # groundspeed
@@ -504,41 +516,21 @@ var canvas_ED_only = {
         setlistener(self.props["/instrumentation/altimeter/setting-hpa"], updateQNH, 1, 0);
 
         var updateNavAnn = func () {
-            # var navsrc = self.props["/instrumentation/pfd/nav-src"].getValue() or 0;
-            # var preview = self.props["/instrumentation/pfd/preview"].getValue() or 0;
+            var navsrc = self.props["/instrumentation/pfd/nav-src"].getValue() or 0;
 
-            # if (navsrc == 0) {
-            #     self["navsrc.primary.selection"].setText("FMS");
-            #     self["navsrc.primary.selection"].setColor(1, 0, 1);
-            #     self["navsrc.primary.id"].setText("");
-
-            #     if (preview) {
-            #         self["navsrc.preview"].show();
-            #         if (self.props["/instrumentation/nav[" ~ (preview - 1) ~ "]/nav-loc"].getValue() or 0) {
-            #             self["navsrc.preview.selection"].setText("LOC" ~ preview);
-            #         }
-            #         else {
-            #             self["navsrc.preview.selection"].setText("VOR" ~ preview);
-            #         }
-            #         self["navsrc.preview.id"].setText(self.props["/instrumentation/nav[" ~ (preview - 1) ~ "]/nav-id"].getValue() or "");
-            #     }
-            #     else {
-            #         self["navsrc.preview"].hide();
-            #     }
-            # }
-            # else {
-            #     self["navsrc.primary"].show();
-            #     if (self.props["/instrumentation/nav[" ~ (navsrc - 1) ~ "]/nav-loc"].getValue() or 0) {
-            #         self["navsrc.primary.selection"].setText("LOC" ~ navsrc);
-            #     }
-            #     else {
-            #         self["navsrc.primary.selection"].setText("VOR" ~ navsrc);
-            #     }
-            #     self["navsrc.primary.selection"].setColor(0, 1, 0);
-            #     self["navsrc.primary.id"].setText(self.props["/instrumentation/nav[" ~ (navsrc - 1) ~ "]/nav-id"].getValue() or "");
-            #     self["navsrc.primary.id"].setColor(0, 1, 0);
-            #     self["navsrc.preview"].hide();
-            # }
+            if (navsrc == 0) {
+                self["navsrc.primary.selection"].setText("FMS");
+                self["navsrc.primary.id"].setText("");
+            }
+            else {
+                if (self.props["/instrumentation/nav[" ~ (navsrc - 1) ~ "]/nav-loc"].getValue() or 0) {
+                    self["navsrc.primary.selection"].setText("LOC" ~ navsrc);
+                }
+                else {
+                    self["navsrc.primary.selection"].setText("VOR" ~ navsrc);
+                }
+                self["navsrc.primary.id"].setText(self.props["/instrumentation/nav[" ~ (navsrc - 1) ~ "]/nav-id"].getValue() or "");
+            }
         };
 
         setlistener(self.props["/controls/flight/nav-src/side"],
@@ -564,11 +556,10 @@ var canvas_ED_only = {
         #     func (node) { self["hsi.pointer.diamond"].setRotation(node.getValue() * D2R); },
         #     1, 0);
 
-        # setlistener(self.props["/instrumentation/pfd/preview"], func { updateNavAnn(); }, 1, 0);
-        # setlistener(self.props["/instrumentation/nav[0]/nav-loc"], func { updateNavAnn(); }, 1, 0);
-        # setlistener(self.props["/instrumentation/nav[0]/nav-id"], func { updateNavAnn(); }, 1, 0);
-        # setlistener(self.props["/instrumentation/nav[1]/nav-loc"], func { updateNavAnn(); }, 1, 0);
-        # setlistener(self.props["/instrumentation/nav[1]/nav-id"], func { updateNavAnn(); }, 1, 0);
+        setlistener(self.props["/instrumentation/nav[0]/nav-loc"], func { updateNavAnn(); }, 1, 0);
+        setlistener(self.props["/instrumentation/nav[0]/nav-id"], func { updateNavAnn(); }, 1, 0);
+        setlistener(self.props["/instrumentation/nav[1]/nav-loc"], func { updateNavAnn(); }, 1, 0);
+        setlistener(self.props["/instrumentation/nav[1]/nav-id"], func { updateNavAnn(); }, 1, 0);
 
         setlistener(self.props["/instrumentation/pfd/nav-src"],
             func (node) {
@@ -599,51 +590,24 @@ var canvas_ED_only = {
             }, 1, 0);
 
         # DME
-        var dme_id_listener = nil;
+        setlistener(self.props["/instrumentation/pfd/nav/dme-source"], func (node) {
+            var dmesrc = node.getValue();
+            if (dmesrc > 0) {
+                self["dme"].show();
+                self["dme.selection"].setText("DME" ~ dmesrc);
+            }
+            else {
+                self["dme"].hide();
+            }
+        }, 1, 0);
+        setlistener(self.props["/instrumentation/pfd/dme/dist10"], func (node) {
+            self["dme.dist"].setText(sprintf("%5.1f", node.getValue() * 0.1));
+        }, 1, 0);
+        setlistener(self.props["/instrumentation/pfd/dme/hold"], func (node) {
+            self["dme.hold"].setVisible(node.getBoolValue());
+        }, 1, 0);
 
-        # setlistener(self.props["/instrumentation/pfd/nav/dme-source"], func (node) {
-        #     var dmesrc = node.getValue();
-        #     if (dme_id_listener != nil) {
-        #         removelistener(dme_id_listener);
-        #     }
-        #     if (dmesrc > 0) {
-        #         self["dme"].show();
-        #         self["dme.selection"].setText("DME" ~ dmesrc);
-        #         dme_id_listener = setlistener(self.props["/instrumentation/nav[" ~ (dmesrc - 1) ~ "]/nav-id"],
-        #             func (node) {
-        #                 self["dme.id"].setText(node.getValue() or "");
-        #             }, 1, 0);
-        #     }
-        #     else {
-        #         self["dme"].hide();
-        #         dme_id_listener = nil;
-        #     }
-        # }, 1, 0);
-        # setlistener(self.props["/instrumentation/pfd/dme/dist10"], func (node) {
-        #     self["dme.dist"].setText(sprintf("%5.1f", node.getValue() * 0.1));
-        # }, 1, 0);
-        # setlistener(self.props["/instrumentation/pfd/dme/ete"], func (node) {
-        #     var ete = node.getValue();
-        #     if (ete >= 600) {
-        #         self["dme.ete"].setText("+++");
-        #     }
-        #     else {
-        #         self["dme.ete"].setText(sprintf("%3.0d", ete));
-        #     }
-        # }, 1, 0);
-        # setlistener(self.props["/instrumentation/pfd/dme/ete-unit"], func (node) {
-        #     if (node.getValue()) {
-        #         self["dme.eteunit"].setText("MIN");
-        #     }
-        #     else {
-        #         self["dme.eteunit"].setText("SEC");
-        #     }
-        # }, 1, 0);
-        # setlistener(self.props["/instrumentation/pfd/dme/hold"], func (node) {
-        #     self["dme.hold"].setVisible(node.getBoolValue());
-        # }, 1, 0);
-
-        # # HSI
+        # HSI
         setlistener(self.props["/instrumentation/pfd/hsi/heading"],
             func (node) {
                 var hsiHeading = node.getValue() * D2R;
@@ -722,10 +686,10 @@ var canvas_ED_only = {
         #     self["waypoint.id"].setText(node.getValue() or "");
         #     }, 1, 0);
 
-        # setlistener(self.props["/instrumentation/pfd/waypoint/dist10"], func (node) {
-        #     self["waypoint.dist"].setText(
-        #         sprintf("%5.1f", (node.getValue() or 0) * 0.1));
-        #     }, 1, 0);
+        setlistener(self.props["/instrumentation/pfd/waypoint/dist10"], func (node) {
+            self["waypoint.dist"].setText(
+                sprintf("%5.1f", (node.getValue() or 0) * 0.1));
+            }, 1, 0);
 
         # setlistener(self.props["/instrumentation/pfd/waypoint/ete"], func (node) {
         #         self["waypoint.ete"].setText(sprintf("%3d", node.getValue()));
@@ -882,10 +846,10 @@ var canvas_ED_only = {
         me["slip"].setTranslation(math.round((me.props["/instrumentation/slip-skid-ball/indicated-slip-skid"].getValue() or 0)*50), 0);
         me["fpv"].setTranslation(geo.normdeg180(trackError) * 43, fpa * -43).setRotation(roll * D2R);
 
-        # # wind direction
-        # # For some reason, if we attempt to do this in a listener, it will
-        # # be extremely unreliable.
-        # me["wind.pointer"].setRotation((me.props["/environment/wind-from-heading-deg"].getValue() or 0) * D2R);
+        # wind direction
+        # For some reason, if we attempt to do this in a listener, it will
+        # be extremely unreliable.
+        me["wind.pointer"].setRotation((me.props["/environment/wind-from-heading-deg"].getValue() or 0) * D2R);
 
         # # FD
         # var pitchBar = me.props["/it-autoflight/fd/pitch-bar"].getValue() or 0;
@@ -996,9 +960,9 @@ var canvas_ED_only = {
         me["mach.digital"].setText(sprintf(".%03d", currentMach * 1000));
 
 
-        me["speedtrend.vector"].reset();
-        me["speedtrend.vector"].rect(970, 1104, 10,
-            math.max(-40.0, math.min(40.0, (airspeedLookahead - airspeed))) * -2);
+        me["speederror.vector"].reset();
+        me["speederror.vector"].rect(970, 1104, 10,
+            math.max(-40.0, math.min(40.0, (selectedKts - airspeed))) * -2);
 
         me["speedtape"].setTranslation(0, (airspeed - 40) * 3.4);
         me["airspeed.bug"].setTranslation(0, (40 - math.max(40, selectedKts)) * 3.4);
