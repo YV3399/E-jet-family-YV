@@ -1878,6 +1878,25 @@
             </vspeeds>
         </fmc>
 
+        <annun>
+            <spd-mode type="string"></spd-mode>
+            <spd-mode-armed type="string"></spd-mode-armed>
+            <spd-minor-mode type="string"></spd-minor-mode>
+            <spd-minor-mode-armed type="string"></spd-minor-mode-armed>
+
+            <ap-engaged type="bool">false</ap-engaged>
+            <at-engaged type="bool">false</at-engaged>
+
+            <lat-mode type="string"></lat-mode>
+            <lat-mode-armed type="string"></lat-mode-armed>
+
+            <vert-mode type="string"></vert-mode>
+            <vert-mode-armed type="string"></vert-mode-armed>
+
+            <appr-mode type="string"></appr-mode>
+            <appr-mode-armed type="string"></appr-mode-armed>
+        </annun>
+
         <pfd>
             <!-- 0 = FMS, 1,2 = VOR1/LOC1, VOR2,LOC2 -->
             <nav-src type="int">1</nav-src>
@@ -2224,49 +2243,6 @@
                 </binding>
             </key>
 
-            <!-- Default autopilot hotkeys -->
-            <key n="1">
-                <name>Ctrl-A</name>
-                <desc>toggle autopilot altitude lock</desc>
-                <binding>
-                    <command>property-assign</command>
-                    <property>autopilot/settings/altitude</property>
-                    <value>altitude-hold</value>
-                </binding>
-            </key>
-            <key n="7">
-                <name>Ctrl-G</name>
-                <desc>Toggle autopilot glide slope lock</desc>
-                <binding>
-                    <command>nasal</command>
-                    <script>input.toggleGS()</script>
-                </binding>
-            </key>
-            <key n="8">
-                <name>Ctrl-H</name>
-                <desc>Toggle autopilot heading lock</desc>
-                <binding>
-                    <command>property-assign</command>
-                    <property>autopilot/settings/heading</property>
-                    <value>dg-heading-hold</value>
-                </binding>
-            </key>
-            <key n="14">
-                <name>Ctrl-N</name>
-                <desc>Toggle autopilot nav1 lock</desc>
-                <binding>
-                    <command>nasal</command>
-                    <script>input.toggleHeadingMode("nav1-hold")</script>
-                </binding>
-            </key>
-            <key n="262">
-                <name>F6</name>
-                <desc>Toggle Autopilot Heading Mode</desc>
-                <binding>
-                    <command>nasal</command>
-                    <script>input.toggleHeadingMode("true-heading-hold")</script>
-                </binding>
-            </key>
             <key n="91">
                 <name>[</name>
                 <desc>Decrease flaps.</desc>
@@ -2348,9 +2324,9 @@
         <dialogs>
             <file>Aircraft/E-jet-family/Nasal/dialogs.nas</file>
         </dialogs>
-        <input>
-            <file>Aircraft/E-jet-family/Nasal/autopilot.nas</file>
-        </input>
+        <annun>
+            <file>Aircraft/E-jet-family/Nasal/fd-annun.nas</file>
+        </annun>
         <fms>
             <file>Aircraft/E-jet-family/Nasal/fms/vspeeds.nas</file>
             <file>Aircraft/E-jet-family/Nasal/fms/speed.nas</file>

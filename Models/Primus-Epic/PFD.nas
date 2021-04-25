@@ -341,19 +341,19 @@ var canvas_ED_only = {
             "airspeed.bug",
             "airspeed.bug_clip",
             "alt.100",
+            "alt.100.neg",
             "alt.100.tape",
             "alt.100.z",
-            "alt.100.neg",
             "alt.1000",
-            "alt.1000.tape",
-            "alt.1000.zero",
-            "alt.1000.z",
             "alt.1000.neg",
+            "alt.1000.tape",
+            "alt.1000.z",
+            "alt.1000.zero",
             "alt.10000",
-            "alt.10000.tape",
-            "alt.10000.zero",
-            "alt.10000.z",
             "alt.10000.neg",
+            "alt.10000.tape",
+            "alt.10000.z",
+            "alt.10000.zero",
             "alt.1000_clip",
             "alt.100_clip",
             "alt.rollingdigits",
@@ -375,13 +375,13 @@ var canvas_ED_only = {
             "asi.100_clip",
             "asi.10_clip",
             "asi.1_clip",
+            "asi.preview-v1.digital",
+            "asi.preview-v2.digital",
+            "asi.preview-vfs.digital",
+            "asi.preview-vr.digital",
             "asi.tape",
             "asi.tape_clip",
             "asi.vspeeds",
-            "asi.preview-v1.digital",
-            "asi.preview-vr.digital",
-            "asi.preview-v2.digital",
-            "asi.preview-vfs.digital",
             "barberpole",
             "chrono.digital",
             "compass",
@@ -401,12 +401,13 @@ var canvas_ED_only = {
             "fma.lat",
             "fma.latarmed",
             "fma.spd",
-            "fma.spdarmed",
             "fma.spd.minor",
+            "fma.spdarmed",
             "fma.spdarmed.minor",
+            "fma.src.arrow",
             "fma.vert",
             "fma.vertarmed",
-            "fma.src.arrow",
+            "greendot",
             "groundspeed",
             "heading.digital",
             "horizon",
@@ -414,17 +415,17 @@ var canvas_ED_only = {
             "horizon_clip",
             "hsi.dots",
             "hsi.from",
-            "hsi.nav1",
-            "hsi.nav1track",
-            "hsi.to",
-            "hsi.pointer.circle",
-            "hsi.pointer.diamond",
             "hsi.label.circle",
             "hsi.label.diamond",
+            "hsi.nav1",
+            "hsi.nav1track",
+            "hsi.pointer.circle",
+            "hsi.pointer.diamond",
+            "hsi.to",
+            "ils.fmsloc",
+            "ils.fmsvert",
             "ils.gsneedle",
             "ils.locneedle",
-            "ils.fmsvert",
-            "ils.fmsloc",
             "mach.digital",
             "minimums",
             "minimums.barora",
@@ -448,6 +449,8 @@ var canvas_ED_only = {
             "selectedspeed.digital",
             "selectedvspeed.digital",
             "slip.pointer",
+            "speedbar.amber",
+            "speedbar.red",
             "speedref.v1",
             "speedref.v2",
             "speedref.vac",
@@ -457,9 +460,6 @@ var canvas_ED_only = {
             "speedref.vr",
             "speedref.vref",
             "speedtrend.vector",
-            "speedbar.amber",
-            "speedbar.red",
-            "greendot",
             "vhf1.act",
             "vhf1.sby",
             "vs.needle",
@@ -831,111 +831,44 @@ var canvas_ED_only = {
         setlistener(self.props["/it-autoflight/output/athr"], func (node) {
                 self["fma.at"].setVisible(node.getBoolValue());
             }, 1, 0);
+        setlistener("/instrumentation/annun/lat-mode", func (node) {
+                self["fma.lat"].setText(node.getValue());
+            }, 1, 0);
+        setlistener("/instrumentation/annun/lat-mode-armed", func (node) {
+                self["fma.latarmed"].setText(node.getValue());
+            }, 1, 0);
+        setlistener("/instrumentation/annun/vert-mode", func (node) {
+                self["fma.vert"].setText(node.getValue());
+            }, 1, 0);
+        setlistener("/instrumentation/annun/vert-mode-armed", func (node) {
+                self["fma.vertarmed"].setText(node.getValue());
+            }, 1, 0);
+        setlistener("/instrumentation/annun/spd-mode", func (node) {
+                self["fma.spd"].setText(node.getValue());
+            }, 1, 0);
+        setlistener("/instrumentation/annun/spd-mode-armed", func (node) {
+                self["fma.spdarmed"].setText(node.getValue());
+            }, 1, 0);
+        setlistener("/instrumentation/annun/spd-minor-mode", func (node) {
+                self["fma.spd.minor"].setText(node.getValue());
+            }, 1, 0);
+        setlistener("/instrumentation/annun/spd-minor-mode-armed", func (node) {
+                self["fma.spdarmed.minor"].setText(node.getValue());
+            }, 1, 0);
+        setlistener("/instrumentation/annun/appr-mode", func (node) {
+                self["fma.appr"].setText(node.getValue());
+            }, 1, 0);
+        setlistener("/instrumentation/annun/appr-mode-armed", func (node) {
+                var value = node.getValue();
+                self["fma.apprarmed"].setText(value);
+                if (value == 'APPR1 ONLY') {
+                    self["fma.apprarmed"].setColor(1, 0.5, 0);
+                }
+                else {
+                    self["fma.apprarmed"].setColor(1, 1, 1);
+                }
+            }, 1, 0);
 
-        var updateFMAVert = func () {
-            var vertModeLabel = vertModeMap[self.props["/it-autoflight/mode/vert"].getValue() or ""] or "";
-            if (self.props["/controls/flight/vnav-enabled"].getValue()) {
-                vertModeLabel = "V" ~ vertModeLabel;
-            }
-            self["fma.vert"].setText(vertModeLabel);
-            if (self.props["/it-autoflight/output/appr-armed"].getValue() and self.props["/it-autoflight/mode/vert"].getValue != "G/S") {
-                self["fma.vertarmed"].setText("GS");
-            }
-            else {
-                self["fma.vertarmed"].setText(vertModeArmedMap[self.props["/it-autoflight/mode/vert"].getValue() or ""] or "");
-            }
-        };
-        var updateFMALat = func () {
-            var vorOrLoc = "VOR";
-            if (self.props["/instrumentation/pfd/ils/has-loc"].getBoolValue()) {
-                vorOrLoc = "LOC";
-            }
-
-            var latModeLabel = latModeMap[self.props["/it-autoflight/mode/lat"].getValue() or ""] or "";
-            if (latModeLabel == "LOC") {
-                latModeLabel = vorOrLoc;
-            }
-            self["fma.lat"].setText(latModeLabel);
-            if (self.props["/it-autoflight/output/lnav-armed"].getValue()) {
-                self["fma.latarmed"].setText("LNAV");
-            }
-            else if (self.props["/it-autoflight/output/loc-armed"].getValue() or self.props["/it-autoflight/output/appr-armed"].getValue()) {
-                self["fma.latarmed"].setText("LOC");
-            }
-            else if (self.props["/it-autoflight/mode/lat"].getValue() == "T/O") {
-                # In T/O mode, if LNAV wasn't armed, the A/P will transition to HDG mode.
-                self["fma.latarmed"].setText("HDG");
-            }
-            else {
-                self["fma.latarmed"].setText(latModeArmedMap[self.props["/it-autoflight/mode/arm"].getValue()]);
-            }
-        };
-        var updateFMASpeed = func () {
-            self["fma.spd"].setText(
-                    spdModeMap[self.props["/it-autoflight/mode/vert"].getValue() or ""] or
-                    spdModeMap[self.props["/it-autoflight/mode/thr"].getValue() or ""] or
-                    "");
-            self["fma.spd.minor"].setText(
-                    spdMinorModeMap[self.props["/it-autoflight/mode/vert"].getValue() or ""] or
-                    spdMinorModeMap[self.props["/it-autoflight/mode/thr"].getValue() or ""] or
-                    " ");
-            self["fma.spdarmed"].setText(
-                    spdModeArmedMap[self.props["/it-autoflight/mode/vert"].getValue() or ""] or
-                    spdModeArmedMap[self.props["/it-autoflight/mode/thr"].getValue() or ""] or
-                    "");
-            self["fma.spdarmed.minor"].setText(
-                    spdMinorModeArmedMap[self.props["/it-autoflight/mode/vert"].getValue() or ""] or
-                    spdMinorModeArmedMap[self.props["/it-autoflight/mode/thr"].getValue() or ""] or
-                    " ");
-        };
-        var updateApprArmed = func (node) {
-            var mode = node.getValue();
-            if (mode == 1) {
-                # APPR1
-                self["fma.apprarmed"].setColor(1, 1, 1)
-                                     .setText("APPR1")
-                                     .show();
-            }
-            else if (mode == 2) {
-                # APPR1 ONLY
-                self["fma.apprarmed"].setColor(1, 0.5, 0)
-                                     .setText("APPR1 ONLY")
-                                     .show();
-            }
-            else if (mode == 3) {
-                # APPR1 ONLY
-                self["fma.apprarmed"].setColor(1, 1, 1)
-                                     .setText("APPR2")
-                                     .show();
-            }
-            else {
-                self["fma.apprarmed"].hide();
-            }
-        };
-        var updateApprEngaged = func (node) {
-            var mode = node.getValue();
-            if (mode == 1) {
-                # APPR1
-                self["fma.appr"].setColor(0, 1, 0)
-                                     .setText("APPR1")
-                                     .show();
-            }
-            else if (mode == 2) {
-                # APPR1 ONLY
-                self["fma.appr"].setColor(0, 1, 0)
-                                     .setText("APPR1")
-                                     .show();
-            }
-            else if (mode == 3) {
-                # APPR1 ONLY
-                self["fma.appr"].setColor(0, 1, 0)
-                                     .setText("APPR2")
-                                     .show();
-            }
-            else {
-                self["fma.appr"].hide();
-            }
-        };
         var updateSelectedVSpeed = func {
             var vertMode = self.props["/it-autoflight/mode/vert"].getValue();
             if (vertMode == "V/S") {
@@ -952,31 +885,10 @@ var canvas_ED_only = {
         };
 
         setlistener(self.props["/it-autoflight/mode/vert"], func {
-            updateFMAVert();
-            updateFMASpeed();
             updateSelectedVSpeed();
         }, 1, 0);
-        setlistener(self.props["/controls/flight/vnav-enabled"], updateFMAVert, 1, 0);
-        setlistener(self.props["/it-autoflight/mode/thr"], updateFMASpeed, 1, 0);
         setlistener(self.props["/it-autoflight/input/vs"], updateSelectedVSpeed, 1, 0);
         setlistener(self.props["/it-autoflight/input/fpa"], updateSelectedVSpeed, 1, 0);
-
-        setlistener(self.props["/instrumentation/pfd/ils/has-loc"], updateFMALat, 1, 0);
-        setlistener(self.props["/it-autoflight/mode/lat"], func {
-            updateFMALat();
-        }, 1, 0);
-        setlistener(self.props["/it-autoflight/mode/arm"], updateFMALat, 1, 0);
-        setlistener(self.props["/it-autoflight/output/lnav-armed"], updateFMALat, 1, 0);
-        setlistener(self.props["/it-autoflight/output/loc-armed"], updateFMALat, 1, 0);
-
-        setlistener(self.props["/it-autoflight/output/appr-armed"],
-            func {
-                updateFMAVert();
-                updateFMALat();
-            }, 1, 0);
-
-        setlistener(self.props["/autopilot/autoland/armed-mode"], updateApprArmed, 1, 0);
-        setlistener(self.props["/autopilot/autoland/engaged-mode"], updateApprEngaged, 1, 0);
 
         var updateSelectedSpeed = func {
             if (self.props["/it-autoflight/input/kts-mach"].getValue()) {

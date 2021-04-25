@@ -29,11 +29,11 @@
      borderopacity="1.0"
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
-     inkscape:zoom="1.4353796"
-     inkscape:cx="1234.7326"
-     inkscape:cy="1045.0039"
+     inkscape:zoom="8.1197332"
+     inkscape:cx="1036.51"
+     inkscape:cy="1235.7905"
      inkscape:document-units="mm"
-     inkscape:current-layer="layer14"
+     inkscape:current-layer="layer15"
      showgrid="false"
      units="px"
      inkscape:snap-global="true"
@@ -78,7 +78,7 @@
      inkscape:label="reference"
      inkscape:groupmode="layer"
      id="layer1"
-     style="display:none"
+     style="display:inline"
      sodipodi:insensitive="true"
      transform="translate(0,1)">
     <image
@@ -1796,7 +1796,8 @@
      id="layer2"
      inkscape:label="Fixed"
      style="display:inline"
-     transform="translate(0,1)">
+     transform="translate(0,1)"
+     sodipodi:insensitive="true">
     <path
        style="display:inline;fill:none;stroke:#11ff33;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        d="M 967.99997,1023.9997 H 1008 l 16,16 16.0001,-16 h 40"
@@ -2799,7 +2800,8 @@
      inkscape:groupmode="layer"
      id="layer14"
      inkscape:label="Alt Odo"
-     style="display:inline">
+     style="display:inline"
+     sodipodi:insensitive="true">
     <g
        id="alt.rollingdigits">
       <g
@@ -3648,6 +3650,149 @@
          x="1022.1782"
          y="1380.6139"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:E190;-inkscape-font-specification:E190;text-align:center;text-anchor:middle;fill:#11ff33;fill-opacity:1;stroke:none;stroke-opacity:1">360</tspan></text>
+  </g>
+  <g
+     inkscape:groupmode="layer"
+     id="layer15"
+     inkscape:label="FMA">
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:E190;-inkscape-font-specification:E190;text-align:end;letter-spacing:0px;word-spacing:0px;text-anchor:end;fill:#11ff33;fill-opacity:1;stroke:none"
+       x="872.12598"
+       y="811.5799"
+       id="fma.spd"><tspan
+         sodipodi:role="line"
+         id="tspan3039"
+         x="872.12598"
+         y="811.5799"
+         style="font-size:26.66666603px;text-align:end;text-anchor:end;fill:#11ff33;fill-opacity:1">SPD</tspan></text>
+    <text
+       id="fma.spd.minor"
+       y="819.5799"
+       x="873.31116"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:E190;-inkscape-font-specification:E190;text-align:start;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#11ff33;fill-opacity:1;stroke:none"
+       xml:space="preserve"><tspan
+         style="font-size:26.66666603px;text-align:start;text-anchor:start;fill:#11ff33;fill-opacity:1"
+         y="819.5799"
+         x="873.31116"
+         id="tspan3043"
+         sodipodi:role="line">E</tspan></text>
+    <text
+       id="fma.ap"
+       y="811.5799"
+       x="962.95813"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:E190;-inkscape-font-specification:E190;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#11ff33;fill-opacity:1;stroke:none"
+       xml:space="preserve"><tspan
+         style="font-size:26.66666603px;text-align:center;text-anchor:middle;fill:#11ff33;fill-opacity:1"
+         y="811.5799"
+         x="962.95813"
+         id="tspan3047"
+         sodipodi:role="line">AP</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:E190;-inkscape-font-specification:E190;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#11ff33;fill-opacity:1;stroke:none"
+       x="1102.9581"
+       y="811.5799"
+       id="fma.lat"><tspan
+         sodipodi:role="line"
+         id="tspan3051"
+         x="1102.9581"
+         y="811.5799"
+         style="font-size:26.66666603px;text-align:center;text-anchor:middle;fill:#11ff33;fill-opacity:1">LNAV</tspan></text>
+    <text
+       id="fma.vert"
+       y="811.5799"
+       x="1282.9581"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:E190;-inkscape-font-specification:E190;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#11ff33;fill-opacity:1;stroke:none"
+       xml:space="preserve"><tspan
+         style="font-size:26.66666603px;text-align:center;text-anchor:middle;fill:#11ff33;fill-opacity:1"
+         y="811.5799"
+         x="1282.9581"
+         id="tspan3055"
+         sodipodi:role="line">VFLCH</tspan></text>
+    <text
+       id="fma.spdarmed"
+       y="841.5799"
+       x="872.12598"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:E190;-inkscape-font-specification:E190;text-align:end;letter-spacing:0px;word-spacing:0px;text-anchor:end;fill:#11ff33;fill-opacity:1;stroke:none"
+       xml:space="preserve"><tspan
+         style="font-size:26.66666603px;text-align:end;text-anchor:end;fill:#11ff33;fill-opacity:1"
+         y="841.5799"
+         x="872.12598"
+         id="tspan3059"
+         sodipodi:role="line">SPD</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:E190;-inkscape-font-specification:E190;text-align:start;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#11ff33;fill-opacity:1;stroke:none"
+       x="873.31116"
+       y="849.5799"
+       id="fma.spdarmed.minor"><tspan
+         sodipodi:role="line"
+         id="tspan3063"
+         x="873.31116"
+         y="849.5799"
+         style="font-size:26.66666603px;text-align:start;text-anchor:start;fill:#11ff33;fill-opacity:1">E</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:E190;-inkscape-font-specification:E190;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#11ff33;fill-opacity:1;stroke:none"
+       x="962.95813"
+       y="841.5799"
+       id="fma.at"><tspan
+         sodipodi:role="line"
+         id="tspan3067"
+         x="962.95813"
+         y="841.5799"
+         style="font-size:26.66666603px;text-align:center;text-anchor:middle;fill:#11ff33;fill-opacity:1">AT</tspan></text>
+    <text
+       id="fma.latarmed"
+       y="841.5799"
+       x="1102.9581"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:E190;-inkscape-font-specification:E190;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#11ff33;fill-opacity:1;stroke:none"
+       xml:space="preserve"><tspan
+         style="font-size:26.66666603px;text-align:center;text-anchor:middle;fill:#11ff33;fill-opacity:1"
+         y="841.5799"
+         x="1102.9581"
+         id="tspan3071"
+         sodipodi:role="line">LNAV</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:E190;-inkscape-font-specification:E190;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#11ff33;fill-opacity:1;stroke:none"
+       x="1282.9581"
+       y="841.5799"
+       id="fma.vertarmed"><tspan
+         sodipodi:role="line"
+         id="tspan3075"
+         x="1282.9581"
+         y="841.5799"
+         style="font-size:26.66666603px;text-align:center;text-anchor:middle;fill:#11ff33;fill-opacity:1">VFLCH</tspan></text>
+    <text
+       id="fma.apprarmed"
+       y="781.5799"
+       x="873.46741"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:E190;-inkscape-font-specification:E190;text-align:start;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#11ff33;fill-opacity:1;stroke:none"
+       xml:space="preserve"><tspan
+         style="font-size:26.66666603px;text-align:start;text-anchor:start;fill:#11ff33;fill-opacity:1"
+         y="781.5799"
+         x="873.46741"
+         id="tspan3079"
+         sodipodi:role="line">APPR1 ONLY</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:E190;-inkscape-font-specification:E190;text-align:end;letter-spacing:0px;word-spacing:0px;text-anchor:end;fill:#11ff33;fill-opacity:1;stroke:none"
+       x="1273.8864"
+       y="781.5799"
+       id="fma.appr"><tspan
+         sodipodi:role="line"
+         id="tspan3083"
+         x="1273.8864"
+         y="781.5799"
+         style="font-size:26.66666603px;text-align:end;text-anchor:end;fill:#11ff33;fill-opacity:1">APPR1</tspan></text>
+    <path
+       style="fill:none;stroke:#11ff33;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 1039,801 h -30 m 10,6 -10,-6 10,-6"
+       id="path3087"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="ccccc" />
   </g>
   <g
      inkscape:groupmode="layer"
