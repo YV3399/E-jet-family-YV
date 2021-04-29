@@ -117,7 +117,7 @@ var updateFMALat = func () {
         myprops["lat-mode-armed"].setValue("HDG");
     }
     else {
-        myprops["lat-mode-armed"].setValue(latModeArmedMap[myprops["/it-autoflight/mode/arm"].getValue()] or "");
+        myprops["lat-mode-armed"].setValue("");
     }
 };
 
@@ -228,7 +228,6 @@ setlistener("sim/signals/fdm-initialized", func {
     setlistener(myprops["/it-autoflight/mode/lat"], func {
         updateFMALat();
     }, 1, 0);
-    setlistener(myprops["/it-autoflight/mode/arm"], updateFMALat, 1, 0);
     setlistener(myprops["/it-autoflight/output/lnav-armed"], updateFMALat, 1, 0);
     setlistener(myprops["/it-autoflight/output/loc-armed"], updateFMALat, 1, 0);
 

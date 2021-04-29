@@ -1,18 +1,17 @@
 <?xml version="1.0"?>
 
 <!-- IT-AUTOFLIGHT: AUTOTHRUST -->
-<!-- Copyright (c) 2020 Joshua Davidson (Octal450) -->
+<!-- Copyright (c) 2021 Josh Davidson (Octal450) -->
 
 <PropertyList>
 	
 	<filter>
-		<name>A/THR Knots Input Filter</name>
+		<name>A/THR Knots Input Gain</name>
 		<debug>false</debug>
-		<type>noise-spike</type>
-		<feedback-if-disabled>true</feedback-if-disabled>
-		<initialize-to>output</initialize-to>
+		<type>gain</type>
+		<gain>1.0</gain>
 		<input>/it-autoflight/input/kts</input>
-		<output>/it-autoflight/internal/athr-kts</output>
+		<output>/it-autoflight/internal/athr-kts-cmd</output>
 		<min>
 			<expression>
 				<difference>
@@ -29,6 +28,15 @@
 				</sum>
 			</expression>
 		</max>
+	</filter>
+	
+	<filter>
+		<name>A/THR Knots Input Filter</name>
+		<debug>false</debug>
+		<type>noise-spike</type>
+		<initialize-to>output</initialize-to>
+		<input>/it-autoflight/internal/athr-kts-cmd</input>
+		<output>/it-autoflight/internal/athr-kts</output>
 		<max-rate-of-change>
 			<condition>
 				<and>
@@ -60,13 +68,12 @@
 	</filter>
 	
 	<filter>
-		<name>A/THR Mach Input Filter</name>
+		<name>A/THR Mach Input Gain</name>
 		<debug>false</debug>
-		<type>noise-spike</type>
-		<feedback-if-disabled>true</feedback-if-disabled>
-		<initialize-to>output</initialize-to>
+		<type>gain</type>
+		<gain>1.0</gain>
 		<input>/it-autoflight/input/mach</input>
-		<output>/it-autoflight/internal/athr-mach</output>
+		<output>/it-autoflight/internal/athr-mach-cmd</output>
 		<min>
 			<expression>
 				<difference>
@@ -83,6 +90,16 @@
 				</sum>
 			</expression>
 		</max>
+	</filter>
+	
+	<filter>
+		<name>A/THR Mach Input Filter</name>
+		<debug>false</debug>
+		<type>noise-spike</type>
+		<feedback-if-disabled>true</feedback-if-disabled>
+		<initialize-to>output</initialize-to>
+		<input>/it-autoflight/internal/athr-mach-cmd</input>
+		<output>/it-autoflight/internal/athr-mach</output>
 		<max-rate-of-change>
 			<condition>
 				<and>
@@ -267,22 +284,28 @@
 		</output>
 		<max-rate-of-change>
 			<condition>
-				<and>
-					<equals>
-						<property>/it-autoflight/mode/thr</property>
-						<value>RETARD</value>
+				<or>
+					<and>
+						<equals>
+							<property>/it-autoflight/mode/thr</property>
+							<value>RETARD</value>
+						</equals>
+						<or>
+							<equals>
+								<property>/gear/gear[1]/wow</property>
+								<value>1</value>
+							</equals>
+							<equals>
+								<property>/gear/gear[2]/wow</property>
+								<value>1</value>
+							</equals>
+						</or>
+					</and>
+					<equals> <!-- Don't slow throttle in T/O or G/A -->
+						<property>/it-autoflight/output/vert</property>
+						<value>7</value>
 					</equals>
-					<or>
-						<equals>
-							<property>/gear/gear[1]/wow</property>
-							<value>1</value>
-						</equals>
-						<equals>
-							<property>/gear/gear[2]/wow</property>
-							<value>1</value>
-						</equals>
-					</or>
-				</and>
+				</or>
 			</condition>
 			<value>0.3</value>
 		</max-rate-of-change>

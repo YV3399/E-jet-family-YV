@@ -315,6 +315,7 @@ var canvas_ED_only = {
             "dme.dist",
             "dme.hold",
             "dme.selection",
+            "fd",
             "fma.ap",
             "fma.appr",
             "fma.apprarmed",

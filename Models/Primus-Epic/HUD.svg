@@ -29,21 +29,21 @@
      borderopacity="1.0"
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.71768984"
-     inkscape:cx="946.69552"
-     inkscape:cy="880.24802"
+     inkscape:zoom="2.8707593"
+     inkscape:cx="971.83019"
+     inkscape:cy="880.40332"
      inkscape:document-units="mm"
-     inkscape:current-layer="layer14"
+     inkscape:current-layer="horizon"
      showgrid="false"
      units="px"
      inkscape:snap-global="false"
      showguides="false"
      inkscape:guide-bbox="true"
      inkscape:pagecheckerboard="false"
-     inkscape:window-width="1440"
-     inkscape:window-height="886"
-     inkscape:window-x="0"
-     inkscape:window-y="14"
+     inkscape:window-width="1920"
+     inkscape:window-height="1080"
+     inkscape:window-x="1440"
+     inkscape:window-y="0"
      inkscape:window-maximized="0"
      fit-margin-left="-0.3"
      viewbox-width="2047.8">
@@ -1276,6 +1276,12 @@
            style="color:#000000;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:medium;line-height:normal;font-family:sans-serif;font-variant-ligatures:normal;font-variant-position:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-alternates:normal;font-feature-settings:normal;text-indent:0;text-align:start;text-decoration:none;text-decoration-line:none;text-decoration-style:solid;text-decoration-color:#000000;letter-spacing:normal;word-spacing:normal;text-transform:none;writing-mode:lr-tb;direction:ltr;text-orientation:mixed;dominant-baseline:auto;baseline-shift:baseline;text-anchor:start;white-space:normal;shape-padding:0;clip-rule:nonzero;display:inline;overflow:visible;visibility:visible;opacity:1;isolation:auto;mix-blend-mode:normal;color-interpolation:sRGB;color-interpolation-filters:linearRGB;solid-color:#000000;solid-opacity:1;vector-effect:none;fill:none;fill-opacity:1;fill-rule:nonzero;stroke:#11ff33;stroke-width:2;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;color-rendering:auto;image-rendering:auto;shape-rendering:auto;text-rendering:auto;enable-background:accumulate"
            sodipodi:nodetypes="ccc" />
       </g>
+      <path
+         inkscape:connector-curvature="0"
+         id="fd"
+         d="m 1012.221,1023 h -26.07365 v 2 h 26.07365 c 0.5172,6.048 5.6002,10.8324 11.7793,10.8324 6.1791,0 11.2634,-4.7844 11.7806,-10.8324 h 26.0737 v -2 h -26.0737 c -0.4885,-5.7132 -5.0534,-10.7258 -11.78,-10.7258 -6.7266,0 -11.2914,5.0124 -11.7799,10.7258 z m 11.7793,-8.7986 c 5.4253,0 9.8002,4.3737 9.8002,9.799 0,5.4252 -4.3749,9.8001 -9.8002,9.8001 -5.4252,0 -9.7989,-4.3749 -9.7989,-9.8001 0,-5.4253 4.3737,-9.799 9.7989,-9.799 z"
+         style="color:#000000;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:medium;line-height:normal;font-family:sans-serif;font-variant-ligatures:normal;font-variant-position:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-alternates:normal;font-feature-settings:normal;text-indent:0;text-align:start;text-decoration:none;text-decoration-line:none;text-decoration-style:solid;text-decoration-color:#000000;letter-spacing:normal;word-spacing:normal;text-transform:none;writing-mode:lr-tb;direction:ltr;text-orientation:mixed;dominant-baseline:auto;baseline-shift:baseline;text-anchor:start;white-space:normal;shape-padding:0;clip-rule:nonzero;display:inline;overflow:visible;visibility:visible;opacity:1;isolation:auto;mix-blend-mode:normal;color-interpolation:sRGB;color-interpolation-filters:linearRGB;solid-color:#000000;solid-opacity:1;vector-effect:none;fill:#11ff33;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.79374999;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;color-rendering:auto;image-rendering:auto;shape-rendering:auto;text-rendering:auto;enable-background:accumulate"
+         sodipodi:nodetypes="ccccsccccccsssss" />
     </g>
   </g>
   <g
@@ -1831,7 +1837,8 @@
      id="layer5"
      inkscape:label="Alttape"
      style="display:inline"
-     transform="translate(0,1)">
+     transform="translate(0,1)"
+     sodipodi:insensitive="true">
     <g
        id="alt.tape">
       <path
@@ -3007,7 +3014,8 @@
      inkscape:groupmode="layer"
      id="layer14"
      inkscape:label="Alt Odo"
-     style="display:inline">
+     style="display:inline"
+     sodipodi:insensitive="true">
     <g
        id="alt.odo">
       <g
