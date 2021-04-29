@@ -14,83 +14,6 @@ var ED_only = [nil, nil];
 var HUD_master = [nil, nil];
 var HUD_display = [nil, nil];
 
-var vertModeMap = {
-    "ALT HLD": "ALT",
-    "V/S": "VS",
-    "G/S": "GS",
-    "ALT CAP": "ASEL",
-    "SPD DES": "FLCH",
-    "SPD CLB": "FLCH",
-    "FPA": "PATH",
-    "LAND 3": "LAND",
-    "FLARE": "FLARE",
-    "ROLLOUT": "ROLLOUT",
-    "T/O CLB": "TO",
-    "G/A CLB": "GA"
-};
-var vertModeArmedMap = {
-    "V/S": "ASEL",
-    "G/S": "ASEL",
-    "ALT CAP": "ALT",
-    "SPD DES": "ASEL",
-    "SPD CLB": "ASEL",
-    "FPA": "ASEL",
-    "T/O CLB": "FLCH",
-    "G/A CLB": "FLCH"
-};
-
-var latModeMap = {
-    "HDG": "HDG",
-    "HDG HLD": "ROLL",
-    "HDG SEL": "HDG",
-    "LNAV": "LNAV",
-    "LOC": "LOC",
-    "ALGN": "ROLL",
-    "RLOU": "ROLL",
-    "T/O": "TRACK"
-};
-var latModeArmedMap = {
-    "LNV": "LNAV",
-    "LOC": "LOC",
-    "ILS": "LOC",
-    "HDG": "HDG",
-    "HDG HLD": "ROLL",
-    "HDG SEL": "HDG",
-    "T/O": "TRACK"
-};
-var spdModeMap = {
-    "THRUST": "SPD",
-    "PITCH": "SPD",
-    " PITCH": "SPD", # yes, this is correct, ITAF 4.0 is buggy here
-    "RETARD": "SPD",
-    "T/O CLB": " TO",
-    "G/A CLB": " GA"
-};
-var spdMinorModeMap = {
-    "THRUST": "T",
-    "PITCH": "E",
-    " PITCH": "E", # yes, this is correct, ITAF 4.0 is buggy here
-    "RETARD": "E",
-    "T/O CLB": " ",
-    "G/A CLB": " "
-};
-var spdModeArmedMap = {
-    "THRUST": "",
-    "PITCH": "SPD",
-    " PITCH": "SPD",
-    "RETARD": "SPD",
-    "T/O CLB": "SPD",
-    "G/A CLB": "SPD"
-};
-var spdMinorModeArmedMap = {
-    "THRUST": " ",
-    "PITCH": "T",
-    " PITCH": "T",
-    "RETARD": "T",
-    "T/O CLB": "T",
-    "G/A CLB": "T"
-};
-
 var odoDigitRaw = func(v, p) {
     if (p == 0) {
         var dy = math.fmod(v, 1.0);
@@ -199,6 +122,9 @@ var canvas_ED_only = {
         m.props["/fms/vspeeds-effective/departure/vf"] = props.globals.getNode("/fms/vspeeds-effective/departure/vf");
         m.props["/fms/vspeeds-effective/departure/vfs"] = props.globals.getNode("/fms/vspeeds-effective/departure/vfs");
         m.props["/fms/vspeeds-effective/departure/vr"] = props.globals.getNode("/fms/vspeeds-effective/departure/vr");
+        m.props["/fms/approach-conditions/runway-width-m"] = props.globals.getNode("/fms/approach-conditions/runway-width-m");
+        m.props["/fms/approach-conditions/runway-length-m"] = props.globals.getNode("/fms/approach-conditions/runway-length-m");
+        m.props["/fms/approach-conditions/runway-heading"] = props.globals.getNode("/fms/approach-conditions/runway-heading");
         m.props["/gear/gear/wow"] = props.globals.getNode("/gear/gear/wow");
         m.props["/instrumentation/airspeed-indicator/indicated-mach"] = props.globals.getNode("/instrumentation/airspeed-indicator/indicated-mach");
         m.props["/instrumentation/airspeed-indicator/indicated-speed-kt"] = props.globals.getNode("/instrumentation/airspeed-indicator/indicated-speed-kt");
@@ -271,6 +197,11 @@ var canvas_ED_only = {
         m.props["/instrumentation/pfd/ils/loc-in-range"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/ils/loc-in-range");
         m.props["/instrumentation/pfd/ils/loc-needle"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/ils/loc-needle");
         m.props["/instrumentation/pfd/ils/source"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/ils/source");
+        m.props["/instrumentation/pfd/ils/crosstrack-error-m"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/ils/crosstrack-error-m");
+        m.props["/instrumentation/pfd/ils/crosstrack-heading-error-deg"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/ils/crosstrack-heading-error-deg");
+        m.props["/instrumentation/pfd/ils/gs-direct-deg"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/ils/gs-direct-deg");
+        m.props["/instrumentation/pfd/ils/gs-distance"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/ils/gs-distance");
+        m.props["/instrumentation/pfd/ils/runway-width-deg"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/ils/runway-width-deg");
         m.props["/instrumentation/pfd/minimums-baro"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/minimums-baro");
         m.props["/instrumentation/pfd/minimums-decision-altitude"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/minimums-decision-altitude");
         m.props["/instrumentation/pfd/minimums-indicator-visible"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/minimums-indicator-visible");
@@ -290,10 +221,21 @@ var canvas_ED_only = {
         m.props["/instrumentation/pfd/radio-altimeter-visible"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/radio-altimeter-visible");
         m.props["/instrumentation/pfd/radio-alt"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/radio-alt");
         m.props["/instrumentation/pfd/track-error-deg"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/track-error-deg");
+        m.props["/instrumentation/pfd/ils/bearing-error"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/ils/bearing-error");
+        m.props["/instrumentation/pfd/ils/heading-error"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/ils/heading-error");
         m.props["/instrumentation/pfd/vsi-needle-deg"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/vsi-needle-deg");
         m.props["/instrumentation/pfd/waypoint/dist10"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/waypoint/dist10");
         m.props["/instrumentation/pfd/waypoint/ete"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/waypoint/ete");
         m.props["/instrumentation/pfd/waypoint/ete-unit"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/waypoint/ete-unit");
+        m.props["/instrumentation/annun/lat-mode"] = props.globals.getNode("/instrumentation/annun/lat-mode");
+        m.props["/instrumentation/annun/lat-mode-armed"] = props.globals.getNode("/instrumentation/annun/lat-mode-armed");
+        m.props["/instrumentation/annun/vert-mode"] = props.globals.getNode("/instrumentation/annun/vert-mode");
+        m.props["/instrumentation/annun/vert-mode-armed"] = props.globals.getNode("/instrumentation/annun/vert-mode-armed");
+        m.props["/instrumentation/annun/spd-mode"] = props.globals.getNode("/instrumentation/annun/spd-mode");
+        m.props["/instrumentation/annun/spd-mode-armed"] = props.globals.getNode("/instrumentation/annun/spd-mode-armed");
+        m.props["/instrumentation/annun/appr-mode"] = props.globals.getNode("/instrumentation/annun/appr-mode");
+        m.props["/instrumentation/annun/appr-mode-armed"] = props.globals.getNode("/instrumentation/annun/appr-mode-armed");
+        m.props["/instrumentation/annun/hud-declutter"] = props.globals.getNode("/instrumentation/annun/hud-declutter");
         m.props["/instrumentation/slip-skid-ball/indicated-slip-skid"] = props.globals.getNode("/instrumentation/slip-skid-ball/indicated-slip-skid");
         m.props["/instrumentation/vertical-speed-indicator/indicated-speed-fpm"] = props.globals.getNode("/instrumentation/vertical-speed-indicator/indicated-speed-fpm");
         m.props["/it-autoflight/fd/pitch-bar"] = props.globals.getNode("/it-autoflight/fd/pitch-bar");
@@ -328,38 +270,47 @@ var canvas_ED_only = {
     },
     getKeys: func() {
         return [
-            "QNH.digital",
-            "VS.digital",
+            "a3.airspeed",
+            "a3.baroalt",
+            "a3.ils.crosshair",
+            "a3.ils.latscale",
+            "a3.radioalt",
+            "a3.runway",
+            "a3.runway.edges",
             "airspeed.bug",
             "alt.100",
-            "alt.100.neg",
-            "alt.100.tape",
-            "alt.100.z",
             "alt.1000",
-            "alt.1000.neg",
-            "alt.1000.tape",
-            "alt.1000.z",
-            "alt.1000.zero",
             "alt.10000",
             "alt.10000.neg",
             "alt.10000.tape",
             "alt.10000.z",
             "alt.10000.zero",
+            "alt.1000.neg",
+            "alt.1000.tape",
+            "alt.1000.z",
+            "alt.1000.zero",
+            "alt.100.neg",
+            "alt.100.tape",
+            "alt.100.z",
+            "altNumHigh1",
+            "altNumHigh2",
+            "altNumLow1",
+            "alt.odo",
+            "alt.odo.frame",
             "alt.rollingdigits",
             "alt.rollingdigits.neg",
             "alt.rollingdigits.pos",
             "alt.rollingdigits.zero",
             "alt.tape",
-            "altNumHigh1",
-            "altNumHigh2",
-            "altNumLow1",
+            "alttape.cover",
+            "alttape.frame",
+            "asi",
             "asi.1",
             "asi.10",
             "asi.100",
             "asi.odo-frame",
             "bankPtr",
             "compass",
-            "fpv",
             "dme",
             "dme.dist",
             "dme.hold",
@@ -371,15 +322,16 @@ var canvas_ED_only = {
             "fma.lat",
             "fma.latarmed",
             "fma.spd",
-            "fma.spd.minor",
             "fma.spdarmed",
             "fma.spdarmed.minor",
+            "fma.spd.minor",
             "fma.src.arrow",
             "fma.vert",
             "fma.vertarmed",
+            "fpv",
             "groundspeed",
-            "heading-scale",
             "heading.digital",
+            "heading-scale",
             "horizon",
             "hsi.dots",
             "hsi.from",
@@ -387,20 +339,28 @@ var canvas_ED_only = {
             "hsi.nav1track",
             "hsi.to",
             "mach.digital",
+            "mach.digital.group",
             "minimums.barora",
             "minimums.digital",
             "navsrc.primary",
             "navsrc.primary.id",
             "navsrc.primary.selection",
+            "QNH.digital",
             "selectedalt.digital100",
+            "selectedalt.frame",
             "selectedcourse.digital",
             "selectedheading.digital",
             "selectedheading.pointer",
             "selectedspeed.digital",
             "selectedspeed.fms",
+            "selectedspeed.frame",
             "slip",
-            "speedtape",
             "speederror.vector",
+            "speedtape",
+            "speedtape.cover",
+            "speedtape.frame",
+            "speedtrend.pointer",
+            "VS.digital",
             "waypoint",
             "waypoint.dist",
             "wind.kt",
@@ -735,17 +695,37 @@ var canvas_ED_only = {
                 self["fma.spdarmed.minor"].setText(node.getValue());
             }, 1, 0);
         setlistener("/instrumentation/annun/appr-mode", func (node) {
-                self["fma.appr"].setText(node.getValue());
+                var value = node.getValue();
+                self["fma.appr"].setText(value);
+            });
+
+        setlistener("/instrumentation/annun/hud-declutter", func (node) {
+                var value = node.getValue();
+                self["a3.ils.crosshair"].setVisible(value != 0);
+                self["a3.ils.latscale"].setVisible(value != 0);
+                self["a3.airspeed"].setVisible(value != 0);
+                self["a3.baroalt"].setVisible(value != 0);
+                self["a3.radioalt"].setVisible(value != 0);
+
+                self["a3.runway"].setVisible(value == 2);
+
+                self["speedtape.cover"].setVisible(value == 0);
+                self["alttape.cover"].setVisible(value == 0);
+                self["asi"].setVisible(value == 0);
+                self["asi.odo-frame"].setVisible(value == 0);
+                self["speedtape"].setVisible(value == 0);
+                self["speedtape.frame"].setVisible(value == 0);
+                self["alttape.frame"].setVisible(value == 0);
+                self["alt.tape"].setVisible(value == 0);
+                self["alt.odo"].setVisible(value == 0);
+                self["alt.odo.frame"].setVisible(value == 0);
+                self["mach.digital.group"].setVisible(value == 0);
+                self["selectedalt.frame"].setVisible(value == 0);
+                self["selectedspeed.frame"].setVisible(value == 0);
             }, 1, 0);
         setlistener("/instrumentation/annun/appr-mode-armed", func (node) {
                 var value = node.getValue();
                 self["fma.apprarmed"].setText(value);
-                if (value == 'APPR1 ONLY') {
-                    self["fma.apprarmed"].setColor(1, 0.5, 0);
-                }
-                else {
-                    self["fma.apprarmed"].setColor(1, 1, 1);
-                }
             }, 1, 0);
 
         # var updateSelectedVSpeed = func {
@@ -805,10 +785,12 @@ var canvas_ED_only = {
         }, 1, 0);
 
         # # Minimums
-        # setlistener(self.props["/instrumentation/pfd/radio-alt"], func(node) {
-        #     var ra = node.getValue();
-        #     self["radioalt.digital"].setText(sprintf("%04d", ra));
-        # }, 1, 0);
+        setlistener(self.props["/instrumentation/pfd/radio-alt"], func(node) {
+            var ra = node.getValue();
+            # self["radioalt.digital"].setText(sprintf("%04d", ra));
+            self["a3.radioalt"].setText(sprintf("%04d", ra));
+        }, 1, 0);
+
         # self["radioalt.digital"].setText(sprintf("%04d", 0));
         # setlistener(self.props["/instrumentation/pfd/minimums-visible"], func(node) {
         #     self["minimums"].setVisible(node.getBoolValue());
@@ -857,6 +839,37 @@ var canvas_ED_only = {
         # me["fd.pitch"].setTranslation(0, pitchBar * 8.05);
         # me["fd.roll"].setTranslation(rollBar * 8.05, 0);
 
+        # A3 ILS
+        if (me.props["/instrumentation/annun/hud-declutter"].getValue() != 0) {
+            var x = me.props["/instrumentation/pfd/ils/crosstrack-error-m"].getValue() or 0;
+            var g = me.props["/instrumentation/pfd/ils/gs-distance"].getValue() or 0;
+            var alpha = me.props["/instrumentation/pfd/ils/heading-error"].getValue() or 0;
+            var beta = math.atan2(x, g) * R2D;
+            var gamma = alpha + beta;
+
+            me["a3.ils.crosshair"].setTranslation(
+                gamma * 43,
+                me.props["/instrumentation/pfd/ils/gs-direct-deg"].getValue() * 43
+            );
+            me["a3.ils.latscale"].setTranslation(
+                alpha * 43,
+                0
+            );
+            me["a3.runway"].setTranslation(
+                alpha * 43,
+                0
+            );
+            var dy = me.props["/instrumentation/pfd/ils/gs-direct-deg"].getValue() * 43;
+            var dx = me.props["/instrumentation/pfd/ils/runway-width-deg"].getValue() * 43;
+            var sx = beta * 43;
+            me["a3.runway.edges"]
+                .reset()
+                .moveTo(1024, 1024)
+                .line((sx + dx) * 1.1, dy * 1.1)
+                .moveTo(1024, 1024)
+                .line((sx - dx) * 1.1, dy * 1.1)
+        }
+
         # # V/S
         var vspeed = me.props["/instrumentation/vertical-speed-indicator/indicated-speed-fpm"].getValue() or 0;
         me["VS.digital"].setText(sprintf("%+05d", vspeed));
@@ -866,6 +879,10 @@ var canvas_ED_only = {
 
         # # Altitude
         var alt = me.props["/instrumentation/altimeter/indicated-altitude-ft"].getValue() or 0;
+
+        if (me["a3.baroalt"].getVisible()) {
+            me["a3.baroalt"].setText(sprintf("%5.0d B", alt));
+        }
 
         var o = odoDigit(alt / 10, 0);
         me["alt.rollingdigits"].setTranslation(0, o * 12);
@@ -943,6 +960,10 @@ var canvas_ED_only = {
         var currentMach = me.props["/instrumentation/airspeed-indicator/indicated-mach"].getValue() or 0;
         var selectedKts = 0;
 
+        if (me["a3.airspeed"].getVisible()) {
+            me["a3.airspeed"].setText(sprintf("%3.0d", airspeedRaw));
+        }
+
         if (me.props["/it-autoflight/input/kts-mach"].getValue()) {
             var selectedMach = (me.props["/it-autoflight/input/mach"].getValue() or 0);
             if (currentMach > 0.001) {
@@ -961,8 +982,11 @@ var canvas_ED_only = {
 
 
         me["speederror.vector"].reset();
-        me["speederror.vector"].rect(970, 1104, 10,
-            math.max(-40.0, math.min(40.0, (selectedKts - airspeed))) * -2);
+        me["speederror.vector"].rect(970, 1024, 10,
+            math.max(-40.0, math.min(40.0, (selectedKts - airspeed))) * 2);
+        me["speedtrend.pointer"].setTranslation(
+            0,
+            math.max(-40.0, math.min(40.0, (airspeedLookahead - airspeed))) * -2);
 
         me["speedtape"].setTranslation(0, (airspeed - 40) * 3.4);
         me["airspeed.bug"].setTranslation(0, (40 - math.max(40, selectedKts)) * 3.4);

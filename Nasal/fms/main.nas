@@ -23,6 +23,10 @@ var updateTakeoffPressureAlt = func () {
 var updateTakeoffRunway = func () {
     print("UPDATE DEPARTURE RUNWAY");
     var fp = flightplan();
+    if (fp == nil) {
+        print("NO FLIGHT PLAN");
+        return;
+    }
     debug.dump(fp.departure_runway);
     if (fp.departure_runway != nil) {
         print("Set runway heading: %03.0f", fp.departure_runway.heading);
@@ -38,6 +42,22 @@ var updateTakeoffRunway = func () {
         else {
             print("No METAR");
         }
+    }
+    kickRouteManager();
+};
+
+var updateLandingRunway = func () {
+    print("UPDATE DESTINATION RUNWAY");
+    var fp = flightplan();
+    if (fp == nil) {
+        print("NO FLIGHT PLAN");
+        return;
+    }
+    debug.dump(fp.destination_runway);
+    if (fp.destination_runway != nil) {
+        setprop("/fms/approach-conditions/runway-length-m", fp.destination_runway.length);
+        setprop("/fms/approach-conditions/runway-width-m", fp.destination_runway.width);
+        setprop("/fms/approach-conditions/runway-heading", fp.destination_runway.heading);
     }
     kickRouteManager();
 };
@@ -127,9 +147,11 @@ var updateOrigFuel = func (engineChanged, otherEngine) {
     }
 };
 
-setlistener("/autopilot/route-manager/departure/runway", func () { updateTakeoffRunway(); });
-setlistener("fms/takeoff-conditions/qnh", func () { updateTakeoffPressureAlt(); });
-setlistener("fms/takeoff-conditions/runway-elevation", func () { updateTakeoffPressureAlt(); });
+setlistener("/autopilot/route-manager/departure/runway", func () { updateTakeoffRunway(); }, 1, 0);
+setlistener("fms/takeoff-conditions/qnh", func () { updateTakeoffPressureAlt(); }, 1, 0);
+setlistener("fms/takeoff-conditions/runway-elevation", func () { updateTakeoffPressureAlt(); }, 1, 0);
+
+setlistener("/autopilot/route-manager/destination/runway", func () { updateLandingRunway(); }, 1, 0);
 
 setlistener("/engines/engine[0]/running", func (node) { if (node.getBoolValue()) { updateOrigFuel(0, 1); } }, 1, 0);
 setlistener("/engines/engine[1]/running", func (node) { if (node.getBoolValue()) { updateOrigFuel(1, 0); } }, 1, 0);

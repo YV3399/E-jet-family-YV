@@ -1035,6 +1035,14 @@
             <weight-kg type="double">0.0</weight-kg>
         </landing-conditions>
 
+        <approach-conditions>
+            <runway-heading type="double">0</runway-heading>
+            <runway-elevation type="double">0</runway-elevation>
+            <runway-length-m type="double">0</runway-length-m>
+            <runway-width-m type="double">0</runway-width-m>
+            <runway-set type="bool">false</runway-set>
+        </approach-conditions>
+
         <speed-limits>
             <!-- AOM p86-89: speed limits -->
             <mmo type="double">0.82</mmo>
@@ -1895,6 +1903,8 @@
 
             <appr-mode type="string"></appr-mode>
             <appr-mode-armed type="string"></appr-mode-armed>
+
+            <hud-declutter type="int">0</hud-declutter>
         </annun>
 
         <pfd>
@@ -1936,6 +1946,7 @@
                 <loc-needle type="double">0</loc-needle>
                 <loc-in-range type="bool">0</loc-in-range>
                 <has-loc type="bool">0</has-loc>
+                <runway-width-deg type="double">0</runway-width-deg>
             </ils>
             <hsi>
                 <heading type="double">0</heading>
@@ -2002,6 +2013,7 @@
                 <loc-needle type="double">0</loc-needle>
                 <loc-in-range type="bool">0</loc-in-range>
                 <has-loc type="bool">0</has-loc>
+                <runway-width-deg type="double">0</runway-width-deg>
             </ils>
             <hsi>
                 <heading type="double">0</heading>

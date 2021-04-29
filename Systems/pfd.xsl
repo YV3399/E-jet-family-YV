@@ -1163,6 +1163,90 @@ re-run build.sh.
                     <property>/instrumentation/nav[1]/heading-needle-deflection-norm</property>
                 </input>
             </filter>
+            <filter>
+                <name>ILS LOC Bearing</name>
+                <type>gain</type>
+                <gain>1</gain>
+                <output>/instrumentation/pfd[<xsl:value-of select="$index"/>]/ils/bearing</output>
+                <input>
+                    <condition>
+                        <equals>
+                            <property>/instrumentation/pfd[<xsl:value-of select="$index"/>]/ils/source</property>
+                            <value>1</value>
+                        </equals>
+                    </condition>
+                    <property>/instrumentation/nav[0]/heading-deg</property>
+                </input>
+                <input>
+                    <condition>
+                        <equals>
+                            <property>/instrumentation/pfd[<xsl:value-of select="$index"/>]/ils/source</property>
+                            <value>1</value>
+                        </equals>
+                    </condition>
+                    <property>/instrumentation/nav[1]/heading-deg</property>
+                </input>
+            </filter>
+            <filter>
+                <name>ILS LOC Bearing Error</name>
+                <type>gain</type>
+                <gain>1</gain>
+                <output>/instrumentation/pfd[<xsl:value-of select="$index"/>]/ils/bearing-error</output>
+                <period>
+                    <min>-180</min>
+                    <max>180</max>
+                </period>
+                <input>
+                    <expression>
+                        <difference>
+                            <property>/instrumentation/pfd[<xsl:value-of select="$index"/>]/ils/bearing</property>
+                            <property>orientation/heading-deg</property>
+                        </difference>
+                    </expression>
+                </input>
+            </filter>
+            <filter>
+                <name>ILS LOC Heading</name>
+                <type>gain</type>
+                <gain>1</gain>
+                <output>/instrumentation/pfd[<xsl:value-of select="$index"/>]/ils/heading</output>
+                <input>
+                    <condition>
+                        <equals>
+                            <property>/instrumentation/pfd[<xsl:value-of select="$index"/>]/ils/source</property>
+                            <value>1</value>
+                        </equals>
+                    </condition>
+                    <property>/instrumentation/nav[0]/radials/target-radial-deg</property>
+                </input>
+                <input>
+                    <condition>
+                        <equals>
+                            <property>/instrumentation/pfd[<xsl:value-of select="$index"/>]/ils/source</property>
+                            <value>1</value>
+                        </equals>
+                    </condition>
+                    <property>/instrumentation/nav[1]/radials/target-radial-deg</property>
+                </input>
+            </filter>
+            <filter>
+                <name>ILS LOC Heading Error</name>
+                <type>gain</type>
+                <gain>1</gain>
+                <output>/instrumentation/pfd[<xsl:value-of select="$index"/>]/ils/heading-error</output>
+                <period>
+                    <min>-180</min>
+                    <max>180</max>
+                </period>
+                <input>
+                    <expression>
+                        <difference>
+                            <property>/instrumentation/pfd[<xsl:value-of select="$index"/>]/ils/heading</property>
+                            <property>orientation/heading-deg</property>
+                        </difference>
+                    </expression>
+                </input>
+            </filter>
             <logic>
                 <name>ILS LOC In Range</name>
                 <output>/instrumentation/pfd[<xsl:value-of select="$index"/>]/ils/loc-in-range</output>
@@ -1208,6 +1292,106 @@ re-run build.sh.
                 </input>
             </logic>
 
+            <filter>
+                <name>ILS crosstrack</name>
+                <type>gain</type>
+                <gain>1</gain>
+                <output>/instrumentation/pfd[<xsl:value-of select="$index"/>]/ils/crosstrack-error-m</output>
+                <input>
+                    <condition>
+                        <equals>
+                            <property>/instrumentation/pfd[<xsl:value-of select="$index"/>]/ils/source</property>
+                            <value>1</value>
+                        </equals>
+                    </condition>
+                    <property>/instrumentation/nav[0]/crosstrack-error-m</property>
+                </input>
+                <input>
+                    <condition>
+                        <equals>
+                            <property>/instrumentation/pfd[<xsl:value-of select="$index"/>]/ils/source</property>
+                            <value>1</value>
+                        </equals>
+                    </condition>
+                    <property>/instrumentation/nav[1]/crosstrack-error-m</property>
+                </input>
+            </filter>
+            <filter>
+                <name>ILS GS distance</name>
+                <type>gain</type>
+                <gain>1</gain>
+                <output>/instrumentation/pfd[<xsl:value-of select="$index"/>]/ils/gs-distance</output>
+                <input>
+                    <condition>
+                        <equals>
+                            <property>/instrumentation/pfd[<xsl:value-of select="$index"/>]/ils/source</property>
+                            <value>1</value>
+                        </equals>
+                    </condition>
+                    <property>/instrumentation/nav[0]/gs-distance</property>
+                </input>
+                <input>
+                    <condition>
+                        <equals>
+                            <property>/instrumentation/pfd[<xsl:value-of select="$index"/>]/ils/source</property>
+                            <value>1</value>
+                        </equals>
+                    </condition>
+                    <property>/instrumentation/nav[1]/gs-distance</property>
+                </input>
+            </filter>
+            <filter>
+                <name>ILS crosstrack heading error</name>
+                <type>gain</type>
+                <gain>57.29577951308232</gain>
+                <output>/instrumentation/pfd[<xsl:value-of select="$index"/>]/ils/crosstrack-heading-error-deg</output>
+                <input>
+                    <expression>
+                        <atan2>
+                            <property>/instrumentation/pfd[<xsl:value-of select="$index"/>]/ils/crosstrack-error-m</property>
+                            <property>/instrumentation/pfd[<xsl:value-of select="$index"/>]/ils/gs-distance</property>
+                        </atan2>
+                    </expression>
+                </input>
+            </filter>
+            <filter>
+                <name>ILS runway width view angle</name>
+                <type>gain</type>
+                <gain>57.29577951308232</gain>
+                <output>/instrumentation/pfd[<xsl:value-of select="$index"/>]/ils/runway-width-deg</output>
+                <input>
+                    <expression>
+                        <atan2>
+                            <property>/fms/approach-conditions/runway-width-m</property>
+                            <property>/instrumentation/pfd[<xsl:value-of select="$index"/>]/ils/gs-distance</property>
+                        </atan2>
+                    </expression>
+                </input>
+            </filter>
+            <filter>
+                <name>ILS GS direct deg</name>
+                <type>gain</type>
+                <gain>1</gain>
+                <output>/instrumentation/pfd[<xsl:value-of select="$index"/>]/ils/gs-direct-deg</output>
+                <input>
+                    <condition>
+                        <equals>
+                            <property>/instrumentation/pfd[<xsl:value-of select="$index"/>]/ils/source</property>
+                            <value>1</value>
+                        </equals>
+                    </condition>
+                    <property>/instrumentation/nav[0]/gs-direct-deg</property>
+                </input>
+                <input>
+                    <condition>
+                        <equals>
+                            <property>/instrumentation/pfd[<xsl:value-of select="$index"/>]/ils/source</property>
+                            <value>1</value>
+                        </equals>
+                    </condition>
+                    <property>/instrumentation/nav[1]/gs-direct-deg</property>
+                </input>
+            </filter>
             <!-- WAYPOINTS -->
             <filter>
                 <name>Waypoint Dist</name>

@@ -29,19 +29,19 @@
      borderopacity="1.0"
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.7176898"
-     inkscape:cx="911.59627"
-     inkscape:cy="879.7862"
+     inkscape:zoom="0.71768984"
+     inkscape:cx="946.69552"
+     inkscape:cy="880.24802"
      inkscape:document-units="mm"
-     inkscape:current-layer="layer2"
+     inkscape:current-layer="layer14"
      showgrid="false"
      units="px"
-     inkscape:snap-global="true"
-     showguides="true"
+     inkscape:snap-global="false"
+     showguides="false"
      inkscape:guide-bbox="true"
      inkscape:pagecheckerboard="false"
-     inkscape:window-width="1438"
-     inkscape:window-height="884"
+     inkscape:window-width="1440"
+     inkscape:window-height="886"
      inkscape:window-x="0"
      inkscape:window-y="14"
      inkscape:window-maximized="0"
@@ -83,7 +83,7 @@
      inkscape:label="reference"
      inkscape:groupmode="layer"
      id="layer1"
-     style="display:none"
+     style="display:inline"
      sodipodi:insensitive="true"
      transform="translate(0,1)">
     <image
@@ -117,10 +117,25 @@
      id="layer3"
      inkscape:label="Horizon"
      style="display:inline"
-     transform="translate(0,1)"
-     sodipodi:insensitive="true">
+     transform="translate(0,1)">
     <g
        id="horizon">
+      <g
+         id="a3.runway">
+        <path
+           id="a3.runway.edges"
+           style="fill:none;stroke:#11ff33;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+           d="M 1210,1210 1024,1024 838,1210"
+           inkscape:connector-curvature="0"
+           sodipodi:nodetypes="ccc" />
+        <rect
+           style="opacity:1;fill:#000000;fill-opacity:1;stroke:none;stroke-width:2;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+           id="rect4543"
+           width="160"
+           height="32"
+           x="941"
+           y="1023.5" />
+      </g>
       <path
          sodipodi:nodetypes="cc"
          inkscape:connector-curvature="0"
@@ -944,6 +959,34 @@
            d="m 809,1023.9998 v -16"
            style="fill:none;stroke:#11ff33;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
       </g>
+      <g
+         id="a3.ils.latscale">
+        <rect
+           style="opacity:1;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.99999988;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+           id="rect4258"
+           width="86"
+           height="22"
+           x="981"
+           y="1006" />
+        <path
+           style="fill:none;stroke:#11ff33;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+           d="m 1024,1024 v -16"
+           id="path4260"
+           inkscape:connector-curvature="0"
+           sodipodi:nodetypes="cc" />
+        <path
+           style="fill:none;stroke:#11ff33;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+           d="m 1045.5,1024 v -16"
+           id="path4264"
+           inkscape:connector-curvature="0"
+           sodipodi:nodetypes="cc" />
+        <path
+           sodipodi:nodetypes="cc"
+           inkscape:connector-curvature="0"
+           id="path4266"
+           d="m 1002.5,1024 v -16"
+           style="fill:none;stroke:#11ff33;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+      </g>
       <path
          sodipodi:nodetypes="cccc"
          inkscape:connector-curvature="0"
@@ -1174,38 +1217,74 @@
            x="921.10425"
            y="1887.9985"
            style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33334732px;font-family:E190;-inkscape-font-specification:E190;text-align:end;text-anchor:end;fill:#11ff33;stroke-width:2;stroke-miterlimit:4;stroke-dasharray:none">--20</tspan></text>
+      <path
+         inkscape:connector-curvature="0"
+         d="m 1024,1099 v -57 m 0,-36 v -57 m 75,75 h -57 m -36,0 h -57"
+         style="fill:none;stroke:#11ff33;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         id="a3.ils.crosshair" />
       <g
-         id="fpv"
-         transform="translate(0,-80)">
+         id="fpv">
         <path
            style="color:#000000;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:medium;line-height:normal;font-family:sans-serif;font-variant-ligatures:normal;font-variant-position:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-alternates:normal;font-feature-settings:normal;text-indent:0;text-align:start;text-decoration:none;text-decoration-line:none;text-decoration-style:solid;text-decoration-color:#000000;letter-spacing:normal;word-spacing:normal;text-transform:none;writing-mode:lr-tb;direction:ltr;text-orientation:mixed;dominant-baseline:auto;baseline-shift:baseline;text-anchor:start;white-space:normal;shape-padding:0;clip-rule:nonzero;display:inline;overflow:visible;visibility:visible;opacity:1;isolation:auto;mix-blend-mode:normal;color-interpolation:sRGB;color-interpolation-filters:linearRGB;solid-color:#000000;solid-opacity:1;vector-effect:none;fill:#11ff33;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.79374999;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;color-rendering:auto;image-rendering:auto;shape-rendering:auto;text-rendering:auto;enable-background:accumulate"
-           d="m 1022.502,1067.9997 v 18.5742 c -8.4522,0.7227 -15.2051,7.4756 -15.9278,15.9278 h -38.5723 v 2.998 h 38.5723 c 0.7651,8.9472 8.2847,16.0039 17.4258,16.0039 9.1411,0 16.6626,-7.0567 17.4277,-16.0039 H 1080 v -2.998 h -38.5723 c -0.7226,-8.452 -7.4757,-15.205 -15.9277,-15.9278 v -18.5742 z m 1.498,21.5039 c 8.0259,0 14.498,6.4702 14.498,14.4961 0,8.0259 -6.4721,14.498 -14.498,14.498 -8.0259,0 -14.4961,-6.4721 -14.4961,-14.498 0,-8.0259 6.4702,-14.4961 14.4961,-14.4961 z"
+           d="m 1022.502,987.9997 v 18.5742 c -8.4522,0.7227 -15.2051,7.4756 -15.9278,15.9278 h -38.5723 v 2.998 h 38.5723 c 0.7651,8.9472 8.2847,16.0039 17.4258,16.0039 9.1411,0 16.6626,-7.0567 17.4277,-16.0039 H 1080 v -2.998 h -38.5723 c -0.7226,-8.452 -7.4757,-15.205 -15.9277,-15.9278 v -18.5742 z m 1.498,21.5039 c 8.0259,0 14.498,6.4702 14.498,14.4961 0,8.0259 -6.4721,14.498 -14.498,14.498 -8.0259,0 -14.4961,-6.4721 -14.4961,-14.498 0,-8.0259 6.4702,-14.4961 14.4961,-14.4961 z"
            id="path9261"
            inkscape:connector-curvature="0" />
         <rect
-           y="1094"
+           y="1014"
            x="970"
            height="10"
            width="10"
            id="speederror.vector"
            style="opacity:1;fill:#11ff33;fill-opacity:1;stroke:none;stroke-width:2.99999976;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+        <text
+           xml:space="preserve"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:E190;-inkscape-font-specification:E190;letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
+           x="949.12134"
+           y="1074.3817"
+           id="a3.airspeed"><tspan
+             sodipodi:role="line"
+             id="tspan4289"
+             x="949.12134"
+             y="1074.3817"
+             style="font-size:26.66666603px;text-align:end;text-anchor:end">150</tspan></text>
+        <text
+           id="a3.baroalt"
+           y="1074.3817"
+           x="1089.1213"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:E190;-inkscape-font-specification:E190;text-align:start;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#11ff33;fill-opacity:1;stroke:none"
+           xml:space="preserve"><tspan
+             style="font-size:26.66666603px;text-align:start;text-anchor:start"
+             y="1074.3817"
+             x="1089.1213"
+             id="tspan4293"
+             sodipodi:role="line">400 B</tspan></text>
+        <text
+           id="a3.radioalt"
+           y="1128.3817"
+           x="1025.3038"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:E190;-inkscape-font-specification:E190;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#11ff33;fill-opacity:1;stroke:none"
+           xml:space="preserve"><tspan
+             style="font-size:26.66666603px;text-align:center;text-anchor:middle"
+             y="1128.3817"
+             x="1025.3038"
+             id="tspan4297"
+             sodipodi:role="line">320</tspan></text>
+        <path
+           inkscape:connector-curvature="0"
+           id="speedtrend.pointer"
+           d="m 944,1012 24,12 -24,12"
+           style="color:#000000;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:medium;line-height:normal;font-family:sans-serif;font-variant-ligatures:normal;font-variant-position:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-alternates:normal;font-feature-settings:normal;text-indent:0;text-align:start;text-decoration:none;text-decoration-line:none;text-decoration-style:solid;text-decoration-color:#000000;letter-spacing:normal;word-spacing:normal;text-transform:none;writing-mode:lr-tb;direction:ltr;text-orientation:mixed;dominant-baseline:auto;baseline-shift:baseline;text-anchor:start;white-space:normal;shape-padding:0;clip-rule:nonzero;display:inline;overflow:visible;visibility:visible;opacity:1;isolation:auto;mix-blend-mode:normal;color-interpolation:sRGB;color-interpolation-filters:linearRGB;solid-color:#000000;solid-opacity:1;vector-effect:none;fill:none;fill-opacity:1;fill-rule:nonzero;stroke:#11ff33;stroke-width:2;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;color-rendering:auto;image-rendering:auto;shape-rendering:auto;text-rendering:auto;enable-background:accumulate"
+           sodipodi:nodetypes="ccc" />
       </g>
     </g>
   </g>
   <g
      inkscape:groupmode="layer"
-     id="layer7"
-     inkscape:label="FPV"
-     style="display:inline"
-     sodipodi:insensitive="true"
-     transform="translate(0,1)" />
-  <g
-     inkscape:groupmode="layer"
      id="layer8"
      inkscape:label="Bank"
      style="display:inline"
-     sodipodi:insensitive="true"
-     transform="translate(0,1)">
+     transform="translate(0,1)"
+     sodipodi:insensitive="true">
     <g
        id="bankPtr"
        inkscape:transform-center-y="-143.5">
@@ -1227,8 +1306,8 @@
      inkscape:groupmode="layer"
      id="layer13"
      inkscape:label="Covers"
-     sodipodi:insensitive="true"
-     style="display:inline">
+     style="display:inline"
+     sodipodi:insensitive="true">
     <rect
        style="opacity:1;fill:#000000;fill-opacity:1;stroke:none;stroke-width:2;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        id="speedtape.cover"
@@ -1752,8 +1831,7 @@
      id="layer5"
      inkscape:label="Alttape"
      style="display:inline"
-     transform="translate(0,1)"
-     sodipodi:insensitive="true">
+     transform="translate(0,1)">
     <g
        id="alt.tape">
       <path
@@ -1802,7 +1880,8 @@
      id="layer2"
      inkscape:label="Fixed"
      style="display:inline"
-     transform="translate(0,1)">
+     transform="translate(0,1)"
+     sodipodi:insensitive="true">
     <path
        style="display:inline;fill:none;stroke:#11ff33;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        d="M 967.99997,1023.9997 H 1008 l 16,16 16.0001,-16 h 40"
@@ -1870,7 +1949,7 @@
     <path
        style="display:inline;opacity:1;fill:none;fill-opacity:0.01568627;stroke:#11ff33;stroke-width:2;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        d="m 608,982 h 80 v 300 h -80"
-       id="rect6697"
+       id="speedtape.frame"
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="cccc" />
     <path
@@ -2011,28 +2090,31 @@
          x="1328.1782"
          id="tspan3021"
          sodipodi:role="line">VS</tspan></text>
-    <text
-       id="mach.digital"
-       y="1301.6139"
-       x="668.37964"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';text-align:end;letter-spacing:0px;word-spacing:0px;text-anchor:end;fill:#11ff33;fill-opacity:1;stroke:none"
-       xml:space="preserve"><tspan
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;font-family:E190;-inkscape-font-specification:E190;text-align:end;text-anchor:end;fill:#11ff33;fill-opacity:1;stroke:none;stroke-opacity:1"
-         y="1301.6139"
+    <g
+       id="mach.digital.group">
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';text-align:end;letter-spacing:0px;word-spacing:0px;text-anchor:end;fill:#11ff33;fill-opacity:1;stroke:none"
          x="668.37964"
-         id="tspan4182"
-         sodipodi:role="line">.820</tspan></text>
-    <text
-       xml:space="preserve"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';text-align:end;letter-spacing:0px;word-spacing:0px;text-anchor:end;fill:#11ff33;fill-opacity:1;stroke:none"
-       x="694.37964"
-       y="1301.6139"
-       id="text4188"><tspan
-         sodipodi:role="line"
-         id="tspan4186"
-         x="694.37964"
          y="1301.6139"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;font-family:E190;-inkscape-font-specification:E190;text-align:end;text-anchor:end;fill:#11ff33;fill-opacity:1;stroke:none;stroke-opacity:1">M</tspan></text>
+         id="mach.digital"><tspan
+           sodipodi:role="line"
+           id="tspan4182"
+           x="668.37964"
+           y="1301.6139"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;font-family:E190;-inkscape-font-specification:E190;text-align:end;text-anchor:end;fill:#11ff33;fill-opacity:1;stroke:none;stroke-opacity:1">.820</tspan></text>
+      <text
+         id="text4188"
+         y="1301.6139"
+         x="694.37964"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';text-align:end;letter-spacing:0px;word-spacing:0px;text-anchor:end;fill:#11ff33;fill-opacity:1;stroke:none"
+         xml:space="preserve"><tspan
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;font-family:E190;-inkscape-font-specification:E190;text-align:end;text-anchor:end;fill:#11ff33;fill-opacity:1;stroke:none;stroke-opacity:1"
+           y="1301.6139"
+           x="694.37964"
+           id="tspan4186"
+           sodipodi:role="line">M</tspan></text>
+    </g>
     <text
        xml:space="preserve"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#11ff33;fill-opacity:1;stroke:none"
@@ -2047,7 +2129,7 @@
     <path
        sodipodi:nodetypes="ccc"
        inkscape:connector-curvature="0"
-       id="path4198"
+       id="selectedspeed.frame"
        d="m 688,944 v 30 h -80"
        style="display:inline;opacity:1;fill:none;fill-opacity:0.01568627;stroke:#11ff33;stroke-width:2;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
     <text
@@ -2064,7 +2146,7 @@
     <path
        sodipodi:nodetypes="cccc"
        inkscape:connector-curvature="0"
-       id="path4204"
+       id="alttape.frame"
        d="m 1436,982 h -108 v 300 h 108"
        style="display:inline;opacity:1;fill:none;fill-opacity:0.01568627;stroke:#11ff33;stroke-width:2;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
     <text
@@ -2081,7 +2163,7 @@
     <path
        style="display:inline;opacity:1;fill:none;fill-opacity:0.01568627;stroke:#11ff33;stroke-width:2;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        d="m 1328,944 v 30 h 108"
-       id="path4210"
+       id="selectedalt.frame"
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="ccc" />
     <text
@@ -2109,7 +2191,7 @@
     <path
        sodipodi:nodetypes="cccccccccc"
        inkscape:connector-curvature="0"
-       id="path9263"
+       id="alt.odo.frame"
        d="m 1407.9999,1100 h 32 v 64 h -32 v -16 h -60 l -20,-16 20,-16 h 60 z"
        style="display:inline;opacity:1;fill:#000000;fill-opacity:1;stroke:#11ff33;stroke-width:2;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
     <g
@@ -2182,57 +2264,60 @@
            y="1417.6139"
            style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:16px;font-family:E190;-inkscape-font-specification:E190;text-align:start;text-anchor:start;fill:#11ff33;fill-opacity:1;stroke:none;stroke-opacity:1">NM</tspan></text>
     </g>
-    <text
-       id="dme.selection"
-       y="1401.6139"
-       x="1288.1782"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
-       xml:space="preserve"><tspan
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:16px;font-family:E190;-inkscape-font-specification:E190;text-align:start;text-anchor:start;fill:#11ff33;fill-opacity:1;stroke:none;stroke-opacity:1"
-         y="1401.6139"
+    <g
+       id="dme">
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
          x="1288.1782"
-         id="tspan3290"
-         sodipodi:role="line">DME1</tspan></text>
-    <text
-       xml:space="preserve"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';text-align:end;letter-spacing:0px;word-spacing:0px;text-anchor:end;fill:#11ff33;fill-opacity:1;stroke:none"
-       x="1331.2581"
-       y="1417.6139"
-       id="dme.dist"><tspan
-         sodipodi:role="line"
-         id="tspan3294"
+         y="1401.6139"
+         id="dme.selection"><tspan
+           sodipodi:role="line"
+           id="tspan3290"
+           x="1288.1782"
+           y="1401.6139"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:16px;font-family:E190;-inkscape-font-specification:E190;text-align:start;text-anchor:start;fill:#11ff33;fill-opacity:1;stroke:none;stroke-opacity:1">DME1</tspan></text>
+      <text
+         id="dme.dist"
+         y="1417.6139"
          x="1331.2581"
-         y="1417.6139"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:16px;font-family:E190;-inkscape-font-specification:E190;text-align:end;text-anchor:end;fill:#11ff33;fill-opacity:1;stroke:none;stroke-opacity:1">125</tspan></text>
-    <text
-       id="text3304"
-       y="1417.6139"
-       x="1344.1782"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
-       xml:space="preserve"><tspan
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:16px;font-family:E190;-inkscape-font-specification:E190;text-align:start;text-anchor:start;fill:#11ff33;fill-opacity:1;stroke:none;stroke-opacity:1"
-         y="1417.6139"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';text-align:end;letter-spacing:0px;word-spacing:0px;text-anchor:end;fill:#11ff33;fill-opacity:1;stroke:none"
+         xml:space="preserve"><tspan
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:16px;font-family:E190;-inkscape-font-specification:E190;text-align:end;text-anchor:end;fill:#11ff33;fill-opacity:1;stroke:none;stroke-opacity:1"
+           y="1417.6139"
+           x="1331.2581"
+           id="tspan3294"
+           sodipodi:role="line">125</tspan></text>
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
          x="1344.1782"
-         id="tspan3302"
-         sodipodi:role="line">NM</tspan></text>
-    <text
-       xml:space="preserve"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
-       x="1250.1782"
-       y="1417.6139"
-       id="dme.hold"><tspan
-         sodipodi:role="line"
-         id="tspan3322"
-         x="1250.1782"
          y="1417.6139"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:16px;font-family:E190;-inkscape-font-specification:E190;text-align:start;text-anchor:start;fill:#11ff33;fill-opacity:1;stroke:none;stroke-opacity:1">H</tspan></text>
+         id="text3304"><tspan
+           sodipodi:role="line"
+           id="tspan3302"
+           x="1344.1782"
+           y="1417.6139"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:16px;font-family:E190;-inkscape-font-specification:E190;text-align:start;text-anchor:start;fill:#11ff33;fill-opacity:1;stroke:none;stroke-opacity:1">NM</tspan></text>
+      <text
+         id="dme.hold"
+         y="1417.6139"
+         x="1250.1782"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
+         xml:space="preserve"><tspan
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:16px;font-family:E190;-inkscape-font-specification:E190;text-align:start;text-anchor:start;fill:#11ff33;fill-opacity:1;stroke:none;stroke-opacity:1"
+           y="1417.6139"
+           x="1250.1782"
+           id="tspan3322"
+           sodipodi:role="line">H</tspan></text>
+    </g>
   </g>
   <g
      inkscape:groupmode="layer"
      id="layer11"
      inkscape:label="HSI"
-     sodipodi:insensitive="true"
-     style="display:inline">
+     style="display:inline"
+     sodipodi:insensitive="true">
     <path
        id="path4281"
        style="fill:none;stroke:#11ff33;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
@@ -2477,1288 +2562,1293 @@
      style="display:inline"
      sodipodi:insensitive="true">
     <g
-       id="asi.1">
-      <text
-         id="text7528"
-         y="1143.3704"
-         x="657.47278"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
-         xml:space="preserve"><tspan
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.66666603px;font-family:E190;-inkscape-font-specification:E190;text-align:center;text-anchor:middle;fill:#11ff33;fill-opacity:1"
+       id="asi">
+      <g
+         id="asi.1">
+        <text
+           xml:space="preserve"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
+           x="657.47278"
            y="1143.3704"
-           x="657.47278"
-           id="tspan7526"
-           sodipodi:role="line">0</tspan></text>
-      <text
-         xml:space="preserve"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
-         x="657.47278"
-         y="1111.3704"
-         id="text7551"><tspan
-           sodipodi:role="line"
-           id="tspan7549"
-           x="657.47278"
+           id="text7528"><tspan
+             sodipodi:role="line"
+             id="tspan7526"
+             x="657.47278"
+             y="1143.3704"
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.66666603px;font-family:E190;-inkscape-font-specification:E190;text-align:center;text-anchor:middle;fill:#11ff33;fill-opacity:1">0</tspan></text>
+        <text
+           id="text7551"
            y="1111.3704"
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.66666603px;font-family:E190;-inkscape-font-specification:E190;text-align:center;text-anchor:middle;fill:#11ff33;fill-opacity:1">1</tspan></text>
-      <text
-         id="text7555"
-         y="1079.3704"
-         x="657.47278"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
-         xml:space="preserve"><tspan
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.66666603px;font-family:E190;-inkscape-font-specification:E190;text-align:center;text-anchor:middle;fill:#11ff33;fill-opacity:1"
+           x="657.47278"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
+           xml:space="preserve"><tspan
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.66666603px;font-family:E190;-inkscape-font-specification:E190;text-align:center;text-anchor:middle;fill:#11ff33;fill-opacity:1"
+             y="1111.3704"
+             x="657.47278"
+             id="tspan7549"
+             sodipodi:role="line">1</tspan></text>
+        <text
+           xml:space="preserve"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
+           x="657.47278"
            y="1079.3704"
-           x="657.47278"
-           id="tspan7553"
-           sodipodi:role="line">2</tspan></text>
-      <text
-         xml:space="preserve"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
-         x="657.47278"
-         y="1047.3704"
-         id="text7559"><tspan
-           sodipodi:role="line"
-           id="tspan7557"
-           x="657.47278"
+           id="text7555"><tspan
+             sodipodi:role="line"
+             id="tspan7553"
+             x="657.47278"
+             y="1079.3704"
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.66666603px;font-family:E190;-inkscape-font-specification:E190;text-align:center;text-anchor:middle;fill:#11ff33;fill-opacity:1">2</tspan></text>
+        <text
+           id="text7559"
            y="1047.3704"
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.66666603px;font-family:E190;-inkscape-font-specification:E190;text-align:center;text-anchor:middle;fill:#11ff33;fill-opacity:1">3</tspan></text>
-      <text
-         id="text7563"
-         y="1015.3704"
-         x="657.47278"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
-         xml:space="preserve"><tspan
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.66666603px;font-family:E190;-inkscape-font-specification:E190;text-align:center;text-anchor:middle;fill:#11ff33;fill-opacity:1"
+           x="657.47278"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
+           xml:space="preserve"><tspan
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.66666603px;font-family:E190;-inkscape-font-specification:E190;text-align:center;text-anchor:middle;fill:#11ff33;fill-opacity:1"
+             y="1047.3704"
+             x="657.47278"
+             id="tspan7557"
+             sodipodi:role="line">3</tspan></text>
+        <text
+           xml:space="preserve"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
+           x="657.47278"
            y="1015.3704"
-           x="657.47278"
-           id="tspan7561"
-           sodipodi:role="line">4</tspan></text>
-      <text
-         xml:space="preserve"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
-         x="657.47278"
-         y="983.37042"
-         id="text7567"><tspan
-           sodipodi:role="line"
-           id="tspan7565"
-           x="657.47278"
+           id="text7563"><tspan
+             sodipodi:role="line"
+             id="tspan7561"
+             x="657.47278"
+             y="1015.3704"
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.66666603px;font-family:E190;-inkscape-font-specification:E190;text-align:center;text-anchor:middle;fill:#11ff33;fill-opacity:1">4</tspan></text>
+        <text
+           id="text7567"
            y="983.37042"
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.66666603px;font-family:E190;-inkscape-font-specification:E190;text-align:center;text-anchor:middle;fill:#11ff33;fill-opacity:1">5</tspan></text>
-      <text
-         id="text7571"
-         y="951.37042"
-         x="657.47278"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
-         xml:space="preserve"><tspan
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.66666603px;font-family:E190;-inkscape-font-specification:E190;text-align:center;text-anchor:middle;fill:#11ff33;fill-opacity:1"
+           x="657.47278"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
+           xml:space="preserve"><tspan
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.66666603px;font-family:E190;-inkscape-font-specification:E190;text-align:center;text-anchor:middle;fill:#11ff33;fill-opacity:1"
+             y="983.37042"
+             x="657.47278"
+             id="tspan7565"
+             sodipodi:role="line">5</tspan></text>
+        <text
+           xml:space="preserve"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
+           x="657.47278"
            y="951.37042"
-           x="657.47278"
-           id="tspan7569"
-           sodipodi:role="line">6</tspan></text>
-      <text
-         xml:space="preserve"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
-         x="657.47278"
-         y="919.37042"
-         id="text7575"><tspan
-           sodipodi:role="line"
-           id="tspan7573"
-           x="657.47278"
+           id="text7571"><tspan
+             sodipodi:role="line"
+             id="tspan7569"
+             x="657.47278"
+             y="951.37042"
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.66666603px;font-family:E190;-inkscape-font-specification:E190;text-align:center;text-anchor:middle;fill:#11ff33;fill-opacity:1">6</tspan></text>
+        <text
+           id="text7575"
            y="919.37042"
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.66666603px;font-family:E190;-inkscape-font-specification:E190;text-align:center;text-anchor:middle;fill:#11ff33;fill-opacity:1">7</tspan></text>
-      <text
-         id="text7579"
-         y="887.37042"
-         x="657.47278"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
-         xml:space="preserve"><tspan
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.66666603px;font-family:E190;-inkscape-font-specification:E190;text-align:center;text-anchor:middle;fill:#11ff33;fill-opacity:1"
+           x="657.47278"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
+           xml:space="preserve"><tspan
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.66666603px;font-family:E190;-inkscape-font-specification:E190;text-align:center;text-anchor:middle;fill:#11ff33;fill-opacity:1"
+             y="919.37042"
+             x="657.47278"
+             id="tspan7573"
+             sodipodi:role="line">7</tspan></text>
+        <text
+           xml:space="preserve"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
+           x="657.47278"
            y="887.37042"
-           x="657.47278"
-           id="tspan7577"
-           sodipodi:role="line">8</tspan></text>
-      <text
-         xml:space="preserve"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
-         x="657.47278"
-         y="855.37042"
-         id="text7583"><tspan
-           sodipodi:role="line"
-           id="tspan7581"
-           x="657.47278"
+           id="text7579"><tspan
+             sodipodi:role="line"
+             id="tspan7577"
+             x="657.47278"
+             y="887.37042"
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.66666603px;font-family:E190;-inkscape-font-specification:E190;text-align:center;text-anchor:middle;fill:#11ff33;fill-opacity:1">8</tspan></text>
+        <text
+           id="text7583"
            y="855.37042"
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.66666603px;font-family:E190;-inkscape-font-specification:E190;text-align:center;text-anchor:middle;fill:#11ff33;fill-opacity:1">9</tspan></text>
-      <text
-         xml:space="preserve"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
-         x="657.47278"
-         y="1175.3704"
-         id="text7587"><tspan
-           sodipodi:role="line"
-           id="tspan7585"
            x="657.47278"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
+           xml:space="preserve"><tspan
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.66666603px;font-family:E190;-inkscape-font-specification:E190;text-align:center;text-anchor:middle;fill:#11ff33;fill-opacity:1"
+             y="855.37042"
+             x="657.47278"
+             id="tspan7581"
+             sodipodi:role="line">9</tspan></text>
+        <text
+           id="text7587"
            y="1175.3704"
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.66666603px;font-family:E190;-inkscape-font-specification:E190;text-align:center;text-anchor:middle;fill:#11ff33;fill-opacity:1">9</tspan></text>
-      <text
-         xml:space="preserve"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
-         x="657.47278"
-         y="823.37036"
-         id="text7591"><tspan
-           sodipodi:role="line"
-           id="tspan7589"
            x="657.47278"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
+           xml:space="preserve"><tspan
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.66666603px;font-family:E190;-inkscape-font-specification:E190;text-align:center;text-anchor:middle;fill:#11ff33;fill-opacity:1"
+             y="1175.3704"
+             x="657.47278"
+             id="tspan7585"
+             sodipodi:role="line">9</tspan></text>
+        <text
+           id="text7591"
            y="823.37036"
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.66666603px;font-family:E190;-inkscape-font-specification:E190;text-align:center;text-anchor:middle;fill:#11ff33;fill-opacity:1">0</tspan></text>
-      <text
-         id="text7595"
-         y="791.37036"
-         x="657.47278"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
-         xml:space="preserve"><tspan
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.66666603px;font-family:E190;-inkscape-font-specification:E190;text-align:center;text-anchor:middle;fill:#11ff33;fill-opacity:1"
-           y="791.37036"
            x="657.47278"
-           id="tspan7593"
-           sodipodi:role="line">1</tspan></text>
-    </g>
-    <g
-       id="asi.10">
-      <text
-         xml:space="preserve"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
-         x="636.47278"
-         y="1143.3704"
-         id="text7627"><tspan
-           sodipodi:role="line"
-           id="tspan7625"
-           x="636.47278"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
+           xml:space="preserve"><tspan
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.66666603px;font-family:E190;-inkscape-font-specification:E190;text-align:center;text-anchor:middle;fill:#11ff33;fill-opacity:1"
+             y="823.37036"
+             x="657.47278"
+             id="tspan7589"
+             sodipodi:role="line">0</tspan></text>
+        <text
+           xml:space="preserve"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
+           x="657.47278"
+           y="791.37036"
+           id="text7595"><tspan
+             sodipodi:role="line"
+             id="tspan7593"
+             x="657.47278"
+             y="791.37036"
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.66666603px;font-family:E190;-inkscape-font-specification:E190;text-align:center;text-anchor:middle;fill:#11ff33;fill-opacity:1">1</tspan></text>
+      </g>
+      <g
+         id="asi.10">
+        <text
+           id="text7627"
            y="1143.3704"
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.66666603px;font-family:E190;-inkscape-font-specification:E190;text-align:center;text-anchor:middle;fill:#11ff33;fill-opacity:1">0</tspan></text>
-      <text
-         id="text7631"
-         y="1111.3704"
-         x="636.47278"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
-         xml:space="preserve"><tspan
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.66666603px;font-family:E190;-inkscape-font-specification:E190;text-align:center;text-anchor:middle;fill:#11ff33;fill-opacity:1"
+           x="636.47278"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
+           xml:space="preserve"><tspan
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.66666603px;font-family:E190;-inkscape-font-specification:E190;text-align:center;text-anchor:middle;fill:#11ff33;fill-opacity:1"
+             y="1143.3704"
+             x="636.47278"
+             id="tspan7625"
+             sodipodi:role="line">0</tspan></text>
+        <text
+           xml:space="preserve"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
+           x="636.47278"
            y="1111.3704"
-           x="636.47278"
-           id="tspan7629"
-           sodipodi:role="line">1</tspan></text>
-      <text
-         xml:space="preserve"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
-         x="636.47278"
-         y="1079.3704"
-         id="text7635"><tspan
-           sodipodi:role="line"
-           id="tspan7633"
-           x="636.47278"
+           id="text7631"><tspan
+             sodipodi:role="line"
+             id="tspan7629"
+             x="636.47278"
+             y="1111.3704"
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.66666603px;font-family:E190;-inkscape-font-specification:E190;text-align:center;text-anchor:middle;fill:#11ff33;fill-opacity:1">1</tspan></text>
+        <text
+           id="text7635"
            y="1079.3704"
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.66666603px;font-family:E190;-inkscape-font-specification:E190;text-align:center;text-anchor:middle;fill:#11ff33;fill-opacity:1">2</tspan></text>
-      <text
-         id="text7639"
-         y="1047.3704"
-         x="636.47278"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
-         xml:space="preserve"><tspan
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.66666603px;font-family:E190;-inkscape-font-specification:E190;text-align:center;text-anchor:middle;fill:#11ff33;fill-opacity:1"
+           x="636.47278"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
+           xml:space="preserve"><tspan
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.66666603px;font-family:E190;-inkscape-font-specification:E190;text-align:center;text-anchor:middle;fill:#11ff33;fill-opacity:1"
+             y="1079.3704"
+             x="636.47278"
+             id="tspan7633"
+             sodipodi:role="line">2</tspan></text>
+        <text
+           xml:space="preserve"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
+           x="636.47278"
            y="1047.3704"
-           x="636.47278"
-           id="tspan7637"
-           sodipodi:role="line">3</tspan></text>
-      <text
-         xml:space="preserve"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
-         x="636.47278"
-         y="1015.3704"
-         id="text7643"><tspan
-           sodipodi:role="line"
-           id="tspan7641"
-           x="636.47278"
+           id="text7639"><tspan
+             sodipodi:role="line"
+             id="tspan7637"
+             x="636.47278"
+             y="1047.3704"
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.66666603px;font-family:E190;-inkscape-font-specification:E190;text-align:center;text-anchor:middle;fill:#11ff33;fill-opacity:1">3</tspan></text>
+        <text
+           id="text7643"
            y="1015.3704"
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.66666603px;font-family:E190;-inkscape-font-specification:E190;text-align:center;text-anchor:middle;fill:#11ff33;fill-opacity:1">4</tspan></text>
-      <text
-         id="text7647"
-         y="983.37042"
-         x="636.47278"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
-         xml:space="preserve"><tspan
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.66666603px;font-family:E190;-inkscape-font-specification:E190;text-align:center;text-anchor:middle;fill:#11ff33;fill-opacity:1"
+           x="636.47278"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
+           xml:space="preserve"><tspan
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.66666603px;font-family:E190;-inkscape-font-specification:E190;text-align:center;text-anchor:middle;fill:#11ff33;fill-opacity:1"
+             y="1015.3704"
+             x="636.47278"
+             id="tspan7641"
+             sodipodi:role="line">4</tspan></text>
+        <text
+           xml:space="preserve"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
+           x="636.47278"
            y="983.37042"
-           x="636.47278"
-           id="tspan7645"
-           sodipodi:role="line">5</tspan></text>
-      <text
-         xml:space="preserve"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
-         x="636.47278"
-         y="951.37042"
-         id="text7651"><tspan
-           sodipodi:role="line"
-           id="tspan7649"
-           x="636.47278"
+           id="text7647"><tspan
+             sodipodi:role="line"
+             id="tspan7645"
+             x="636.47278"
+             y="983.37042"
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.66666603px;font-family:E190;-inkscape-font-specification:E190;text-align:center;text-anchor:middle;fill:#11ff33;fill-opacity:1">5</tspan></text>
+        <text
+           id="text7651"
            y="951.37042"
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.66666603px;font-family:E190;-inkscape-font-specification:E190;text-align:center;text-anchor:middle;fill:#11ff33;fill-opacity:1">6</tspan></text>
-      <text
-         id="text7655"
-         y="919.37042"
-         x="636.47278"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
-         xml:space="preserve"><tspan
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.66666603px;font-family:E190;-inkscape-font-specification:E190;text-align:center;text-anchor:middle;fill:#11ff33;fill-opacity:1"
+           x="636.47278"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
+           xml:space="preserve"><tspan
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.66666603px;font-family:E190;-inkscape-font-specification:E190;text-align:center;text-anchor:middle;fill:#11ff33;fill-opacity:1"
+             y="951.37042"
+             x="636.47278"
+             id="tspan7649"
+             sodipodi:role="line">6</tspan></text>
+        <text
+           xml:space="preserve"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
+           x="636.47278"
            y="919.37042"
-           x="636.47278"
-           id="tspan7653"
-           sodipodi:role="line">7</tspan></text>
-      <text
-         xml:space="preserve"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
-         x="636.47278"
-         y="887.37042"
-         id="text7659"><tspan
-           sodipodi:role="line"
-           id="tspan7657"
-           x="636.47278"
+           id="text7655"><tspan
+             sodipodi:role="line"
+             id="tspan7653"
+             x="636.47278"
+             y="919.37042"
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.66666603px;font-family:E190;-inkscape-font-specification:E190;text-align:center;text-anchor:middle;fill:#11ff33;fill-opacity:1">7</tspan></text>
+        <text
+           id="text7659"
            y="887.37042"
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.66666603px;font-family:E190;-inkscape-font-specification:E190;text-align:center;text-anchor:middle;fill:#11ff33;fill-opacity:1">8</tspan></text>
-      <text
-         id="text7663"
-         y="855.37042"
-         x="636.47278"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
-         xml:space="preserve"><tspan
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.66666603px;font-family:E190;-inkscape-font-specification:E190;text-align:center;text-anchor:middle;fill:#11ff33;fill-opacity:1"
+           x="636.47278"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
+           xml:space="preserve"><tspan
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.66666603px;font-family:E190;-inkscape-font-specification:E190;text-align:center;text-anchor:middle;fill:#11ff33;fill-opacity:1"
+             y="887.37042"
+             x="636.47278"
+             id="tspan7657"
+             sodipodi:role="line">8</tspan></text>
+        <text
+           xml:space="preserve"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
+           x="636.47278"
            y="855.37042"
+           id="text7663"><tspan
+             sodipodi:role="line"
+             id="tspan7661"
+             x="636.47278"
+             y="855.37042"
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.66666603px;font-family:E190;-inkscape-font-specification:E190;text-align:center;text-anchor:middle;fill:#11ff33;fill-opacity:1">9</tspan></text>
+        <text
+           xml:space="preserve"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
            x="636.47278"
-           id="tspan7661"
-           sodipodi:role="line">9</tspan></text>
-      <text
-         id="text7667"
-         y="1175.3704"
-         x="636.47278"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
-         xml:space="preserve"><tspan
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.66666603px;font-family:E190;-inkscape-font-specification:E190;text-align:center;text-anchor:middle;fill:#11ff33;fill-opacity:1"
            y="1175.3704"
+           id="text7667"><tspan
+             sodipodi:role="line"
+             id="tspan7665"
+             x="636.47278"
+             y="1175.3704"
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.66666603px;font-family:E190;-inkscape-font-specification:E190;text-align:center;text-anchor:middle;fill:#11ff33;fill-opacity:1">9</tspan></text>
+        <text
+           xml:space="preserve"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
            x="636.47278"
-           id="tspan7665"
-           sodipodi:role="line">9</tspan></text>
-      <text
-         id="text7671"
-         y="823.37036"
-         x="636.47278"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
-         xml:space="preserve"><tspan
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.66666603px;font-family:E190;-inkscape-font-specification:E190;text-align:center;text-anchor:middle;fill:#11ff33;fill-opacity:1"
            y="823.37036"
-           x="636.47278"
-           id="tspan7669"
-           sodipodi:role="line">0</tspan></text>
-      <text
-         xml:space="preserve"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
-         x="636.47278"
-         y="791.37036"
-         id="text7675"><tspan
-           sodipodi:role="line"
-           id="tspan7673"
-           x="636.47278"
+           id="text7671"><tspan
+             sodipodi:role="line"
+             id="tspan7669"
+             x="636.47278"
+             y="823.37036"
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.66666603px;font-family:E190;-inkscape-font-specification:E190;text-align:center;text-anchor:middle;fill:#11ff33;fill-opacity:1">0</tspan></text>
+        <text
+           id="text7675"
            y="791.37036"
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.66666603px;font-family:E190;-inkscape-font-specification:E190;text-align:center;text-anchor:middle;fill:#11ff33;fill-opacity:1">1</tspan></text>
-    </g>
-    <g
-       id="asi.100">
-      <text
-         id="text7681"
-         y="1143.3704"
-         x="615.47278"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
-         xml:space="preserve"><tspan
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.66666603px;font-family:E190;-inkscape-font-specification:E190;text-align:center;text-anchor:middle;fill:#11ff33;fill-opacity:1"
+           x="636.47278"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
+           xml:space="preserve"><tspan
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.66666603px;font-family:E190;-inkscape-font-specification:E190;text-align:center;text-anchor:middle;fill:#11ff33;fill-opacity:1"
+             y="791.37036"
+             x="636.47278"
+             id="tspan7673"
+             sodipodi:role="line">1</tspan></text>
+      </g>
+      <g
+         id="asi.100">
+        <text
+           xml:space="preserve"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
+           x="615.47278"
            y="1143.3704"
-           x="615.47278"
-           id="tspan7679"
-           sodipodi:role="line">0</tspan></text>
-      <text
-         xml:space="preserve"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
-         x="615.47278"
-         y="1111.3704"
-         id="text7685"><tspan
-           sodipodi:role="line"
-           id="tspan7683"
-           x="615.47278"
+           id="text7681"><tspan
+             sodipodi:role="line"
+             id="tspan7679"
+             x="615.47278"
+             y="1143.3704"
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.66666603px;font-family:E190;-inkscape-font-specification:E190;text-align:center;text-anchor:middle;fill:#11ff33;fill-opacity:1">0</tspan></text>
+        <text
+           id="text7685"
            y="1111.3704"
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.66666603px;font-family:E190;-inkscape-font-specification:E190;text-align:center;text-anchor:middle;fill:#11ff33;fill-opacity:1">1</tspan></text>
-      <text
-         id="text7689"
-         y="1079.3704"
-         x="615.47278"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
-         xml:space="preserve"><tspan
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.66666603px;font-family:E190;-inkscape-font-specification:E190;text-align:center;text-anchor:middle;fill:#11ff33;fill-opacity:1"
+           x="615.47278"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
+           xml:space="preserve"><tspan
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.66666603px;font-family:E190;-inkscape-font-specification:E190;text-align:center;text-anchor:middle;fill:#11ff33;fill-opacity:1"
+             y="1111.3704"
+             x="615.47278"
+             id="tspan7683"
+             sodipodi:role="line">1</tspan></text>
+        <text
+           xml:space="preserve"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
+           x="615.47278"
            y="1079.3704"
-           x="615.47278"
-           id="tspan7687"
-           sodipodi:role="line">2</tspan></text>
-      <text
-         xml:space="preserve"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
-         x="615.47278"
-         y="1047.3704"
-         id="text7693"><tspan
-           sodipodi:role="line"
-           id="tspan7691"
-           x="615.47278"
+           id="text7689"><tspan
+             sodipodi:role="line"
+             id="tspan7687"
+             x="615.47278"
+             y="1079.3704"
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.66666603px;font-family:E190;-inkscape-font-specification:E190;text-align:center;text-anchor:middle;fill:#11ff33;fill-opacity:1">2</tspan></text>
+        <text
+           id="text7693"
            y="1047.3704"
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.66666603px;font-family:E190;-inkscape-font-specification:E190;text-align:center;text-anchor:middle;fill:#11ff33;fill-opacity:1">3</tspan></text>
-      <text
-         id="text7697"
-         y="1015.3704"
-         x="615.47278"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
-         xml:space="preserve"><tspan
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.66666603px;font-family:E190;-inkscape-font-specification:E190;text-align:center;text-anchor:middle;fill:#11ff33;fill-opacity:1"
+           x="615.47278"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
+           xml:space="preserve"><tspan
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.66666603px;font-family:E190;-inkscape-font-specification:E190;text-align:center;text-anchor:middle;fill:#11ff33;fill-opacity:1"
+             y="1047.3704"
+             x="615.47278"
+             id="tspan7691"
+             sodipodi:role="line">3</tspan></text>
+        <text
+           xml:space="preserve"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
+           x="615.47278"
            y="1015.3704"
-           x="615.47278"
-           id="tspan7695"
-           sodipodi:role="line">4</tspan></text>
-      <text
-         xml:space="preserve"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
-         x="615.47278"
-         y="983.37042"
-         id="text7701"><tspan
-           sodipodi:role="line"
-           id="tspan7699"
-           x="615.47278"
+           id="text7697"><tspan
+             sodipodi:role="line"
+             id="tspan7695"
+             x="615.47278"
+             y="1015.3704"
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.66666603px;font-family:E190;-inkscape-font-specification:E190;text-align:center;text-anchor:middle;fill:#11ff33;fill-opacity:1">4</tspan></text>
+        <text
+           id="text7701"
            y="983.37042"
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.66666603px;font-family:E190;-inkscape-font-specification:E190;text-align:center;text-anchor:middle;fill:#11ff33;fill-opacity:1">5</tspan></text>
-      <text
-         id="text7705"
-         y="951.37042"
-         x="615.47278"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
-         xml:space="preserve"><tspan
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.66666603px;font-family:E190;-inkscape-font-specification:E190;text-align:center;text-anchor:middle;fill:#11ff33;fill-opacity:1"
+           x="615.47278"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
+           xml:space="preserve"><tspan
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.66666603px;font-family:E190;-inkscape-font-specification:E190;text-align:center;text-anchor:middle;fill:#11ff33;fill-opacity:1"
+             y="983.37042"
+             x="615.47278"
+             id="tspan7699"
+             sodipodi:role="line">5</tspan></text>
+        <text
+           xml:space="preserve"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
+           x="615.47278"
            y="951.37042"
-           x="615.47278"
-           id="tspan7703"
-           sodipodi:role="line">6</tspan></text>
-      <text
-         xml:space="preserve"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
-         x="615.47278"
-         y="919.37042"
-         id="text7709"><tspan
-           sodipodi:role="line"
-           id="tspan7707"
-           x="615.47278"
+           id="text7705"><tspan
+             sodipodi:role="line"
+             id="tspan7703"
+             x="615.47278"
+             y="951.37042"
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.66666603px;font-family:E190;-inkscape-font-specification:E190;text-align:center;text-anchor:middle;fill:#11ff33;fill-opacity:1">6</tspan></text>
+        <text
+           id="text7709"
            y="919.37042"
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.66666603px;font-family:E190;-inkscape-font-specification:E190;text-align:center;text-anchor:middle;fill:#11ff33;fill-opacity:1">7</tspan></text>
-      <text
-         id="text7713"
-         y="887.37042"
-         x="615.47278"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
-         xml:space="preserve"><tspan
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.66666603px;font-family:E190;-inkscape-font-specification:E190;text-align:center;text-anchor:middle;fill:#11ff33;fill-opacity:1"
+           x="615.47278"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
+           xml:space="preserve"><tspan
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.66666603px;font-family:E190;-inkscape-font-specification:E190;text-align:center;text-anchor:middle;fill:#11ff33;fill-opacity:1"
+             y="919.37042"
+             x="615.47278"
+             id="tspan7707"
+             sodipodi:role="line">7</tspan></text>
+        <text
+           xml:space="preserve"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
+           x="615.47278"
            y="887.37042"
-           x="615.47278"
-           id="tspan7711"
-           sodipodi:role="line">8</tspan></text>
-      <text
-         xml:space="preserve"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
-         x="615.47278"
-         y="855.37042"
-         id="text7717"><tspan
-           sodipodi:role="line"
-           id="tspan7715"
-           x="615.47278"
+           id="text7713"><tspan
+             sodipodi:role="line"
+             id="tspan7711"
+             x="615.47278"
+             y="887.37042"
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.66666603px;font-family:E190;-inkscape-font-specification:E190;text-align:center;text-anchor:middle;fill:#11ff33;fill-opacity:1">8</tspan></text>
+        <text
+           id="text7717"
            y="855.37042"
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.66666603px;font-family:E190;-inkscape-font-specification:E190;text-align:center;text-anchor:middle;fill:#11ff33;fill-opacity:1">9</tspan></text>
-      <text
-         xml:space="preserve"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
-         x="615.47278"
-         y="1175.3704"
-         id="text7721"><tspan
-           sodipodi:role="line"
-           id="tspan7719"
            x="615.47278"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
+           xml:space="preserve"><tspan
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.66666603px;font-family:E190;-inkscape-font-specification:E190;text-align:center;text-anchor:middle;fill:#11ff33;fill-opacity:1"
+             y="855.37042"
+             x="615.47278"
+             id="tspan7715"
+             sodipodi:role="line">9</tspan></text>
+        <text
+           id="text7721"
            y="1175.3704"
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.66666603px;font-family:E190;-inkscape-font-specification:E190;text-align:center;text-anchor:middle;fill:#11ff33;fill-opacity:1">9</tspan></text>
-      <text
-         xml:space="preserve"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
-         x="615.47278"
-         y="823.37036"
-         id="text7725"><tspan
-           sodipodi:role="line"
-           id="tspan7723"
            x="615.47278"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
+           xml:space="preserve"><tspan
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.66666603px;font-family:E190;-inkscape-font-specification:E190;text-align:center;text-anchor:middle;fill:#11ff33;fill-opacity:1"
+             y="1175.3704"
+             x="615.47278"
+             id="tspan7719"
+             sodipodi:role="line">9</tspan></text>
+        <text
+           id="text7725"
            y="823.37036"
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.66666603px;font-family:E190;-inkscape-font-specification:E190;text-align:center;text-anchor:middle;fill:#11ff33;fill-opacity:1">0</tspan></text>
-      <text
-         id="text7729"
-         y="791.37036"
-         x="615.47278"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
-         xml:space="preserve"><tspan
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.66666603px;font-family:E190;-inkscape-font-specification:E190;text-align:center;text-anchor:middle;fill:#11ff33;fill-opacity:1"
-           y="791.37036"
            x="615.47278"
-           id="tspan7727"
-           sodipodi:role="line">1</tspan></text>
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
+           xml:space="preserve"><tspan
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.66666603px;font-family:E190;-inkscape-font-specification:E190;text-align:center;text-anchor:middle;fill:#11ff33;fill-opacity:1"
+             y="823.37036"
+             x="615.47278"
+             id="tspan7723"
+             sodipodi:role="line">0</tspan></text>
+        <text
+           xml:space="preserve"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
+           x="615.47278"
+           y="791.37036"
+           id="text7729"><tspan
+             sodipodi:role="line"
+             id="tspan7727"
+             x="615.47278"
+             y="791.37036"
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.66666603px;font-family:E190;-inkscape-font-specification:E190;text-align:center;text-anchor:middle;fill:#11ff33;fill-opacity:1">1</tspan></text>
+      </g>
     </g>
   </g>
   <g
      inkscape:groupmode="layer"
      id="layer14"
      inkscape:label="Alt Odo"
-     style="display:inline"
-     sodipodi:insensitive="true">
+     style="display:inline">
     <g
-       id="alt.rollingdigits">
+       id="alt.odo">
       <g
-         id="alt.rollingdigits.pos">
-        <text
-           xml:space="preserve"
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
-           x="1410.1154"
-           y="1141.2963"
-           id="text9670"><tspan
-             sodipodi:role="line"
-             id="tspan9668"
-             x="1410.1154"
-             y="1141.2963"
-             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:E190;-inkscape-font-specification:E190;fill:#11ff33;fill-opacity:1">00</tspan></text>
-        <text
-           id="text9674"
-           y="1165.2963"
-           x="1410.1154"
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
-           xml:space="preserve"><tspan
-             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:E190;-inkscape-font-specification:E190;fill:#11ff33;fill-opacity:1"
-             y="1165.2963"
-             x="1410.1154"
-             id="tspan9672"
-             sodipodi:role="line">80</tspan></text>
-        <text
-           id="text9698"
-           y="1117.2963"
-           x="1410.1154"
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
-           xml:space="preserve"><tspan
-             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:E190;-inkscape-font-specification:E190;fill:#11ff33;fill-opacity:1"
-             y="1117.2963"
-             x="1410.1154"
-             id="tspan9696"
-             sodipodi:role="line">20</tspan></text>
-        <text
-           xml:space="preserve"
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
-           x="1410.1154"
-           y="1093.2963"
-           id="text9702"><tspan
-             sodipodi:role="line"
-             id="tspan9700"
-             x="1410.1154"
-             y="1093.2963"
-             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:E190;-inkscape-font-specification:E190;fill:#11ff33;fill-opacity:1">40</tspan></text>
-        <text
-           id="text9706"
-           y="1069.2963"
-           x="1410.1154"
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
-           xml:space="preserve"><tspan
-             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:E190;-inkscape-font-specification:E190;fill:#11ff33;fill-opacity:1"
-             y="1069.2963"
-             x="1410.1154"
-             id="tspan9704"
-             sodipodi:role="line">60</tspan></text>
-        <text
-           xml:space="preserve"
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
-           x="1410.1154"
-           y="1045.2963"
-           id="text9710"><tspan
-             sodipodi:role="line"
-             id="tspan9708"
-             x="1410.1154"
-             y="1045.2963"
-             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:E190;-inkscape-font-specification:E190;fill:#11ff33;fill-opacity:1">80</tspan></text>
-        <text
-           id="text9714"
-           y="1021.2963"
-           x="1410.1154"
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
-           xml:space="preserve"><tspan
-             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:E190;-inkscape-font-specification:E190;fill:#11ff33;fill-opacity:1"
-             y="1021.2963"
-             x="1410.1154"
-             id="tspan9712"
-             sodipodi:role="line">00</tspan></text>
-        <text
-           xml:space="preserve"
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
-           x="1410.1154"
-           y="997.29633"
-           id="text9718"><tspan
-             sodipodi:role="line"
-             id="tspan9716"
-             x="1410.1154"
-             y="997.29633"
-             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:E190;-inkscape-font-specification:E190;fill:#11ff33;fill-opacity:1">20</tspan></text>
-      </g>
-      <g
-         id="alt.rollingdigits.zero">
-        <text
-           id="text9777"
-           y="1141.2963"
-           x="1410.1154"
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
-           xml:space="preserve"><tspan
-             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:E190;-inkscape-font-specification:E190;fill:#11ff33;fill-opacity:1"
+         id="alt.rollingdigits">
+        <g
+           id="alt.rollingdigits.pos">
+          <text
+             id="text9670"
              y="1141.2963"
              x="1410.1154"
-             id="tspan9775"
-             sodipodi:role="line">00</tspan></text>
-        <text
-           xml:space="preserve"
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
-           x="1410.1154"
-           y="1165.2963"
-           id="text9781"><tspan
-             sodipodi:role="line"
-             id="tspan9779"
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
+             xml:space="preserve"><tspan
+               style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:E190;-inkscape-font-specification:E190;fill:#11ff33;fill-opacity:1"
+               y="1141.2963"
+               x="1410.1154"
+               id="tspan9668"
+               sodipodi:role="line">00</tspan></text>
+          <text
+             xml:space="preserve"
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
              x="1410.1154"
              y="1165.2963"
-             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:E190;-inkscape-font-specification:E190;fill:#11ff33;fill-opacity:1">20</tspan></text>
-        <text
-           id="text9785"
-           y="1189.2963"
-           x="1410.1154"
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
-           xml:space="preserve"><tspan
-             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:E190;-inkscape-font-specification:E190;fill:#11ff33;fill-opacity:1"
-             y="1189.2963"
-             x="1410.1154"
-             id="tspan9783"
-             sodipodi:role="line">40</tspan></text>
-        <text
-           xml:space="preserve"
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
-           x="1410.1154"
-           y="1213.2963"
-           id="text9789"><tspan
-             sodipodi:role="line"
-             id="tspan9787"
-             x="1410.1154"
-             y="1213.2963"
-             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:E190;-inkscape-font-specification:E190;fill:#11ff33;fill-opacity:1">60</tspan></text>
-        <text
-           id="text9793"
-           y="1237.2963"
-           x="1410.1154"
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
-           xml:space="preserve"><tspan
-             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:E190;-inkscape-font-specification:E190;fill:#11ff33;fill-opacity:1"
-             y="1237.2963"
-             x="1410.1154"
-             id="tspan9791"
-             sodipodi:role="line">80</tspan></text>
-        <text
-           xml:space="preserve"
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
-           x="1410.1154"
-           y="1261.2963"
-           id="text9797"><tspan
-             sodipodi:role="line"
-             id="tspan9795"
-             x="1410.1154"
-             y="1261.2963"
-             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:E190;-inkscape-font-specification:E190;fill:#11ff33;fill-opacity:1">00</tspan></text>
-        <text
-           id="text9801"
-           y="1285.2963"
-           x="1410.1154"
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
-           xml:space="preserve"><tspan
-             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:E190;-inkscape-font-specification:E190;fill:#11ff33;fill-opacity:1"
-             y="1285.2963"
-             x="1410.1154"
-             id="tspan9799"
-             sodipodi:role="line">20</tspan></text>
-        <text
-           xml:space="preserve"
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
-           x="1410.1154"
-           y="1117.2963"
-           id="text9805"><tspan
-             sodipodi:role="line"
-             id="tspan9803"
+             id="text9674"><tspan
+               sodipodi:role="line"
+               id="tspan9672"
+               x="1410.1154"
+               y="1165.2963"
+               style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:E190;-inkscape-font-specification:E190;fill:#11ff33;fill-opacity:1">80</tspan></text>
+          <text
+             xml:space="preserve"
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
              x="1410.1154"
              y="1117.2963"
-             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:E190;-inkscape-font-specification:E190;fill:#11ff33;fill-opacity:1">20</tspan></text>
-        <text
-           id="text9809"
-           y="1093.2963"
-           x="1410.1154"
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
-           xml:space="preserve"><tspan
-             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:E190;-inkscape-font-specification:E190;fill:#11ff33;fill-opacity:1"
+             id="text9698"><tspan
+               sodipodi:role="line"
+               id="tspan9696"
+               x="1410.1154"
+               y="1117.2963"
+               style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:E190;-inkscape-font-specification:E190;fill:#11ff33;fill-opacity:1">20</tspan></text>
+          <text
+             id="text9702"
              y="1093.2963"
              x="1410.1154"
-             id="tspan9807"
-             sodipodi:role="line">40</tspan></text>
-        <text
-           xml:space="preserve"
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
-           x="1410.1154"
-           y="1069.2963"
-           id="text9813"><tspan
-             sodipodi:role="line"
-             id="tspan9811"
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
+             xml:space="preserve"><tspan
+               style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:E190;-inkscape-font-specification:E190;fill:#11ff33;fill-opacity:1"
+               y="1093.2963"
+               x="1410.1154"
+               id="tspan9700"
+               sodipodi:role="line">40</tspan></text>
+          <text
+             xml:space="preserve"
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
              x="1410.1154"
              y="1069.2963"
-             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:E190;-inkscape-font-specification:E190;fill:#11ff33;fill-opacity:1">60</tspan></text>
-        <text
-           id="text9817"
-           y="1045.2963"
-           x="1410.1154"
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
-           xml:space="preserve"><tspan
-             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:E190;-inkscape-font-specification:E190;fill:#11ff33;fill-opacity:1"
+             id="text9706"><tspan
+               sodipodi:role="line"
+               id="tspan9704"
+               x="1410.1154"
+               y="1069.2963"
+               style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:E190;-inkscape-font-specification:E190;fill:#11ff33;fill-opacity:1">60</tspan></text>
+          <text
+             id="text9710"
              y="1045.2963"
              x="1410.1154"
-             id="tspan9815"
-             sodipodi:role="line">80</tspan></text>
-        <text
-           xml:space="preserve"
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
-           x="1410.1154"
-           y="1021.2963"
-           id="text9821"><tspan
-             sodipodi:role="line"
-             id="tspan9819"
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
+             xml:space="preserve"><tspan
+               style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:E190;-inkscape-font-specification:E190;fill:#11ff33;fill-opacity:1"
+               y="1045.2963"
+               x="1410.1154"
+               id="tspan9708"
+               sodipodi:role="line">80</tspan></text>
+          <text
+             xml:space="preserve"
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
              x="1410.1154"
              y="1021.2963"
-             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:E190;-inkscape-font-specification:E190;fill:#11ff33;fill-opacity:1">00</tspan></text>
-        <text
-           id="text9825"
-           y="997.29633"
-           x="1410.1154"
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
-           xml:space="preserve"><tspan
-             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:E190;-inkscape-font-specification:E190;fill:#11ff33;fill-opacity:1"
+             id="text9714"><tspan
+               sodipodi:role="line"
+               id="tspan9712"
+               x="1410.1154"
+               y="1021.2963"
+               style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:E190;-inkscape-font-specification:E190;fill:#11ff33;fill-opacity:1">00</tspan></text>
+          <text
+             id="text9718"
              y="997.29633"
              x="1410.1154"
-             id="tspan9823"
-             sodipodi:role="line">20</tspan></text>
-      </g>
-      <g
-         id="alt.rollingdigits.neg">
-        <text
-           xml:space="preserve"
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
-           x="1410.1154"
-           y="1141.2963"
-           id="text9967"><tspan
-             sodipodi:role="line"
-             id="tspan9965"
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
+             xml:space="preserve"><tspan
+               style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:E190;-inkscape-font-specification:E190;fill:#11ff33;fill-opacity:1"
+               y="997.29633"
+               x="1410.1154"
+               id="tspan9716"
+               sodipodi:role="line">20</tspan></text>
+        </g>
+        <g
+           id="alt.rollingdigits.zero">
+          <text
+             xml:space="preserve"
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
              x="1410.1154"
              y="1141.2963"
-             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:E190;-inkscape-font-specification:E190;fill:#11ff33;fill-opacity:1">00</tspan></text>
-        <text
-           id="text9971"
-           y="1165.2963"
-           x="1410.1154"
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
-           xml:space="preserve"><tspan
-             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:E190;-inkscape-font-specification:E190;fill:#11ff33;fill-opacity:1"
+             id="text9777"><tspan
+               sodipodi:role="line"
+               id="tspan9775"
+               x="1410.1154"
+               y="1141.2963"
+               style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:E190;-inkscape-font-specification:E190;fill:#11ff33;fill-opacity:1">00</tspan></text>
+          <text
+             id="text9781"
              y="1165.2963"
              x="1410.1154"
-             id="tspan9969"
-             sodipodi:role="line">20</tspan></text>
-        <text
-           xml:space="preserve"
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
-           x="1410.1154"
-           y="1189.2963"
-           id="text9975"><tspan
-             sodipodi:role="line"
-             id="tspan9973"
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
+             xml:space="preserve"><tspan
+               style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:E190;-inkscape-font-specification:E190;fill:#11ff33;fill-opacity:1"
+               y="1165.2963"
+               x="1410.1154"
+               id="tspan9779"
+               sodipodi:role="line">20</tspan></text>
+          <text
+             xml:space="preserve"
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
              x="1410.1154"
              y="1189.2963"
-             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:E190;-inkscape-font-specification:E190;fill:#11ff33;fill-opacity:1">40</tspan></text>
-        <text
-           id="text9979"
-           y="1213.2963"
-           x="1410.1154"
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
-           xml:space="preserve"><tspan
-             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:E190;-inkscape-font-specification:E190;fill:#11ff33;fill-opacity:1"
+             id="text9785"><tspan
+               sodipodi:role="line"
+               id="tspan9783"
+               x="1410.1154"
+               y="1189.2963"
+               style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:E190;-inkscape-font-specification:E190;fill:#11ff33;fill-opacity:1">40</tspan></text>
+          <text
+             id="text9789"
              y="1213.2963"
              x="1410.1154"
-             id="tspan9977"
-             sodipodi:role="line">60</tspan></text>
-        <text
-           xml:space="preserve"
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
-           x="1410.1154"
-           y="1237.2963"
-           id="text9983"><tspan
-             sodipodi:role="line"
-             id="tspan9981"
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
+             xml:space="preserve"><tspan
+               style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:E190;-inkscape-font-specification:E190;fill:#11ff33;fill-opacity:1"
+               y="1213.2963"
+               x="1410.1154"
+               id="tspan9787"
+               sodipodi:role="line">60</tspan></text>
+          <text
+             xml:space="preserve"
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
              x="1410.1154"
              y="1237.2963"
-             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:E190;-inkscape-font-specification:E190;fill:#11ff33;fill-opacity:1">80</tspan></text>
-        <text
-           id="text9987"
-           y="1261.2963"
-           x="1410.1154"
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
-           xml:space="preserve"><tspan
-             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:E190;-inkscape-font-specification:E190;fill:#11ff33;fill-opacity:1"
+             id="text9793"><tspan
+               sodipodi:role="line"
+               id="tspan9791"
+               x="1410.1154"
+               y="1237.2963"
+               style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:E190;-inkscape-font-specification:E190;fill:#11ff33;fill-opacity:1">80</tspan></text>
+          <text
+             id="text9797"
              y="1261.2963"
              x="1410.1154"
-             id="tspan9985"
-             sodipodi:role="line">00</tspan></text>
-        <text
-           xml:space="preserve"
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
-           x="1410.1154"
-           y="1285.2963"
-           id="text9991"><tspan
-             sodipodi:role="line"
-             id="tspan9989"
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
+             xml:space="preserve"><tspan
+               style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:E190;-inkscape-font-specification:E190;fill:#11ff33;fill-opacity:1"
+               y="1261.2963"
+               x="1410.1154"
+               id="tspan9795"
+               sodipodi:role="line">00</tspan></text>
+          <text
+             xml:space="preserve"
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
              x="1410.1154"
              y="1285.2963"
-             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:E190;-inkscape-font-specification:E190;fill:#11ff33;fill-opacity:1">20</tspan></text>
-        <text
-           id="text9995"
-           y="1117.2963"
-           x="1410.1154"
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
-           xml:space="preserve"><tspan
-             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:E190;-inkscape-font-specification:E190;fill:#11ff33;fill-opacity:1"
+             id="text9801"><tspan
+               sodipodi:role="line"
+               id="tspan9799"
+               x="1410.1154"
+               y="1285.2963"
+               style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:E190;-inkscape-font-specification:E190;fill:#11ff33;fill-opacity:1">20</tspan></text>
+          <text
+             id="text9805"
              y="1117.2963"
              x="1410.1154"
-             id="tspan9993"
-             sodipodi:role="line">80</tspan></text>
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
+             xml:space="preserve"><tspan
+               style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:E190;-inkscape-font-specification:E190;fill:#11ff33;fill-opacity:1"
+               y="1117.2963"
+               x="1410.1154"
+               id="tspan9803"
+               sodipodi:role="line">20</tspan></text>
+          <text
+             xml:space="preserve"
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
+             x="1410.1154"
+             y="1093.2963"
+             id="text9809"><tspan
+               sodipodi:role="line"
+               id="tspan9807"
+               x="1410.1154"
+               y="1093.2963"
+               style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:E190;-inkscape-font-specification:E190;fill:#11ff33;fill-opacity:1">40</tspan></text>
+          <text
+             id="text9813"
+             y="1069.2963"
+             x="1410.1154"
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
+             xml:space="preserve"><tspan
+               style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:E190;-inkscape-font-specification:E190;fill:#11ff33;fill-opacity:1"
+               y="1069.2963"
+               x="1410.1154"
+               id="tspan9811"
+               sodipodi:role="line">60</tspan></text>
+          <text
+             xml:space="preserve"
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
+             x="1410.1154"
+             y="1045.2963"
+             id="text9817"><tspan
+               sodipodi:role="line"
+               id="tspan9815"
+               x="1410.1154"
+               y="1045.2963"
+               style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:E190;-inkscape-font-specification:E190;fill:#11ff33;fill-opacity:1">80</tspan></text>
+          <text
+             id="text9821"
+             y="1021.2963"
+             x="1410.1154"
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
+             xml:space="preserve"><tspan
+               style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:E190;-inkscape-font-specification:E190;fill:#11ff33;fill-opacity:1"
+               y="1021.2963"
+               x="1410.1154"
+               id="tspan9819"
+               sodipodi:role="line">00</tspan></text>
+          <text
+             xml:space="preserve"
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
+             x="1410.1154"
+             y="997.29633"
+             id="text9825"><tspan
+               sodipodi:role="line"
+               id="tspan9823"
+               x="1410.1154"
+               y="997.29633"
+               style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:E190;-inkscape-font-specification:E190;fill:#11ff33;fill-opacity:1">20</tspan></text>
+        </g>
+        <g
+           id="alt.rollingdigits.neg">
+          <text
+             id="text9967"
+             y="1141.2963"
+             x="1410.1154"
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
+             xml:space="preserve"><tspan
+               style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:E190;-inkscape-font-specification:E190;fill:#11ff33;fill-opacity:1"
+               y="1141.2963"
+               x="1410.1154"
+               id="tspan9965"
+               sodipodi:role="line">00</tspan></text>
+          <text
+             xml:space="preserve"
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
+             x="1410.1154"
+             y="1165.2963"
+             id="text9971"><tspan
+               sodipodi:role="line"
+               id="tspan9969"
+               x="1410.1154"
+               y="1165.2963"
+               style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:E190;-inkscape-font-specification:E190;fill:#11ff33;fill-opacity:1">20</tspan></text>
+          <text
+             id="text9975"
+             y="1189.2963"
+             x="1410.1154"
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
+             xml:space="preserve"><tspan
+               style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:E190;-inkscape-font-specification:E190;fill:#11ff33;fill-opacity:1"
+               y="1189.2963"
+               x="1410.1154"
+               id="tspan9973"
+               sodipodi:role="line">40</tspan></text>
+          <text
+             xml:space="preserve"
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
+             x="1410.1154"
+             y="1213.2963"
+             id="text9979"><tspan
+               sodipodi:role="line"
+               id="tspan9977"
+               x="1410.1154"
+               y="1213.2963"
+               style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:E190;-inkscape-font-specification:E190;fill:#11ff33;fill-opacity:1">60</tspan></text>
+          <text
+             id="text9983"
+             y="1237.2963"
+             x="1410.1154"
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
+             xml:space="preserve"><tspan
+               style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:E190;-inkscape-font-specification:E190;fill:#11ff33;fill-opacity:1"
+               y="1237.2963"
+               x="1410.1154"
+               id="tspan9981"
+               sodipodi:role="line">80</tspan></text>
+          <text
+             xml:space="preserve"
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
+             x="1410.1154"
+             y="1261.2963"
+             id="text9987"><tspan
+               sodipodi:role="line"
+               id="tspan9985"
+               x="1410.1154"
+               y="1261.2963"
+               style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:E190;-inkscape-font-specification:E190;fill:#11ff33;fill-opacity:1">00</tspan></text>
+          <text
+             id="text9991"
+             y="1285.2963"
+             x="1410.1154"
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
+             xml:space="preserve"><tspan
+               style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:E190;-inkscape-font-specification:E190;fill:#11ff33;fill-opacity:1"
+               y="1285.2963"
+               x="1410.1154"
+               id="tspan9989"
+               sodipodi:role="line">20</tspan></text>
+          <text
+             xml:space="preserve"
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
+             x="1410.1154"
+             y="1117.2963"
+             id="text9995"><tspan
+               sodipodi:role="line"
+               id="tspan9993"
+               x="1410.1154"
+               y="1117.2963"
+               style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:E190;-inkscape-font-specification:E190;fill:#11ff33;fill-opacity:1">80</tspan></text>
+        </g>
       </g>
-    </g>
-    <g
-       id="alt.100">
       <g
-         id="alt.100.tape">
-        <text
-           id="alt.100.z"
-           y="1143.3704"
-           x="1397.4728"
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
-           xml:space="preserve"><tspan
-             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.66666603px;font-family:E190;-inkscape-font-specification:E190;text-align:center;text-anchor:middle;fill:#11ff33;fill-opacity:1"
+         id="alt.100">
+        <g
+           id="alt.100.tape">
+          <text
+             xml:space="preserve"
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
+             x="1397.4728"
              y="1143.3704"
-             x="1397.4728"
-             id="tspan9361"
-             sodipodi:role="line">0</tspan></text>
-        <text
-           xml:space="preserve"
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
-           x="1397.4728"
-           y="1111.3704"
-           id="text9367"><tspan
-             sodipodi:role="line"
-             id="tspan9365"
-             x="1397.4728"
+             id="alt.100.z"><tspan
+               sodipodi:role="line"
+               id="tspan9361"
+               x="1397.4728"
+               y="1143.3704"
+               style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.66666603px;font-family:E190;-inkscape-font-specification:E190;text-align:center;text-anchor:middle;fill:#11ff33;fill-opacity:1">0</tspan></text>
+          <text
+             id="text9367"
              y="1111.3704"
-             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.66666603px;font-family:E190;-inkscape-font-specification:E190;text-align:center;text-anchor:middle;fill:#11ff33;fill-opacity:1">1</tspan></text>
-        <text
-           id="text9371"
-           y="1079.3704"
-           x="1397.4728"
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
-           xml:space="preserve"><tspan
-             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.66666603px;font-family:E190;-inkscape-font-specification:E190;text-align:center;text-anchor:middle;fill:#11ff33;fill-opacity:1"
+             x="1397.4728"
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
+             xml:space="preserve"><tspan
+               style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.66666603px;font-family:E190;-inkscape-font-specification:E190;text-align:center;text-anchor:middle;fill:#11ff33;fill-opacity:1"
+               y="1111.3704"
+               x="1397.4728"
+               id="tspan9365"
+               sodipodi:role="line">1</tspan></text>
+          <text
+             xml:space="preserve"
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
+             x="1397.4728"
              y="1079.3704"
-             x="1397.4728"
-             id="tspan9369"
-             sodipodi:role="line">2</tspan></text>
-        <text
-           xml:space="preserve"
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
-           x="1397.4728"
-           y="1047.3704"
-           id="text9375"><tspan
-             sodipodi:role="line"
-             id="tspan9373"
-             x="1397.4728"
+             id="text9371"><tspan
+               sodipodi:role="line"
+               id="tspan9369"
+               x="1397.4728"
+               y="1079.3704"
+               style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.66666603px;font-family:E190;-inkscape-font-specification:E190;text-align:center;text-anchor:middle;fill:#11ff33;fill-opacity:1">2</tspan></text>
+          <text
+             id="text9375"
              y="1047.3704"
-             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.66666603px;font-family:E190;-inkscape-font-specification:E190;text-align:center;text-anchor:middle;fill:#11ff33;fill-opacity:1">3</tspan></text>
-        <text
-           id="text9379"
-           y="1015.3704"
-           x="1397.4728"
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
-           xml:space="preserve"><tspan
-             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.66666603px;font-family:E190;-inkscape-font-specification:E190;text-align:center;text-anchor:middle;fill:#11ff33;fill-opacity:1"
+             x="1397.4728"
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
+             xml:space="preserve"><tspan
+               style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.66666603px;font-family:E190;-inkscape-font-specification:E190;text-align:center;text-anchor:middle;fill:#11ff33;fill-opacity:1"
+               y="1047.3704"
+               x="1397.4728"
+               id="tspan9373"
+               sodipodi:role="line">3</tspan></text>
+          <text
+             xml:space="preserve"
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
+             x="1397.4728"
              y="1015.3704"
-             x="1397.4728"
-             id="tspan9377"
-             sodipodi:role="line">4</tspan></text>
-        <text
-           xml:space="preserve"
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
-           x="1397.4728"
-           y="983.37042"
-           id="text9383"><tspan
-             sodipodi:role="line"
-             id="tspan9381"
-             x="1397.4728"
+             id="text9379"><tspan
+               sodipodi:role="line"
+               id="tspan9377"
+               x="1397.4728"
+               y="1015.3704"
+               style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.66666603px;font-family:E190;-inkscape-font-specification:E190;text-align:center;text-anchor:middle;fill:#11ff33;fill-opacity:1">4</tspan></text>
+          <text
+             id="text9383"
              y="983.37042"
-             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.66666603px;font-family:E190;-inkscape-font-specification:E190;text-align:center;text-anchor:middle;fill:#11ff33;fill-opacity:1">5</tspan></text>
-        <text
-           id="text9387"
-           y="951.37042"
-           x="1397.4728"
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
-           xml:space="preserve"><tspan
-             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.66666603px;font-family:E190;-inkscape-font-specification:E190;text-align:center;text-anchor:middle;fill:#11ff33;fill-opacity:1"
+             x="1397.4728"
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
+             xml:space="preserve"><tspan
+               style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.66666603px;font-family:E190;-inkscape-font-specification:E190;text-align:center;text-anchor:middle;fill:#11ff33;fill-opacity:1"
+               y="983.37042"
+               x="1397.4728"
+               id="tspan9381"
+               sodipodi:role="line">5</tspan></text>
+          <text
+             xml:space="preserve"
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
+             x="1397.4728"
              y="951.37042"
-             x="1397.4728"
-             id="tspan9385"
-             sodipodi:role="line">6</tspan></text>
-        <text
-           xml:space="preserve"
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
-           x="1397.4728"
-           y="919.37042"
-           id="text9391"><tspan
-             sodipodi:role="line"
-             id="tspan9389"
-             x="1397.4728"
+             id="text9387"><tspan
+               sodipodi:role="line"
+               id="tspan9385"
+               x="1397.4728"
+               y="951.37042"
+               style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.66666603px;font-family:E190;-inkscape-font-specification:E190;text-align:center;text-anchor:middle;fill:#11ff33;fill-opacity:1">6</tspan></text>
+          <text
+             id="text9391"
              y="919.37042"
-             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.66666603px;font-family:E190;-inkscape-font-specification:E190;text-align:center;text-anchor:middle;fill:#11ff33;fill-opacity:1">7</tspan></text>
-        <text
-           id="text9395"
-           y="887.37042"
-           x="1397.4728"
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
-           xml:space="preserve"><tspan
-             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.66666603px;font-family:E190;-inkscape-font-specification:E190;text-align:center;text-anchor:middle;fill:#11ff33;fill-opacity:1"
+             x="1397.4728"
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
+             xml:space="preserve"><tspan
+               style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.66666603px;font-family:E190;-inkscape-font-specification:E190;text-align:center;text-anchor:middle;fill:#11ff33;fill-opacity:1"
+               y="919.37042"
+               x="1397.4728"
+               id="tspan9389"
+               sodipodi:role="line">7</tspan></text>
+          <text
+             xml:space="preserve"
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
+             x="1397.4728"
              y="887.37042"
-             x="1397.4728"
-             id="tspan9393"
-             sodipodi:role="line">8</tspan></text>
-        <text
-           xml:space="preserve"
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
-           x="1397.4728"
-           y="855.37042"
-           id="text9399"><tspan
-             sodipodi:role="line"
-             id="tspan9397"
-             x="1397.4728"
+             id="text9395"><tspan
+               sodipodi:role="line"
+               id="tspan9393"
+               x="1397.4728"
+               y="887.37042"
+               style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.66666603px;font-family:E190;-inkscape-font-specification:E190;text-align:center;text-anchor:middle;fill:#11ff33;fill-opacity:1">8</tspan></text>
+          <text
+             id="text9399"
              y="855.37042"
-             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.66666603px;font-family:E190;-inkscape-font-specification:E190;text-align:center;text-anchor:middle;fill:#11ff33;fill-opacity:1">9</tspan></text>
-        <text
-           xml:space="preserve"
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
-           x="1397.4728"
-           y="1175.3704"
-           id="text9403"><tspan
-             sodipodi:role="line"
-             id="tspan9401"
              x="1397.4728"
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
+             xml:space="preserve"><tspan
+               style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.66666603px;font-family:E190;-inkscape-font-specification:E190;text-align:center;text-anchor:middle;fill:#11ff33;fill-opacity:1"
+               y="855.37042"
+               x="1397.4728"
+               id="tspan9397"
+               sodipodi:role="line">9</tspan></text>
+          <text
+             id="text9403"
              y="1175.3704"
-             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.66666603px;font-family:E190;-inkscape-font-specification:E190;text-align:center;text-anchor:middle;fill:#11ff33;fill-opacity:1">9</tspan></text>
-        <text
-           xml:space="preserve"
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
-           x="1397.4728"
-           y="823.37036"
-           id="text9407"><tspan
-             sodipodi:role="line"
-             id="tspan9405"
              x="1397.4728"
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
+             xml:space="preserve"><tspan
+               style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.66666603px;font-family:E190;-inkscape-font-specification:E190;text-align:center;text-anchor:middle;fill:#11ff33;fill-opacity:1"
+               y="1175.3704"
+               x="1397.4728"
+               id="tspan9401"
+               sodipodi:role="line">9</tspan></text>
+          <text
+             id="text9407"
              y="823.37036"
-             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.66666603px;font-family:E190;-inkscape-font-specification:E190;text-align:center;text-anchor:middle;fill:#11ff33;fill-opacity:1">0</tspan></text>
-        <text
-           id="text9411"
-           y="791.37036"
-           x="1397.4728"
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
-           xml:space="preserve"><tspan
-             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.66666603px;font-family:E190;-inkscape-font-specification:E190;text-align:center;text-anchor:middle;fill:#11ff33;fill-opacity:1"
+             x="1397.4728"
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
+             xml:space="preserve"><tspan
+               style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.66666603px;font-family:E190;-inkscape-font-specification:E190;text-align:center;text-anchor:middle;fill:#11ff33;fill-opacity:1"
+               y="823.37036"
+               x="1397.4728"
+               id="tspan9405"
+               sodipodi:role="line">0</tspan></text>
+          <text
+             xml:space="preserve"
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
+             x="1397.4728"
              y="791.37036"
+             id="text9411"><tspan
+               sodipodi:role="line"
+               id="tspan9409"
+               x="1397.4728"
+               y="791.37036"
+               style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.66666603px;font-family:E190;-inkscape-font-specification:E190;text-align:center;text-anchor:middle;fill:#11ff33;fill-opacity:1">1</tspan></text>
+        </g>
+        <g
+           id="alt.100.neg">
+          <text
+             xml:space="preserve"
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
              x="1397.4728"
-             id="tspan9409"
-             sodipodi:role="line">1</tspan></text>
-      </g>
-      <g
-         id="alt.100.neg">
-        <text
-           id="text10442"
-           y="1175.3704"
-           x="1397.4728"
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
-           xml:space="preserve"><tspan
-             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.66666603px;font-family:E190;-inkscape-font-specification:E190;text-align:center;text-anchor:middle;fill:#11ff33;fill-opacity:1"
              y="1175.3704"
-             x="1397.4728"
-             id="tspan10440"
-             sodipodi:role="line">G</tspan></text>
+             id="text10442"><tspan
+               sodipodi:role="line"
+               id="tspan10440"
+               x="1397.4728"
+               y="1175.3704"
+               style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.66666603px;font-family:E190;-inkscape-font-specification:E190;text-align:center;text-anchor:middle;fill:#11ff33;fill-opacity:1">G</tspan></text>
+        </g>
       </g>
-    </g>
-    <g
-       id="alt.10000">
       <g
-         id="alt.10000.tape">
-        <text
-           id="alt.10000.z"
-           y="1143.3704"
-           x="1355.4728"
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
-           xml:space="preserve"><tspan
-             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.66666603px;font-family:E190;-inkscape-font-specification:E190;text-align:center;text-anchor:middle;fill:#11ff33;fill-opacity:1"
+         id="alt.10000">
+        <g
+           id="alt.10000.tape">
+          <text
+             xml:space="preserve"
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
+             x="1355.4728"
              y="1143.3704"
-             x="1355.4728"
-             id="tspan9469"
-             sodipodi:role="line">0</tspan></text>
-        <text
-           xml:space="preserve"
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
-           x="1355.4728"
-           y="1111.3704"
-           id="text9475"><tspan
-             sodipodi:role="line"
-             id="tspan9473"
-             x="1355.4728"
+             id="alt.10000.z"><tspan
+               sodipodi:role="line"
+               id="tspan9469"
+               x="1355.4728"
+               y="1143.3704"
+               style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.66666603px;font-family:E190;-inkscape-font-specification:E190;text-align:center;text-anchor:middle;fill:#11ff33;fill-opacity:1">0</tspan></text>
+          <text
+             id="text9475"
              y="1111.3704"
-             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.66666603px;font-family:E190;-inkscape-font-specification:E190;text-align:center;text-anchor:middle;fill:#11ff33;fill-opacity:1">1</tspan></text>
-        <text
-           id="text9479"
-           y="1079.3704"
-           x="1355.4728"
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
-           xml:space="preserve"><tspan
-             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.66666603px;font-family:E190;-inkscape-font-specification:E190;text-align:center;text-anchor:middle;fill:#11ff33;fill-opacity:1"
+             x="1355.4728"
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
+             xml:space="preserve"><tspan
+               style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.66666603px;font-family:E190;-inkscape-font-specification:E190;text-align:center;text-anchor:middle;fill:#11ff33;fill-opacity:1"
+               y="1111.3704"
+               x="1355.4728"
+               id="tspan9473"
+               sodipodi:role="line">1</tspan></text>
+          <text
+             xml:space="preserve"
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
+             x="1355.4728"
              y="1079.3704"
-             x="1355.4728"
-             id="tspan9477"
-             sodipodi:role="line">2</tspan></text>
-        <text
-           xml:space="preserve"
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
-           x="1355.4728"
-           y="1047.3704"
-           id="text9483"><tspan
-             sodipodi:role="line"
-             id="tspan9481"
-             x="1355.4728"
+             id="text9479"><tspan
+               sodipodi:role="line"
+               id="tspan9477"
+               x="1355.4728"
+               y="1079.3704"
+               style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.66666603px;font-family:E190;-inkscape-font-specification:E190;text-align:center;text-anchor:middle;fill:#11ff33;fill-opacity:1">2</tspan></text>
+          <text
+             id="text9483"
              y="1047.3704"
-             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.66666603px;font-family:E190;-inkscape-font-specification:E190;text-align:center;text-anchor:middle;fill:#11ff33;fill-opacity:1">3</tspan></text>
-        <text
-           id="text9487"
-           y="1015.3704"
-           x="1355.4728"
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
-           xml:space="preserve"><tspan
-             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.66666603px;font-family:E190;-inkscape-font-specification:E190;text-align:center;text-anchor:middle;fill:#11ff33;fill-opacity:1"
+             x="1355.4728"
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
+             xml:space="preserve"><tspan
+               style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.66666603px;font-family:E190;-inkscape-font-specification:E190;text-align:center;text-anchor:middle;fill:#11ff33;fill-opacity:1"
+               y="1047.3704"
+               x="1355.4728"
+               id="tspan9481"
+               sodipodi:role="line">3</tspan></text>
+          <text
+             xml:space="preserve"
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
+             x="1355.4728"
              y="1015.3704"
-             x="1355.4728"
-             id="tspan9485"
-             sodipodi:role="line">4</tspan></text>
-        <text
-           xml:space="preserve"
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
-           x="1355.4728"
-           y="983.37042"
-           id="text9491"><tspan
-             sodipodi:role="line"
-             id="tspan9489"
-             x="1355.4728"
+             id="text9487"><tspan
+               sodipodi:role="line"
+               id="tspan9485"
+               x="1355.4728"
+               y="1015.3704"
+               style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.66666603px;font-family:E190;-inkscape-font-specification:E190;text-align:center;text-anchor:middle;fill:#11ff33;fill-opacity:1">4</tspan></text>
+          <text
+             id="text9491"
              y="983.37042"
-             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.66666603px;font-family:E190;-inkscape-font-specification:E190;text-align:center;text-anchor:middle;fill:#11ff33;fill-opacity:1">5</tspan></text>
-        <text
-           id="text9495"
-           y="951.37042"
-           x="1355.4728"
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
-           xml:space="preserve"><tspan
-             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.66666603px;font-family:E190;-inkscape-font-specification:E190;text-align:center;text-anchor:middle;fill:#11ff33;fill-opacity:1"
+             x="1355.4728"
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
+             xml:space="preserve"><tspan
+               style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.66666603px;font-family:E190;-inkscape-font-specification:E190;text-align:center;text-anchor:middle;fill:#11ff33;fill-opacity:1"
+               y="983.37042"
+               x="1355.4728"
+               id="tspan9489"
+               sodipodi:role="line">5</tspan></text>
+          <text
+             xml:space="preserve"
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
+             x="1355.4728"
              y="951.37042"
-             x="1355.4728"
-             id="tspan9493"
-             sodipodi:role="line">6</tspan></text>
-        <text
-           xml:space="preserve"
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
-           x="1355.4728"
-           y="919.37042"
-           id="text9499"><tspan
-             sodipodi:role="line"
-             id="tspan9497"
-             x="1355.4728"
+             id="text9495"><tspan
+               sodipodi:role="line"
+               id="tspan9493"
+               x="1355.4728"
+               y="951.37042"
+               style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.66666603px;font-family:E190;-inkscape-font-specification:E190;text-align:center;text-anchor:middle;fill:#11ff33;fill-opacity:1">6</tspan></text>
+          <text
+             id="text9499"
              y="919.37042"
-             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.66666603px;font-family:E190;-inkscape-font-specification:E190;text-align:center;text-anchor:middle;fill:#11ff33;fill-opacity:1">7</tspan></text>
-        <text
-           id="text9503"
-           y="887.37042"
-           x="1355.4728"
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
-           xml:space="preserve"><tspan
-             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.66666603px;font-family:E190;-inkscape-font-specification:E190;text-align:center;text-anchor:middle;fill:#11ff33;fill-opacity:1"
+             x="1355.4728"
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
+             xml:space="preserve"><tspan
+               style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.66666603px;font-family:E190;-inkscape-font-specification:E190;text-align:center;text-anchor:middle;fill:#11ff33;fill-opacity:1"
+               y="919.37042"
+               x="1355.4728"
+               id="tspan9497"
+               sodipodi:role="line">7</tspan></text>
+          <text
+             xml:space="preserve"
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
+             x="1355.4728"
              y="887.37042"
-             x="1355.4728"
-             id="tspan9501"
-             sodipodi:role="line">8</tspan></text>
-        <text
-           xml:space="preserve"
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
-           x="1355.4728"
-           y="855.37042"
-           id="text9507"><tspan
-             sodipodi:role="line"
-             id="tspan9505"
-             x="1355.4728"
+             id="text9503"><tspan
+               sodipodi:role="line"
+               id="tspan9501"
+               x="1355.4728"
+               y="887.37042"
+               style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.66666603px;font-family:E190;-inkscape-font-specification:E190;text-align:center;text-anchor:middle;fill:#11ff33;fill-opacity:1">8</tspan></text>
+          <text
+             id="text9507"
              y="855.37042"
-             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.66666603px;font-family:E190;-inkscape-font-specification:E190;text-align:center;text-anchor:middle;fill:#11ff33;fill-opacity:1">9</tspan></text>
-        <text
-           xml:space="preserve"
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
-           x="1355.4728"
-           y="1175.3704"
-           id="text9511"><tspan
-             sodipodi:role="line"
-             id="tspan9509"
              x="1355.4728"
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
+             xml:space="preserve"><tspan
+               style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.66666603px;font-family:E190;-inkscape-font-specification:E190;text-align:center;text-anchor:middle;fill:#11ff33;fill-opacity:1"
+               y="855.37042"
+               x="1355.4728"
+               id="tspan9505"
+               sodipodi:role="line">9</tspan></text>
+          <text
+             id="text9511"
              y="1175.3704"
-             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.66666603px;font-family:E190;-inkscape-font-specification:E190;text-align:center;text-anchor:middle;fill:#11ff33;fill-opacity:1">9</tspan></text>
-        <text
-           xml:space="preserve"
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
-           x="1355.4728"
-           y="823.37036"
-           id="text9515"><tspan
-             sodipodi:role="line"
-             id="tspan9513"
              x="1355.4728"
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
+             xml:space="preserve"><tspan
+               style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.66666603px;font-family:E190;-inkscape-font-specification:E190;text-align:center;text-anchor:middle;fill:#11ff33;fill-opacity:1"
+               y="1175.3704"
+               x="1355.4728"
+               id="tspan9509"
+               sodipodi:role="line">9</tspan></text>
+          <text
+             id="text9515"
              y="823.37036"
-             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.66666603px;font-family:E190;-inkscape-font-specification:E190;text-align:center;text-anchor:middle;fill:#11ff33;fill-opacity:1">0</tspan></text>
-        <text
-           id="text9519"
-           y="791.37036"
-           x="1355.4728"
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
-           xml:space="preserve"><tspan
-             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.66666603px;font-family:E190;-inkscape-font-specification:E190;text-align:center;text-anchor:middle;fill:#11ff33;fill-opacity:1"
+             x="1355.4728"
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
+             xml:space="preserve"><tspan
+               style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.66666603px;font-family:E190;-inkscape-font-specification:E190;text-align:center;text-anchor:middle;fill:#11ff33;fill-opacity:1"
+               y="823.37036"
+               x="1355.4728"
+               id="tspan9513"
+               sodipodi:role="line">0</tspan></text>
+          <text
+             xml:space="preserve"
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
+             x="1355.4728"
              y="791.37036"
-             x="1355.4728"
-             id="tspan9517"
-             sodipodi:role="line">1</tspan></text>
-      </g>
-      <g
-         id="alt.10000.neg">
-        <text
-           xml:space="preserve"
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
-           x="1355.4728"
-           y="1175.3704"
-           id="text10468"><tspan
-             sodipodi:role="line"
-             id="tspan10466"
-             x="1355.4728"
+             id="text9519"><tspan
+               sodipodi:role="line"
+               id="tspan9517"
+               x="1355.4728"
+               y="791.37036"
+               style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.66666603px;font-family:E190;-inkscape-font-specification:E190;text-align:center;text-anchor:middle;fill:#11ff33;fill-opacity:1">1</tspan></text>
+        </g>
+        <g
+           id="alt.10000.neg">
+          <text
+             id="text10468"
              y="1175.3704"
-             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.66666603px;font-family:E190;-inkscape-font-specification:E190;text-align:center;text-anchor:middle;fill:#11ff33;fill-opacity:1">N</tspan></text>
+             x="1355.4728"
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
+             xml:space="preserve"><tspan
+               style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.66666603px;font-family:E190;-inkscape-font-specification:E190;text-align:center;text-anchor:middle;fill:#11ff33;fill-opacity:1"
+               y="1175.3704"
+               x="1355.4728"
+               id="tspan10466"
+               sodipodi:role="line">N</tspan></text>
+        </g>
+        <path
+           id="alt.10000.zero"
+           style="fill:none;stroke:#11ff33;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+           d="m 1357,1117 8,8 m -20,16 8,8 m -8,-20 20,20 m -20,-32 20,20"
+           inkscape:connector-curvature="0" />
       </g>
-      <path
-         inkscape:connector-curvature="0"
-         d="m 1357,1117 8,8 m -20,16 8,8 m -8,-20 20,20 m -20,-32 20,20"
-         style="fill:none;stroke:#11ff33;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-         id="alt.10000.zero" />
-    </g>
-    <g
-       id="alt.1000">
       <g
-         id="alt.1000.tape">
-        <text
-           xml:space="preserve"
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
-           x="1376.4728"
-           y="1143.3704"
-           id="alt.1000.z"><tspan
-             sodipodi:role="line"
-             id="tspan9415"
-             x="1376.4728"
+         id="alt.1000">
+        <g
+           id="alt.1000.tape">
+          <text
+             id="alt.1000.z"
              y="1143.3704"
-             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.66666603px;font-family:E190;-inkscape-font-specification:E190;text-align:center;text-anchor:middle;fill:#11ff33;fill-opacity:1">0</tspan></text>
-        <text
-           id="text9421"
-           y="1111.3704"
-           x="1376.4728"
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
-           xml:space="preserve"><tspan
-             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.66666603px;font-family:E190;-inkscape-font-specification:E190;text-align:center;text-anchor:middle;fill:#11ff33;fill-opacity:1"
+             x="1376.4728"
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
+             xml:space="preserve"><tspan
+               style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.66666603px;font-family:E190;-inkscape-font-specification:E190;text-align:center;text-anchor:middle;fill:#11ff33;fill-opacity:1"
+               y="1143.3704"
+               x="1376.4728"
+               id="tspan9415"
+               sodipodi:role="line">0</tspan></text>
+          <text
+             xml:space="preserve"
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
+             x="1376.4728"
              y="1111.3704"
-             x="1376.4728"
-             id="tspan9419"
-             sodipodi:role="line">1</tspan></text>
-        <text
-           xml:space="preserve"
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
-           x="1376.4728"
-           y="1079.3704"
-           id="text9425"><tspan
-             sodipodi:role="line"
-             id="tspan9423"
-             x="1376.4728"
+             id="text9421"><tspan
+               sodipodi:role="line"
+               id="tspan9419"
+               x="1376.4728"
+               y="1111.3704"
+               style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.66666603px;font-family:E190;-inkscape-font-specification:E190;text-align:center;text-anchor:middle;fill:#11ff33;fill-opacity:1">1</tspan></text>
+          <text
+             id="text9425"
              y="1079.3704"
-             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.66666603px;font-family:E190;-inkscape-font-specification:E190;text-align:center;text-anchor:middle;fill:#11ff33;fill-opacity:1">2</tspan></text>
-        <text
-           id="text9429"
-           y="1047.3704"
-           x="1376.4728"
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
-           xml:space="preserve"><tspan
-             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.66666603px;font-family:E190;-inkscape-font-specification:E190;text-align:center;text-anchor:middle;fill:#11ff33;fill-opacity:1"
+             x="1376.4728"
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
+             xml:space="preserve"><tspan
+               style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.66666603px;font-family:E190;-inkscape-font-specification:E190;text-align:center;text-anchor:middle;fill:#11ff33;fill-opacity:1"
+               y="1079.3704"
+               x="1376.4728"
+               id="tspan9423"
+               sodipodi:role="line">2</tspan></text>
+          <text
+             xml:space="preserve"
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
+             x="1376.4728"
              y="1047.3704"
-             x="1376.4728"
-             id="tspan9427"
-             sodipodi:role="line">3</tspan></text>
-        <text
-           xml:space="preserve"
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
-           x="1376.4728"
-           y="1015.3704"
-           id="text9433"><tspan
-             sodipodi:role="line"
-             id="tspan9431"
-             x="1376.4728"
+             id="text9429"><tspan
+               sodipodi:role="line"
+               id="tspan9427"
+               x="1376.4728"
+               y="1047.3704"
+               style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.66666603px;font-family:E190;-inkscape-font-specification:E190;text-align:center;text-anchor:middle;fill:#11ff33;fill-opacity:1">3</tspan></text>
+          <text
+             id="text9433"
              y="1015.3704"
-             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.66666603px;font-family:E190;-inkscape-font-specification:E190;text-align:center;text-anchor:middle;fill:#11ff33;fill-opacity:1">4</tspan></text>
-        <text
-           id="text9437"
-           y="983.37042"
-           x="1376.4728"
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
-           xml:space="preserve"><tspan
-             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.66666603px;font-family:E190;-inkscape-font-specification:E190;text-align:center;text-anchor:middle;fill:#11ff33;fill-opacity:1"
+             x="1376.4728"
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
+             xml:space="preserve"><tspan
+               style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.66666603px;font-family:E190;-inkscape-font-specification:E190;text-align:center;text-anchor:middle;fill:#11ff33;fill-opacity:1"
+               y="1015.3704"
+               x="1376.4728"
+               id="tspan9431"
+               sodipodi:role="line">4</tspan></text>
+          <text
+             xml:space="preserve"
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
+             x="1376.4728"
              y="983.37042"
-             x="1376.4728"
-             id="tspan9435"
-             sodipodi:role="line">5</tspan></text>
-        <text
-           xml:space="preserve"
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
-           x="1376.4728"
-           y="951.37042"
-           id="text9441"><tspan
-             sodipodi:role="line"
-             id="tspan9439"
-             x="1376.4728"
+             id="text9437"><tspan
+               sodipodi:role="line"
+               id="tspan9435"
+               x="1376.4728"
+               y="983.37042"
+               style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.66666603px;font-family:E190;-inkscape-font-specification:E190;text-align:center;text-anchor:middle;fill:#11ff33;fill-opacity:1">5</tspan></text>
+          <text
+             id="text9441"
              y="951.37042"
-             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.66666603px;font-family:E190;-inkscape-font-specification:E190;text-align:center;text-anchor:middle;fill:#11ff33;fill-opacity:1">6</tspan></text>
-        <text
-           id="text9445"
-           y="919.37042"
-           x="1376.4728"
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
-           xml:space="preserve"><tspan
-             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.66666603px;font-family:E190;-inkscape-font-specification:E190;text-align:center;text-anchor:middle;fill:#11ff33;fill-opacity:1"
+             x="1376.4728"
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
+             xml:space="preserve"><tspan
+               style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.66666603px;font-family:E190;-inkscape-font-specification:E190;text-align:center;text-anchor:middle;fill:#11ff33;fill-opacity:1"
+               y="951.37042"
+               x="1376.4728"
+               id="tspan9439"
+               sodipodi:role="line">6</tspan></text>
+          <text
+             xml:space="preserve"
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
+             x="1376.4728"
              y="919.37042"
-             x="1376.4728"
-             id="tspan9443"
-             sodipodi:role="line">7</tspan></text>
-        <text
-           xml:space="preserve"
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
-           x="1376.4728"
-           y="887.37042"
-           id="text9449"><tspan
-             sodipodi:role="line"
-             id="tspan9447"
-             x="1376.4728"
+             id="text9445"><tspan
+               sodipodi:role="line"
+               id="tspan9443"
+               x="1376.4728"
+               y="919.37042"
+               style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.66666603px;font-family:E190;-inkscape-font-specification:E190;text-align:center;text-anchor:middle;fill:#11ff33;fill-opacity:1">7</tspan></text>
+          <text
+             id="text9449"
              y="887.37042"
-             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.66666603px;font-family:E190;-inkscape-font-specification:E190;text-align:center;text-anchor:middle;fill:#11ff33;fill-opacity:1">8</tspan></text>
-        <text
-           id="text9453"
-           y="855.37042"
-           x="1376.4728"
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
-           xml:space="preserve"><tspan
-             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.66666603px;font-family:E190;-inkscape-font-specification:E190;text-align:center;text-anchor:middle;fill:#11ff33;fill-opacity:1"
+             x="1376.4728"
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
+             xml:space="preserve"><tspan
+               style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.66666603px;font-family:E190;-inkscape-font-specification:E190;text-align:center;text-anchor:middle;fill:#11ff33;fill-opacity:1"
+               y="887.37042"
+               x="1376.4728"
+               id="tspan9447"
+               sodipodi:role="line">8</tspan></text>
+          <text
+             xml:space="preserve"
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
+             x="1376.4728"
              y="855.37042"
+             id="text9453"><tspan
+               sodipodi:role="line"
+               id="tspan9451"
+               x="1376.4728"
+               y="855.37042"
+               style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.66666603px;font-family:E190;-inkscape-font-specification:E190;text-align:center;text-anchor:middle;fill:#11ff33;fill-opacity:1">9</tspan></text>
+          <text
+             xml:space="preserve"
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
              x="1376.4728"
-             id="tspan9451"
-             sodipodi:role="line">9</tspan></text>
-        <text
-           id="text9457"
-           y="1175.3704"
-           x="1376.4728"
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
-           xml:space="preserve"><tspan
-             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.66666603px;font-family:E190;-inkscape-font-specification:E190;text-align:center;text-anchor:middle;fill:#11ff33;fill-opacity:1"
              y="1175.3704"
+             id="text9457"><tspan
+               sodipodi:role="line"
+               id="tspan9455"
+               x="1376.4728"
+               y="1175.3704"
+               style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.66666603px;font-family:E190;-inkscape-font-specification:E190;text-align:center;text-anchor:middle;fill:#11ff33;fill-opacity:1">9</tspan></text>
+          <text
+             xml:space="preserve"
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
              x="1376.4728"
-             id="tspan9455"
-             sodipodi:role="line">9</tspan></text>
-        <text
-           id="text9461"
-           y="823.37036"
-           x="1376.4728"
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
-           xml:space="preserve"><tspan
-             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.66666603px;font-family:E190;-inkscape-font-specification:E190;text-align:center;text-anchor:middle;fill:#11ff33;fill-opacity:1"
              y="823.37036"
-             x="1376.4728"
-             id="tspan9459"
-             sodipodi:role="line">0</tspan></text>
-        <text
-           xml:space="preserve"
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
-           x="1376.4728"
-           y="791.37036"
-           id="text9465"><tspan
-             sodipodi:role="line"
-             id="tspan9463"
-             x="1376.4728"
+             id="text9461"><tspan
+               sodipodi:role="line"
+               id="tspan9459"
+               x="1376.4728"
+               y="823.37036"
+               style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.66666603px;font-family:E190;-inkscape-font-specification:E190;text-align:center;text-anchor:middle;fill:#11ff33;fill-opacity:1">0</tspan></text>
+          <text
+             id="text9465"
              y="791.37036"
-             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.66666603px;font-family:E190;-inkscape-font-specification:E190;text-align:center;text-anchor:middle;fill:#11ff33;fill-opacity:1">1</tspan></text>
-      </g>
-      <g
-         id="alt.1000.neg">
-        <text
-           xml:space="preserve"
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
-           x="1376.4733"
-           y="1175.3704"
-           id="text10456"><tspan
-             sodipodi:role="line"
-             id="tspan10454"
+             x="1376.4728"
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
+             xml:space="preserve"><tspan
+               style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.66666603px;font-family:E190;-inkscape-font-specification:E190;text-align:center;text-anchor:middle;fill:#11ff33;fill-opacity:1"
+               y="791.37036"
+               x="1376.4728"
+               id="tspan9463"
+               sodipodi:role="line">1</tspan></text>
+        </g>
+        <g
+           id="alt.1000.neg">
+          <text
+             id="text10456"
+             y="1175.3704"
              x="1376.4733"
-             y="1175.3704"
-             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.66666603px;font-family:E190;-inkscape-font-specification:E190;text-align:center;text-anchor:middle;fill:#11ff33;fill-opacity:1">E</tspan></text>
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
+             xml:space="preserve"><tspan
+               style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.66666603px;font-family:E190;-inkscape-font-specification:E190;text-align:center;text-anchor:middle;fill:#11ff33;fill-opacity:1"
+               y="1175.3704"
+               x="1376.4733"
+               id="tspan10454"
+               sodipodi:role="line">E</tspan></text>
+        </g>
+        <path
+           sodipodi:nodetypes="cccccccc"
+           inkscape:connector-curvature="0"
+           d="m 1381.1293,1116.8258 4.8708,4.8709 m -20,16 11.1292,11.1291 m -11.1292,-23.1291 20,20 m -16.8708,-28.8709 16.8708,16.8709"
+           style="fill:none;stroke:#11ff33;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+           id="alt.1000.zero" />
       </g>
-      <path
-         id="alt.1000.zero"
-         style="fill:none;stroke:#11ff33;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-         d="m 1381.1293,1116.8258 4.8708,4.8709 m -20,16 11.1292,11.1291 m -11.1292,-23.1291 20,20 m -16.8708,-28.8709 16.8708,16.8709"
-         inkscape:connector-curvature="0"
-         sodipodi:nodetypes="cccccccc" />
     </g>
   </g>
   <g
      inkscape:groupmode="layer"
      id="layer12"
      inkscape:label="HSI digital"
-     sodipodi:insensitive="true"
-     style="display:inline">
+     style="display:inline"
+     sodipodi:insensitive="true">
     <text
        xml:space="preserve"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono';letter-spacing:0px;word-spacing:0px;fill:#11ff33;fill-opacity:1;stroke:none"
@@ -3775,6 +3865,7 @@
      inkscape:groupmode="layer"
      id="layer15"
      inkscape:label="FMA"
+     style="display:inline"
      sodipodi:insensitive="true">
     <text
        xml:space="preserve"

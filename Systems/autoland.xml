@@ -391,4 +391,53 @@
         </input>
     </filter>
 
+    <!-- HUD decluttering / A3 mode -->
+    <filter>
+        <type>gain</type>
+        <gain>1</gain>
+        <output>/instrumentation/annun/hud-declutter</output>
+        <input>
+            <!-- Autoland: align/rollout phase. -->
+            <!-- This should declutter, and not show the runway markers. -->
+            <condition>
+                <equals>
+                    <property>/it-autoflight/output/lat</property>
+                    <value>4</value>
+                </equals>
+            </condition>
+            <value>3</value>
+        </input>
+        <input>
+            <!-- CAT-II/III approach. -->
+            <!-- Declutter, and show runway markers. -->
+            <condition>
+                <or>
+                    <equals>
+                        <property>/autopilot/autoland/armed-mode</property>
+                        <value>3</value>
+                    </equals>
+                    <equals>
+                        <property>/autopilot/autoland/engaged-mode</property>
+                        <value>3</value>
+                    </equals>
+                </or>
+            </condition>
+            <value>2</value>
+        </input>
+        <input>
+            <!-- CAT-I or non-precision approach. -->
+            <!-- Declutter, but don't show runway markers. -->
+            <condition>
+                <or>
+                    <property>/autopilot/autoland/armed-mode</property>
+                    <property>/autopilot/autoland/engaged-mode</property>
+                </or>
+            </condition>
+            <value>1</value>
+        </input>
+        <input>
+            <value>0</value>
+        </input>
+    </filter>
+
 </PropertyList>
