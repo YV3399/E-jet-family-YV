@@ -186,6 +186,8 @@ var canvas_ED_only = {
         m.props["/instrumentation/pfd/dme/hold"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/dme/hold");
         m.props["/instrumentation/pfd/dme/in-range"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/dme/in-range");
         m.props["/instrumentation/pfd/fpa-deg"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/fpa-deg");
+        m.props["/instrumentation/pfd/fpa/target"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/fpa/target");
+        m.props["/instrumentation/pfd/fpa/visible"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/fpa/visible");
         m.props["/instrumentation/pfd/groundspeed-kt"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/groundspeed-kt");
         m.props["/instrumentation/pfd/hsi/deflection"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/hsi/deflection");
         m.props["/instrumentation/pfd/hsi/from-flag"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/hsi/from-flag");
@@ -329,6 +331,9 @@ var canvas_ED_only = {
             "fma.src.arrow",
             "fma.vert",
             "fma.vertarmed",
+            "fpa",
+            "fpa.digital.1",
+            "fpa.digital.2",
             "fpv",
             "groundspeed",
             "heading.digital",
@@ -813,6 +818,17 @@ var canvas_ED_only = {
         setlistener(self.props["/instrumentation/pfd/minimums-decision-altitude"], func(node) {
             self["minimums.digital"].setText(sprintf("%d", node.getValue()));
         }, 1, 0);
+
+        setlistener(self.props["/instrumentation/pfd/fpa/visible"], func(node) {
+            self["fpa"].setVisible(node.getBoolValue());
+        }, 1, 0);
+        setlistener(self.props["/instrumentation/pfd/fpa/target"], func(node) {
+            var degrees = node.getValue();
+            var degreesStr = sprintf("%0.1f", degrees);
+            self["fpa"].setTranslation(0, degrees * -43);
+            self["fpa.digital.1"].setText(degreesStr);
+            self["fpa.digital.2"].setText(degreesStr);
+        }, 1, 0);
     },
 
     update: func() {
@@ -820,6 +836,8 @@ var canvas_ED_only = {
         var roll =  me.props["/orientation/roll-deg"].getValue() or 0;
         var trackError = me.props["/instrumentation/pfd/track-error-deg"].getValue() or 0;
         var fpa = me.props["/instrumentation/pfd/fpa-deg"].getValue() or 0;
+        var fdPitch = me.props["/it-autoflight/fd/pitch-bar"].getValue() or 0;
+        var fdRoll = me.props["/it-autoflight/fd/roll-bar"].getValue() or 0;
 
         me.h_trans.setTranslation(0, pitch * 43);
         me.h_rot.setRotation(-roll * D2R, me["horizon"].getCenter());
@@ -827,7 +845,14 @@ var canvas_ED_only = {
             me["bankPtr"].setRotation(roll*(-D2R));
         }
         me["slip"].setTranslation(math.round((me.props["/instrumentation/slip-skid-ball/indicated-slip-skid"].getValue() or 0)*50), 0);
-        me["fpv"].setTranslation(geo.normdeg180(trackError) * 43, fpa * -43).setRotation(roll * D2R);
+        me["fpv"]
+            .setTranslation(geo.normdeg180(trackError) * 43, fpa * -43)
+            .setRotation(roll * D2R);
+        me["fd"]
+            .setTranslation(
+                geo.normdeg180(trackError + fdRoll) * 43,
+                (fpa + fdPitch) * -43)
+            .setRotation(roll * D2R);
 
         # wind direction
         # For some reason, if we attempt to do this in a listener, it will

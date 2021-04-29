@@ -1474,6 +1474,57 @@ re-run build.sh.
                 </input>
             </filter>
 
+            <!-- FPA -->
+            <logic>
+                <name>FPA Visible</name>
+                <input>
+                    <or>
+                        <!-- GS armed -->
+                        <property>/it-autoflight/output/appr-armed</property>
+                        <!-- GS captured -->
+                        <equals>
+                            <property>/it-autoflight/output/vert</property>
+                            <value>2</value>
+                        </equals>
+                        <!-- FPA mode -->
+                        <equals>
+                            <property>/it-autoflight/output/vert</property>
+                            <value>5</value>
+                        </equals>
+                    </or>
+                </input>
+                <output>/instrumentation/pfd[<xsl:value-of select="$index"/>]/fpa/visible</output>
+            </logic>
+            <filter>
+                <name>FPA target</name>
+                <type>gain</type>
+                <gain>1</gain>
+                <output>/instrumentation/pfd[<xsl:value-of select="$index"/>]/fpa/target</output>
+                <input>
+                    <!-- FPA mode -->
+                    <condition>
+                        <equals>
+                            <property>/it-autoflight/output/vert</property>
+                            <value>5</value>
+                        </equals>
+                    </condition>
+                    <property>/it-autoflight/input/fpa</property>
+                </input>
+                <input>
+                    <condition>
+                        <or>
+                            <property>/it-autoflight/output/appr-armed</property>
+                            <equals>
+                                <property>/it-autoflight/output/vert</property>
+                                <value>2</value>
+                            </equals>
+                        </or>
+                    </condition>
+                    <!-- TODO: figure out how to get the actual glideslope angle -->
+                    <value>-3.0</value>
+                </input>
+            </filter>
+
         </PropertyList>
     </xsl:template>
 </xsl:stylesheet>

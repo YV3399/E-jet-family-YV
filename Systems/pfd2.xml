@@ -1470,4 +1470,48 @@ re-run build.sh.
       </expression>
     </input>
   </filter>
+  <logic>
+    <name>FPA Visible</name>
+    <input>
+      <or>
+        <property>/it-autoflight/output/appr-armed</property>
+        <equals>
+          <property>/it-autoflight/output/vert</property>
+          <value>2</value>
+        </equals>
+        <equals>
+          <property>/it-autoflight/output/vert</property>
+          <value>5</value>
+        </equals>
+      </or>
+    </input>
+    <output>/instrumentation/pfd[1]/fpa/visible</output>
+  </logic>
+  <filter>
+    <name>FPA target</name>
+    <type>gain</type>
+    <gain>1</gain>
+    <output>/instrumentation/pfd[1]/fpa/target</output>
+    <input>
+      <condition>
+        <equals>
+          <property>/it-autoflight/output/vert</property>
+          <value>5</value>
+        </equals>
+      </condition>
+      <property>/it-autoflight/input/fpa</property>
+    </input>
+    <input>
+      <condition>
+        <or>
+          <property>/it-autoflight/output/appr-armed</property>
+          <equals>
+            <property>/it-autoflight/output/vert</property>
+            <value>2</value>
+          </equals>
+        </or>
+      </condition>
+      <value>-3.0</value>
+    </input>
+  </filter>
 </PropertyList>
