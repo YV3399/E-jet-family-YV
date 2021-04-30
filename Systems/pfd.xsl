@@ -1474,6 +1474,36 @@ re-run build.sh.
                 </input>
             </filter>
 
+            <!-- FD -->
+            <logic>
+                <name>FD Visible</name>
+                <input>
+                    <property>/it-autoflight/input/fd<xsl:value-of select="$index + 1"/></property>
+                </input>
+                <output>/instrumentation/pfd[<xsl:value-of select="$index"/>]/fd/visible</output>
+            </logic>
+            <filter>
+                <type>gain</type>
+                <gain>1</gain>
+                <output>/instrumentation/pfd[<xsl:value-of select="$index"/>]/fd/lat-offset-deg</output>
+                <input>
+                    <expression>
+                        <div>
+                            <property>/it-autoflight/fd/roll-bar</property>
+                            <property>/it-autoflight/config/cmd/roll-kp</property>
+                        </div>
+                    </expression>
+                </input>
+            </filter>
+            <filter>
+                <type>gain</type>
+                <gain>1</gain>
+                <output>/instrumentation/pfd[<xsl:value-of select="$index"/>]/fd/vert-offset-deg</output>
+                <input>
+                    <property>/it-autoflight/fd/pitch-bar</property>
+                </input>
+            </filter>
+
             <!-- FPA -->
             <logic>
                 <name>FPA Visible</name>

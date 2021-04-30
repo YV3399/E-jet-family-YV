@@ -1471,6 +1471,34 @@ re-run build.sh.
     </input>
   </filter>
   <logic>
+    <name>FD Visible</name>
+    <input>
+      <property>/it-autoflight/input/fd2</property>
+    </input>
+    <output>/instrumentation/pfd[1]/fd/visible</output>
+  </logic>
+  <filter>
+    <type>gain</type>
+    <gain>1</gain>
+    <output>/instrumentation/pfd[1]/fd/lat-offset-deg</output>
+    <input>
+      <expression>
+        <div>
+          <property>/it-autoflight/fd/roll-bar</property>
+          <property>/it-autoflight/config/cmd/roll-kp</property>
+        </div>
+      </expression>
+    </input>
+  </filter>
+  <filter>
+    <type>gain</type>
+    <gain>1</gain>
+    <output>/instrumentation/pfd[1]/fd/vert-offset-deg</output>
+    <input>
+      <property>/it-autoflight/fd/pitch-bar</property>
+    </input>
+  </filter>
+  <logic>
     <name>FPA Visible</name>
     <input>
       <or>

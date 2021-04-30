@@ -188,6 +188,9 @@ var canvas_ED_only = {
         m.props["/instrumentation/pfd/fpa-deg"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/fpa-deg");
         m.props["/instrumentation/pfd/fpa/target"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/fpa/target");
         m.props["/instrumentation/pfd/fpa/visible"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/fpa/visible");
+        m.props["/instrumentation/pfd/fd/visible"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/fd/visible");
+        m.props["/instrumentation/pfd/fd/lat-offset-deg"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/fd/lat-offset-deg");
+        m.props["/instrumentation/pfd/fd/vert-offset-deg"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/fd/vert-offset-deg");
         m.props["/instrumentation/pfd/groundspeed-kt"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/groundspeed-kt");
         m.props["/instrumentation/pfd/hsi/deflection"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/hsi/deflection");
         m.props["/instrumentation/pfd/hsi/from-flag"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/hsi/from-flag");
@@ -822,6 +825,9 @@ var canvas_ED_only = {
         setlistener(self.props["/instrumentation/pfd/fpa/visible"], func(node) {
             self["fpa"].setVisible(node.getBoolValue());
         }, 1, 0);
+        setlistener(self.props["/instrumentation/pfd/fd/visible"], func(node) {
+            self["fd"].setVisible(node.getBoolValue());
+        }, 1, 0);
         setlistener(self.props["/instrumentation/pfd/fpa/target"], func(node) {
             var degrees = node.getValue();
             var degreesStr = sprintf("%0.1f", degrees);
@@ -836,8 +842,8 @@ var canvas_ED_only = {
         var roll =  me.props["/orientation/roll-deg"].getValue() or 0;
         var trackError = me.props["/instrumentation/pfd/track-error-deg"].getValue() or 0;
         var fpa = me.props["/instrumentation/pfd/fpa-deg"].getValue() or 0;
-        var fdPitch = me.props["/it-autoflight/fd/pitch-bar"].getValue() or 0;
-        var fdRoll = me.props["/it-autoflight/fd/roll-bar"].getValue() or 0;
+        var fdPitch = me.props["/instrumentation/pfd/fd/vert-offset-deg"].getValue() or 0;
+        var fdRoll = me.props["/instrumentation/pfd/fd/lat-offset-deg"].getValue() or 0;
 
         me.h_trans.setTranslation(0, pitch * 43);
         me.h_rot.setRotation(-roll * D2R, me["horizon"].getCenter());

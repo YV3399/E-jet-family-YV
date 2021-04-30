@@ -1979,6 +1979,11 @@
                 <visible type="bool">false</visible>
                 <target type="double">false</target>
             </fpa>
+            <fd>
+                <visible type="bool">true</visible>
+                <lat-offset-deg type="double">0</lat-offset-deg>
+                <vert-offset-deg type="double">0</vert-offset-deg>
+            </fd>
         </pfd>
 
         <pfd>
@@ -2050,6 +2055,11 @@
                 <visible type="bool">false</visible>
                 <target type="double">false</target>
             </fpa>
+            <fd>
+                <visible type="bool">true</visible>
+                <lat-offset-deg type="double">0</lat-offset-deg>
+                <vert-offset-deg type="double">0</vert-offset-deg>
+            </fd>
         </pfd>
 
         <mfd>
