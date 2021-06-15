@@ -2427,7 +2427,7 @@
             </external_reactions>
             <aero-config>
                 <coefficients>
-                    <drag-alpha type="double">1.2</drag-alpha>
+                    <drag-alpha type="double">1.1</drag-alpha>
                     <drag-beta type="double">1.0</drag-beta>
                     <drag-elevator type="double">0.01</drag-elevator>
                     <drag-flap type="double">0.04</drag-flap>
