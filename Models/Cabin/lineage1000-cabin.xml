@@ -5,14 +5,16 @@
 
 <!-- Cabin Illumination -->
 
-   <animation>
-       <type>material</type>
-       <object-name>seatback</object-name>
-       <object-name>seatcushion</object-name>
-       <property-base>sim/model/livery</property-base>
-       <texture-prop>seat-fabric</texture-prop>
-       <texture>seat.png</texture>
-   </animation>
+    <!-- temporarily neutered to hush nag screen
+    <animation>
+        <type>material</type>
+        <object-name>seatback</object-name>
+        <object-name>seatcushion</object-name>
+        <property-base>sim/model/livery</property-base>
+        <texture-prop>seat-fabric</texture-prop>
+        <texture>seat.png</texture>
+    </animation>
+    -->
 
 	<animation>
 		<name>Cabin Illumination</name>
@@ -26,6 +28,7 @@
 		</emission>
 	</animation>
 
+    <!-- temporarily neutered to hush nag screen
 	<animation>
 		<type>select</type>
 		<object-name>FastenSeatbelts</object-name>
@@ -33,5 +36,6 @@
 				<property>controls/switches/seatbelt-sign</property>
 		</condition>
 	</animation>
+    -->
 
 </PropertyList>
