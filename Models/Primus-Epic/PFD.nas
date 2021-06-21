@@ -1201,6 +1201,9 @@ var canvas_ED_only = {
 };
 
 setlistener("sim/signals/fdm-initialized", func {
+    var timer = [];
+    var timerSlow = [];
+
     for (var i = 0; i < 2; i += 1) {
         PFD_display[i] = canvas.new({
             "name": "PFD" ~ i,
@@ -1215,24 +1218,20 @@ setlistener("sim/signals/fdm-initialized", func {
             PFD_master[i],
             "Aircraft/E-jet-family/Models/Primus-Epic/PFD.svg",
             i);
-    }
-    setlistener("/systems/electrical/outputs/pfd[0]", func (node) {
-        var visible = ((node.getValue() or 0) >= 15);
-        PFD_master[0].setVisible(visible);
-    }, 1, 0);
-    setlistener("/systems/electrical/outputs/pfd[1]", func (node) {
-        var visible = ((node.getValue() or 0) >= 15);
-        PFD_master[1].setVisible(visible);
-    }, 1, 0);
+        (func (j) {
+            append(timer, maketimer(0.0625, func() { ED_only[j].update(); }));
+            append(timerSlow, maketimer(1.0, func() { ED_only[j].updateSlow(); }));
 
-    var timer = maketimer(0.04, func() {
-        ED_only[0].update();
-        ED_only[1].update();
-    });
-    timer.start();
-    var timerSlow = maketimer(1.0, func() {
-        ED_only[0].updateSlow();
-        ED_only[1].updateSlow();
-    });
-    timerSlow.start();
+            setlistener("/systems/electrical/outputs/pfd[" ~ j ~ "]", func (node) {
+                var visible = ((node.getValue() or 0) >= 15);
+                PFD_master[j].setVisible(visible);
+                if (visible) {
+                    timer[j].start(); timerSlow[j].start();
+                }
+                else {
+                    timer[j].stop(); timerSlow[j].stop();
+                }
+            }, 1, 0);
+        })(i);
+    }
 });

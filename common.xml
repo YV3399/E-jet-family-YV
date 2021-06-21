@@ -155,18 +155,18 @@
                 <name>APU</name>
                 <path>Aircraft/E-jet-family/Systems/apu.xml</path>
             </autopilot>
-            <autopilot>
+            <property-rule n="200">
                 <name>Electrical: Sources</name>
                 <path>Aircraft/E-jet-family/Systems/electrical/sources.xml</path>
-            </autopilot>
-            <autopilot>
+            </property-rule>
+            <property-rule n="201">
                 <name>Electrical: Buses</name>
                 <path>Aircraft/E-jet-family/Systems/electrical/buses.xml</path>
-            </autopilot>
-            <autopilot>
+            </property-rule>
+            <property-rule n="202">
                 <name>Electrical: Outputs</name>
                 <path>Aircraft/E-jet-family/Systems/electrical/outputs.xml</path>
-            </autopilot>
+            </property-rule>
             <autopilot>
                 <name>Fuel</name>
                 <path>Aircraft/E-jet-family/Systems/fuel.xml</path>
