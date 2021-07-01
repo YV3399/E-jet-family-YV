@@ -369,6 +369,14 @@ var canvas_ED_only = {
             "speedtape.cover",
             "speedtape.frame",
             "speedtrend.pointer",
+            "speedref.v1",
+            "speedref.v2",
+            "speedref.vr",
+            "speedref.vref",
+            "speedref.vf",
+            "speedref.vfs",
+            "speedref.vap",
+            "speedref.vappr",
             "VS.digital",
             "waypoint",
             "waypoint.dist",
@@ -1015,7 +1023,7 @@ var canvas_ED_only = {
 
         me["speederror.vector"].reset();
         me["speederror.vector"].rect(970, 1024, 10,
-            math.max(-40.0, math.min(40.0, (selectedKts - airspeed))) * 2);
+            math.max(-40.0, math.min(40.0, (selectedKts - airspeed))) * -2);
         me["speedtrend.pointer"].setTranslation(
             0,
             math.max(-40.0, math.min(40.0, (airspeedLookahead - airspeed))) * -2);
@@ -1067,66 +1075,66 @@ var canvas_ED_only = {
         # }
 
 
-        # # Speed ref bugs
-        # foreach (var spdref; ["v1", "vr", "v2", "vfs"]) {
-        #     var prop = me.props["/fms/vspeeds-effective/departure/" ~ spdref];
-        #     var elem = me["speedref." ~ spdref];
-        #     if (elem == nil) continue;
-        #     if (prop == nil) {
-        #         elem.hide();
-        #     }
-        #     else {
-        #         ktsRel = airspeed - (prop.getValue() or 0);
-        #         elem.setTranslation(0, ktsRel * 6.42);
-        #         var phase = getprop("/fms/phase");
-        #         if ((phase == 0 or phase == 1) and ktsRel < 50 and ktsRel > -50) {
-        #             # takeoff / departure
-        #             elem.show();
-        #         }
-        #         else {
-        #             elem.hide();
-        #         }
-        #     }
-        # }
-        # foreach (var spdref; ["vref", "vappr", "vap", "vac"]) {
-        #     var prop = me.props["/fms/vspeeds-effective/approach/" ~ spdref];
-        #     var elem = me["speedref." ~ spdref];
-        #     if (elem == nil) continue;
-        #     if (prop == nil) {
-        #         elem.hide();
-        #     }
-        #     else {
-        #         ktsRel = airspeed - (prop.getValue() or 0);
-        #         elem.setTranslation(0, ktsRel * 6.42);
-        #         var phase = getprop("/fms/phase");
-        #         if ((phase == 6) and ktsRel < 50 and ktsRel > -50) {
-        #             # approach
-        #             elem.show();
-        #         }
-        #         else {
-        #             elem.hide();
-        #         }
-        #     }
-        # }
+        # Speed ref bugs
+        foreach (var spdref; ["v1", "vr", "v2", "vfs"]) {
+            var prop = me.props["/fms/vspeeds-effective/departure/" ~ spdref];
+            var elem = me["speedref." ~ spdref];
+            if (elem == nil) continue;
+            if (prop == nil) {
+                elem.hide();
+            }
+            else {
+                ktsRel = math.max(40, (prop.getValue() or 0)) - 40;
+                elem.setTranslation(0, ktsRel * -3.4);
+                var phase = getprop("/fms/phase");
+                if (phase == 0 or phase == 1) {
+                    # takeoff / departure
+                    elem.show();
+                }
+                else {
+                    elem.hide();
+                }
+            }
+        }
+        foreach (var spdref; ["vref", "vappr", "vap", "vac"]) {
+            var prop = me.props["/fms/vspeeds-effective/approach/" ~ spdref];
+            var elem = me["speedref." ~ spdref];
+            if (elem == nil) continue;
+            if (prop == nil) {
+                elem.hide();
+            }
+            else {
+                ktsRel = math.max(40, (prop.getValue() or 0)) - 40;
+                elem.setTranslation(0, ktsRel * -3.4);
+                var phase = getprop("/fms/phase");
+                if (phase == 6) {
+                    # approach
+                    elem.show();
+                }
+                else {
+                    elem.hide();
+                }
+            }
+        }
 
-        # # Flaps-up markers
-        # var flaps = me.props["/controls/flight/flaps"].getValue();
-        # var flapsElem = me["speedref.vf"];
-        # if (flaps <= 0.000001) {
-        #     flapsElem.hide();
-        # }
-        # else {
-        #     # vf0 = vf; and then vf1 through vf4.
-        #     var nextFlapIndex = math.max(0, math.min(4, math.round(flaps * 8) - 1));
-        #     var prop = me.props["/fms/vspeeds-effective/departure/vf"];
-        #     if (nextFlapIndex > 0) {
-        #         var propname = sprintf("/fms/vspeeds-effective/departure/vf%1.0f", nextFlapIndex);
-        #         prop = me.props[propname];
-        #     }
-        #     ktsRel = airspeed - (prop.getValue() or 0);
-        #     flapsElem.setTranslation(0, ktsRel * 6.42);
-        #     flapsElem.show();
-        # }
+        # Flaps-up markers
+        var flaps = me.props["/controls/flight/flaps"].getValue();
+        var flapsElem = me["speedref.vf"];
+        if (flaps <= 0.000001) {
+            flapsElem.hide();
+        }
+        else {
+            # vf0 = vf; and then vf1 through vf4.
+            var nextFlapIndex = math.max(0, math.min(4, math.round(flaps * 8) - 1));
+            var prop = me.props["/fms/vspeeds-effective/departure/vf"];
+            if (nextFlapIndex > 0) {
+                var propname = sprintf("/fms/vspeeds-effective/departure/vf%1.0f", nextFlapIndex);
+                prop = me.props[propname];
+            }
+            ktsRel = math.max(40, (prop.getValue() or 0)) - 40;
+            flapsElem.setTranslation(0, ktsRel * -3.4);
+            flapsElem.show();
+        }
 
     },
 };

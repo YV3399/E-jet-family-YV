@@ -29,21 +29,21 @@
      borderopacity="1.0"
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
-     inkscape:zoom="1.4353797"
-     inkscape:cx="1016.99"
-     inkscape:cy="1005.0001"
+     inkscape:zoom="0.50748336"
+     inkscape:cx="586.51056"
+     inkscape:cy="927.62588"
      inkscape:document-units="mm"
-     inkscape:current-layer="horizon"
+     inkscape:current-layer="speedtape"
      showgrid="false"
      units="px"
      inkscape:snap-global="false"
      showguides="false"
      inkscape:guide-bbox="true"
      inkscape:pagecheckerboard="false"
-     inkscape:window-width="1440"
-     inkscape:window-height="886"
-     inkscape:window-x="0"
-     inkscape:window-y="14"
+     inkscape:window-width="1278"
+     inkscape:window-height="1022"
+     inkscape:window-x="3360"
+     inkscape:window-y="0"
      inkscape:window-maximized="0"
      fit-margin-left="-0.3"
      viewbox-width="2047.8">
@@ -83,7 +83,7 @@
      inkscape:label="reference"
      inkscape:groupmode="layer"
      id="layer1"
-     style="display:inline"
+     style="display:none"
      sodipodi:insensitive="true"
      transform="translate(0,1)">
     <image
@@ -117,7 +117,8 @@
      id="layer3"
      inkscape:label="Horizon"
      style="display:inline"
-     transform="translate(0,1)">
+     transform="translate(0,1)"
+     sodipodi:insensitive="true">
     <g
        id="horizon">
       <g
@@ -1366,8 +1367,7 @@
      id="layer4"
      inkscape:label="Speedtape"
      style="display:inline"
-     transform="translate(0,1)"
-     sodipodi:insensitive="true">
+     transform="translate(0,1)">
     <g
        id="speedtape">
       <path
@@ -1861,6 +1861,101 @@
              x="668.98083"
              y="-354.77777"
              style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:16px;font-family:E190;-inkscape-font-specification:E190;text-align:end;text-anchor:end;fill:#11ff33;fill-opacity:1">480</tspan></text>
+      </g>
+      <g
+         id="speedref.vf">
+        <path
+           style="fill:none;stroke:#00ff00;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+           d="m 688,1132 h 12"
+           id="path2367"
+           inkscape:connector-curvature="0" />
+        <text
+           xml:space="preserve"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:E190;-inkscape-font-specification:E190;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none"
+           x="703.71765"
+           y="1138.2222"
+           id="text2371"><tspan
+             sodipodi:role="line"
+             id="tspan2369"
+             x="703.71765"
+             y="1138.2222"
+             style="font-size:16px;line-height:26.66666794px;fill:#00ff00">F</tspan></text>
+      </g>
+      <g
+         id="speedref.v1">
+        <path
+           inkscape:connector-curvature="0"
+           id="path2580"
+           d="m 688,1132 h 12"
+           style="fill:none;stroke:#00ff00;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+        <text
+           id="text2584"
+           y="1138.2222"
+           x="703.71765"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:E190;-inkscape-font-specification:E190;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none"
+           xml:space="preserve"><tspan
+             style="font-size:16px;line-height:26.66666794px;fill:#00ff00"
+             y="1138.2222"
+             x="703.71765"
+             id="tspan2582"
+             sodipodi:role="line">1</tspan></text>
+      </g>
+      <g
+         id="speedref.vr">
+        <path
+           style="fill:none;stroke:#00ff00;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+           d="m 688,1132 h 12"
+           id="path2588"
+           inkscape:connector-curvature="0" />
+        <text
+           xml:space="preserve"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:E190;-inkscape-font-specification:E190;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none"
+           x="703.71765"
+           y="1138.2222"
+           id="text2592"><tspan
+             sodipodi:role="line"
+             id="tspan2590"
+             x="703.71765"
+             y="1138.2222"
+             style="font-size:16px;line-height:26.66666794px;fill:#00ff00">R</tspan></text>
+      </g>
+      <g
+         id="speedref.v2">
+        <path
+           inkscape:connector-curvature="0"
+           id="path2596"
+           d="m 688,1132 h 12"
+           style="fill:none;stroke:#00ff00;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+        <text
+           id="text2600"
+           y="1138.2222"
+           x="703.71765"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:E190;-inkscape-font-specification:E190;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none"
+           xml:space="preserve"><tspan
+             style="font-size:16px;line-height:26.66666794px;fill:#00ff00"
+             y="1138.2222"
+             x="703.71765"
+             id="tspan2598"
+             sodipodi:role="line">2</tspan></text>
+      </g>
+      <g
+         id="speedref.vref">
+        <path
+           inkscape:connector-curvature="0"
+           id="path2604"
+           d="m 688,1132 h 12"
+           style="fill:none;stroke:#00ff00;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+        <text
+           id="text2608"
+           y="1138.2222"
+           x="703.71765"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.33333397px;line-height:1.25;font-family:E190;-inkscape-font-specification:E190;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none"
+           xml:space="preserve"><tspan
+             style="font-size:16px;line-height:26.66666794px;fill:#00ff00"
+             y="1138.2222"
+             x="703.71765"
+             id="tspan2606"
+             sodipodi:role="line">REF</tspan></text>
       </g>
     </g>
   </g>
@@ -4070,7 +4165,7 @@
     <rect
        style="opacity:1;fill:none;fill-opacity:1;stroke:#ff0000;stroke-width:1;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        id="speedtape_clip"
-       width="91.545677"
+       width="138.70508"
        height="300.00018"
        x="595.99945"
        y="981.29681" />

@@ -1200,7 +1200,7 @@ var canvas_ED_only = {
     },
 };
 
-setlistener("sim/signals/fdm-initialized", func {
+initialize = func {
     var timer = [];
     var timerSlow = [];
 
@@ -1233,5 +1233,13 @@ setlistener("sim/signals/fdm-initialized", func {
                 }
             }, 1, 0);
         })(i);
+    }
+};
+
+var initialized = 0;
+setlistener("sim/signals/fdm-initialized", func {
+    if (!initialized) {
+        initialize();
+        initialized = 1;
     }
 });
