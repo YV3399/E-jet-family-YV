@@ -115,12 +115,21 @@
         <debug type="bool">false</debug>
         <input>
             <expression>
-                <table>
-                    <property>/velocities/mach</property>
-                    <entry><ind>0.0</ind><dep>1</dep></entry>
-                    <entry><ind>0.3</ind><dep>1</dep></entry>
-                    <entry><ind>0.82</ind><dep>0.0</dep></entry>
-                </table>
+                <product>
+                    <!-- Disable ETC when close to the ground -->
+                    <table>
+                        <property>/position/gear-agl-ft</property>
+                        <entry><ind>0</ind><dep>0</dep></entry>
+                        <entry><ind>800</ind><dep>0</dep></entry>
+                        <entry><ind>1500</ind><dep>1</dep></entry>
+                    </table>
+                    <table>
+                        <property>/velocities/mach</property>
+                        <entry><ind>0.0</ind><dep>1</dep></entry>
+                        <entry><ind>0.3</ind><dep>1</dep></entry>
+                        <entry><ind>0.82</ind><dep>0.0</dep></entry>
+                    </table>
+                </product>
             </expression>
         </input>
         <output>
