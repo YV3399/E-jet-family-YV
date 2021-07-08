@@ -2,11 +2,30 @@
 
 <aerodynamics>
     <axis name="LIFT">
+        <function name="aero/coefficient/CLge">
+            <description>Lift_due_to_ground_effect</description>
+            <!-- source: https://mcleodsean.wordpress.com/2018/02/06/landing-ground-effect-flare-jsbsim/ -->
+            <sum>
+                <value>1.0</value>
+                <product>
+                    <value>0.2</value>
+                    <pow>
+                        <value>2</value>
+                        <product>
+                            <value>-6</value>
+                            <property>aero/h_b-mac-ft</property>
+                        </product>
+                    </pow>
+                </product>
+            </sum>
+        </function>
+
         <function name="aero/coefficient/CLalpha">
             <description>Lift_due_to_alpha</description>
             <product>
                 <property>aero/qbar-psf</property>
                 <property>metrics/Sw-sqft</property>
+                <property>aero/coefficient/CLge</property>
                 <table>
                     <independentVar lookup="row">aero/alpha-rad</independentVar>
                     <tableData>
@@ -73,6 +92,23 @@
     </axis>
 
     <axis name="DRAG">
+        <function name="aero/coefficient/DLge">
+            <description>Drag_due_to_ground_effect</description>
+            <!-- source: https://mcleodsean.wordpress.com/2018/02/06/landing-ground-effect-flare-jsbsim/ -->
+            <sum>
+                <value>1.0</value>
+                <product>
+                    <value>-0.9</value>
+                    <pow>
+                        <value>2</value>
+                        <product>
+                            <value>-6</value>
+                            <property>aero/h_b-mac-ft</property>
+                        </product>
+                    </pow>
+                </product>
+            </sum>
+        </function>
 
         <function name="aero/force/Drag_parasitic">
             <description>Parasitic drag</description>
@@ -89,6 +125,7 @@
             <product>
                 <property>aero/qbar-psf</property>
                 <property>metrics/Sw-sqft</property>
+                <property>aero/coefficient/DLge</property>
                 <table>
                     <independentVar lookup="row">aero/alpha-rad</independentVar>
                     <tableData>
@@ -109,6 +146,7 @@
                 <property>aero/qbar-psf</property>
                 <property>metrics/Sw-sqft</property>
                 <property>aero/cl-squared</property>
+                <property>aero/coefficient/DLge</property>
                 <!-- <value>0.02</value> -->
                 <property>aero-config/coefficients/drag-induced</property>
             </product>
@@ -159,6 +197,7 @@
                 <property>aero/qbar-psf</property>
                 <property>metrics/Sw-sqft</property>
                 <property>fcs/flap-pos-norm</property>
+                <property>aero/coefficient/DLge</property>
                 <!-- <value> 0.004 </value> -->
                 <property>aero-config/coefficients/drag-flap</property>
             </product>
@@ -170,6 +209,7 @@
                 <property>aero/qbar-psf</property>
                 <property>metrics/Sw-sqft</property>
                 <property>fcs/slat-pos-norm</property>
+                <property>aero/coefficient/DLge</property>
                 <!-- <value> 0.0015 </value> -->
                 <property>aero-config/coefficients/drag-slat</property>
             </product>
@@ -235,6 +275,8 @@
                 <property>metrics/Sw-sqft</property>
                 <property>metrics/bw-ft</property>
                 <property>aero/beta-rad</property>
+                <!-- ground effect increases self-stabilizing tendency -->
+                <property>aero/coefficient/CLge</property>
                 <value>-0.1</value>
             </product>
         </function>
