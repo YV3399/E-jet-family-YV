@@ -1,6 +1,15 @@
 <?xml version="1.0"?>
 
 <aerodynamics>
+    <alphalimits unit="RAD">
+        <min>-0.10</min>
+        <max>0.26</max>
+    </alphalimits>
+    <hysteresis_limits unit="RAD">
+        <min>0.10</min>
+        <max>0.15</max>
+    </hysteresis_limits>
+
     <axis name="LIFT">
         <function name="aero/coefficient/CLge">
             <description>Lift_due_to_ground_effect</description>
@@ -28,17 +37,19 @@
                 <property>aero/coefficient/CLge</property>
                 <table>
                     <independentVar lookup="row">aero/alpha-rad</independentVar>
+                    <independentVar lookup="column">aero/stall-hyst-norm</independentVar>
                     <tableData>
-                        -0.20   -0.80
-                        0.00    0.20
-                        0.10    0.80
-                        0.18    1.10
-                        0.26    1.40
-                        0.60    0.70
-                        0.80    0.45
-                        1.00    0.10
-                        1.20    0.02
-                        1.60    0.00
+                                    0       1
+                        -0.20   -0.80   -0.40
+                         0.00    0.20    0.00
+                         0.10    0.80    0.60
+                         0.18    1.10    0.90
+                         0.26    1.40    1.20
+                         0.60    0.70    0.40
+                         0.80    0.45    0.20
+                         1.00    0.10    0.02
+                         1.20    0.02    0.00
+                         1.60    0.00    0.00
                     </tableData>
                 </table>
             </product>
