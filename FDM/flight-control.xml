@@ -118,9 +118,10 @@
                 <independentVar>aero/qbar-psf</independentVar>
                 <tableData>
                     3.0000   0.0000
-                    11.0000   0.0000
+                    11.0000   1.0000
                 </tableData>
             </table>
+            <gain>aero-config/coefficients/yaw-damper-beta</gain>
         </scheduled_gain>
         
         <scheduled_gain name="Yaw Damper">
@@ -133,10 +134,16 @@
                     0.11        1.0
                 </tableData>
             </table>
+            <gain>aero-config/coefficients/yaw-damper-rate</gain>
         </scheduled_gain>
+
+        <summer name="Yaw Damper Sum">
+            <input>fcs/yaw-damper</input>
+            <input>fcs/yaw-damper-beta</input>
+        </summer>
         
         <scheduled_gain name="Yaw Damper Final">
-            <input>fcs/yaw-damper</input>
+            <input>fcs/yaw-damper-sum</input>
             <table>
                 <independentVar>velocities/mach</independentVar>
                 <tableData>
@@ -145,6 +152,7 @@
                     0.11        1.0
                 </tableData>
             </table>
+            <gain>fcs/yaw-damper-enable</gain>
         </scheduled_gain>
         
         <summer name="Rudder Sum">
