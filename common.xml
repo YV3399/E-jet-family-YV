@@ -2437,8 +2437,8 @@
                     <drag-parasitic type="double">0.0125</drag-parasitic>
                     <drag-slat type="double">0.003</drag-slat>
                     <drag-speedbrake type="double">0.05</drag-speedbrake>
-                    <yaw-damper-beta type="double">-25</yaw-damper-beta>
-                    <yaw-damper-rate type="double">-1</yaw-damper-rate>
+                    <yaw-damper-beta type="double">-5</yaw-damper-beta>
+                    <yaw-damper-rate type="double">2</yaw-damper-rate>
                 </coefficients>
             </aero-config>
         </jsbsim>
