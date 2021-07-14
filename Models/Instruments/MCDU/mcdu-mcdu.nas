@@ -277,10 +277,16 @@ var MCDU = {
             me.scratchpadElem.setText(me.scratchpad);
         }
         else if (cmd == "CLR") {
-            var l = size(me.scratchpad);
-            if (l > 0) {
-                me.scratchpad = substr(me.scratchpad, 0, l - 1);
+            if (me.scratchpad == '*DELETE*') {
+                me.scratchpad = '';
                 me.scratchpadElem.setText(me.scratchpad);
+            }
+            else {
+                var l = size(me.scratchpad);
+                if (l > 0) {
+                    me.scratchpad = substr(me.scratchpad, 0, l - 1);
+                    me.scratchpadElem.setText(me.scratchpad);
+                }
             }
         }
         else if (cmd == "DEL") {

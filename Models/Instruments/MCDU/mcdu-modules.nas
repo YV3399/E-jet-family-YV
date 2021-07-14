@@ -187,7 +187,10 @@ var BaseModule = {
         var controller = me.controllers[cmd];
         if (isLSK(cmd)) {
             var scratch = me.mcdu.popScratchpad();
-            if (controller != nil) {
+            if (controller == nil) {
+                me.mcdu.setScratchpad(scratch);
+            }
+            else {
                 var boxed = (me.boxedController != nil and
                              me.boxedController.getKey() == controller.getKey());
                 if (scratch == '') {
@@ -197,7 +200,13 @@ var BaseModule = {
                     controller.delete(me, boxed);
                 }
                 else {
-                    controller.send(me, scratch);
+                    var newValue = controller.send(me, scratch);
+                    if (newValue == nil) {
+                        me.mcdu.setScratchpad(scratch);
+                    }
+                    elsif (newValue != '') {
+                        me.mcdu.setScratchpad(newValue);
+                    }
                 }
             }
         }

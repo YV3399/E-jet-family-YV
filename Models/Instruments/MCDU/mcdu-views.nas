@@ -135,6 +135,24 @@ var FormatView = {
         return m;
     },
 
+    getFlags: func (val) {
+        if (typeof(me.flags) == 'func') {
+            return me.flags(val);
+        }
+        else {
+            return me.flags;
+        }
+    },
+
+    getFormat: func (val) {
+        if (typeof(me.fmt) == 'func') {
+            return me.fmt(val);
+        }
+        else {
+            return me.fmt;
+        }
+    },
+
     draw: func (mcdu, val) {
         if (me.mapping != nil) {
             if (typeof(me.mapping) == "func") {
@@ -144,7 +162,7 @@ var FormatView = {
                 val = me.mapping[val];
             }
         }
-        mcdu.print(me.x, me.y, sprintf(me.fmt, val), me.flags);
+        mcdu.print(me.x, me.y, sprintf(me.getFormat(val), val), me.getFlags(val));
     },
 };
 

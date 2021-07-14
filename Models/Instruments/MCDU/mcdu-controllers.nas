@@ -85,6 +85,10 @@ var ModelController = {
     send: func (owner, val) {
         if (me.set(val) == nil) {
             # TODO: issue error message on scratchpad
+            return nil;
+        }
+        else {
+            return '';
         }
     },
 
@@ -146,6 +150,10 @@ var MultiModelController = {
     send: func (owner, val) {
         if (me.set(val) == nil) {
             # TODO: issue error message on scratchpad
+            return nil;
+        }
+        else {
+            return '';
         }
     },
 
@@ -173,7 +181,7 @@ var FuncController = {
 
     send: func (owner, val) {
         if (me.setFn != nil) {
-            me.setFn(owner, val);
+            return me.setFn(owner, val);
         }
     },
 
@@ -252,6 +260,7 @@ var TriggerController = {
             # TODO: warning
         }
         me.select(owner, nil);
+        return nil;
     },
 };
 
@@ -293,6 +302,7 @@ var CycleController = {
             # TODO: warning
         }
         me.cycle();
+        return nil;
     },
 };
 
