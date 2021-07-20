@@ -1373,6 +1373,7 @@ var MFD = {
         var dy = 4;
         var color = nil;
         var density = 0;
+        var range = me.mapCamera.range;
         for (y = 0; y < 256; y += dy) {
             var x = me.txRadarScanX;
             # for (x = 0; x < 256; x += 2) {
@@ -1382,9 +1383,11 @@ var MFD = {
                 var bearingAbs = geo.normdeg(bearingRelRad * R2D);
                 var dist = math.sqrt(yRel * yRel + xRel * xRel);
                 var elev = nil;
+                var isWater = 0;
+
                 if (dist <= 128) {
                     var coord = geo.Coord.new(acPos);
-                    coord.apply_course_distance(bearingAbs, dist * 10.675 * NM2M / 128);
+                    coord.apply_course_distance(bearingAbs, dist * (range / 10) * 10.675 * NM2M / 128);
                     var start = geo.Coord.new(coord);
                     var end = geo.Coord.new(coord);
                     start.set_alt(10000);
@@ -1393,6 +1396,14 @@ var MFD = {
                     var dir = { "x": end.x() - start.x(), "y": end.y() - start.y(), "z": end.z() - start.z() };
                     var result = get_cart_ground_intersection(xyz, dir);
                     elev = (result == nil) ? nil : result.elevation;
+                    isWater = 0;
+
+                    if (elev != nil and elev < 100) {
+                        var info = geodinfo(start.lat(), start.lon(), 1000);
+                        if (info != nil and info[1] != nil and info[1].solid == 0) {
+                            isWater = 1;
+                        }
+                    }
                 }
                 if (elev == nil) {
                     color = '#000000';
@@ -1401,7 +1412,12 @@ var MFD = {
                 else {
                     var terrainAlt = elev * M2FT;
                     var relAlt = terrainAlt - acAlt;
-                    if (relAlt > 2000) {
+
+                    if (isWater) {
+                        color = [0, 0.5, 1, 1];
+                        density = 0;
+                    }
+                    elsif (relAlt > 2000) {
                         color = [1, 0, 0, 1];
                         density = 1;
                     }
@@ -1433,7 +1449,7 @@ var MFD = {
                 var dither = 0;
                 for (var yy = y; yy < y + dy; yy += 1) {
                     for (var xx = x; xx < x + dx; xx += 1) {
-                        dither = (xx + yy & 1) or density;
+                        dither = ((xx & 2) != (yy & 2)) or density;
                         me.terrainViz.setPixel(xx, yy, dither ? color : [0,0,0,1]);
                     }
                 }
@@ -1464,9 +1480,11 @@ var MFD = {
         me.map.layers["RWY"].setVisible(range < 9.5 and aptVisible);
         me.map.layers["APT"].setVisible(range >= 9.5 and range < 99.5 and aptVisible);
 
-        var txScale = 10 / range * 444 / 127;
-        me.terrainViz.setTranslation(512 - 444 * 10 / range, 530 - 444 * 10 / range);
+        # var txScale = 10 / range * 444 / 127;
+        var txScale = 444 / 127;
+        me.terrainViz.setTranslation(512 - 446, 530 - 446);
         me.terrainViz.setScale(txScale, txScale);
+        me.terrainViz.fillRect([0, 0, 256, 256], '#000000');
         var fmt = "%2.0f";
         if (range < 20)
             fmt = "%3.1f";
