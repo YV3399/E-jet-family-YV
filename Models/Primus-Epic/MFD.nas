@@ -1369,9 +1369,11 @@ var MFD = {
         var acAlt = me.props['altitude-amsl'].getValue();
         var x = 0;
         var y = 0;
+        var dx = 4;
+        var dy = 4;
         var color = nil;
         var density = 0;
-        for (y = 0; y < 256; y += 2) {
+        for (y = 0; y < 256; y += dy) {
             var x = me.txRadarScanX;
             # for (x = 0; x < 256; x += 2) {
                 var xRel = x - 128;
@@ -1424,14 +1426,20 @@ var MFD = {
                         density = 1;
                     }
                 }
-                if (density)
-                    me.terrainViz.fillRect([x, y, 2, 2], color);
-                else
-                    me.terrainViz.fillRect([x, y, 2, 2], '#000000');
-                me.terrainViz.setPixel(x, y, color);
+                # if (density)
+                #     me.terrainViz.fillRect([x, y, 2, 2], color);
+                # else
+                #     me.terrainViz.fillRect([x, y, 2, 2], '#000000');
+                var dither = 0;
+                for (var yy = y; yy < y + dy; yy += 1) {
+                    for (var xx = x; xx < x + dx; xx += 1) {
+                        dither = (xx + yy & 1) or density;
+                        me.terrainViz.setPixel(xx, yy, dither ? color : [0,0,0,1]);
+                    }
+                }
             # }
         }
-        me.txRadarScanX += 2;
+        me.txRadarScanX += dx;
         if (me.txRadarScanX >= 256) {
             me.txRadarScanX = 0;
         }
