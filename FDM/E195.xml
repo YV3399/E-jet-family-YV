@@ -102,7 +102,7 @@
             <static_friction>  1.50 </static_friction>
             <dynamic_friction> 0.50 </dynamic_friction>
             <rolling_friction> 0.01 </rolling_friction>
-            <spring_coeff unit="LBS/FT"> 25000 </spring_coeff>
+            <spring_coeff unit="LBS/FT"> 30000 </spring_coeff>
             <damping_coeff unit="LBS/FT/SEC"> 10000 </damping_coeff>
             <max_steer unit="DEG"> 70 </max_steer>
             <brake_group>NONE</brake_group>
