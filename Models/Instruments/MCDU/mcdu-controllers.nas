@@ -84,11 +84,10 @@ var ModelController = {
 
     send: func (owner, val) {
         if (me.set(val) == nil) {
-            # TODO: issue error message on scratchpad
-            return nil;
+            owner.mcdu.setScratchpadMsg("INVALID", mcdu_yellow);
         }
         else {
-            return '';
+            owner.mcdu.setScratchpad('');
         }
     },
 
@@ -149,11 +148,10 @@ var MultiModelController = {
 
     send: func (owner, val) {
         if (me.set(val) == nil) {
-            # TODO: issue error message on scratchpad
-            return nil;
+            owner.mcdu.setScratchpadMsg("INVALID", mcdu_yellow);
         }
         else {
-            return '';
+            owner.mcdu.setScratchpad('');
         }
     },
 
@@ -181,7 +179,7 @@ var FuncController = {
 
     send: func (owner, val) {
         if (me.setFn != nil) {
-            return me.setFn(owner, val);
+            me.setFn(owner, val);
         }
     },
 
@@ -260,7 +258,6 @@ var TriggerController = {
             # TODO: warning
         }
         me.select(owner, nil);
-        return nil;
     },
 };
 
@@ -302,7 +299,6 @@ var CycleController = {
             # TODO: warning
         }
         me.cycle();
-        return nil;
     },
 };
 

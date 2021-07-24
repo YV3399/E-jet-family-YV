@@ -200,13 +200,7 @@ var BaseModule = {
                     controller.delete(me, boxed);
                 }
                 else {
-                    var newValue = controller.send(me, scratch);
-                    if (newValue == nil) {
-                        me.mcdu.setScratchpad(scratch);
-                    }
-                    elsif (newValue != '') {
-                        me.mcdu.setScratchpad(newValue);
-                    }
+                    controller.send(me, scratch);
                 }
             }
         }
@@ -390,6 +384,7 @@ var FlightPlanModule = {
                 me.fp.insertWP(wp, appendIndex + 1);
                 fms.kickRouteManager();
                 # printf("Insert %s at %i", candidates[0].id, appendIndex);
+                me.mcdu.setScratchpad('');
             }
             else {
                 me.mcdu.setScratchpadMsg("NO WAYPOINT", mcdu_yellow);
@@ -401,6 +396,7 @@ var FlightPlanModule = {
                 me.startEditing();
                 me.fp.insertWP(wp, appendIndex + 1);
                 fms.kickRouteManager();
+                me.mcdu.setScratchpad('');
             }
             else {
                 me.mcdu.setScratchpadMsg("NO WAYPOINT", mcdu_yellow);
@@ -471,8 +467,7 @@ var FlightPlanModule = {
                 if (wp == nil) {
                     append(me.views, StaticView.new(0, y, "-----", mcdu_green | mcdu_large));
                     me.controllers[lsk] =
-                        FuncController.new(
-                            func (owner, val) { owner.appendViaTo(val); });
+                        FuncController.new(func (owner, val) { owner.appendViaTo(val); });
                     break;
                 }
                 else {
@@ -615,6 +610,7 @@ var FlightPlanModule = {
                             return DirectToModule.new(mcdu, parent, this.fp, val);
                         };
                         owner.mcdu.pushModule(directToModule);
+                        me.mcdu.setScratchpad('');
                     });
                 }
                 else {
@@ -631,6 +627,7 @@ var FlightPlanModule = {
                                         return DirectToModule.new(mcdu, parent, this.fp, val, directFromIndex);
                                     };
                                     owner.mcdu.pushModule(directToModule);
+                                    me.mcdu.setScratchpad('');
                                 }
                             },
                             func (owner) {
@@ -666,6 +663,7 @@ var FlightPlanModule = {
                                             if (parsed.alt != nil) {
                                                 wpx.setAltitude(parsed.alt.val, parsed.alt.ty);
                                             }
+                                            me.mcdu.setScratchpad('');
                                         }
                                     }
                                 }
@@ -1280,6 +1278,7 @@ var ArrivalSelectModule = {
             }
             else {
                 fp.destination_runway = runway;
+                me.mcdu.setScratchpad('');
             }
         }
         if (fp.current <= 1) { fp.current = current; }
@@ -1303,6 +1302,7 @@ var ArrivalSelectModule = {
             }
             else {
                 fp.approach = approach;
+                me.mcdu.setScratchpad('');
             }
         }
         if (fp.current <= 1) { fp.current = current; }
@@ -1324,6 +1324,7 @@ var ArrivalSelectModule = {
         }
         else {
             fp.approach_trans = transitionID;
+            me.mcdu.setScratchpad('');
         }
         if (fp.current <= 1) { fp.current = current; }
         fms.kickRouteManager();
@@ -1346,6 +1347,7 @@ var ArrivalSelectModule = {
             }
             else {
                 fp.star = star;
+                me.mcdu.setScratchpad('');
             }
         }
         if (fp.current <= 1) { fp.current = current; }
@@ -1367,6 +1369,7 @@ var ArrivalSelectModule = {
         }
         else {
             fp.star_trans = transitionID;
+            me.mcdu.setScratchpad('');
         }
         if (fp.current <= 1) { fp.current = current; }
         fms.kickRouteManager();
