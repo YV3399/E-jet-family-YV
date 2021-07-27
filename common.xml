@@ -672,14 +672,14 @@
         <config>
             <roll>
                 <kp-low>0.2</kp-low>
-                <kp-high>0.36</kp-high>
-                <ti>10.0</ti>
-                <td>0.00002</td>
+                <kp-high>0.04</kp-high>
+                <ti>1.0</ti>
+                <td>0.0001</td>
             </roll>
             <pitch>
-                <kp-low>-0.12</kp-low>
+                <kp-low>-0.1</kp-low>
                 <kp-high>-0.02</kp-high>
-                <ti>0.75</ti>
+                <ti>0.5</ti>
                 <td>0.001</td>
             </pitch>
             <cmd>
@@ -704,7 +704,7 @@
             <autothrottle-min>0.0</autothrottle-min>
             <custom-fma>0</custom-fma>
             <disable-final>0</disable-final>
-			<hdg-hld-separate>0</hdg-hld-separate> <!-- Separates the HDG HLD mode from the HDG SEL mode -->
+            <hdg-hld-separate>0</hdg-hld-separate> <!-- Separates the HDG HLD mode from the HDG SEL mode -->
             <land-enable>1</land-enable> <!-- Enable/Disable Autoland -->
             <land-flap>0.5</land-flap> <!-- Minimum Flap used for Landing -->
             <lat-agl-ft>200</lat-agl-ft> <!-- Set to 999999 if you do not want T/O to change automatically to HDG, or LNAV -->
