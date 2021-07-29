@@ -1,3 +1,4 @@
 *.ac.bak
 .*.sw[op]
 /release
+.vscode/
