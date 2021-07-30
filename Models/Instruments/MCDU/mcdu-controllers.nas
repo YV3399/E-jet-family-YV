@@ -460,7 +460,7 @@ var nearestComChannel = func (f) {
 };
 
 var FreqController = {
-    new: func (key, spacingKey = nil, goto = nil, ty = nil) {
+    new: func (key, goto = nil, ty = nil) {
         var m = ModelController.new(key);
         m.parents = prepended(FreqController, m.parents);
         m.goto = goto;
