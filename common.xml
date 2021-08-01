@@ -57,8 +57,8 @@
 
         <current-view>
            <can-change-z-offset type="bool">false</can-change-z-offset>
-           <z-offset-min-m type="float">8.0</z-offset-min-m>
-           <z-offset-max-m type="float">2048.0</z-offset-max-m>
+           <z-offset-min-m type="float">12.5</z-offset-min-m>
+           <z-offset-max-m type="float">3200.0</z-offset-max-m>
         </current-view>
 
         <aircraft-data>
