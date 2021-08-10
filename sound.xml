@@ -280,8 +280,13 @@
 					</less-than>
 				</and>
 			</condition>
+			<volume>
+				<property>sim/current-view/internal</property>
+				<factor>-1</factor>
+				<offset>-0.8</offset>
+			</volume>
 			<reference-dist>10</reference-dist>
-			<max-dist>50</max-dist>
+			<max-dist>500</max-dist>
 			<position>
 				<x>15.24</x>
 				<y>0.01</y>
@@ -298,8 +303,13 @@
                     <value>94.99</value>
                 </greater-than>
 			</condition>
+			<volume>
+				<property>sim/current-view/internal</property>
+				<factor>-1</factor>
+				<offset>-0.8</offset>
+			</volume>
 			<reference-dist>10</reference-dist>
-			<max-dist>50</max-dist>
+			<max-dist>500</max-dist>
 			<position>
 				<x>15.24</x>
 				<y>0.01</y>
@@ -326,8 +336,13 @@
 					</less-than>
 				</and>
 			</condition>
+			<volume>
+				<property>sim/current-view/internal</property>
+				<factor>-1</factor>
+				<offset>-0.8</offset>
+			</volume>
 			<reference-dist>10</reference-dist>
-			<max-dist>50</max-dist>
+			<max-dist>500</max-dist>
 			<position>
 				<x>15.24</x>
 				<y>0.01</y>
