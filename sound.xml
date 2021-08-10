@@ -944,6 +944,136 @@
             <max-dist>5</max-dist>
         </avionics>
 
+		<!-- OH panel pushbuttons-->
+		<switch>
+			<name>Button 1 on</name>
+			<mode>once</mode>
+			<type>avionics</type>
+			<path>Aircraft/E-jet-family/Sounds/Cockpit/pushbutton.wav</path>
+			<condition>
+				<property>sim/sounde/btn1</property>
+			</condition>
+			<volume>
+				<offset>0.5</offset>
+			</volume>
+		</switch>
+		<switch>
+			<name>Button 1 off</name>
+			<mode>once</mode>
+			<type>avionics</type>
+			<path>Aircraft/E-jet-family/Sounds/Cockpit/pushbutton.wav</path>
+			<condition>
+				<not><property>sim/sounde/btn1</property></not>
+			</condition>
+			<volume>
+				<offset>0.5</offset>
+			</volume>
+		</switch>
+
+		<!-- OH panel rotary knobs -->
+		<switch>
+			<name>Knob 1 on</name>
+			<mode>once</mode>
+			<type>avionics</type>
+			<path>Aircraft/E-jet-family/Sounds/Cockpit/button2b.wav</path>
+			<condition>
+				<property>/sim/sounde/knb1</property>
+			</condition>
+			<volume>
+				<offset>1.0</offset>
+			</volume>
+		</switch>
+		<switch>
+			<name>Knob 1 off</name>
+			<mode>once</mode>
+			<type>avionics</type>
+			<path>Aircraft/E-jet-family/Sounds/Cockpit/button2b.wav</path>
+			<condition>
+				<not><property>sim/sounde/knb1</property></not>
+			</condition>
+			<volume>
+				<offset>1.0</offset>
+			</volume>
+		</switch>
+
+		<!-- OH panel battery 2 rotary knob -->
+		<!-- TODO: separate relay sound -->
+		<switch>
+			<name>Knob 2 on</name>
+			<mode>once</mode>
+			<type>avionics</type>
+			<path>Aircraft/E-jet-family/Sounds/Cockpit/keys2b.wav</path>
+			<condition>
+				<property>sim/sounde/knb2</property>
+			</condition>
+			<volume>
+				<offset>1.0</offset>
+			</volume>
+		</switch>
+		<switch>
+			<name>Knob 2 off</name>
+			<mode>once</mode>
+			<type>avionics</type>
+			<path>Aircraft/E-jet-family/Sounds/Cockpit/keys2b.wav</path>
+			<condition>
+				<not><property>sim/sounde/knb2</property></not>
+			</condition>
+			<volume>
+				<offset>1.0</offset>
+			</volume>
+		</switch>
+
+		<!-- OH panel metal flip switches -->
+		<switch>
+			<name>Switch 1 on</name>
+			<mode>once</mode>
+			<type>avionics</type>
+			<path>Aircraft/E-jet-family/Sounds/Cockpit/click2.wav</path>
+			<condition>
+				<property>sim/sounde/swtch1</property>
+			</condition>
+			<volume>
+				<offset>1.0</offset>
+			</volume>
+		</switch>
+		<switch>
+			<name>Switch 1 off</name>
+			<mode>once</mode>
+			<type>avionics</type>
+			<path>Aircraft/E-jet-family/Sounds/Cockpit/click2.wav</path>
+			<condition>
+				<not><property>sim/sounde/swtch1</property></not>
+			</condition>
+			<volume>
+				<offset>1.0</offset>
+			</volume>
+		</switch>
+
+		<!-- OH panel black flip switches -->
+		<switch>
+			<name>Switch 2 on</name>
+			<mode>once</mode>
+			<type>avionics</type>
+			<path>Aircraft/E-jet-family/Sounds/Cockpit/click5.wav</path>
+			<condition>
+				<property>sim/sounde/swtch2</property>
+			</condition>
+			<volume>
+				<offset>1.0</offset>
+			</volume>
+		</switch>
+		<switch>
+			<name>Switch 2 off</name>
+			<mode>once</mode>
+			<type>avionics</type>
+			<path>Aircraft/E-jet-family/Sounds/Cockpit/click5.wav</path>
+			<condition>
+				<not><property>sim/sounde/swtch2</property></not>
+			</condition>
+			<volume>
+				<offset>1.0</offset>
+			</volume>
+		</switch>
 
         <seatbelt>
             <name>cabinalert</name>

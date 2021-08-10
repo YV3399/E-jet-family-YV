@@ -110,6 +110,15 @@
             <setting>0.750</setting> <!-- full / 6 -->
         </flaps>
 
+		<sounde>
+			<btn1 type="bool">false</btn1>
+			<btn2 type="bool">false</btn2>
+			<knb1 type="bool">false</knb1>
+			<knb2 type="bool">false</knb2>
+			<swtch1 type="bool">false</swtch1>
+			<swtch2 type="bool">false</swtch2>
+		</sounde>
+
         <systems>
             <autopilot>
                 <name>Autopilot</name>

@@ -173,6 +173,10 @@
                 <value>2</value>
                 <value>3</value>
             </binding>
+            <binding>
+                <command>property-toggle</command>
+                <property>sim/sounde/knb1</property>
+            </binding>
         </action>
     </animation>
 
@@ -190,6 +194,10 @@
                 <value>1</value>
                 <value>2</value>
                 <value>3</value>
+            </binding>
+            <binding>
+                <command>property-toggle</command>
+                <property>sim/sounde/knb1</property>
             </binding>
         </action>
     </animation>
@@ -316,6 +324,10 @@
                 <command>property-toggle</command>
                 <property>/controls/fuel/tank[0]/boost-pump</property>
             </binding>
+            <binding>
+                <command>property-toggle</command>
+                <property>sim/sounde/knb1</property>
+            </binding>
         </action>
     </animation>
     <animation>
@@ -329,6 +341,10 @@
                 <command>property-toggle</command>
                 <property>/controls/fuel/tank[1]/boost-pump</property>
             </binding>
+            <binding>
+                <command>property-toggle</command>
+                <property>sim/sounde/knb1</property>
+            </binding>
         </action>
     </animation>
     <animation>
@@ -341,6 +357,10 @@
             <binding>
                 <command>property-toggle</command>
                 <property>/controls/fuel/tank[1]/boost-pump[1]</property>
+            </binding>
+            <binding>
+                <command>property-toggle</command>
+                <property>sim/sounde/knb1</property>
             </binding>
         </action>
     </animation>
@@ -362,6 +382,10 @@
             <binding>
                 <command>property-toggle</command>
                 <property>/controls/fuel/tank[2]/boost-pump</property>
+            </binding>
+            <binding>
+                <command>property-toggle</command>
+                <property>sim/sounde/knb1</property>
             </binding>
         </action>
     </animation>
@@ -389,6 +413,10 @@
                 <command>property-toggle</command>
                 <property>controls/electric/battery-switch[0]</property>
             </binding>
+            <binding>
+                <command>property-toggle</command>
+                <property>sim/sounde/knb1</property>
+            </binding>
         </action>
     </animation>
     <animation>
@@ -401,6 +429,10 @@
             <binding>
                 <command>property-toggle</command>
                 <property>controls/electric/battery-switch[1]</property>
+            </binding>
+            <binding>
+                <command>property-toggle</command>
+                <property>sim/sounde/knb1</property>
             </binding>
         </action>
     </animation>
@@ -415,6 +447,10 @@
                 <command>property-toggle</command>
                 <property>controls/electric/tru-switch[1]</property>
             </binding>
+            <binding>
+                <command>property-toggle</command>
+                <property>sim/sounde/swtch2</property>
+            </binding>
         </action>
     </animation>
     <animation>
@@ -427,6 +463,10 @@
             <binding>
                 <command>property-toggle</command>
                 <property>controls/electric/tru-switch[0]</property>
+            </binding>
+            <binding>
+                <command>property-toggle</command>
+                <property>sim/sounde/swtch2</property>
             </binding>
         </action>
     </animation>
@@ -441,6 +481,10 @@
                 <command>property-toggle</command>
                 <property>controls/electric/tru-switch[2]</property>
             </binding>
+            <binding>
+                <command>property-toggle</command>
+                <property>sim/sounde/swtch2</property>
+            </binding>
         </action>
     </animation>
     <animation>
@@ -453,6 +497,10 @@
             <binding>
                 <command>property-toggle</command>
                 <property>controls/electric/bus-tie-dc</property>
+            </binding>
+            <binding>
+                <command>property-toggle</command>
+                <property>sim/sounde/knb1</property>
             </binding>
         </action>
     </animation>
@@ -467,6 +515,10 @@
                 <command>property-toggle</command>
                 <property>controls/electric/engine/generator</property>
             </binding>
+            <binding>
+                <command>property-toggle</command>
+                <property>sim/sounde/knb1</property>
+            </binding>
         </action>
     </animation>
     <animation>
@@ -480,6 +532,10 @@
                 <command>property-toggle</command>
                 <property>controls/electric/engine[1]/generator</property>
             </binding>
+            <binding>
+                <command>property-toggle</command>
+                <property>sim/sounde/knb1</property>
+            </binding>
         </action>
     </animation>
     <animation>
@@ -492,6 +548,10 @@
             <binding>
                 <command>property-toggle</command>
                 <property>controls/electric/apu-generator</property>
+            </binding>
+            <binding>
+                <command>property-toggle</command>
+                <property>sim/sounde/btn1</property>
             </binding>
         </action>
     </animation>
@@ -567,6 +627,10 @@
                 <command>property-toggle</command>
                 <property>controls/pressurization/pack[0]/pack-on</property>
             </binding>
+            <binding>
+                <command>property-toggle</command>
+                <property>sim/sounde/btn1</property>
+            </binding>
         </action>
     </animation>
     <animation>
@@ -579,6 +643,10 @@
             <binding>
                 <command>property-toggle</command>
                 <property>controls/pneumatic/engine/bleed</property>
+            </binding>
+            <binding>
+                <command>property-toggle</command>
+                <property>sim/sounde/btn1</property>
             </binding>
         </action>
     </animation>
@@ -593,6 +661,10 @@
                 <command>property-toggle</command>
                 <property>controls/pneumatic/APU-bleed</property>
             </binding>
+            <binding>
+                <command>property-toggle</command>
+                <property>sim/sounde/btn1</property>
+            </binding>
         </action>
     </animation>
     <animation>
@@ -606,6 +678,10 @@
                 <command>property-toggle</command>
                 <property>controls/pneumatic/engine[1]/bleed</property>
             </binding>
+            <binding>
+                <command>property-toggle</command>
+                <property>sim/sounde/btn1</property>
+            </binding>
         </action>
     </animation>
     <animation>
@@ -618,6 +694,10 @@
             <binding>
                 <command>property-toggle</command>
                 <property>controls/pressurization/pack[1]/pack-on</property>
+            </binding>
+            <binding>
+                <command>property-toggle</command>
+                <property>sim/sounde/btn1</property>
             </binding>
         </action>
     </animation>
@@ -669,6 +749,10 @@
                 <command>property-toggle</command>
                 <property>controls/anti-ice/wing-heat</property>
             </binding>
+            <binding>
+                <command>property-toggle</command>
+                <property>sim/sounde/btn1</property>
+            </binding>
         </action>
     </animation>
 
@@ -683,6 +767,10 @@
                 <command>property-toggle</command>
                 <property>controls/anti-ice/engine/inlet-heat</property>
             </binding>
+            <binding>
+                <command>property-toggle</command>
+                <property>sim/sounde/btn1</property>
+            </binding>
         </action>
     </animation>
     <animation>
@@ -695,6 +783,10 @@
             <binding>
                 <command>property-toggle</command>
                 <property>controls/anti-ice/engine[1]/inlet-heat</property>
+            </binding>
+            <binding>
+                <command>property-toggle</command>
+                <property>sim/sounde/btn1</property>
             </binding>
         </action>
     </animation>
@@ -714,6 +806,10 @@
                 <command>property-assign</command>
                 <property>controls/anti-ice/window-heat</property>
                 <property>controls/anti-ice/pitot-heat</property>
+            </binding>
+            <binding>
+                <command>property-toggle</command>
+                <property>sim/sounde/btn1</property>
             </binding>
         </action>
     </animation>
@@ -752,6 +848,10 @@
                 <command>property-toggle</command>
                 <property>controls/electric/external-power</property>
             </binding>
+            <binding>
+                <command>property-toggle</command>
+                <property>sim/sounde/btn1</property>
+            </binding>
         </action>
     </animation>
     <animation>
@@ -767,6 +867,10 @@
                 <value>0</value>
                 <value>2</value>
             </binding>
+            <binding>
+                <command>property-toggle</command>
+                <property>sim/sounde/knb1</property>
+            </binding>
         </action>
     </animation>
 
@@ -781,6 +885,10 @@
             <binding>
                 <command>property-toggle</command>
                 <property>controls/lighting/dome</property>
+            </binding>
+            <binding>
+                <command>property-toggle</command>
+                <property>sim/sounde/swtch1</property>
             </binding>
         </action>
     </animation>
@@ -818,6 +926,10 @@
             <binding>
                 <command>property-toggle</command>
                 <property>controls/switches/seatbelt-sign</property>
+            </binding>
+            <binding>
+                <command>property-toggle</command>
+                <property>sim/sounde/swtch1</property>
             </binding>
         </action>
     </animation>
@@ -858,6 +970,10 @@
                 <command>property-toggle</command>
                 <property>controls/lighting/strobe</property>
             </binding>
+            <binding>
+                <command>property-toggle</command>
+                <property>sim/sounde/swtch2</property>
+            </binding>
         </action>
     </animation>
     <animation>
@@ -895,6 +1011,10 @@
             <binding>
                 <command>property-toggle</command>
                 <property>controls/lighting/beacon</property>
+            </binding>
+            <binding>
+                <command>property-toggle</command>
+                <property>sim/sounde/swtch1</property>
             </binding>
         </action>
     </animation>
@@ -934,6 +1054,10 @@
                 <command>property-toggle</command>
                 <property>controls/lighting/logo-lights</property>
             </binding>
+            <binding>
+                <command>property-toggle</command>
+                <property>sim/sounde/swtch1</property>
+            </binding>
         </action>
     </animation>
     <animation>
@@ -972,6 +1096,10 @@
                 <command>property-toggle</command>
                 <property>controls/lighting/taxi-lights[0]</property>
             </binding>
+            <binding>
+                <command>property-toggle</command>
+                <property>sim/sounde/swtch2</property>
+            </binding>
         </action>
     </animation>
     <animation>
@@ -1009,6 +1137,10 @@
             <binding>
                 <command>property-toggle</command>
                 <property>controls/lighting/taxi-lights[1]</property>
+            </binding>
+            <binding>
+                <command>property-toggle</command>
+                <property>sim/sounde/swtch2</property>
             </binding>
         </action>
     </animation>
@@ -1049,6 +1181,10 @@
                 <property>controls/lighting/nav-lights-switch</property>
                 <value type="int">0</value>
                 <value type="int">1</value>
+            </binding>
+            <binding>
+                <command>property-toggle</command>
+                <property>sim/sounde/swtch1</property>
             </binding>
         </action>
     </animation>
@@ -1114,6 +1250,10 @@
                 <command>property-toggle</command>
                 <property>controls/lighting/landing-lights[0]</property>
             </binding>
+            <binding>
+                <command>property-toggle</command>
+                <property>sim/sounde/swtch1</property>
+            </binding>
         </action>
     </animation>
     <animation>
@@ -1127,6 +1267,10 @@
                 <command>property-toggle</command>
                 <property>controls/lighting/landing-lights[1]</property>
             </binding>
+            <binding>
+                <command>property-toggle</command>
+                <property>sim/sounde/swtch2</property>
+            </binding>
         </action>
     </animation>
     <animation>
@@ -1139,6 +1283,10 @@
             <binding>
                 <command>property-toggle</command>
                 <property>controls/lighting/landing-lights[2]</property>
+            </binding>
+            <binding>
+                <command>property-toggle</command>
+                <property>sim/sounde/swtch2</property>
             </binding>
         </action>
     </animation>
@@ -1403,6 +1551,10 @@
                 <min>-1</min>
                 <max>1</max>
                 <wrap>false</wrap>
+            </binding>
+            <binding>
+                <command>property-toggle</command>
+                <property>sim/sounde/knb1</property>
             </binding>
         </action>
     </animation>
