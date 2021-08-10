@@ -951,7 +951,7 @@
 			<type>avionics</type>
 			<path>Aircraft/E-jet-family/Sounds/Cockpit/pushbutton.wav</path>
 			<condition>
-				<property>sim/sounde/btn1</property>
+				<property>sim/sound/btn1</property>
 			</condition>
 			<volume>
 				<offset>0.5</offset>
@@ -963,7 +963,7 @@
 			<type>avionics</type>
 			<path>Aircraft/E-jet-family/Sounds/Cockpit/pushbutton.wav</path>
 			<condition>
-				<not><property>sim/sounde/btn1</property></not>
+				<not><property>sim/sound/btn1</property></not>
 			</condition>
 			<volume>
 				<offset>0.5</offset>
@@ -977,7 +977,7 @@
 			<type>avionics</type>
 			<path>Aircraft/E-jet-family/Sounds/Cockpit/button2b.wav</path>
 			<condition>
-				<property>/sim/sounde/knb1</property>
+				<property>/sim/sound/knb1</property>
 			</condition>
 			<volume>
 				<offset>1.0</offset>
@@ -989,7 +989,7 @@
 			<type>avionics</type>
 			<path>Aircraft/E-jet-family/Sounds/Cockpit/button2b.wav</path>
 			<condition>
-				<not><property>sim/sounde/knb1</property></not>
+				<not><property>sim/sound/knb1</property></not>
 			</condition>
 			<volume>
 				<offset>1.0</offset>
@@ -1004,7 +1004,7 @@
 			<type>avionics</type>
 			<path>Aircraft/E-jet-family/Sounds/Cockpit/keys2b.wav</path>
 			<condition>
-				<property>sim/sounde/knb2</property>
+				<property>sim/sound/knb2</property>
 			</condition>
 			<volume>
 				<offset>1.0</offset>
@@ -1016,7 +1016,7 @@
 			<type>avionics</type>
 			<path>Aircraft/E-jet-family/Sounds/Cockpit/keys2b.wav</path>
 			<condition>
-				<not><property>sim/sounde/knb2</property></not>
+				<not><property>sim/sound/knb2</property></not>
 			</condition>
 			<volume>
 				<offset>1.0</offset>
@@ -1030,7 +1030,7 @@
 			<type>avionics</type>
 			<path>Aircraft/E-jet-family/Sounds/Cockpit/click2.wav</path>
 			<condition>
-				<property>sim/sounde/swtch1</property>
+				<property>sim/sound/swtch1</property>
 			</condition>
 			<volume>
 				<offset>1.0</offset>
@@ -1042,7 +1042,7 @@
 			<type>avionics</type>
 			<path>Aircraft/E-jet-family/Sounds/Cockpit/click2.wav</path>
 			<condition>
-				<not><property>sim/sounde/swtch1</property></not>
+				<not><property>sim/sound/swtch1</property></not>
 			</condition>
 			<volume>
 				<offset>1.0</offset>
@@ -1056,7 +1056,7 @@
 			<type>avionics</type>
 			<path>Aircraft/E-jet-family/Sounds/Cockpit/click5.wav</path>
 			<condition>
-				<property>sim/sounde/swtch2</property>
+				<property>sim/sound/swtch2</property>
 			</condition>
 			<volume>
 				<offset>1.0</offset>
@@ -1068,7 +1068,7 @@
 			<type>avionics</type>
 			<path>Aircraft/E-jet-family/Sounds/Cockpit/click5.wav</path>
 			<condition>
-				<not><property>sim/sounde/swtch2</property></not>
+				<not><property>sim/sound/swtch2</property></not>
 			</condition>
 			<volume>
 				<offset>1.0</offset>
