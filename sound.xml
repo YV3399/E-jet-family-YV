@@ -3,7 +3,6 @@
 <!-- Sounds By Gabriel Hernandez(YV3399) -->
 
 <PropertyList>
-
     <fx>
 		<!-- Engine 1 -->
 		<engine>
@@ -32,9 +31,9 @@
 				<factor>0.02</factor>
 			</pitch>
             <position>
-                <x>0</x>
-                <y>9.8</y>
-                <z>-3</z>
+                <x>-3.3</x>
+                <y>4.1</y>
+                <z>-1</z>
             </position>
 		</engine>
 		<engine>
@@ -63,9 +62,9 @@
 				<factor>0.01</factor>
 			</pitch>
             <position>
-                <x>0</x>
-                <y>9.8</y>
-                <z>-3</z>
+                <x>-3.3</x>
+                <y>4.1</y>
+                <z>-1</z>
             </position>
 		</engine>
 		<engine>
@@ -95,9 +94,9 @@
 				<factor>1</factor>
 			</volume>
             <position>
-                <x>0</x>
-                <y>9.8</y>
-                <z>-3</z>
+                <x>-3.3</x>
+                <y>4.1</y>
+                <z>-1</z>
             </position>
 		</engine>
 		<engine>
@@ -124,9 +123,9 @@
 				<factor>0.01</factor>
 			</pitch>
             <position>
-                <x>0</x>
-                <y>9.8</y>
-                <z>-3</z>
+                <x>-3.3</x>
+                <y>4.1</y>
+                <z>-1</z>
             </position>
 			<reference-dist>10</reference-dist>
 			<max-dist>50</max-dist>
@@ -159,9 +158,9 @@
 				<factor>0.02</factor>
 			</pitch>
             <position>
-                <x>0</x>
-                <y>-9.8</y>
-                <z>-3</z>
+                <x>-3.3</x>
+                <y>-4.1</y>
+                <z>-1</z>
             </position>
 		</engine>
 		<engine>
@@ -190,9 +189,9 @@
 				<factor>0.01</factor>
 			</pitch>
             <position>
-                <x>0</x>
-                <y>-9.8</y>
-                <z>-3</z>
+                <x>-3.3</x>
+                <y>-4.1</y>
+                <z>-1</z>
             </position>
 		</engine>
 		<engine>
@@ -222,9 +221,9 @@
 				<factor>1</factor>
 			</volume>
             <position>
-                <x>0</x>
-                <y>-9.8</y>
-                <z>-3</z>
+                <x>-3.3</x>
+                <y>-4.1</y>
+                <z>-1</z>
             </position>
 		</engine>
 		<engine>
@@ -251,9 +250,9 @@
 				<factor>0.01</factor>
 			</pitch>
             <position>
-                <x>0</x>
-                <y>-9.8</y>
-                <z>-3</z>
+                <x>-3.3</x>
+                <y>-4.1</y>
+                <z>-1</z>
             </position>
 			<reference-dist>10</reference-dist>
 			<max-dist>50</max-dist>
@@ -280,8 +279,11 @@
 					</less-than>
 				</and>
 			</condition>
+			<volume>
+				<property>sim/sound/apu-vol</property>
+			</volume>
 			<reference-dist>10</reference-dist>
-			<max-dist>50</max-dist>
+			<max-dist>500</max-dist>
 			<position>
 				<x>15.24</x>
 				<y>0.01</y>
@@ -298,8 +300,11 @@
                     <value>94.99</value>
                 </greater-than>
 			</condition>
+			<volume>
+				<property>sim/sound/apu-vol</property>
+			</volume>
 			<reference-dist>10</reference-dist>
-			<max-dist>50</max-dist>
+			<max-dist>500</max-dist>
 			<position>
 				<x>15.24</x>
 				<y>0.01</y>
@@ -326,8 +331,11 @@
 					</less-than>
 				</and>
 			</condition>
+			<volume>
+				<property>sim/sound/apu-vol</property>
+			</volume>
 			<reference-dist>10</reference-dist>
-			<max-dist>50</max-dist>
+			<max-dist>500</max-dist>
 			<position>
 				<x>15.24</x>
 				<y>0.01</y>
@@ -340,6 +348,9 @@
             <mode>in-transit</mode>
             <path>Aircraft/E-jet-family/Sounds/landing-gear.wav</path>
             <property>/gear/gear[0]/position-norm</property>
+			<volume>
+				<property>sim/sound/gear-vol</property>
+			</volume>
             <pitch>
                 <offset>-0.75</offset>
             </pitch>
@@ -354,6 +365,9 @@
                     <value>1</value>
                 </equals>
             </condition>
+			<volume>
+				<property>sim/sound/gear-vol</property>
+			</volume>
             <pitch>
                 <offset>-0.5</offset>
             </pitch>
@@ -514,10 +528,9 @@
             <mode>in-transit</mode>
             <path>Aircraft/E-jet-family/Sounds/flaps.wav</path>
             <property>/fdm/jsbsim/fcs/flap-pos-norm</property>
-            <volume>
-                <property>sim/sound/effects/volume</property>
-                <max>0.5</max>
-            </volume>
+			<volume>
+				<property>sim/sound/flaps-vol</property>
+			</volume>
             <position>
                 <x>-9</x>
                 <y>0</y>
@@ -531,10 +544,9 @@
             <mode>in-transit</mode>
             <path>Aircraft/E-jet-family/Sounds/slats.wav</path>
             <property>/fdm/jsbsim/fcs/slat-pos-norm</property>
-            <volume>
-                <property>sim/sound/effects/volume</property>
-                <max>0.5</max>
-            </volume>
+			<volume>
+				<property>sim/sound/flaps-vol</property>
+			</volume>
             <position>
                 <x>-9</x>
                 <y>0</y>
@@ -579,6 +591,7 @@
         <stall>
             <name>stall</name>
             <mode>looped</mode>
+			<type>avionics</type>
             <path>Aircraft/E-jet-family/Sounds/SoundPack/stall.wav</path>
             <condition>
                 <property>sim/sound/stall-horn</property>
@@ -586,13 +599,6 @@
             <volume>
                 <offset>0.5</offset>
             </volume>
-            <position>
-                <x>-24</x>
-                <y>0</y>
-                <z>0.18</z>
-            </position>
-            <reference-dist>0.5</reference-dist>
-            <max-dist>1.0</max-dist>
         </stall>
 
         <speedbrake>
@@ -600,10 +606,6 @@
             <mode>in-transit</mode>
             <path>Aircraft/E-jet-family/Sounds/SoundPack/spd-brk.wav</path>
             <property>/surface-positions/speedbrake-pos-norm</property>
-            <volume>
-                <property>sim/sound/effects/volume</property>
-                <factor>2.0</factor>
-            </volume>
             <position>
                 <x>-24</x>
                 <y>0</y>
@@ -615,15 +617,29 @@
 
         <!-- Seatbelt/No smoking signs -->
         <seatbelt>
-            <name>Seatbelt sign</name>
+            <name>Seatbelt sign on</name>
             <path>Aircraft/E-jet-family/Sounds/cabin_chime.wav</path>
             <mode>once</mode>
             <condition>
-                <property>sim/sound/seatbelt-sign</property>
+                <property>controls/switches/seatbelt-sign</property>
             </condition>
-            <volume>
-                <property>sim/sound/effects/volume</property>
-            </volume>
+            <position>
+                <x>0.00</x>
+                <y>0.00</y>
+                <z>0.00</z>
+            </position>
+            <reference-dist>10.0</reference-dist>
+            <max-dist>100.0</max-dist>
+        </seatbelt>
+        <seatbelt>
+            <name>Seatbelt sign off</name>
+            <path>Aircraft/E-jet-family/Sounds/cabin_chime.wav</path>
+            <mode>once</mode>
+            <condition>
+                <not>
+					<property>controls/switches/seatbelt-sign</property>
+				</not>
+            </condition>
             <position>
                 <x>0.00</x>
                 <y>0.00</y>
@@ -633,15 +649,29 @@
             <max-dist>100.0</max-dist>
         </seatbelt>
         <nosmoke>
-            <name>No smoking sign</name>
+            <name>No smoking sign on</name>
             <path>Aircraft/E-jet-family/Sounds/cabin_chime.wav</path>
             <mode>once</mode>
             <condition>
-                <property>sim/sound/no-smoking-sign</property>
+                <property>controls/switches/no-smoking-sign</property>
             </condition>
-            <volume>
-                <property>sim/sound/effects/volume</property>
-            </volume>
+            <position>
+                <x>0.00</x>
+                <y>0.00</y>
+                <z>0.00</z>
+            </position>
+            <reference-dist>10.0</reference-dist>
+            <max-dist>100.0</max-dist>
+        </nosmoke>
+        <nosmoke>
+            <name>No smoking sign off</name>
+            <path>Aircraft/E-jet-family/Sounds/cabin_chime.wav</path>
+            <mode>once</mode>
+            <condition>
+                <not>
+					<property>controls/switches/no-smoking-sign</property>
+				</not>
+            </condition>
             <position>
                 <x>0.00</x>
                 <y>0.00</y>
@@ -656,6 +686,7 @@
         <overspeed>
             <name>Overspeed warning</name>
             <path>Sounds/overspeed.wav</path>
+			<type>avionics</type>
             <mode>looped</mode>
             <condition>
                 <greater-than>
@@ -931,7 +962,7 @@
                 </greater-than>
             </condition>
             <position>
-                <x>-17</x>
+                <x>-15</x>
                 <y>0.01</y>
                 <z>-1.95</z>
             </position>
@@ -944,28 +975,136 @@
             <max-dist>5</max-dist>
         </avionics>
 
+		<!-- OH panel pushbuttons-->
+		<switch>
+			<name>Button 1 on</name>
+			<mode>once</mode>
+			<type>avionics</type>
+			<path>Aircraft/E-jet-family/Sounds/Cockpit/pushbutton.wav</path>
+			<condition>
+				<property>sim/sound/button1</property>
+			</condition>
+			<volume>
+				<factor>0.2</factor>
+			</volume>
+		</switch>
+		<switch>
+			<name>Button 1 off</name>
+			<mode>once</mode>
+			<type>avionics</type>
+			<path>Aircraft/E-jet-family/Sounds/Cockpit/pushbutton.wav</path>
+			<condition>
+				<not><property>sim/sound/button1</property></not>
+			</condition>
+			<volume>
+				<factor>0.2</factor>
+			</volume>
+		</switch>
 
-        <seatbelt>
-            <name>cabinalert</name>
-            <path>Aircraft/E-jet-family/Sounds/cabinalert.wav</path>
-            <mode>once</mode>
-            <condition>
-                <or>
-                    <property>sim/sound/no-smoking-sign</property>
-                    <property>sim/sound/seatbelt-sign</property>
+		<!-- OH panel rotary knobs -->
+		<switch>
+			<name>Knob 1 on</name>
+			<mode>once</mode>
+			<type>avionics</type>
+			<path>Aircraft/E-jet-family/Sounds/Cockpit/button2b.wav</path>
+			<condition>
+				<property>/sim/sound/knob1</property>
+			</condition>
+			<volume>
+				<factor>0.2</factor>
+			</volume>
+		</switch>
+		<switch>
+			<name>Knob 1 off</name>
+			<mode>once</mode>
+			<type>avionics</type>
+			<path>Aircraft/E-jet-family/Sounds/Cockpit/button2b.wav</path>
+			<condition>
+				<not><property>sim/sound/knob1</property></not>
+			</condition>
+			<volume>
+				<factor>0.2</factor>
+			</volume>
+		</switch>
 
-                    <not>
-                        <property>sim/sound/no-smoking-sign</property>
-                    </not>
-                    <not>
-                        <property>sim/sound/seatbelt-sign</property>
-                    </not>
-                </or>
-            </condition>
-            <volume>
-                <property>sim/current-view/internal</property>
-            </volume>
-        </seatbelt>
+		<!-- OH panel battery 2 rotary knob -->
+		<!-- TODO: separate relay sound -->
+		<switch>
+			<name>Knob 2 on</name>
+			<mode>once</mode>
+			<type>avionics</type>
+			<path>Aircraft/E-jet-family/Sounds/Cockpit/keys2b.wav</path>
+			<condition>
+				<property>sim/sound/knob2</property>
+			</condition>
+			<volume>
+				<factor>0.2</factor>
+			</volume>
+		</switch>
+		<switch>
+			<name>Knob 2 off</name>
+			<mode>once</mode>
+			<type>avionics</type>
+			<path>Aircraft/E-jet-family/Sounds/Cockpit/keys2b.wav</path>
+			<condition>
+				<not><property>sim/sound/knob2</property></not>
+			</condition>
+			<volume>
+				<factor>0.2</factor>
+			</volume>
+		</switch>
+
+		<!-- OH panel metal flip switches -->
+		<switch>
+			<name>Switch 1 on</name>
+			<mode>once</mode>
+			<type>avionics</type>
+			<path>Aircraft/E-jet-family/Sounds/Cockpit/click2.wav</path>
+			<condition>
+				<property>sim/sound/swtch1</property>
+			</condition>
+			<volume>
+				<factor>0.2</factor>
+			</volume>
+		</switch>
+		<switch>
+			<name>Switch 1 off</name>
+			<mode>once</mode>
+			<type>avionics</type>
+			<path>Aircraft/E-jet-family/Sounds/Cockpit/click2.wav</path>
+			<condition>
+				<not><property>sim/sound/swtch1</property></not>
+			</condition>
+			<volume>
+				<factor>0.2</factor>
+			</volume>
+		</switch>
+
+		<!-- OH panel black flip switches -->
+		<switch>
+			<name>Switch 2 on</name>
+			<mode>once</mode>
+			<type>avionics</type>
+			<path>Aircraft/E-jet-family/Sounds/Cockpit/click5.wav</path>
+			<condition>
+				<property>sim/sound/swtch2</property>
+			</condition>
+			<volume>
+				<factor>0.2</factor>
+			</volume>
+		</switch>
+		<switch>
+			<name>Switch 2 off</name>
+			<mode>once</mode>
+			<type>avionics</type>
+			<path>Aircraft/E-jet-family/Sounds/Cockpit/click5.wav</path>
+			<condition>
+				<not><property>sim/sound/swtch2</property></not>
+			</condition>
+			<volume>
+				<factor>0.2</factor>
+			</volume>
+		</switch>
 
         <gpws>
             <name>appr_mins</name>
@@ -1053,6 +1192,7 @@
         <ap-disconnect>
             <name>AP Disconnect</name>
             <mode>once</mode>
+			<type>avionics</type>
             <path>Aircraft/E-jet-family/Sounds/APdisco.wav</path>
             <condition>
                 <property>/it-autoflight/sound/apoffsound</property>
@@ -1065,6 +1205,7 @@
         <ap-disconnect>
             <name>AP Disconnect 2</name>
             <mode>once</mode>
+			<type>avionics</type>
             <path>Aircraft/E-jet-family/Sounds/APdisco.wav</path>
             <condition>
                 <property>/it-autoflight/sound/apoffsound2</property>
@@ -1079,12 +1220,20 @@
         <alarm>
             <name>Master warning</name>
             <mode>once</mode>
+			<type>avionics</type>
             <path>Sounds/triple-chime.wav</path>
             <condition>
-                <greater-than>
-                    <property>/instrumentation/eicas/master/warning</property>
-                    <value>0</value>
-                </greater-than>
+                <and>
+                    <greater-than>
+                        <property>/instrumentation/eicas/master/warning</property>
+                        <value>0</value>
+                    </greater-than>
+                    <greater-than>
+                        <!-- TODO: this may not actually be correct, the chime probably feeds from a separate electrical output, but this will do for now -->
+                        <property>/systems/electrical/outputs/master-warn-caution[0]</property>
+                        <value>20</value>
+                    </greater-than>
+                </and>
             </condition>
             <volume>
                 <property>sim/current-view/internal</property>
@@ -1093,12 +1242,20 @@
         <alarm>
             <name>Master caution</name>
             <mode>once</mode>
+			<type>avionics</type>
             <path>Sounds/single-chime.wav</path>
             <condition>
-                <greater-than>
-                    <property>/instrumentation/eicas/master/caution</property>
-                    <value>0</value>
-                </greater-than>
+                <and>
+                    <greater-than>
+                        <property>/instrumentation/eicas/master/caution</property>
+                        <value>0</value>
+                    </greater-than>
+                    <greater-than>
+                        <!-- TODO: this may not actually be correct, the chime probably feeds from a separate electrical output, but this will do for now -->
+                        <property>/systems/electrical/outputs/master-warn-caution[0]</property>
+                        <value>20</value>
+                    </greater-than>
+                </and>
             </condition>
             <volume>
                 <property>sim/current-view/internal</property>

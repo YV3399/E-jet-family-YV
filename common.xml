@@ -241,6 +241,16 @@
 
         <sound>
             <path>Aircraft/E-jet-family/sound.xml</path>
+
+            <button1 type="bool">false</button1>
+            <button2 type="bool">false</button2>
+            <knob1 type="bool">false</knob1>
+            <knob2 type="bool">false</knob2>
+            <switch1 type="bool">false</switch1>
+            <switch2 type="bool">false</switch2>
+            <apu-vol type="double">0.2</apu-vol>
+            <gear-vol type="double">0.2</gear-vol>
+            <flaps-vol type="double">0.02</flaps-vol>
         </sound>
 
         <instrumentation>
@@ -2404,6 +2414,9 @@
         <messages>
             <file>Aircraft/E-jet-family/Nasal/messages.nas</file>
         </messages>
+		<sound>
+			<file>Aircraft/E-jet-family/Nasal/effects-volume.nas</file>
+		</sound>
         <systems>
             <file>Aircraft/E-jet-family/Nasal/systems.nas</file>
             <file>Aircraft/E-jet-family/Nasal/limits.nas</file>

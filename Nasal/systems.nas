@@ -17,26 +17,6 @@ var beacon = aircraft.light.new("sim/model/lights/beacon", [0.015, 3], "controls
 var strobe_switch = props.globals.getNode("controls/switches/strobe", 2);
 var strobe = aircraft.light.new("sim/model/lights/strobe", [0.025, 1.5], "controls/lighting/strobe");
 
-## SOUNDS
-#########
-
-# seatbelt/no smoking sign triggers
-setlistener("controls/switches/seatbelt-sign", func {
-	props.getNode("sim/sound/seatbelt-sign").setBoolValue(1);
-
-	settimer(func {
-		props.getNode("sim/sound/seatbelt-sign").setBoolValue(0);
-	}, 2);
-});
-
-setlistener("controls/switches/no-smoking-sign", func {
-	props.getNode("sim/sound/no-smoking-sign").setBoolValue(1);
-
-	settimer(func {
-		props.getNode("sim/sound/no-smoking-sign").setBoolValue(0);
-	}, 2);
-});
-
 ## ENGINES
 ##########
  
