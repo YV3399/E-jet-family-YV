@@ -21,7 +21,7 @@
     
 	<!-- gear internal/external volume -->
 	<filter>
-		<name>apu</name>
+		<name>gear</name>
 		<type>gain</type>
 		<gain>1.0</gain>
 		<input>
