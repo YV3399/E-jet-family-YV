@@ -1,0 +1,57 @@
+<?xml version="1.0"?>
+
+<PropertyList>
+
+	<!-- APU internal/external volume -->
+	<filter>
+		<name>apu</name>
+		<type>gain</type>
+		<gain>1.0</gain>
+		<input>
+			<expression>
+				<table>
+					<property>sim/current-view/internal</property>
+					<entry><ind>0.0</ind> <dep>1</dep></entry>
+					<entry><ind>1.0</ind> <dep>0.2</dep></entry>
+				</table>
+			</expression>
+		</input>
+		<output>sim/sound/apu-vol</output>
+	</filter>
+    
+	<!-- gear internal/external volume -->
+	<filter>
+		<name>apu</name>
+		<type>gain</type>
+		<gain>1.0</gain>
+		<input>
+			<expression>
+				<table>
+					<property>sim/current-view/internal</property>
+					<entry><ind>0.0</ind> <dep>1</dep></entry>
+					<entry><ind>1.0</ind> <dep>0.2</dep></entry>
+				</table>
+			</expression>
+		</input>
+		<output>sim/sound/gear-vol</output>
+	</filter>
+    
+	<!-- flaps/slats internal/external volume -->
+	<filter>
+		<name>flaps slats</name>
+		<type>gain</type>
+		<gain>1.0</gain>
+		<input>
+			<expression>
+				<table>
+					<property>sim/current-view/internal</property>
+					<entry><ind>0.0</ind> <dep>0.5</dep></entry>
+					<entry><ind>1.0</ind> <dep>0.02</dep></entry>
+				</table>
+			</expression>
+		</input>
+		<output>sim/sound/flaps-vol</output>
+	</filter>
+    
+</PropertyList>
+

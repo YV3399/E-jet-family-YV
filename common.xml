@@ -230,6 +230,9 @@
             <property-rule n="114">
                 <path>Aircraft/E-jet-family/Systems/views.xml</path>
             </property-rule>
+            <property-rule n="115">
+                <path>Aircraft/E-jet-family/effects-volume.xml</path>
+            </property-rule>
 
             <!--Disable XML electrical system-->
             <electrical>
@@ -247,6 +250,9 @@
 			<swtch1 type="bool">false</swtch1>
 			<swtch2 type="bool">false</swtch2>
             <path>Aircraft/E-jet-family/sound.xml</path>
+			<apu-vol type="double">1</apu-vol>
+			<gear-vol type="double">1</gear-vol>
+			<flaps-vol type="double">0.5</flaps-vol>
         </sound>
 
         <instrumentation>

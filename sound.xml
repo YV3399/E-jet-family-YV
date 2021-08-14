@@ -281,9 +281,7 @@
 				</and>
 			</condition>
 			<volume>
-				<property>sim/current-view/internal</property>
-				<factor>-1</factor>
-				<offset>-0.8</offset>
+				<property>sim/sound/apu-vol</property>
 			</volume>
 			<reference-dist>10</reference-dist>
 			<max-dist>500</max-dist>
@@ -304,9 +302,7 @@
                 </greater-than>
 			</condition>
 			<volume>
-				<property>sim/current-view/internal</property>
-				<factor>-1</factor>
-				<offset>-0.8</offset>
+				<property>sim/sound/apu-vol</property>
 			</volume>
 			<reference-dist>10</reference-dist>
 			<max-dist>500</max-dist>
@@ -337,9 +333,7 @@
 				</and>
 			</condition>
 			<volume>
-				<property>sim/current-view/internal</property>
-				<factor>-1</factor>
-				<offset>-0.8</offset>
+				<property>sim/sound/apu-vol</property>
 			</volume>
 			<reference-dist>10</reference-dist>
 			<max-dist>500</max-dist>
@@ -529,10 +523,9 @@
             <mode>in-transit</mode>
             <path>Aircraft/E-jet-family/Sounds/flaps.wav</path>
             <property>/fdm/jsbsim/fcs/flap-pos-norm</property>
-            <volume>
-                <property>sim/sound/effects/volume</property>
-                <max>0.5</max>
-            </volume>
+			<volume>
+				<property>sim/sound/flaps-vol</property>
+			</volume>
             <position>
                 <x>-9</x>
                 <y>0</y>
@@ -546,10 +539,9 @@
             <mode>in-transit</mode>
             <path>Aircraft/E-jet-family/Sounds/slats.wav</path>
             <property>/fdm/jsbsim/fcs/slat-pos-norm</property>
-            <volume>
-                <property>sim/sound/effects/volume</property>
-                <max>0.5</max>
-            </volume>
+			<volume>
+				<property>sim/sound/flaps-vol</property>
+			</volume>
             <position>
                 <x>-9</x>
                 <y>0</y>
