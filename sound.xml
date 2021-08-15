@@ -607,10 +607,6 @@
             <mode>in-transit</mode>
             <path>Aircraft/E-jet-family/Sounds/SoundPack/spd-brk.wav</path>
             <property>/surface-positions/speedbrake-pos-norm</property>
-            <volume>
-                <property>sim/sound/effects/volume</property>
-                <factor>2.0</factor>
-            </volume>
             <position>
                 <x>-24</x>
                 <y>0</y>
@@ -628,9 +624,6 @@
             <condition>
                 <property>sim/sound/seatbelt-sign</property>
             </condition>
-            <volume>
-                <property>sim/sound/effects/volume</property>
-            </volume>
             <position>
                 <x>0.00</x>
                 <y>0.00</y>
@@ -646,9 +639,6 @@
             <condition>
                 <property>sim/sound/no-smoking-sign</property>
             </condition>
-            <volume>
-                <property>sim/sound/effects/volume</property>
-            </volume>
             <position>
                 <x>0.00</x>
                 <y>0.00</y>
