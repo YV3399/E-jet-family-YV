@@ -592,6 +592,7 @@
         <stall>
             <name>stall</name>
             <mode>looped</mode>
+			<type>avionics</type>
             <path>Aircraft/E-jet-family/Sounds/SoundPack/stall.wav</path>
             <condition>
                 <property>sim/sound/stall-horn</property>
@@ -659,6 +660,7 @@
         <overspeed>
             <name>Overspeed warning</name>
             <path>Sounds/overspeed.wav</path>
+			<type>avionics</type>
             <mode>looped</mode>
             <condition>
                 <greater-than>
@@ -1164,6 +1166,7 @@
         <ap-disconnect>
             <name>AP Disconnect</name>
             <mode>once</mode>
+			<type>avionics</type>
             <path>Aircraft/E-jet-family/Sounds/APdisco.wav</path>
             <condition>
                 <property>/it-autoflight/sound/apoffsound</property>
@@ -1176,6 +1179,7 @@
         <ap-disconnect>
             <name>AP Disconnect 2</name>
             <mode>once</mode>
+			<type>avionics</type>
             <path>Aircraft/E-jet-family/Sounds/APdisco.wav</path>
             <condition>
                 <property>/it-autoflight/sound/apoffsound2</property>
@@ -1190,6 +1194,7 @@
         <alarm>
             <name>Master warning</name>
             <mode>once</mode>
+			<type>avionics</type>
             <path>Sounds/triple-chime.wav</path>
             <condition>
                 <greater-than>
@@ -1204,6 +1209,7 @@
         <alarm>
             <name>Master caution</name>
             <mode>once</mode>
+			<type>avionics</type>
             <path>Sounds/single-chime.wav</path>
             <condition>
                 <greater-than>
