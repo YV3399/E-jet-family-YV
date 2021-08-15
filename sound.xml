@@ -349,6 +349,9 @@
             <mode>in-transit</mode>
             <path>Aircraft/E-jet-family/Sounds/landing-gear.wav</path>
             <property>/gear/gear[0]/position-norm</property>
+			<volume>
+				<property>sim/sound/gear-vol</property>
+			</volume>
             <pitch>
                 <offset>-0.75</offset>
             </pitch>
@@ -363,6 +366,9 @@
                     <value>1</value>
                 </equals>
             </condition>
+			<volume>
+				<property>sim/sound/gear-vol</property>
+			</volume>
             <pitch>
                 <offset>-0.5</offset>
             </pitch>
