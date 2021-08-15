@@ -1082,28 +1082,6 @@
 			</volume>
 		</switch>
 
-        <seatbelt>
-            <name>cabinalert</name>
-            <path>Aircraft/E-jet-family/Sounds/cabinalert.wav</path>
-            <mode>once</mode>
-            <condition>
-                <or>
-                    <property>sim/sound/no-smoking-sign</property>
-                    <property>sim/sound/seatbelt-sign</property>
-
-                    <not>
-                        <property>sim/sound/no-smoking-sign</property>
-                    </not>
-                    <not>
-                        <property>sim/sound/seatbelt-sign</property>
-                    </not>
-                </or>
-            </condition>
-            <volume>
-                <property>sim/current-view/internal</property>
-            </volume>
-        </seatbelt>
-
         <gpws>
             <name>appr_mins</name>
             <mode>once</mode>
