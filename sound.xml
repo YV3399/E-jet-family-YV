@@ -32,9 +32,9 @@
 				<factor>0.02</factor>
 			</pitch>
             <position>
-                <x>0</x>
-                <y>9.8</y>
-                <z>-3</z>
+                <x>-3.3</x>
+                <y>4.1</y>
+                <z>-1</z>
             </position>
 		</engine>
 		<engine>
@@ -63,9 +63,9 @@
 				<factor>0.01</factor>
 			</pitch>
             <position>
-                <x>0</x>
-                <y>9.8</y>
-                <z>-3</z>
+                <x>-3.3</x>
+                <y>4.1</y>
+                <z>-1</z>
             </position>
 		</engine>
 		<engine>
@@ -95,9 +95,9 @@
 				<factor>1</factor>
 			</volume>
             <position>
-                <x>0</x>
-                <y>9.8</y>
-                <z>-3</z>
+                <x>-3.3</x>
+                <y>4.1</y>
+                <z>-1</z>
             </position>
 		</engine>
 		<engine>
@@ -124,9 +124,9 @@
 				<factor>0.01</factor>
 			</pitch>
             <position>
-                <x>0</x>
-                <y>9.8</y>
-                <z>-3</z>
+                <x>-3.3</x>
+                <y>4.1</y>
+                <z>-1</z>
             </position>
 			<reference-dist>10</reference-dist>
 			<max-dist>50</max-dist>
@@ -159,9 +159,9 @@
 				<factor>0.02</factor>
 			</pitch>
             <position>
-                <x>0</x>
-                <y>-9.8</y>
-                <z>-3</z>
+                <x>-3.3</x>
+                <y>-4.1</y>
+                <z>-1</z>
             </position>
 		</engine>
 		<engine>
@@ -190,9 +190,9 @@
 				<factor>0.01</factor>
 			</pitch>
             <position>
-                <x>0</x>
-                <y>-9.8</y>
-                <z>-3</z>
+                <x>-3.3</x>
+                <y>-4.1</y>
+                <z>-1</z>
             </position>
 		</engine>
 		<engine>
@@ -222,9 +222,9 @@
 				<factor>1</factor>
 			</volume>
             <position>
-                <x>0</x>
-                <y>-9.8</y>
-                <z>-3</z>
+                <x>-3.3</x>
+                <y>-4.1</y>
+                <z>-1</z>
             </position>
 		</engine>
 		<engine>
@@ -251,9 +251,9 @@
 				<factor>0.01</factor>
 			</pitch>
             <position>
-                <x>0</x>
-                <y>-9.8</y>
-                <z>-3</z>
+                <x>-3.3</x>
+                <y>-4.1</y>
+                <z>-1</z>
             </position>
 			<reference-dist>10</reference-dist>
 			<max-dist>50</max-dist>
