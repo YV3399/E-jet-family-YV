@@ -230,9 +230,6 @@
             <property-rule n="114">
                 <path>Aircraft/E-jet-family/Systems/views.xml</path>
             </property-rule>
-            <property-rule n="115">
-                <path>Aircraft/E-jet-family/effects-volume.xml</path>
-            </property-rule>
 
             <!--Disable XML electrical system-->
             <electrical>
@@ -2416,6 +2413,9 @@
         <messages>
             <file>Aircraft/E-jet-family/Nasal/messages.nas</file>
         </messages>
+		<sound>
+			<file>Aircraft/E-jet-family/Nasal/effects-volume.nas</file>
+		</sound>
         <systems>
             <file>Aircraft/E-jet-family/Nasal/systems.nas</file>
             <file>Aircraft/E-jet-family/Nasal/limits.nas</file>
