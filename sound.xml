@@ -600,13 +600,6 @@
             <volume>
                 <offset>0.5</offset>
             </volume>
-            <position>
-                <x>-24</x>
-                <y>0</y>
-                <z>0.18</z>
-            </position>
-            <reference-dist>0.5</reference-dist>
-            <max-dist>1.0</max-dist>
         </stall>
 
         <speedbrake>
