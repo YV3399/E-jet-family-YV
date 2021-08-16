@@ -250,9 +250,9 @@
 			<swtch1 type="bool">false</swtch1>
 			<swtch2 type="bool">false</swtch2>
             <path>Aircraft/E-jet-family/sound.xml</path>
-			<apu-vol type="double">1</apu-vol>
-			<gear-vol type="double">1</gear-vol>
-			<flaps-vol type="double">0.5</flaps-vol>
+			<apu-vol type="double">0.2</apu-vol>
+			<gear-vol type="double">0.2</gear-vol>
+			<flaps-vol type="double">0.02</flaps-vol>
         </sound>
 
         <instrumentation>
