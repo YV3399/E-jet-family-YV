@@ -618,11 +618,28 @@
 
         <!-- Seatbelt/No smoking signs -->
         <seatbelt>
-            <name>Seatbelt sign</name>
+            <name>Seatbelt sign on</name>
             <path>Aircraft/E-jet-family/Sounds/cabin_chime.wav</path>
             <mode>once</mode>
             <condition>
-                <property>sim/sound/seatbelt-sign</property>
+                <property>controls/switches/seatbelt-sign</property>
+            </condition>
+            <position>
+                <x>0.00</x>
+                <y>0.00</y>
+                <z>0.00</z>
+            </position>
+            <reference-dist>10.0</reference-dist>
+            <max-dist>100.0</max-dist>
+        </seatbelt>
+        <seatbelt>
+            <name>Seatbelt sign off</name>
+            <path>Aircraft/E-jet-family/Sounds/cabin_chime.wav</path>
+            <mode>once</mode>
+            <condition>
+                <not>
+					<property>controls/switches/seatbelt-sign</property>
+				</not>
             </condition>
             <position>
                 <x>0.00</x>
@@ -633,11 +650,28 @@
             <max-dist>100.0</max-dist>
         </seatbelt>
         <nosmoke>
-            <name>No smoking sign</name>
+            <name>No smoking sign on</name>
             <path>Aircraft/E-jet-family/Sounds/cabin_chime.wav</path>
             <mode>once</mode>
             <condition>
-                <property>sim/sound/no-smoking-sign</property>
+                <property>controls/switches/no-smoking-sign</property>
+            </condition>
+            <position>
+                <x>0.00</x>
+                <y>0.00</y>
+                <z>0.00</z>
+            </position>
+            <reference-dist>10.0</reference-dist>
+            <max-dist>100.0</max-dist>
+        </nosmoke>
+        <nosmoke>
+            <name>No smoking sign off</name>
+            <path>Aircraft/E-jet-family/Sounds/cabin_chime.wav</path>
+            <mode>once</mode>
+            <condition>
+                <not>
+					<property>controls/switches/no-smoking-sign</property>
+				</not>
             </condition>
             <position>
                 <x>0.00</x>
