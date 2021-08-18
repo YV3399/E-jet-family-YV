@@ -986,7 +986,7 @@
 				<property>sim/sound/btn1</property>
 			</condition>
 			<volume>
-				<offset>0.5</offset>
+				<factor>0.2</factor>
 			</volume>
 		</switch>
 		<switch>
@@ -998,7 +998,7 @@
 				<not><property>sim/sound/btn1</property></not>
 			</condition>
 			<volume>
-				<offset>0.5</offset>
+				<factor>0.2</factor>
 			</volume>
 		</switch>
 
@@ -1012,7 +1012,7 @@
 				<property>/sim/sound/knb1</property>
 			</condition>
 			<volume>
-				<offset>1.0</offset>
+				<factor>0.2</factor>
 			</volume>
 		</switch>
 		<switch>
@@ -1024,7 +1024,7 @@
 				<not><property>sim/sound/knb1</property></not>
 			</condition>
 			<volume>
-				<offset>1.0</offset>
+				<factor>0.2</factor>
 			</volume>
 		</switch>
 
@@ -1039,7 +1039,7 @@
 				<property>sim/sound/knb2</property>
 			</condition>
 			<volume>
-				<offset>1.0</offset>
+				<factor>0.2</factor>
 			</volume>
 		</switch>
 		<switch>
@@ -1051,7 +1051,7 @@
 				<not><property>sim/sound/knb2</property></not>
 			</condition>
 			<volume>
-				<offset>1.0</offset>
+				<factor>0.2</factor>
 			</volume>
 		</switch>
 
@@ -1065,7 +1065,7 @@
 				<property>sim/sound/swtch1</property>
 			</condition>
 			<volume>
-				<offset>1.0</offset>
+				<factor>0.2</factor>
 			</volume>
 		</switch>
 		<switch>
@@ -1077,7 +1077,7 @@
 				<not><property>sim/sound/swtch1</property></not>
 			</condition>
 			<volume>
-				<offset>1.0</offset>
+				<factor>0.2</factor>
 			</volume>
 		</switch>
 
@@ -1091,7 +1091,7 @@
 				<property>sim/sound/swtch2</property>
 			</condition>
 			<volume>
-				<offset>1.0</offset>
+				<factor>0.2</factor>
 			</volume>
 		</switch>
 		<switch>
@@ -1103,7 +1103,7 @@
 				<not><property>sim/sound/swtch2</property></not>
 			</condition>
 			<volume>
-				<offset>1.0</offset>
+				<factor>0.2</factor>
 			</volume>
 		</switch>
 
