@@ -1728,6 +1728,8 @@
                 <direction type="double">0.0</direction>
                 <braking type="bool">false</braking>
             </fuel-truck>
+            <wiper-left type="int">0</wiper-left>
+            <wiper-right type="int">0</wiper-right>
         </switches>
     </controls>
 
