@@ -70,6 +70,8 @@
             <path>/sim/simbrief/options/import-fob</path>
             <path>/sim/simbrief/options/import-perfinit</path>
             <path>/sim/simbrief/options/import-winds-aloft</path>
+            <path>/instrumentation/mfd/resolution</path>
+            <path>/instrumentation/mfd/scanrate</path>
             <path>/options/system/keyboard-mode</path>
             <path>/instrumentation/efb/available</path>
             <path>/instrumentation/efb/brightness</path>
@@ -2083,6 +2085,8 @@
             </cursor>
             <wx-mode type="int">0</wx-mode>
             <wx-mode-indicated type="int">0</wx-mode-indicated>
+            <scan-rate type="int" userarchive="y">1</scan-rate>
+            <resolution type="int" userarchive="y">6</resolution>
         </mfd>
 
         <mfd>
@@ -2097,6 +2101,8 @@
             </cursor>
             <wx-mode type="int">0</wx-mode>
             <wx-mode-indicated type="int">0</wx-mode-indicated>
+            <scan-rate type="int" userarchive="y">1</scan-rate>
+            <resolution type="int" userarchive="y">6</resolution>
         </mfd>
 
         <nav-compass>

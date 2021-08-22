@@ -193,6 +193,8 @@ var MFD = {
                 'brake-temp-1': props.globals.getNode("/gear/gear[1]/brakes/brake[1]/temperature-c"),
                 'brake-temp-2': props.globals.getNode("/gear/gear[2]/brakes/brake[0]/temperature-c"),
                 'brake-temp-3': props.globals.getNode("/gear/gear[2]/brakes/brake[1]/temperature-c"),
+                'resolution': props.globals.getNode("instrumentation/mfd[" ~ index ~ "]/resolution"),
+                'scan-rate': props.globals.getNode("instrumentation/mfd[" ~ index ~ "]/scan-rate"),
             };
 
         var masterProp = props.globals.getNode("/instrumentation/mfd[" ~ index ~ "]");
@@ -1369,14 +1371,15 @@ var MFD = {
         var acAlt = me.props['altitude-amsl'].getValue();
         var x = 0;
         var y = 0;
-        var dx = 4;
-        var dy = 4;
+        var resolution = me.props['resolution'].getValue();
+        var step = math.max(1, math.pow(2, 8 - resolution));
+        var numScanlines = me.props['scan-rate'].getValue();
         var color = nil;
-        var density = 0;
+        var density = 1;
         var range = me.mapCamera.range;
-        for (y = 0; y < 256; y += dy) {
-            var x = me.txRadarScanX;
-            # for (x = 0; x < 256; x += 2) {
+        for (var i = 0; i < numScanlines; i += 1) {
+            for (y = 0; y < 256; y += step) {
+                var x = me.txRadarScanX;
                 var xRel = x - 128;
                 var yRel = y - 128;
                 var bearingRelRad = math.atan2(xRel, yRel);
@@ -1414,8 +1417,9 @@ var MFD = {
                     var relAlt = terrainAlt - acAlt;
 
                     if (isWater) {
-                        color = [0, 0.5, 1, 1];
-                        density = 0;
+                        # color = [0, 0.5, 1, 1];
+                        # density = 0;
+                        color = [0, 0.25, 0.5, 1];
                     }
                     elsif (relAlt > 2000) {
                         color = [1, 0, 0, 1];
@@ -1426,16 +1430,18 @@ var MFD = {
                         density = 1;
                     }
                     else if (relAlt > -250) {
-                        color = [1, 1, 0, 1];
-                        density = 0;
+                        # color = [1, 1, 0, 1];
+                        # density = 0;
+                        color = [0.5, 0.5, 0, 1];
                     }
                     else if (relAlt > -1000) {
                         color = [0, 0.5, 0, 1];
                         density = 1;
                     }
                     else if (relAlt > -2000) {
-                        color = [0, 0.5, 0, 1];
-                        density = 0;
+                        # color = [0, 0.5, 0, 1];
+                        # density = 0;
+                        color = [0, 0.25, 0, 1];
                     }
                     else {
                         color = [0, 0, 0, 1];
@@ -1447,17 +1453,17 @@ var MFD = {
                 # else
                 #     me.terrainViz.fillRect([x, y, 2, 2], '#000000');
                 var dither = 0;
-                for (var yy = y; yy < y + dy; yy += 1) {
-                    for (var xx = x; xx < x + dx; xx += 1) {
+                for (var yy = y; yy < y + step; yy += 1) {
+                    for (var xx = x; xx < x + step; xx += 1) {
                         dither = ((xx & 2) != (yy & 2)) or density;
                         me.terrainViz.setPixel(xx, yy, dither ? color : [0,0,0,1]);
                     }
                 }
-            # }
-        }
-        me.txRadarScanX += dx;
-        if (me.txRadarScanX >= 256) {
-            me.txRadarScanX = 0;
+            }
+            me.txRadarScanX += step;
+            if (me.txRadarScanX >= 256) {
+                me.txRadarScanX = 0;
+            }
         }
         me.terrainViz.dirtyPixels();
     },
