@@ -1224,10 +1224,17 @@
 			<type>avionics</type>
             <path>Sounds/triple-chime.wav</path>
             <condition>
-                <greater-than>
-                    <property>/instrumentation/eicas/master/warning</property>
-                    <value>0</value>
-                </greater-than>
+                <and>
+                    <greater-than>
+                        <property>/instrumentation/eicas/master/warning</property>
+                        <value>0</value>
+                    </greater-than>
+                    <greater-than>
+                        <!-- TODO: this may not actually be correct, the chime probably feeds from a separate electrical output, but this will do for now -->
+                        <property>/systems/electrical/outputs/master-warn-caution[0]</property>
+                        <value>20</value>
+                    </greater-than>
+                </and>
             </condition>
             <volume>
                 <property>sim/current-view/internal</property>
@@ -1239,10 +1246,17 @@
 			<type>avionics</type>
             <path>Sounds/single-chime.wav</path>
             <condition>
-                <greater-than>
-                    <property>/instrumentation/eicas/master/caution</property>
-                    <value>0</value>
-                </greater-than>
+                <and>
+                    <greater-than>
+                        <property>/instrumentation/eicas/master/caution</property>
+                        <value>0</value>
+                    </greater-than>
+                    <greater-than>
+                        <!-- TODO: this may not actually be correct, the chime probably feeds from a separate electrical output, but this will do for now -->
+                        <property>/systems/electrical/outputs/master-warn-caution[0]</property>
+                        <value>20</value>
+                    </greater-than>
+                </and>
             </condition>
             <volume>
                 <property>sim/current-view/internal</property>
