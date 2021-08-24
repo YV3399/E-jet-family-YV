@@ -121,6 +121,158 @@
             </group>
         </group>
     </group>
+
+    <hrule/>
+
+    <group>
+        <layout>hbox</layout>
+        
+        <empty><stretch>1</stretch></empty>
+        <text>
+            <label>EFIS</label>
+        </text>
+        <empty><stretch>1</stretch></empty>
+    </group>
+
+    <group>
+        <layout>hbox</layout>
+        
+        <empty><stretch>1</stretch></empty>
+        <text>
+            <label>MFD Terrain Quality</label>
+        </text>
+        <empty><stretch>1</stretch></empty>
+    </group>
+
+    <group>
+        <layout>hbox</layout>
+        
+        <empty><stretch>1</stretch></empty>
+        <text>
+            <label>Higher values = better quality, lower values = better performance</label>
+        </text>
+        <empty><stretch>1</stretch></empty>
+    </group>
+
+    <group>
+        <layout>vbox</layout>
+        <halign>left</halign>
+        
+        <group>
+            <layout>table</layout>
+            <halign>left</halign>
+            <valign>top</valign>
+            <text>
+                <row>0</row>
+                <col>1</col>
+                <label>MFD1</label>
+                <pref-width>100</pref-width>
+            </text>
+            <text>
+                <row>0</row>
+                <col>2</col>
+                <label>MFD2</label>
+                <pref-width>100</pref-width>
+            </text>
+            <text>
+                <row>2</row>
+                <col>0</col>
+                <label>Resolution</label>
+                <pref-width>100</pref-width>
+            </text>
+            <group>
+                <layout>hbox</layout>
+                <row>2</row>
+                <col>1</col>
+                <slider>
+                    <property>/instrumentation/mfd[0]/resolution</property>
+                    <pref-width>100</pref-width>
+                    <min>3</min>
+                    <max>7</max>
+                    <step>1</step>
+                    <binding>
+                        <command>dialog-apply</command>
+                    </binding>
+                </slider>
+                <text>
+                    <pref-width>20</pref-width>
+                    <label>1</label>
+                    <property>/instrumentation/mfd[0]/resolution</property>
+                    <live>true</live>
+                </text>
+            </group>
+            <group>
+                <layout>hbox</layout>
+                <row>2</row>
+                <col>2</col>
+                <slider>
+                    <property>/instrumentation/mfd[1]/resolution</property>
+                    <pref-width>100</pref-width>
+                    <min>3</min>
+                    <max>7</max>
+                    <step>1</step>
+                    <binding>
+                        <command>dialog-apply</command>
+                    </binding>
+                </slider>
+                <text>
+                    <pref-width>20</pref-width>
+                    <label>1</label>
+                    <property>/instrumentation/mfd[1]/resolution</property>
+                    <live>true</live>
+                </text>
+            </group>
+
+            <text>
+                <row>3</row>
+                <col>0</col>
+                <label>Scan Speed</label>
+                <pref-width>100</pref-width>
+            </text>
+            <group>
+                <layout>hbox</layout>
+                <row>3</row>
+                <col>1</col>
+                <slider>
+                    <property>/instrumentation/mfd[0]/scan-rate</property>
+                    <pref-width>100</pref-width>
+                    <min>1</min>
+                    <max>8</max>
+                    <step>1</step>
+                    <binding>
+                        <command>dialog-apply</command>
+                    </binding>
+                </slider>
+                <text>
+                    <pref-width>20</pref-width>
+                    <label>1</label>
+                    <property>/instrumentation/mfd[0]/scan-rate</property>
+                    <live>true</live>
+                </text>
+            </group>
+            <group>
+                <layout>hbox</layout>
+                <row>3</row>
+                <col>2</col>
+                <slider>
+                    <property>/instrumentation/mfd[1]/scan-rate</property>
+                    <pref-width>100</pref-width>
+                    <min>1</min>
+                    <max>8</max>
+                    <step>1</step>
+                    <binding>
+                        <command>dialog-apply</command>
+                    </binding>
+                </slider>
+                <text>
+                    <pref-width>20</pref-width>
+                    <label>1</label>
+                    <property>/instrumentation/mfd[1]/scan-rate</property>
+                    <live>true</live>
+                </text>
+            </group>
+        </group>
+    </group>
     
 </PropertyList>
 
