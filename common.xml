@@ -2177,12 +2177,13 @@
             <mouse n="0">
                 <mode n="0">
                     <button n="3">
-                        <binding n="0">
-                            <script></script>
-                        </binding>
                         <binding n="1">
                             <condition>
-                                <property>/sim/current-view/can-change-z-offset</property>
+                                <and>
+                                    <property>/sim/current-view/can-change-z-offset</property>
+                                    <not><property>/devices/status/mice/mouse[0]/button[2]</property></not>
+                                    <not><property>/sim/mouse/right-button-mode-cycle-enabled</property></not>
+                                </and>
                             </condition>
                             <command>nasal</command>
                             <script>
@@ -2199,12 +2200,13 @@
                     </button>
 
                     <button n="4">
-                        <binding n="0">
-                            <script></script>
-                        </binding>
                         <binding n="1">
                             <condition>
-                                <property>/sim/current-view/can-change-z-offset</property>
+                                <and>
+                                    <property>/sim/current-view/can-change-z-offset</property>
+                                    <not><property>/devices/status/mice/mouse[0]/button[2]</property></not>
+                                    <not><property>/sim/mouse/right-button-mode-cycle-enabled</property></not>
+                                </and>
                             </condition>
                             <command>nasal</command>
                             <script>
