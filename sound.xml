@@ -3,7 +3,6 @@
 <!-- Sounds By Gabriel Hernandez(YV3399) -->
 
 <PropertyList>
-
     <fx>
 		<!-- Engine 1 -->
 		<engine>
@@ -983,7 +982,7 @@
 			<type>avionics</type>
 			<path>Aircraft/E-jet-family/Sounds/Cockpit/pushbutton.wav</path>
 			<condition>
-				<property>sim/sound/btn1</property>
+				<property>sim/sound/button1</property>
 			</condition>
 			<volume>
 				<factor>0.2</factor>
@@ -995,7 +994,7 @@
 			<type>avionics</type>
 			<path>Aircraft/E-jet-family/Sounds/Cockpit/pushbutton.wav</path>
 			<condition>
-				<not><property>sim/sound/btn1</property></not>
+				<not><property>sim/sound/button1</property></not>
 			</condition>
 			<volume>
 				<factor>0.2</factor>
@@ -1009,7 +1008,7 @@
 			<type>avionics</type>
 			<path>Aircraft/E-jet-family/Sounds/Cockpit/button2b.wav</path>
 			<condition>
-				<property>/sim/sound/knb1</property>
+				<property>/sim/sound/knob1</property>
 			</condition>
 			<volume>
 				<factor>0.2</factor>
@@ -1021,7 +1020,7 @@
 			<type>avionics</type>
 			<path>Aircraft/E-jet-family/Sounds/Cockpit/button2b.wav</path>
 			<condition>
-				<not><property>sim/sound/knb1</property></not>
+				<not><property>sim/sound/knob1</property></not>
 			</condition>
 			<volume>
 				<factor>0.2</factor>
@@ -1036,7 +1035,7 @@
 			<type>avionics</type>
 			<path>Aircraft/E-jet-family/Sounds/Cockpit/keys2b.wav</path>
 			<condition>
-				<property>sim/sound/knb2</property>
+				<property>sim/sound/knob2</property>
 			</condition>
 			<volume>
 				<factor>0.2</factor>
@@ -1048,7 +1047,7 @@
 			<type>avionics</type>
 			<path>Aircraft/E-jet-family/Sounds/Cockpit/keys2b.wav</path>
 			<condition>
-				<not><property>sim/sound/knb2</property></not>
+				<not><property>sim/sound/knob2</property></not>
 			</condition>
 			<volume>
 				<factor>0.2</factor>

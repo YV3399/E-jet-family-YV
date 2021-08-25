@@ -240,16 +240,17 @@
         <chase-distance-m>-50</chase-distance-m>
 
         <sound>
-			<btn1 type="bool">false</btn1>
-			<btn2 type="bool">false</btn2>
-			<knb1 type="bool">false</knb1>
-			<knb2 type="bool">false</knb2>
-			<swtch1 type="bool">false</swtch1>
-			<swtch2 type="bool">false</swtch2>
             <path>Aircraft/E-jet-family/sound.xml</path>
-			<apu-vol type="double">0.2</apu-vol>
-			<gear-vol type="double">0.2</gear-vol>
-			<flaps-vol type="double">0.02</flaps-vol>
+
+            <button1 type="bool">false</button1>
+            <button2 type="bool">false</button2>
+            <knob1 type="bool">false</knob1>
+            <knob2 type="bool">false</knob2>
+            <switch1 type="bool">false</switch1>
+            <switch2 type="bool">false</switch2>
+            <apu-vol type="double">0.2</apu-vol>
+            <gear-vol type="double">0.2</gear-vol>
+            <flaps-vol type="double">0.02</flaps-vol>
         </sound>
 
         <instrumentation>
