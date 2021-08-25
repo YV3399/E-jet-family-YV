@@ -1061,7 +1061,7 @@
 			<type>avionics</type>
 			<path>Aircraft/E-jet-family/Sounds/Cockpit/click2.wav</path>
 			<condition>
-				<property>sim/sound/swtch1</property>
+				<property>sim/sound/switch1</property>
 			</condition>
 			<volume>
 				<factor>0.2</factor>
@@ -1073,7 +1073,7 @@
 			<type>avionics</type>
 			<path>Aircraft/E-jet-family/Sounds/Cockpit/click2.wav</path>
 			<condition>
-				<not><property>sim/sound/swtch1</property></not>
+				<not><property>sim/sound/switch1</property></not>
 			</condition>
 			<volume>
 				<factor>0.2</factor>
@@ -1087,7 +1087,7 @@
 			<type>avionics</type>
 			<path>Aircraft/E-jet-family/Sounds/Cockpit/click5.wav</path>
 			<condition>
-				<property>sim/sound/swtch2</property>
+				<property>sim/sound/switch2</property>
 			</condition>
 			<volume>
 				<factor>0.2</factor>
@@ -1099,7 +1099,7 @@
 			<type>avionics</type>
 			<path>Aircraft/E-jet-family/Sounds/Cockpit/click5.wav</path>
 			<condition>
-				<not><property>sim/sound/swtch2</property></not>
+				<not><property>sim/sound/switch2</property></not>
 			</condition>
 			<volume>
 				<factor>0.2</factor>
