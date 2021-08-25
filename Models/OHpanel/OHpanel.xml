@@ -208,25 +208,20 @@
         <property>controls/switches/wiper-left</property>
         <interpolation>
             <entry>
-                <ind>0</ind><dep>60</dep>
+                <ind>0</ind><dep>0</dep>
             </entry>
             <entry>
-                <ind>1</ind><dep>0</dep>
+                <ind>1</ind><dep>60</dep>
             </entry>
             <entry>
-                <ind>2</ind><dep>-60</dep>
+                <ind>2</ind><dep>120</dep>
             </entry>
             <entry>
-                <ind>3</ind><dep>-120</dep>
+                <ind>3</ind><dep>180</dep>
             </entry>
         </interpolation>
         <axis>
-            <x1-m>-12.1821</x1-m>
-            <y1-m>-0.0413</y1-m>
-            <z1-m>1.7225</z1-m>
-            <x2-m>-12.1673</x2-m>
-            <y2-m>-0.0413</y2-m>
-            <z2-m>1.6959</z2-m>
+            <object-name>wiper.left.axis</object-name>
         </axis>
     </animation>
 
@@ -236,25 +231,20 @@
         <property>controls/switches/wiper-right</property>
         <interpolation>
             <entry>
-                <ind>0</ind><dep>60</dep>
+                <ind>0</ind><dep>0</dep>
             </entry>
             <entry>
-                <ind>1</ind><dep>0</dep>
+                <ind>1</ind><dep>60</dep>
             </entry>
             <entry>
-                <ind>2</ind><dep>-60</dep>
+                <ind>2</ind><dep>120</dep>
             </entry>
             <entry>
-                <ind>3</ind><dep>-120</dep>
+                <ind>3</ind><dep>180</dep>
             </entry>
         </interpolation>
         <axis>
-            <x1-m>-12.1821</x1-m>
-            <y1-m>0.0378</y1-m>
-            <z1-m>1.7225</z1-m>
-            <x2-m>-12.1673</x2-m>
-            <y2-m>0.0378</y2-m>
-            <z2-m>1.6959</z2-m>
+            <object-name>wiper.right.axis</object-name>
         </axis>
     </animation>
 
@@ -1382,45 +1372,26 @@
             </binding>
         </action>
         <axis>
-            <x1-m>-12.12230</x1-m>
-            <y1-m>-0.39228</y1-m>
-            <z1-m>1.73654</z1-m>
-            <x2-m>-12.10715</x2-m>
-            <y2-m>-0.38564</y2-m>
-            <z2-m>1.70921</z2-m>
+            <object-name>acbusties.axis</object-name>
         </axis>
     </animation>
     <animation>
-        <type>rotate</type>
+        <type>knob</type>
         <object-name>BATT1</object-name>
         <property>controls/electric/battery-switch</property>
-        <factor>-30</factor>
+        <factor>90</factor>
         <axis>
-            <x>0</x>
-            <y>1</y>
-            <z>0</z>
+            <object-name>BATT1.axis</object-name>
         </axis>
-        <center>
-            <x-m>-12.21708</x-m>
-            <y-m>0</y-m>
-            <z-m>1.67033</z-m>
-        </center>
     </animation>
     <animation>
-        <type>rotate</type>
+        <type>knob</type>
         <object-name>BATT2</object-name>
         <property>controls/electric/battery-switch[1]</property>
-        <factor>-30</factor>
+        <factor>90</factor>
         <axis>
-            <x>0</x>
-            <y>1</y>
-            <z>0</z>
+            <object-name>BATT2.axis</object-name>
         </axis>
-        <center>
-            <x-m>-12.22527</x-m>
-            <y-m>0</y-m>
-            <z-m>1.68882</z-m>
-        </center>
     </animation>
     <animation>
         <type>rotate</type>
@@ -1493,19 +1464,14 @@
         <property>controls/electric/engine/generator</property>
         <interpolation>
             <entry>
-                <ind>0</ind><dep>50</dep>
+                <ind>0</ind><dep>0</dep>
             </entry>
             <entry>
-                <ind>1</ind><dep>0</dep>
+                <ind>1</ind><dep>50</dep>
             </entry>
         </interpolation>
         <axis>
-            <x1-m>-12.0582</x1-m>
-            <y1-m>-0.4259</y1-m>
-            <z1-m>1.7626</z1-m>
-            <x2-m>-12.0439</x2-m>
-            <y2-m>-0.4192</y2-m>
-            <z2-m>1.7362</z2-m>
+            <object-name>generator.1.axis</object-name>
         </axis>
     </animation>
     <animation>
@@ -1514,19 +1480,14 @@
         <property>controls/electric/engine[1]/generator</property>
         <interpolation>
             <entry>
-                <ind>0</ind><dep>50</dep>
+                <ind>0</ind><dep>0</dep>
             </entry>
             <entry>
-                <ind>1</ind><dep>0</dep>
+                <ind>1</ind><dep>50</dep>
             </entry>
         </interpolation>
         <axis>
-            <x1-m>-12.0659</x1-m>
-            <y1-m>-0.3497</y1-m>
-            <z1-m>1.7760</z1-m>
-            <x2-m>-12.0511</x2-m>
-            <y2-m>-0.3432</y2-m>
-            <z2-m>1.7496</z2-m>
+            <object-name>generator.2.axis</object-name>
         </axis>
     </animation>
 
@@ -1537,12 +1498,7 @@
         <factor>-90</factor>
         <offset-deg>0</offset-deg>
         <axis>
-            <x1-m>-12.12090</x1-m>
-            <y1-m>-0.19818</y1-m>
-            <z1-m>1.75821</z1-m>
-            <x2-m>-12.10540</x2-m>
-            <y2-m>-0.19819</y2-m>
-            <z2-m>1.73028</z2-m>
+            <object-name>fuel.crossfeed.axis</object-name>
         </axis>
         <action>
             <binding>
@@ -1565,19 +1521,14 @@
         <property>/controls/fuel/tank[0]/boost-pump</property>
         <interpolation>
             <entry>
-                <ind>0</ind><dep>90</dep>
+                <ind>0</ind><dep>0</dep>
             </entry>
             <entry>
-                <ind>1</ind><dep>0</dep>
+                <ind>1</ind><dep>90</dep>
             </entry>
         </interpolation>
         <axis>
-            <x1-m>-12.211</x1-m>
-            <y1-m>-0.24906</y1-m>
-            <z1-m>1.70663</z1-m>
-            <x2-m>-12.1962</x2-m>
-            <y2-m>-0.24906</y2-m>
-            <z2-m>1.67996</z2-m>
+            <object-name>fuel.pump.left.axis</object-name>
         </axis>
     </animation>
     <animation>
@@ -1586,19 +1537,14 @@
         <property>/controls/fuel/tank[1]/boost-pump</property>
         <interpolation>
             <entry>
-                <ind>0</ind><dep>90</dep>
+                <ind>0</ind><dep>0</dep>
             </entry>
             <entry>
-                <ind>1</ind><dep>0</dep>
+                <ind>1</ind><dep>90</dep>
             </entry>
         </interpolation>
         <axis>
-            <x1-m>-12.213</x1-m>
-            <y1-m>-0.1528</y1-m>
-            <z1-m>1.70663</z1-m>
-            <x2-m>-12.1982</x2-m>
-            <y2-m>-0.1528</y2-m>
-            <z2-m>1.67996</z2-m>
+            <object-name>fuel.pump.right.axis</object-name>
         </axis>
     </animation>
     <animation>
@@ -1607,19 +1553,14 @@
         <property>/controls/fuel/tank[1]/boost-pump[1]</property>
         <interpolation>
             <entry>
-                <ind>0</ind><dep>90</dep>
+                <ind>0</ind><dep>0</dep>
             </entry>
             <entry>
-                <ind>1</ind><dep>0</dep>
+                <ind>1</ind><dep>90</dep>
             </entry>
         </interpolation>
         <axis>
-            <x1-m>-12.1633</x1-m>
-            <y1-m>-0.19901</y1-m>
-            <z1-m>1.73306</z1-m>
-            <x2-m>-12.1485</x2-m>
-            <y2-m>-0.19901</y2-m>
-            <z2-m>1.70639</z2-m>
+            <object-name>fuel.pump.dc.axis</object-name>
         </axis>
     </animation>
     <animation>
@@ -1636,19 +1577,14 @@
         </enable>
         <interpolation>
             <entry>
-                <ind>0</ind><dep>90</dep>
+                <ind>0</ind><dep>0</dep>
             </entry>
             <entry>
-                <ind>1</ind><dep>0</dep>
+                <ind>1</ind><dep>90</dep>
             </entry>
         </interpolation>
         <axis>
-            <x1-m>-12.23938</x1-m>
-            <y1-m>-0.21756</y1-m>
-            <z1-m>1.69182</z1-m>
-            <x2-m>-12.22456</x2-m>
-            <y2-m>-0.21756</y2-m>
-            <z2-m>1.66515</z2-m>
+            <object-name>fuel.pump.center.axis</object-name>
         </axis>
     </animation>
     <animation>
@@ -1660,19 +1596,14 @@
                 <ind>0</ind><dep>0</dep>
             </entry>
             <entry>
-                <ind>1</ind><dep>-45</dep>
+                <ind>1</ind><dep>45</dep>
             </entry>
             <entry>
-                <ind>2</ind><dep>-90</dep>
+                <ind>2</ind><dep>90</dep>
             </entry>
         </interpolation>
         <axis>
-            <x1-m>-12.0819</x1-m>
-            <y1-m>-0.0607</y1-m>
-            <z1-m>1.77762</z1-m>
-            <x2-m>-12.0671</x2-m>
-            <y2-m>-0.0607</y2-m>
-            <z2-m>1.75095</z2-m>
+            <object-name>APU.knob.axis</object-name>
         </axis>
     </animation>
 
