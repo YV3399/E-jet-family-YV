@@ -1360,7 +1360,7 @@
         <type>knob</type>
         <object-name>acbusties</object-name>
         <property>/controls/electric/bus-tie-ac</property>
-        <factor>-45</factor>
+        <factor>45</factor>
         <action>
             <binding>
                 <command>property-adjust</command>
@@ -1495,7 +1495,7 @@
         <type>knob</type>
         <object-name>fuel.crossfeed</object-name>
         <property>/controls/fuel/crossfeed</property>
-        <factor>-90</factor>
+        <factor>45</factor>
         <offset-deg>0</offset-deg>
         <axis>
             <object-name>fuel.crossfeed.axis</object-name>
