@@ -213,8 +213,11 @@ var MFD = {
                 'resolution': props.globals.getNode("instrumentation/mfd[" ~ index ~ "]/resolution"),
                 'scan-rate': props.globals.getNode("instrumentation/mfd[" ~ index ~ "]/scan-rate"),
 
+                'elevator-law': props.globals.getNode("fbw/elevator/law"),
+                'rudder-law': props.globals.getNode("fbw/rudder/law"),
                 'aileron-left': props.globals.getNode("surface-positions/left-aileron-pos-norm"),
                 'aileron-right': props.globals.getNode("surface-positions/right-aileron-pos-norm"),
+                'rudder': props.globals.getNode("surface-positions/rudder-pos-norm"),
             };
 
         var masterProp = props.globals.getNode("/instrumentation/mfd[" ~ index ~ "]");
@@ -596,9 +599,9 @@ var MFD = {
 
                 'fctl.actuator1.elev-lh.text',
                 'fctl.actuator1.elev-rh.text',
-                'fctl.actuator1.rudder.text',
                 'fctl.actuator2.elev-lh.text',
                 'fctl.actuator2.elev-rh.text',
+                'fctl.actuator1.rudder.text',
                 'fctl.actuator2.rudder.text',
                 'fctl.aileron-lh-down',
                 'fctl.aileron-lh-down.cover',
@@ -622,6 +625,14 @@ var MFD = {
                 'fctl.mode.elev-rh.text',
                 'fctl.mode.rudder.frame',
                 'fctl.mode.rudder.text',
+                'fctl.rudder-left',
+                'fctl.rudder-left.cover',
+                'fctl.rudder-left.dashedbox',
+                'fctl.rudder-left.stripes',
+                'fctl.rudder-right',
+                'fctl.rudder-right.cover',
+                'fctl.rudder-right.dashedbox',
+                'fctl.rudder-right.stripes',
         ];
         foreach (var key; mapkeys) {
             me.elems[key] = me.mapOverlay.getElementById(key);
@@ -1383,6 +1394,38 @@ var MFD = {
         initFlightControl('fctl.aileron-lh-down', self.props['aileron-left'], 0, 75, 1);
         initFlightControl('fctl.aileron-rh-up', self.props['aileron-right'], 0, -75, 1);
         initFlightControl('fctl.aileron-rh-down', self.props['aileron-right'], 0, 75, -1);
+        initFlightControl('fctl.rudder-left', self.props['rudder'], -45, 0, -1/0.55);
+        initFlightControl('fctl.rudder-right', self.props['rudder'], 45, 0, 1/0.55);
+
+        setlistener(me.props['elevator-law'], func (node) {
+            var law = node.getValue();
+
+            if (law == 1) {
+                self.elems['fctl.mode.elev-lh.text'].setText('NORMAL').setColor(0, 1, 0);
+                self.elems['fctl.mode.elev-rh.text'].setText('NORMAL').setColor(0, 1, 0);
+                self.elems['fctl.mode.elev-lh.frame'].hide();
+                self.elems['fctl.mode.elev-rh.frame'].hide();
+            }
+            else {
+                self.elems['fctl.mode.elev-lh.text'].setText('DIRECT').setColor(0, 0, 0);
+                self.elems['fctl.mode.elev-rh.text'].setText('DIRECT').setColor(0, 0, 0);
+                self.elems['fctl.mode.elev-lh.frame'].show();
+                self.elems['fctl.mode.elev-rh.frame'].show();
+            }
+        }, 1, 0);
+
+        setlistener(me.props['rudder-law'], func (node) {
+            var law = node.getValue();
+
+            if (law == 1) {
+                self.elems['fctl.mode.rudder.text'].setText('NORMAL').setColor(0, 1, 0);
+                self.elems['fctl.mode.rudder.frame'].hide();
+            }
+            else {
+                self.elems['fctl.mode.rudder.text'].setText('DIRECT').setColor(0, 0, 0);
+                self.elems['fctl.mode.rudder.frame'].show();
+            }
+        }, 1, 0);
 
         return me;
     },

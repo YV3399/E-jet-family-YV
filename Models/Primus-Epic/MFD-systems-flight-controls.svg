@@ -109,11 +109,11 @@
      borderopacity="1.0"
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.8031"
-     inkscape:cx="554.34705"
-     inkscape:cy="484.04969"
+     inkscape:zoom="2.2715098"
+     inkscape:cx="401.24202"
+     inkscape:cy="63.346271"
      inkscape:document-units="px"
-     inkscape:current-layer="layer2"
+     inkscape:current-layer="fctl.rudder-left"
      showgrid="true"
      units="px"
      inkscape:window-width="1920"
@@ -124,7 +124,7 @@
      scale-x="1"
      showguides="true"
      inkscape:guide-bbox="true"
-     inkscape:snap-global="true"
+     inkscape:snap-global="false"
      inkscape:snap-grids="false"
      inkscape:snap-page="false"
      inkscape:snap-to-guides="true"
@@ -167,7 +167,7 @@
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
      id="layer1"
-     style="display:none"
+     style="display:inline"
      sodipodi:insensitive="true">
     <image
        width="1023.7525"
@@ -1508,6 +1508,38 @@ RK5CYII=
      inkscape:label="Layer 2"
      style="display:inline;opacity:1">
     <g
+       id="fctl.rudder-right">
+      <path
+         id="fctl.rudder-right.stripes"
+         style="color:#000000;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:medium;line-height:normal;font-family:sans-serif;font-variant-ligatures:normal;font-variant-position:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-alternates:normal;font-variant-east-asian:normal;font-feature-settings:normal;font-variation-settings:normal;text-indent:0;text-align:start;text-decoration:none;text-decoration-line:none;text-decoration-style:solid;text-decoration-color:#000000;letter-spacing:normal;word-spacing:normal;text-transform:none;writing-mode:lr-tb;direction:ltr;text-orientation:mixed;dominant-baseline:auto;baseline-shift:baseline;text-anchor:start;white-space:normal;shape-padding:0;shape-margin:0;inline-size:0;clip-rule:nonzero;display:inline;overflow:visible;visibility:visible;isolation:auto;mix-blend-mode:normal;color-interpolation:sRGB;color-interpolation-filters:linearRGB;solid-color:#000000;solid-opacity:1;vector-effect:none;fill:#00ff00;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;color-rendering:auto;image-rendering:auto;shape-rendering:auto;text-rendering:auto;enable-background:accumulate;stop-color:#000000"
+         d="m 558.7864,58.9375 1.06054,1.060547 -48.56054,48.560543 v -4.24218 L 556.6653,58.9375 Z m -8,0 1.06054,1.060547 -40.56054,40.560543 V 96.316406 L 548.6653,58.9375 Z m -8,0 1.06054,1.060547 -32.56054,32.560547 V 88.316406 L 540.6653,58.9375 Z m -8,0 1.06054,1.060547 -24.56054,24.560547 V 80.316406 L 532.6653,58.9375 Z m -8,0 1.06054,1.060547 -16.56054,16.560547 V 72.316406 L 524.6653,58.9375 Z m -8,0 1.06054,1.060547 -8.56054,8.560547 v -4.242188 l 5.3789,-5.378906 z m -7.5,0.5 0.56054,0.560547 -0.56054,0.560547 z m 49.5,3.378906 v 4.242188 l -49.5,49.499996 v -4.24218 z m 0,8 v 4.242188 l -48.93946,48.939456 -0.56054,0.56054 v -4.24218 z m 0,8 v 4.242188 l -40.93946,40.939456 -0.93945,0.93945 -7.62109,7.62109 v -4.24218 l 4.43945,-4.43946 0.93945,-0.93945 z m 0,8 v 4.242188 l -32.93946,32.939456 -0.93945,0.93945 -15.62109,15.62109 v -4.24218 l 12.43945,-12.43946 0.93945,-0.93945 z m 0,8 v 4.242188 l -24.93946,24.939456 -0.93945,0.93945 -23.62109,23.62109 v -4.24218 l 20.43945,-20.43946 0.93945,-0.93945 z m 0,8.000004 v 4.24218 l -16.93946,16.93946 -0.93945,0.93945 -31.62109,31.62109 v -4.24218 l 28.43945,-28.43946 0.93945,-0.93945 z m 0,8 v 4.24218 l -8.93946,8.93946 -0.93945,0.93945 -39.62109,39.62109 v -4.24218 l 36.43945,-36.43946 0.93945,-0.93945 z m 0,8 v 4.24218 l -0.93946,0.93946 -0.93945,0.93945 -47.62109,47.62109 v -4.24218 l 44.43945,-44.43946 0.93945,-0.93945 z m 0,8 v 4.24218 l -43.37891,43.37891 h -4.24219 z m 0,8 v 4.24218 l -35.37891,35.37891 h -4.24219 z m 0,8 v 4.24218 l -27.37891,27.37891 h -4.24219 z m 0,8 v 4.24218 l -19.37891,19.37891 h -4.24219 z m 0,8 v 4.24218 l -11.37891,11.37891 h -4.24219 z m 0,8 v 4.24218 l -3.37891,3.37891 h -4.24219 z" />
+      <path
+         id="fctl.rudder-right.cover"
+         style="fill:#000000;fill-opacity:1;stroke:#00ff00;stroke-width:3;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+         d="m 565.16703,55.43741 v 123 h -41 l -9.76094,-123 z"
+         sodipodi:nodetypes="ccccc" />
+      <path
+         id="fctl.rudder-right.dashedbox"
+         style="fill:none;fill-opacity:1;stroke:#ffffff;stroke-width:2;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:7.99999, 7.99999;stroke-dashoffset:0;stroke-opacity:1"
+         d="M 561.66705,58.937408 V 174.43741 h -49.5 V 58.937408 Z" />
+    </g>
+    <g
+       id="fctl.rudder-left">
+      <path
+         id="fctl.rudder-left.stripes"
+         style="color:#000000;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:medium;line-height:normal;font-family:sans-serif;font-variant-ligatures:normal;font-variant-position:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-alternates:normal;font-variant-east-asian:normal;font-feature-settings:normal;font-variation-settings:normal;text-indent:0;text-align:start;text-decoration:none;text-decoration-line:none;text-decoration-style:solid;text-decoration-color:#000000;letter-spacing:normal;word-spacing:normal;text-transform:none;writing-mode:lr-tb;direction:ltr;text-orientation:mixed;dominant-baseline:auto;baseline-shift:baseline;text-anchor:start;white-space:normal;shape-padding:0;shape-margin:0;inline-size:0;clip-rule:nonzero;display:inline;overflow:visible;visibility:visible;isolation:auto;mix-blend-mode:normal;color-interpolation:sRGB;color-interpolation-filters:linearRGB;solid-color:#000000;solid-opacity:1;vector-effect:none;fill:#00ff00;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;color-rendering:auto;image-rendering:auto;shape-rendering:auto;text-rendering:auto;enable-background:accumulate;stop-color:#000000"
+         d="M 464.60742 58.9375 L 463.54688 59.998047 L 512.10742 108.55859 L 512.10742 104.31641 L 466.72852 58.9375 L 464.60742 58.9375 z M 472.60742 58.9375 L 471.54688 59.998047 L 512.10742 100.55859 L 512.10742 96.316406 L 474.72852 58.9375 L 472.60742 58.9375 z M 480.60742 58.9375 L 479.54688 59.998047 L 512.10742 92.558594 L 512.10742 88.316406 L 482.72852 58.9375 L 480.60742 58.9375 z M 488.60742 58.9375 L 487.54688 59.998047 L 512.10742 84.558594 L 512.10742 80.316406 L 490.72852 58.9375 L 488.60742 58.9375 z M 496.60742 58.9375 L 495.54688 59.998047 L 512.10742 76.558594 L 512.10742 72.316406 L 498.72852 58.9375 L 496.60742 58.9375 z M 504.60742 58.9375 L 503.54688 59.998047 L 512.10742 68.558594 L 512.10742 64.316406 L 506.72852 58.9375 L 504.60742 58.9375 z M 512.10742 59.4375 L 511.54688 59.998047 L 512.10742 60.558594 L 512.10742 59.4375 z M 462.60742 62.816406 L 462.60742 67.058594 L 512.10742 116.55859 L 512.10742 112.31641 L 462.60742 62.816406 z M 462.60742 70.816406 L 462.60742 75.058594 L 511.54688 123.99805 L 512.10742 124.55859 L 512.10742 120.31641 L 462.60742 70.816406 z M 462.60742 78.816406 L 462.60742 83.058594 L 503.54688 123.99805 L 504.48633 124.9375 L 512.10742 132.55859 L 512.10742 128.31641 L 507.66797 123.87695 L 506.72852 122.9375 L 462.60742 78.816406 z M 462.60742 86.816406 L 462.60742 91.058594 L 495.54688 123.99805 L 496.48633 124.9375 L 512.10742 140.55859 L 512.10742 136.31641 L 499.66797 123.87695 L 498.72852 122.9375 L 462.60742 86.816406 z M 462.60742 94.816406 L 462.60742 99.058594 L 487.54688 123.99805 L 488.48633 124.9375 L 512.10742 148.55859 L 512.10742 144.31641 L 491.66797 123.87695 L 490.72852 122.9375 L 462.60742 94.816406 z M 462.60742 102.81641 L 462.60742 107.05859 L 479.54688 123.99805 L 480.48633 124.9375 L 512.10742 156.55859 L 512.10742 152.31641 L 483.66797 123.87695 L 482.72852 122.9375 L 462.60742 102.81641 z M 462.60742 110.81641 L 462.60742 115.05859 L 471.54688 123.99805 L 472.48633 124.9375 L 512.10742 164.55859 L 512.10742 160.31641 L 475.66797 123.87695 L 474.72852 122.9375 L 462.60742 110.81641 z M 462.60742 118.81641 L 462.60742 123.05859 L 463.54688 123.99805 L 464.48633 124.9375 L 512.10742 172.55859 L 512.10742 168.31641 L 467.66797 123.87695 L 466.72852 122.9375 L 462.60742 118.81641 z M 462.60742 126.81641 L 462.60742 131.05859 L 505.98633 174.4375 L 510.22852 174.4375 L 462.60742 126.81641 z M 462.60742 134.81641 L 462.60742 139.05859 L 497.98633 174.4375 L 502.22852 174.4375 L 462.60742 134.81641 z M 462.60742 142.81641 L 462.60742 147.05859 L 489.98633 174.4375 L 494.22852 174.4375 L 462.60742 142.81641 z M 462.60742 150.81641 L 462.60742 155.05859 L 481.98633 174.4375 L 486.22852 174.4375 L 462.60742 150.81641 z M 462.60742 158.81641 L 462.60742 163.05859 L 473.98633 174.4375 L 478.22852 174.4375 L 462.60742 158.81641 z M 462.60742 166.81641 L 462.60742 171.05859 L 465.98633 174.4375 L 470.22852 174.4375 L 462.60742 166.81641 z " />
+      <path
+         id="fctl.rudder-left.cover"
+         style="fill:#000000;fill-opacity:1;stroke:#00ff00;stroke-width:3;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+         d="m 459.10727,55.43741 v 123 h 41 l 9.76094,-123 z"
+         sodipodi:nodetypes="ccccc" />
+      <path
+         id="fctl.rudder-left.dashedbox"
+         style="fill:none;fill-opacity:1;stroke:#ffffff;stroke-width:2;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:7.99999, 7.99999;stroke-dashoffset:0;stroke-opacity:1"
+         d="M 462.60727,58.937408 V 174.43741 h 49.5 V 58.937408 Z" />
+    </g>
+    <g
        id="fctl.aileron-rh-down">
       <path
          id="fctl.aileron-rh-down.stripes"
@@ -1829,9 +1861,16 @@ RK5CYII=
          x="360.5499"
          y="613.07965"
          style="font-size:26.6667px;text-align:center;text-anchor:middle;fill:#ffffff">3</tspan></text>
+    <rect
+       style="opacity:1;fill:#ffa000;fill-opacity:1;stroke:none;stroke-width:2;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       id="fctl.mode.rudder.frame"
+       width="130"
+       height="46"
+       x="437"
+       y="581" />
     <text
        xml:space="preserve"
-       style="font-size:26.6667px;line-height:1.25;font-family:E190;-inkscape-font-specification:E190;letter-spacing:0px;word-spacing:0px;fill:#00ff00"
+       style="font-size:26.6667px;line-height:1.25;font-family:E190;-inkscape-font-specification:E190;letter-spacing:0px;word-spacing:0px;fill:#000000;"
        x="502.5499"
        y="613.07965"
        id="fctl.mode.rudder.text"><tspan
@@ -1839,7 +1878,14 @@ RK5CYII=
          id="tspan3423"
          x="502.5499"
          y="613.07965"
-         style="font-size:26.6667px;text-align:center;text-anchor:middle;fill:#00ff00">NORMAL</tspan></text>
+         style="font-size:26.6667px;text-align:center;text-anchor:middle;fill:#000000;">NORMAL</tspan></text>
+    <rect
+       style="opacity:1;fill:none;fill-opacity:1;stroke:#00ff00;stroke-width:2;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       id="rect3435"
+       width="130"
+       height="46"
+       x="593"
+       y="581" />
     <text
        xml:space="preserve"
        style="font-size:26.6667px;line-height:1.25;font-family:E190;-inkscape-font-specification:E190;letter-spacing:0px;word-spacing:0px;fill:#00ff00"
@@ -1852,11 +1898,11 @@ RK5CYII=
          y="613.07965"
          style="font-size:26.6667px;text-align:center;text-anchor:middle;fill:#00ff00">ON</tspan></text>
     <rect
-       style="opacity:1;fill:none;fill-opacity:1;stroke:#00ff00;stroke-width:2;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
-       id="rect3435"
+       style="opacity:1;fill:none;fill-opacity:1;stroke:#ffffff;stroke-width:2;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       id="rect3441"
        width="130"
        height="46"
-       x="593"
+       x="743"
        y="581" />
     <text
        xml:space="preserve"
@@ -1869,20 +1915,6 @@ RK5CYII=
          x="809.48145"
          y="613.07965"
          style="font-size:26.6667px;text-align:center;text-anchor:middle;fill:#ffffff">STBY</tspan></text>
-    <rect
-       style="opacity:1;fill:none;fill-opacity:1;stroke:#ffffff;stroke-width:2;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
-       id="rect3441"
-       width="130"
-       height="46"
-       x="743"
-       y="581" />
-    <rect
-       style="opacity:1;fill:none;fill-opacity:1;stroke:#00ff00;stroke-width:2;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
-       id="fctl.mode.rudder.frame"
-       width="130"
-       height="46"
-       x="437"
-       y="581" />
     <text
        xml:space="preserve"
        style="font-size:26.6667px;line-height:1.25;font-family:E190;-inkscape-font-specification:E190;letter-spacing:0px;word-spacing:0px"
@@ -1905,9 +1937,16 @@ RK5CYII=
          x="360.5499"
          y="673.07965"
          style="font-size:26.6667px;text-align:center;text-anchor:middle;fill:#ffffff">1</tspan></text>
+    <rect
+       style="opacity:1;fill:#ffa000;fill-opacity:1;stroke:none;stroke-width:2;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       id="fctl.mode.elev-lh.frame"
+       width="130"
+       height="46"
+       x="437"
+       y="641" />
     <text
        xml:space="preserve"
-       style="font-size:26.6667px;line-height:1.25;font-family:E190;-inkscape-font-specification:E190;letter-spacing:0px;word-spacing:0px;fill:#00ff00"
+       style="font-size:26.6667px;line-height:1.25;font-family:E190;-inkscape-font-specification:E190;letter-spacing:0px;word-spacing:0px;fill:#000000;"
        x="502.5499"
        y="673.07965"
        id="fctl.mode.elev-lh.text"><tspan
@@ -1915,7 +1954,14 @@ RK5CYII=
          id="tspan3453"
          x="502.5499"
          y="673.07965"
-         style="font-size:26.6667px;text-align:center;text-anchor:middle;fill:#00ff00">NORMAL</tspan></text>
+         style="font-size:26.6667px;text-align:center;text-anchor:middle;fill:#000000;">NORMAL</tspan></text>
+    <rect
+       style="opacity:1;fill:none;fill-opacity:1;stroke:#00ff00;stroke-width:2;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       id="rect3461"
+       width="130"
+       height="46"
+       x="593"
+       y="641" />
     <text
        xml:space="preserve"
        style="font-size:26.6667px;line-height:1.25;font-family:E190;-inkscape-font-specification:E190;letter-spacing:0px;word-spacing:0px;fill:#00ff00"
@@ -1928,11 +1974,11 @@ RK5CYII=
          y="673.07965"
          style="font-size:26.6667px;text-align:center;text-anchor:middle;fill:#00ff00">ON</tspan></text>
     <rect
-       style="opacity:1;fill:none;fill-opacity:1;stroke:#00ff00;stroke-width:2;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
-       id="rect3461"
+       style="opacity:1;fill:none;fill-opacity:1;stroke:#ffffff;stroke-width:2;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       id="rect3467"
        width="130"
        height="46"
-       x="593"
+       x="743"
        y="641" />
     <text
        xml:space="preserve"
@@ -1945,20 +1991,6 @@ RK5CYII=
          x="809.48145"
          y="673.07965"
          style="font-size:26.6667px;text-align:center;text-anchor:middle;fill:#ffffff">STBY</tspan></text>
-    <rect
-       style="opacity:1;fill:none;fill-opacity:1;stroke:#ffffff;stroke-width:2;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
-       id="rect3467"
-       width="130"
-       height="46"
-       x="743"
-       y="641" />
-    <rect
-       style="opacity:1;fill:none;fill-opacity:1;stroke:#00ff00;stroke-width:2;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
-       id="fctl.mode.elev-lh.frame"
-       width="130"
-       height="46"
-       x="437"
-       y="641" />
     <text
        xml:space="preserve"
        style="font-size:26.6667px;line-height:1.25;font-family:E190;-inkscape-font-specification:E190;letter-spacing:0px;word-spacing:0px"
@@ -1981,9 +2013,16 @@ RK5CYII=
          x="360.5499"
          y="733.07965"
          style="font-size:26.6667px;text-align:center;text-anchor:middle;fill:#ffffff">2</tspan></text>
+    <rect
+       style="opacity:1;fill:#ffa000;fill-opacity:1;stroke:none;stroke-width:2;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       id="fctl.mode.elev-rh.frame"
+       width="130"
+       height="46"
+       x="437"
+       y="701" />
     <text
        xml:space="preserve"
-       style="font-size:26.6667px;line-height:1.25;font-family:E190;-inkscape-font-specification:E190;letter-spacing:0px;word-spacing:0px;fill:#00ff00"
+       style="font-size:26.6667px;line-height:1.25;font-family:E190;-inkscape-font-specification:E190;letter-spacing:0px;word-spacing:0px;fill:#000000;"
        x="502.5499"
        y="733.07965"
        id="fctl.mode.elev-rh.text"><tspan
@@ -1991,7 +2030,14 @@ RK5CYII=
          id="tspan3479"
          x="502.5499"
          y="733.07965"
-         style="font-size:26.6667px;text-align:center;text-anchor:middle;fill:#00ff00">NORMAL</tspan></text>
+         style="font-size:26.6667px;text-align:center;text-anchor:middle;fill:#000000;">NORMAL</tspan></text>
+    <rect
+       style="opacity:1;fill:none;fill-opacity:1;stroke:#00ff00;stroke-width:2;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       id="rect3487"
+       width="130"
+       height="46"
+       x="593"
+       y="701" />
     <text
        xml:space="preserve"
        style="font-size:26.6667px;line-height:1.25;font-family:E190;-inkscape-font-specification:E190;letter-spacing:0px;word-spacing:0px;fill:#00ff00"
@@ -2004,11 +2050,11 @@ RK5CYII=
          y="733.07965"
          style="font-size:26.6667px;text-align:center;text-anchor:middle;fill:#00ff00">ON</tspan></text>
     <rect
-       style="opacity:1;fill:none;fill-opacity:1;stroke:#00ff00;stroke-width:2;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
-       id="rect3487"
+       style="opacity:1;fill:none;fill-opacity:1;stroke:#ffffff;stroke-width:2;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       id="rect3493"
        width="130"
        height="46"
-       x="593"
+       x="743"
        y="701" />
     <text
        xml:space="preserve"
@@ -2021,19 +2067,5 @@ RK5CYII=
          x="809.48145"
          y="733.07965"
          style="font-size:26.6667px;text-align:center;text-anchor:middle;fill:#ffffff">STBY</tspan></text>
-    <rect
-       style="opacity:1;fill:none;fill-opacity:1;stroke:#ffffff;stroke-width:2;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
-       id="rect3493"
-       width="130"
-       height="46"
-       x="743"
-       y="701" />
-    <rect
-       style="opacity:1;fill:none;fill-opacity:1;stroke:#00ff00;stroke-width:2;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
-       id="fctl.mode.elev-rh.frame"
-       width="130"
-       height="46"
-       x="437"
-       y="701" />
   </g>
 </svg>
