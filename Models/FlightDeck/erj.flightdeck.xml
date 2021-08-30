@@ -1836,7 +1836,7 @@
         <object-name>HDG.light</object-name>
         <condition>
             <equals>
-                <property>it-autoflight/input/lat</property>
+                <property>it-autoflight/output/lat</property>
                 <value>0</value>
             </equals>
             <property>/systems/electrical/outputs/pushbutton-lights</property>
@@ -1869,10 +1869,16 @@
         <type>select</type>
         <object-name>APP.light</object-name>
         <condition>
-            <equals>
-                <property>it-autoflight/input/vert</property>
-                <value>2</value>
-            </equals>
+            <or>
+                <equals>
+                    <property>it-autoflight/output/vert</property>
+                    <value>2</value>
+                </equals>
+                <equals>
+                    <property>it-autoflight/output/appr-armed</property>
+                    <value>1</value>
+                </equals>
+            </or>
             <property>/systems/electrical/outputs/pushbutton-lights</property>
         </condition>
     </animation>
@@ -1947,8 +1953,8 @@
         <object-name>AP.light</object-name>
         <condition>
             <or>
-                <property>it-autoflight/input/ap1</property>
-                <property>it-autoflight/input/ap2</property>
+                <property>it-autoflight/output/ap1</property>
+                <property>it-autoflight/output/ap2</property>
             </or>
             <property>/systems/electrical/outputs/pushbutton-lights</property>
         </condition>
