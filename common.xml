@@ -1815,10 +1815,15 @@
             </stall-prot>
         </elevator>
         <rudder>
-            <!-- not currently implemented yet, we only need this here for the
-                 MFD flight control status page. -->
+            <!-- not currently functional yet, we only need this for MDF and
+                 cockpit animations. -->
             <law type="int">1</law>
         </rudder>
+        <spoilers>
+            <!-- not currently functional yet, we only need this for MDF and
+                 cockpit animations. -->
+            <law type="int">1</law>
+        </spoilers>
     </fbw>
 
     <instrumentation>

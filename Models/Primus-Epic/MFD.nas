@@ -215,9 +215,11 @@ var MFD = {
 
                 'elevator-law': props.globals.getNode("fbw/elevator/law"),
                 'rudder-law': props.globals.getNode("fbw/rudder/law"),
+                'spoilers-law': props.globals.getNode("fbw/spoilers/law"),
                 'aileron-left': props.globals.getNode("surface-positions/left-aileron-pos-norm"),
                 'aileron-right': props.globals.getNode("surface-positions/right-aileron-pos-norm"),
                 'rudder': props.globals.getNode("surface-positions/rudder-pos-norm"),
+                'elevator': props.globals.getNode("surface-positions/elevator-pos-norm"),
             };
 
         var masterProp = props.globals.getNode("/instrumentation/mfd[" ~ index ~ "]");
@@ -597,6 +599,24 @@ var MFD = {
                 'fuel.quantityC.pointer',
                 'fuel.tank3.group',
 
+                # flight controls: AOM p 1644
+                # display: AOM p 1654
+                'fctl.aileron-lh-down',
+                'fctl.aileron-lh-down.cover',
+                'fctl.aileron-lh-down.dashedbox',
+                'fctl.aileron-lh-down.stripes',
+                'fctl.aileron-lh-up',
+                'fctl.aileron-lh-up.cover',
+                'fctl.aileron-lh-up.dashedbox',
+                'fctl.aileron-lh-up.stripes',
+                'fctl.aileron-rh-down',
+                'fctl.aileron-rh-down.cover',
+                'fctl.aileron-rh-down.dashedbox',
+                'fctl.aileron-rh-down.stripes',
+                'fctl.aileron-rh-up',
+                'fctl.aileron-rh-up.cover',
+                'fctl.aileron-rh-up.dashedbox',
+                'fctl.aileron-rh-up.stripes',
                 'fctl.actuator1.elev-lh.text',
                 'fctl.actuator1.elev-rh.text',
                 'fctl.actuator2.elev-lh.text',
@@ -623,6 +643,22 @@ var MFD = {
                 'fctl.mode.elev-lh.text',
                 'fctl.mode.elev-rh.frame',
                 'fctl.mode.elev-rh.text',
+                'fctl.elev-lh-down',
+                'fctl.elev-lh-down.cover',
+                'fctl.elev-lh-down.dashedbox',
+                'fctl.elev-lh-down.stripes',
+                'fctl.elev-lh-up',
+                'fctl.elev-lh-up.cover',
+                'fctl.elev-lh-up.dashedbox',
+                'fctl.elev-lh-up.stripes',
+                'fctl.elev-rh-down',
+                'fctl.elev-rh-down.cover',
+                'fctl.elev-rh-down.dashedbox',
+                'fctl.elev-rh-down.stripes',
+                'fctl.elev-rh-up',
+                'fctl.elev-rh-up.cover',
+                'fctl.elev-rh-up.dashedbox',
+                'fctl.elev-rh-up.stripes',
                 'fctl.mode.rudder.frame',
                 'fctl.mode.rudder.text',
                 'fctl.rudder-left',
@@ -1385,6 +1421,7 @@ var MFD = {
 
         var initFlightControl = func (baseName, prop, dx, dy, factor) {
             clipTo(self.elems[baseName ~ '.cover'], self.elems[baseName ~ '.dashedbox']);
+            clipTo(self.elems[baseName ~ '.stripes'], self.elems[baseName ~ '.dashedbox']);
             setlistener(prop, func (node) {
                 updateFlightControl(baseName, dx, dy, node.getValue() * factor);
             });
@@ -1396,6 +1433,10 @@ var MFD = {
         initFlightControl('fctl.aileron-rh-down', self.props['aileron-right'], 0, 75, -1);
         initFlightControl('fctl.rudder-left', self.props['rudder'], -45, 0, -1/0.55);
         initFlightControl('fctl.rudder-right', self.props['rudder'], 45, 0, 1/0.55);
+        initFlightControl('fctl.elev-lh-up', self.props['elevator'], 0, -68, -1);
+        initFlightControl('fctl.elev-rh-up', self.props['elevator'], 0, -68, -1);
+        initFlightControl('fctl.elev-lh-down', self.props['elevator'], 0, 54, 1);
+        initFlightControl('fctl.elev-rh-down', self.props['elevator'], 0, 54, 1);
 
         setlistener(me.props['elevator-law'], func (node) {
             var law = node.getValue();
@@ -1424,6 +1465,19 @@ var MFD = {
             else {
                 self.elems['fctl.mode.rudder.text'].setText('DIRECT').setColor(0, 0, 0);
                 self.elems['fctl.mode.rudder.frame'].show();
+            }
+        }, 1, 0);
+
+        setlistener(me.props['spoilers-law'], func (node) {
+            var law = node.getValue();
+
+            if (law == 1) {
+                self.elems['fctl.mode.spoilers.text'].setText('NORMAL').setColor(0, 1, 0);
+                self.elems['fctl.mode.spoilers.frame'].hide();
+            }
+            else {
+                self.elems['fctl.mode.spoilers.text'].setText('DIRECT').setColor(0, 0, 0);
+                self.elems['fctl.mode.spoilers.frame'].show();
             }
         }, 1, 0);
 
