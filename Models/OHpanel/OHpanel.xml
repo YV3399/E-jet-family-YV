@@ -159,12 +159,15 @@
     <!-- Windshield Wiper Controls -->
 
     <animation>
-        <name>Wiper Pick Left</name>
-        <type>pick</type>
+        <name>Wiper Left</name>
+        <type>knob</type>
         <object-name>wiper.left</object-name>
+        <property>controls/switches/wiper-left</property>
+        <factor>60</factor>
+        <axis>
+            <object-name>wiper.left.axis</object-name>
+        </axis>
         <action>
-            <button>0</button>
-            <repeatable type="bool">false</repeatable>
             <binding>
                 <command>property-cycle</command>
                 <property>controls/switches/wiper-left</property>
@@ -172,6 +175,7 @@
                 <value>1</value>
                 <value>2</value>
                 <value>3</value>
+				<wrap>false</wrap>
             </binding>
             <binding>
                 <command>property-toggle</command>
@@ -181,12 +185,15 @@
     </animation>
 
     <animation>
-        <name>Wiper Pick Right</name>
-        <type>pick</type>
+        <name>Wiper Right</name>
+        <type>knob</type>
         <object-name>wiper.right</object-name>
+        <property>controls/switches/wiper-right</property>
+		<factor>60</factor>
+        <axis>
+            <object-name>wiper.right.axis</object-name>
+        </axis>
         <action>
-            <button>0</button>
-            <repeatable type="bool">false</repeatable>
             <binding>
                 <command>property-cycle</command>
                 <property>controls/switches/wiper-right</property>
@@ -194,58 +201,13 @@
                 <value>1</value>
                 <value>2</value>
                 <value>3</value>
+				<wrap>false</wrap>
             </binding>
             <binding>
                 <command>property-toggle</command>
                 <property>sim/sound/knob1</property>
             </binding>
         </action>
-    </animation>
-
-    <animation>
-        <type>rotate</type>
-        <object-name>wiper.left</object-name>
-        <property>controls/switches/wiper-left</property>
-        <interpolation>
-            <entry>
-                <ind>0</ind><dep>0</dep>
-            </entry>
-            <entry>
-                <ind>1</ind><dep>60</dep>
-            </entry>
-            <entry>
-                <ind>2</ind><dep>120</dep>
-            </entry>
-            <entry>
-                <ind>3</ind><dep>180</dep>
-            </entry>
-        </interpolation>
-        <axis>
-            <object-name>wiper.left.axis</object-name>
-        </axis>
-    </animation>
-
-    <animation>
-        <type>rotate</type>
-        <object-name>wiper.right</object-name>
-        <property>controls/switches/wiper-right</property>
-        <interpolation>
-            <entry>
-                <ind>0</ind><dep>0</dep>
-            </entry>
-            <entry>
-                <ind>1</ind><dep>60</dep>
-            </entry>
-            <entry>
-                <ind>2</ind><dep>120</dep>
-            </entry>
-            <entry>
-                <ind>3</ind><dep>180</dep>
-            </entry>
-        </interpolation>
-        <axis>
-            <object-name>wiper.right.axis</object-name>
-        </axis>
     </animation>
 
     <!-- Fire Controls -->
