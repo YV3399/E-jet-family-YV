@@ -15,11 +15,13 @@ var noTakeoffBrakeTemp = 300.0;
 var SUBMODE_STATUS = 0;
 var SUBMODE_ELECTRICAL = 1;
 var SUBMODE_FUEL = 2;
+var SUBMODE_FLIGHT_CONTROLS = 3;
 
 var submodeNames = [
     'Status',
     'Elec',
     'Fuel',
+    'FltCtl',
 ];
 
 var toggleBoolProp = func(node) {
@@ -41,6 +43,21 @@ var radarColor = func (value) {
     if (value > 0.00) return [ 0, value * 4, 0, 1 ];
     return [ 0, 0, 0, 1 ];
 };
+
+var clipTo = func (clippee, clipper) {
+    if (clipper != nil) {
+        var bounds = clipper.getTransformedBounds();
+        var boundsFmt = sprintf("rect(%d,%d, %d,%d)",
+                            bounds[1], # 0 ys
+                            bounds[2], # 1 xe
+                            bounds[3], # 2 ye
+                            bounds[0]); #3 xs
+        # coordinates are top,right,bottom,left (ys, xe, ye, xs)
+        # ref: l621 of simgear/canvas/CanvasElement.cxx
+        clippee.set("clip", boundsFmt);
+        clippee.set("clip-frame", canvas.Element.PARENT);
+    }
+}
 
 var RouteDriver = {
     new: func(includeCurrent=1){
@@ -195,6 +212,9 @@ var MFD = {
                 'brake-temp-3': props.globals.getNode("/gear/gear[2]/brakes/brake[1]/temperature-c"),
                 'resolution': props.globals.getNode("instrumentation/mfd[" ~ index ~ "]/resolution"),
                 'scan-rate': props.globals.getNode("instrumentation/mfd[" ~ index ~ "]/scan-rate"),
+
+                'aileron-left': props.globals.getNode("surface-positions/left-aileron-pos-norm"),
+                'aileron-right': props.globals.getNode("surface-positions/right-aileron-pos-norm"),
             };
 
         var masterProp = props.globals.getNode("/instrumentation/mfd[" ~ index ~ "]");
@@ -238,6 +258,8 @@ var MFD = {
         canvas.parsesvg(me.systemsPages.electrical, "Aircraft/E-jet-family/Models/Primus-Epic/MFD-systems-electrical.svg", {'font-mapper': font_mapper});
         me.systemsPages.fuel = me.systemsContainer.createChild("group");
         canvas.parsesvg(me.systemsPages.fuel, "Aircraft/E-jet-family/Models/Primus-Epic/MFD-systems-fuel.svg", {'font-mapper': font_mapper});
+        me.systemsPages.flightControls = me.systemsContainer.createChild("group");
+        canvas.parsesvg(me.systemsPages.flightControls, "Aircraft/E-jet-family/Models/Primus-Epic/MFD-systems-flight-controls.svg", {'font-mapper': font_mapper});
 
         me.underlay = me.pageContainer.createChild("group");
         me.terrainViz = me.underlay.createChild("image");
@@ -571,6 +593,35 @@ var MFD = {
                 'fuel.quantityC.unit',
                 'fuel.quantityC.pointer',
                 'fuel.tank3.group',
+
+                'fctl.actuator1.elev-lh.text',
+                'fctl.actuator1.elev-rh.text',
+                'fctl.actuator1.rudder.text',
+                'fctl.actuator2.elev-lh.text',
+                'fctl.actuator2.elev-rh.text',
+                'fctl.actuator2.rudder.text',
+                'fctl.aileron-lh-down',
+                'fctl.aileron-lh-down.cover',
+                'fctl.aileron-lh-down.dashedbox',
+                'fctl.aileron-lh-down.stripes',
+                'fctl.aileron-lh-up',
+                'fctl.aileron-lh-up.cover',
+                'fctl.aileron-lh-up.dashedbox',
+                'fctl.aileron-lh-up.stripes',
+                'fctl.aileron-rh-down',
+                'fctl.aileron-rh-down.cover',
+                'fctl.aileron-rh-down.dashedbox',
+                'fctl.aileron-rh-down.stripes',
+                'fctl.aileron-rh-up',
+                'fctl.aileron-rh-up.cover',
+                'fctl.aileron-rh-up.dashedbox',
+                'fctl.aileron-rh-up.stripes',
+                'fctl.mode.elev-lh.frame',
+                'fctl.mode.elev-lh.text',
+                'fctl.mode.elev-rh.frame',
+                'fctl.mode.elev-rh.text',
+                'fctl.mode.rudder.frame',
+                'fctl.mode.rudder.text',
         ];
         foreach (var key; mapkeys) {
             me.elems[key] = me.mapOverlay.getElementById(key);
@@ -640,6 +691,7 @@ var MFD = {
             { key: 'submodeStatus', active: func { self.elems['submodeMenu'].getVisible() }, ontouch: func { self.selectSystemsSubmode(SUBMODE_STATUS); } },
             { key: 'submodeElectrical', active: func { self.elems['submodeMenu'].getVisible() }, ontouch: func { self.selectSystemsSubmode(SUBMODE_ELECTRICAL); } },
             { key: 'submodeFuel', active: func { self.elems['submodeMenu'].getVisible() }, ontouch: func { self.selectSystemsSubmode(SUBMODE_FUEL); } },
+            { key: 'submodeFlightControls', active: func { self.elems['submodeMenu'].getVisible() }, ontouch: func { self.selectSystemsSubmode(SUBMODE_FLIGHT_CONTROLS); } },
 
             { key: 'weatherMenu.radioOff', active: func { self.elems['weatherMenu'].getVisible() }, ontouch: func { self.setWxMode(0); } },
             { key: 'weatherMenu.radioSTBY', active: func { self.elems['weatherMenu'].getVisible() }, ontouch: func { self.setWxMode(1); } },
@@ -1280,6 +1332,58 @@ var MFD = {
             me.elems['fuel.tank3.group'].hide();
         }
 
+        # Flight controls
+
+
+        var updateFlightControl = func (baseName, dx, dy, pos) {
+            if (pos >= 0.9999) {
+                # full deflection
+                self.elems[baseName ~ '.cover']
+                    .setTranslation(0, 0)
+                    .setColorFill(0, 1, 0, 1)
+                    .show();
+                self.elems[baseName ~ '.dashedbox']
+                    .hide();
+            }
+            elsif (pos >= 0.5) {
+                self.elems[baseName ~ '.cover']
+                    .setTranslation(pos * dx, pos * dy)
+                    .setColorFill(0, 0, 0, 1)
+                    .show();
+                self.elems[baseName ~ '.dashedbox']
+                    .show();
+            }
+            elsif (pos >= 0.0) {
+                self.elems[baseName ~ '.cover']
+                    .setTranslation(pos * dx, pos * dy)
+                    .setColorFill(0, 0, 0, 1)
+                    .show();
+                self.elems[baseName ~ '.dashedbox']
+                    .hide();
+            }
+            else {
+                # negative
+                self.elems[baseName ~ '.cover']
+                    .setTranslation(0, 0)
+                    .setColorFill(0, 0, 0, 1)
+                    .show();
+                self.elems[baseName ~ '.dashedbox']
+                    .hide();
+            }
+        };
+
+        var initFlightControl = func (baseName, prop, dx, dy, factor) {
+            clipTo(self.elems[baseName ~ '.cover'], self.elems[baseName ~ '.dashedbox']);
+            setlistener(prop, func (node) {
+                updateFlightControl(baseName, dx, dy, node.getValue() * factor);
+            });
+        };
+
+        initFlightControl('fctl.aileron-lh-up', self.props['aileron-left'], 0, -75, -1);
+        initFlightControl('fctl.aileron-lh-down', self.props['aileron-left'], 0, 75, 1);
+        initFlightControl('fctl.aileron-rh-up', self.props['aileron-right'], 0, -75, 1);
+        initFlightControl('fctl.aileron-rh-down', self.props['aileron-right'], 0, 75, -1);
+
         return me;
     },
 
@@ -1858,6 +1962,7 @@ var MFD = {
             me.systemsPages.status.setVisible(submode == SUBMODE_STATUS);
             me.systemsPages.electrical.setVisible(submode == SUBMODE_ELECTRICAL);
             me.systemsPages.fuel.setVisible(submode == SUBMODE_FUEL);
+            me.systemsPages.flightControls.setVisible(submode == SUBMODE_FLIGHT_CONTROLS);
             me.elems['mapMenu'].hide();
             me.elems['weatherMenu'].hide();
             me.elems['vnav.range.left'].hide();
