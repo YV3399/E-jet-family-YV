@@ -154,7 +154,7 @@
         </action>
     </animation>
 
-    <!-- Overhead Panel Pick and Select Animations -->
+    <!-- Overhead Panel Knob, Pick and Select Animations -->
 
     <!-- Windshield Wiper Controls -->
 
@@ -177,10 +177,6 @@
                 <value>3</value>
 				<wrap>false</wrap>
             </binding>
-            <binding>
-                <command>property-toggle</command>
-                <property>sim/sound/knob1</property>
-            </binding>
         </action>
     </animation>
 
@@ -202,10 +198,6 @@
                 <value>2</value>
                 <value>3</value>
 				<wrap>false</wrap>
-            </binding>
-            <binding>
-                <command>property-toggle</command>
-                <property>sim/sound/knob1</property>
             </binding>
         </action>
     </animation>
@@ -266,60 +258,67 @@
     <!-- Fuel Pumps -->
 
     <animation>
-        <name>Left fuel tank 1 pump pick</name>
-        <type>pick</type>
+        <type>knob</type>
         <object-name>fuel.pump.left</object-name>
+        <property>/controls/fuel/tank[0]/boost-pump</property>
+        <factor>90</factor>
+        <axis>
+            <object-name>fuel.pump.left.axis</object-name>
+        </axis>
         <action>
-            <button>0</button>
-            <repeatable type="bool">false</repeatable>
             <binding>
-                <command>property-toggle</command>
+                <command>property-cycle</command>
                 <property>/controls/fuel/tank[0]/boost-pump</property>
-            </binding>
-            <binding>
-                <command>property-toggle</command>
-                <property>sim/sound/knob1</property>
+                <value>0</value>
+                <value>1</value>
+                <wrap>false</wrap>
             </binding>
         </action>
     </animation>
     <animation>
-        <name>Right fuel tank pump pick</name>
-        <type>pick</type>
+        <type>knob</type>
         <object-name>fuel.pump.right</object-name>
+        <property>/controls/fuel/tank[1]/boost-pump</property>
+        <factor>90</factor>
+        <axis>
+            <object-name>fuel.pump.right.axis</object-name>
+        </axis>
         <action>
-            <button>0</button>
-            <repeatable type="bool">false</repeatable>
             <binding>
-                <command>property-toggle</command>
+                <command>property-cycle</command>
                 <property>/controls/fuel/tank[1]/boost-pump</property>
-            </binding>
-            <binding>
-                <command>property-toggle</command>
-                <property>sim/sound/knob1</property>
+                <value>0</value>
+                <value>1</value>
+                <wrap>false</wrap>
             </binding>
         </action>
     </animation>
     <animation>
-        <name>Right DC fuel tank pump pick</name>
-        <type>pick</type>
+        <type>knob</type>
         <object-name>fuel.pump.dc</object-name>
+        <property>/controls/fuel/tank[1]/boost-pump[1]</property>
+        <factor>90</factor>
+        <axis>
+            <object-name>fuel.pump.dc.axis</object-name>
+        </axis>
         <action>
-            <button>0</button>
-            <repeatable type="bool">false</repeatable>
             <binding>
-                <command>property-toggle</command>
+                <command>property-cycle</command>
                 <property>/controls/fuel/tank[1]/boost-pump[1]</property>
-            </binding>
-            <binding>
-                <command>property-toggle</command>
-                <property>sim/sound/knob1</property>
+                <value>0</value>
+                <value>1</value>
+                <wrap>false</wrap>
             </binding>
         </action>
     </animation>
     <animation>
-        <name>Center fuel tank pumps pick</name>
-        <type>pick</type>
+        <type>knob</type>
         <object-name>fuel.pump.center</object-name>
+        <property>/controls/fuel/tank[2]/boost-pump</property>
+        <factor>90</factor>
+        <axis>
+            <object-name>fuel.pump.center.axis</object-name>
+        </axis>
         <enable>
             <condition>
                 <equals>
@@ -329,15 +328,12 @@
             </condition>
         </enable>
         <action>
-            <button>0</button>
-            <repeatable type="bool">false</repeatable>
             <binding>
-                <command>property-toggle</command>
+                <command>property-cycle</command>
                 <property>/controls/fuel/tank[2]/boost-pump</property>
-            </binding>
-            <binding>
-                <command>property-toggle</command>
-                <property>sim/sound/knob1</property>
+                <value>0</value>
+                <value>1</value>
+                <wrap>false</wrap>
             </binding>
         </action>
     </animation>
@@ -355,36 +351,38 @@
 
     <!-- Electrical -->
     <animation>
-        <name>Battery pick</name>
-        <type>pick</type>
+        <type>knob</type>
         <object-name>BATT1</object-name>
+        <property>controls/electric/battery-switch</property>
+        <factor>90</factor>
+        <axis>
+            <object-name>BATT1.axis</object-name>
+        </axis>
         <action>
-            <button>0</button>
-            <repeatable type="bool">false</repeatable>
             <binding>
-                <command>property-toggle</command>
-                <property>controls/electric/battery-switch[0]</property>
-            </binding>
-            <binding>
-                <command>property-toggle</command>
-                <property>sim/sound/knob1</property>
+                <command>property-cycle</command>
+                <property>controls/electric/battery-switch</property>
+                <value>0</value>
+                <value>1</value>
+                <wrap>false</wrap>
             </binding>
         </action>
     </animation>
     <animation>
-        <name>Battery pick</name>
-        <type>pick</type>
+        <type>knob</type>
         <object-name>BATT2</object-name>
+        <property>controls/electric/battery-switch[1]</property>
+        <factor>90</factor>
+        <axis>
+            <object-name>BATT2.axis</object-name>
+        </axis>
         <action>
-            <button>0</button>
-            <repeatable type="bool">false</repeatable>
             <binding>
-                <command>property-toggle</command>
+                <command>property-cycle</command>
                 <property>controls/electric/battery-switch[1]</property>
-            </binding>
-            <binding>
-                <command>property-toggle</command>
-                <property>sim/sound/knob1</property>
+                <value>0</value>
+                <value>1</value>
+                <wrap>false</wrap>
             </binding>
         </action>
     </animation>
@@ -457,36 +455,38 @@
         </action>
     </animation>
     <animation>
-        <name>Generator 1 pick</name>
-        <type>pick</type>
+        <type>knob</type>
         <object-name>generator.1</object-name>
+        <property>controls/electric/engine/generator</property>
+		<factor>50</factor>
+        <axis>
+            <object-name>generator.1.axis</object-name>
+        </axis>
         <action>
-            <button>0</button>
-            <repeatable type="bool">false</repeatable>
             <binding>
-                <command>property-toggle</command>
+                <command>property-cycle</command>
                 <property>controls/electric/engine/generator</property>
-            </binding>
-            <binding>
-                <command>property-toggle</command>
-                <property>sim/sound/knob1</property>
+                <value>0</value>
+                <value>1</value>
+                <wrap>false</wrap>
             </binding>
         </action>
     </animation>
     <animation>
-        <name>Generator 2 pick</name>
-        <type>pick</type>
+        <type>knob</type>
         <object-name>generator.2</object-name>
+        <property>controls/electric/engine[1]/generator</property>
+		<factor>50</factor>
+        <axis>
+            <object-name>generator.2.axis</object-name>
+        </axis>
         <action>
-            <button>0</button>
-            <repeatable type="bool">false</repeatable>
             <binding>
-                <command>property-toggle</command>
+                <command>property-cycle</command>
                 <property>controls/electric/engine[1]/generator</property>
-            </binding>
-            <binding>
-                <command>property-toggle</command>
-                <property>sim/sound/knob1</property>
+                <value>0</value>
+                <value>1</value>
+                <wrap>false</wrap>
             </binding>
         </action>
     </animation>
@@ -807,21 +807,20 @@
         </action>
     </animation>
     <animation>
-        <name>APU starter pick</name>
-        <type>pick</type>
+        <type>knob</type>
         <object-name>APU.knob</object-name>
+        <property>controls/apu/starter</property>
+        <factor>45</factor>
+        <axis>
+            <object-name>APU.knob.axis</object-name>
+        </axis>
         <action>
-            <button>0</button>
-            <repeatable type="bool">false</repeatable>
             <binding>
                 <command>property-cycle</command>
                 <property>controls/apu/starter</property>
                 <value>0</value>
                 <value>2</value>
-            </binding>
-            <binding>
-                <command>property-toggle</command>
-                <property>sim/sound/knob1</property>
+                <wrap>false</wrap>
             </binding>
         </action>
     </animation>
@@ -1338,24 +1337,6 @@
         </axis>
     </animation>
     <animation>
-        <type>knob</type>
-        <object-name>BATT1</object-name>
-        <property>controls/electric/battery-switch</property>
-        <factor>90</factor>
-        <axis>
-            <object-name>BATT1.axis</object-name>
-        </axis>
-    </animation>
-    <animation>
-        <type>knob</type>
-        <object-name>BATT2</object-name>
-        <property>controls/electric/battery-switch[1]</property>
-        <factor>90</factor>
-        <axis>
-            <object-name>BATT2.axis</object-name>
-        </axis>
-    </animation>
-    <animation>
         <type>rotate</type>
         <object-name>dcbusties</object-name>
         <property>controls/electric/bus-tie-dc</property>
@@ -1421,39 +1402,6 @@
         </center>
     </animation>
     <animation>
-        <type>rotate</type>
-        <object-name>generator.1</object-name>
-        <property>controls/electric/engine/generator</property>
-        <interpolation>
-            <entry>
-                <ind>0</ind><dep>0</dep>
-            </entry>
-            <entry>
-                <ind>1</ind><dep>50</dep>
-            </entry>
-        </interpolation>
-        <axis>
-            <object-name>generator.1.axis</object-name>
-        </axis>
-    </animation>
-    <animation>
-        <type>rotate</type>
-        <object-name>generator.2</object-name>
-        <property>controls/electric/engine[1]/generator</property>
-        <interpolation>
-            <entry>
-                <ind>0</ind><dep>0</dep>
-            </entry>
-            <entry>
-                <ind>1</ind><dep>50</dep>
-            </entry>
-        </interpolation>
-        <axis>
-            <object-name>generator.2.axis</object-name>
-        </axis>
-    </animation>
-
-    <animation>
         <type>knob</type>
         <object-name>fuel.crossfeed</object-name>
         <property>/controls/fuel/crossfeed</property>
@@ -1470,103 +1418,8 @@
                 <max>1</max>
                 <wrap>false</wrap>
             </binding>
-            <binding>
-                <command>property-toggle</command>
-                <property>sim/sound/knob1</property>
-            </binding>
         </action>
     </animation>
 
-    <animation>
-        <type>rotate</type>
-        <object-name>fuel.pump.left</object-name>
-        <property>/controls/fuel/tank[0]/boost-pump</property>
-        <interpolation>
-            <entry>
-                <ind>0</ind><dep>0</dep>
-            </entry>
-            <entry>
-                <ind>1</ind><dep>90</dep>
-            </entry>
-        </interpolation>
-        <axis>
-            <object-name>fuel.pump.left.axis</object-name>
-        </axis>
-    </animation>
-    <animation>
-        <type>rotate</type>
-        <object-name>fuel.pump.right</object-name>
-        <property>/controls/fuel/tank[1]/boost-pump</property>
-        <interpolation>
-            <entry>
-                <ind>0</ind><dep>0</dep>
-            </entry>
-            <entry>
-                <ind>1</ind><dep>90</dep>
-            </entry>
-        </interpolation>
-        <axis>
-            <object-name>fuel.pump.right.axis</object-name>
-        </axis>
-    </animation>
-    <animation>
-        <type>rotate</type>
-        <object-name>fuel.pump.dc</object-name>
-        <property>/controls/fuel/tank[1]/boost-pump[1]</property>
-        <interpolation>
-            <entry>
-                <ind>0</ind><dep>0</dep>
-            </entry>
-            <entry>
-                <ind>1</ind><dep>90</dep>
-            </entry>
-        </interpolation>
-        <axis>
-            <object-name>fuel.pump.dc.axis</object-name>
-        </axis>
-    </animation>
-    <animation>
-        <type>rotate</type>
-        <object-name>fuel.pump.center</object-name>
-        <property>/controls/fuel/tank[2]/boost-pump</property>
-        <enable>
-            <condition>
-                <equals>
-                    <property>/sim/aircraft</property>
-                    <value>EmbraerLineage1000</value>
-                </equals>
-            </condition>
-        </enable>
-        <interpolation>
-            <entry>
-                <ind>0</ind><dep>0</dep>
-            </entry>
-            <entry>
-                <ind>1</ind><dep>90</dep>
-            </entry>
-        </interpolation>
-        <axis>
-            <object-name>fuel.pump.center.axis</object-name>
-        </axis>
-    </animation>
-    <animation>
-        <type>rotate</type>
-        <object-name>APU.knob</object-name>
-        <property>controls/apu/starter</property>
-        <interpolation>
-            <entry>
-                <ind>0</ind><dep>0</dep>
-            </entry>
-            <entry>
-                <ind>1</ind><dep>45</dep>
-            </entry>
-            <entry>
-                <ind>2</ind><dep>90</dep>
-            </entry>
-        </interpolation>
-        <axis>
-            <object-name>APU.knob.axis</object-name>
-        </axis>
-    </animation>
 
 </PropertyList>
