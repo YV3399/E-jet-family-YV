@@ -2515,6 +2515,179 @@
         </condition>
     </animation>
 
+<!-- FCM - Flight Control Modes -->
+
+<!-- FCM - Elevator -->
+
+    <animation>
+        <type>pick</type>
+        <object-name>FCM.elevator.case</object-name>
+        <action>
+            <button>0</button>
+            <repeatable type="bool">false</repeatable>
+            <binding>
+                <command>nasal</command>
+                <script>
+                 erj.doors.toggle("fcm-elevator");
+                </script>
+            </binding>
+        </action>
+    </animation>
+    <animation>
+        <name>FCM Elevator case</name>
+        <type>rotate</type>
+        <object-name>FCM.elevator.case</object-name>
+        <property>sim/model/door-positions/fcm-elevator/position-norm</property>
+        <interpolation>
+            <entry><ind>0</ind><dep>0</dep></entry>
+            <entry><ind>1</ind><dep>-80</dep></entry>
+        </interpolation>
+        <axis>
+        	<object-name>FCM.elevator.case.axis</object-name>
+        </axis>
+    </animation>
+
+    <animation>
+        <type>pick</type>
+        <object-name>FCM.elevator.switch</object-name>
+        <action>
+            <button>0</button>
+            <repeatable type="bool">false</repeatable>
+            <binding>
+                <command>property-toggle</command>
+                <property>fbw/elevator/law</property>
+            </binding>
+            <binding>
+                <command>property-toggle</command>
+                <property>sim/sound/button1</property>
+            </binding>
+        </action>
+    </animation>
+
+    <animation>
+        <type>select</type>
+        <object-name>FCM.elevator.light</object-name>
+        <condition>
+			<not>
+                <property>fbw/elevator/law</property>
+			</not>
+        </condition>
+    </animation>
+
+<!-- FCM - Rudder -->
+
+    <animation>
+        <type>pick</type>
+        <object-name>FCM.rudder.case</object-name>
+        <action>
+            <button>0</button>
+            <repeatable type="bool">false</repeatable>
+            <binding>
+                <command>nasal</command>
+                <script>
+                 erj.doors.toggle("fcm-rudder");
+                </script>
+            </binding>
+        </action>
+    </animation>
+    <animation>
+        <name>FCM Rudder case</name>
+        <type>rotate</type>
+        <object-name>FCM.rudder.case</object-name>
+        <property>sim/model/door-positions/fcm-rudder/position-norm</property>
+        <interpolation>
+            <entry><ind>0</ind><dep>0</dep></entry>
+            <entry><ind>1</ind><dep>-80</dep></entry>
+        </interpolation>
+        <axis>
+        	<object-name>FCM.rudder.case.axis</object-name>
+        </axis>
+    </animation>
+
+    <animation>
+        <type>pick</type>
+        <object-name>FCM.rudder.switch</object-name>
+        <action>
+            <button>0</button>
+            <repeatable type="bool">false</repeatable>
+            <binding>
+                <command>property-toggle</command>
+                <property>fbw/rudder/law</property>
+            </binding>
+            <binding>
+                <command>property-toggle</command>
+                <property>sim/sound/button1</property>
+            </binding>
+        </action>
+    </animation>
+
+    <animation>
+        <type>select</type>
+        <object-name>FCM.rudder.light</object-name>
+        <condition>
+			<not>
+                <property>fbw/rudder/law</property>
+			</not>
+        </condition>
+    </animation>
+
+<!-- FCM - Spoilers -->
+
+    <animation>
+        <type>pick</type>
+        <object-name>FCM.spoilers.case</object-name>
+        <action>
+            <button>0</button>
+            <repeatable type="bool">false</repeatable>
+            <binding>
+                <command>nasal</command>
+                <script>
+                 erj.doors.toggle("fcm-spoilers");
+                </script>
+            </binding>
+        </action>
+    </animation>
+    <animation>
+        <name>FCM Spoilers case</name>
+        <type>rotate</type>
+        <object-name>FCM.spoilers.case</object-name>
+        <property>sim/model/door-positions/fcm-spoilers/position-norm</property>
+        <interpolation>
+            <entry><ind>0</ind><dep>0</dep></entry>
+            <entry><ind>1</ind><dep>-80</dep></entry>
+        </interpolation>
+        <axis>
+        	<object-name>FCM.spoilers.case.axis</object-name>
+        </axis>
+    </animation>
+
+    <animation>
+        <type>pick</type>
+        <object-name>FCM.spoilers.switch</object-name>
+        <action>
+            <button>0</button>
+            <repeatable type="bool">false</repeatable>
+            <binding>
+                <command>property-toggle</command>
+                <property>fbw/spoilers/law</property>
+            </binding>
+            <binding>
+                <command>property-toggle</command>
+                <property>sim/sound/button1</property>
+            </binding>
+        </action>
+    </animation>
+
+    <animation>
+        <type>select</type>
+        <object-name>FCM.spoilers.light</object-name>
+        <condition>
+			<not>
+                <property>fbw/spoilers/law</property>
+			</not>
+        </condition>
+    </animation>
+
 <!-- Throttle, Gear-Lever, Flaps-Lever, Speedbrake-Lever and Parking Brake Lever Animations -->
 
 <!-- Parking Brake Lever -->

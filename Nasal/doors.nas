@@ -33,3 +33,6 @@ doors.new("l1-stairs", 20);
 doors.new("l2-stairs", 20);
 doors.new("eng1-control",2);
 doors.new("eng2-control",2);
+doors.new("fcm-elevator",1);
+doors.new("fcm-rudder",1);
+doors.new("fcm-spoilers",1);
