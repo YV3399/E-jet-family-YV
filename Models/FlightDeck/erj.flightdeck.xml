@@ -3029,15 +3029,8 @@
         <name>Engine start knob 1 rotate</name>
         <type>knob</type>
         <object-name>e1.ign</object-name>
-        <expression>
-            <sum>
-                <product>
-                    <property>/fadec/ignition-switch[0]</property>
-                    <value>-30</value>
-                </product>
-                <value>30</value>
-            </sum>
-        </expression>
+        <property>/fadec/ignition-switch[0]</property>
+        <factor>35</factor>
         <action>
             <binding>
                 <command>property-cycle</command>
@@ -3049,35 +3042,18 @@
             </binding>
         </action>
         <axis>
-            <x1-m>-12.2563</x1-m>
-            <y1-m>-0.03534</y1-m>
-            <z1-m>-0.6974</z1-m>
-            <x2-m>-12.2542</x2-m>
-            <y2-m>-0.03534</y2-m>
-            <z2-m>0.6919</z2-m>
+            <object-name>e1.ign.axis</object-name>
         </axis>
     </animation>
     <animation>
         <name>Engine 1 start/stop switch</name>
         <type>knob</type>
         <object-name>e1.start</object-name>
+        <property>/fadec/engine-switch[0]</property>
+        <factor>35</factor>
         <axis>
-            <x1-m>-12.31027</x1-m>
-            <y1-m>-0.03534</y1-m>
-            <z1-m>0.71018</z1-m>
-            <x2-m>-12.30679</x2-m>
-            <y2-m>-0.03565</y2-m>
-            <z2-m>0.72011</z2-m>
+            <object-name>e1.start.axis</object-name>
         </axis>
-        <expression>
-            <sum>
-                <product>
-                    <property>/fadec/engine-switch[0]</property>
-                    <value>-30</value>
-                </product>
-                <value>30</value>
-            </sum>
-        </expression>
         <action>
             <binding>
                 <command>property-cycle</command>
@@ -3094,15 +3070,8 @@
         <name>Engine start knob 2 rotate</name>
         <type>knob</type>
         <object-name>e2.ign</object-name>
-        <expression>
-            <sum>
-                <product>
-                    <property>/fadec/ignition-switch[1]</property>
-                    <value>-30</value>
-                </product>
-                <value>30</value>
-            </sum>
-        </expression>
+        <property>/fadec/ignition-switch[1]</property>
+        <factor>35</factor>
         <action>
             <binding>
                 <command>property-cycle</command>
@@ -3114,35 +3083,18 @@
             </binding>
         </action>
         <axis>
-            <x1-m>-12.2563</x1-m>
-            <y1-m>0.03534</y1-m>
-            <z1-m>-0.6974</z1-m>
-            <x2-m>-12.2542</x2-m>
-            <y2-m>0.03534</y2-m>
-            <z2-m>0.6919</z2-m>
+            <object-name>e2.ign.axis</object-name>
         </axis>
     </animation>
     <animation>
         <name>Engine 2 start/stop switch</name>
         <type>knob</type>
         <object-name>e2.start</object-name>
+        <property>/fadec/engine-switch[1]</property>
+        <factor>35</factor>
         <axis>
-            <x1-m>-12.31027</x1-m>
-            <y1-m>0.02828</y1-m>
-            <z1-m>0.71018</z1-m>
-            <x2-m>-12.30679</x2-m>
-            <y2-m>0.028</y2-m>
-            <z2-m>0.72011</z2-m>
+            <object-name>e2.start.axis</object-name>
         </axis>
-        <expression>
-            <sum>
-                <product>
-                    <property>/fadec/engine-switch[1]</property>
-                    <value>-30</value>
-                </product>
-                <value>30</value>
-            </sum>
-        </expression>
         <action>
             <binding>
                 <command>property-cycle</command>
