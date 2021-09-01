@@ -2540,10 +2540,22 @@
             <button>0</button>
             <repeatable type="bool">false</repeatable>
             <binding>
+                <condition>
+                    <equals>
+                        <property>sim/model/door-positions/fcm-elevator/position-norm</property>
+                        <value>1</value>
+                    </equals>
+                </condition>
                 <command>property-toggle</command>
                 <property>fbw/elevator/law</property>
             </binding>
             <binding>
+                <condition>
+                    <equals>
+                        <property>sim/model/door-positions/fcm-elevator/position-norm</property>
+                        <value>1</value>
+                    </equals>
+                </condition>
                 <command>property-toggle</command>
                 <property>sim/sound/button1</property>
             </binding>
@@ -2597,10 +2609,22 @@
             <button>0</button>
             <repeatable type="bool">false</repeatable>
             <binding>
+                <condition>
+                    <equals>
+                        <property>sim/model/door-positions/fcm-rudder/position-norm</property>
+                        <value>1</value>
+                    </equals>
+                </condition>
                 <command>property-toggle</command>
                 <property>fbw/rudder/law</property>
             </binding>
             <binding>
+                <condition>
+                    <equals>
+                        <property>sim/model/door-positions/fcm-rudder/position-norm</property>
+                        <value>1</value>
+                    </equals>
+                </condition>
                 <command>property-toggle</command>
                 <property>sim/sound/button1</property>
             </binding>
@@ -2654,10 +2678,22 @@
             <button>0</button>
             <repeatable type="bool">false</repeatable>
             <binding>
+                <condition>
+                    <equals>
+                        <property>sim/model/door-positions/fcm-spoilers/position-norm</property>
+                        <value>1</value>
+                    </equals>
+                </condition>
                 <command>property-toggle</command>
                 <property>fbw/spoilers/law</property>
             </binding>
             <binding>
+                <condition>
+                    <equals>
+                        <property>sim/model/door-positions/fcm-spoilers/position-norm</property>
+                        <value>1</value>
+                    </equals>
+                </condition>
                 <command>property-toggle</command>
                 <property>sim/sound/button1</property>
             </binding>
@@ -3056,6 +3092,12 @@
         </axis>
         <action>
             <binding>
+                <condition>
+                    <equals>
+                        <property>sim/model/door-positions/eng1-control/position-norm</property>
+                        <value>1</value>
+                    </equals>
+                </condition>
                 <command>property-cycle</command>
                 <property>/fadec/engine-switch[0]</property>
                 <value>0</value>
@@ -3097,6 +3139,12 @@
         </axis>
         <action>
             <binding>
+                <condition>
+                    <equals>
+                        <property>sim/model/door-positions/eng2-control/position-norm</property>
+                        <value>1</value>
+                    </equals>
+                </condition>
                 <command>property-cycle</command>
                 <property>/fadec/engine-switch[1]</property>
                 <value>0</value>
