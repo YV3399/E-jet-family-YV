@@ -739,17 +739,10 @@
         <property>sim/model/door-positions/eng1-control/position-norm</property>
         <interpolation>
             <entry><ind>0</ind><dep>0</dep></entry>
-            <entry><ind>1</ind><dep>-90</dep></entry>
+            <entry><ind>1</ind><dep>-95</dep></entry>
         </interpolation>
-        <center>
-            <x-m>-12.3307</x-m>
-            <y-m> 0</y-m>
-            <z-m> 0.7173</z-m>
-        </center>
         <axis>
-            <x>0</x>
-            <y>1</y>
-            <z>0</z>
+        	<object-name>e1.case.axis</object-name>
         </axis>
     </animation>
 
@@ -775,17 +768,10 @@
         <property>sim/model/door-positions/eng2-control/position-norm</property>
         <interpolation>
             <entry><ind>0</ind><dep>0</dep></entry>
-            <entry><ind>1</ind><dep>-90</dep></entry>
+            <entry><ind>1</ind><dep>-95</dep></entry>
         </interpolation>
-        <center>
-            <x-m>-12.3307</x-m>
-            <y-m> 0</y-m>
-            <z-m> 0.7173</z-m>
-        </center>
         <axis>
-            <x>0</x>
-            <y>1</y>
-            <z>0</z>
+        	<object-name>e2.case.axis</object-name>
         </axis>
     </animation>
 
@@ -2534,7 +2520,7 @@
         <property>sim/model/door-positions/fcm-elevator/position-norm</property>
         <interpolation>
             <entry><ind>0</ind><dep>0</dep></entry>
-            <entry><ind>1</ind><dep>-80</dep></entry>
+            <entry><ind>1</ind><dep>110</dep></entry>
         </interpolation>
         <axis>
         	<object-name>FCM.elevator.case.axis</object-name>
@@ -2591,7 +2577,7 @@
         <property>sim/model/door-positions/fcm-rudder/position-norm</property>
         <interpolation>
             <entry><ind>0</ind><dep>0</dep></entry>
-            <entry><ind>1</ind><dep>-80</dep></entry>
+            <entry><ind>1</ind><dep>110</dep></entry>
         </interpolation>
         <axis>
         	<object-name>FCM.rudder.case.axis</object-name>
@@ -2648,7 +2634,7 @@
         <property>sim/model/door-positions/fcm-spoilers/position-norm</property>
         <interpolation>
             <entry><ind>0</ind><dep>0</dep></entry>
-            <entry><ind>1</ind><dep>-80</dep></entry>
+            <entry><ind>1</ind><dep>110</dep></entry>
         </interpolation>
         <axis>
         	<object-name>FCM.spoilers.case.axis</object-name>
