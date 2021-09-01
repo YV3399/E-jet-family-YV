@@ -57,7 +57,7 @@ an additional fuel tank, increasing the aircraft's range to a whopping 4600
 nmi; the upper deck can be configured to the customer's needs, and may include
 a double-sized galley, master suite with a king-size double bed and bathroom,
 large flatscreen, etc. A cargo compartment is also situated on the upper deck.
-Typical configurations seats 12-19 passengers and their luggage.
+Typical configurations seat 12-19 passengers and their luggage.
 
 ## Preflight
 
@@ -648,6 +648,54 @@ rejected takeoff. It has the following positions:
 In the LOW and MED modes, deploying reversers will reduce brake wear and
 heating, but will not change the required landing distance or deceleration
 rate.
+
+### Fly-By-Wire
+
+The E-Jet has an open-loop FBW system controlling the elevator, rudder, and
+spoilers.
+
+The system provides the following functionality:
+
+#### Elevator
+
+- **Elevator Thrust Compensation (ETC)**: the FBW automatically changes
+  elevator deflection to compensate for the pitch-up moment resulting from
+  higher power settings. This feature is disabled when close to the ground, so
+  as to not interfere with takoff rotation and landing flare.
+- **Tail Strike Avoidance (TSA)**: close to the ground, the FBW limits maximum
+  pitch to avoid tailstrikes. As the pitch attitude approaches the limit,
+  elevator authority is reduced.
+- **Mach Compensation**: At high Mach numbers, elevator authority is reduced to
+  compensate for the increased effectiveness of control surfaces.
+
+#### Rudder
+
+- **Yaw Damper**
+
+#### Spoilers
+
+The flight spoilers will deploy for 3 different uses: as ground spoilers (see
+above), as speedbrakes (see above), and asymmetrically to augment aileron
+input. Spoiler deployment on aileron input adapts to airspeed, providing the
+pilots with a consistent roll response across the performance envelope.
+
+(As of 2021-08-31, the spoiler system is not implemented entirely correctly
+yet; the 3D model and FDM only feature a single group of spoilers, and do not
+model the various deployment modes accurately).
+
+#### FBW Laws
+
+Each FBW channel has 2 laws: "Normal Law", in which all of the above
+functionality is available, and "Direct Law", in which control surfaces mirror
+raw control inputs.
+
+Direct Law is activated whenever there is a failure that may indicate a
+malfunction that makes Normal Law unusable or unsafe; it is also possible to
+manually select Direct Law using the three guarded pushbuttons on the center
+pedestal, above the engine controls.
+
+The currently selected law for the rudder and elevator channels can also be
+monitored on the MFD's "Flight Controls" page.
 
 ## SimBrief Import Feature
 

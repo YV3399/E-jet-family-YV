@@ -10,29 +10,16 @@ This aircraft was modified and updated in a joint effort by the following people
  
 # Installation
 
-## From a Release Bundle (recommended)
+## Recommended Method
 
 - Get the latest release from
   https://github.com/YV3399/E-jet-family-YV/releases/latest
 - Unzip in your Aircraft directory
 
-## Github source bundle
-
-- Get a source bundle from
-  https://github.com/YV3399/E-jet-family-YV/archive/master.zip (or go to
-  https://github.com/YV3399/E-jet-family-YV and click the green "Code" button)
-- Unzip in your Aircraft directory
-- **REMOVE THE `-YV-master` PART FROM THE DIRECTORY NAME**. The aircraft won't
-  work properly if you don't do this.
-
-## Using `git` (recommended for aircraft developers)
-
-- `git clone https://github.com/YV3399/E-jet-family-YV
-  $FGROOT/Aircraft/E-jet-family-YV` (replace `$FGROOT` with whatever is
-  suitable - if you don't know what it should be, then you probably shouldn't
-  be using this method). If you have a github account, you can also clone from
-  `git@github.com/YV3399/E-jet-family-YV`, or fork on github and clone from
-  your fork instead.
+Other installation methods: see bottom of this document. This is necessary
+because too many people do not read instructions properly, install things
+incorrectly, and then complain about it on discord etc. Sorry for the
+inconvenience.
 
 # About
 
@@ -65,3 +52,36 @@ to the point of not working at all anymore, so I decided to remove it. If at
 any point anyone decides to dig it up and make it work, then resurrecting the
 relevant files from git should be no problem; but in its current shape, the
 only thing it did was confuse people.
+
+# Further Documentation
+
+See https://github.com/YV3399/E-jet-family-YV/blob/master/Documentation/guide.markdown
+
+This document includes some essential procedures and a quick guide to the
+aircraft. It is not a substitute for a full Flight Crew Operating Manual
+(FCOM), but it should be enough to get you flying.
+
+
+# Alternate Installation Instructions
+
+The installation instructions should only be used if you know what you are
+doing. If you have made it here and haven't read any installation instructions
+yet, then please scroll back up and read again.
+
+## From a github source bundle
+
+- Get a source bundle from
+  https://github.com/YV3399/E-jet-family-YV/archive/master.zip (or go to
+  https://github.com/YV3399/E-jet-family-YV and click the green "Code" button)
+- Unzip in your Aircraft directory
+- **REMOVE THE `-YV-master` PART FROM THE DIRECTORY NAME**. The aircraft won't
+  work properly if you don't do this.
+
+## Using `git`
+
+- `git clone https://github.com/YV3399/E-jet-family-YV $FGROOT/Aircraft/E-jet-family-YV`
+  (replace `$FGROOT` with whatever is suitable - if you don't know what it
+  should be, then you probably shouldn't be using this method). If you have a
+  github account, you can also clone from
+  `git@github.com/YV3399/E-jet-family-YV`, or fork on github and clone from
+  your fork instead.
