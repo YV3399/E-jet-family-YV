@@ -1574,6 +1574,269 @@
 			</volume>
 		</switch>
 
+		<!-- Center Pedestal Autobrake knob -->
+		<switch>
+			<name>Autobrake -1</name>
+			<mode>once</mode>
+			<type>avionics</type>
+			<path>Aircraft/E-jet-family/Sounds/Cockpit/button2b.wav</path>
+			<condition>
+				<equals>
+					<property>/autopilot/autobrake/step</property>
+					<value>-1</value>
+				</equals>
+			</condition>
+			<volume>
+				<factor>0.2</factor>
+			</volume>
+		</switch>
+		<switch>
+			<name>Autobrake 0</name>
+			<mode>once</mode>
+			<type>avionics</type>
+			<path>Aircraft/E-jet-family/Sounds/Cockpit/button2b.wav</path>
+			<condition>
+				<equals>
+					<property>/autopilot/autobrake/step</property>
+					<value>0</value>
+				</equals>
+			</condition>
+			<volume>
+				<factor>0.2</factor>
+			</volume>
+		</switch>
+		<switch>
+			<name>Autobrake 1</name>
+			<mode>once</mode>
+			<type>avionics</type>
+			<path>Aircraft/E-jet-family/Sounds/Cockpit/button2b.wav</path>
+			<condition>
+				<equals>
+					<property>/autopilot/autobrake/step</property>
+					<value>1</value>
+				</equals>
+			</condition>
+			<volume>
+				<factor>0.2</factor>
+			</volume>
+		</switch>
+		<switch>
+			<name>Autobrake 2</name>
+			<mode>once</mode>
+			<type>avionics</type>
+			<path>Aircraft/E-jet-family/Sounds/Cockpit/button2b.wav</path>
+			<condition>
+				<equals>
+					<property>/autopilot/autobrake/step</property>
+					<value>2</value>
+				</equals>
+			</condition>
+			<volume>
+				<factor>0.2</factor>
+			</volume>
+		</switch>
+		<switch>
+			<name>Autobrake 3</name>
+			<mode>once</mode>
+			<type>avionics</type>
+			<path>Aircraft/E-jet-family/Sounds/Cockpit/button2b.wav</path>
+			<condition>
+				<equals>
+					<property>/autopilot/autobrake/step</property>
+					<value>3</value>
+				</equals>
+			</condition>
+			<volume>
+				<factor>0.2</factor>
+			</volume>
+		</switch>
+
+		<!-- Pedestal Engine 1 start knob -->
+		<switch>
+			<name>Engine 1 Start 0</name>
+			<mode>once</mode>
+			<type>avionics</type>
+			<path>Aircraft/E-jet-family/Sounds/Cockpit/button2b.wav</path>
+			<condition>
+				<equals>
+					<property>/fadec/engine-switch[0]</property>
+					<value>0</value>
+				</equals>
+			</condition>
+			<volume>
+				<factor>0.2</factor>
+			</volume>
+		</switch>
+		<switch>
+			<name>Engine 1 Start 1</name>
+			<mode>once</mode>
+			<type>avionics</type>
+			<path>Aircraft/E-jet-family/Sounds/Cockpit/button2b.wav</path>
+			<condition>
+				<equals>
+					<property>/fadec/engine-switch[0]</property>
+					<value>1</value>
+				</equals>
+			</condition>
+			<volume>
+				<factor>0.2</factor>
+			</volume>
+		</switch>
+		<switch>
+			<name>Engine 1 Start 2</name>
+			<mode>once</mode>
+			<type>avionics</type>
+			<path>Aircraft/E-jet-family/Sounds/Cockpit/button2b.wav</path>
+			<condition>
+				<equals>
+					<property>/fadec/engine-switch[0]</property>
+					<value>2</value>
+				</equals>
+			</condition>
+			<volume>
+				<factor>0.2</factor>
+			</volume>
+		</switch>
+		<!-- Pedestal Engine 2 start knob -->
+		<switch>
+			<name>Engine 2 Start 0</name>
+			<mode>once</mode>
+			<type>avionics</type>
+			<path>Aircraft/E-jet-family/Sounds/Cockpit/button2b.wav</path>
+			<condition>
+				<equals>
+					<property>/fadec/engine-switch[1]</property>
+					<value>0</value>
+				</equals>
+			</condition>
+			<volume>
+				<factor>0.2</factor>
+			</volume>
+		</switch>
+		<switch>
+			<name>Engine 2 Start 1</name>
+			<mode>once</mode>
+			<type>avionics</type>
+			<path>Aircraft/E-jet-family/Sounds/Cockpit/button2b.wav</path>
+			<condition>
+				<equals>
+					<property>/fadec/engine-switch[1]</property>
+					<value>1</value>
+				</equals>
+			</condition>
+			<volume>
+				<factor>0.2</factor>
+			</volume>
+		</switch>
+		<switch>
+			<name>Engine 2 Start 2</name>
+			<mode>once</mode>
+			<type>avionics</type>
+			<path>Aircraft/E-jet-family/Sounds/Cockpit/button2b.wav</path>
+			<condition>
+				<equals>
+					<property>/fadec/engine-switch[1]</property>
+					<value>2</value>
+				</equals>
+			</condition>
+			<volume>
+				<factor>0.2</factor>
+			</volume>
+		</switch>
+
+		<!-- Pedestal Engine 1 ign knob -->
+		<switch>
+			<name>Engine 1 Ign 0</name>
+			<mode>once</mode>
+			<type>avionics</type>
+			<path>Aircraft/E-jet-family/Sounds/Cockpit/button2b.wav</path>
+			<condition>
+				<equals>
+					<property>/fadec/ignition-switch[0]</property>
+					<value>0</value>
+				</equals>
+			</condition>
+			<volume>
+				<factor>0.2</factor>
+			</volume>
+		</switch>
+		<switch>
+			<name>Engine 1 Ign 1</name>
+			<mode>once</mode>
+			<type>avionics</type>
+			<path>Aircraft/E-jet-family/Sounds/Cockpit/button2b.wav</path>
+			<condition>
+				<equals>
+					<property>/fadec/ignition-switch[0]</property>
+					<value>1</value>
+				</equals>
+			</condition>
+			<volume>
+				<factor>0.2</factor>
+			</volume>
+		</switch>
+		<switch>
+			<name>Engine 1 Ign 2</name>
+			<mode>once</mode>
+			<type>avionics</type>
+			<path>Aircraft/E-jet-family/Sounds/Cockpit/button2b.wav</path>
+			<condition>
+				<equals>
+					<property>/fadec/ignition-switch[0]</property>
+					<value>2</value>
+				</equals>
+			</condition>
+			<volume>
+				<factor>0.2</factor>
+			</volume>
+		</switch>
+		<!-- Pedestal Engine 2 ign knob -->
+		<switch>
+			<name>Engine 2 Ign 0</name>
+			<mode>once</mode>
+			<type>avionics</type>
+			<path>Aircraft/E-jet-family/Sounds/Cockpit/button2b.wav</path>
+			<condition>
+				<equals>
+					<property>/fadec/ignition-switch[1]</property>
+					<value>0</value>
+				</equals>
+			</condition>
+			<volume>
+				<factor>0.2</factor>
+			</volume>
+		</switch>
+		<switch>
+			<name>Engine 2 Ign 1</name>
+			<mode>once</mode>
+			<type>avionics</type>
+			<path>Aircraft/E-jet-family/Sounds/Cockpit/button2b.wav</path>
+			<condition>
+				<equals>
+					<property>/fadec/ignition-switch[1]</property>
+					<value>1</value>
+				</equals>
+			</condition>
+			<volume>
+				<factor>0.2</factor>
+			</volume>
+		</switch>
+		<switch>
+			<name>Engine 2 Ign 2</name>
+			<mode>once</mode>
+			<type>avionics</type>
+			<path>Aircraft/E-jet-family/Sounds/Cockpit/button2b.wav</path>
+			<condition>
+				<equals>
+					<property>/fadec/ignition-switch[1]</property>
+					<value>2</value>
+				</equals>
+			</condition>
+			<volume>
+				<factor>0.2</factor>
+			</volume>
+		</switch>
+
         <gpws>
             <name>appr_mins</name>
             <mode>once</mode>
