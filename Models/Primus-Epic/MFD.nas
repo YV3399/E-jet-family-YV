@@ -3,6 +3,7 @@
 # AOM references:
 # - TCAS mode: p. 2157
 
+var initialized = 0;
 var mfd_display = [nil, nil];
 var mfd_master = [nil, nil];
 var mfd = [nil, nil];
@@ -43,6 +44,36 @@ var radarColor = func (value) {
     if (value > 0.00) return [ 0, value * 4, 0, 1 ];
     return [ 0, 0, 0, 1 ];
 };
+
+# Set fill color for electrical and hydraulic nodes for a given status.
+# Status 0 is "off", rendered in white.
+# Status 1 is "live", rendered in bright green.
+# All other statuses default to 0 (white).
+var fillColorByStatus = func (target, status) {
+    if (status == 0) {
+        target.setColorFill(1, 1, 1);
+    }
+    else if (status == 1) {
+        target.setColorFill(0, 1, 0);
+    }
+    else {
+        target.setColorFill(1, 1, 0);
+    }
+};
+
+# Set fill color for electrical and hydraulic connections depending on their
+# status.
+# Status 0 is "off", rendered in 25% gray.
+# Status 1 is "live", rendered in bright green.
+# All other statuses default to 1 (green).
+var fillIfConnected = func (target, status) {
+    if (status) {
+        target.setColorFill(0, 1, 0);
+    }
+    else {
+        target.setColorFill(0.25, 0.25, 0.25);
+    }
+}
 
 var clipTo = func (clippee, clipper) {
     if (clipper != nil) {
@@ -139,6 +170,7 @@ var MFD = {
 
         me.index = index;
         me.txRadarScanX = 0;
+        me.systemsListeners = [];
         me.elems = {};
         me.props = {
                 'page': props.globals.getNode('/instrumentation/mfd[' ~ index ~ ']/page'),
@@ -780,9 +812,6 @@ var MFD = {
         me.selectUnderlay(nil);
         me.setWxMode(nil);
 
-        setlistener(me.props['green-arc-dist'], func (node) {
-            self.updateGreenArc(node.getValue());
-        }, 1, 0);
         setlistener(me.props['wx-gain'], func (node) {
             self.elems['weatherMenu.gain'].setText(sprintf("%3.0f", node.getValue() or 0));
         }, 1, 0);
@@ -827,6 +856,9 @@ var MFD = {
                     .setColor([1, 0.5, 0, 1]);
             }
         }, 1, 0);
+        setlistener(me.props['green-arc-dist'], func (node) {
+            self.updateGreenArc(node.getValue());
+        }, 1, 0);
         setlistener(me.props['wx-sect'], func (node) {
             self.elems['weatherMenu.checkSect'].setVisible(node.getBoolValue());
         }, 1, 0);
@@ -862,7 +894,9 @@ var MFD = {
             self.updatePage();
         }, 1, 0);
         setlistener(me.props['submode'], func (node) {
-            self.elems['btnSystems.mode.label'].setText(submodeNames[node.getValue()]);
+            var submode = node.getValue();
+            self.elems['btnSystems.mode.label'].setText(submodeNames[submode]);
+            self.updateSystemsSubmode(submode);
             self.updatePage();
         }, 1, 0);
         setlistener(me.props['cursor'], func (node) {
@@ -929,448 +963,8 @@ var MFD = {
             var offset = -alt * 0.04;
             self.elems['vnav.selectedalt'].setTranslation(0, offset);
         }, 1, 0);
-        setlistener(me.props['flight-id'], func (node) {
-            self.elems['status.flightid'].setText(node.getValue());
-        }, 1, 0);
-        setlistener(me.props['zulu-hour'], func (node) {
-            self.elems['status.clock.hours'].setText(sprintf("%02.0f", node.getValue()));
-        }, 1, 0);
-        setlistener(me.props['zulu-minute'], func (node) {
-            self.elems['status.clock.minutes'].setText(sprintf("%02.0f", node.getValue()));
-        }, 1, 0);
-        setlistener(me.props['gross-weight'], func (node) {
-            self.elems['status.grossweight.digital'].setText(sprintf("%5.0f", node.getValue()));
-        }, 1, 0);
-        setlistener('/systems/electrical/sources/battery[0]/volts-avail', func (node) {
-            self.elems['status.battery1.voltage.digital'].setText(sprintf("%03.1f", node.getValue()));
-        }, 1, 0);
-        setlistener('/systems/electrical/sources/battery[1]/volts-avail', func (node) {
-            self.elems['status.battery2.voltage.digital'].setText(sprintf("%03.1f", node.getValue()));
-        }, 1, 0);
 
-        setlistener('/controls/fuel/crossfeed', func (node) {
-            var state = node.getValue();
-            var c = (state == 0) ? [1,1,1] : [0,1,0];
-            self.elems['fuel.valve.crossfeed']
-                .setRotation(state * math.pi * 0.5)
-                .setColorFill(c);
-            self.elems['fuel.crossfeed.mode']
-                .setText((state == 1) ? "LOW 2" : "LOW 1")
-                .setVisible(state != 0);
 
-        }, 1, 0);
-        setlistener('/engines/engine[0]/cutoff', func (node) {
-            var c = node.getBoolValue() ? [1,1,1] : [0,1,0];
-            self.elems['fuel.valve.cutoffL']
-                .setRotation(node.getValue() * math.pi * 0.5)
-                .setColorFill(c[0], c[1], c[2]);
-        }, 1, 0);
-        setlistener('/engines/engine[1]/cutoff', func (node) {
-            var c = node.getBoolValue() ? [1,1,1] : [0,1,0];
-            self.elems['fuel.valve.cutoffR']
-                .setRotation(node.getValue() * math.pi * 0.5)
-                .setColorFill(c[0], c[1], c[2]);
-        }, 1, 0);
-        setlistener('/engines/apu/cutoff', func (node) {
-            var c = node.getBoolValue() ? [1,1,1] : [0,1,0];
-            self.elems['fuel.valve.apu']
-                .setRotation(node.getValue() * math.pi * 0.5)
-                .setColorFill(c[0], c[1], c[2]);
-        }, 1, 0);
-        setlistener('/engines/engine[0]/running', func (node) {
-            var c = node.getBoolValue() ? [0,1,0] : [0.5, 0.5, 0.5];
-            self.elems['fuel.pump.e1']
-                .setColorFill(c[0], c[1], c[2]);
-        }, 1, 0);
-        setlistener('/engines/engine[1]/running', func (node) {
-            var c = node.getBoolValue() ? [0,1,0] : [0.5, 0.5, 0.5];
-            self.elems['fuel.pump.e2']
-                .setColorFill(c[0], c[1], c[2]);
-        }, 1, 0);
-        setlistener('/systems/fuel/fuel-pump[0]/running', func (node) {
-            var c = node.getBoolValue() ? [0,1,0] : [1, 1, 1];
-            self.elems['fuel.pump.ac1']
-                .setColorFill(c[0], c[1], c[2]);
-        }, 1, 0);
-        setlistener('/systems/fuel/fuel-pump[1]/running', func (node) {
-            var c = node.getBoolValue() ? [0,1,0] : [1, 1, 1];
-            self.elems['fuel.pump.ac2']
-                .setColorFill(c[0], c[1], c[2]);
-        }, 1, 0);
-        setlistener('/systems/fuel/fuel-pump[2]/running', func (node) {
-            var c = node.getBoolValue() ? [0,1,0] : [1, 1, 1];
-            self.elems['fuel.pump.ac3']
-                .setColorFill(c[0], c[1], c[2]);
-        }, 1, 0);
-        setlistener('/systems/fuel/fuel-pump[3]/running', func (node) {
-            var c = node.getBoolValue() ? [0,1,0] : [1, 1, 1];
-            self.elems['fuel.pump.dc']
-                .setColorFill(c[0], c[1], c[2]);
-        }, 1, 0);
-
-        setlistener('/systems/fuel/pressure/pump[0]', func (node) {
-            var c = node.getBoolValue() ? [0,1,0] : [1, 1, 1];
-            self.elems['fuel.line.acpump1'].setColorFill(c[0], c[1], c[2]);
-        }, 1, 0);
-        setlistener('/systems/fuel/pressure/pump[1]', func (node) {
-            var c = node.getBoolValue() ? [0,1,0] : [1, 1, 1];
-            self.elems['fuel.line.acpump2'].setColorFill(c[0], c[1], c[2]);
-        }, 1, 0);
-        setlistener('/systems/fuel/pressure/pump[2]', func (node) {
-            var c = node.getBoolValue() ? [0,1,0] : [1, 1, 1];
-            self.elems['fuel.line.acpump3'].setColorFill(c[0], c[1], c[2]);
-        }, 1, 0);
-        setlistener('/systems/fuel/pressure/pump[3]', func (node) {
-            var c = node.getBoolValue() ? [0,1,0] : [1, 1, 1];
-            self.elems['fuel.line.dcpump'].setColorFill(c[0], c[1], c[2]);
-        }, 1, 0);
-        setlistener('/systems/fuel/pressure/pump[4]', func (node) {
-            var c = node.getBoolValue() ? [0,1,0] : [1, 1, 1];
-            self.elems['fuel.line.epump1'].setColorFill(c[0], c[1], c[2]);
-        }, 1, 0);
-        setlistener('/systems/fuel/pressure/pump[5]', func (node) {
-            var c = node.getBoolValue() ? [0,1,0] : [1, 1, 1];
-            self.elems['fuel.line.epump2'].setColorFill(c[0], c[1], c[2]);
-        }, 1, 0);
-
-        setlistener('/systems/fuel/pressure/tank[0]', func (node) {
-            var c = node.getBoolValue() ? [0,1,0] : [1, 1, 1];
-            self.elems['fuel.line.tankL'].setColorFill(c[0], c[1], c[2]);
-        }, 1, 0);
-        setlistener('/systems/fuel/pressure/tank[1]', func (node) {
-            var c = node.getBoolValue() ? [0,1,0] : [1, 1, 1];
-            self.elems['fuel.line.tankR'].setColorFill(c[0], c[1], c[2]);
-        }, 1, 0);
-        setlistener('/systems/fuel/pressure/engine[0]', func (node) {
-            var c = node.getBoolValue() ? [0,1,0] : [1, 1, 1];
-            self.elems['fuel.line.engineL'].setColorFill(c[0], c[1], c[2]);
-        }, 1, 0);
-        setlistener('/systems/fuel/pressure/engine[1]', func (node) {
-            var c = node.getBoolValue() ? [0,1,0] : [1, 1, 1];
-            self.elems['fuel.line.engineR'].setColorFill(c[0], c[1], c[2]);
-        }, 1, 0);
-        setlistener('/systems/fuel/pressure/apu', func (node) {
-            var c = node.getBoolValue() ? [0,1,0] : [1, 1, 1];
-            self.elems['fuel.line.apu'].setColorFill(c[0], c[1], c[2]);
-        }, 1, 0);
-
-        setlistener('/fms/fuel/current', func (node) {
-            self.elems['fuel.total.digital'].setText(sprintf("%5.0f", node.getValue()));
-        }, 1, 0);
-        setlistener('/fms/fuel/used', func (node) {
-            self.elems['fuel.used.digital'].setText(sprintf("%5.0f", node.getValue()));
-        }, 1, 0);
-        setlistener('/fms/fuel/gauge[0]/pointer', func (node) {
-            self.elems['fuel.quantityL.pointer'].setTranslation(0, node.getValue());
-        }, 1, 0);
-        setlistener('/fms/fuel/gauge[1]/pointer', func (node) {
-            self.elems['fuel.quantityR.pointer'].setTranslation(0, node.getValue());
-        }, 1, 0);
-        setlistener('/fms/fuel/gauge[2]/pointer', func (node) {
-            self.elems['fuel.quantityC.pointer'].setTranslation(0, node.getValue());
-        }, 1, 0);
-        setlistener('/fms/fuel/gauge[0]/indicated', func (node) {
-            self.elems['fuel.quantityL.digital'].setText(sprintf("%5.0f", node.getValue()));
-        }, 1, 0);
-        setlistener('/fms/fuel/gauge[1]/indicated', func (node) {
-            self.elems['fuel.quantityR.digital'].setText(sprintf("%5.0f", node.getValue()));
-        }, 1, 0);
-        setlistener('/fms/fuel/gauge[2]/indicated', func (node) {
-            self.elems['fuel.quantityC.digital'].setText(sprintf("%5.0f", node.getValue()));
-        }, 1, 0);
-        setlistener('/instrumentation/eicas/messages/fuel-low-left', func (node) {
-            var c = node.getBoolValue() ? [1,0,0] : [0,1,0];
-            self.elems['fuel.quantityL.digital'].setColor(c[0], c[1], c[2]);
-            self.elems['fuel.quantityL.pointer'].setColorFill(c[0], c[1], c[2]);
-        }, 1, 0);
-        setlistener('/instrumentation/eicas/messages/fuel-low-right', func (node) {
-            var c = node.getBoolValue() ? [1,0,0] : [0,1,0];
-            self.elems['fuel.quantityR.digital'].setColor(c[0], c[1], c[2]);
-            self.elems['fuel.quantityR.pointer'].setColorFill(c[0], c[1], c[2]);
-        }, 1, 0);
-
-        var doornames = ['l1', 'r1', 'l2', 'r2', 'cargo1', 'cargo2', 'fuel-panel', 'avionics-front', 'avionics-mid'];
-        foreach (var doorname; doornames) {
-            (func (doorname) {
-                setlistener('/sim/model/door-positions/' ~ doorname ~ '/closed', func(node) {
-                    if (node.getBoolValue()) {
-                        self.elems['status.doors.' ~ doorname].setColorFill(0, 1, 0);
-                    }
-                    else {
-                        self.elems['status.doors.' ~ doorname].setColorFill(1, 0, 0);
-                    }
-                }, 1, 0);
-            })(doorname);
-        }
-        var brakenames = [
-                'status.brake-temp.left-ob',
-                'status.brake-temp.left-ib',
-                'status.brake-temp.right-ib',
-                'status.brake-temp.right-ob',
-            ];
-        for (var i = 0; i < 4; i += 1) {
-            (func () {
-                var brakename = brakenames[i];
-                setlistener(me.props['brake-temp-' ~ i], func(node) {
-                    var temp = node.getValue();
-                    var offset = math.max(0, math.min(136, (136 - 42) * temp / noTakeoffBrakeTemp));
-                    me.elems[brakename ~ '.pointer'].setTranslation(0, -offset);
-                    me.elems[brakename ~ '.digital'].setText(sprintf("%3.0f", temp));
-                    if (temp >= noTakeoffBrakeTemp) {
-                        me.elems[brakename ~ '.pointer'].setColor(1, 1, 0);
-                        me.elems[brakename ~ '.pointer'].setColorFill(1, 1, 0);
-                        me.elems[brakename ~ '.digital'].setColorFill(1, 1, 0);
-                    }
-                    else {
-                        me.elems[brakename ~ '.pointer'].setColor(0, 1, 0);
-                        me.elems[brakename ~ '.pointer'].setColorFill(0, 0, 0);
-                        me.elems[brakename ~ '.digital'].setColorFill(0, 1, 0);
-                    }
-                }, 1, 0);
-            })();
-        }
-
-        var fillColorByStatus = func (target, status) {
-            if (status == 0) {
-                target.setColorFill(1, 1, 1);
-            }
-            else if (status == 1) {
-                target.setColorFill(0, 1, 0);
-            }
-            else {
-                target.setColorFill(1, 1, 0);
-            }
-        }
-
-        # GPU connection
-
-        setlistener('/controls/electric/external-power-connected', func (node) {
-            var connected = node.getBoolValue();
-            me.elems['elec.acgpu.group'].setVisible(connected);
-            me.elems['elec.dcgpu.group'].setVisible(connected);
-        }, 1, 0);
-
-        # Electrical sources
-
-        setlistener('/systems/electrical/sources/generator[0]/visible', func (node) {
-            me.elems['elec.apu.group'].setVisible(node.getBoolValue());
-        }, 1, 0);
-        setlistener('/systems/electrical/sources/generator[0]/volts', func (node) {
-            me.elems['elec.apu.volts.digital'].setText(sprintf("%3.0f", node.getValue()));
-        }, 1, 0);
-        setlistener('/systems/electrical/sources/generator[0]/status', func (node) {
-            fillColorByStatus(me.elems['elec.apu.symbol'], node.getValue());
-        }, 1, 0);
-        setlistener('/systems/electrical/sources/generator[1]/volts', func (node) {
-            me.elems['elec.idg1.volts.digital'].setText(sprintf("%3.0f", node.getValue()));
-        }, 1, 0);
-        setlistener('/systems/electrical/sources/generator[1]/status', func (node) {
-            fillColorByStatus(me.elems['elec.idg1.symbol'], node.getValue());
-        }, 1, 0);
-        setlistener('/systems/electrical/sources/generator[2]/volts', func (node) {
-            me.elems['elec.idg2.volts.digital'].setText(sprintf("%3.0f", node.getValue()));
-        }, 1, 0);
-        setlistener('/systems/electrical/sources/generator[2]/status', func (node) {
-            fillColorByStatus(me.elems['elec.idg2.symbol'], node.getValue());
-        }, 1, 0);
-
-        setlistener('/controls/electric/ram-air-turbine', func (node) {
-            me.elems['elec.rat.group'].setVisible(node.getBoolValue());
-        }, 1, 0);
-        setlistener('/systems/electrical/sources/generator[3]/volts', func (node) {
-            me.elems['elec.rat.volts.digital'].setText(sprintf("%3.0f", node.getValue()));
-        }, 1, 0);
-        setlistener('/systems/electrical/sources/generator[3]/status', func (node) {
-            fillColorByStatus(me.elems['elec.rat.symbol'], node.getValue());
-        }, 1, 0);
-
-        setlistener('/systems/electrical/sources/ac-gpu/volts', func (node) {
-            me.elems['elec.acgpu.volts.digital'].setText(sprintf("%3.0f", node.getValue()));
-        }, 1, 0);
-        setlistener('/systems/electrical/sources/ac-gpu/status', func (node) {
-            fillColorByStatus(me.elems['elec.acgpu.symbol'], node.getValue());
-        }, 1, 0);
-
-        setlistener('/systems/electrical/sources/dc-gpu/status', func (node) {
-            fillColorByStatus(me.elems['elec.dcgpu.symbol'], node.getValue());
-        }, 1, 0);
-
-        setlistener('/systems/electrical/sources/battery[0]/volts-avail', func (node) {
-            me.elems['elec.battery1.volts.digital'].setText(sprintf("%4.1f", node.getValue()));
-        }, 1, 0);
-        setlistener('/systems/electrical/sources/battery[0]/status', func (node) {
-            fillColorByStatus(me.elems['elec.battery1.symbol'], node.getValue());
-        }, 1, 0);
-        setlistener('/systems/electrical/sources/battery[1]/volts-avail', func (node) {
-            me.elems['elec.battery2.volts.digital'].setText(sprintf("%4.1f", node.getValue()));
-        }, 1, 0);
-        setlistener('/systems/electrical/sources/battery[1]/status', func (node) {
-            fillColorByStatus(me.elems['elec.battery2.symbol'], node.getValue());
-        }, 1, 0);
-
-        setlistener('/systems/electrical/sources/tru[0]/volts', func (node) {
-            me.elems['elec.truess.volts.digital'].setText(sprintf("%4.1f", node.getValue()));
-        }, 1, 0);
-        setlistener('/systems/electrical/sources/tru[0]/status', func (node) {
-            fillColorByStatus(me.elems['elec.truess.symbol'], node.getValue());
-        }, 1, 0);
-        setlistener('/systems/electrical/sources/tru[1]/volts', func (node) {
-            me.elems['elec.tru1.volts.digital'].setText(sprintf("%4.1f", node.getValue()));
-        }, 1, 0);
-        setlistener('/systems/electrical/sources/tru[1]/status', func (node) {
-            fillColorByStatus(me.elems['elec.tru1.symbol'], node.getValue());
-        }, 1, 0);
-        setlistener('/systems/electrical/sources/tru[2]/volts', func (node) {
-            me.elems['elec.tru2.volts.digital'].setText(sprintf("%4.1f", node.getValue()));
-        }, 1, 0);
-        setlistener('/systems/electrical/sources/tru[2]/status', func (node) {
-            fillColorByStatus(me.elems['elec.tru2.symbol'], node.getValue());
-        }, 1, 0);
-
-        # Electric buses
-        setlistener('/systems/electrical/buses/ac[1]/powered', func (node) {
-            fillColorByStatus(me.elems['elec.ac1.symbol'], node.getValue());
-        }, 1, 0);
-        setlistener('/systems/electrical/buses/ac[2]/powered', func (node) {
-            fillColorByStatus(me.elems['elec.ac2.symbol'], node.getValue());
-        }, 1, 0);
-        setlistener('/systems/electrical/buses/ac[3]/powered', func (node) {
-            fillColorByStatus(me.elems['elec.acess.symbol'], node.getValue());
-        }, 1, 0);
-        setlistener('/systems/electrical/buses/ac[4]/powered', func (node) {
-            fillColorByStatus(me.elems['elec.acstby.symbol'], node.getValue());
-        }, 1, 0);
-
-        setlistener('/systems/electrical/buses/dc[1]/powered', func (node) {
-            fillColorByStatus(me.elems['elec.dc1.symbol'], node.getValue());
-        }, 1, 0);
-        setlistener('/systems/electrical/buses/dc[2]/powered', func (node) {
-            fillColorByStatus(me.elems['elec.dc2.symbol'], node.getValue());
-        }, 1, 0);
-        setlistener('/systems/electrical/buses/dc[3]/powered', func (node) {
-            fillColorByStatus(me.elems['elec.dcess1.symbol'], node.getValue());
-        }, 1, 0);
-        setlistener('/systems/electrical/buses/dc[4]/powered', func (node) {
-            fillColorByStatus(me.elems['elec.dcess2.symbol'], node.getValue());
-        }, 1, 0);
-        setlistener('/systems/electrical/buses/dc[5]/powered', func (node) {
-            fillColorByStatus(me.elems['elec.dcess3.symbol'], node.getValue());
-        }, 1, 0);
-        setlistener('/systems/electrical/buses/dc[6]/powered', func (node) {
-            fillColorByStatus(me.elems['elec.apustart.symbol'], node.getValue());
-        }, 1, 0);
-
-        var fillIfConnected = func (target, value) {
-            if (value) {
-                target.setColorFill(0, 1, 0);
-            }
-            else {
-                target.setColorFill(0.25, 0.25, 0.25);
-            }
-        }
-
-        var updateACshared = func () {
-            var feed12 = getprop('/systems/electrical/buses/ac[0]/feed');
-            var feed1 = getprop('/systems/electrical/buses/ac[1]/feed');
-            var feed2 = getprop('/systems/electrical/buses/ac[2]/feed');
-            var tieUsed = (feed1 == 2) or (feed2 == 2);
-            var tieAvail = getprop('/systems/electrical/buses/ac[0]/powered');
-
-            fillIfConnected(me.elems['elec.feed.ac1-ac12'], tieUsed and ((feed1 == 2) or (feed12 == 3)));
-            fillIfConnected(me.elems['elec.feed.ac2-ac12'], tieUsed and ((feed2 == 2) or (feed12 == 4)));
-            fillIfConnected(me.elems['elec.feed.ac12'], tieUsed and tieAvail);
-        };
-
-        setlistener('/systems/electrical/buses/ac[0]/powered', func (node) {
-            updateACshared();
-        }, 1, 0);
-        setlistener('/systems/electrical/buses/ac[0]/feed', func (node) {
-            var feed = node.getValue();
-            fillIfConnected(me.elems['elec.feed.ac12-apu'], feed == 1);
-            fillIfConnected(me.elems['elec.feed.ac12-acgpu'], feed == 2);
-            updateACshared();
-        }, 1, 0);
-        setlistener('/systems/electrical/buses/ac[1]/feed', func (node) {
-            var feed = node.getValue();
-            fillIfConnected(me.elems['elec.feed.ac1-idg1'], feed == 1);
-            updateACshared();
-        }, 1, 0);
-        setlistener('/systems/electrical/buses/ac[2]/feed', func (node) {
-            var feed = node.getValue();
-            fillIfConnected(me.elems['elec.feed.ac2-idg2'], feed == 1);
-            updateACshared();
-        }, 1, 0);
-        setlistener('/systems/electrical/buses/ac[3]/feed', func (node) {
-            var feed = node.getValue();
-            fillIfConnected(me.elems['elec.feed.acess-ac2'], feed == 1);
-            fillIfConnected(me.elems['elec.feed.acess-ac1'], feed == 2);
-            fillIfConnected(me.elems['elec.feed.acess-rat'], feed == 3);
-        }, 1, 0);
-        setlistener('/systems/electrical/buses/ac[4]/feed', func (node) {
-            var feed = node.getValue();
-            fillIfConnected(me.elems['elec.feed.acstby-acess'], feed == 1);
-        }, 1, 0);
-
-        setlistener('/systems/electrical/sources/tru[0]/status', func (node) {
-            var status = node.getValue();
-            fillIfConnected(me.elems['elec.feed.truess-acess'], status == 1);
-        }, 1, 0);
-        setlistener('/systems/electrical/sources/tru[1]/status', func (node) {
-            var status = node.getValue();
-            fillIfConnected(me.elems['elec.feed.tru1-ac1'], status == 1);
-        }, 1, 0);
-        setlistener('/systems/electrical/sources/tru[2]/status', func (node) {
-            var status = node.getValue();
-            fillIfConnected(me.elems['elec.feed.tru2-ac2'], status == 1);
-        }, 1, 0);
-
-        var updateDCshared = func () {
-            var feed1 = getprop('/systems/electrical/buses/dc[1]/feed');
-            var feed2 = getprop('/systems/electrical/buses/dc[2]/feed');
-            fillIfConnected(me.elems['elec.feed.dc1-tru1'], feed1 == 1);
-            fillIfConnected(me.elems['elec.feed.dc2-tru2'], feed2 == 1);
-            fillIfConnected(me.elems['elec.feed.dc12'], (feed1 == 2) or (feed2 == 2));
-        };
-        setlistener('/systems/electrical/buses/dc[1]/feed', updateDCshared, 1, 0);
-        setlistener('/systems/electrical/buses/dc[2]/feed', updateDCshared, 1, 0);
-
-        var updateDCESS1 = func () {
-            var feed1 = getprop('/systems/electrical/buses/dc[3]/feed');
-            var feed3 = getprop('/systems/electrical/buses/dc[5]/feed');
-            fillIfConnected(me.elems['elec.feed.dcess1-dcess3'], (feed1 == 2) or (feed3 == 2));
-        };
-        var updateDCESS2 = func () {
-            var feed2 = getprop('/systems/electrical/buses/dc[4]/feed');
-            var feed3 = getprop('/systems/electrical/buses/dc[5]/feed');
-            fillIfConnected(me.elems['elec.feed.dcess2-dcess3'], (feed2 == 2) or (feed3 == 3));
-        };
-
-        setlistener('/systems/electrical/buses/dc[3]/feed', func (node) {
-            var feed = node.getValue();
-            fillIfConnected(me.elems['elec.feed.dcess1-dc1'], feed == 1);
-            fillIfConnected(me.elems['elec.feed.dcess1-batt1'], feed == 3);
-            updateDCESS1();
-        }, 1, 0);
-        setlistener('/systems/electrical/buses/dc[4]/feed', func (node) {
-            var feed = node.getValue();
-            fillIfConnected(me.elems['elec.feed.dcess2-dc2'], feed == 1);
-            fillIfConnected(me.elems['elec.feed.dcess2-batt2'], feed == 3);
-            updateDCESS2();
-        }, 1, 0);
-        setlistener('/systems/electrical/buses/dc[5]/feed', func (node) {
-            var feed = node.getValue();
-            fillIfConnected(me.elems['elec.feed.dcess3-truess'], feed == 1);
-            updateDCESS1();
-            updateDCESS2();
-        }, 1, 0);
-
-        setlistener('/systems/electrical/buses/dc[6]/feed', func (node) {
-            var feed = node.getValue();
-            fillIfConnected(me.elems['elec.feed.apustart-dcgpu'], feed == 1);
-            fillIfConnected(me.elems['elec.feed.apustart-batt2'], feed == 2);
-            me.elems['elec.dcgpu.inuse'].setVisible(feed == 1);
-            fillColorByStatus(me.elems['elec.dcgpu.symbol'], feed == 1);
-        }, 1, 0);
 
         # Hide extra stuff when not Lineage 1000
         if (getprop('/sim/aircraft') == 'EmbraerLineage1000') {
@@ -1379,110 +973,88 @@ var MFD = {
             me.elems['fuel.tank3.group'].hide();
         }
 
-        # Flight controls
-
-
-        var updateFlightControl = func (baseName, dx, dy, pos) {
-            if (pos >= 0.9999) {
-                # full deflection
-                self.elems[baseName ~ '.cover']
-                    .setTranslation(0, 0)
-                    .setColorFill(0, 1, 0, 1)
-                    .show();
-                self.elems[baseName ~ '.dashedbox']
-                    .hide();
-            }
-            elsif (pos >= 0.5) {
-                self.elems[baseName ~ '.cover']
-                    .setTranslation(pos * dx, pos * dy)
-                    .setColorFill(0, 0, 0, 1)
-                    .show();
-                self.elems[baseName ~ '.dashedbox']
-                    .show();
-            }
-            elsif (pos >= 0.0) {
-                self.elems[baseName ~ '.cover']
-                    .setTranslation(pos * dx, pos * dy)
-                    .setColorFill(0, 0, 0, 1)
-                    .show();
-                self.elems[baseName ~ '.dashedbox']
-                    .hide();
-            }
-            else {
-                # negative
-                self.elems[baseName ~ '.cover']
-                    .setTranslation(0, 0)
-                    .setColorFill(0, 0, 0, 1)
-                    .show();
-                self.elems[baseName ~ '.dashedbox']
-                    .hide();
-            }
-        };
-
-        var initFlightControl = func (baseName, prop, dx, dy, factor) {
-            clipTo(self.elems[baseName ~ '.cover'], self.elems[baseName ~ '.dashedbox']);
-            clipTo(self.elems[baseName ~ '.stripes'], self.elems[baseName ~ '.dashedbox']);
-            setlistener(prop, func (node) {
-                updateFlightControl(baseName, dx, dy, node.getValue() * factor);
-            });
-        };
-
-        initFlightControl('fctl.aileron-lh-up', self.props['aileron-left'], 0, -75, -1);
-        initFlightControl('fctl.aileron-lh-down', self.props['aileron-left'], 0, 75, 1);
-        initFlightControl('fctl.aileron-rh-up', self.props['aileron-right'], 0, -75, 1);
-        initFlightControl('fctl.aileron-rh-down', self.props['aileron-right'], 0, 75, -1);
-        initFlightControl('fctl.rudder-left', self.props['rudder'], -45, 0, -1/0.55);
-        initFlightControl('fctl.rudder-right', self.props['rudder'], 45, 0, 1/0.55);
-        initFlightControl('fctl.elev-lh-up', self.props['elevator'], 0, -68, -1);
-        initFlightControl('fctl.elev-rh-up', self.props['elevator'], 0, -68, -1);
-        initFlightControl('fctl.elev-lh-down', self.props['elevator'], 0, 54, 1);
-        initFlightControl('fctl.elev-rh-down', self.props['elevator'], 0, 54, 1);
-
-        setlistener(me.props['elevator-law'], func (node) {
-            var law = node.getValue();
-
-            if (law == 1) {
-                self.elems['fctl.mode.elev-lh.text'].setText('NORMAL').setColor(0, 1, 0);
-                self.elems['fctl.mode.elev-rh.text'].setText('NORMAL').setColor(0, 1, 0);
-                self.elems['fctl.mode.elev-lh.frame'].hide();
-                self.elems['fctl.mode.elev-rh.frame'].hide();
-            }
-            else {
-                self.elems['fctl.mode.elev-lh.text'].setText('DIRECT').setColor(0, 0, 0);
-                self.elems['fctl.mode.elev-rh.text'].setText('DIRECT').setColor(0, 0, 0);
-                self.elems['fctl.mode.elev-lh.frame'].show();
-                self.elems['fctl.mode.elev-rh.frame'].show();
-            }
-        }, 1, 0);
-
-        setlistener(me.props['rudder-law'], func (node) {
-            var law = node.getValue();
-
-            if (law == 1) {
-                self.elems['fctl.mode.rudder.text'].setText('NORMAL').setColor(0, 1, 0);
-                self.elems['fctl.mode.rudder.frame'].hide();
-            }
-            else {
-                self.elems['fctl.mode.rudder.text'].setText('DIRECT').setColor(0, 0, 0);
-                self.elems['fctl.mode.rudder.frame'].show();
-            }
-        }, 1, 0);
-
-        setlistener(me.props['spoilers-law'], func (node) {
-            var law = node.getValue();
-
-            if (law == 1) {
-                self.elems['fctl.mode.spoilers.text'].setText('NORMAL').setColor(0, 1, 0);
-                self.elems['fctl.mode.spoilers.frame'].hide();
-            }
-            else {
-                self.elems['fctl.mode.spoilers.text'].setText('DIRECT').setColor(0, 0, 0);
-                self.elems['fctl.mode.spoilers.frame'].show();
-            }
-        }, 1, 0);
-
         return me;
     },
+
+    updateACshared: func () {
+        var feed12 = getprop('/systems/electrical/buses/ac[0]/feed');
+        var feed1 = getprop('/systems/electrical/buses/ac[1]/feed');
+        var feed2 = getprop('/systems/electrical/buses/ac[2]/feed');
+        var tieUsed = (feed1 == 2) or (feed2 == 2);
+        var tieAvail = getprop('/systems/electrical/buses/ac[0]/powered');
+
+        fillIfConnected(me.elems['elec.feed.ac1-ac12'], tieUsed and ((feed1 == 2) or (feed12 == 3)));
+        fillIfConnected(me.elems['elec.feed.ac2-ac12'], tieUsed and ((feed2 == 2) or (feed12 == 4)));
+        fillIfConnected(me.elems['elec.feed.ac12'], tieUsed and tieAvail);
+    },
+
+    updateDCshared: func () {
+        var feed1 = getprop('/systems/electrical/buses/dc[1]/feed');
+        var feed2 = getprop('/systems/electrical/buses/dc[2]/feed');
+        fillIfConnected(me.elems['elec.feed.dc1-tru1'], feed1 == 1);
+        fillIfConnected(me.elems['elec.feed.dc2-tru2'], feed2 == 1);
+        fillIfConnected(me.elems['elec.feed.dc12'], (feed1 == 2) or (feed2 == 2));
+    },
+    updateDCESS1: func () {
+        var feed1 = getprop('/systems/electrical/buses/dc[3]/feed');
+        var feed3 = getprop('/systems/electrical/buses/dc[5]/feed');
+        fillIfConnected(me.elems['elec.feed.dcess1-dcess3'], (feed1 == 2) or (feed3 == 2));
+    },
+    updateDCESS2: func () {
+        var feed2 = getprop('/systems/electrical/buses/dc[4]/feed');
+        var feed3 = getprop('/systems/electrical/buses/dc[5]/feed');
+        fillIfConnected(me.elems['elec.feed.dcess2-dcess3'], (feed2 == 2) or (feed3 == 3));
+    },
+
+    updateFlightControl: func (baseName, dx, dy, pos) {
+        if (pos >= 0.9999) {
+            # full deflection
+            me.elems[baseName ~ '.cover']
+              .setTranslation(0, 0)
+              .setColorFill(0, 1, 0, 1)
+              .show();
+            me.elems[baseName ~ '.dashedbox']
+                .hide();
+        }
+        elsif (pos >= 0.5) {
+            me.elems[baseName ~ '.cover']
+              .setTranslation(pos * dx, pos * dy)
+              .setColorFill(0, 0, 0, 1)
+              .show();
+            me.elems[baseName ~ '.dashedbox']
+              .show();
+        }
+        elsif (pos >= 0.0) {
+            me.elems[baseName ~ '.cover']
+              .setTranslation(pos * dx, pos * dy)
+              .setColorFill(0, 0, 0, 1)
+              .show();
+            me.elems[baseName ~ '.dashedbox']
+              .hide();
+        }
+        else {
+            # negative
+            me.elems[baseName ~ '.cover']
+              .setTranslation(0, 0)
+              .setColorFill(0, 0, 0, 1)
+              .show();
+            me.elems[baseName ~ '.dashedbox']
+              .hide();
+        }
+    },
+
+    initFlightControl: func (baseName, prop, dx, dy, factor) {
+        var self = me;
+        clipTo(me.elems[baseName ~ '.cover'], me.elems[baseName ~ '.dashedbox']);
+        clipTo(me.elems[baseName ~ '.stripes'], me.elems[baseName ~ '.dashedbox']);
+        append(me.systemsListeners,
+            setlistener(prop, func (node) {
+                self.updateFlightControl(baseName, dx, dy, node.getValue() * factor);
+            }));
+    },
+
+
+
 
     updateGreenArc: func (greenArcDist=nil, range=nil) {
         if (greenArcDist == nil) {
@@ -2055,11 +1627,6 @@ var MFD = {
             me.mapOverlay.hide();
             me.plan.hide();
             me.systemsContainer.show();
-            var submode = me.props['submode'].getValue();
-            me.systemsPages.status.setVisible(submode == SUBMODE_STATUS);
-            me.systemsPages.electrical.setVisible(submode == SUBMODE_ELECTRICAL);
-            me.systemsPages.fuel.setVisible(submode == SUBMODE_FUEL);
-            me.systemsPages.flightControls.setVisible(submode == SUBMODE_FLIGHT_CONTROLS);
             me.elems['mapMenu'].hide();
             me.elems['weatherMenu'].hide();
             me.elems['vnav.range.left'].hide();
@@ -2069,6 +1636,557 @@ var MFD = {
             me.elems['vnav.range.center'].show();
             me.elems['vnav.range.center.digital'].show();
             me.trafficGroup.setVisible(0);
+        }
+    },
+
+    updateSystemsSubmode: func (submode) {
+        var self = me;
+        me.systemsPages.status.setVisible(submode == SUBMODE_STATUS);
+        me.systemsPages.electrical.setVisible(submode == SUBMODE_ELECTRICAL);
+        me.systemsPages.fuel.setVisible(submode == SUBMODE_FUEL);
+        me.systemsPages.flightControls.setVisible(submode == SUBMODE_FLIGHT_CONTROLS);
+        foreach (var l; me.systemsListeners) {
+            removelistener(l);
+        }
+        me.systemsListeners = [];
+        if (submode == SUBMODE_STATUS) {
+            append(me.systemsListeners,
+                setlistener(me.props['flight-id'], func (node) {
+                    self.elems['status.flightid'].setText(node.getValue());
+                }, 1, 0));
+            append(me.systemsListeners,
+                setlistener(me.props['zulu-hour'], func (node) {
+                    self.elems['status.clock.hours'].setText(sprintf("%02.0f", node.getValue()));
+                }, 1, 0));
+            append(me.systemsListeners,
+                setlistener(me.props['zulu-minute'], func (node) {
+                    self.elems['status.clock.minutes'].setText(sprintf("%02.0f", node.getValue()));
+                }, 1, 0));
+            append(me.systemsListeners,
+                setlistener(me.props['gross-weight'], func (node) {
+                    self.elems['status.grossweight.digital'].setText(sprintf("%5.0f", node.getValue()));
+                }, 1, 0));
+            append(me.systemsListeners,
+                setlistener('/systems/electrical/sources/battery[0]/volts-avail', func (node) {
+                    self.elems['status.battery1.voltage.digital'].setText(sprintf("%03.1f", node.getValue()));
+                }, 1, 0));
+            append(me.systemsListeners,
+                setlistener('/systems/electrical/sources/battery[1]/volts-avail', func (node) {
+                    self.elems['status.battery2.voltage.digital'].setText(sprintf("%03.1f", node.getValue()));
+                }, 1, 0));
+
+            var doornames = ['l1', 'r1', 'l2', 'r2', 'cargo1', 'cargo2', 'fuel-panel', 'avionics-front', 'avionics-mid'];
+            foreach (var doorname; doornames) {
+                (func (doorname) {
+                    append(self.systemsListeners,
+                    setlistener('/sim/model/door-positions/' ~ doorname ~ '/closed', func(node) {
+                        if (node.getBoolValue()) {
+                            self.elems['status.doors.' ~ doorname].setColorFill(0, 1, 0);
+                        }
+                        else {
+                            self.elems['status.doors.' ~ doorname].setColorFill(1, 0, 0);
+                        }
+                    }, 1, 0));
+                })(doorname);
+            }
+            var brakenames = [
+                    'status.brake-temp.left-ob',
+                    'status.brake-temp.left-ib',
+                    'status.brake-temp.right-ib',
+                    'status.brake-temp.right-ob',
+                ];
+            for (var i = 0; i < 4; i += 1) {
+                (func () {
+                    var brakename = brakenames[i];
+                    append(self.systemsListeners,
+                    setlistener(self.props['brake-temp-' ~ i], func(node) {
+                        var temp = node.getValue();
+                        var offset = math.max(0, math.min(136, (136 - 42) * temp / noTakeoffBrakeTemp));
+                        self.elems[brakename ~ '.pointer'].setTranslation(0, -offset);
+                        self.elems[brakename ~ '.digital'].setText(sprintf("%3.0f", temp));
+                        if (temp >= noTakeoffBrakeTemp) {
+                            self.elems[brakename ~ '.pointer'].setColor(1, 1, 0);
+                            self.elems[brakename ~ '.pointer'].setColorFill(1, 1, 0);
+                            self.elems[brakename ~ '.digital'].setColorFill(1, 1, 0);
+                        }
+                        else {
+                            self.elems[brakename ~ '.pointer'].setColor(0, 1, 0);
+                            self.elems[brakename ~ '.pointer'].setColorFill(0, 0, 0);
+                            self.elems[brakename ~ '.digital'].setColorFill(0, 1, 0);
+                        }
+                    }, 1, 0));
+                })();
+            }
+
+        }
+        elsif (submode == SUBMODE_ELECTRICAL) {
+            # External power
+            append(me.systemsListeners,
+                setlistener('/controls/electric/external-power-connected', func (node) {
+                    var connected = node.getBoolValue();
+                    me.elems['elec.acgpu.group'].setVisible(connected);
+                    me.elems['elec.dcgpu.group'].setVisible(connected);
+                }, 1, 0));
+
+            # Elec. sources
+            append(me.systemsListeners,
+                setlistener('/systems/electrical/sources/generator[0]/visible', func (node) {
+                    me.elems['elec.apu.group'].setVisible(node.getBoolValue());
+                }, 1, 0));
+            append(me.systemsListeners,
+                setlistener('/systems/electrical/sources/generator[0]/volts', func (node) {
+                    me.elems['elec.apu.volts.digital'].setText(sprintf("%3.0f", node.getValue()));
+                }, 1, 0));
+            append(me.systemsListeners,
+                setlistener('/systems/electrical/sources/generator[0]/status', func (node) {
+                    fillColorByStatus(me.elems['elec.apu.symbol'], node.getValue());
+                }, 1, 0));
+            append(me.systemsListeners,
+                setlistener('/systems/electrical/sources/generator[1]/volts', func (node) {
+                    me.elems['elec.idg1.volts.digital'].setText(sprintf("%3.0f", node.getValue()));
+                }, 1, 0));
+            append(me.systemsListeners,
+                setlistener('/systems/electrical/sources/generator[1]/status', func (node) {
+                    fillColorByStatus(me.elems['elec.idg1.symbol'], node.getValue());
+                }, 1, 0));
+            append(me.systemsListeners,
+                setlistener('/systems/electrical/sources/generator[2]/volts', func (node) {
+                    me.elems['elec.idg2.volts.digital'].setText(sprintf("%3.0f", node.getValue()));
+                }, 1, 0));
+            append(me.systemsListeners,
+                setlistener('/systems/electrical/sources/generator[2]/status', func (node) {
+                    fillColorByStatus(me.elems['elec.idg2.symbol'], node.getValue());
+                }, 1, 0));
+
+            append(me.systemsListeners,
+                setlistener('/controls/electric/ram-air-turbine', func (node) {
+                    me.elems['elec.rat.group'].setVisible(node.getBoolValue());
+                }, 1, 0));
+            append(me.systemsListeners,
+                setlistener('/systems/electrical/sources/generator[3]/volts', func (node) {
+                    me.elems['elec.rat.volts.digital'].setText(sprintf("%3.0f", node.getValue()));
+                }, 1, 0));
+            append(me.systemsListeners,
+                setlistener('/systems/electrical/sources/generator[3]/status', func (node) {
+                    fillColorByStatus(me.elems['elec.rat.symbol'], node.getValue());
+                }, 1, 0));
+
+            append(me.systemsListeners,
+                setlistener('/systems/electrical/sources/ac-gpu/volts', func (node) {
+                    me.elems['elec.acgpu.volts.digital'].setText(sprintf("%3.0f", node.getValue()));
+                }, 1, 0));
+            append(me.systemsListeners,
+                setlistener('/systems/electrical/sources/ac-gpu/status', func (node) {
+                    fillColorByStatus(me.elems['elec.acgpu.symbol'], node.getValue());
+                }, 1, 0));
+
+            append(me.systemsListeners,
+                setlistener('/systems/electrical/sources/dc-gpu/status', func (node) {
+                    fillColorByStatus(me.elems['elec.dcgpu.symbol'], node.getValue());
+                }, 1, 0));
+
+            append(me.systemsListeners,
+                setlistener('/systems/electrical/sources/battery[0]/volts-avail', func (node) {
+                    me.elems['elec.battery1.volts.digital'].setText(sprintf("%4.1f", node.getValue()));
+                }, 1, 0));
+            append(me.systemsListeners,
+                setlistener('/systems/electrical/sources/battery[0]/status', func (node) {
+                    fillColorByStatus(me.elems['elec.battery1.symbol'], node.getValue());
+                }, 1, 0));
+            append(me.systemsListeners,
+                setlistener('/systems/electrical/sources/battery[1]/volts-avail', func (node) {
+                    me.elems['elec.battery2.volts.digital'].setText(sprintf("%4.1f", node.getValue()));
+                }, 1, 0));
+            append(me.systemsListeners,
+                setlistener('/systems/electrical/sources/battery[1]/status', func (node) {
+                    fillColorByStatus(me.elems['elec.battery2.symbol'], node.getValue());
+                }, 1, 0));
+
+            append(me.systemsListeners,
+                setlistener('/systems/electrical/sources/tru[0]/volts', func (node) {
+                    me.elems['elec.truess.volts.digital'].setText(sprintf("%4.1f", node.getValue()));
+                }, 1, 0));
+            append(me.systemsListeners,
+                setlistener('/systems/electrical/sources/tru[0]/status', func (node) {
+                    fillColorByStatus(me.elems['elec.truess.symbol'], node.getValue());
+                }, 1, 0));
+            append(me.systemsListeners,
+                setlistener('/systems/electrical/sources/tru[1]/volts', func (node) {
+                    me.elems['elec.tru1.volts.digital'].setText(sprintf("%4.1f", node.getValue()));
+                }, 1, 0));
+            append(me.systemsListeners,
+                setlistener('/systems/electrical/sources/tru[1]/status', func (node) {
+                    fillColorByStatus(me.elems['elec.tru1.symbol'], node.getValue());
+                }, 1, 0));
+            append(me.systemsListeners,
+                setlistener('/systems/electrical/sources/tru[2]/volts', func (node) {
+                    me.elems['elec.tru2.volts.digital'].setText(sprintf("%4.1f", node.getValue()));
+                }, 1, 0));
+            append(me.systemsListeners,
+                setlistener('/systems/electrical/sources/tru[2]/status', func (node) {
+                    fillColorByStatus(me.elems['elec.tru2.symbol'], node.getValue());
+                }, 1, 0));
+
+            # Elec. buses
+            append(me.systemsListeners,
+                setlistener('/systems/electrical/buses/ac[1]/powered', func (node) {
+                    fillColorByStatus(me.elems['elec.ac1.symbol'], node.getValue());
+                }, 1, 0));
+            append(me.systemsListeners,
+                setlistener('/systems/electrical/buses/ac[2]/powered', func (node) {
+                    fillColorByStatus(me.elems['elec.ac2.symbol'], node.getValue());
+                }, 1, 0));
+            append(me.systemsListeners,
+                setlistener('/systems/electrical/buses/ac[3]/powered', func (node) {
+                    fillColorByStatus(me.elems['elec.acess.symbol'], node.getValue());
+                }, 1, 0));
+            append(me.systemsListeners,
+                setlistener('/systems/electrical/buses/ac[4]/powered', func (node) {
+                    fillColorByStatus(me.elems['elec.acstby.symbol'], node.getValue());
+                }, 1, 0));
+
+            append(me.systemsListeners,
+                setlistener('/systems/electrical/buses/dc[1]/powered', func (node) {
+                    fillColorByStatus(me.elems['elec.dc1.symbol'], node.getValue());
+                }, 1, 0));
+            append(me.systemsListeners,
+                setlistener('/systems/electrical/buses/dc[2]/powered', func (node) {
+                    fillColorByStatus(me.elems['elec.dc2.symbol'], node.getValue());
+                }, 1, 0));
+            append(me.systemsListeners,
+                setlistener('/systems/electrical/buses/dc[3]/powered', func (node) {
+                    fillColorByStatus(me.elems['elec.dcess1.symbol'], node.getValue());
+                }, 1, 0));
+            append(me.systemsListeners,
+                setlistener('/systems/electrical/buses/dc[4]/powered', func (node) {
+                    fillColorByStatus(me.elems['elec.dcess2.symbol'], node.getValue());
+                }, 1, 0));
+            append(me.systemsListeners,
+                setlistener('/systems/electrical/buses/dc[5]/powered', func (node) {
+                    fillColorByStatus(me.elems['elec.dcess3.symbol'], node.getValue());
+                }, 1, 0));
+            append(me.systemsListeners,
+                setlistener('/systems/electrical/buses/dc[6]/powered', func (node) {
+                    fillColorByStatus(me.elems['elec.apustart.symbol'], node.getValue());
+                }, 1, 0));
+
+            append(me.systemsListeners,
+                setlistener('/systems/electrical/buses/ac[0]/powered', func (node) {
+                    me.updateACshared();
+                }, 1, 0));
+            append(me.systemsListeners,
+                setlistener('/systems/electrical/buses/ac[0]/feed', func (node) {
+                    var feed = node.getValue();
+                    fillIfConnected(me.elems['elec.feed.ac12-apu'], feed == 1);
+                    fillIfConnected(me.elems['elec.feed.ac12-acgpu'], feed == 2);
+                    me.updateACshared();
+                }, 1, 0));
+            append(me.systemsListeners,
+                setlistener('/systems/electrical/buses/ac[1]/feed', func (node) {
+                    var feed = node.getValue();
+                    fillIfConnected(me.elems['elec.feed.ac1-idg1'], feed == 1);
+                    me.updateACshared();
+                }, 1, 0));
+            append(me.systemsListeners,
+                setlistener('/systems/electrical/buses/ac[2]/feed', func (node) {
+                    var feed = node.getValue();
+                    fillIfConnected(me.elems['elec.feed.ac2-idg2'], feed == 1);
+                    me.updateACshared();
+                }, 1, 0));
+            append(me.systemsListeners,
+                setlistener('/systems/electrical/buses/ac[3]/feed', func (node) {
+                    var feed = node.getValue();
+                    fillIfConnected(me.elems['elec.feed.acess-ac2'], feed == 1);
+                    fillIfConnected(me.elems['elec.feed.acess-ac1'], feed == 2);
+                    fillIfConnected(me.elems['elec.feed.acess-rat'], feed == 3);
+                }, 1, 0));
+            append(me.systemsListeners,
+                setlistener('/systems/electrical/buses/ac[4]/feed', func (node) {
+                    var feed = node.getValue();
+                    fillIfConnected(me.elems['elec.feed.acstby-acess'], feed == 1);
+                }, 1, 0));
+
+            append(me.systemsListeners,
+                setlistener('/systems/electrical/sources/tru[0]/status', func (node) {
+                    var status = node.getValue();
+                    fillIfConnected(me.elems['elec.feed.truess-acess'], status == 1);
+                }, 1, 0));
+            append(me.systemsListeners,
+                setlistener('/systems/electrical/sources/tru[1]/status', func (node) {
+                    var status = node.getValue();
+                    fillIfConnected(me.elems['elec.feed.tru1-ac1'], status == 1);
+                }, 1, 0));
+            append(me.systemsListeners,
+                setlistener('/systems/electrical/sources/tru[2]/status', func (node) {
+                    var status = node.getValue();
+                    fillIfConnected(me.elems['elec.feed.tru2-ac2'], status == 1);
+                }, 1, 0));
+
+            append(me.systemsListeners,
+                setlistener('/systems/electrical/buses/dc[1]/feed', func self.updateDCshared, 1, 0));
+            append(me.systemsListeners,
+                setlistener('/systems/electrical/buses/dc[2]/feed', func self.updateDCshared, 1, 0));
+            append(me.systemsListeners,
+                setlistener('/systems/electrical/buses/dc[3]/feed', func (node) {
+                    var feed = node.getValue();
+                    fillIfConnected(me.elems['elec.feed.dcess1-dc1'], feed == 1);
+                    fillIfConnected(me.elems['elec.feed.dcess1-batt1'], feed == 3);
+                    self.updateDCESS1();
+                }, 1, 0));
+            append(me.systemsListeners,
+                setlistener('/systems/electrical/buses/dc[4]/feed', func (node) {
+                    var feed = node.getValue();
+                    fillIfConnected(me.elems['elec.feed.dcess2-dc2'], feed == 1);
+                    fillIfConnected(me.elems['elec.feed.dcess2-batt2'], feed == 3);
+                    self.updateDCESS2();
+                }, 1, 0));
+            append(me.systemsListeners,
+                setlistener('/systems/electrical/buses/dc[5]/feed', func (node) {
+                    var feed = node.getValue();
+                    fillIfConnected(me.elems['elec.feed.dcess3-truess'], feed == 1);
+                    self.updateDCESS1();
+                    self.updateDCESS2();
+                }, 1, 0));
+
+            append(me.systemsListeners,
+                setlistener('/systems/electrical/buses/dc[6]/feed', func (node) {
+                    var feed = node.getValue();
+                    fillIfConnected(me.elems['elec.feed.apustart-dcgpu'], feed == 1);
+                    fillIfConnected(me.elems['elec.feed.apustart-batt2'], feed == 2);
+                    me.elems['elec.dcgpu.inuse'].setVisible(feed == 1);
+                    fillColorByStatus(me.elems['elec.dcgpu.symbol'], feed == 1);
+                }, 1, 0));
+        }
+        elsif (submode == SUBMODE_FUEL) {
+            append(me.systemsListeners,
+                setlistener('/controls/fuel/crossfeed', func (node) {
+                    var state = node.getValue();
+                    var c = (state == 0) ? [1,1,1] : [0,1,0];
+                    self.elems['fuel.valve.crossfeed']
+                        .setRotation(state * math.pi * 0.5)
+                        .setColorFill(c);
+                    self.elems['fuel.crossfeed.mode']
+                        .setText((state == 1) ? "LOW 2" : "LOW 1")
+                        .setVisible(state != 0);
+
+                }, 1, 0));
+            append(me.systemsListeners,
+                setlistener('/engines/engine[0]/cutoff', func (node) {
+                    var c = node.getBoolValue() ? [1,1,1] : [0,1,0];
+                    self.elems['fuel.valve.cutoffL']
+                        .setRotation(node.getValue() * math.pi * 0.5)
+                        .setColorFill(c[0], c[1], c[2]);
+                }, 1, 0));
+            append(me.systemsListeners,
+                setlistener('/engines/engine[1]/cutoff', func (node) {
+                    var c = node.getBoolValue() ? [1,1,1] : [0,1,0];
+                    self.elems['fuel.valve.cutoffR']
+                        .setRotation(node.getValue() * math.pi * 0.5)
+                        .setColorFill(c[0], c[1], c[2]);
+                }, 1, 0));
+            append(me.systemsListeners,
+                setlistener('/engines/apu/cutoff', func (node) {
+                    var c = node.getBoolValue() ? [1,1,1] : [0,1,0];
+                    self.elems['fuel.valve.apu']
+                        .setRotation(node.getValue() * math.pi * 0.5)
+                        .setColorFill(c[0], c[1], c[2]);
+                }, 1, 0));
+            append(me.systemsListeners,
+                setlistener('/engines/engine[0]/running', func (node) {
+                    var c = node.getBoolValue() ? [0,1,0] : [0.5, 0.5, 0.5];
+                    self.elems['fuel.pump.e1']
+                        .setColorFill(c[0], c[1], c[2]);
+                }, 1, 0));
+            append(me.systemsListeners,
+                setlistener('/engines/engine[1]/running', func (node) {
+                    var c = node.getBoolValue() ? [0,1,0] : [0.5, 0.5, 0.5];
+                    self.elems['fuel.pump.e2']
+                        .setColorFill(c[0], c[1], c[2]);
+                }, 1, 0));
+            append(me.systemsListeners,
+                setlistener('/systems/fuel/fuel-pump[0]/running', func (node) {
+                    var c = node.getBoolValue() ? [0,1,0] : [1, 1, 1];
+                    self.elems['fuel.pump.ac1']
+                        .setColorFill(c[0], c[1], c[2]);
+                }, 1, 0));
+            append(me.systemsListeners,
+                setlistener('/systems/fuel/fuel-pump[1]/running', func (node) {
+                    var c = node.getBoolValue() ? [0,1,0] : [1, 1, 1];
+                    self.elems['fuel.pump.ac2']
+                        .setColorFill(c[0], c[1], c[2]);
+                }, 1, 0));
+            append(me.systemsListeners,
+                setlistener('/systems/fuel/fuel-pump[2]/running', func (node) {
+                    var c = node.getBoolValue() ? [0,1,0] : [1, 1, 1];
+                    self.elems['fuel.pump.ac3']
+                        .setColorFill(c[0], c[1], c[2]);
+                }, 1, 0));
+            append(me.systemsListeners,
+                setlistener('/systems/fuel/fuel-pump[3]/running', func (node) {
+                    var c = node.getBoolValue() ? [0,1,0] : [1, 1, 1];
+                    self.elems['fuel.pump.dc']
+                        .setColorFill(c[0], c[1], c[2]);
+                }, 1, 0));
+
+            append(me.systemsListeners,
+                setlistener('/systems/fuel/pressure/pump[0]', func (node) {
+                    var c = node.getBoolValue() ? [0,1,0] : [1, 1, 1];
+                    self.elems['fuel.line.acpump1'].setColorFill(c[0], c[1], c[2]);
+                }, 1, 0));
+            append(me.systemsListeners,
+                setlistener('/systems/fuel/pressure/pump[1]', func (node) {
+                    var c = node.getBoolValue() ? [0,1,0] : [1, 1, 1];
+                    self.elems['fuel.line.acpump2'].setColorFill(c[0], c[1], c[2]);
+                }, 1, 0));
+            append(me.systemsListeners,
+                setlistener('/systems/fuel/pressure/pump[2]', func (node) {
+                    var c = node.getBoolValue() ? [0,1,0] : [1, 1, 1];
+                    self.elems['fuel.line.acpump3'].setColorFill(c[0], c[1], c[2]);
+                }, 1, 0));
+            append(me.systemsListeners,
+                setlistener('/systems/fuel/pressure/pump[3]', func (node) {
+                    var c = node.getBoolValue() ? [0,1,0] : [1, 1, 1];
+                    self.elems['fuel.line.dcpump'].setColorFill(c[0], c[1], c[2]);
+                }, 1, 0));
+            append(me.systemsListeners,
+                setlistener('/systems/fuel/pressure/pump[4]', func (node) {
+                    var c = node.getBoolValue() ? [0,1,0] : [1, 1, 1];
+                    self.elems['fuel.line.epump1'].setColorFill(c[0], c[1], c[2]);
+                }, 1, 0));
+            append(me.systemsListeners,
+                setlistener('/systems/fuel/pressure/pump[5]', func (node) {
+                    var c = node.getBoolValue() ? [0,1,0] : [1, 1, 1];
+                    self.elems['fuel.line.epump2'].setColorFill(c[0], c[1], c[2]);
+                }, 1, 0));
+
+            append(me.systemsListeners,
+                setlistener('/systems/fuel/pressure/tank[0]', func (node) {
+                    var c = node.getBoolValue() ? [0,1,0] : [1, 1, 1];
+                    self.elems['fuel.line.tankL'].setColorFill(c[0], c[1], c[2]);
+                }, 1, 0));
+            append(me.systemsListeners,
+                setlistener('/systems/fuel/pressure/tank[1]', func (node) {
+                    var c = node.getBoolValue() ? [0,1,0] : [1, 1, 1];
+                    self.elems['fuel.line.tankR'].setColorFill(c[0], c[1], c[2]);
+                }, 1, 0));
+            append(me.systemsListeners,
+                setlistener('/systems/fuel/pressure/engine[0]', func (node) {
+                    var c = node.getBoolValue() ? [0,1,0] : [1, 1, 1];
+                    self.elems['fuel.line.engineL'].setColorFill(c[0], c[1], c[2]);
+                }, 1, 0));
+            append(me.systemsListeners,
+                setlistener('/systems/fuel/pressure/engine[1]', func (node) {
+                    var c = node.getBoolValue() ? [0,1,0] : [1, 1, 1];
+                    self.elems['fuel.line.engineR'].setColorFill(c[0], c[1], c[2]);
+                }, 1, 0));
+            append(me.systemsListeners,
+                setlistener('/systems/fuel/pressure/apu', func (node) {
+                    var c = node.getBoolValue() ? [0,1,0] : [1, 1, 1];
+                    self.elems['fuel.line.apu'].setColorFill(c[0], c[1], c[2]);
+                }, 1, 0));
+
+            append(me.systemsListeners,
+                setlistener('/fms/fuel/current', func (node) {
+                    self.elems['fuel.total.digital'].setText(sprintf("%5.0f", node.getValue()));
+                }, 1, 0));
+            append(me.systemsListeners,
+                setlistener('/fms/fuel/used', func (node) {
+                    self.elems['fuel.used.digital'].setText(sprintf("%5.0f", node.getValue()));
+                }, 1, 0));
+            append(me.systemsListeners,
+                setlistener('/fms/fuel/gauge[0]/pointer', func (node) {
+                    self.elems['fuel.quantityL.pointer'].setTranslation(0, node.getValue());
+                }, 1, 0));
+            append(me.systemsListeners,
+                setlistener('/fms/fuel/gauge[1]/pointer', func (node) {
+                    self.elems['fuel.quantityR.pointer'].setTranslation(0, node.getValue());
+                }, 1, 0));
+            append(me.systemsListeners,
+                setlistener('/fms/fuel/gauge[2]/pointer', func (node) {
+                    self.elems['fuel.quantityC.pointer'].setTranslation(0, node.getValue());
+                }, 1, 0));
+            append(me.systemsListeners,
+                setlistener('/fms/fuel/gauge[0]/indicated', func (node) {
+                    self.elems['fuel.quantityL.digital'].setText(sprintf("%5.0f", node.getValue()));
+                }, 1, 0));
+            append(me.systemsListeners,
+                setlistener('/fms/fuel/gauge[1]/indicated', func (node) {
+                    self.elems['fuel.quantityR.digital'].setText(sprintf("%5.0f", node.getValue()));
+                }, 1, 0));
+            append(me.systemsListeners,
+                setlistener('/fms/fuel/gauge[2]/indicated', func (node) {
+                    self.elems['fuel.quantityC.digital'].setText(sprintf("%5.0f", node.getValue()));
+                }, 1, 0));
+            append(me.systemsListeners,
+                setlistener('/instrumentation/eicas/messages/fuel-low-left', func (node) {
+                    var c = node.getBoolValue() ? [1,0,0] : [0,1,0];
+                    self.elems['fuel.quantityL.digital'].setColor(c[0], c[1], c[2]);
+                    self.elems['fuel.quantityL.pointer'].setColorFill(c[0], c[1], c[2]);
+                }, 1, 0));
+            append(me.systemsListeners,
+                setlistener('/instrumentation/eicas/messages/fuel-low-right', func (node) {
+                    var c = node.getBoolValue() ? [1,0,0] : [0,1,0];
+                    self.elems['fuel.quantityR.digital'].setColor(c[0], c[1], c[2]);
+                    self.elems['fuel.quantityR.pointer'].setColorFill(c[0], c[1], c[2]);
+                }, 1, 0));
+        }
+        elsif (submode == SUBMODE_FLIGHT_CONTROLS) {
+            me.initFlightControl('fctl.aileron-lh-up', self.props['aileron-left'], 0, -75, -1);
+            me.initFlightControl('fctl.aileron-lh-down', self.props['aileron-left'], 0, 75, 1);
+            me.initFlightControl('fctl.aileron-rh-up', self.props['aileron-right'], 0, -75, 1);
+            me.initFlightControl('fctl.aileron-rh-down', self.props['aileron-right'], 0, 75, -1);
+            me.initFlightControl('fctl.rudder-left', self.props['rudder'], -45, 0, -1/0.55);
+            me.initFlightControl('fctl.rudder-right', self.props['rudder'], 45, 0, 1/0.55);
+            me.initFlightControl('fctl.elev-lh-up', self.props['elevator'], 0, -68, -1);
+            me.initFlightControl('fctl.elev-rh-up', self.props['elevator'], 0, -68, -1);
+            me.initFlightControl('fctl.elev-lh-down', self.props['elevator'], 0, 54, 1);
+            me.initFlightControl('fctl.elev-rh-down', self.props['elevator'], 0, 54, 1);
+
+            append(me.systemsListeners,
+                setlistener(me.props['elevator-law'], func (node) {
+                    var law = node.getValue();
+
+                    if (law == 1) {
+                        self.elems['fctl.mode.elev-lh.text'].setText('NORMAL').setColor(0, 1, 0);
+                        self.elems['fctl.mode.elev-rh.text'].setText('NORMAL').setColor(0, 1, 0);
+                        self.elems['fctl.mode.elev-lh.frame'].hide();
+                        self.elems['fctl.mode.elev-rh.frame'].hide();
+                    }
+                    else {
+                        self.elems['fctl.mode.elev-lh.text'].setText('DIRECT').setColor(0, 0, 0);
+                        self.elems['fctl.mode.elev-rh.text'].setText('DIRECT').setColor(0, 0, 0);
+                        self.elems['fctl.mode.elev-lh.frame'].show();
+                        self.elems['fctl.mode.elev-rh.frame'].show();
+                    }
+                }, 1, 0));
+
+            append(me.systemsListeners,
+                setlistener(me.props['rudder-law'], func (node) {
+                    var law = node.getValue();
+
+                    if (law == 1) {
+                        self.elems['fctl.mode.rudder.text'].setText('NORMAL').setColor(0, 1, 0);
+                        self.elems['fctl.mode.rudder.frame'].hide();
+                    }
+                    else {
+                        self.elems['fctl.mode.rudder.text'].setText('DIRECT').setColor(0, 0, 0);
+                        self.elems['fctl.mode.rudder.frame'].show();
+                    }
+                }, 1, 0));
+
+            append(me.systemsListeners,
+                setlistener(me.props['spoilers-law'], func (node) {
+                    var law = node.getValue();
+
+                    if (law == 1) {
+                        self.elems['fctl.mode.spoilers.text'].setText('NORMAL').setColor(0, 1, 0);
+                        self.elems['fctl.mode.spoilers.frame'].hide();
+                    }
+                    else {
+                        self.elems['fctl.mode.spoilers.text'].setText('DIRECT').setColor(0, 0, 0);
+                        self.elems['fctl.mode.spoilers.frame'].show();
+                    }
+                }, 1, 0));
         }
     },
 
@@ -2245,6 +2363,8 @@ var path = resolvepath('Aircraft/E-jet-family/Models/Primus-Epic/MFD');
 # canvas.MapStructure.loadFile(path ~ '/TFC-Ejet.symbol', 'TFC-Ejet');
 
 setlistener("sim/signals/fdm-initialized", func {
+    if (initialized) return;
+    initialized = 1;
     for (var i = 0; i <= 1; i += 1) {
         mfd_display[i] = canvas.new({
             "name": "MFD" ~ i,
