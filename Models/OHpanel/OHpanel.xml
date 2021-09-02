@@ -175,7 +175,7 @@
                 <value>1</value>
                 <value>2</value>
                 <value>3</value>
-				<wrap>false</wrap>
+                <wrap>false</wrap>
             </binding>
         </action>
     </animation>
@@ -185,7 +185,7 @@
         <type>knob</type>
         <object-name>wiper.right</object-name>
         <property>controls/switches/wiper-right</property>
-		<factor>60</factor>
+        <factor>60</factor>
         <axis>
             <object-name>wiper.right.axis</object-name>
         </axis>
@@ -197,7 +197,7 @@
                 <value>1</value>
                 <value>2</value>
                 <value>3</value>
-				<wrap>false</wrap>
+                <wrap>false</wrap>
             </binding>
         </action>
     </animation>
@@ -458,7 +458,7 @@
         <type>knob</type>
         <object-name>generator.1</object-name>
         <property>controls/electric/engine/generator</property>
-		<factor>50</factor>
+        <factor>50</factor>
         <axis>
             <object-name>generator.1.axis</object-name>
         </axis>
@@ -476,7 +476,7 @@
         <type>knob</type>
         <object-name>generator.2</object-name>
         <property>controls/electric/engine[1]/generator</property>
-		<factor>50</factor>
+        <factor>50</factor>
         <axis>
             <object-name>generator.2.axis</object-name>
         </axis>

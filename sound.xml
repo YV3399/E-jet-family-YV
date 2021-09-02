@@ -4,353 +4,353 @@
 
 <PropertyList>
     <fx>
-		<!-- Engine 1 -->
-		<engine>
-			<name>Engine 1 sound 1 external</name>
-			<path>Sounds/whine.wav</path>
-			<mode>looped</mode>
-			<condition>
-				<and>
-					<not>
-						<property>sim/current-view/internal</property>
-					</not>
-					<greater-than>
-						<property>engines/engine[0]/n1</property>
-						<value>0</value>
-					</greater-than>
-				</and>
-			</condition>
-			<volume>
-				<property>engines/engine[0]/n1</property>
-				<offset>0</offset>
-				<factor>0.01</factor>
-			</volume>
-			<pitch>
-				<property>engines/engine[0]/n1</property>
-				<offset>0.5</offset>
-				<factor>0.02</factor>
-			</pitch>
+        <!-- Engine 1 -->
+        <engine>
+            <name>Engine 1 sound 1 external</name>
+            <path>Sounds/whine.wav</path>
+            <mode>looped</mode>
+            <condition>
+                <and>
+                    <not>
+                        <property>sim/current-view/internal</property>
+                    </not>
+                    <greater-than>
+                        <property>engines/engine[0]/n1</property>
+                        <value>0</value>
+                    </greater-than>
+                </and>
+            </condition>
+            <volume>
+                <property>engines/engine[0]/n1</property>
+                <offset>0</offset>
+                <factor>0.01</factor>
+            </volume>
+            <pitch>
+                <property>engines/engine[0]/n1</property>
+                <offset>0.5</offset>
+                <factor>0.02</factor>
+            </pitch>
             <position>
                 <x>-3.3</x>
                 <y>4.1</y>
                 <z>-1</z>
             </position>
-		</engine>
-		<engine>
-			<name>Engine 1 sound 2 external</name>
-			<path>Sounds/jet.wav</path>
-			<mode>looped</mode>
-			<condition>
-				<and>
-					<not>
-						<property>sim/current-view/internal</property>
-					</not>
-					<greater-than>
-						<property>engines/engine[0]/n1</property>
-						<value>0</value>
-					</greater-than>
-				</and>
-			</condition>
-			<volume>
-				<property>engines/engine[0]/n1</property>
-				<offset>0</offset>
-				<factor>0.01</factor>
-			</volume>
-			<pitch>
-				<property>engines/engine[0]/n1</property>
-				<offset>0</offset>
-				<factor>0.01</factor>
-			</pitch>
+        </engine>
+        <engine>
+            <name>Engine 1 sound 2 external</name>
+            <path>Sounds/jet.wav</path>
+            <mode>looped</mode>
+            <condition>
+                <and>
+                    <not>
+                        <property>sim/current-view/internal</property>
+                    </not>
+                    <greater-than>
+                        <property>engines/engine[0]/n1</property>
+                        <value>0</value>
+                    </greater-than>
+                </and>
+            </condition>
+            <volume>
+                <property>engines/engine[0]/n1</property>
+                <offset>0</offset>
+                <factor>0.01</factor>
+            </volume>
+            <pitch>
+                <property>engines/engine[0]/n1</property>
+                <offset>0</offset>
+                <factor>0.01</factor>
+            </pitch>
             <position>
                 <x>-3.3</x>
                 <y>4.1</y>
                 <z>-1</z>
             </position>
-		</engine>
-		<engine>
-			<name>Engine 1 reverse thrust</name>
-			<path>Sounds/reverse-thrust.wav</path>
-			<mode>looped</mode>
-			<condition>
-				<and>
-					<greater-than>
-						<property>engines/engine[0]/n1</property>
-						<value>0</value>
-					</greater-than>
-					<greater-than>
-						<property>engines/engine[0]/reverser-pos-norm</property>
-						<value>0</value>
-					</greater-than>
-				</and>
-			</condition>
-			<volume>
-				<property>engines/engine[0]/n1</property>
-				<offset>0</offset>
-				<factor>0.01</factor>
-			</volume>
-			<volume>
-				<property>engines/engine[0]/reverser-pos-norm</property>
-				<offset>0</offset>
-				<factor>1</factor>
-			</volume>
+        </engine>
+        <engine>
+            <name>Engine 1 reverse thrust</name>
+            <path>Sounds/reverse-thrust.wav</path>
+            <mode>looped</mode>
+            <condition>
+                <and>
+                    <greater-than>
+                        <property>engines/engine[0]/n1</property>
+                        <value>0</value>
+                    </greater-than>
+                    <greater-than>
+                        <property>engines/engine[0]/reverser-pos-norm</property>
+                        <value>0</value>
+                    </greater-than>
+                </and>
+            </condition>
+            <volume>
+                <property>engines/engine[0]/n1</property>
+                <offset>0</offset>
+                <factor>0.01</factor>
+            </volume>
+            <volume>
+                <property>engines/engine[0]/reverser-pos-norm</property>
+                <offset>0</offset>
+                <factor>1</factor>
+            </volume>
             <position>
                 <x>-3.3</x>
                 <y>4.1</y>
                 <z>-1</z>
             </position>
-		</engine>
-		<engine>
-			<name>Engine 1 sound internal</name>
-			<path>Sounds/jet_inside.wav</path>
-			<mode>looped</mode>
-			<condition>
-				<and>
-					<property>sim/current-view/internal</property>
-					<greater-than>
-						<property>engines/engine[0]/n1</property>
-						<value>0</value>
-					</greater-than>
-				</and>
-			</condition>
-			<volume>
-				<property>engines/engine[0]/n1</property>
-				<offset>0.5</offset>
-				<factor>0.01</factor>
-			</volume>
-			<pitch>
-				<property>engines/engine[0]/n1</property>
-				<offset>0</offset>
-				<factor>0.01</factor>
-			</pitch>
+        </engine>
+        <engine>
+            <name>Engine 1 sound internal</name>
+            <path>Sounds/jet_inside.wav</path>
+            <mode>looped</mode>
+            <condition>
+                <and>
+                    <property>sim/current-view/internal</property>
+                    <greater-than>
+                        <property>engines/engine[0]/n1</property>
+                        <value>0</value>
+                    </greater-than>
+                </and>
+            </condition>
+            <volume>
+                <property>engines/engine[0]/n1</property>
+                <offset>0.5</offset>
+                <factor>0.01</factor>
+            </volume>
+            <pitch>
+                <property>engines/engine[0]/n1</property>
+                <offset>0</offset>
+                <factor>0.01</factor>
+            </pitch>
             <position>
                 <x>-3.3</x>
                 <y>4.1</y>
                 <z>-1</z>
             </position>
-			<reference-dist>10</reference-dist>
-			<max-dist>50</max-dist>
-		</engine>
+            <reference-dist>10</reference-dist>
+            <max-dist>50</max-dist>
+        </engine>
 
-		<!-- Engine 2 -->
-		<engine>
-			<name>Engine 2 sound 1 external</name>
-			<path>Sounds/whine.wav</path>
-			<mode>looped</mode>
-			<condition>
-				<and>
-					<not>
-						<property>sim/current-view/internal</property>
-					</not>
-					<greater-than>
-						<property>engines/engine[1]/n1</property>
-						<value>0</value>
-					</greater-than>
-				</and>
-			</condition>
-			<volume>
-				<property>engines/engine[1]/n1</property>
-				<offset>0</offset>
-				<factor>0.01</factor>
-			</volume>
-			<pitch>
-				<property>engines/engine[1]/n1</property>
-				<offset>0.5</offset>
-				<factor>0.02</factor>
-			</pitch>
+        <!-- Engine 2 -->
+        <engine>
+            <name>Engine 2 sound 1 external</name>
+            <path>Sounds/whine.wav</path>
+            <mode>looped</mode>
+            <condition>
+                <and>
+                    <not>
+                        <property>sim/current-view/internal</property>
+                    </not>
+                    <greater-than>
+                        <property>engines/engine[1]/n1</property>
+                        <value>0</value>
+                    </greater-than>
+                </and>
+            </condition>
+            <volume>
+                <property>engines/engine[1]/n1</property>
+                <offset>0</offset>
+                <factor>0.01</factor>
+            </volume>
+            <pitch>
+                <property>engines/engine[1]/n1</property>
+                <offset>0.5</offset>
+                <factor>0.02</factor>
+            </pitch>
             <position>
                 <x>-3.3</x>
                 <y>-4.1</y>
                 <z>-1</z>
             </position>
-		</engine>
-		<engine>
-			<name>Engine 2 sound 2 external</name>
-			<path>Sounds/jet.wav</path>
-			<mode>looped</mode>
-			<condition>
-				<and>
-					<not>
-						<property>sim/current-view/internal</property>
-					</not>
-					<greater-than>
-						<property>engines/engine[1]/n1</property>
-						<value>0</value>
-					</greater-than>
-				</and>
-			</condition>
-			<volume>
-				<property>engines/engine[1]/n1</property>
-				<offset>0</offset>
-				<factor>0.01</factor>
-			</volume>
-			<pitch>
-				<property>engines/engine[1]/n1</property>
-				<offset>0</offset>
-				<factor>0.01</factor>
-			</pitch>
+        </engine>
+        <engine>
+            <name>Engine 2 sound 2 external</name>
+            <path>Sounds/jet.wav</path>
+            <mode>looped</mode>
+            <condition>
+                <and>
+                    <not>
+                        <property>sim/current-view/internal</property>
+                    </not>
+                    <greater-than>
+                        <property>engines/engine[1]/n1</property>
+                        <value>0</value>
+                    </greater-than>
+                </and>
+            </condition>
+            <volume>
+                <property>engines/engine[1]/n1</property>
+                <offset>0</offset>
+                <factor>0.01</factor>
+            </volume>
+            <pitch>
+                <property>engines/engine[1]/n1</property>
+                <offset>0</offset>
+                <factor>0.01</factor>
+            </pitch>
             <position>
                 <x>-3.3</x>
                 <y>-4.1</y>
                 <z>-1</z>
             </position>
-		</engine>
-		<engine>
-			<name>Engine 2 reverse thrust</name>
-			<path>Sounds/reverse-thrust.wav</path>
-			<mode>looped</mode>
-			<condition>
-				<and>
-					<greater-than>
-						<property>engines/engine[1]/n1</property>
-						<value>0</value>
-					</greater-than>
-					<greater-than>
-						<property>engines/engine[1]/reverser-pos-norm</property>
-						<value>0</value>
-					</greater-than>
-				</and>
-			</condition>
-			<volume>
-				<property>engines/engine[1]/n1</property>
-				<offset>0</offset>
-				<factor>0.01</factor>
-			</volume>
-			<volume>
-				<property>engines/engine[1]/reverser-pos-norm</property>
-				<offset>0</offset>
-				<factor>1</factor>
-			</volume>
+        </engine>
+        <engine>
+            <name>Engine 2 reverse thrust</name>
+            <path>Sounds/reverse-thrust.wav</path>
+            <mode>looped</mode>
+            <condition>
+                <and>
+                    <greater-than>
+                        <property>engines/engine[1]/n1</property>
+                        <value>0</value>
+                    </greater-than>
+                    <greater-than>
+                        <property>engines/engine[1]/reverser-pos-norm</property>
+                        <value>0</value>
+                    </greater-than>
+                </and>
+            </condition>
+            <volume>
+                <property>engines/engine[1]/n1</property>
+                <offset>0</offset>
+                <factor>0.01</factor>
+            </volume>
+            <volume>
+                <property>engines/engine[1]/reverser-pos-norm</property>
+                <offset>0</offset>
+                <factor>1</factor>
+            </volume>
             <position>
                 <x>-3.3</x>
                 <y>-4.1</y>
                 <z>-1</z>
             </position>
-		</engine>
-		<engine>
-			<name>Engine 2 sound internal</name>
-			<path>Sounds/jet_inside.wav</path>
-			<mode>looped</mode>
-			<condition>
-				<and>
-					<property>sim/current-view/internal</property>
-					<greater-than>
-						<property>engines/engine[1]/n1</property>
-						<value>0</value>
-					</greater-than>
-				</and>
-			</condition>
-			<volume>
-				<property>engines/engine[1]/n1</property>
-				<offset>0.5</offset>
-				<factor>0.01</factor>
-			</volume>
-			<pitch>
-				<property>engines/engine[1]/n1</property>
-				<offset>0</offset>
-				<factor>0.01</factor>
-			</pitch>
+        </engine>
+        <engine>
+            <name>Engine 2 sound internal</name>
+            <path>Sounds/jet_inside.wav</path>
+            <mode>looped</mode>
+            <condition>
+                <and>
+                    <property>sim/current-view/internal</property>
+                    <greater-than>
+                        <property>engines/engine[1]/n1</property>
+                        <value>0</value>
+                    </greater-than>
+                </and>
+            </condition>
+            <volume>
+                <property>engines/engine[1]/n1</property>
+                <offset>0.5</offset>
+                <factor>0.01</factor>
+            </volume>
+            <pitch>
+                <property>engines/engine[1]/n1</property>
+                <offset>0</offset>
+                <factor>0.01</factor>
+            </pitch>
             <position>
                 <x>-3.3</x>
                 <y>-4.1</y>
                 <z>-1</z>
             </position>
-			<reference-dist>10</reference-dist>
-			<max-dist>50</max-dist>
-		</engine>
+            <reference-dist>10</reference-dist>
+            <max-dist>50</max-dist>
+        </engine>
 
-		<!-- APU, same for inside and outside -->
-		<apu>
-			<name>APU starting</name>
-			<mode>once</mode>
-			<path>Sounds/apu_start.wav</path>
-			<condition>
-				<and>
-					<greater-than>
-						<property>engines/apu/rpm</property>
-						<value>0</value>
-					</greater-than>
-					<greater-than>
-						<property>engines/apu/rpm-target</property>
-						<value>50</value>
-					</greater-than>
-					<less-than>
+        <!-- APU, same for inside and outside -->
+        <apu>
+            <name>APU starting</name>
+            <mode>once</mode>
+            <path>Sounds/apu_start.wav</path>
+            <condition>
+                <and>
+                    <greater-than>
+                        <property>engines/apu/rpm</property>
+                        <value>0</value>
+                    </greater-than>
+                    <greater-than>
+                        <property>engines/apu/rpm-target</property>
+                        <value>50</value>
+                    </greater-than>
+                    <less-than>
                         <property>engines/apu/rpm</property>
                         <value>95</value>
-					</less-than>
-				</and>
-			</condition>
-			<volume>
-				<property>sim/sound/apu-vol</property>
-			</volume>
-			<reference-dist>10</reference-dist>
-			<max-dist>500</max-dist>
-			<position>
-				<x>15.24</x>
-				<y>0.01</y>
-				<z>-0.70</z>
-			</position>
-		</apu>
-		<apu>
-			<name>APU running</name>
-			<mode>looped</mode>
-			<path>Sounds/apu_run.wav</path>
-			<condition>
+                    </less-than>
+                </and>
+            </condition>
+            <volume>
+                <property>sim/sound/apu-vol</property>
+            </volume>
+            <reference-dist>10</reference-dist>
+            <max-dist>500</max-dist>
+            <position>
+                <x>15.24</x>
+                <y>0.01</y>
+                <z>-0.70</z>
+            </position>
+        </apu>
+        <apu>
+            <name>APU running</name>
+            <mode>looped</mode>
+            <path>Sounds/apu_run.wav</path>
+            <condition>
                 <greater-than>
                     <property>engines/apu/rpm</property>
                     <value>94.99</value>
                 </greater-than>
-			</condition>
-			<volume>
-				<property>sim/sound/apu-vol</property>
-			</volume>
-			<reference-dist>10</reference-dist>
-			<max-dist>500</max-dist>
-			<position>
-				<x>15.24</x>
-				<y>0.01</y>
-				<z>-0.70</z>
-			</position>
-		</apu>
-		<apu>
-			<name>APU shutdown</name>
-			<mode>once</mode>
-			<path>Sounds/apu_shutdown.wav</path>
-			<condition>
-				<and>
-					<greater-than>
-						<property>engines/apu/rpm</property>
-						<value>0</value>
-					</greater-than>
-					<less-than>
-						<property>engines/apu/rpm-target</property>
-						<value>50</value>
-					</less-than>
-					<less-than>
+            </condition>
+            <volume>
+                <property>sim/sound/apu-vol</property>
+            </volume>
+            <reference-dist>10</reference-dist>
+            <max-dist>500</max-dist>
+            <position>
+                <x>15.24</x>
+                <y>0.01</y>
+                <z>-0.70</z>
+            </position>
+        </apu>
+        <apu>
+            <name>APU shutdown</name>
+            <mode>once</mode>
+            <path>Sounds/apu_shutdown.wav</path>
+            <condition>
+                <and>
+                    <greater-than>
+                        <property>engines/apu/rpm</property>
+                        <value>0</value>
+                    </greater-than>
+                    <less-than>
+                        <property>engines/apu/rpm-target</property>
+                        <value>50</value>
+                    </less-than>
+                    <less-than>
                         <property>engines/apu/rpm</property>
                         <value>95</value>
-					</less-than>
-				</and>
-			</condition>
-			<volume>
-				<property>sim/sound/apu-vol</property>
-			</volume>
-			<reference-dist>10</reference-dist>
-			<max-dist>500</max-dist>
-			<position>
-				<x>15.24</x>
-				<y>0.01</y>
-				<z>-0.70</z>
-			</position>
-		</apu>
+                    </less-than>
+                </and>
+            </condition>
+            <volume>
+                <property>sim/sound/apu-vol</property>
+            </volume>
+            <reference-dist>10</reference-dist>
+            <max-dist>500</max-dist>
+            <position>
+                <x>15.24</x>
+                <y>0.01</y>
+                <z>-0.70</z>
+            </position>
+        </apu>
 
         <gear>
             <name>gear</name>
             <mode>in-transit</mode>
             <path>Aircraft/E-jet-family/Sounds/landing-gear.wav</path>
             <property>/gear/gear[0]/position-norm</property>
-			<volume>
-				<property>sim/sound/gear-vol</property>
-			</volume>
+            <volume>
+                <property>sim/sound/gear-vol</property>
+            </volume>
             <pitch>
                 <offset>-0.75</offset>
             </pitch>
@@ -365,9 +365,9 @@
                     <value>1</value>
                 </equals>
             </condition>
-			<volume>
-				<property>sim/sound/gear-vol</property>
-			</volume>
+            <volume>
+                <property>sim/sound/gear-vol</property>
+            </volume>
             <pitch>
                 <offset>-0.5</offset>
             </pitch>
@@ -528,9 +528,9 @@
             <mode>in-transit</mode>
             <path>Aircraft/E-jet-family/Sounds/flaps.wav</path>
             <property>/fdm/jsbsim/fcs/flap-pos-norm</property>
-			<volume>
-				<property>sim/sound/flaps-vol</property>
-			</volume>
+            <volume>
+                <property>sim/sound/flaps-vol</property>
+            </volume>
             <position>
                 <x>-9</x>
                 <y>0</y>
@@ -544,9 +544,9 @@
             <mode>in-transit</mode>
             <path>Aircraft/E-jet-family/Sounds/slats.wav</path>
             <property>/fdm/jsbsim/fcs/slat-pos-norm</property>
-			<volume>
-				<property>sim/sound/flaps-vol</property>
-			</volume>
+            <volume>
+                <property>sim/sound/flaps-vol</property>
+            </volume>
             <position>
                 <x>-9</x>
                 <y>0</y>
@@ -591,7 +591,7 @@
         <stall>
             <name>stall</name>
             <mode>looped</mode>
-			<type>avionics</type>
+            <type>avionics</type>
             <path>Aircraft/E-jet-family/Sounds/SoundPack/stall.wav</path>
             <condition>
                 <property>sim/sound/stall-horn</property>
@@ -637,8 +637,8 @@
             <mode>once</mode>
             <condition>
                 <not>
-					<property>controls/switches/seatbelt-sign</property>
-				</not>
+                    <property>controls/switches/seatbelt-sign</property>
+                </not>
             </condition>
             <position>
                 <x>0.00</x>
@@ -669,8 +669,8 @@
             <mode>once</mode>
             <condition>
                 <not>
-					<property>controls/switches/no-smoking-sign</property>
-				</not>
+                    <property>controls/switches/no-smoking-sign</property>
+                </not>
             </condition>
             <position>
                 <x>0.00</x>
@@ -686,7 +686,7 @@
         <overspeed>
             <name>Overspeed warning</name>
             <path>Sounds/overspeed.wav</path>
-			<type>avionics</type>
+            <type>avionics</type>
             <mode>looped</mode>
             <condition>
                 <greater-than>
@@ -975,872 +975,882 @@
             <max-dist>5</max-dist>
         </avionics>
 
-		<!-- OH panel generator 1 -->
-		<switch>
-			<name>Generator 1 0</name>
-			<mode>once</mode>
-			<type>avionics</type>
-			<path>Aircraft/E-jet-family/Sounds/Cockpit/button2b.wav</path>
-			<condition>
-				<not>
-					<property>controls/electric/engine/generator</property>
-				</not>
-			</condition>
-			<volume>
-				<factor>0.2</factor>
-			</volume>
-		</switch>
-		<switch>
-			<name>Generator 1 1</name>
-			<mode>once</mode>
-			<type>avionics</type>
-			<path>Aircraft/E-jet-family/Sounds/Cockpit/button2b.wav</path>
-			<condition>
-					<property>controls/electric/engine/generator</property>
-			</condition>
-			<volume>
-				<factor>0.2</factor>
-			</volume>
-		</switch>
-		<!-- OH panel generator 2 -->
-		<switch>
-			<name>Generator 2 0</name>
-			<mode>once</mode>
-			<type>avionics</type>
-			<path>Aircraft/E-jet-family/Sounds/Cockpit/button2b.wav</path>
-			<condition>
-				<not>
-					<property>controls/electric/engine[1]/generator</property>
-				</not>
-			</condition>
-			<volume>
-				<factor>0.2</factor>
-			</volume>
-		</switch>
-		<switch>
-			<name>Generator 2 1</name>
-			<mode>once</mode>
-			<type>avionics</type>
-			<path>Aircraft/E-jet-family/Sounds/Cockpit/button2b.wav</path>
-			<condition>
-					<property>controls/electric/engine[1]/generator</property>
-			</condition>
-			<volume>
-				<factor>0.2</factor>
-			</volume>
-		</switch>
+        <!-- OH panel generator 1 -->
+        <switch>
+            <name>Generator 1 0</name>
+            <mode>once</mode>
+            <type>avionics</type>
+            <path>Aircraft/E-jet-family/Sounds/Cockpit/button2b.wav</path>
+            <condition>
+                <not>
+                    <property>controls/electric/engine/generator</property>
+                </not>
+            </condition>
+            <volume>
+                <factor>0.2</factor>
+            </volume>
+        </switch>
+        <switch>
+            <name>Generator 1 1</name>
+            <mode>once</mode>
+            <type>avionics</type>
+            <path>Aircraft/E-jet-family/Sounds/Cockpit/button2b.wav</path>
+            <condition>
+                <property>controls/electric/engine/generator</property>
+            </condition>
+            <volume>
+                <factor>0.2</factor>
+            </volume>
+        </switch>
+        <!-- OH panel generator 2 -->
+        <switch>
+            <name>Generator 2 0</name>
+            <mode>once</mode>
+            <type>avionics</type>
+            <path>Aircraft/E-jet-family/Sounds/Cockpit/button2b.wav</path>
+            <condition>
+                <not>
+                    <property>controls/electric/engine[1]/generator</property>
+                </not>
+            </condition>
+            <volume>
+                <factor>0.2</factor>
+            </volume>
+        </switch>
+        <switch>
+            <name>Generator 2 1</name>
+            <mode>once</mode>
+            <type>avionics</type>
+            <path>Aircraft/E-jet-family/Sounds/Cockpit/button2b.wav</path>
+            <condition>
+                <property>controls/electric/engine[1]/generator</property>
+            </condition>
+            <volume>
+                <factor>0.2</factor>
+            </volume>
+        </switch>
 
-		<!-- OH panel battery 1 -->
-		<switch>
-			<name>Battery 1 0</name>
-			<mode>once</mode>
-			<type>avionics</type>
-			<path>Aircraft/E-jet-family/Sounds/Cockpit/button2b.wav</path>
-			<condition>
-				<not>
-					<property>controls/electric/battery-switch</property>
-				</not>
-			</condition>
-			<volume>
-				<factor>0.2</factor>
-			</volume>
-		</switch>
-		<switch>
-			<name>Battery 1 1</name>
-			<mode>once</mode>
-			<type>avionics</type>
-			<path>Aircraft/E-jet-family/Sounds/Cockpit/button2b.wav</path>
-			<condition>
-					<property>controls/electric/battery-switch</property>
-			</condition>
-			<volume>
-				<factor>0.2</factor>
-			</volume>
-		</switch>
-		<!-- OH panel battery 2 -->
-		<switch>
-			<name>Battery 2 0</name>
-			<mode>once</mode>
-			<type>avionics</type>
-			<path>Aircraft/E-jet-family/Sounds/Cockpit/button2b.wav</path>
-			<condition>
-				<not>
-					<property>controls/electric/battery-switch[1]</property>
-				</not>
-			</condition>
-			<volume>
-				<factor>0.2</factor>
-			</volume>
-		</switch>
-		<switch>
-			<name>Battery 2 1</name>
-			<mode>once</mode>
-			<type>avionics</type>
-			<path>Aircraft/E-jet-family/Sounds/Cockpit/button2b.wav</path>
-			<condition>
-					<property>controls/electric/battery-switch[1]</property>
-			</condition>
-			<volume>
-				<factor>0.2</factor>
-			</volume>
-		</switch>
+        <!-- OH panel battery 1 -->
+        <switch>
+            <name>Battery 1 0</name>
+            <mode>once</mode>
+            <type>avionics</type>
+            <path>Aircraft/E-jet-family/Sounds/Cockpit/button2b.wav</path>
+            <condition>
+                <not>
+                    <property>controls/electric/battery-switch</property>
+                </not>
+            </condition>
+            <volume>
+                <factor>0.2</factor>
+            </volume>
+        </switch>
+        <switch>
+            <name>Battery 1 1</name>
+            <mode>once</mode>
+            <type>avionics</type>
+            <path>Aircraft/E-jet-family/Sounds/Cockpit/button2b.wav</path>
+            <condition>
+                <property>controls/electric/battery-switch</property>
+            </condition>
+            <volume>
+                <factor>0.2</factor>
+            </volume>
+        </switch>
+        <!-- OH panel battery 2 -->
+        <switch>
+            <name>Battery 2 0</name>
+            <mode>once</mode>
+            <type>avionics</type>
+            <path>Aircraft/E-jet-family/Sounds/Cockpit/button2b.wav</path>
+            <condition>
+                <not>
+                    <property>controls/electric/battery-switch[1]</property>
+                </not>
+            </condition>
+            <volume>
+                <factor>0.2</factor>
+            </volume>
+        </switch>
+        <switch>
+            <name>Battery 2 1</name>
+            <mode>once</mode>
+            <type>avionics</type>
+            <path>Aircraft/E-jet-family/Sounds/Cockpit/button2b.wav</path>
+            <condition>
+                <property>controls/electric/battery-switch[1]</property>
+            </condition>
+            <volume>
+                <factor>0.2</factor>
+            </volume>
+        </switch>
 
-		<!-- OH panel ac bus ties -->
-		<switch>
-			<name>AC Bus Ties -1</name>
-			<mode>once</mode>
-			<type>avionics</type>
-			<path>Aircraft/E-jet-family/Sounds/Cockpit/button2b.wav</path>
-			<condition>
-				<equals>
-					<property>/controls/electric/bus-tie-ac</property>
-					<value>-1</value>
-				</equals>
-			</condition>
-			<volume>
-				<factor>0.2</factor>
-			</volume>
-		</switch>
-		<switch>
-			<name>AC Bus Ties 0</name>
-			<mode>once</mode>
-			<type>avionics</type>
-			<path>Aircraft/E-jet-family/Sounds/Cockpit/button2b.wav</path>
-			<condition>
-				<equals>
-					<property>/controls/electric/bus-tie-ac</property>
-					<value>0</value>
-				</equals>
-			</condition>
-			<volume>
-				<factor>0.2</factor>
-			</volume>
-		</switch>
-		<switch>
-			<name>AC Bus Ties 1</name>
-			<mode>once</mode>
-			<type>avionics</type>
-			<path>Aircraft/E-jet-family/Sounds/Cockpit/button2b.wav</path>
-			<condition>
-				<equals>
-					<property>/controls/electric/bus-tie-ac</property>
-					<value>1</value>
-				</equals>
-			</condition>
-			<volume>
-				<factor>0.2</factor>
-			</volume>
-		</switch>
+        <!-- OH panel ac bus ties -->
+        <switch>
+            <name>AC Bus Ties -1</name>
+            <mode>once</mode>
+            <type>avionics</type>
+            <path>Aircraft/E-jet-family/Sounds/Cockpit/button2b.wav</path>
+            <condition>
+                <equals>
+                    <property>/controls/electric/bus-tie-ac</property>
+                    <value>-1</value>
+                </equals>
+            </condition>
+            <volume>
+                <factor>0.2</factor>
+            </volume>
+        </switch>
+        <switch>
+            <name>AC Bus Ties 0</name>
+            <mode>once</mode>
+            <type>avionics</type>
+            <path>Aircraft/E-jet-family/Sounds/Cockpit/button2b.wav</path>
+            <condition>
+                <equals>
+                    <property>/controls/electric/bus-tie-ac</property>
+                    <value>0</value>
+                </equals>
+            </condition>
+            <volume>
+                <factor>0.2</factor>
+            </volume>
+        </switch>
+        <switch>
+            <name>AC Bus Ties 1</name>
+            <mode>once</mode>
+            <type>avionics</type>
+            <path>Aircraft/E-jet-family/Sounds/Cockpit/button2b.wav</path>
+            <condition>
+                <equals>
+                    <property>/controls/electric/bus-tie-ac</property>
+                    <value>1</value>
+                </equals>
+            </condition>
+            <volume>
+                <factor>0.2</factor>
+            </volume>
+        </switch>
 
-		<!-- OH panel fuel pump left-->
-		<switch>
-			<name>Fuel Pump Left 0</name>
-			<mode>once</mode>
-			<type>avionics</type>
-			<path>Aircraft/E-jet-family/Sounds/Cockpit/button2b.wav</path>
-			<condition>
-				<not>
-					<property>/controls/fuel/tank[0]/boost-pump</property>
-				</not>
-			</condition>
-			<volume>
-				<factor>0.2</factor>
-			</volume>
-		</switch>
-		<switch>
-			<name>Fuel Pump Left 1</name>
-			<mode>once</mode>
-			<type>avionics</type>
-			<path>Aircraft/E-jet-family/Sounds/Cockpit/button2b.wav</path>
-			<condition>
-					<property>/controls/fuel/tank[0]/boost-pump</property>
-			</condition>
-			<volume>
-				<factor>0.2</factor>
-			</volume>
-		</switch>
-		<!-- OH panel fuel pump right-->
-		<switch>
-			<name>Fuel Pump Right 0</name>
-			<mode>once</mode>
-			<type>avionics</type>
-			<path>Aircraft/E-jet-family/Sounds/Cockpit/button2b.wav</path>
-			<condition>
-				<not>
-					<property>/controls/fuel/tank[1]/boost-pump</property>
-				</not>
-			</condition>
-			<volume>
-				<factor>0.2</factor>
-			</volume>
-		</switch>
-		<switch>
-			<name>Fuel Pump Right 1</name>
-			<mode>once</mode>
-			<type>avionics</type>
-			<path>Aircraft/E-jet-family/Sounds/Cockpit/button2b.wav</path>
-			<condition>
-					<property>/controls/fuel/tank[1]/boost-pump</property>
-			</condition>
-			<volume>
-				<factor>0.2</factor>
-			</volume>
-		</switch>
-		<!-- OH panel fuel pump dc-->
-		<switch>
-			<name>Fuel Pump DC 0</name>
-			<mode>once</mode>
-			<type>avionics</type>
-			<path>Aircraft/E-jet-family/Sounds/Cockpit/button2b.wav</path>
-			<condition>
-				<not>
-					<property>/controls/fuel/tank[1]/boost-pump[1]</property>
-				</not>
-			</condition>
-			<volume>
-				<factor>0.2</factor>
-			</volume>
-		</switch>
-		<switch>
-			<name>Fuel Pump DC 1</name>
-			<mode>once</mode>
-			<type>avionics</type>
-			<path>Aircraft/E-jet-family/Sounds/Cockpit/button2b.wav</path>
-			<condition>
-					<property>/controls/fuel/tank[1]/boost-pump[1]</property>
-			</condition>
-			<volume>
-				<factor>0.2</factor>
-			</volume>
-		</switch>
-		<!-- OH panel fuel pump center-->
-		<switch>
-			<name>Fuel Pump Center 0</name>
-			<mode>once</mode>
-			<type>avionics</type>
-			<path>Aircraft/E-jet-family/Sounds/Cockpit/button2b.wav</path>
-			<condition>
-				<not>
-					<property>/controls/fuel/tank[2]/boost-pump</property>
-				</not>
-			</condition>
-			<volume>
-				<factor>0.2</factor>
-			</volume>
-		</switch>
-		<switch>
-			<name>Fuel Pump Center 1</name>
-			<mode>once</mode>
-			<type>avionics</type>
-			<path>Aircraft/E-jet-family/Sounds/Cockpit/button2b.wav</path>
-			<condition>
-					<property>/controls/fuel/tank[2]/boost-pump</property>
-			</condition>
-			<volume>
-				<factor>0.2</factor>
-			</volume>
-		</switch>
+        <!-- OH panel fuel pump left-->
+        <switch>
+            <name>Fuel Pump Left 0</name>
+            <mode>once</mode>
+            <type>avionics</type>
+            <path>Aircraft/E-jet-family/Sounds/Cockpit/button2b.wav</path>
+            <condition>
+                <not>
+                    <property>/controls/fuel/tank[0]/boost-pump</property>
+                </not>
+            </condition>
+            <volume>
+                <factor>0.2</factor>
+            </volume>
+        </switch>
+        <switch>
+            <name>Fuel Pump Left 1</name>
+            <mode>once</mode>
+            <type>avionics</type>
+            <path>Aircraft/E-jet-family/Sounds/Cockpit/button2b.wav</path>
+            <condition>
+                <property>/controls/fuel/tank[0]/boost-pump</property>
+            </condition>
+            <volume>
+                <factor>0.2</factor>
+            </volume>
+        </switch>
+        <!-- OH panel fuel pump right-->
+        <switch>
+            <name>Fuel Pump Right 0</name>
+            <mode>once</mode>
+            <type>avionics</type>
+            <path>Aircraft/E-jet-family/Sounds/Cockpit/button2b.wav</path>
+            <condition>
+                <not>
+                    <property>/controls/fuel/tank[1]/boost-pump</property>
+                </not>
+            </condition>
+            <volume>
+                <factor>0.2</factor>
+            </volume>
+        </switch>
+        <switch>
+            <name>Fuel Pump Right 1</name>
+            <mode>once</mode>
+            <type>avionics</type>
+            <path>Aircraft/E-jet-family/Sounds/Cockpit/button2b.wav</path>
+            <condition>
+                <property>/controls/fuel/tank[1]/boost-pump</property>
+            </condition>
+            <volume>
+                <factor>0.2</factor>
+            </volume>
+        </switch>
+        <!-- OH panel fuel pump dc-->
+        <switch>
+            <name>Fuel Pump DC 0</name>
+            <mode>once</mode>
+            <type>avionics</type>
+            <path>Aircraft/E-jet-family/Sounds/Cockpit/button2b.wav</path>
+            <condition>
+                <not>
+                    <property>/controls/fuel/tank[1]/boost-pump[1]</property>
+                </not>
+            </condition>
+            <volume>
+                <factor>0.2</factor>
+            </volume>
+        </switch>
+        <switch>
+            <name>Fuel Pump DC 1</name>
+            <mode>once</mode>
+            <type>avionics</type>
+            <path>Aircraft/E-jet-family/Sounds/Cockpit/button2b.wav</path>
+            <condition>
+                <property>/controls/fuel/tank[1]/boost-pump[1]</property>
+            </condition>
+            <volume>
+                <factor>0.2</factor>
+            </volume>
+        </switch>
+        <!-- OH panel fuel pump center-->
+        <switch>
+            <name>Fuel Pump Center 0</name>
+            <mode>once</mode>
+            <type>avionics</type>
+            <path>Aircraft/E-jet-family/Sounds/Cockpit/button2b.wav</path>
+            <condition>
+                <not>
+                    <property>/controls/fuel/tank[2]/boost-pump</property>
+                </not>
+            </condition>
+            <volume>
+                <factor>0.2</factor>
+            </volume>
+        </switch>
+        <switch>
+            <name>Fuel Pump Center 1</name>
+            <mode>once</mode>
+            <type>avionics</type>
+            <path>Aircraft/E-jet-family/Sounds/Cockpit/button2b.wav</path>
+            <condition>
+                <property>/controls/fuel/tank[2]/boost-pump</property>
+            </condition>
+            <volume>
+                <factor>0.2</factor>
+            </volume>
+        </switch>
 
-		<!-- OH panel fuel crossfeed -->
-		<switch>
-			<name>Fuel Crossfeed -1</name>
-			<mode>once</mode>
-			<type>avionics</type>
-			<path>Aircraft/E-jet-family/Sounds/Cockpit/button2b.wav</path>
-			<condition>
-				<equals>
-					<property>/controls/fuel/crossfeed</property>
-					<value>-1</value>
-				</equals>
-			</condition>
-			<volume>
-				<factor>0.2</factor>
-			</volume>
-		</switch>
-		<switch>
-			<name>Fuel Crossfeed 0</name>
-			<mode>once</mode>
-			<type>avionics</type>
-			<path>Aircraft/E-jet-family/Sounds/Cockpit/button2b.wav</path>
-			<condition>
-				<equals>
-					<property>/controls/fuel/crossfeed</property>
-					<value>0</value>
-				</equals>
-			</condition>
-			<volume>
-				<factor>0.2</factor>
-			</volume>
-		</switch>
-		<switch>
-			<name>Fuel Crossfeed 1</name>
-			<mode>once</mode>
-			<type>avionics</type>
-			<path>Aircraft/E-jet-family/Sounds/Cockpit/button2b.wav</path>
-			<condition>
-				<equals>
-					<property>/controls/fuel/crossfeed</property>
-					<value>1</value>
-				</equals>
-			</condition>
-			<volume>
-				<factor>0.2</factor>
-			</volume>
-		</switch>
+        <!-- OH panel fuel crossfeed -->
+        <switch>
+            <name>Fuel Crossfeed -1</name>
+            <mode>once</mode>
+            <type>avionics</type>
+            <path>Aircraft/E-jet-family/Sounds/Cockpit/button2b.wav</path>
+            <condition>
+                <equals>
+                    <property>/controls/fuel/crossfeed</property>
+                    <value>-1</value>
+                </equals>
+            </condition>
+            <volume>
+                <factor>0.2</factor>
+            </volume>
+        </switch>
+        <switch>
+            <name>Fuel Crossfeed 0</name>
+            <mode>once</mode>
+            <type>avionics</type>
+            <path>Aircraft/E-jet-family/Sounds/Cockpit/button2b.wav</path>
+            <condition>
+                <equals>
+                    <property>/controls/fuel/crossfeed</property>
+                    <value>0</value>
+                </equals>
+            </condition>
+            <volume>
+                <factor>0.2</factor>
+            </volume>
+        </switch>
+        <switch>
+            <name>Fuel Crossfeed 1</name>
+            <mode>once</mode>
+            <type>avionics</type>
+            <path>Aircraft/E-jet-family/Sounds/Cockpit/button2b.wav</path>
+            <condition>
+                <equals>
+                    <property>/controls/fuel/crossfeed</property>
+                    <value>1</value>
+                </equals>
+            </condition>
+            <volume>
+                <factor>0.2</factor>
+            </volume>
+        </switch>
 
-		<!-- OH panel apu knob-->
-		<switch>
-			<name>APU Knob 0</name>
-			<mode>once</mode>
-			<type>avionics</type>
-			<path>Aircraft/E-jet-family/Sounds/Cockpit/button2b.wav</path>
-			<condition>
-				<equals>
-					<property>controls/apu/starter</property>
-					<value>0</value>
-				</equals>
-			</condition>
-			<volume>
-				<factor>0.2</factor>
-			</volume>
-		</switch>
-		<switch>
-			<name>APU Knob 2</name>
-			<mode>once</mode>
-			<type>avionics</type>
-			<path>Aircraft/E-jet-family/Sounds/Cockpit/button2b.wav</path>
-			<condition>
-				<equals>
-					<property>controls/apu/starter</property>
-					<value>2</value>
-				</equals>
-			</condition>
-			<volume>
-				<factor>0.2</factor>
-			</volume>
-		</switch>
+        <!-- OH panel apu knob-->
+        <switch>
+            <name>APU Knob 0</name>
+            <mode>once</mode>
+            <type>avionics</type>
+            <path>Aircraft/E-jet-family/Sounds/Cockpit/button2b.wav</path>
+            <condition>
+                <equals>
+                    <property>controls/apu/starter</property>
+                    <value>0</value>
+                </equals>
+            </condition>
+            <volume>
+                <factor>0.2</factor>
+            </volume>
+        </switch>
+        <switch>
+            <name>APU Knob 2</name>
+            <mode>once</mode>
+            <type>avionics</type>
+            <path>Aircraft/E-jet-family/Sounds/Cockpit/button2b.wav</path>
+            <condition>
+                <equals>
+                    <property>controls/apu/starter</property>
+                    <value>2</value>
+                </equals>
+            </condition>
+            <volume>
+                <factor>0.2</factor>
+            </volume>
+        </switch>
 
-		<!-- OH panel wiper left -->
-		<switch>
-			<name>Wiper Left 0</name>
-			<mode>once</mode>
-			<type>avionics</type>
-			<path>Aircraft/E-jet-family/Sounds/Cockpit/button2b.wav</path>
-			<condition>
-				<equals>
-					<property>controls/switches/wiper-left</property>
-					<value>0</value>
-				</equals>
-			</condition>
-			<volume>
-				<factor>0.2</factor>
-			</volume>
-		</switch>
-		<switch>
-			<name>Wiper Left 1</name>
-			<mode>once</mode>
-			<type>avionics</type>
-			<path>Aircraft/E-jet-family/Sounds/Cockpit/button2b.wav</path>
-			<condition>
-				<equals>
-					<property>controls/switches/wiper-left</property>
-					<value>1</value>
-				</equals>
-			</condition>
-			<volume>
-				<factor>0.2</factor>
-			</volume>
-		</switch>
-		<switch>
-			<name>Wiper Left 2</name>
-			<mode>once</mode>
-			<type>avionics</type>
-			<path>Aircraft/E-jet-family/Sounds/Cockpit/button2b.wav</path>
-			<condition>
-				<equals>
-					<property>controls/switches/wiper-left</property>
-					<value>2</value>
-				</equals>
-			</condition>
-			<volume>
-				<factor>0.2</factor>
-			</volume>
-		</switch>
-		<switch>
-			<name>Wiper Left 3</name>
-			<mode>once</mode>
-			<type>avionics</type>
-			<path>Aircraft/E-jet-family/Sounds/Cockpit/button2b.wav</path>
-			<condition>
-				<equals>
-					<property>controls/switches/wiper-left</property>
-					<value>3</value>
-				</equals>
-			</condition>
-			<volume>
-				<factor>0.2</factor>
-			</volume>
-		</switch>
-		<!-- OH panel wiper right -->
-		<switch>
-			<name>Wiper Right 0</name>
-			<mode>once</mode>
-			<type>avionics</type>
-			<path>Aircraft/E-jet-family/Sounds/Cockpit/button2b.wav</path>
-			<condition>
-				<equals>
-					<property>controls/switches/wiper-right</property>
-					<value>0</value>
-				</equals>
-			</condition>
-			<volume>
-				<factor>0.2</factor>
-			</volume>
-		</switch>
-		<switch>
-			<name>Wiper Right 1</name>
-			<mode>once</mode>
-			<type>avionics</type>
-			<path>Aircraft/E-jet-family/Sounds/Cockpit/button2b.wav</path>
-			<condition>
-				<equals>
-					<property>controls/switches/wiper-right</property>
-					<value>1</value>
-				</equals>
-			</condition>
-			<volume>
-				<factor>0.2</factor>
-			</volume>
-		</switch>
-		<switch>
-			<name>Wiper Right 2</name>
-			<mode>once</mode>
-			<type>avionics</type>
-			<path>Aircraft/E-jet-family/Sounds/Cockpit/button2b.wav</path>
-			<condition>
-				<equals>
-					<property>controls/switches/wiper-right</property>
-					<value>2</value>
-				</equals>
-			</condition>
-			<volume>
-				<factor>0.2</factor>
-			</volume>
-		</switch>
-		<switch>
-			<name>Wiper Right 3</name>
-			<mode>once</mode>
-			<type>avionics</type>
-			<path>Aircraft/E-jet-family/Sounds/Cockpit/button2b.wav</path>
-			<condition>
-				<equals>
-					<property>controls/switches/wiper-right</property>
-					<value>3</value>
-				</equals>
-			</condition>
-			<volume>
-				<factor>0.2</factor>
-			</volume>
-		</switch>
+        <!-- OH panel wiper left -->
+        <switch>
+            <name>Wiper Left 0</name>
+            <mode>once</mode>
+            <type>avionics</type>
+            <path>Aircraft/E-jet-family/Sounds/Cockpit/button2b.wav</path>
+            <condition>
+                <equals>
+                    <property>controls/switches/wiper-left</property>
+                    <value>0</value>
+                </equals>
+            </condition>
+            <volume>
+                <factor>0.2</factor>
+            </volume>
+        </switch>
+        <switch>
+            <name>Wiper Left 1</name>
+            <mode>once</mode>
+            <type>avionics</type>
+            <path>Aircraft/E-jet-family/Sounds/Cockpit/button2b.wav</path>
+            <condition>
+                <equals>
+                    <property>controls/switches/wiper-left</property>
+                    <value>1</value>
+                </equals>
+            </condition>
+            <volume>
+                <factor>0.2</factor>
+            </volume>
+        </switch>
+        <switch>
+            <name>Wiper Left 2</name>
+            <mode>once</mode>
+            <type>avionics</type>
+            <path>Aircraft/E-jet-family/Sounds/Cockpit/button2b.wav</path>
+            <condition>
+                <equals>
+                    <property>controls/switches/wiper-left</property>
+                    <value>2</value>
+                </equals>
+            </condition>
+            <volume>
+                <factor>0.2</factor>
+            </volume>
+        </switch>
+        <switch>
+            <name>Wiper Left 3</name>
+            <mode>once</mode>
+            <type>avionics</type>
+            <path>Aircraft/E-jet-family/Sounds/Cockpit/button2b.wav</path>
+            <condition>
+                <equals>
+                    <property>controls/switches/wiper-left</property>
+                    <value>3</value>
+                </equals>
+            </condition>
+            <volume>
+                <factor>0.2</factor>
+            </volume>
+        </switch>
+        <!-- OH panel wiper right -->
+        <switch>
+            <name>Wiper Right 0</name>
+            <mode>once</mode>
+            <type>avionics</type>
+            <path>Aircraft/E-jet-family/Sounds/Cockpit/button2b.wav</path>
+            <condition>
+                <equals>
+                    <property>controls/switches/wiper-right</property>
+                    <value>0</value>
+                </equals>
+            </condition>
+            <volume>
+                <factor>0.2</factor>
+            </volume>
+        </switch>
+        <switch>
+            <name>Wiper Right 1</name>
+            <mode>once</mode>
+            <type>avionics</type>
+            <path>Aircraft/E-jet-family/Sounds/Cockpit/button2b.wav</path>
+            <condition>
+                <equals>
+                    <property>controls/switches/wiper-right</property>
+                    <value>1</value>
+                </equals>
+            </condition>
+            <volume>
+                <factor>0.2</factor>
+            </volume>
+        </switch>
+        <switch>
+            <name>Wiper Right 2</name>
+            <mode>once</mode>
+            <type>avionics</type>
+            <path>Aircraft/E-jet-family/Sounds/Cockpit/button2b.wav</path>
+            <condition>
+                <equals>
+                    <property>controls/switches/wiper-right</property>
+                    <value>2</value>
+                </equals>
+            </condition>
+            <volume>
+                <factor>0.2</factor>
+            </volume>
+        </switch>
+        <switch>
+            <name>Wiper Right 3</name>
+            <mode>once</mode>
+            <type>avionics</type>
+            <path>Aircraft/E-jet-family/Sounds/Cockpit/button2b.wav</path>
+            <condition>
+                <equals>
+                    <property>controls/switches/wiper-right</property>
+                    <value>3</value>
+                </equals>
+            </condition>
+            <volume>
+                <factor>0.2</factor>
+            </volume>
+        </switch>
 
-		<!-- OH panel pushbuttons-->
-		<switch>
-			<name>Button 1 on</name>
-			<mode>once</mode>
-			<type>avionics</type>
-			<path>Aircraft/E-jet-family/Sounds/Cockpit/pushbutton.wav</path>
-			<condition>
-				<property>sim/sound/button1</property>
-			</condition>
-			<volume>
-				<factor>0.2</factor>
-			</volume>
-		</switch>
-		<switch>
-			<name>Button 1 off</name>
-			<mode>once</mode>
-			<type>avionics</type>
-			<path>Aircraft/E-jet-family/Sounds/Cockpit/pushbutton.wav</path>
-			<condition>
-				<not><property>sim/sound/button1</property></not>
-			</condition>
-			<volume>
-				<factor>0.2</factor>
-			</volume>
-		</switch>
+        <!-- OH panel pushbuttons-->
+        <switch>
+            <name>Button 1 on</name>
+            <mode>once</mode>
+            <type>avionics</type>
+            <path>Aircraft/E-jet-family/Sounds/Cockpit/pushbutton.wav</path>
+            <condition>
+                <property>sim/sound/button1</property>
+            </condition>
+            <volume>
+                <factor>0.2</factor>
+            </volume>
+        </switch>
+        <switch>
+            <name>Button 1 off</name>
+            <mode>once</mode>
+            <type>avionics</type>
+            <path>Aircraft/E-jet-family/Sounds/Cockpit/pushbutton.wav</path>
+            <condition>
+                <not>
+                    <property>sim/sound/button1</property>
+                </not>
+            </condition>
+            <volume>
+                <factor>0.2</factor>
+            </volume>
+        </switch>
 
-		<!-- OH panel rotary knobs -->
-		<switch>
-			<name>Knob 1 on</name>
-			<mode>once</mode>
-			<type>avionics</type>
-			<path>Aircraft/E-jet-family/Sounds/Cockpit/button2b.wav</path>
-			<condition>
-				<property>/sim/sound/knob1</property>
-			</condition>
-			<volume>
-				<factor>0.2</factor>
-			</volume>
-		</switch>
-		<switch>
-			<name>Knob 1 off</name>
-			<mode>once</mode>
-			<type>avionics</type>
-			<path>Aircraft/E-jet-family/Sounds/Cockpit/button2b.wav</path>
-			<condition>
-				<not><property>sim/sound/knob1</property></not>
-			</condition>
-			<volume>
-				<factor>0.2</factor>
-			</volume>
-		</switch>
+        <!-- OH panel rotary knobs -->
+        <switch>
+            <name>Knob 1 on</name>
+            <mode>once</mode>
+            <type>avionics</type>
+            <path>Aircraft/E-jet-family/Sounds/Cockpit/button2b.wav</path>
+            <condition>
+                <property>/sim/sound/knob1</property>
+            </condition>
+            <volume>
+                <factor>0.2</factor>
+            </volume>
+        </switch>
+        <switch>
+            <name>Knob 1 off</name>
+            <mode>once</mode>
+            <type>avionics</type>
+            <path>Aircraft/E-jet-family/Sounds/Cockpit/button2b.wav</path>
+            <condition>
+                <not>
+                    <property>sim/sound/knob1</property>
+                </not>
+            </condition>
+            <volume>
+                <factor>0.2</factor>
+            </volume>
+        </switch>
 
-		<!-- OH panel battery 2 rotary knob -->
-		<!-- TODO: separate relay sound -->
-		<switch>
-			<name>Knob 2 on</name>
-			<mode>once</mode>
-			<type>avionics</type>
-			<path>Aircraft/E-jet-family/Sounds/Cockpit/keys2b.wav</path>
-			<condition>
-				<property>sim/sound/knob2</property>
-			</condition>
-			<volume>
-				<factor>0.2</factor>
-			</volume>
-		</switch>
-		<switch>
-			<name>Knob 2 off</name>
-			<mode>once</mode>
-			<type>avionics</type>
-			<path>Aircraft/E-jet-family/Sounds/Cockpit/keys2b.wav</path>
-			<condition>
-				<not><property>sim/sound/knob2</property></not>
-			</condition>
-			<volume>
-				<factor>0.2</factor>
-			</volume>
-		</switch>
+        <!-- OH panel battery 2 rotary knob -->
+        <!-- TODO: separate relay sound -->
+        <switch>
+            <name>Knob 2 on</name>
+            <mode>once</mode>
+            <type>avionics</type>
+            <path>Aircraft/E-jet-family/Sounds/Cockpit/keys2b.wav</path>
+            <condition>
+                <property>sim/sound/knob2</property>
+            </condition>
+            <volume>
+                <factor>0.2</factor>
+            </volume>
+        </switch>
+        <switch>
+            <name>Knob 2 off</name>
+            <mode>once</mode>
+            <type>avionics</type>
+            <path>Aircraft/E-jet-family/Sounds/Cockpit/keys2b.wav</path>
+            <condition>
+                <not>
+                    <property>sim/sound/knob2</property>
+                </not>
+            </condition>
+            <volume>
+                <factor>0.2</factor>
+            </volume>
+        </switch>
 
-		<!-- OH panel metal flip switches -->
-		<switch>
-			<name>Switch 1 on</name>
-			<mode>once</mode>
-			<type>avionics</type>
-			<path>Aircraft/E-jet-family/Sounds/Cockpit/click2.wav</path>
-			<condition>
-				<property>sim/sound/switch1</property>
-			</condition>
-			<volume>
-				<factor>0.2</factor>
-			</volume>
-		</switch>
-		<switch>
-			<name>Switch 1 off</name>
-			<mode>once</mode>
-			<type>avionics</type>
-			<path>Aircraft/E-jet-family/Sounds/Cockpit/click2.wav</path>
-			<condition>
-				<not><property>sim/sound/switch1</property></not>
-			</condition>
-			<volume>
-				<factor>0.2</factor>
-			</volume>
-		</switch>
+        <!-- OH panel metal flip switches -->
+        <switch>
+            <name>Switch 1 on</name>
+            <mode>once</mode>
+            <type>avionics</type>
+            <path>Aircraft/E-jet-family/Sounds/Cockpit/click2.wav</path>
+            <condition>
+                <property>sim/sound/switch1</property>
+            </condition>
+            <volume>
+                <factor>0.2</factor>
+            </volume>
+        </switch>
+        <switch>
+            <name>Switch 1 off</name>
+            <mode>once</mode>
+            <type>avionics</type>
+            <path>Aircraft/E-jet-family/Sounds/Cockpit/click2.wav</path>
+            <condition>
+                <not>
+                    <property>sim/sound/switch1</property>
+                </not>
+            </condition>
+            <volume>
+                <factor>0.2</factor>
+            </volume>
+        </switch>
 
-		<!-- OH panel black flip switches -->
-		<switch>
-			<name>Switch 2 on</name>
-			<mode>once</mode>
-			<type>avionics</type>
-			<path>Aircraft/E-jet-family/Sounds/Cockpit/click5.wav</path>
-			<condition>
-				<property>sim/sound/switch2</property>
-			</condition>
-			<volume>
-				<factor>0.2</factor>
-			</volume>
-		</switch>
-		<switch>
-			<name>Switch 2 off</name>
-			<mode>once</mode>
-			<type>avionics</type>
-			<path>Aircraft/E-jet-family/Sounds/Cockpit/click5.wav</path>
-			<condition>
-				<not><property>sim/sound/switch2</property></not>
-			</condition>
-			<volume>
-				<factor>0.2</factor>
-			</volume>
-		</switch>
+        <!-- OH panel black flip switches -->
+        <switch>
+            <name>Switch 2 on</name>
+            <mode>once</mode>
+            <type>avionics</type>
+            <path>Aircraft/E-jet-family/Sounds/Cockpit/click5.wav</path>
+            <condition>
+                <property>sim/sound/switch2</property>
+            </condition>
+            <volume>
+                <factor>0.2</factor>
+            </volume>
+        </switch>
+        <switch>
+            <name>Switch 2 off</name>
+            <mode>once</mode>
+            <type>avionics</type>
+            <path>Aircraft/E-jet-family/Sounds/Cockpit/click5.wav</path>
+            <condition>
+                <not>
+                    <property>sim/sound/switch2</property>
+                </not>
+            </condition>
+            <volume>
+                <factor>0.2</factor>
+            </volume>
+        </switch>
 
-		<!-- Center Pedestal Autobrake knob -->
-		<switch>
-			<name>Autobrake -1</name>
-			<mode>once</mode>
-			<type>avionics</type>
-			<path>Aircraft/E-jet-family/Sounds/Cockpit/button2b.wav</path>
-			<condition>
-				<equals>
-					<property>/autopilot/autobrake/step</property>
-					<value>-1</value>
-				</equals>
-			</condition>
-			<volume>
-				<factor>0.2</factor>
-			</volume>
-		</switch>
-		<switch>
-			<name>Autobrake 0</name>
-			<mode>once</mode>
-			<type>avionics</type>
-			<path>Aircraft/E-jet-family/Sounds/Cockpit/button2b.wav</path>
-			<condition>
-				<equals>
-					<property>/autopilot/autobrake/step</property>
-					<value>0</value>
-				</equals>
-			</condition>
-			<volume>
-				<factor>0.2</factor>
-			</volume>
-		</switch>
-		<switch>
-			<name>Autobrake 1</name>
-			<mode>once</mode>
-			<type>avionics</type>
-			<path>Aircraft/E-jet-family/Sounds/Cockpit/button2b.wav</path>
-			<condition>
-				<equals>
-					<property>/autopilot/autobrake/step</property>
-					<value>1</value>
-				</equals>
-			</condition>
-			<volume>
-				<factor>0.2</factor>
-			</volume>
-		</switch>
-		<switch>
-			<name>Autobrake 2</name>
-			<mode>once</mode>
-			<type>avionics</type>
-			<path>Aircraft/E-jet-family/Sounds/Cockpit/button2b.wav</path>
-			<condition>
-				<equals>
-					<property>/autopilot/autobrake/step</property>
-					<value>2</value>
-				</equals>
-			</condition>
-			<volume>
-				<factor>0.2</factor>
-			</volume>
-		</switch>
-		<switch>
-			<name>Autobrake 3</name>
-			<mode>once</mode>
-			<type>avionics</type>
-			<path>Aircraft/E-jet-family/Sounds/Cockpit/button2b.wav</path>
-			<condition>
-				<equals>
-					<property>/autopilot/autobrake/step</property>
-					<value>3</value>
-				</equals>
-			</condition>
-			<volume>
-				<factor>0.2</factor>
-			</volume>
-		</switch>
+        <!-- Center Pedestal Autobrake knob -->
+        <switch>
+            <name>Autobrake -1</name>
+            <mode>once</mode>
+            <type>avionics</type>
+            <path>Aircraft/E-jet-family/Sounds/Cockpit/button2b.wav</path>
+            <condition>
+                <equals>
+                    <property>/autopilot/autobrake/step</property>
+                    <value>-1</value>
+                </equals>
+            </condition>
+            <volume>
+                <factor>0.2</factor>
+            </volume>
+        </switch>
+        <switch>
+            <name>Autobrake 0</name>
+            <mode>once</mode>
+            <type>avionics</type>
+            <path>Aircraft/E-jet-family/Sounds/Cockpit/button2b.wav</path>
+            <condition>
+                <equals>
+                    <property>/autopilot/autobrake/step</property>
+                    <value>0</value>
+                </equals>
+            </condition>
+            <volume>
+                <factor>0.2</factor>
+            </volume>
+        </switch>
+        <switch>
+            <name>Autobrake 1</name>
+            <mode>once</mode>
+            <type>avionics</type>
+            <path>Aircraft/E-jet-family/Sounds/Cockpit/button2b.wav</path>
+            <condition>
+                <equals>
+                    <property>/autopilot/autobrake/step</property>
+                    <value>1</value>
+                </equals>
+            </condition>
+            <volume>
+                <factor>0.2</factor>
+            </volume>
+        </switch>
+        <switch>
+            <name>Autobrake 2</name>
+            <mode>once</mode>
+            <type>avionics</type>
+            <path>Aircraft/E-jet-family/Sounds/Cockpit/button2b.wav</path>
+            <condition>
+                <equals>
+                    <property>/autopilot/autobrake/step</property>
+                    <value>2</value>
+                </equals>
+            </condition>
+            <volume>
+                <factor>0.2</factor>
+            </volume>
+        </switch>
+        <switch>
+            <name>Autobrake 3</name>
+            <mode>once</mode>
+            <type>avionics</type>
+            <path>Aircraft/E-jet-family/Sounds/Cockpit/button2b.wav</path>
+            <condition>
+                <equals>
+                    <property>/autopilot/autobrake/step</property>
+                    <value>3</value>
+                </equals>
+            </condition>
+            <volume>
+                <factor>0.2</factor>
+            </volume>
+        </switch>
 
-		<!-- Pedestal Engine 1 start knob -->
-		<switch>
-			<name>Engine 1 Start 0</name>
-			<mode>once</mode>
-			<type>avionics</type>
-			<path>Aircraft/E-jet-family/Sounds/Cockpit/button2b.wav</path>
-			<condition>
-				<equals>
-					<property>/fadec/engine-switch[0]</property>
-					<value>0</value>
-				</equals>
-			</condition>
-			<volume>
-				<factor>0.2</factor>
-			</volume>
-		</switch>
-		<switch>
-			<name>Engine 1 Start 1</name>
-			<mode>once</mode>
-			<type>avionics</type>
-			<path>Aircraft/E-jet-family/Sounds/Cockpit/button2b.wav</path>
-			<condition>
-				<equals>
-					<property>/fadec/engine-switch[0]</property>
-					<value>1</value>
-				</equals>
-			</condition>
-			<volume>
-				<factor>0.2</factor>
-			</volume>
-		</switch>
-		<switch>
-			<name>Engine 1 Start 2</name>
-			<mode>once</mode>
-			<type>avionics</type>
-			<path>Aircraft/E-jet-family/Sounds/Cockpit/button2b.wav</path>
-			<condition>
-				<equals>
-					<property>/fadec/engine-switch[0]</property>
-					<value>2</value>
-				</equals>
-			</condition>
-			<volume>
-				<factor>0.2</factor>
-			</volume>
-		</switch>
-		<!-- Pedestal Engine 2 start knob -->
-		<switch>
-			<name>Engine 2 Start 0</name>
-			<mode>once</mode>
-			<type>avionics</type>
-			<path>Aircraft/E-jet-family/Sounds/Cockpit/button2b.wav</path>
-			<condition>
-				<equals>
-					<property>/fadec/engine-switch[1]</property>
-					<value>0</value>
-				</equals>
-			</condition>
-			<volume>
-				<factor>0.2</factor>
-			</volume>
-		</switch>
-		<switch>
-			<name>Engine 2 Start 1</name>
-			<mode>once</mode>
-			<type>avionics</type>
-			<path>Aircraft/E-jet-family/Sounds/Cockpit/button2b.wav</path>
-			<condition>
-				<equals>
-					<property>/fadec/engine-switch[1]</property>
-					<value>1</value>
-				</equals>
-			</condition>
-			<volume>
-				<factor>0.2</factor>
-			</volume>
-		</switch>
-		<switch>
-			<name>Engine 2 Start 2</name>
-			<mode>once</mode>
-			<type>avionics</type>
-			<path>Aircraft/E-jet-family/Sounds/Cockpit/button2b.wav</path>
-			<condition>
-				<equals>
-					<property>/fadec/engine-switch[1]</property>
-					<value>2</value>
-				</equals>
-			</condition>
-			<volume>
-				<factor>0.2</factor>
-			</volume>
-		</switch>
+        <!-- Pedestal Engine 1 start knob -->
+        <switch>
+            <name>Engine 1 Start 0</name>
+            <mode>once</mode>
+            <type>avionics</type>
+            <path>Aircraft/E-jet-family/Sounds/Cockpit/button2b.wav</path>
+            <condition>
+                <equals>
+                    <property>/fadec/engine-switch[0]</property>
+                    <value>0</value>
+                </equals>
+            </condition>
+            <volume>
+                <factor>0.2</factor>
+            </volume>
+        </switch>
+        <switch>
+            <name>Engine 1 Start 1</name>
+            <mode>once</mode>
+            <type>avionics</type>
+            <path>Aircraft/E-jet-family/Sounds/Cockpit/button2b.wav</path>
+            <condition>
+                <equals>
+                    <property>/fadec/engine-switch[0]</property>
+                    <value>1</value>
+                </equals>
+            </condition>
+            <volume>
+                <factor>0.2</factor>
+            </volume>
+        </switch>
+        <switch>
+            <name>Engine 1 Start 2</name>
+            <mode>once</mode>
+            <type>avionics</type>
+            <path>Aircraft/E-jet-family/Sounds/Cockpit/button2b.wav</path>
+            <condition>
+                <equals>
+                    <property>/fadec/engine-switch[0]</property>
+                    <value>2</value>
+                </equals>
+            </condition>
+            <volume>
+                <factor>0.2</factor>
+            </volume>
+        </switch>
+        <!-- Pedestal Engine 2 start knob -->
+        <switch>
+            <name>Engine 2 Start 0</name>
+            <mode>once</mode>
+            <type>avionics</type>
+            <path>Aircraft/E-jet-family/Sounds/Cockpit/button2b.wav</path>
+            <condition>
+                <equals>
+                    <property>/fadec/engine-switch[1]</property>
+                    <value>0</value>
+                </equals>
+            </condition>
+            <volume>
+                <factor>0.2</factor>
+            </volume>
+        </switch>
+        <switch>
+            <name>Engine 2 Start 1</name>
+            <mode>once</mode>
+            <type>avionics</type>
+            <path>Aircraft/E-jet-family/Sounds/Cockpit/button2b.wav</path>
+            <condition>
+                <equals>
+                    <property>/fadec/engine-switch[1]</property>
+                    <value>1</value>
+                </equals>
+            </condition>
+            <volume>
+                <factor>0.2</factor>
+            </volume>
+        </switch>
+        <switch>
+            <name>Engine 2 Start 2</name>
+            <mode>once</mode>
+            <type>avionics</type>
+            <path>Aircraft/E-jet-family/Sounds/Cockpit/button2b.wav</path>
+            <condition>
+                <equals>
+                    <property>/fadec/engine-switch[1]</property>
+                    <value>2</value>
+                </equals>
+            </condition>
+            <volume>
+                <factor>0.2</factor>
+            </volume>
+        </switch>
 
-		<!-- Pedestal Engine 1 ign knob -->
-		<switch>
-			<name>Engine 1 Ign 0</name>
-			<mode>once</mode>
-			<type>avionics</type>
-			<path>Aircraft/E-jet-family/Sounds/Cockpit/button2b.wav</path>
-			<condition>
-				<equals>
-					<property>/fadec/ignition-switch[0]</property>
-					<value>0</value>
-				</equals>
-			</condition>
-			<volume>
-				<factor>0.2</factor>
-			</volume>
-		</switch>
-		<switch>
-			<name>Engine 1 Ign 1</name>
-			<mode>once</mode>
-			<type>avionics</type>
-			<path>Aircraft/E-jet-family/Sounds/Cockpit/button2b.wav</path>
-			<condition>
-				<equals>
-					<property>/fadec/ignition-switch[0]</property>
-					<value>1</value>
-				</equals>
-			</condition>
-			<volume>
-				<factor>0.2</factor>
-			</volume>
-		</switch>
-		<switch>
-			<name>Engine 1 Ign 2</name>
-			<mode>once</mode>
-			<type>avionics</type>
-			<path>Aircraft/E-jet-family/Sounds/Cockpit/button2b.wav</path>
-			<condition>
-				<equals>
-					<property>/fadec/ignition-switch[0]</property>
-					<value>2</value>
-				</equals>
-			</condition>
-			<volume>
-				<factor>0.2</factor>
-			</volume>
-		</switch>
-		<!-- Pedestal Engine 2 ign knob -->
-		<switch>
-			<name>Engine 2 Ign 0</name>
-			<mode>once</mode>
-			<type>avionics</type>
-			<path>Aircraft/E-jet-family/Sounds/Cockpit/button2b.wav</path>
-			<condition>
-				<equals>
-					<property>/fadec/ignition-switch[1]</property>
-					<value>0</value>
-				</equals>
-			</condition>
-			<volume>
-				<factor>0.2</factor>
-			</volume>
-		</switch>
-		<switch>
-			<name>Engine 2 Ign 1</name>
-			<mode>once</mode>
-			<type>avionics</type>
-			<path>Aircraft/E-jet-family/Sounds/Cockpit/button2b.wav</path>
-			<condition>
-				<equals>
-					<property>/fadec/ignition-switch[1]</property>
-					<value>1</value>
-				</equals>
-			</condition>
-			<volume>
-				<factor>0.2</factor>
-			</volume>
-		</switch>
-		<switch>
-			<name>Engine 2 Ign 2</name>
-			<mode>once</mode>
-			<type>avionics</type>
-			<path>Aircraft/E-jet-family/Sounds/Cockpit/button2b.wav</path>
-			<condition>
-				<equals>
-					<property>/fadec/ignition-switch[1]</property>
-					<value>2</value>
-				</equals>
-			</condition>
-			<volume>
-				<factor>0.2</factor>
-			</volume>
-		</switch>
+        <!-- Pedestal Engine 1 ign knob -->
+        <switch>
+            <name>Engine 1 Ign 0</name>
+            <mode>once</mode>
+            <type>avionics</type>
+            <path>Aircraft/E-jet-family/Sounds/Cockpit/button2b.wav</path>
+            <condition>
+                <equals>
+                    <property>/fadec/ignition-switch[0]</property>
+                    <value>0</value>
+                </equals>
+            </condition>
+            <volume>
+                <factor>0.2</factor>
+            </volume>
+        </switch>
+        <switch>
+            <name>Engine 1 Ign 1</name>
+            <mode>once</mode>
+            <type>avionics</type>
+            <path>Aircraft/E-jet-family/Sounds/Cockpit/button2b.wav</path>
+            <condition>
+                <equals>
+                    <property>/fadec/ignition-switch[0]</property>
+                    <value>1</value>
+                </equals>
+            </condition>
+            <volume>
+                <factor>0.2</factor>
+            </volume>
+        </switch>
+        <switch>
+            <name>Engine 1 Ign 2</name>
+            <mode>once</mode>
+            <type>avionics</type>
+            <path>Aircraft/E-jet-family/Sounds/Cockpit/button2b.wav</path>
+            <condition>
+                <equals>
+                    <property>/fadec/ignition-switch[0]</property>
+                    <value>2</value>
+                </equals>
+            </condition>
+            <volume>
+                <factor>0.2</factor>
+            </volume>
+        </switch>
+        <!-- Pedestal Engine 2 ign knob -->
+        <switch>
+            <name>Engine 2 Ign 0</name>
+            <mode>once</mode>
+            <type>avionics</type>
+            <path>Aircraft/E-jet-family/Sounds/Cockpit/button2b.wav</path>
+            <condition>
+                <equals>
+                    <property>/fadec/ignition-switch[1]</property>
+                    <value>0</value>
+                </equals>
+            </condition>
+            <volume>
+                <factor>0.2</factor>
+            </volume>
+        </switch>
+        <switch>
+            <name>Engine 2 Ign 1</name>
+            <mode>once</mode>
+            <type>avionics</type>
+            <path>Aircraft/E-jet-family/Sounds/Cockpit/button2b.wav</path>
+            <condition>
+                <equals>
+                    <property>/fadec/ignition-switch[1]</property>
+                    <value>1</value>
+                </equals>
+            </condition>
+            <volume>
+                <factor>0.2</factor>
+            </volume>
+        </switch>
+        <switch>
+            <name>Engine 2 Ign 2</name>
+            <mode>once</mode>
+            <type>avionics</type>
+            <path>Aircraft/E-jet-family/Sounds/Cockpit/button2b.wav</path>
+            <condition>
+                <equals>
+                    <property>/fadec/ignition-switch[1]</property>
+                    <value>2</value>
+                </equals>
+            </condition>
+            <volume>
+                <factor>0.2</factor>
+            </volume>
+        </switch>
 
         <gpws>
             <name>appr_mins</name>
             <mode>once</mode>
-            <type>avionics</type>		
+            <type>avionics</type>
             <path>Sounds/mk-viii/100-above.wav</path>
             <condition>
                 <or>
@@ -1923,7 +1933,7 @@
         <ap-disconnect>
             <name>AP Disconnect</name>
             <mode>once</mode>
-			<type>avionics</type>
+            <type>avionics</type>
             <path>Aircraft/E-jet-family/Sounds/APdisco.wav</path>
             <condition>
                 <property>/it-autoflight/sound/apoffsound</property>
@@ -1936,7 +1946,7 @@
         <ap-disconnect>
             <name>AP Disconnect 2</name>
             <mode>once</mode>
-			<type>avionics</type>
+            <type>avionics</type>
             <path>Aircraft/E-jet-family/Sounds/APdisco.wav</path>
             <condition>
                 <property>/it-autoflight/sound/apoffsound2</property>
@@ -1951,7 +1961,7 @@
         <alarm>
             <name>Master warning</name>
             <mode>once</mode>
-			<type>avionics</type>
+            <type>avionics</type>
             <path>Sounds/triple-chime.wav</path>
             <condition>
                 <and>
@@ -1973,7 +1983,7 @@
         <alarm>
             <name>Master caution</name>
             <mode>once</mode>
-			<type>avionics</type>
+            <type>avionics</type>
             <path>Sounds/single-chime.wav</path>
             <condition>
                 <and>
