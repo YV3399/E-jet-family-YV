@@ -3,7 +3,7 @@
 <PropertyList include="common.xml">
 
     <sim>
-        <description>Embraer Regional Jet 190 (190-100)</description>
+        <description>Embraer E-Jet 190 (190-100)</description>
         <variant-of>Embraer170</variant-of>
         <aero>FDM/E190</aero>
         <engine>GE_CF34-10E</engine>

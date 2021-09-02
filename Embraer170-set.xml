@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <PropertyList include="common.xml">
     <sim>
-        <description>Embraer Regional Jet 170 (170-100)</description>
+        <description>Embraer E-Jet 170 (170-100)</description>
         <aero>FDM/E170</aero>
         <engine>GE_CF34-8E</engine>
 
