@@ -1832,6 +1832,7 @@
         </IESS>
 
         <eicas>
+            <enabled type="bool">true</enabled>
             <signals>
                 <messages-changed type="bool">false</messages-changed>
             </signals>
@@ -1865,6 +1866,7 @@
         </eicas>
 
         <mcdu>
+            <enabled type="bool">true</enabled>
             <display>IDENT</display>
             <input type="string"/>
             <serviceable type="bool">true</serviceable>
@@ -1872,6 +1874,7 @@
             <brightness type="double" userarchive="y">0.8</brightness>
         </mcdu>
         <mcdu>
+            <enabled type="bool">true</enabled>
             <display>IDENT</display>
             <input type="string"/>
             <serviceable type="bool">true</serviceable>
@@ -1944,6 +1947,7 @@
         </annun>
 
         <pfd>
+            <enabled type="bool">true</enabled>
             <!-- 0 = FMS, 1,2 = VOR1/LOC1, VOR2,LOC2 -->
             <nav-src type="int">1</nav-src>
             <preview type="int">0</preview>
@@ -2020,6 +2024,7 @@
         </pfd>
 
         <pfd>
+            <enabled type="bool">true</enabled>
             <!-- 0 = FMS, 1,2 = VOR1/LOC1, VOR2,LOC2 -->
             <nav-src type="int">2</nav-src>
             <preview type="int">0</preview>
@@ -2096,6 +2101,7 @@
         </pfd>
 
         <mfd>
+            <enabled type="bool">true</enabled>
             <lateral-range type="double">20</lateral-range>
             <!-- 0 = Map, 1 = Plan, 2 = Systems -->
             <page>0</page>
@@ -2112,6 +2118,7 @@
         </mfd>
 
         <mfd>
+            <enabled type="bool">true</enabled>
             <lateral-range type="double">20</lateral-range>
             <!-- 0 = Map, 1 = Plan, 2 = Systems -->
             <page>0</page>

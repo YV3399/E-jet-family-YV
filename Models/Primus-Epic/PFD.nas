@@ -1219,11 +1219,12 @@ initialize = func {
             "Aircraft/E-jet-family/Models/Primus-Epic/PFD.svg",
             i);
         (func (j) {
-            append(timer, maketimer(0.0625, func() { ED_only[j].update(); }));
-            append(timerSlow, maketimer(1.0, func() { ED_only[j].updateSlow(); }));
-
-            setlistener("/systems/electrical/outputs/pfd[" ~ j ~ "]", func (node) {
-                var visible = ((node.getValue() or 0) >= 15);
+            outputProp = props.globals.getNode("systems/electrical/outputs/pfd[" ~ j ~ "]");
+            enabledProp = props.globals.getNode("instrumentation/pfd[" ~ j ~ "]/enabled");
+            append(timer, maketimer(0.0625, func() { if (enabledProp.getBoolValue()) ED_only[j].update(); }));
+            append(timerSlow, maketimer(1.0, func() { if (enabledProp.getBoolValue()) ED_only[j].updateSlow(); }));
+            var check = func {
+                var visible = ((outputProp.getValue() or 0) >= 15) and enabledProp.getBoolValue();
                 PFD_master[j].setVisible(visible);
                 if (visible) {
                     timer[j].start(); timerSlow[j].start();
@@ -1231,7 +1232,10 @@ initialize = func {
                 else {
                     timer[j].stop(); timerSlow[j].stop();
                 }
-            }, 1, 0);
+            };
+
+            setlistener(outputProp, check, 1, 0);
+            setlistener(enabledProp, check, 1, 0);
         })(i);
     }
 };

@@ -2379,19 +2379,22 @@ setlistener("sim/signals/fdm-initialized", func {
                 mfd_master[i],
                 "Aircraft/E-jet-family/Models/Primus-Epic/MFD.svg",
                 i);
+        (func (j) {
+            outputProp = props.globals.getNode("systems/electrical/outputs/mfd[" ~ j ~ "]");
+            enabledProp = props.globals.getNode("instrumentation/mfd[" ~ j ~ "]/enabled");
+            var timer = maketimer(0.1, func() {
+                mfd[j].update();
+            });
+            var check = func {
+                var visible = ((outputProp.getValue() or 0) >= 15) and enabledProp.getBoolValue();
+                mfd_master[j].setVisible(visible);
+                if (visible)
+                    timer.start();
+                else
+                    timer.stop();
+            };
+            setlistener(outputProp, check, 1, 0);
+            setlistener(enabledProp, check, 1, 0);
+        })(i);
     }
-    setlistener("/systems/electrical/outputs/mfd[0]", func (node) {
-        var visible = ((node.getValue() or 0) >= 15);
-        mfd_master[0].setVisible(visible);
-    }, 1, 0);
-    setlistener("/systems/electrical/outputs/mfd[1]", func (node) {
-        var visible = ((node.getValue() or 0) >= 15);
-        mfd_master[1].setVisible(visible);
-    }, 1, 0);
-
-    var timer = maketimer(0.1, func() {
-        mfd[0].update();
-        mfd[1].update();
-    });
-    timer.start();
 });

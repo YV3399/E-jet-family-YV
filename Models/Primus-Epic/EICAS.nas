@@ -549,8 +549,10 @@ setlistener("sim/signals/fdm-initialized", func {
 	ED_only = canvas_ED_only.new(groupED, "Aircraft/E-jet-family/Models/Primus-Epic/eicas.svg");
 
 	var timer = maketimer(0.1, func { ED_only.update(); });
-    setlistener("/systems/electrical/outputs/eicas", func (node) {
-        if (node.getBoolValue()) {
+    var outputProp = props.globals.getNode("systems/electrical/outputs/eicas");
+    var enabledProp = props.globals.getNode("instrumentation/eicas/enabled");
+    var check = func {
+        if (outputProp.getBoolValue() and enabledProp.getBoolValue()) {
             timer.start();
             groupED.show();
         }
@@ -558,7 +560,9 @@ setlistener("sim/signals/fdm-initialized", func {
             timer.stop();
             groupED.hide();
         }
-    }, 1, 0);
+    };
+    setlistener(outputProp, check, 1, 0);
+    setlistener(enabledProp, check, 1, 0);
 });
 
 var showED = func {
