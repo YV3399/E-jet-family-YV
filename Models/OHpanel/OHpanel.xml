@@ -770,7 +770,19 @@
 
     <animation>
         <type>select</type>
-        <object-name>master.light</object-name>
+        <object-name>GPU.avail</object-name>
+        <condition>
+            <and>
+                <not>
+                    <property>controls/electric/external-power</property>
+                </not>
+                <property>controls/electric/external-power-connected</property>
+            </and>
+        </condition>
+    </animation>
+    <animation>
+        <type>select</type>
+        <object-name>GPU.inuse</object-name>
         <condition>
             <and>
                 <property>controls/electric/external-power</property>
@@ -792,7 +804,7 @@
     <animation>
         <name>GPU switch</name>
         <type>pick</type>
-        <object-name>master</object-name>
+        <object-name>GPU.switch</object-name>
         <action>
             <button>0</button>
             <repeatable type="bool">false</repeatable>
