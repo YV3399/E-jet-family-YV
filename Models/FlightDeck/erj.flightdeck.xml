@@ -746,11 +746,15 @@
     </effect>
     
     <animation>
-        <type>pick</type>
+        <type>knob</type>
         <object-name>e1.case</object-name>
+        <property>sim/model/door-positions/eng1-control/position-norm</property>
+        <factor>-95</factor>
+        <axis>
+            <object-name>e1.case.axis</object-name>
+        </axis>
         <action>
-            <button>0</button>
-            <repeatable type="bool">false</repeatable>
+            <repeatable>false</repeatable>
             <binding>
                 <command>nasal</command>
                 <script>
@@ -761,29 +765,15 @@
     </animation>
     
     <animation>
-        <name>Engine Cover Left</name>
-        <type>rotate</type>
-        <object-name>e1.case</object-name>
-        <property>sim/model/door-positions/eng1-control/position-norm</property>
-        <interpolation>
-            <entry>
-                <ind>0</ind><dep>0</dep>
-            </entry>
-            <entry>
-                <ind>1</ind><dep>-95</dep>
-            </entry>
-        </interpolation>
-        <axis>
-            <object-name>e1.case.axis</object-name>
-        </axis>
-    </animation>
-    
-    <animation>
-        <type>pick</type>
+        <type>knob</type>
         <object-name>e2.case</object-name>
+        <property>sim/model/door-positions/eng2-control/position-norm</property>
+        <factor>-95</factor>
+        <axis>
+            <object-name>e2.case.axis</object-name>
+        </axis>
         <action>
-            <button>0</button>
-            <repeatable type="bool">false</repeatable>
+            <repeatable>false</repeatable>
             <binding>
                 <command>nasal</command>
                 <script>
@@ -791,24 +781,6 @@
                 </script>
             </binding>
         </action>
-    </animation>
-    
-    <animation>
-        <name>Engine Cover Right</name>
-        <type>rotate</type>
-        <object-name>e2.case</object-name>
-        <property>sim/model/door-positions/eng2-control/position-norm</property>
-        <interpolation>
-            <entry>
-                <ind>0</ind><dep>0</dep>
-            </entry>
-            <entry>
-                <ind>1</ind><dep>-95</dep>
-            </entry>
-        </interpolation>
-        <axis>
-            <object-name>e2.case.axis</object-name>
-        </axis>
     </animation>
     
     <!-- Overhead Panel -->
@@ -2542,11 +2514,15 @@
     <!-- FCM - Elevator -->
     
     <animation>
-        <type>pick</type>
+        <type>knob</type>
         <object-name>FCM.elevator.case</object-name>
+        <property>sim/model/door-positions/fcm-elevator/position-norm</property>
+        <factor>110</factor>
+        <axis>
+            <object-name>FCM.elevator.case.axis</object-name>
+        </axis>
         <action>
-            <button>0</button>
-            <repeatable type="bool">false</repeatable>
+            <repeatable>false</repeatable>
             <binding>
                 <command>nasal</command>
                 <script>
@@ -2554,23 +2530,6 @@
                 </script>
             </binding>
         </action>
-    </animation>
-    <animation>
-        <name>FCM Elevator case</name>
-        <type>rotate</type>
-        <object-name>FCM.elevator.case</object-name>
-        <property>sim/model/door-positions/fcm-elevator/position-norm</property>
-        <interpolation>
-            <entry>
-                <ind>0</ind><dep>0</dep>
-            </entry>
-            <entry>
-                <ind>1</ind><dep>110</dep>
-            </entry>
-        </interpolation>
-        <axis>
-            <object-name>FCM.elevator.case.axis</object-name>
-        </axis>
     </animation>
     
     <animation>
@@ -2615,11 +2574,15 @@
     <!-- FCM - Rudder -->
     
     <animation>
-        <type>pick</type>
+        <type>knob</type>
         <object-name>FCM.rudder.case</object-name>
+        <property>sim/model/door-positions/fcm-rudder/position-norm</property>
+        <factor>110</factor>
+        <axis>
+            <object-name>FCM.rudder.case.axis</object-name>
+        </axis>
         <action>
-            <button>0</button>
-            <repeatable type="bool">false</repeatable>
+            <repeatable>false</repeatable>
             <binding>
                 <command>nasal</command>
                 <script>
@@ -2627,23 +2590,6 @@
                 </script>
             </binding>
         </action>
-    </animation>
-    <animation>
-        <name>FCM Rudder case</name>
-        <type>rotate</type>
-        <object-name>FCM.rudder.case</object-name>
-        <property>sim/model/door-positions/fcm-rudder/position-norm</property>
-        <interpolation>
-            <entry>
-                <ind>0</ind><dep>0</dep>
-            </entry>
-            <entry>
-                <ind>1</ind><dep>110</dep>
-            </entry>
-        </interpolation>
-        <axis>
-            <object-name>FCM.rudder.case.axis</object-name>
-        </axis>
     </animation>
     
     <animation>
@@ -2688,11 +2634,15 @@
     <!-- FCM - Spoilers -->
     
     <animation>
-        <type>pick</type>
+        <type>knob</type>
         <object-name>FCM.spoilers.case</object-name>
+        <property>sim/model/door-positions/fcm-spoilers/position-norm</property>
+        <factor>110</factor>
+        <axis>
+            <object-name>FCM.spoilers.case.axis</object-name>
+        </axis>
         <action>
-            <button>0</button>
-            <repeatable type="bool">false</repeatable>
+            <repeatable>false</repeatable>
             <binding>
                 <command>nasal</command>
                 <script>
@@ -2700,23 +2650,6 @@
                 </script>
             </binding>
         </action>
-    </animation>
-    <animation>
-        <name>FCM Spoilers case</name>
-        <type>rotate</type>
-        <object-name>FCM.spoilers.case</object-name>
-        <property>sim/model/door-positions/fcm-spoilers/position-norm</property>
-        <interpolation>
-            <entry>
-                <ind>0</ind><dep>0</dep>
-            </entry>
-            <entry>
-                <ind>1</ind><dep>110</dep>
-            </entry>
-        </interpolation>
-        <axis>
-            <object-name>FCM.spoilers.case.axis</object-name>
-        </axis>
     </animation>
     
     <animation>
