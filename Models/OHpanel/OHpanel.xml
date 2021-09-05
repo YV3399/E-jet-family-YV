@@ -63,6 +63,31 @@
         <object-name>PanelMarkings_1.037</object-name>
         <object-name>PanelMarkings_1.038</object-name>
     </animation>
+    <animation>
+        <name>BacklitKnobs</name>
+        <object-name>generator.1.light</object-name>
+        <object-name>generator.2.light</object-name>
+        <object-name>acbusties.light</object-name>
+        <object-name>BATT1.light</object-name>
+        <object-name>BATT2.light</object-name>
+        <object-name>fuel.crossfeed.light</object-name>
+        <object-name>fuel.pump.dc.light</object-name>
+        <object-name>fuel.pump.left.light</object-name>
+        <object-name>fuel.pump.right.light</object-name>
+        <object-name>cabin.alt.light</object-name>
+        <object-name>fuel.pump.center.light</object-name>
+        <object-name>APU.knob.light</object-name>
+        <object-name>wiper.left.light</object-name>
+        <object-name>wiper.right.light</object-name>
+        <object-name>hydraulic.ptu.light</object-name>
+        <object-name>hydraulic.pump.left.light</object-name>
+        <object-name>hydraulic.pump.right.light</object-name>
+        <object-name>electric.pump.left.light</object-name>
+        <object-name>electric.pump.right.light</object-name>
+        <object-name>hydraulic.ptu.light</object-name>
+        <object-name>cabin.alt.light</object-name>
+        <object-name>cabin.mode.light</object-name>
+    </animation>
 
     <animation>
         <name>Backlight</name>
@@ -72,6 +97,17 @@
             <red>1.0</red>
             <green>0.75</green>
             <blue>0.5</blue>
+            <factor-prop>/systems/electrical/outputs/overhead-panel-light</factor-prop>
+        </emission>
+    </animation>
+    <animation>
+        <name>Backlight2</name>
+        <type>material</type>
+        <object-name>BacklitKnobs</object-name>
+        <emission>
+            <red>0.5</red>
+            <green>0.375</green>
+            <blue>0.325</blue>
             <factor-prop>/systems/electrical/outputs/overhead-panel-light</factor-prop>
         </emission>
     </animation>
