@@ -74,7 +74,6 @@
         <object-name>fuel.pump.dc.light</object-name>
         <object-name>fuel.pump.left.light</object-name>
         <object-name>fuel.pump.right.light</object-name>
-        <object-name>cabin.alt.light</object-name>
         <object-name>fuel.pump.center.light</object-name>
         <object-name>APU.knob.light</object-name>
         <object-name>wiper.left.light</object-name>
@@ -84,7 +83,6 @@
         <object-name>hydraulic.pump.right.light</object-name>
         <object-name>electric.pump.left.light</object-name>
         <object-name>electric.pump.right.light</object-name>
-        <object-name>hydraulic.ptu.light</object-name>
         <object-name>cabin.alt.light</object-name>
         <object-name>cabin.mode.light</object-name>
     </animation>
