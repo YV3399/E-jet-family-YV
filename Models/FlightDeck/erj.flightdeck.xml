@@ -2565,9 +2565,10 @@
         <type>select</type>
         <object-name>FCM.elevator.light</object-name>
         <condition>
-            <not>
-                <property>fbw/elevator/law</property>
-            </not>
+			<not>
+				<property>fbw/elevator/law</property>
+			</not>
+			<property>/systems/electrical/outputs/pushbutton-lights</property>
         </condition>
     </animation>
     
@@ -2625,9 +2626,10 @@
         <type>select</type>
         <object-name>FCM.rudder.light</object-name>
         <condition>
-            <not>
-                <property>fbw/rudder/law</property>
-            </not>
+			<not>
+				<property>fbw/rudder/law</property>
+			</not>
+			<property>/systems/electrical/outputs/pushbutton-lights</property>
         </condition>
     </animation>
     
@@ -2685,9 +2687,10 @@
         <type>select</type>
         <object-name>FCM.spoilers.light</object-name>
         <condition>
-            <not>
-                <property>fbw/spoilers/law</property>
-            </not>
+			<not>
+				<property>fbw/spoilers/law</property>
+			</not>
+			<property>/systems/electrical/outputs/pushbutton-lights</property>
         </condition>
     </animation>
     
