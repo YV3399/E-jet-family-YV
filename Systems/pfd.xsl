@@ -17,6 +17,7 @@ re-run build.sh.
         <PropertyList>
             <!-- Altitude tape -->
             <filter>
+                <update-interval-secs type="double">0.1</update-interval-secs>
                 <name>Alt Tape Offset</name>
                 <type>gain</type>
                 <gain>1</gain>
@@ -34,6 +35,7 @@ re-run build.sh.
                 <output>/instrumentation/pfd[<xsl:value-of select="$index"/>]/alt-tape-offset</output>
             </filter>
             <filter>
+                <update-interval-secs type="double">0.1</update-interval-secs>
                 <name>Alt Tape Thousands</name>
                 <type>gain</type>
                 <gain>1</gain>
@@ -51,6 +53,7 @@ re-run build.sh.
             </filter>
 
             <filter>
+                <update-interval-secs type="double">0.1</update-interval-secs>
                 <name>FPA</name>
                 <type>gain</type>
                 <input>
@@ -85,6 +88,7 @@ re-run build.sh.
                 <output>/instrumentation/pfd[<xsl:value-of select="$index"/>]/fpa-deg</output>
             </filter>
             <filter>
+                <update-interval-secs type="double">0.1</update-interval-secs>
                 <name>Track Error</name>
                 <type>gain</type>
                 <gain>1</gain>
@@ -236,6 +240,7 @@ re-run build.sh.
                 </input>
             </filter>
             <filter>
+                <update-interval-secs type="double">0.1</update-interval-secs>
                 <name>Radio altitude</name>
                 <type>gain</type>
                 <output>/instrumentation/pfd[<xsl:value-of select="$index"/>]/radio-alt</output>
@@ -285,45 +290,6 @@ re-run build.sh.
                 </input>
             </logic>
 
-            <!-- V/S -->
-            <filter>
-                <name>VSneedle</name>
-                <type>gain</type>
-                <gain>1.0</gain>
-                <input>
-                    <expression>
-                        <table>
-                            <prod>
-                                <property>/velocities/vertical-speed-fps</property>
-                                <value>60</value>
-                            </prod>
-                            <entry>
-                                <ind>-4000</ind><dep>-56.36</dep>
-                            </entry>
-                            <entry>
-                                <ind>-2000</ind><dep>-49.31</dep>
-                            </entry>
-                            <entry>
-                                <ind>-1000</ind><dep>-40.09</dep>
-                            </entry>
-                            <entry>
-                                <ind>0</ind><dep>0</dep>
-                            </entry>
-                            <entry>
-                                <ind>1000</ind><dep>40.09</dep>
-                            </entry>
-                            <entry>
-                                <ind>2000</ind><dep>49.31</dep>
-                            </entry>
-                            <entry>
-                                <ind>4000</ind><dep>56.36</dep>
-                            </entry>
-                        </table>
-                    </expression>
-                </input>
-                <output>instrumentation/pfd[<xsl:value-of select="$index"/>]/vs-needle</output>
-            </filter>
-
             <!-- Various -->
             <logic>
                 <name>Airspeed Alive</name>
@@ -346,6 +312,7 @@ re-run build.sh.
             </predict-simple>
             
             <filter>
+                <update-interval-secs type="double">0.1</update-interval-secs>
                 <name>Pitchscale</name>
                 <type>gain</type>
                 <gain>1.0</gain>
@@ -375,6 +342,7 @@ re-run build.sh.
             </filter>
 
             <filter>
+                <update-interval-secs type="double">0.1</update-interval-secs>
                 <name>HDGBUGDiff</name>
                 <type>gain</type>
                 <gain>1.0</gain>
@@ -389,6 +357,7 @@ re-run build.sh.
                 <output>instrumentation/pfd[<xsl:value-of select="$index"/>]/hdg-bug-diff</output>
             </filter>
             <filter>
+                <update-interval-secs type="double">0.1</update-interval-secs>
                 <name>ALTBUGDiff</name>
                 <type>gain</type>
                 <gain>1.0</gain>
@@ -403,6 +372,7 @@ re-run build.sh.
                 <output>instrumentation/pfd[<xsl:value-of select="$index"/>]/alt-bug-diff</output>
             </filter>
             <filter>
+                <update-interval-secs type="double">0.1</update-interval-secs>
                 <name>SPEEDBUGDiff1</name>
                 <type>gain</type>
                 <gain>1.0</gain>
@@ -419,6 +389,7 @@ re-run build.sh.
                 <output>instrumentation/pfd[<xsl:value-of select="$index"/>]/ias-bug1-diff</output>
             </filter>
             <filter>
+                <update-interval-secs type="double">0.1</update-interval-secs>
                 <name>SPEEDBUGDiff2</name>
                 <type>gain</type>
                 <gain>1.0</gain>
@@ -437,6 +408,7 @@ re-run build.sh.
 
             <!-- VMO -->
             <filter>
+                <update-interval-secs type="double">0.1</update-interval-secs>
                 <name>VMO</name>
                 <type>gain</type>
                 <gain>1.0</gain>
@@ -504,6 +476,7 @@ re-run build.sh.
 
             <!-- HSI bearings -->
             <filter>
+                <update-interval-secs type="double">0.1</update-interval-secs>
                 <name>Circle Bearing</name>
                 <type>gain</type>
                 <gain>1</gain>
@@ -551,6 +524,7 @@ re-run build.sh.
                 <output>instrumentation/pfd[<xsl:value-of select="$index"/>]/bearing[0]/bearing</output>
             </filter>
             <filter>
+                <update-interval-secs type="double">0.1</update-interval-secs>
                 <name>Circle Bearing Visible</name>
                 <type>gain</type>
                 <gain>1</gain>
@@ -592,6 +566,7 @@ re-run build.sh.
             </filter>
 
             <filter>
+                <update-interval-secs type="double">0.1</update-interval-secs>
                 <name>Diamond Bearing</name>
                 <type>gain</type>
                 <gain>1</gain>
@@ -639,6 +614,7 @@ re-run build.sh.
                 <output>instrumentation/pfd[<xsl:value-of select="$index"/>]/bearing[1]/bearing</output>
             </filter>
             <filter>
+                <update-interval-secs type="double">0.1</update-interval-secs>
                 <name>Diamond Bearing Visible</name>
                 <type>gain</type>
                 <gain>1</gain>
@@ -681,6 +657,7 @@ re-run build.sh.
 
             <!-- groundspeed -->
             <filter>
+                <update-interval-secs type="double">0.1</update-interval-secs>
                 <name>Groundspeed</name>
                 <type>gain</type>
                 <gain>1</gain>
@@ -699,6 +676,7 @@ re-run build.sh.
 
             <!-- wind speed -->
             <filter>
+                <update-interval-secs type="double">0.1</update-interval-secs>
                 <name>Wind speed</name>
                 <type>gain</type>
                 <gain>1</gain>
@@ -717,6 +695,7 @@ re-run build.sh.
 
             <!-- HSI/NAV/DME -->
             <filter>
+                <update-interval-secs type="double">0.1</update-interval-secs>
                 <name>DME source</name>
                 <type>gain</type>
                 <gain>1</gain>
@@ -738,6 +717,7 @@ re-run build.sh.
                 </input>
             </filter>
             <filter>
+                <update-interval-secs type="double">0.1</update-interval-secs>
                 <name>DME hold</name>
                 <type>gain</type>
                 <output>/instrumentation/pfd[<xsl:value-of select="$index"/>]/dme/hold</output>
@@ -761,6 +741,7 @@ re-run build.sh.
                 </input>
             </filter>
             <filter>
+                <update-interval-secs type="double">0.1</update-interval-secs>
                 <name>DME in range</name>
                 <type>gain</type>
                 <output>/instrumentation/pfd[<xsl:value-of select="$index"/>]/dme/in-range</output>
@@ -784,6 +765,7 @@ re-run build.sh.
                 </input>
             </filter>
             <filter>
+                <update-interval-secs type="double">0.1</update-interval-secs>
                 <name>DME Dist</name>
                 <type>gain</type>
                 <output>/instrumentation/pfd[<xsl:value-of select="$index"/>]/dme/dist10</output>
@@ -821,6 +803,7 @@ re-run build.sh.
                 </input>
             </filter>
             <filter>
+                <update-interval-secs type="double">0.1</update-interval-secs>
                 <name>DME ETE seconds</name>
                 <type>gain</type>
                 <output>/instrumentation/pfd[<xsl:value-of select="$index"/>]/dme/ete-sec</output>
@@ -858,6 +841,7 @@ re-run build.sh.
                 </input>
             </filter>
             <filter>
+                <update-interval-secs type="double">0.1</update-interval-secs>
                 <name>DME ETE unit</name>
                 <type>gain</type>
                 <output>/instrumentation/pfd[<xsl:value-of select="$index"/>]/dme/ete-unit</output>
@@ -875,6 +859,7 @@ re-run build.sh.
                 </input>
             </filter>
             <filter>
+                <update-interval-secs type="double">0.1</update-interval-secs>
                 <name>DME ETE</name>
                 <type>gain</type>
                 <output>/instrumentation/pfd[<xsl:value-of select="$index"/>]/dme/ete</output>
@@ -901,6 +886,7 @@ re-run build.sh.
             </filter>
 
             <filter>
+                <update-interval-secs type="double">0.1</update-interval-secs>
                 <name>Course source</name>
                 <type>gain</type>
                 <gain>1</gain>
@@ -922,11 +908,13 @@ re-run build.sh.
                 </input>
             </filter>
             <filter>
+                <update-interval-secs type="double">0.1</update-interval-secs>
                 <name>Course source type</name>
                 <type>gain</type>
                 <gain>1</gain>
                 <output>instrumentation/pfd[<xsl:value-of select="$index"/>]/nav/course-source-type</output>
                 <input>
+                <update-interval-secs type="double">0.1</update-interval-secs>
                     <condition>
                         <property>/instrumentation/pfd[<xsl:value-of select="$index"/>]/nav-src</property>
                     </condition>
@@ -946,6 +934,7 @@ re-run build.sh.
                 </input>
             </filter>
             <filter>
+                <update-interval-secs type="double">0.1</update-interval-secs>
                 <name>ILS Source</name>
                 <type>gain</type>
                 <gain>1</gain>
@@ -962,6 +951,7 @@ re-run build.sh.
             </filter>
 
             <filter>
+                <update-interval-secs type="double">0.1</update-interval-secs>
                 <name>Nav Selected Radial</name>
                 <type>gain</type>
                 <gain>1</gain>
@@ -986,6 +976,7 @@ re-run build.sh.
                 </input>
             </filter>
             <filter>
+                <update-interval-secs type="double">0.1</update-interval-secs>
                 <name>HSI heading</name>
                 <type>gain</type>
                 <gain>1</gain>
@@ -1013,6 +1004,7 @@ re-run build.sh.
                 </input>
             </filter>
             <filter>
+                <update-interval-secs type="double">0.1</update-interval-secs>
                 <name>HSI deflection</name>
                 <type>gain</type>
                 <gain>1</gain>
@@ -1043,6 +1035,7 @@ re-run build.sh.
                 </input>
             </filter>
             <filter>
+                <update-interval-secs type="double">0.1</update-interval-secs>
                 <name>HSI from flag</name>
                 <type>gain</type>
                 <gain>1</gain>
@@ -1071,6 +1064,7 @@ re-run build.sh.
             </filter>
 
             <filter>
+                <update-interval-secs type="double">0.1</update-interval-secs>
                 <name>ILS GS Needle</name>
                 <type>gain</type>
                 <gain>1</gain>
@@ -1095,6 +1089,7 @@ re-run build.sh.
                 </input>
             </filter>
             <logic>
+                <update-interval-secs type="double">0.1</update-interval-secs>
                 <name>ILS GS In Range</name>
                 <output>/instrumentation/pfd[<xsl:value-of select="$index"/>]/ils/gs-in-range</output>
                 <input>
@@ -1117,6 +1112,7 @@ re-run build.sh.
                 </input>
             </logic>
             <logic>
+                <update-interval-secs type="double">0.1</update-interval-secs>
                 <name>ILS Has GS</name>
                 <output>/instrumentation/pfd[<xsl:value-of select="$index"/>]/ils/has-gs</output>
                 <input>
@@ -1140,6 +1136,7 @@ re-run build.sh.
             </logic>
 
             <filter>
+                <update-interval-secs type="double">0.1</update-interval-secs>
                 <name>ILS LOC Needle</name>
                 <type>gain</type>
                 <gain>1</gain>
@@ -1164,6 +1161,7 @@ re-run build.sh.
                 </input>
             </filter>
             <filter>
+                <update-interval-secs type="double">0.1</update-interval-secs>
                 <name>ILS LOC Bearing</name>
                 <type>gain</type>
                 <gain>1</gain>
@@ -1188,6 +1186,7 @@ re-run build.sh.
                 </input>
             </filter>
             <filter>
+                <update-interval-secs type="double">0.1</update-interval-secs>
                 <name>ILS LOC Bearing Error</name>
                 <type>gain</type>
                 <gain>1</gain>
@@ -1206,6 +1205,7 @@ re-run build.sh.
                 </input>
             </filter>
             <filter>
+                <update-interval-secs type="double">0.1</update-interval-secs>
                 <name>ILS LOC Heading</name>
                 <type>gain</type>
                 <gain>1</gain>
@@ -1230,6 +1230,7 @@ re-run build.sh.
                 </input>
             </filter>
             <filter>
+                <update-interval-secs type="double">0.1</update-interval-secs>
                 <name>ILS LOC Heading Error</name>
                 <type>gain</type>
                 <gain>1</gain>
@@ -1293,6 +1294,7 @@ re-run build.sh.
             </logic>
 
             <filter>
+                <update-interval-secs type="double">0.1</update-interval-secs>
                 <name>ILS crosstrack</name>
                 <type>gain</type>
                 <gain>1</gain>
@@ -1317,6 +1319,7 @@ re-run build.sh.
                 </input>
             </filter>
             <filter>
+                <update-interval-secs type="double">0.1</update-interval-secs>
                 <name>ILS GS distance</name>
                 <type>gain</type>
                 <gain>1</gain>
@@ -1341,6 +1344,7 @@ re-run build.sh.
                 </input>
             </filter>
             <filter>
+                <update-interval-secs type="double">0.1</update-interval-secs>
                 <name>ILS crosstrack heading error</name>
                 <type>gain</type>
                 <gain>57.29577951308232</gain>
@@ -1355,6 +1359,7 @@ re-run build.sh.
                 </input>
             </filter>
             <filter>
+                <update-interval-secs type="double">0.1</update-interval-secs>
                 <name>ILS runway width view angle</name>
                 <type>gain</type>
                 <gain>57.29577951308232</gain>
@@ -1369,6 +1374,7 @@ re-run build.sh.
                 </input>
             </filter>
             <filter>
+                <update-interval-secs type="double">0.1</update-interval-secs>
                 <name>ILS GS direct deg</name>
                 <type>gain</type>
                 <gain>1</gain>
@@ -1394,6 +1400,7 @@ re-run build.sh.
             </filter>
             <!-- WAYPOINTS -->
             <filter>
+                <update-interval-secs type="double">0.1</update-interval-secs>
                 <name>Waypoint Dist</name>
                 <type>gain</type>
                 <output>/instrumentation/pfd[<xsl:value-of select="$index"/>]/waypoint/dist10</output>
@@ -1409,6 +1416,7 @@ re-run build.sh.
                 </input>
             </filter>
             <filter>
+                <update-interval-secs type="double">0.1</update-interval-secs>
                 <name>Waypoint ETE unit</name>
                 <type>gain</type>
                 <output>/instrumentation/pfd[<xsl:value-of select="$index"/>]/waypoint/ete-unit</output>
@@ -1426,6 +1434,7 @@ re-run build.sh.
                 </input>
             </filter>
             <filter>
+                <update-interval-secs type="double">0.1</update-interval-secs>
                 <name>Waypoint ETE</name>
                 <type>gain</type>
                 <output>/instrumentation/pfd[<xsl:value-of select="$index"/>]/waypoint/ete</output>
@@ -1453,6 +1462,7 @@ re-run build.sh.
 
             <!-- VSI -->
             <filter>
+                <update-interval-secs type="double">0.1</update-interval-secs>
                 <name>VSI Needle</name>
                 <type>gain</type>
                 <output>/instrumentation/pfd[<xsl:value-of select="$index"/>]/vsi-needle-deg</output>
@@ -1476,6 +1486,7 @@ re-run build.sh.
 
             <!-- FD -->
             <logic>
+                <update-interval-secs type="double">0.1</update-interval-secs>
                 <name>FD Visible</name>
                 <input>
                     <property>/it-autoflight/input/fd<xsl:value-of select="$index + 1"/></property>
@@ -1483,6 +1494,7 @@ re-run build.sh.
                 <output>/instrumentation/pfd[<xsl:value-of select="$index"/>]/fd/visible</output>
             </logic>
             <filter>
+                <update-interval-secs type="double">0.1</update-interval-secs>
                 <type>gain</type>
                 <gain>1</gain>
                 <output>/instrumentation/pfd[<xsl:value-of select="$index"/>]/fd/lat-offset-deg</output>
@@ -1496,6 +1508,7 @@ re-run build.sh.
                 </input>
             </filter>
             <filter>
+                <update-interval-secs type="double">0.1</update-interval-secs>
                 <type>gain</type>
                 <gain>1</gain>
                 <output>/instrumentation/pfd[<xsl:value-of select="$index"/>]/fd/vert-offset-deg</output>
@@ -1506,6 +1519,7 @@ re-run build.sh.
 
             <!-- FPA -->
             <logic>
+                <update-interval-secs type="double">0.1</update-interval-secs>
                 <name>FPA Visible</name>
                 <input>
                     <or>
@@ -1526,6 +1540,7 @@ re-run build.sh.
                 <output>/instrumentation/pfd[<xsl:value-of select="$index"/>]/fpa/visible</output>
             </logic>
             <filter>
+                <update-interval-secs type="double">0.1</update-interval-secs>
                 <name>FPA target</name>
                 <type>gain</type>
                 <gain>1</gain>

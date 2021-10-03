@@ -10,7 +10,7 @@
 # HSI: E190 AOM p1733
 # Bearing Source Selector: E190 AOM p1764
 
-var ED_only = [nil, nil];
+var pfd = [nil, nil];
 var PFD_master = [nil, nil];
 var PFD_display = [nil, nil];
 
@@ -118,56 +118,9 @@ var odoDigit = func(v, p) {
     return o[0] + o[1];
 };
 
-var canvas_ED_base = {
-    init: func(canvas_group, file) {
-        var font_mapper = func(family, weight) {
-            return "e190.ttf";
-        };
-
-
-        canvas.parsesvg(canvas_group, file, {'font-mapper': font_mapper});
-
-         var svg_keys = me.getKeys();
-
-        foreach(var key; svg_keys) {
-            me[key] = canvas_group.getElementById(key);
-            var svg_keys = me.getKeys();
-            foreach (var key; svg_keys) {
-            me[key] = canvas_group.getElementById(key);
-            if (me[key] == nil) {
-                printf("Key not found: %s", key);
-            }
-            var clip_el = canvas_group.getElementById(key ~ "_clip");
-            if (clip_el != nil) {
-                clip_el.setVisible(0);
-                var tran_rect = clip_el.getTransformedBounds();
-                var clip_rect = sprintf("rect(%d,%d, %d,%d)",
-                tran_rect[1], # 0 ys
-                tran_rect[2], # 1 xe
-                tran_rect[3], # 2 ye
-                tran_rect[0]); #3 xs
-                #   coordinates are top,right,bottom,left (ys, xe, ye, xs) ref: l621 of simgear/canvas/CanvasElement.cxx
-                me[key].set("clip", clip_rect);
-                me[key].set("clip-frame", canvas.Element.PARENT);
-            }
-            }
-        }
-
-        me.h_trans = me["horizon"].createTransform();
-        me.h_rot = me["horizon"].createTransform();
-
-        me.page = canvas_group;
-
-        return me;
-    },
-    getKeys: func() {
-        return [];
-    },
-};
-
-var canvas_ED_only = {
+var PFDCanvas = {
     new: func(canvas_group, file, index=0) {
-        var m = { parents: [canvas_ED_only,canvas_ED_base] };
+        var m = { parents: [PFDCanvas] };
         m.init(canvas_group, file);
         m.props = {};
         m.props["/autopilot/autoland/armed-mode"] = props.globals.getNode("/autopilot/autoland/armed-mode");
@@ -323,6 +276,53 @@ var canvas_ED_only = {
         m.setupListeners();
         return m;
     },
+
+    init: func(canvas_group, file) {
+        var font_mapper = func(family, weight) {
+            return "e190.ttf";
+        };
+
+
+        canvas.parsesvg(canvas_group, file, {'font-mapper': font_mapper});
+
+        var svg_keys = me.getKeys();
+
+        foreach(var key; svg_keys) {
+            me[key] = canvas_group.getElementById(key);
+            var svg_keys = me.getKeys();
+            foreach (var key; svg_keys) {
+            me[key] = canvas_group.getElementById(key);
+            if (me[key] == nil) {
+                printf("Key not found: %s", key);
+            }
+            var clip_el = canvas_group.getElementById(key ~ "_clip");
+            if (clip_el != nil) {
+                clip_el.setVisible(0);
+                var tran_rect = clip_el.getTransformedBounds();
+                var clip_rect = sprintf("rect(%d,%d, %d,%d)",
+                tran_rect[1], # 0 ys
+                tran_rect[2], # 1 xe
+                tran_rect[3], # 2 ye
+                tran_rect[0]); #3 xs
+                #   coordinates are top,right,bottom,left (ys, xe, ye, xs) ref: l621 of simgear/canvas/CanvasElement.cxx
+                me[key].set("clip", clip_rect);
+                me[key].set("clip-frame", canvas.Element.PARENT);
+            }
+            }
+        }
+
+        me.h_trans = me["horizon"].createTransform();
+        me.h_rot = me["horizon"].createTransform();
+
+        me.page = canvas_group;
+
+        return me;
+    },
+
+    getKeys: func() {
+        return [];
+    },
+
     getKeys: func() {
         return [
             "QNH.digital",
@@ -1213,16 +1213,16 @@ initialize = func {
         });
         PFD_display[i].addPlacement({"node": "PFD" ~ i});
         PFD_master[i] = PFD_display[i].createGroup();
-        ED_only[i] =
-            canvas_ED_only.new(
-            PFD_master[i],
-            "Aircraft/E-jet-family/Models/Primus-Epic/PFD.svg",
-            i);
+        pfd[i] =
+            PFDCanvas.new(
+                PFD_master[i],
+                "Aircraft/E-jet-family/Models/Primus-Epic/PFD.svg",
+                i);
         (func (j) {
             outputProp = props.globals.getNode("systems/electrical/outputs/pfd[" ~ j ~ "]");
             enabledProp = props.globals.getNode("instrumentation/pfd[" ~ j ~ "]/enabled");
-            append(timer, maketimer(0.0625, func() { if (enabledProp.getBoolValue()) ED_only[j].update(); }));
-            append(timerSlow, maketimer(1.0, func() { if (enabledProp.getBoolValue()) ED_only[j].updateSlow(); }));
+            append(timer, maketimer(0.1, func() { pfd[j].update(); }));
+            append(timerSlow, maketimer(1.0, func() { pfd[j].updateSlow(); }));
             var check = func {
                 var visible = ((outputProp.getValue() or 0) >= 15) and enabledProp.getBoolValue();
                 PFD_master[j].setVisible(visible);
