@@ -17,7 +17,6 @@ re-run build.sh.
         <PropertyList>
             <!-- Altitude tape -->
             <filter>
-                <update-interval-secs type="double">0.1</update-interval-secs>
                 <name>Alt Tape Offset</name>
                 <type>gain</type>
                 <gain>1</gain>
@@ -341,70 +340,6 @@ re-run build.sh.
                 <output>instrumentation/pfd[<xsl:value-of select="$index"/>]/pitch-scale</output>
             </filter>
 
-            <filter>
-                <update-interval-secs type="double">0.1</update-interval-secs>
-                <name>HDGBUGDiff</name>
-                <type>gain</type>
-                <gain>1.0</gain>
-                <input>
-                    <expression>
-                        <dif>
-                            <property>/orientation/heading-deg</property>
-                            <property>/it-autoflight/input/hdg</property>
-                        </dif>
-                    </expression>
-                </input>
-                <output>instrumentation/pfd[<xsl:value-of select="$index"/>]/hdg-bug-diff</output>
-            </filter>
-            <filter>
-                <update-interval-secs type="double">0.1</update-interval-secs>
-                <name>ALTBUGDiff</name>
-                <type>gain</type>
-                <gain>1.0</gain>
-                <input>
-                    <expression>
-                        <dif>
-                            <property>/it-autoflight/input/alt</property>
-                            <property>/instrumentation/altimeter/indicated-altitude-ft</property>
-                        </dif>
-                    </expression>
-                </input>
-                <output>instrumentation/pfd[<xsl:value-of select="$index"/>]/alt-bug-diff</output>
-            </filter>
-            <filter>
-                <update-interval-secs type="double">0.1</update-interval-secs>
-                <name>SPEEDBUGDiff1</name>
-                <type>gain</type>
-                <gain>1.0</gain>
-                <input>
-                    <expression>
-                        <dif>
-                            <property>/instrumentation/airspeed-indicator/indicated-speed-kt</property>
-                            <property>/instrumentation/pfd[<xsl:value-of select="$index"/>]/ias-bugs/bug1</property>
-                        </dif>
-                    </expression>
-                </input>
-                <min>-42</min>
-                <max>42</max>
-                <output>instrumentation/pfd[<xsl:value-of select="$index"/>]/ias-bug1-diff</output>
-            </filter>
-            <filter>
-                <update-interval-secs type="double">0.1</update-interval-secs>
-                <name>SPEEDBUGDiff2</name>
-                <type>gain</type>
-                <gain>1.0</gain>
-                <input>
-                    <expression>
-                        <dif>
-                            <property>/instrumentation/airspeed-indicator/indicated-speed-kt</property>
-                            <property>/instrumentation/pfd[<xsl:value-of select="$index"/>]/ias-bugs/bug2</property>
-                        </dif>
-                    </expression>
-                </input>
-                <min>-42</min>
-                <max>42</max>
-                <output>instrumentation/pfd[<xsl:value-of select="$index"/>]/ias-bug2-diff</output>
-            </filter>
 
             <!-- VMO -->
             <filter>

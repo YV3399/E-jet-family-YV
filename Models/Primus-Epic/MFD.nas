@@ -2174,19 +2174,19 @@ var MFD = {
                     }
                 }, 1, 0));
 
-            append(me.systemsListeners,
-                setlistener(me.props['spoilers-law'], func (node) {
-                    var law = node.getValue();
+            # append(me.systemsListeners,
+            #     setlistener(me.props['spoilers-law'], func (node) {
+            #         var law = node.getValue();
 
-                    if (law == 1) {
-                        self.elems['fctl.mode.spoilers.text'].setText('NORMAL').setColor(0, 1, 0);
-                        self.elems['fctl.mode.spoilers.frame'].hide();
-                    }
-                    else {
-                        self.elems['fctl.mode.spoilers.text'].setText('DIRECT').setColor(0, 0, 0);
-                        self.elems['fctl.mode.spoilers.frame'].show();
-                    }
-                }, 1, 0));
+            #         if (law == 1) {
+            #             self.elems['fctl.mode.spoilers.text'].setText('NORMAL').setColor(0, 1, 0);
+            #             self.elems['fctl.mode.spoilers.frame'].hide();
+            #         }
+            #         else {
+            #             self.elems['fctl.mode.spoilers.text'].setText('DIRECT').setColor(0, 0, 0);
+            #             self.elems['fctl.mode.spoilers.frame'].show();
+            #         }
+            #     }, 1, 0));
         }
     },
 
@@ -2368,7 +2368,7 @@ setlistener("sim/signals/fdm-initialized", func {
     for (var i = 0; i <= 1; i += 1) {
         mfd_display[i] = canvas.new({
             "name": "MFD" ~ i,
-            "size": [1024, 1560],
+            "size": [512, 1024],
             "view": [1024, 1560],
             "mipmapping": 1
         });

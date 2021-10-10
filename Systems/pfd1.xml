@@ -9,7 +9,6 @@ re-run build.sh.
 -->
 <PropertyList>
   <filter>
-    <update-interval-secs type="double">0.1</update-interval-secs>
     <name>Alt Tape Offset</name>
     <type>gain</type>
     <gain>1</gain>
@@ -316,70 +315,6 @@ re-run build.sh.
       </expression>
     </input>
     <output>instrumentation/pfd[0]/pitch-scale</output>
-  </filter>
-  <filter>
-    <update-interval-secs type="double">0.1</update-interval-secs>
-    <name>HDGBUGDiff</name>
-    <type>gain</type>
-    <gain>1.0</gain>
-    <input>
-      <expression>
-        <dif>
-          <property>/orientation/heading-deg</property>
-          <property>/it-autoflight/input/hdg</property>
-        </dif>
-      </expression>
-    </input>
-    <output>instrumentation/pfd[0]/hdg-bug-diff</output>
-  </filter>
-  <filter>
-    <update-interval-secs type="double">0.1</update-interval-secs>
-    <name>ALTBUGDiff</name>
-    <type>gain</type>
-    <gain>1.0</gain>
-    <input>
-      <expression>
-        <dif>
-          <property>/it-autoflight/input/alt</property>
-          <property>/instrumentation/altimeter/indicated-altitude-ft</property>
-        </dif>
-      </expression>
-    </input>
-    <output>instrumentation/pfd[0]/alt-bug-diff</output>
-  </filter>
-  <filter>
-    <update-interval-secs type="double">0.1</update-interval-secs>
-    <name>SPEEDBUGDiff1</name>
-    <type>gain</type>
-    <gain>1.0</gain>
-    <input>
-      <expression>
-        <dif>
-          <property>/instrumentation/airspeed-indicator/indicated-speed-kt</property>
-          <property>/instrumentation/pfd[0]/ias-bugs/bug1</property>
-        </dif>
-      </expression>
-    </input>
-    <min>-42</min>
-    <max>42</max>
-    <output>instrumentation/pfd[0]/ias-bug1-diff</output>
-  </filter>
-  <filter>
-    <update-interval-secs type="double">0.1</update-interval-secs>
-    <name>SPEEDBUGDiff2</name>
-    <type>gain</type>
-    <gain>1.0</gain>
-    <input>
-      <expression>
-        <dif>
-          <property>/instrumentation/airspeed-indicator/indicated-speed-kt</property>
-          <property>/instrumentation/pfd[0]/ias-bugs/bug2</property>
-        </dif>
-      </expression>
-    </input>
-    <min>-42</min>
-    <max>42</max>
-    <output>instrumentation/pfd[0]/ias-bug2-diff</output>
   </filter>
   <filter>
     <update-interval-secs type="double">0.1</update-interval-secs>

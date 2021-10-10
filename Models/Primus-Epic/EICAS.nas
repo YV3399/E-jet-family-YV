@@ -539,7 +539,7 @@ setlistener("sim/signals/fdm-initialized", func {
     if (ED_display != nil) return; # already initialized
 	ED_display = canvas.new({
 		"name": "EICAS",
-		"size": [2048, 2808],
+		"size": [512, 1024],
 		"view": [1024, 1404],
 		"mipmapping": 1
 	});

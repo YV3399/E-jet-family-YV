@@ -1139,11 +1139,16 @@ var canvas_ED_only = {
     },
 };
 
-setlistener("sim/signals/fdm-initialized", func {
+var initialized = 0;
+
+var initialize = func {
+    if (initialized) return;
+    initialized = 1;
+
     for (var i = 0; i < 2; i += 1) {
         HUD_display[i] = canvas.new({
             "name": "HUD" ~ i,
-            "size": [2048, 2048],
+            "size": [1024, 1024],
             "view": [2048, 2048],
             "mipmapping": 1
         });
@@ -1168,14 +1173,31 @@ setlistener("sim/signals/fdm-initialized", func {
     ED_only[0].update();
     ED_only[1].update();
 
-    setlistener("/systems/electrical/outputs/pfd[0]", func (node) {
-        var visible = ((node.getValue() or 0) >= 15);
-        HUD_master[0].setVisible(visible);
-        if (visible) timer0.start(); else timer0.stop();
-    }, 1, 0);
-    setlistener("/systems/electrical/outputs/pfd[1]", func (node) {
-        var visible = ((node.getValue() or 0) >= 15);
-        HUD_master[1].setVisible(visible);
-        if (visible) timer1.start(); else timer1.stop();
-    }, 1, 0);
-});
+    var hudSwitchProp = [
+                props.globals.getNode('controls/switches/hud-flip[0]'),
+                props.globals.getNode('controls/switches/hud-flip[1]'),
+            ];
+    var hudPowerProp = [
+                props.globals.getNode('systems/electrical/outputs/pfd[0]'),
+                props.globals.getNode('systems/electrical/outputs/pfd[1]'),
+            ];
+    var hudSwitchListener = [
+        func (node) {
+            var visible = ((hudPowerProp[0].getValue() or 0) >= 15 and !(hudSwitchProp[0].getBoolValue()));
+            HUD_master[0].setVisible(visible);
+            if (visible) timer0.start(); else timer0.stop();
+        },
+        func (node) {
+            var visible = ((hudPowerProp[1].getValue() or 0) >= 15 and !(hudSwitchProp[1].getBoolValue()));
+            HUD_master[1].setVisible(visible);
+            if (visible) timer1.start(); else timer1.stop();
+        },
+    ];
+
+    setlistener(hudSwitchProp[0], hudSwitchListener[0], 1, 0);
+    setlistener(hudPowerProp[0], hudSwitchListener[0], 1, 0);
+    setlistener(hudSwitchProp[1], hudSwitchListener[1], 1, 0);
+    setlistener(hudPowerProp[1], hudSwitchListener[1], 1, 0);
+};
+
+setlistener("sim/signals/fdm-initialized", initialize);
