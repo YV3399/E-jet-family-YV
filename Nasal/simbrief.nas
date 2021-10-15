@@ -98,7 +98,7 @@ var toFlightplan = func (ofp, fp=nil) {
         if (seenTOC and alt == initialAltitude) {
             # this is the waypoint where we expect to reach initial cruise
             # altitude
-            
+
             # reset 'seen TOC' flag to avoid setting alt restrictions on
             # subsequent waypoints
             seenTOC = 0;
@@ -174,7 +174,7 @@ var importFOB = func (ofp) {
         tankNode.getNode('level-kg').setValue(amount);
         unallocated -= amount;
     }
-    
+
     # fill wing tanks equally (up to half the remaining amount)
     var wingTankMax = unallocated * 0.5;
     allocate(0, wingTankMax);
@@ -204,7 +204,7 @@ var importPerfInit = func (ofp) {
     var callsign = (airline == nil) ? flightNumber : (airline ~ flightNumber);
     var cruiseAlt = ofp.getNode('general/initial_altitude').getValue();
 
-    
+
     setprop("/sim/multiplay/callsign", callsign);
     setprop("/controls/flight/speed-schedule/climb-below-10k", climbProfile[0]);
     setprop("/controls/flight/speed-schedule/climb-kts", climbProfile[1]);
@@ -220,19 +220,25 @@ var aloftTimer = nil;
 var aloftPoints = [];
 
 var setAloftWinds = func (aloftPoint) {
-    # printf("setAloftWinds()");
-    # debug.dump(aloftPoint);
     forindex (var i; aloftPoint.layers) {
         var node = props.globals.getNode("/environment/config/aloft/entry[" ~ i ~ "]");
         node.getChild('elevation-ft').setValue(aloftPoint.layers[i].alt);
         node.getChild('wind-from-heading-deg').setValue(aloftPoint.layers[i].dir);
         node.getChild('wind-speed-kt').setValue(aloftPoint.layers[i].spd);
-        node.getChild('temperature-degc').setValue(aloftPoint.layers[i].temp);
+        # Don't touch this, it messes up the pressure-sea-level-inhg calculation
+        # node.getChild('temperature-degc').setValue(aloftPoint.layers[i].temp);
+        logprint(
+            2,
+            sprintf("ALOFT #%i %5i': %03i/%i",
+                i,
+                node.getChild('elevation-ft').getValue(),
+                node.getChild('wind-from-heading-deg').getValue(),
+                node.getChild('wind-speed-kt').getValue()));
     }
 };
 
 var interpolate = func (f, a, b) {
-    return a + f * (b - a);
+    return a + math.min(1.0, math.max(-1.0, f)) * (b - a);
 };
 
 var interpolateDegrees = func (f, a, b) {
@@ -269,6 +275,12 @@ var interpolateAloftPoints = func (f, a, b) {
 
 var updateAloft = func () {
     # printf("updateAloft()");
+    if (getprop("/environment/params/metar-updates-winds-aloft")) {
+        logprint(3, "Weather configuration invalid for SimBrief weather updater, stopping");
+        stopAloftUpdater();
+        return;
+    }
+
     var pos = geo.aircraft_position();
     foreach (var p; aloftPoints) {
         p.dist = pos.distance_to(p.coord);
@@ -289,6 +301,7 @@ var updateAloft = func () {
 };
 
 var startAloftUpdater = func () {
+    setprop("/environment/params/metar-updates-winds-aloft", 0);
     if (aloftTimer == nil) {
         aloftTimer = maketimer(10, updateAloft);
         aloftTimer.simulatedTime = 1;
