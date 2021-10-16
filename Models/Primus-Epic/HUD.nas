@@ -424,15 +424,6 @@ var canvas_ED_only = {
             self["selectedheading.pointer"].setRotation(selectedheading * D2R);
         }, 1, 0));
 
-        # current heading
-        append(me.listeners, setlistener(me.props["/orientation/heading-magnetic-deg"], func (node) {
-            var heading = node.getValue() or 0;
-            self["wind.pointer.wrapper"].setRotation(heading * -D2R);
-            self["compass"].setRotation(heading * -D2R);
-            self["heading.digital"].setText(sprintf("%03d", heading));
-            self["heading-scale"].setTranslation(geo.normdeg180(heading) * -43, 0);
-        }, 1, 0));
-
         # wind speed
         append(me.listeners, setlistener(me.props["/environment/wind-speed-kt"], func (node) {
             var windSpeed = node.getValue() or 0;
@@ -883,6 +874,14 @@ var canvas_ED_only = {
                 geo.normdeg180(trackError + fdRoll) * 43,
                 (fpa + fdPitch) * -43)
             .setRotation(roll * D2R);
+
+        # current heading
+        var heading = me.props["/orientation/heading-magnetic-deg"].getValue() or 0;
+        self["wind.pointer.wrapper"].setRotation(heading * -D2R);
+        self["compass"].setRotation(heading * -D2R);
+        self["heading.digital"].setText(sprintf("%03d", heading));
+        self["heading-scale"].setTranslation(geo.normdeg180(heading) * -43, 0);
+
 
         # wind direction
         # For some reason, if we attempt to do this in a listener, it will
