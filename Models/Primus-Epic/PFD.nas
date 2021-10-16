@@ -481,6 +481,8 @@ var PFDCanvas = {
     setupListeners: func () {
         var self = me;
 
+        me.deleteListeners();
+
         # bearing pointers / sources
         append(me.listeners, setlistener(me.props["/instrumentation/pfd/bearing[0]/source"], func (node) {
             var hsiLabelText = ["----", "VOR1", "ADF1", "FMS1"];
