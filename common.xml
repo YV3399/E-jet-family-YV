@@ -2468,6 +2468,10 @@
             <file>Aircraft/E-jet-family/Nasal/fms/performance.nas</file>
         </fms>
 
+        <performanceData>
+            <file>Aircraft/E-jet-family/Nasal/fms/performance-data.nas</file>
+        </performanceData>
+
         <autopush>
             <file>Nasal/Autopush/autopush.nas</file>
         </autopush>
