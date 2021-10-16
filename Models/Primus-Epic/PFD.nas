@@ -1219,14 +1219,21 @@ initialize = func {
         (func (j) {
             outputProp = props.globals.getNode("systems/electrical/outputs/pfd[" ~ j ~ "]");
             enabledProp = props.globals.getNode("instrumentation/pfd[" ~ j ~ "]/enabled");
+            rateProp = props.globals.getNode("instrumentation/pfd[" ~ j ~ "]/update-rate");
             append(timer, maketimer(0.04, func() { pfd[j].update(); }));
             append(timerSlow, maketimer(1.0, func() { pfd[j].updateSlow(); }));
             var check = func {
                 var visible = ((outputProp.getValue() or 0) >= 15) and enabledProp.getBoolValue();
                 PFD_master[j].setVisible(visible);
                 if (visible) {
+                    var rate = rateProp.getValue();
+                    var interval = 1.0 / 20.0;
+                    if (rate == 0)
+                        interval = 0.1;
+                    elsif (rate == 2)
+                        interval = 1.0 / 30.0;
                     pfd[j].setupListeners();
-                    timer[j].start();
+                    timer[j].restart(interval);
                     timerSlow[j].start();
                 }
                 else {
@@ -1238,6 +1245,7 @@ initialize = func {
 
             setlistener(outputProp, check, 1, 0);
             setlistener(enabledProp, check, 1, 0);
+            setlistener(rateProp, check, 1, 0);
         })(i);
     }
 };
