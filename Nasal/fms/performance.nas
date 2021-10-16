@@ -119,7 +119,12 @@ var printPerformanceProfile = func (profile) {
     }
 }
 
+var initialized = 0;
+
 setlistener("sim/signals/fdm-initialized", func {
+    if (initialized) return;
+    initialized = 1;
+
     myprops = {
         totalDist: props.globals.getNode('/autopilot/route-manager/total-distance'),
         distRemaining: props.globals.getNode('/autopilot/route-manager/distance-remaining-nm'),
