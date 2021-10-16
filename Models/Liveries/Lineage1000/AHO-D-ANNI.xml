@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+
+<PropertyList>
+<sim>
+    <model>
+        <livery>
+            <name type="string">Air Hamburg Executive</name>
+            <texture>/../Models/Liveries/Lineage1000/AHO-D-ANNI.png</texture>
+        </livery>
+        <tail-number>D-ANNI</tail-number>
+    </model>
+</sim>
+</PropertyList>
