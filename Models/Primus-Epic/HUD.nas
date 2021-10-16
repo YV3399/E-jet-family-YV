@@ -877,10 +877,10 @@ var canvas_ED_only = {
 
         # current heading
         var heading = me.props["/orientation/heading-magnetic-deg"].getValue() or 0;
-        self["wind.pointer.wrapper"].setRotation(heading * -D2R);
-        self["compass"].setRotation(heading * -D2R);
-        self["heading.digital"].setText(sprintf("%03d", heading));
-        self["heading-scale"].setTranslation(geo.normdeg180(heading) * -43, 0);
+        me["wind.pointer.wrapper"].setRotation(heading * -D2R);
+        me["compass"].setRotation(heading * -D2R);
+        me["heading.digital"].setText(sprintf("%03d", heading));
+        me["heading-scale"].setTranslation(geo.normdeg180(heading) * -43, 0);
 
 
         # wind direction

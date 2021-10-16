@@ -1219,7 +1219,7 @@ initialize = func {
         (func (j) {
             outputProp = props.globals.getNode("systems/electrical/outputs/pfd[" ~ j ~ "]");
             enabledProp = props.globals.getNode("instrumentation/pfd[" ~ j ~ "]/enabled");
-            append(timer, maketimer(0.0666, func() { pfd[j].update(); }));
+            append(timer, maketimer(0.0333, func() { pfd[j].update(); }));
             append(timerSlow, maketimer(1.0, func() { pfd[j].updateSlow(); }));
             var check = func {
                 var visible = ((outputProp.getValue() or 0) >= 15) and enabledProp.getBoolValue();
