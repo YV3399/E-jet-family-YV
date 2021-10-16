@@ -1205,7 +1205,7 @@ initialize = func {
     for (var i = 0; i < 2; i += 1) {
         PFD_display[i] = canvas.new({
             "name": "PFD" ~ i,
-            "size": [512, 1024],
+            "size": [1024, 1560],
             "view": [1024, 1560],
             "mipmapping": 1
         });
@@ -1219,7 +1219,7 @@ initialize = func {
         (func (j) {
             outputProp = props.globals.getNode("systems/electrical/outputs/pfd[" ~ j ~ "]");
             enabledProp = props.globals.getNode("instrumentation/pfd[" ~ j ~ "]/enabled");
-            append(timer, maketimer(0.0333, func() { pfd[j].update(); }));
+            append(timer, maketimer(0.04, func() { pfd[j].update(); }));
             append(timerSlow, maketimer(1.0, func() { pfd[j].updateSlow(); }));
             var check = func {
                 var visible = ((outputProp.getValue() or 0) >= 15) and enabledProp.getBoolValue();
