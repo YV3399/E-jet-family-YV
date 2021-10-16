@@ -273,7 +273,7 @@ var PFDCanvas = {
         m.props["/position/gear-agl-ft"] = props.globals.getNode("/position/gear-agl-ft");
         m.props["/velocities/groundspeed-kt"] = props.globals.getNode("/velocities/groundspeed-kt");
         m.ilscolor = [0,1,0];
-        m.setupListeners();
+        m.listeners = [];
         return m;
     },
 
@@ -471,38 +471,37 @@ var PFDCanvas = {
         ];
     },
 
+    deleteListeners: func () {
+        foreach (var ls; me.listeners) {
+            removelistener(ls);
+        }
+        me.listeners = [];
+    },
+
     setupListeners: func () {
         var self = me;
 
         # bearing pointers / sources
-        setlistener(me.props["/instrumentation/pfd/bearing[0]/source"], func (node) {
+        append(me.listeners, setlistener(me.props["/instrumentation/pfd/bearing[0]/source"], func (node) {
             var hsiLabelText = ["----", "VOR1", "ADF1", "FMS1"];
             var mode = node.getValue();
             self["hsi.label.circle"].setText(hsiLabelText[mode]);
-        }, 1, 0);
-        setlistener(me.props["/instrumentation/pfd/bearing[1]/source"], func (node) {
+        }, 1, 0));
+        append(me.listeners, setlistener(me.props["/instrumentation/pfd/bearing[1]/source"], func (node) {
             var hsiLabelText = ["----", "VOR2", "ADF2", "FMS2"];
             var mode = node.getValue();
             self["hsi.label.diamond"].setText(hsiLabelText[mode]);
-        }, 1, 0);
+        }, 1, 0));
 
         # selected heading
-        setlistener(me.props["/it-autoflight/input/hdg"], func (node) {
+        append(me.listeners, setlistener(me.props["/it-autoflight/input/hdg"], func (node) {
             var selectedheading = node.getValue() or 0;
             self["selectedheading.digital"].setText(sprintf("%03d", selectedheading));
             self["selectedheading.pointer"].setRotation(selectedheading * D2R);
-        }, 1, 0);
-
-        # current heading
-        setlistener(me.props["/orientation/heading-magnetic-deg"], func (node) {
-            var heading = node.getValue() or 0;
-            self["wind.pointer.wrapper"].setRotation(heading * -D2R);
-            self["compass"].setRotation(heading * -D2R);
-            self["heading.digital"].setText(sprintf("%03d", heading));
-        }, 1, 0);
+        }, 1, 0));
 
         # wind speed
-        setlistener(me.props["/environment/wind-speed-kt"], func (node) {
+        append(me.listeners, setlistener(me.props["/environment/wind-speed-kt"], func (node) {
             var windSpeed = node.getValue() or 0;
             if (windSpeed > 1) {
                 me["wind.pointer"].show();
@@ -511,31 +510,26 @@ var PFDCanvas = {
                 me["wind.pointer"].hide();
             }
             me["wind.kt"].setText(sprintf("%u", windSpeed));
-        }, 1, 0);
-
-        # groundspeed
-        setlistener(me.props["/instrumentation/pfd/groundspeed-kt"], func (node) {
-            self["groundspeed"].setText(sprintf("%3d", node.getValue() or 0));
-        }, 1, 0);
+        }, 1, 0));
 
         # selected altitude
-        setlistener(me.props["/controls/flight/selected-alt"], func (node) {
+        append(me.listeners, setlistener(me.props["/controls/flight/selected-alt"], func (node) {
             self["selectedalt.digital100"].setText(sprintf("%02d", (node.getValue() or 0) * 0.01));
-        }, 1, 0);
+        }, 1, 0));
 
         # comm/nav
-        setlistener(me.props["/instrumentation/comm[0]/frequencies/selected-mhz"], func (node) {
+        append(me.listeners, setlistener(me.props["/instrumentation/comm[0]/frequencies/selected-mhz"], func (node) {
             self["vhf1.act"].setText(sprintf("%.2f", node.getValue() or 0));
-        }, 1, 0);
-        setlistener(me.props["/instrumentation/comm[0]/frequencies/standby-mhz"], func (node) {
+        }, 1, 0));
+        append(me.listeners, setlistener(me.props["/instrumentation/comm[0]/frequencies/standby-mhz"], func (node) {
             self["vhf1.sby"].setText(sprintf("%.2f", node.getValue() or 0));
-        }, 1, 0);
-        setlistener(me.props["/instrumentation/nav[0]/frequencies/selected-mhz"], func (node) {
+        }, 1, 0));
+        append(me.listeners, setlistener(me.props["/instrumentation/nav[0]/frequencies/selected-mhz"], func (node) {
             self["nav1.act"].setText(sprintf("%.2f", node.getValue() or 0));
-        }, 1, 0);
-        setlistener(me.props["/instrumentation/nav[0]/frequencies/standby-mhz"], func (node) {
+        }, 1, 0));
+        append(me.listeners, setlistener(me.props["/instrumentation/nav[0]/frequencies/standby-mhz"], func (node) {
             self["nav1.sby"].setText(sprintf("%.2f", node.getValue() or 0));
-        }, 1, 0);
+        }, 1, 0));
 
         # VNAV annunciations
         # TODO
@@ -543,21 +537,21 @@ var PFDCanvas = {
         me["VNAV.constraints2"].hide();
 
         # V-speed previews
-        setlistener(me.props["/fms/vspeeds-effective/departure/v1"], func (node) {
+        append(me.listeners, setlistener(me.props["/fms/vspeeds-effective/departure/v1"], func (node) {
             self["asi.preview-v1.digital"].setText(sprintf("%-3.0d", node.getValue()));
-        }, 1, 0);
-        setlistener(me.props["/fms/vspeeds-effective/departure/vr"], func (node) {
+        }, 1, 0));
+        append(me.listeners, setlistener(me.props["/fms/vspeeds-effective/departure/vr"], func (node) {
             self["asi.preview-vr.digital"].setText(sprintf("%-3.0d", node.getValue()));
-        }, 1, 0);
-        setlistener(me.props["/fms/vspeeds-effective/departure/v2"], func (node) {
+        }, 1, 0));
+        append(me.listeners, setlistener(me.props["/fms/vspeeds-effective/departure/v2"], func (node) {
             self["asi.preview-v2.digital"].setText(sprintf("%-3.0d", node.getValue()));
-        }, 1, 0);
-        setlistener(me.props["/fms/vspeeds-effective/departure/vfs"], func (node) {
+        }, 1, 0));
+        append(me.listeners, setlistener(me.props["/fms/vspeeds-effective/departure/vfs"], func (node) {
             self["asi.preview-vfs.digital"].setText(sprintf("%-3.0d", node.getValue()));
-        }, 1, 0);
-        setlistener(me.props["/instrumentation/pfd/airspeed-alive"], func (node) {
+        }, 1, 0));
+        append(me.listeners, setlistener(me.props["/instrumentation/pfd/airspeed-alive"], func (node) {
             self["asi.vspeeds"].setVisible(!node.getBoolValue());
-        }, 1, 0);
+        }, 1, 0));
 
         # QNH
         var updateQNH = func {
@@ -574,9 +568,9 @@ var PFDCanvas = {
                 self["QNH.unit"].setText("HPA");
             }
         };
-        setlistener(self.props["/instrumentation/pfd/qnh-mode"], updateQNH, 1, 0);
-        setlistener(self.props["/instrumentation/altimeter/setting-inhg"], updateQNH, 1, 0);
-        setlistener(self.props["/instrumentation/altimeter/setting-hpa"], updateQNH, 1, 0);
+        append(me.listeners, setlistener(self.props["/instrumentation/pfd/qnh-mode"], updateQNH, 1, 0));
+        append(me.listeners, setlistener(self.props["/instrumentation/altimeter/setting-inhg"], updateQNH, 1, 0));
+        append(me.listeners, setlistener(self.props["/instrumentation/altimeter/setting-hpa"], updateQNH, 1, 0));
 
         var updateNavAnn = func () {
             var navsrc = self.props["/instrumentation/pfd/nav-src"].getValue() or 0;
@@ -616,7 +610,7 @@ var PFDCanvas = {
             }
         };
 
-        setlistener(self.props["/controls/flight/nav-src/side"],
+        append(me.listeners, setlistener(self.props["/controls/flight/nav-src/side"],
             func (node) {
                 if (node.getBoolValue()) {
                     self["fma.src.arrow"].setRotation(math.pi);
@@ -624,28 +618,28 @@ var PFDCanvas = {
                 else {
                     self["fma.src.arrow"].setRotation(0);
                 }
-            }, 1, 0);
+            }, 1, 0));
 
-        setlistener(self.props["/instrumentation/pfd/bearing[0]/visible"],
+        append(me.listeners, setlistener(self.props["/instrumentation/pfd/bearing[0]/visible"],
             func (node) { self["hsi.pointer.circle"].setVisible(node.getBoolValue()); },
-            1, 0);
-        setlistener(self.props["/instrumentation/pfd/bearing[0]/bearing"],
+            1, 0));
+        append(me.listeners, setlistener(self.props["/instrumentation/pfd/bearing[0]/bearing"],
             func (node) { self["hsi.pointer.circle"].setRotation(node.getValue() * D2R); },
-            1, 0);
-        setlistener(self.props["/instrumentation/pfd/bearing[1]/visible"],
+            1, 0));
+        append(me.listeners, setlistener(self.props["/instrumentation/pfd/bearing[1]/visible"],
             func (node) { self["hsi.pointer.diamond"].setVisible(node.getBoolValue()); },
-            1, 0);
-        setlistener(self.props["/instrumentation/pfd/bearing[1]/bearing"],
+            1, 0));
+        append(me.listeners, setlistener(self.props["/instrumentation/pfd/bearing[1]/bearing"],
             func (node) { self["hsi.pointer.diamond"].setRotation(node.getValue() * D2R); },
-            1, 0);
+            1, 0));
 
-        setlistener(self.props["/instrumentation/pfd/preview"], func { updateNavAnn(); }, 1, 0);
-        setlistener(self.props["/instrumentation/nav[0]/nav-loc"], func { updateNavAnn(); }, 1, 0);
-        setlistener(self.props["/instrumentation/nav[0]/nav-id"], func { updateNavAnn(); }, 1, 0);
-        setlistener(self.props["/instrumentation/nav[1]/nav-loc"], func { updateNavAnn(); }, 1, 0);
-        setlistener(self.props["/instrumentation/nav[1]/nav-id"], func { updateNavAnn(); }, 1, 0);
+        append(me.listeners, setlistener(self.props["/instrumentation/pfd/preview"], func { updateNavAnn(); }, 1, 0));
+        append(me.listeners, setlistener(self.props["/instrumentation/nav[0]/nav-loc"], func { updateNavAnn(); }, 1, 0));
+        append(me.listeners, setlistener(self.props["/instrumentation/nav[0]/nav-id"], func { updateNavAnn(); }, 1, 0));
+        append(me.listeners, setlistener(self.props["/instrumentation/nav[1]/nav-loc"], func { updateNavAnn(); }, 1, 0));
+        append(me.listeners, setlistener(self.props["/instrumentation/nav[1]/nav-id"], func { updateNavAnn(); }, 1, 0));
 
-        setlistener(self.props["/instrumentation/pfd/nav-src"],
+        append(me.listeners, setlistener(self.props["/instrumentation/pfd/nav-src"],
             func (node) {
                 var courseColor = [0, 1, 0];
                 var hsiColor = [0, 1, 0];
@@ -664,8 +658,8 @@ var PFDCanvas = {
                 self["hsi.nav1"].setColor(hsiColor[0], hsiColor[1], hsiColor[2]);
                 self["hsi.nav1track"].setColor(hsiColor[0], hsiColor[1], hsiColor[2]);
                 updateNavAnn();
-            }, 1, 0);
-        setlistener(self.props["/instrumentation/pfd/nav/course-source"],
+            }, 1, 0));
+        append(me.listeners, setlistener(self.props["/instrumentation/pfd/nav/course-source"],
             func (node) {
                 if (node.getValue() == 0) {
                     self["selectedcourse.digital"].hide();
@@ -673,16 +667,16 @@ var PFDCanvas = {
                 else {
                     self["selectedcourse.digital"].show();
                 }
-            }, 1, 0);
-        setlistener(self.props["/instrumentation/pfd/nav/selected-radial"],
+            }, 1, 0));
+        append(me.listeners, setlistener(self.props["/instrumentation/pfd/nav/selected-radial"],
             func (node) {
                 self["selectedcourse.digital"].setText(sprintf("%03d", node.getValue()));
-            }, 1, 0);
+            }, 1, 0));
 
         # DME
         var dme_id_listener = nil;
 
-        setlistener(self.props["/instrumentation/pfd/nav/dme-source"], func (node) {
+        append(me.listeners, setlistener(self.props["/instrumentation/pfd/nav/dme-source"], func (node) {
             var dmesrc = node.getValue();
             if (dme_id_listener != nil) {
                 removelistener(dme_id_listener);
@@ -699,11 +693,11 @@ var PFDCanvas = {
                 self["dme"].hide();
                 dme_id_listener = nil;
             }
-        }, 1, 0);
-        setlistener(self.props["/instrumentation/pfd/dme/dist10"], func (node) {
+        }, 1, 0));
+        append(me.listeners, setlistener(self.props["/instrumentation/pfd/dme/dist10"], func (node) {
             self["dme.dist"].setText(sprintf("%5.1f", node.getValue() * 0.1));
-        }, 1, 0);
-        setlistener(self.props["/instrumentation/pfd/dme/ete"], func (node) {
+        }, 1, 0));
+        append(me.listeners, setlistener(self.props["/instrumentation/pfd/dme/ete"], func (node) {
             var ete = node.getValue();
             if (ete >= 600) {
                 self["dme.ete"].setText("+++");
@@ -711,46 +705,36 @@ var PFDCanvas = {
             else {
                 self["dme.ete"].setText(sprintf("%3.0d", ete));
             }
-        }, 1, 0);
-        setlistener(self.props["/instrumentation/pfd/dme/ete-unit"], func (node) {
+        }, 1, 0));
+        append(me.listeners, setlistener(self.props["/instrumentation/pfd/dme/ete-unit"], func (node) {
             if (node.getValue()) {
                 self["dme.eteunit"].setText("MIN");
             }
             else {
                 self["dme.eteunit"].setText("SEC");
             }
-        }, 1, 0);
-        setlistener(self.props["/instrumentation/pfd/dme/hold"], func (node) {
+        }, 1, 0));
+        append(me.listeners, setlistener(self.props["/instrumentation/pfd/dme/hold"], func (node) {
             self["dme.hold"].setVisible(node.getBoolValue());
-        }, 1, 0);
+        }, 1, 0));
 
         # HSI
-        setlistener(self.props["/instrumentation/pfd/hsi/heading"],
+        append(me.listeners, setlistener(self.props["/instrumentation/pfd/hsi/heading"],
             func (node) {
                 var hsiHeading = node.getValue() * D2R;
                 self["hsi.nav1"].setRotation(hsiHeading);
                 self["hsi.dots"].setRotation(hsiHeading);
-            }, 1, 0);
-        setlistener(self.props["/instrumentation/pfd/hsi/deflection"],
+            }, 1, 0));
+        append(me.listeners, setlistener(self.props["/instrumentation/pfd/hsi/deflection"],
             func (node) {
                 self["hsi.nav1track"].setTranslation(node.getValue() * 120, 0);
-            }, 1, 0);
-        setlistener(self.props["/instrumentation/pfd/hsi/from-flag"],
+            }, 1, 0));
+        append(me.listeners, setlistener(self.props["/instrumentation/pfd/hsi/from-flag"],
             func (node) {
                 var flag = node.getValue();
                 self["hsi.from"].setVisible(flag == 1);
                 self["hsi.to"].setVisible(flag == 0);
-            }, 1, 0);
-
-        setlistener(self.props["/instrumentation/gps/cdi-deflection"],
-            func (node) {
-                self["ils.fmsloc"].setTranslation(math.round((node.getValue() or 0) * 10.0), 0);
-            }, 1, 0);
-
-        setlistener(self.props["/instrumentation/gps/cdi-deflection"],
-            func (node) {
-                self["ils.fmsvert"].setTranslation(0, math.min(1000, math.max(-1000, node.getValue())) * 0.1);
-            }, 1, 0);
+            }, 1, 0));
 
         updateILSColors = func {
             var ilssrc = self.props["/instrumentation/pfd/ils/source"].getValue();
@@ -778,83 +762,83 @@ var PFDCanvas = {
                 self["ils.locneedle"].setColorFill(0, 0, 0);
             }
         };
-        setlistener(self.props["/instrumentation/pfd/ils/source"], updateILSColors, 1, 0);
-        setlistener(self.props["/instrumentation/pfd/nav-src"], updateILSColors, 1, 0);
-        setlistener(self.props["/instrumentation/pfd/ils/gs-in-range"], updateILSColors, 1, 0);
-        setlistener(self.props["/instrumentation/pfd/ils/loc-in-range"], updateILSColors, 1, 0);
-        setlistener(self.props["/instrumentation/pfd/ils/has-gs"], func (node) {
+        append(me.listeners, setlistener(self.props["/instrumentation/pfd/ils/source"], updateILSColors, 1, 0));
+        append(me.listeners, setlistener(self.props["/instrumentation/pfd/nav-src"], updateILSColors, 1, 0));
+        append(me.listeners, setlistener(self.props["/instrumentation/pfd/ils/gs-in-range"], updateILSColors, 1, 0));
+        append(me.listeners, setlistener(self.props["/instrumentation/pfd/ils/loc-in-range"], updateILSColors, 1, 0));
+        append(me.listeners, setlistener(self.props["/instrumentation/pfd/ils/has-gs"], func (node) {
                 self["ils.gsneedle"].setVisible(node.getBoolValue());
-            }, 1, 0);
-        setlistener(self.props["/instrumentation/pfd/ils/has-loc"], func (node) {
+            }, 1, 0));
+        append(me.listeners, setlistener(self.props["/instrumentation/pfd/ils/has-loc"], func (node) {
                 self["ils.locneedle"].setVisible(node.getBoolValue());
-            }, 1, 0);
-        setlistener(self.props["/instrumentation/pfd/ils/gs-needle"], func (node) {
+            }, 1, 0));
+        append(me.listeners, setlistener(self.props["/instrumentation/pfd/ils/gs-needle"], func (node) {
                 self["ils.gsneedle"].setTranslation(0, math.round((node.getValue() or 0) * -100.0));
-            }, 1, 0);
-        setlistener(self.props["/instrumentation/pfd/ils/loc-needle"], func (node) {
+            }, 1, 0));
+        append(me.listeners, setlistener(self.props["/instrumentation/pfd/ils/loc-needle"], func (node) {
                 self["ils.locneedle"].setTranslation(math.round((node.getValue() or 0) * 100.0), 0);
-            }, 1, 0);
+            }, 1, 0));
 
-        setlistener(self.props["/autopilot/route-manager/active"], func (node) {
+        append(me.listeners, setlistener(self.props["/autopilot/route-manager/active"], func (node) {
             self["waypoint"].setVisible(node.getBoolValue());
-            }, 1, 0);
+            }, 1, 0));
 
-        setlistener(self.props["/autopilot/route-manager/wp/id"], func (node) {
+        append(me.listeners, setlistener(self.props["/autopilot/route-manager/wp/id"], func (node) {
             self["waypoint.id"].setText(node.getValue() or "");
-            }, 1, 0);
+            }, 1, 0));
 
-        setlistener(self.props["/instrumentation/pfd/waypoint/dist10"], func (node) {
+        append(me.listeners, setlistener(self.props["/instrumentation/pfd/waypoint/dist10"], func (node) {
             self["waypoint.dist"].setText(
                 sprintf("%5.1f", (node.getValue() or 0) * 0.1));
-            }, 1, 0);
+            }, 1, 0));
 
-        setlistener(self.props["/instrumentation/pfd/waypoint/ete"], func (node) {
+        append(me.listeners, setlistener(self.props["/instrumentation/pfd/waypoint/ete"], func (node) {
                 self["waypoint.ete"].setText(sprintf("%3d", node.getValue()));
-            }, 1, 0);
-        setlistener(self.props["/instrumentation/pfd/waypoint/ete-unit"], func (node) {
+            }, 1, 0));
+        append(me.listeners, setlistener(self.props["/instrumentation/pfd/waypoint/ete-unit"], func (node) {
                 if (node.getBoolValue()) {
                     self["waypoint.eteunit"].setText("MIN");
                 }
                 else {
                     self["waypoint.eteunit"].setText("SEC");
                 }
-            }, 1, 0);
+            }, 1, 0));
 
         # FMA
-        setlistener(self.props["/it-autoflight/output/ap1"], func (node) {
+        append(me.listeners, setlistener(self.props["/it-autoflight/output/ap1"], func (node) {
                 self["fma.ap"].setVisible(node.getBoolValue());
-            }, 1, 0);
-        setlistener(self.props["/it-autoflight/output/athr"], func (node) {
+            }, 1, 0));
+        append(me.listeners, setlistener(self.props["/it-autoflight/output/athr"], func (node) {
                 self["fma.at"].setVisible(node.getBoolValue());
-            }, 1, 0);
-        setlistener("/instrumentation/annun/lat-mode", func (node) {
+            }, 1, 0));
+        append(me.listeners, setlistener("/instrumentation/annun/lat-mode", func (node) {
                 self["fma.lat"].setText(node.getValue());
-            }, 1, 0);
-        setlistener("/instrumentation/annun/lat-mode-armed", func (node) {
+            }, 1, 0));
+        append(me.listeners, setlistener("/instrumentation/annun/lat-mode-armed", func (node) {
                 self["fma.latarmed"].setText(node.getValue());
-            }, 1, 0);
-        setlistener("/instrumentation/annun/vert-mode", func (node) {
+            }, 1, 0));
+        append(me.listeners, setlistener("/instrumentation/annun/vert-mode", func (node) {
                 self["fma.vert"].setText(node.getValue());
-            }, 1, 0);
-        setlistener("/instrumentation/annun/vert-mode-armed", func (node) {
+            }, 1, 0));
+        append(me.listeners, setlistener("/instrumentation/annun/vert-mode-armed", func (node) {
                 self["fma.vertarmed"].setText(node.getValue());
-            }, 1, 0);
-        setlistener("/instrumentation/annun/spd-mode", func (node) {
+            }, 1, 0));
+        append(me.listeners, setlistener("/instrumentation/annun/spd-mode", func (node) {
                 self["fma.spd"].setText(node.getValue());
-            }, 1, 0);
-        setlistener("/instrumentation/annun/spd-mode-armed", func (node) {
+            }, 1, 0));
+        append(me.listeners, setlistener("/instrumentation/annun/spd-mode-armed", func (node) {
                 self["fma.spdarmed"].setText(node.getValue());
-            }, 1, 0);
-        setlistener("/instrumentation/annun/spd-minor-mode", func (node) {
+            }, 1, 0));
+        append(me.listeners, setlistener("/instrumentation/annun/spd-minor-mode", func (node) {
                 self["fma.spd.minor"].setText(node.getValue());
-            }, 1, 0);
-        setlistener("/instrumentation/annun/spd-minor-mode-armed", func (node) {
+            }, 1, 0));
+        append(me.listeners, setlistener("/instrumentation/annun/spd-minor-mode-armed", func (node) {
                 self["fma.spdarmed.minor"].setText(node.getValue());
-            }, 1, 0);
-        setlistener("/instrumentation/annun/appr-mode", func (node) {
+            }, 1, 0));
+        append(me.listeners, setlistener("/instrumentation/annun/appr-mode", func (node) {
                 self["fma.appr"].setText(node.getValue());
-            }, 1, 0);
-        setlistener("/instrumentation/annun/appr-mode-armed", func (node) {
+            }, 1, 0));
+        append(me.listeners, setlistener("/instrumentation/annun/appr-mode-armed", func (node) {
                 var value = node.getValue();
                 self["fma.apprarmed"].setText(value);
                 if (value == 'APPR1 ONLY') {
@@ -863,7 +847,7 @@ var PFDCanvas = {
                 else {
                     self["fma.apprarmed"].setColor(1, 1, 1);
                 }
-            }, 1, 0);
+            }, 1, 0));
 
         var updateSelectedVSpeed = func {
             var vertMode = self.props["/it-autoflight/mode/vert"].getValue();
@@ -880,11 +864,11 @@ var PFDCanvas = {
             }
         };
 
-        setlistener(self.props["/it-autoflight/mode/vert"], func {
+        append(me.listeners, setlistener(self.props["/it-autoflight/mode/vert"], func {
             updateSelectedVSpeed();
-        }, 1, 0);
-        setlistener(self.props["/it-autoflight/input/vs"], updateSelectedVSpeed, 1, 0);
-        setlistener(self.props["/it-autoflight/input/fpa"], updateSelectedVSpeed, 1, 0);
+        }, 1, 0));
+        append(me.listeners, setlistener(self.props["/it-autoflight/input/vs"], updateSelectedVSpeed, 1, 0));
+        append(me.listeners, setlistener(self.props["/it-autoflight/input/fpa"], updateSelectedVSpeed, 1, 0));
 
         var updateSelectedSpeed = func {
             if (self.props["/it-autoflight/input/kts-mach"].getValue()) {
@@ -897,46 +881,46 @@ var PFDCanvas = {
             }
         };
 
-        setlistener(self.props["/it-autoflight/input/kts"], updateSelectedSpeed, 1, 0);
-        setlistener(self.props["/it-autoflight/input/mach"], updateSelectedSpeed, 1, 0);
-        setlistener(self.props["/it-autoflight/input/kts-mach"], updateSelectedSpeed, 1, 0);
+        append(me.listeners, setlistener(self.props["/it-autoflight/input/kts"], updateSelectedSpeed, 1, 0));
+        append(me.listeners, setlistener(self.props["/it-autoflight/input/mach"], updateSelectedSpeed, 1, 0));
+        append(me.listeners, setlistener(self.props["/it-autoflight/input/kts-mach"], updateSelectedSpeed, 1, 0));
 
-        setlistener(self.props["/controls/flight/speed-mode"], func(node) {
+        append(me.listeners, setlistener(self.props["/controls/flight/speed-mode"], func(node) {
             if (node.getValue() == 1) {
                 self["selectedspeed.digital"].setColor(1, 0, 1);
             }
             else {
                 self["selectedspeed.digital"].setColor(0, 0.75, 1);
             }
-        }, 1, 0);
+        }, 1, 0));
 
-        setlistener(self.props["/instrumentation/pfd/alt-tape-offset"], func(node) {
+        append(me.listeners, setlistener(self.props["/instrumentation/pfd/alt-tape-offset"], func(node) {
             self["alt.tape"].setTranslation(0, node.getValue() * 0.45);
-        }, 1, 0);
+        }, 1, 0));
 
-        setlistener(self.props["/instrumentation/pfd/alt-tape-thousands"], func(node) {
+        append(me.listeners, setlistener(self.props["/instrumentation/pfd/alt-tape-thousands"], func(node) {
             var altTapeThousands = node.getValue() * 1000;
             self["altNumLow1"].setText(sprintf("%5.0f", altTapeThousands - 1000));
             self["altNumHigh1"].setText(sprintf("%5.0f", altTapeThousands));
             self["altNumHigh2"].setText(sprintf("%5.0f", altTapeThousands + 1000));
-        }, 1, 0);
+        }, 1, 0));
 
         # Minimums
-        setlistener(self.props["/instrumentation/pfd/radio-alt"], func(node) {
+        append(me.listeners, setlistener(self.props["/instrumentation/pfd/radio-alt"], func(node) {
             var ra = node.getValue();
             self["radioalt.digital"].setText(sprintf("%04d", ra));
-        }, 1, 0);
+        }, 1, 0));
         self["radioalt.digital"].setText(sprintf("%04d", 0));
-        setlistener(self.props["/instrumentation/pfd/minimums-visible"], func(node) {
+        append(me.listeners, setlistener(self.props["/instrumentation/pfd/minimums-visible"], func(node) {
             self["minimums"].setVisible(node.getBoolValue());
-        }, 1, 0);
-        setlistener(self.props["/instrumentation/pfd/minimums-indicator-visible"], func(node) {
+        }, 1, 0));
+        append(me.listeners, setlistener(self.props["/instrumentation/pfd/minimums-indicator-visible"], func(node) {
             self["minimums.indicator"].setVisible(node.getBoolValue());   
-        }, 1, 0);
-        setlistener(self.props["/instrumentation/pfd/radio-altimeter-visible"], func(node) {
+        }, 1, 0));
+        append(me.listeners, setlistener(self.props["/instrumentation/pfd/radio-altimeter-visible"], func(node) {
             self["radioalt"].setVisible(node.getBoolValue());   
-        }, 1, 0);
-        setlistener(self.props["/instrumentation/pfd/minimums-mode"], func(node) {
+        }, 1, 0));
+        append(me.listeners, setlistener(self.props["/instrumentation/pfd/minimums-mode"], func(node) {
             if (node.getValue()) {
                 self["minimums.barora"].setText("BARO");
                 self["minimums.digital"].setColor(1, 1, 0);
@@ -945,10 +929,10 @@ var PFDCanvas = {
                 self["minimums.barora"].setText("RA");
                 self["minimums.digital"].setColor(1, 1, 1);
             }
-        }, 1, 0);
-        setlistener(self.props["/instrumentation/pfd/minimums-decision-altitude"], func(node) {
+        }, 1, 0));
+        append(me.listeners, setlistener(self.props["/instrumentation/pfd/minimums-decision-altitude"], func(node) {
             self["minimums.digital"].setText(sprintf("%d", node.getValue()));
-        }, 1, 0);
+        }, 1, 0));
     },
 
     updateSlow: func() {
@@ -971,6 +955,16 @@ var PFDCanvas = {
         # For some reason, if we attempt to do this in a listener, it will
         # be extremely unreliable.
         me["wind.pointer"].setRotation((me.props["/environment/wind-from-heading-deg"].getValue() or 0) * D2R);
+
+        # Heading
+        var heading = me.props["/orientation/heading-magnetic-deg"].getValue() or 0;
+        me["wind.pointer.wrapper"].setRotation(heading * -D2R);
+        me["compass"].setRotation(heading * -D2R);
+        me["heading.digital"].setText(sprintf("%03d", heading));
+
+        # groundspeed
+        me["groundspeed"].setText(
+            sprintf("%3d", me.props["/instrumentation/pfd/groundspeed-kt"].getValue() or 0));
 
         # FD
         var pitchBar = me.props["/it-autoflight/fd/pitch-bar"].getValue() or 0;
@@ -1193,6 +1187,14 @@ var PFDCanvas = {
             flapsElem.show();
         }
 
+        me["ils.fmsloc"].setTranslation(
+            math.round((me.props["/instrumentation/gps/cdi-deflection"].getValue() or 0) * 10.0),
+            0);
+
+        # TODO
+        # me["ils.fmsvert"].setTranslation(0, math.min(1000, math.max(-1000, node.getValue())) * 0.1);
+
+
     },
 };
 
@@ -1223,10 +1225,14 @@ initialize = func {
                 var visible = ((outputProp.getValue() or 0) >= 15) and enabledProp.getBoolValue();
                 PFD_master[j].setVisible(visible);
                 if (visible) {
-                    timer[j].start(); timerSlow[j].start();
+                    pfd[j].setupListeners();
+                    timer[j].start();
+                    timerSlow[j].start();
                 }
                 else {
-                    timer[j].stop(); timerSlow[j].stop();
+                    pfd[j].deleteListeners();
+                    timer[j].stop();
+                    timerSlow[j].stop();
                 }
             };
 
