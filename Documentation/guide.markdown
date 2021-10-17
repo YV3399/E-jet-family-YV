@@ -699,38 +699,10 @@ monitored on the MFD's "Flight Controls" page.
 
 ## SimBrief Import Feature
 
-The FlightGear E-Jet Family can import key parameters from a SimBrief flight
-plan.
+The SimBrief import feature has been removed, as the SimBrief import add-on
+provides the exact same functionality. You can download it from
 
-To use it, you need to create an account on https://www.simbrief.com/. Then:
-
-1. Create a new flight in the SimBrief "dispatch" system. Generate the OFP for
-   it.
-2. In FlightGear, select "E-Jet-family" > "SimBrief" in the main menu.
-3. Enter your SimBrief username
-4. Select which parts of the flight plan you want to import (see below)
-5. Click "Import" and wait until it says "All Done".
-
-The following options are available for the importer:
-
-- **"Flight plan route"**: this imports the enroute waypoints of the planned
-  flight. The "activate immediately" checkbox makes it so that the imported
-  flight plan becomes the active flight plan immediately; leaving it unchecked
-  makes it the modified flight plan instead, which allows you to review it in
-  the MCDU and on the MFD's "Plan" view before activating it.
-- **"Performance Init"** imports key performance settings; specifically:
-  - Climb and descent profiles
-  - Cruise altitude and cruise mach (SimBrief does not export IAS for cruise
-    altitudes lower than FL290)
-  - Callsign / flight number
-- **Payload** automatically boards passengers / cargo as selected in the
-  SimBrief flight plan.
-- **Fuel** automatically sets fuel levels to the configured block fuel from the
-  SimBrief flight plan.
-- **Winds Aloft** imports winds aloft and forwards them to Basic Weather.
-  (This is not possible for Advanced Weather right now, due to the way Advanced
-  Weather simulates winds aloft itself, and happily overwrites our custom wind
-  configuration).
+https://github.com/tdammers/fg-simbrief-addon
 
 ## Electronic Flight Bag (EFB)
 
