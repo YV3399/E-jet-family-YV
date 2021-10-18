@@ -2534,13 +2534,13 @@
             </external_reactions>
             <aero-config>
                 <coefficients>
-                    <drag-alpha type="double">1.2</drag-alpha>
+                    <drag-alpha type="double">1.1</drag-alpha>
                     <drag-beta type="double">1.0</drag-beta>
                     <drag-elevator type="double">0.01</drag-elevator>
                     <drag-flap type="double">0.04</drag-flap>
                     <drag-gear type="double">0.04</drag-gear>
-                    <drag-induced type="double">0.03</drag-induced>
-                    <drag-mach type="double">0.007</drag-mach>
+                    <drag-induced type="double">0.035</drag-induced>
+                    <drag-mach type="double">0.021</drag-mach>
                     <drag-parasitic type="double">0.0125</drag-parasitic>
                     <drag-slat type="double">0.003</drag-slat>
                     <drag-speedbrake type="double">0.05</drag-speedbrake>
