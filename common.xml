@@ -2497,6 +2497,7 @@
             <file>Aircraft/E-jet-family/Nasal/fms/main.nas</file>
             <file>Aircraft/E-jet-family/Nasal/fms/route.nas</file>
             <file>Aircraft/E-jet-family/Nasal/fms/performance.nas</file>
+            <file>Aircraft/E-jet-family/Nasal/fms/airways.nas</file>
         </fms>
 
         <autopush>
