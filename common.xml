@@ -78,6 +78,7 @@
             <path>/instrumentation/efb/available</path>
             <path>/instrumentation/efb/brightness</path>
             <path>/instrumentation/efb/flightbag-companion-uri</path>
+            <path>/controls/gear/enable-tiller</path>
         </aircraft-data>
 
         <!--
@@ -1711,7 +1712,7 @@
 
         <gear>
             <brake-parking type="bool">true</brake-parking>
-            <enable-tiller type="bool">true</enable-tiller>
+            <enable-tiller userarchive="y" type="bool">true</enable-tiller>
             <tiller-cmd-norm type="float">0</tiller-cmd-norm>
         </gear>
 
