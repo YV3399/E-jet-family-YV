@@ -14,6 +14,8 @@ var mcdu1 = nil;
 setlistener("/sim/signals/fdm-initialized", func () {
     mcdu0 = MCDU.new(0);
     mcdu1 = MCDU.new(1);
+    setprop('/instrumentation/mcdu[0]/canvas-index', mcdu0.display._node.getIndex());
+    setprop('/instrumentation/mcdu[1]/canvas-index', mcdu1.display._node.getIndex());
     setlistener("/systems/electrical/outputs/mcdu[0]", func () {
         if (getprop("/systems/electrical/outputs/mcdu[0]") < 15.0) {
             mcdu0.powerOff();

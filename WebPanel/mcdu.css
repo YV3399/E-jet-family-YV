@@ -1,0 +1,117 @@
+html {
+    font-size: 2.75vw;
+    margin: 0;
+    padding: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: #333;
+    color: white;
+    font-family: sans-serif;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    overflow: hidden;
+}
+
+body {
+    padding: 0;
+    margin: 0;
+}
+
+table {
+    margin: 0;
+    padding: 0;
+    word-wrap: normal;
+    overflow-wrap: normal;
+}
+
+tr, td {
+    margin: 0;
+    padding: 0;
+}
+
+button {
+    text-align: center;
+    padding: 0;
+    background: black;
+    color: white;
+    border-radius: 0.5rem;
+    font-size: 100%;
+    
+    -ms-user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -webkit-touch-callout: none;
+    -khtml-user-select: none;
+    user-select: none;
+    overflow: hidden;
+    text-overflow: clip;
+}
+
+.mcdu {
+    background-color: darkgray;
+    margin-left: auto;
+    margin-right: auto;
+    width: 36rem;
+    padding: 1rem 0.2rem;
+    text-align: center;
+}
+
+.lsk-container {
+    vertical-align: bottom;
+    padding: 0.5rem 0;
+}
+
+.lsk {
+    width: 3rem;
+    height: 2rem;
+    font-size: 100%;
+}
+
+.pagesel {
+    width: 4.5rem;
+    height: 2.8rem;
+    margin: 0.25rem;
+}
+
+.delclr,
+.alpha,
+.num {
+    width: 2.8rem;
+    height: 2.8rem;
+    margin: 0.25rem;
+}
+
+.alpha,
+.num {
+    font-size: 125%;
+}
+
+.num {
+    border-radius: 1.4rem;
+}
+
+.hspacer {
+    width: 1rem;
+}
+
+.screen-container {
+    width: 29rem;
+    height: 23rem;
+    background-color: #111;
+    border-radius: 1rem;
+    padding: -1rem 0;
+    margin: 0;
+    overflow: hidden;
+    vertical-align: top;
+}
+
+#mcduScreen {
+    width: 29rem;
+    height: 29rem;
+    display: block;
+    border-radius: 1rem;
+    padding: 0;
+    margin: 0;
+    vertical-align: top;
+}

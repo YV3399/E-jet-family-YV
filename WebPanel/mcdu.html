@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en" translate="no">
+
+<head>
+	<title>E-Jet MCDU</title>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+	<meta name="apple-mobile-web-app-status-bar" content="#db4938" />
+	<meta name="theme-color" content="#db4938" />
+    <link rel="stylesheet" href="./mcdu.css" />
+	<script src="./mcdu.js" type="text/javascript"></script>
+</head>
+
+<body oncontextmenu="return false;">
+    <div class="mcdu">
+        <table>
+            <tr>
+                <td style="height: 4rem" />
+                <td rowspan="8">
+                    <div class="screen-container">
+                        <img id="mcduScreen" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNk+A8AAQUBAScY42YAAAAASUVORK5CYII=" />
+                    </div>
+                </td>
+                <td />
+            </tr>
+            <tr>
+                <td class="lsk-container"><button name="L1" class="lsk">-</button></td>
+                <td class="lsk-container"><button name="R1" class="lsk">-</button></td>
+            </tr>
+            <tr>
+                <td class="lsk-container"><button name="L2" class="lsk">-</button></td>
+                <td class="lsk-container"><button name="R2" class="lsk">-</button></td>
+            </tr>
+            <tr>
+                <td class="lsk-container"><button name="L3" class="lsk">-</button></td>
+                <td class="lsk-container"><button name="R3" class="lsk">-</button></td>
+            </tr>
+            <tr>
+                <td class="lsk-container"><button name="L4" class="lsk">-</button></td>
+                <td class="lsk-container"><button name="R4" class="lsk">-</button></td>
+            </tr>
+            <tr>
+                <td class="lsk-container"><button name="L5" class="lsk">-</button></td>
+                <td class="lsk-container"><button name="R5" class="lsk">-</button></td>
+            </tr>
+            <tr>
+                <td class="lsk-container"><button name="L6" class="lsk">-</button></td>
+                <td class="lsk-container"><button name="R6" class="lsk">-</button></td>
+            </tr>
+            <tr>
+                <td style="height: 1rem"/>
+        </table>
+    </div>
+    <div class="mcdu">
+        <table>
+            <tr>
+                <td class="pagesel-container">
+                    <button name="PERF" class="pagesel">PERF</button>
+                </td>
+                <td class="pagesel-container">
+                    <button name="NAV" class="pagesel">NAV</button>
+                </td>
+                <td class="pagesel-container">
+                    <button name="PREV" class="pagesel">PREV</button>
+                </td>
+                <td class="pagesel-container">
+                    <button name="FPL" class="pagesel">FPL</button>
+                </td>
+                <td class="pagesel-container">
+                    <button name="PROG" class="pagesel">PROG</button>
+                </td>
+                <td class="pagesel-container">
+                    <button name="RTE" class="pagesel">RTE</button>
+                </td>
+                <td class="pagesel-container">
+                    <button name="CB" class="pagesel">CB</button>
+                </td>
+            </tr>
+            <tr>
+                <td class="pagesel-container">
+                    <button name="MENU" class="pagesel">MENU</button>
+                </td>
+                <td class="pagesel-container">
+                    <button name="DLK" class="pagesel">DLK</button>
+                </td>
+                <td class="pagesel-container">
+                    <button name="NEXT" class="pagesel">NEXT</button>
+                </td>
+                <td class="pagesel-container">
+                    <button name="MAGIC" class="pagesel"></button>
+                </td>
+                <td class="pagesel-container">
+                    <button name="TRS" class="pagesel">TRS</button>
+                </td>
+                <td class="pagesel-container">
+                    <button name="RADIO" class="pagesel">RADIO</button>
+                </td>
+            </tr>
+        </table>
+        <table>
+            <tr>
+                <td class="alpha-container">
+                    <button name="A" class="alpha">A</button>
+                </td>
+                <td class="alpha-container">
+                    <button name="B" class="alpha">B</button>
+                </td>
+                <td class="alpha-container">
+                    <button name="C" class="alpha">C</button>
+                </td>
+                <td class="alpha-container">
+                    <button name="D" class="alpha">D</button>
+                </td>
+                <td class="alpha-container">
+                    <button name="E" class="alpha">E</button>
+                </td>
+                <td class="alpha-container">
+                    <button name="F" class="alpha">F</button>
+                </td>
+            </tr>
+            <tr>
+                <td class="alpha-container">
+                    <button name="G" class="alpha">G</button>
+                </td>
+                <td class="alpha-container">
+                    <button name="H" class="alpha">H</button>
+                </td>
+                <td class="alpha-container">
+                    <button name="I" class="alpha">I</button>
+                </td>
+                <td class="alpha-container">
+                    <button name="J" class="alpha">J</button>
+                </td>
+                <td class="alpha-container">
+                    <button name="K" class="alpha">K</button>
+                </td>
+                <td class="alpha-container">
+                    <button name="L" class="alpha">L</button>
+                </td>
+
+                <td class="hspacer" />
+
+                <td class="num-container">
+                    <button name="1" class="num">1</button>
+                </td>
+                <td class="num-container">
+                    <button name="2" class="num">2</button>
+                </td>
+                <td class="num-container">
+                    <button name="3" class="num">3</button>
+                </td>
+                <td class="num-container">
+                    <button name="-" class="num">+/-</button>
+                </td>
+            </tr>
+            <tr>
+                <td class="alpha-container">
+                    <button name="M" class="alpha">M</button>
+                </td>
+                <td class="alpha-container">
+                    <button name="N" class="alpha">N</button>
+                </td>
+                <td class="alpha-container">
+                    <button name="O" class="alpha">O</button>
+                </td>
+                <td class="alpha-container">
+                    <button name="P" class="alpha">P</button>
+                </td>
+                <td class="alpha-container">
+                    <button name="Q" class="alpha">Q</button>
+                </td>
+                <td class="alpha-container">
+                    <button name="R" class="alpha">R</button>
+                </td>
+
+                <td class="hspacer" />
+
+                <td class="num-container">
+                    <button name="4" class="num">4</button>
+                </td>
+                <td class="num-container">
+                    <button name="5" class="num">5</button>
+                </td>
+                <td class="num-container">
+                    <button name="6" class="num">6</button>
+                </td>
+                <td class="num-container">
+                    <button name="/" class="num">/</button>
+                </td>
+            </tr>
+            <tr>
+                <td/>
+                <td class="alpha-container">
+                    <button name="S" class="alpha">S</button>
+                </td>
+                <td class="alpha-container">
+                    <button name="T" class="alpha">T</button>
+                </td>
+                <td class="alpha-container">
+                    <button name="U" class="alpha">U</button>
+                </td>
+                <td class="alpha-container">
+                    <button name="V" class="alpha">V</button>
+                </td>
+                <td class="alpha-container">
+                    <button name="W" class="alpha">W</button>
+                </td>
+
+                <td class="hspacer" />
+
+                <td class="num-container">
+                    <button name="7" class="num">7</button>
+                </td>
+                <td class="num-container">
+                    <button name="8" class="num">8</button>
+                </td>
+                <td class="num-container">
+                    <button name="9" class="num">9</button>
+                </td>
+            </tr>
+            <tr>
+                <td/>
+                <td class="alpha-container">
+                    <button name="X" class="alpha">X</button>
+                </td>
+                <td class="alpha-container">
+                    <button name="Y" class="alpha">Y</button>
+                </td>
+                <td class="alpha-container">
+                    <button name="Z" class="alpha">Z</button>
+                </td>
+                <td class="delclr-container">
+                    <button name="DEL" class="delclr">DEL</button>
+                </td>
+                <td class="alpha-container">
+                    <button name="CLR" class="delclr">CLR</button>
+                </td>
+
+                <td class="hspacer" />
+
+                <td class="num-container">
+                    <button name="SP" class="num">SP</button>
+                </td>
+                <td class="num-container">
+                    <button name="0" class="num">0</button>
+                </td>
+                <td class="num-container">
+                    <button name="." class="num">.</button>
+                </td>
+            </tr>
+        </table>
+    </div>
+</body>
+
+</html>

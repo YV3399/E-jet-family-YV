@@ -1,0 +1,97 @@
+let screen;
+var screen_src;
+let loading = 0;
+let scheduled_load = 0;
+var canvas_index = -1;
+
+function refresh_screen() {
+    if (loading) {
+        scheduled_load = 1;
+    }
+    else {
+        loading = 1;
+        screen.src = screen_src + '&random=' + (new Date).getTime()
+    }
+}
+
+function getprop(prop, callback) {
+    let request = new XMLHttpRequest;
+    let url = window.location.protocol + "//" + window.location.host + "/json/" + prop;
+    console.log(url);
+    request.open("GET", url);
+    request.responseType = 'json';
+    request.addEventListener('load', function () {
+        let data = request.response;
+        console.log('property', prop, data);
+        callback(data.value);
+    }, true);
+    request.send();
+}
+
+function press_button(key) {
+    let request = new XMLHttpRequest;
+    request.open(
+        "POST",
+        window.location.protocol + "//" + window.location.host + "/run.cgi?value=nasal"
+    );
+    request.setRequestHeader("Content-Type", "application/json");
+    let body = JSON.stringify({
+        "name": "",
+        "children": [
+            {
+                "name": "script",
+                "index": 0,
+                "value": "setprop('/instrumentation/mcdu[0]/command', '" + key + "');"
+            }
+        ]
+    });
+    request.send(body);
+    refresh_screen();
+    request.addEventListener('load', function () {
+        refresh_screen();
+    }, true);
+}
+
+var preventzoomaction = function(e) {  //https://exceptionshub.com/disable-double-tap-zoom-option-in-browser-on-touch-devices.html
+        var t2 = e.timeStamp;
+        var t1 = e.currentTarget.dataset.lastTouch || t2;
+        var dt = t2 - t1;
+        var fingers = e.touches.length;
+        e.currentTarget.dataset.lastTouch = t2;
+
+        if (!dt || dt > 500 || fingers > 1) return; // not double-tap
+
+        e.preventDefault();
+        e.target.click();
+    };
+
+window.addEventListener('load', function () {
+    let buttons = document.querySelectorAll('button');
+    for (const button of buttons) {
+        button.addEventListener('click', function () {
+            console.log('button', button.name);
+            press_button(button.name);
+        });
+        button.addEventListener('touchstart', preventzoomaction, true);
+    }
+
+    screen = document.querySelector('#mcduScreen');
+    screen_src = screen.src;
+    screen.addEventListener('load', function () {
+        loading = 0;
+        if (scheduled_load) {
+            scheduled_load = 0;
+            refresh_screen();
+        }
+    });
+    setInterval(refresh_screen, 1000);
+
+    getprop('instrumentation/mcdu/canvas-index', function (i) {
+        console.log("canvas index: ", i);
+        canvas_index = i;
+        if (canvas_index >= 0) {
+            screen_src = "/screenshot?canvasindex=" + canvas_index + "&type=png";
+        }
+    });
+}, true);
+

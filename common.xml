@@ -79,6 +79,7 @@
             <path>/instrumentation/efb/brightness</path>
             <path>/instrumentation/efb/flightbag-companion-uri</path>
             <path>/controls/gear/enable-tiller</path>
+            <path>/sim/http/local-ip</path>
         </aircraft-data>
 
         <!--
@@ -96,6 +97,10 @@
             <text-status type="string"></text-status>
         </simbrief>
         -->
+
+        <http>
+            <local-ip userarchive="y">localhost:8080</local-ip>
+        </http>
 
         <flaps>
             <!--
@@ -501,6 +506,14 @@
                             <dialog-name>mcdu2</dialog-name>
                         </binding>
                     </item>
+                    <item>
+                        <name>mcduweb</name>
+                        <label>Remote MCDU 1</label>
+                        <binding>
+                            <command>dialog-show</command>
+                            <dialog-name>mcduweb</dialog-name>
+                        </binding>
+                    </item>
                 </menu>
                 <menu n="100">
                     <label>E-jet-family</label>
@@ -577,6 +590,7 @@
                             <dialog-name>performance</dialog-name>
                         </binding>
                     </item>
+
                     <!--
                     <item>
                         <name>simbrief</name>
