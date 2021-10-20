@@ -4,6 +4,13 @@ let loading = 0;
 let scheduled_load = 0;
 var canvas_index = -1;
 
+function resize() {
+    let maxByW = document.documentElement.clientWidth / 36;
+    let maxByH = document.documentElement.clientHeight / 52;
+    let max = Math.max(8, Math.min(maxByW, maxByH));
+    document.documentElement.style.fontSize = max + 'px';
+}
+
 function refresh_screen() {
     if (loading) {
         scheduled_load = 1;
@@ -66,6 +73,8 @@ var preventzoomaction = function(e) {  //https://exceptionshub.com/disable-doubl
     };
 
 window.addEventListener('load', function () {
+    resize();
+    window.addEventListener('resize', resize);
     let buttons = document.querySelectorAll('button');
     for (const button of buttons) {
         button.addEventListener('click', function () {

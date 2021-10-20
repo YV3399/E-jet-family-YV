@@ -36,6 +36,7 @@ button {
     background: black;
     color: white;
     border-radius: 0.5rem;
+    border-width: 0.25rem;
     font-size: 100%;
     
     -ms-user-select: none;
