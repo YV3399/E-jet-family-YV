@@ -1,3 +1,170 @@
+var currentRoute = nil;
+var modifiedRoute = nil;
+
+var findWaypoint = func (wpID, near=nil) {
+    var candidates = [];
+    if (near == nil) {
+        near = geo.aircraft_position();
+    }
+    candidates = findFixesByID(near, wpID);
+    if (candidates != nil and size(candidates) > 0) return candidates[0];
+    candidates = findNavaidsByID(near, wpID);
+    if (candidates != nil and size(candidates) > 0) return candidates[0];
+    candidates = findAirportsByICAO(wpID);
+    if (candidates != nil and size(candidates) > 0) return candidates[0];
+    return nil;
+};
+
+var Route = {
+    new: func (departureAirport=nil, destinationAirport=nil, routing=nil) {
+        var m = {
+            parents: [Route],
+            legs: [],
+            departureAirport: nil,
+            destinationAirport: nil,
+        };
+
+        if (typeof(departureAirport) == 'scalar') {
+            var airports = findAirportsByICAO(departureAirport);
+            if (size(airports) > 0) {
+                m.departureAirport = airports[0];
+            }
+        }
+        elsif (typeof(departureAirport) == 'ghost') {
+            m.departureAirport = departureAirport;
+        }
+        if (typeof(destinationAirport) == 'scalar') {
+            var airports = findAirportsByICAO(destinationAirport);
+            if (size(airports) > 0) {
+                m.destinationAirport = airports[0];
+            }
+        }
+        elsif (typeof(destinationAirport) == 'ghost') {
+            m.destinationAirport = destinationAirport;
+        }
+
+        if (routing != nil) {
+            var first = 1;
+            foreach (var pair; routing) {
+                m.appendLeg(pair[0], pair[1]);
+            }
+        }
+
+        return m;
+    },
+
+    makeLeg: func (airwayID, fromID, toID) {
+        debug.dump(airwayID, fromID, toID);
+        var m = {
+            airwayID: airwayID,
+            fromID: fromID,
+            from: nil,
+            toID: toID,
+            to: nil,
+            segments: nil,
+        };
+        if (airwayID == nil) {
+            # direct routing
+            m.from = findWaypoint(fromID);
+            debug.dump(m.from);
+            if (m.from == nil) return nil;
+            m.to = findWaypoint(m.from, toID);
+            if (m.to == nil) return nil;
+            m.segments = [{from: m.from, to: m.to}];
+            m.airwayID = 'DCT';
+        }
+        else {
+            var routing = fms.airwaysDB.findSegmentsFromTo(airwayID, fromID, toID);
+            if (routing == nil or size(routing) == 0) {
+                # Routing not found
+                return nil;
+            }
+            var last = size(routing) - 1;
+            m.from = routing[0].from;
+            m.to = routing[last].to;
+            m.segments = routing;
+        }
+        debug.dump('Created Leg', m);
+        return m;
+    },
+
+    appendLeg: func (airwayID, toID) {
+        var fromID = nil;
+        var last = size(me.legs) - 1;
+        if (last > 0) {
+            fromID = me.legs[last].to.id;
+        }
+        elsif (me.departureAirport != nil) {
+            fromID = me.departureAirport.id;
+        }
+        printf("Append leg: %s %s", airwayID, toID);
+        var leg = me.makeLeg(airwayID, fromID, toID);
+        if (leg != nil) {
+            append(me.legs, leg);
+        }
+    },
+
+    getRouteString: func () {
+        var items = [];
+        var lastWPID = nil;
+
+        if (me.departureAirport != nil) {
+            append(items, me.departureAirport.id);
+            lastWPID = me.departureAirport.id;
+        }
+        # TODO: SID
+
+        foreach (var leg; me.legs) {
+            if (leg.from.id != lastWPID) {
+                append(items, '*DISCONTINUITY*', leg.from.id);
+                lastWPID = leg.from.id;
+            }
+            if (leg.airwayID == nil) {
+                append(items, 'DCT');
+            }
+            else {
+                append(items, leg.airwayID);
+            }
+            append(items, leg.to.id);
+            lastWPID = leg.to.id;
+        }
+
+        # TODO: STAR, transition, approach
+        if (me.destinationAirport != nil) {
+            if (me.destinationAirport.id != lastWPID) {
+                append(items, '*DISCONTINUITY*');
+                append(items, me.destinationAirport.id);
+            }
+        }
+        return string.join(' ', items);
+    },
+};
+
+setlistener('/fms/airways/loaded', func(node) {
+    print("ROUTE TEST");
+    if (airwaysDB == nil) {
+        print("ROUTE TEST: AIRWAYS NOT LOADED YET");
+    }
+    else {
+        print("ROUTE TEST: AIRWAYS LOADED, MAKING TEST ROUTE");
+        var testRoute =
+            Route.new(
+                    'EHAM',
+                    'EDDM',
+                    [
+                        [nil, 'ARNEM'],
+                        ['L620', 'SONEB'],
+                        ['Z841', 'BIGSU'],
+                        ['L603', 'BOMBI'],
+                        ['T104', 'ROKIL'],
+                        [nil, 'EDDM'],
+                    ]
+                );
+        debug.dump(testRoute);
+        print('TEST ROUTE: ' ~ testRoute.getRouteString());
+    }
+});
+
 var getRouteLegs = func (fp = nil) {
     if (fp == nil) {
         fp = flightplan();

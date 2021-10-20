@@ -1,3 +1,5 @@
+var airwaysDB = nil;
+
 var wordsplit = func (str) {
     var splits = [];
     var pos = 0;
@@ -26,39 +28,39 @@ var AirwaysDB = {
             return nil;
         }
         foreach (var segment; airway.segments) {
-            if (segment.from.wpid == waypointID or
-                segment.to.wpid == waypointID) {
+            if (segment.from.id == waypointID or
+                segment.to.id == waypointID) {
                 append(found, segment);
             }
         }
         return found;
     },
 
-    searchPath: func(airwayID, fromID, toID) {
-        logprint(2, sprintf("AirwaysDB.searchPath(%s, %s, %s)", airwayID, fromID, toID));
+    findSegmentsFromTo: func(airwayID, fromID, toID) {
+        logprint(2, sprintf("AirwaysDB.findSegmentsFromTo(%s, %s, %s)", airwayID, fromID, toID));
 
         var initialCandidates = me.findSegmentsFrom(airwayID, fromID);
         if (initialCandidates == nil) {
-            logprint(2, sprintf("AirwaysDB.searchPath: no initial candidates found"));
+            logprint(2, sprintf("AirwaysDB.findSegmentsFromTo: no initial candidates found"));
             return nil;
         }
-        logprint(2, sprintf("AirwaysDB.searchPath: initial candidates: %d", size(initialCandidates)));
+        logprint(2, sprintf("AirwaysDB.findSegmentsFromTo: initial candidates: %d", size(initialCandidates)));
 
         foreach (var initialCandidate; initialCandidates) {
-            logprint(2, sprintf("AirwaysDB.searchPath; initial candidate: %s/%s", initialCandidate.from.wpid, initialCandidate.to.wpid));
+            logprint(2, sprintf("AirwaysDB.findSegmentsFromTo; initial candidate: %s/%s", initialCandidate.from.id, initialCandidate.to.id));
             var seen = {};
             var route = [];
             var current = fromID;
             seen[fromID] = 1;
-            if (initialCandidate.from.wpid == fromID) {
+            if (initialCandidate.from.id == fromID) {
                 route = [initialCandidate.from, initialCandidate.to];
-                current = initialCandidate.to.wpid;
-                seen[initialCandidate.to.wpid] = 1;
+                current = initialCandidate.to.id;
+                seen[initialCandidate.to.id] = 1;
             }
             else {
                 route = [initialCandidate.to, initialCandidate.from];
-                current = initialCandidate.from.wpid;
-                seen[initialCandidate.from.wpid] = 1;
+                current = initialCandidate.from.id;
+                seen[initialCandidate.from.id] = 1;
             }
             while (current != toID) {
                 var candidates = me.findSegmentsFrom(airwayID, current);
@@ -69,11 +71,11 @@ var AirwaysDB = {
                 var found = nil;
                 foreach (var candidate; candidates) {
                     var other = nil;
-                    if (candidate.from.wpid == current)
+                    if (candidate.from.id == current)
                         other = candidate.to;
                     else
                         other = candidate.from;
-                    if (seen[other.wpid] == nil) {
+                    if (seen[other.id] == nil) {
                         found = other;
                         break;
                     }
@@ -83,9 +85,9 @@ var AirwaysDB = {
                     break;
                 }
                 else {
-                    seen[found.wpid] = 1;
+                    seen[found.id] = 1;
                     append(route, found);
-                    current = found.wpid;
+                    current = found.id;
                 }
             }
             if (current == toID) {
@@ -136,12 +138,12 @@ var loadAirwaysData = func () {
         items = wordsplit(line);
         if (size(items) == 10) {
             var fromWaypoint = {
-                wpid: items[0],
+                id: items[0],
                 lat: num(items[1]),
                 lon: num(items[2]),
             };
             var toWaypoint = {
-                wpid: items[3],
+                id: items[3],
                 lat: num(items[4]),
                 lon: num(items[5]),
             };
@@ -170,23 +172,24 @@ var loadAirwaysData = func () {
     return airwaysDB;
 };
 
-var airwaysDB = nil;
-setprop('/sim/airways/loaded', 0);
+setprop('/fms/airways/loaded', 0);
 
 thread.newthread(func {
     airwaysDB = loadAirwaysData();
-    setprop('/sim/airways/loaded', 1);
 
-    var fromID = 'KEMAD';
-    var toID = 'TIR';
-    var airwayID = 'L602';
-    var path = airwaysDB.searchPath(airwayID, fromID, toID);
-    if (path == nil) path = [];
-    var pathIDs = [];
-    foreach (var wp; path) {
-        append(pathIDs, wp.wpid);
+    if (airwaysDB != nil) {
+        setprop('/fms/airways/loaded', 1);
+        var fromID = 'KEMAD';
+        var toID = 'TIR';
+        var airwayID = 'L602';
+        var path = airwaysDB.findSegmentsFromTo(airwayID, fromID, toID);
+        if (path == nil) path = [];
+        var pathIDs = [];
+        foreach (var wp; path) {
+            append(pathIDs, wp.id);
+        }
+
+        printf("Airway routing %s %s %s: %s",
+            fromID, airwayID, toID, string.join(' ', pathIDs));
     }
-
-    printf("Airway routing %s %s %s: %s",
-        fromID, airwayID, toID, string.join(' ', pathIDs));
 });

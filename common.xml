@@ -1001,6 +1001,10 @@
             </temp>
         </units>
 
+        <airways>
+            <loaded type="bool">false</loaded>
+        </airways>
+
         <flightplan-modifications type="bool">false</flightplan-modifications>
         <!-- flight phase -->
         <phase type="int">0</phase>
