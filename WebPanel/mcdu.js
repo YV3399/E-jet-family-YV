@@ -16,6 +16,7 @@ function refresh_screen() {
         scheduled_load = 1;
     }
     else {
+        document.getElementById('statusLight').style.backgroundColor = 'lime';
         loading = 1;
         screen.src = screen_src + '&random=' + (new Date).getTime()
     }
@@ -87,6 +88,7 @@ window.addEventListener('load', function () {
     screen = document.querySelector('#mcduScreen');
     screen_src = screen.src;
     screen.addEventListener('load', function () {
+        document.getElementById('statusLight').style.backgroundColor = 'green';
         loading = 0;
         if (scheduled_load) {
             scheduled_load = 0;
