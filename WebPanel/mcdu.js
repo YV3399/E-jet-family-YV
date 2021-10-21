@@ -11,8 +11,8 @@ function resize() {
     document.documentElement.style.fontSize = max + 'px';
 }
 
-function refresh_screen() {
-    if (loading) {
+function refresh_screen(force) {
+    if (loading && !force) {
         scheduled_load = 1;
     }
     else {
@@ -25,12 +25,10 @@ function refresh_screen() {
 function getprop(prop, callback) {
     let request = new XMLHttpRequest;
     let url = window.location.protocol + "//" + window.location.host + "/json/" + prop;
-    console.log(url);
     request.open("GET", url);
     request.responseType = 'json';
     request.addEventListener('load', function () {
         let data = request.response;
-        console.log('property', prop, data);
         callback(data.value);
     }, true);
     request.send();
@@ -79,7 +77,6 @@ window.addEventListener('load', function () {
     let buttons = document.querySelectorAll('button');
     for (const button of buttons) {
         button.addEventListener('click', function () {
-            console.log('button', button.name);
             press_button(button.name);
         });
         button.addEventListener('touchstart', preventzoomaction, true);
@@ -95,10 +92,23 @@ window.addEventListener('load', function () {
             refresh_screen();
         }
     });
-    setInterval(refresh_screen, 1000);
+    screen.addEventListener('error', function () {
+        document.getElementById('statusLight').style.backgroundColor = 'red';
+        loading = 0;
+        if (scheduled_load) {
+            refresh_screen();
+        }
+    });
+    screen.addEventListener('abort', function () {
+        document.getElementById('statusLight').style.backgroundColor = 'yellow';
+        loading = 0;
+        if (scheduled_load) {
+            refresh_screen();
+        }
+    });
+    setInterval(function () { refresh_screen(true); }, 1000);
 
     getprop('instrumentation/mcdu/canvas-index', function (i) {
-        console.log("canvas index: ", i);
         canvas_index = i;
         if (canvas_index >= 0) {
             screen_src = "/screenshot?canvasindex=" + canvas_index + "&type=png";
