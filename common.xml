@@ -74,6 +74,11 @@
             -->
             <path>/instrumentation/mfd/resolution</path>
             <path>/instrumentation/mfd/scanrate</path>
+            <path>/instrumentation/pfd[0]/enabled</path>
+            <path>/instrumentation/pfd[1]/enabled</path>
+            <path>/instrumentation/mfd[0]/enabled</path>
+            <path>/instrumentation/mfd[1]/enabled</path>
+            <path>/instrumentation/eicas/enabled</path>
             <path>/options/system/keyboard-mode</path>
             <path>/instrumentation/efb/available</path>
             <path>/instrumentation/efb/brightness</path>
@@ -1853,7 +1858,7 @@
         </IESS>
 
         <eicas>
-            <enabled type="bool">true</enabled>
+            <enabled type="bool" userarchive="y">true</enabled>
             <signals>
                 <messages-changed type="bool">false</messages-changed>
             </signals>
@@ -1887,7 +1892,7 @@
         </eicas>
 
         <mcdu>
-            <enabled type="bool">true</enabled>
+            <enabled type="bool" userarchive="y">true</enabled>
             <display>IDENT</display>
             <input type="string"/>
             <serviceable type="bool">true</serviceable>
@@ -1895,7 +1900,7 @@
             <brightness type="double" userarchive="y">0.8</brightness>
         </mcdu>
         <mcdu>
-            <enabled type="bool">true</enabled>
+            <enabled type="bool" userarchive="y">true</enabled>
             <display>IDENT</display>
             <input type="string"/>
             <serviceable type="bool">true</serviceable>
@@ -1968,7 +1973,7 @@
         </annun>
 
         <pfd>
-            <enabled type="bool">true</enabled>
+            <enabled type="bool" userarchive="y">true</enabled>
             <!-- 0 = slow, 1 = default, 2 = fast -->
             <update-rate type="int">1</update-rate>
             <!-- 0 = FMS, 1,2 = VOR1/LOC1, VOR2,LOC2 -->
@@ -2047,7 +2052,7 @@
         </pfd>
 
         <pfd>
-            <enabled type="bool">true</enabled>
+            <enabled type="bool" userarchive="y">true</enabled>
             <update-rate type="int">0</update-rate>
             <!-- 0 = FMS, 1,2 = VOR1/LOC1, VOR2,LOC2 -->
             <nav-src type="int">2</nav-src>
@@ -2125,7 +2130,7 @@
         </pfd>
 
         <mfd>
-            <enabled type="bool">true</enabled>
+            <enabled type="bool" userarchive="y">true</enabled>
             <lateral-range type="double">20</lateral-range>
             <!-- 0 = Map, 1 = Plan, 2 = Systems -->
             <page>0</page>
@@ -2142,7 +2147,7 @@
         </mfd>
 
         <mfd>
-            <enabled type="bool">true</enabled>
+            <enabled type="bool" userarchive="y">true</enabled>
             <lateral-range type="double">20</lateral-range>
             <!-- 0 = Map, 1 = Plan, 2 = Systems -->
             <page>0</page>
