@@ -274,6 +274,8 @@ var PFDCanvas = {
         m.props["/velocities/groundspeed-kt"] = props.globals.getNode("/velocities/groundspeed-kt");
         m.ilscolor = [0,1,0];
         m.listeners = [];
+        m.dme_id_listener = nil;
+
         return m;
     },
 
@@ -476,6 +478,9 @@ var PFDCanvas = {
             removelistener(ls);
         }
         me.listeners = [];
+        if (me.dme_id_listener != nil) {
+            removelistener(me.dme_id_listener);
+        }
     },
 
     setupListeners: func () {
@@ -676,24 +681,23 @@ var PFDCanvas = {
             }, 1, 0));
 
         # DME
-        var dme_id_listener = nil;
-
         append(me.listeners, setlistener(self.props["/instrumentation/pfd/nav/dme-source"], func (node) {
             var dmesrc = node.getValue();
-            if (dme_id_listener != nil) {
-                removelistener(dme_id_listener);
+            if (self.dme_id_listener != nil) {
+                removelistener(self.dme_id_listener);
+                self.dme_id_listener = nil;
             }
             if (dmesrc > 0) {
                 self["dme"].show();
                 self["dme.selection"].setText("DME" ~ dmesrc);
-                dme_id_listener = setlistener(self.props["/instrumentation/nav[" ~ (dmesrc - 1) ~ "]/nav-id"],
+                self.dme_id_listener = setlistener(self.props["/instrumentation/nav[" ~ (dmesrc - 1) ~ "]/nav-id"],
                     func (node) {
                         self["dme.id"].setText(node.getValue() or "");
                     }, 1, 0);
             }
             else {
                 self["dme"].hide();
-                dme_id_listener = nil;
+                self.dme_id_listener = nil;
             }
         }, 1, 0));
         append(me.listeners, setlistener(self.props["/instrumentation/pfd/dme/dist10"], func (node) {
