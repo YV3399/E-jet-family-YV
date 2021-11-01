@@ -66,9 +66,11 @@ var TrafficLayer = {
             refAlt: 0,
             group: group,
             items: {},
+            numItems: 0,
             updateKeys: [],
             addListener: nil,
             delListener: nil,
+            masterProp: props.globals.getNode('/ai/models/'),
         };
         return m;
     },
@@ -106,39 +108,50 @@ var TrafficLayer = {
             return elems;
     },
 
+    addNode: func(path, node) {
+        printf("ADD: %s", path);
+        var prop = {
+            'master': node,
+        };
+        if (me.items[path] == nil) {
+            me.items[path] = {
+                prop: prop,
+                elems: me.makeElems(),
+                data: {'threatLevel': -2},
+            };
+            me.numItems += 1;
+        }
+        else {
+            me.items[path].prop = prop;
+            me.items[path].data = {'threatLevel': -2};
+        }
+        printf('Added %s, %i/%i items', path, me.numItems, size(me.items));
+    },
+
+    removeNode: func(path) {
+        printf("DEL: %s", path);
+        if (contains(me.items, path)) {
+            me.items[path].elems.master._node.remove();
+            delete(me.items, path);
+            me.numItems -= 1;
+        }
+        printf('Removed %s, %i/%i items', path, me.numItems, size(me.items));
+    },
+
     start: func() {
         me.stop();
         var self = me;
+        me.resync(1);
         me.addListener = setlistener('/ai/models/model-added', func(changed, listen, mode, is_child) {
             var path = changed.getValue();
             if (path == nil) return;
-            printf("ADD: %s", path);
-            var masterProp = props.globals.getNode(path);
-            var prop = {
-                'master': masterProp,
-            };
-            if (me.items[path] == nil) {
-                me.items[path] = {
-                    prop: prop,
-                    elems: me.makeElems(),
-                    data: {'threatLevel': -2},
-                };
-            }
-            else {
-                me.items[path].prop = prop;
-                me.items[path].data = {'threatLevel': -2};
-            }
+            var acftMasterProp = props.globals.getNode(path);
+            self.addNode(path, acftMasterProp);
         }, 1, 1);
         me.delListener = setlistener('/ai/models/model-removed', func(changed, listen, mode, is_child) {
             var path = changed.getValue();
             if (path == nil) return;
-            printf("DEL: %s", path);
-            if (me.items[path] == nil) return;
-            if (me.items[path] != nil) {
-                me.items[path].prop = nil;
-                me.items[path].elems.master.hide();
-                me.items[path].data = {};
-            }
+            self.removeNode(path);
         }, 1, 1);
     },
 
@@ -154,6 +167,28 @@ var TrafficLayer = {
         me.items = {};
         if (me.group != nil) {
             me.group.removeAllChildren();
+        }
+    },
+
+    resync: func (hard=0) {
+        if (hard) {
+            me.items = {};
+            if (me.group != nil) {
+                me.group.removeAllChildren();
+            }
+        }
+        var nodes = nil;
+        foreach (var what; ['carrier', 'aircraft', 'swift', 'multiplayer']) {
+            nodes = me.masterProp.getChildren(what);
+            foreach (var node; nodes) {
+                var path = '/ai[0]/models[0]/' ~ what ~ '[' ~ node.getIndex() ~ ']';
+                if (node.getValue('valid')) {
+                    me.addNode(path, node);
+                }
+                else {
+                    me.removeNode(path);
+                }
+            }
         }
     },
 
