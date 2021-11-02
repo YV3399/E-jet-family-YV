@@ -480,6 +480,7 @@ var PFDCanvas = {
         me.listeners = [];
         if (me.dme_id_listener != nil) {
             removelistener(me.dme_id_listener);
+            me.dme_id_listener = nil;
         }
     },
 
@@ -697,7 +698,6 @@ var PFDCanvas = {
             }
             else {
                 self["dme"].hide();
-                self.dme_id_listener = nil;
             }
         }, 1, 0));
         append(me.listeners, setlistener(self.props["/instrumentation/pfd/dme/dist10"], func (node) {
