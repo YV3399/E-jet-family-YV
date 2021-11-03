@@ -147,7 +147,7 @@ var MCDU = {
 
         # Nav
         "NAVIDENT": func (mcdu, parent) { return NavIdentModule.new(mcdu, parent); },
-        "RTE": func (mcdu, parent) { return FlightPlanModule.new(mcdu, parent, "ROUTE"); },
+        "RTE": func (mcdu, parent) { return RouteModule.new(mcdu, parent); },
         "DEPARTURE": func (mcdu, parent) { return DepartureSelectModule.new(mcdu, parent); },
         "ARRIVAL": func (mcdu, parent) { return ArrivalSelectModule.new(mcdu, parent); },
         "FPL": func (mcdu, parent) { return FlightPlanModule.new(mcdu, parent); },

@@ -24,24 +24,8 @@ var Route = {
             destinationAirport: nil,
         };
 
-        if (typeof(departureAirport) == 'scalar') {
-            var airports = findAirportsByICAO(departureAirport);
-            if (size(airports) > 0) {
-                m.departureAirport = airports[0];
-            }
-        }
-        elsif (typeof(departureAirport) == 'ghost') {
-            m.departureAirport = departureAirport;
-        }
-        if (typeof(destinationAirport) == 'scalar') {
-            var airports = findAirportsByICAO(destinationAirport);
-            if (size(airports) > 0) {
-                m.destinationAirport = airports[0];
-            }
-        }
-        elsif (typeof(destinationAirport) == 'ghost') {
-            m.destinationAirport = destinationAirport;
-        }
+        m.setDepartureAirport(departureAirport);
+        m.setDestinationAirport(destinationAirport);
 
         if (routing != nil) {
             var first = 1;
@@ -50,6 +34,42 @@ var Route = {
             }
         }
 
+        return m;
+    },
+
+    setAirport: func(apt, what) {
+        if (typeof(apt) == 'scalar') {
+            var airports = findAirportsByICAO(apt);
+            if (size(airports) > 0) {
+                me[what] = airports[0];
+                return me[what];
+            }
+            else {
+                return nil;
+            }
+        }
+        elsif (typeof(apt) == 'ghost') {
+            me[what] = apt;
+            return me[what];
+        }
+        else {
+            return nil;
+        }
+    },
+
+    setDepartureAirport: func(apt) { return me.setAirport('departureAirport', apt); },
+    setDestinationAirport: func(apt) { return me.setAirport('destinationAirport', apt); },
+
+    clone: func () {
+        var m = {
+            parents: [Route],
+            legs: [],
+            departureAirport: me.departureAirport,
+            destinationAirport: me.destinationAirport,
+        };
+        foreach (var leg; me.legs) {
+            append(m.legs, leg);
+        }
         return m;
     },
 
@@ -68,10 +88,10 @@ var Route = {
             printf("%s DCT %s", fromID, toID);
             m.from = findWaypoint(fromID);
             debug.dump('FROM', m.from);
-            if (m.from == nil) return nil;
+            if (m.from == nil) return 'NO ROUTE';
             m.to = findWaypoint(toID, m.from);
             debug.dump('TO', m.to);
-            if (m.to == nil) return nil;
+            if (m.to == nil) return 'NO WAYPOINT';
             m.segments = [];
             m.airwayID = 'DCT';
         }
@@ -79,7 +99,7 @@ var Route = {
             var routing = fms.airwaysDB.findSegmentsFromTo(airwayID, fromID, toID);
             if (routing == nil or size(routing) == 0) {
                 # Routing not found
-                return nil;
+                return 'NO ROUTE';
             }
             var last = size(routing) - 1;
             m.from = routing[0];
@@ -101,12 +121,17 @@ var Route = {
         elsif (me.departureAirport != nil) {
             fromID = me.departureAirport.id;
         }
-        printf("Append leg: %s %s %s", fromID, airwayID, toID);
         var leg = me.makeLeg(airwayID, fromID, toID);
-        if (leg != nil) {
-            append(me.legs, leg);
+        if (typeof(leg) == 'scalar') {
+            return leg;
         }
-        printf("Appended leg: %s %s %s", fromID, airwayID, toID);
+        elsif (leg != nil) {
+            append(me.legs, leg);
+            return 'OK';
+        }
+        else {
+            return 'NO ROUTE';
+        }
     },
 
     toFlightplan: func(fp=nil) {

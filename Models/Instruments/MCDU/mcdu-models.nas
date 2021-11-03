@@ -163,34 +163,47 @@ var fpDestinationLens = {
     set: func (fp, val) { fp.destination = val; },
 };
 
-var fpLenses = {
-    'DEPARTURE-AIRPORT': fpDepartureLens,
-    'DESTINATION-AIRPORT': fpDestinationLens,
+var routeDepartureLens = {
+    get: func (route) { return route.departureAirport; },
+    set: func (route, val) { return route.departureAirport = val; }
+};
+
+var routeDestinationLens = {
+    get: func (route) { return route.destinationAirport; },
+    set: func (route, val) { return route.destinationAirport = val; }
+};
+
+var routeLenses = {
+    'DEPARTURE-AIRPORT': routeDepartureLens,
+    'DESTINATION-AIRPORT': routeDestinationLens,
 };
 
 var makeAirportModel = func(owner, key) {
     return FuncModel.new(key,
         func () {
-            var lens = fpLenses[key];
-            var ap = lens.get(owner.fp);
+            var lens = routeLenses[key];
+            var ap = lens.get(owner.route);
             if (ap == nil) return "▯▯▯▯";
             return ap.id;
         },
         func (icao) {
             if (size(icao) != 4) return nil;
-            var lens = fpLenses[key];
+            var lens = routeLenses[key];
             var aps = findAirportsByICAO(icao);
             if (size(aps) == 1) {
                 owner.startEditing();
-                lens.set(owner.fp, aps[0]);
+                lens.set(owner.route, aps[0]);
                 fms.kickRouteManager();
                 owner.fullRedraw();
             }
+            else {
+                owner.mcdu.setScratchpadMsg('NO AIRPORT', mcdu_yellow);
+            }
         },
         func () {
-            var lens = fpLenses[key];
+            var lens = routeLenses[key];
             owner.startEditing();
-            lens.set(owner.fp, nil);
+            lens.set(owner.route, nil);
             fms.kickRouteManager();
             owner.fullRedraw();
         });

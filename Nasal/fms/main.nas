@@ -135,6 +135,55 @@ var discardFlightplan = func () {
     return flightplan();
 };
 
+var commitRoute = func () {
+    if (modifiedRoute != nil) {
+        modifiedFlightplan = modifiedRoute.toFlightplan();
+        commitFlightplan();
+        activeRoute = modifiedRoute;
+        modifiedRoute = nil;
+    }
+    return getActiveRoute();
+};
+
+var discardRoute = func () {
+    if (modifiedRoute != nil) {
+        modifiedRoute = nil;
+        discardFlightplan();
+    }
+    return getActiveRoute();
+};
+
+var updateModifiedFlightplanFromRoute = func () {
+    if (modifiedRoute != nil) {
+        modifiedFlightplan = modifiedRoute.toFlightplan();
+        kickRouteManager();
+    }
+};
+
+var getModifyableRoute = func () {
+    if (modifiedRoute == nil) {
+        if (activeRoute != nil) {
+            modifiedRoute = activeRoute.clone();
+        }
+        else {
+            modifiedRoute = fms.Route.new(flightplan().departure, flightplan().destination);
+        }
+    }
+    return modifiedRoute;
+};
+
+var getActiveRoute = func () {
+    if (activeRoute == nil) {
+        activeRoute = fms.Route.new(flightplan().departure, flightplan().destination);
+    }
+    return activeRoute;
+};
+
+var getVisibleRoute = func () {
+    if (modifiedRoute != nil) return modifiedRoute;
+    return getActiveRoute();
+};
+
 var initDeparture = func () {
     var fp = flightplan();
     var apts = findAirportsWithinRange(4.0);
