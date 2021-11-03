@@ -54,7 +54,7 @@ var Route = {
     },
 
     makeLeg: func (airwayID, fromID, toID) {
-        debug.dump(airwayID, fromID, toID);
+        # debug.dump(airwayID, fromID, toID);
         var m = {
             airwayID: airwayID,
             fromID: fromID,
@@ -65,12 +65,14 @@ var Route = {
         };
         if (airwayID == nil) {
             # direct routing
+            printf("%s DCT %s", fromID, toID);
             m.from = findWaypoint(fromID);
-            debug.dump(m.from);
+            debug.dump('FROM', m.from);
             if (m.from == nil) return nil;
-            m.to = findWaypoint(m.from, toID);
+            m.to = findWaypoint(toID, m.from);
+            debug.dump('TO', m.to);
             if (m.to == nil) return nil;
-            m.segments = [{from: m.from, to: m.to}];
+            m.segments = [];
             m.airwayID = 'DCT';
         }
         else {
@@ -80,28 +82,75 @@ var Route = {
                 return nil;
             }
             var last = size(routing) - 1;
-            m.from = routing[0].from;
-            m.to = routing[last].to;
-            m.segments = routing;
+            m.from = routing[0];
+            m.to = routing[last];
+            m.segments = subvec(routing, 1, size(routing) - 2);
         }
-        debug.dump('Created Leg', m);
+        # debug.dump('Created Leg', m);
         return m;
     },
 
     appendLeg: func (airwayID, toID) {
         var fromID = nil;
         var last = size(me.legs) - 1;
-        if (last > 0) {
+        # debug.dump(me.legs);
+        printf("#legs = %i", last + 1);
+        if (last >= 0) {
             fromID = me.legs[last].to.id;
         }
         elsif (me.departureAirport != nil) {
             fromID = me.departureAirport.id;
         }
-        printf("Append leg: %s %s", airwayID, toID);
+        printf("Append leg: %s %s %s", fromID, airwayID, toID);
         var leg = me.makeLeg(airwayID, fromID, toID);
         if (leg != nil) {
             append(me.legs, leg);
         }
+        printf("Appended leg: %s %s %s", fromID, airwayID, toID);
+    },
+
+    toFlightplan: func(fp=nil) {
+        if (fp == nil) {
+            fp = createFlightplan();
+        }
+        fp.cleanPlan();
+
+        var lastWPID = nil;
+
+        fp.departure = me.departureAirport;
+        fp.destination = nil;
+
+        if (me.departureAirport != nil) {
+            lastWPID = me.departureAirport.id;
+        }
+        foreach (var leg; me.legs) {
+            printf("LEG: %s %s %s", leg.from.id, leg.airwayID, leg.to.id);
+            if (leg.from.id != lastWPID) {
+                printf("  -- DISCONTINUITY --");
+                fp.appendWP(createDiscontinuity());
+                printf("  WP: %s", leg.from.id);
+                fp.appendWP(createWP(leg.from, leg.from.id));
+                lastWPID = leg.from.id;
+            }
+            foreach (var segment; leg.segments) {
+                printf("  WP: %s", segment.id);
+                fp.appendWP(createWP(segment, segment.id));
+            }
+            if (me.destinationAirport != nil and leg.to.id != me.destinationAirport.id) {
+                printf("  WP: %s", leg.to.id);
+                fp.appendWP(createWP(leg.to, leg.to.id));
+            }
+            lastWPID = leg.to.id;
+        }
+
+        if (me.destinationAirport != nil and lastWPID != me.destinationAirport.id) {
+            printf("  -- DISCONTINUITY --");
+            fp.appendWP(createDiscontinuity());
+        }
+
+        fp.destination = me.destinationAirport;
+
+        return fp;
     },
 
     getRouteString: func () {
@@ -160,8 +209,14 @@ setlistener('/fms/airways/loaded', func(node) {
                         [nil, 'EDDM'],
                     ]
                 );
-        debug.dump(testRoute);
+        print("ROUTE TEST: TEST ROUTE DONE");
         print('TEST ROUTE: ' ~ testRoute.getRouteString());
+        var fp = testRoute.toFlightplan();
+        printf("%3i waypoints", fp.getPlanSize());
+        for (var i = 0; i < fp.getPlanSize(); i += 1) {
+            var wp = fp.getWP(i);
+            printf('%3i %s', i, wp.id);
+        }
     }
 });
 

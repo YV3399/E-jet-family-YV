@@ -9,6 +9,9 @@ var slow_update = func () {
 
 var modifiedFlightplan = nil;
 
+var activeRoute = nil;
+var modifiedRoute = nil;
+
 var calcPressureAlt = func (elev, qnh) {
     return 145366.45 * (1.0 - math.pow(qnh / 1013.25, 0.190284));
 };
