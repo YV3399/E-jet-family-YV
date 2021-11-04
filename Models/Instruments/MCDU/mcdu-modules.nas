@@ -311,11 +311,21 @@ var RouteModule = {
         var targetFix = nil;
         # printf("Append after: %i (%s)", appendIndex, (refWP == nil) ? "<nil>" : refWP.id);
         var result = 'INVALID';
-        if (size(s) == 1) {
-            var result = me.route.appendLeg(nil, s[0]);
-        }
-        else if (size(s) == 2) {
-            var result = me.route.appendLeg(s[0], s[1]);
+        while (size(s) > 0) {
+            # First attempt to interpret as airway.fix....
+            if (size(s) > 1) {
+                result = me.route.appendLeg(s[0], s[1]);
+                if (result == 'OK') {
+                    s = subvec(s, 2);
+                    continue;
+                }
+            }
+            # If that doesn't work, interpret as fix....
+            result = me.route.appendLeg(nil, s[0]);
+            if (result == 'OK') {
+                s = subvec(s, 1);
+                continue;
+            }
         }
 
         if (result == 'OK') {
