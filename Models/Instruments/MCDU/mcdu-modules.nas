@@ -247,14 +247,8 @@ var RouteModule = {
             m.routeStatus = 'MOD';
         }
         else {
-            m.route = fms.activeRoute;
-            if (m.route == nil) {
-                m.routeStatus = '';
-                m.route = fms.getModifyableRoute();
-            }
-            else {
-                m.routeStatus = 'ACT';
-            }
+            m.route = fms.getActiveRoute();
+            m.routeStatus = 'ACT';
         }
         m.timer = nil;
         return m;

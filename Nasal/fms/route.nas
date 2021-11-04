@@ -37,7 +37,7 @@ var Route = {
         return m;
     },
 
-    setAirport: func(apt, what) {
+    setAirport: func(what, apt) {
         if (typeof(apt) == 'scalar') {
             var airports = findAirportsByICAO(apt);
             if (size(airports) > 0) {
