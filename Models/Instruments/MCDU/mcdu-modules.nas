@@ -303,6 +303,12 @@ var RouteModule = {
         return me.routeStatus ~ " RTE";
     },
 
+    deleteLeg: func (deleteIndex) {
+        me.startEditing();
+        me.route.deleteLeg(deleteIndex);
+        fms.updateModifiedFlightplanFromRoute();
+    },
+
     appendViaTo: func (viaTo, appendIndex = nil) {
         # printf("Append VIA-TO: %s", viaTo);
         var s = split('.', viaTo);
@@ -418,6 +424,19 @@ var RouteModule = {
                 else {
                     append(me.views, StaticView.new(0, y, leg.airwayID, mcdu_green | mcdu_large));
                     append(me.views, StaticView.new(16, y, leg.toID, mcdu_green | mcdu_large));
+                    me.controllers[lsk] =
+                        (func (i) {
+                            return FuncController.new(
+                                func (owner, val) {
+                                    # printf("Append before WP %i", j);
+                                    owner.setScratchpadMsg("NOT ALLOWED", mcdu_yellow);
+                                },
+                                func (owner) {
+                                    # printf("Delete WP %i", j);
+                                    owner.startEditing();
+                                    owner.deleteLeg(i);
+                                });
+                        })(j);
                 }
                 y += 2;
             }

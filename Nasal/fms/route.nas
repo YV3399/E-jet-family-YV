@@ -161,6 +161,16 @@ var Route = {
         }
     },
 
+    deleteLeg: func (legi) {
+        var legsOld = me.legs;
+        me.legs = [];
+        for (var i = 0; i < size(legsOld); i += 1) {
+            if (i != legi) {
+                append(me.legs, legsOld[i]);
+            }
+        }
+    },
+
     toFlightplan: func(fp=nil) {
         if (fp == nil) {
             fp = createFlightplan();
