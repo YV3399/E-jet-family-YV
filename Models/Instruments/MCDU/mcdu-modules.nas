@@ -310,9 +310,39 @@ var RouteModule = {
         var newWaypoints = [];
         var targetFix = nil;
         # printf("Append after: %i (%s)", appendIndex, (refWP == nil) ? "<nil>" : refWP.id);
+
+        if (size(s) == 0) {
+            return 'INVALID';
+        }
+
+        # No route entered yet? Let's first check if the first element is a
+        # SID.
+        if (size(me.route.legs) == 0 and me.route.departureAirport != nil) {
+            var sid = me.route.departureAirport.getSid(s[0]);
+            if (typeof(sid) == 'ghost') {
+                me.route.sid = sid;
+                s = subvec(s, 1);
+            }
+        }
+
         var result = 'INVALID';
         while (size(s) > 0) {
-            # First attempt to interpret as airway.fix....
+            # If this is the last bit, and ends at the destination airport,
+            # then try for a STAR
+
+            if (size(s) == 2 and
+                me.route.destinationAirport != nil and
+                s[1] == me.route.destinationAirport.id) {
+                var star = me.route.destinationAirport.getStar(s[0]);
+                if (typeof(star) == 'ghost') {
+                    me.route.star = star;
+                    me.route.closed = 1;
+                    result = 'OK';
+                    break;
+                }
+            }
+
+            # Attempt to interpret as airway.fix....
             if (size(s) > 1) {
                 result = me.route.appendLeg(s[0], s[1]);
                 if (result == 'OK') {
@@ -320,12 +350,15 @@ var RouteModule = {
                     continue;
                 }
             }
+
             # If that doesn't work, interpret as fix....
             result = me.route.appendLeg(nil, s[0]);
             if (result == 'OK') {
                 s = subvec(s, 1);
                 continue;
             }
+
+            break;
         }
 
         if (result == 'OK') {
@@ -823,7 +856,7 @@ var DirectToModule = {
 
     insertDirect: func () {
         var candidates = parseWaypoint(me.directToID);
-        debug.dump(me.directFromIndex, me.directToID, candidates);
+        # debug.dump(me.directFromIndex, me.directToID, candidates);
         if (size(candidates) > 0) {
             var newWP = candidates[0];
             var index = 1;

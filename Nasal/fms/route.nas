@@ -22,6 +22,11 @@ var Route = {
             legs: [],
             departureAirport: nil,
             destinationAirport: nil,
+            sid: nil,
+            sid_trans: nil,
+            star: nil,
+            star_trans: nil,
+            closed: 0,
         };
 
         m.setDepartureAirport(departureAirport);
@@ -57,8 +62,22 @@ var Route = {
         }
     },
 
-    setDepartureAirport: func(apt) { return me.setAirport('departureAirport', apt); },
-    setDestinationAirport: func(apt) { return me.setAirport('destinationAirport', apt); },
+    setDepartureAirport: func(apt) {
+        me.sid = nil;
+        return me.setAirport('departureAirport', apt);
+    },
+
+    setDestinationAirport: func(apt) {
+        me.star = nil;
+        var airport = me.setAirport('destinationAirport', apt);
+        if (airport != nil and size(me.legs) > 0) {
+            var leg = me.legs[size(me.legs) - 1];
+            me.closed = (leg.toID == airport.id);
+        }
+        else {
+            closed = 0;
+        }
+    },
 
     clone: func () {
         var m = {
@@ -66,6 +85,11 @@ var Route = {
             legs: [],
             departureAirport: me.departureAirport,
             destinationAirport: me.destinationAirport,
+            sid: me.sid,
+            sid_trans: me.sid_trans,
+            star: me.star,
+            star_trans: me.star_trans,
+            closed: me.closed,
         };
         foreach (var leg; me.legs) {
             append(m.legs, leg);
@@ -87,10 +111,10 @@ var Route = {
             # direct routing
             printf("%s DCT %s", fromID, toID);
             m.from = findWaypoint(fromID);
-            debug.dump('FROM', m.from);
+            # debug.dump('FROM', m.from);
             if (m.from == nil) return 'NO ROUTE';
             m.to = findWaypoint(toID, m.from);
-            debug.dump('TO', m.to);
+            # debug.dump('TO', m.to);
             if (m.to == nil) return 'NO WAYPOINT';
             m.segments = [];
             m.airwayID = 'DCT';
@@ -127,6 +151,9 @@ var Route = {
         }
         elsif (leg != nil) {
             append(me.legs, leg);
+            if (me.destinationAirport != nil and toID == me.destinationAirport.id) {
+                me.closed = 1;
+            }
             return 'OK';
         }
         else {
@@ -174,6 +201,9 @@ var Route = {
         }
 
         fp.destination = me.destinationAirport;
+
+        fp.sid = me.sid;
+        fp.star = me.star;
 
         return fp;
     },
