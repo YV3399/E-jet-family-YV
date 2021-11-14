@@ -416,80 +416,36 @@ var RouteModule = {
                 var lsk = sprintf("R%i", i + 1);
                 var leg = (j < size(me.route.legs)) ? me.route.legs[j] : nil;
                 if (leg == nil) {
-                    append(me.views, StaticView.new(0, y, "-----", mcdu_green | mcdu_large));
-                    me.controllers[lsk] =
-                        FuncController.new(func (owner, val) { owner.appendViaTo(val); });
+                    if (!me.route.isClosed()) {
+                        append(me.views, StaticView.new(0, y, "-----", mcdu_green | mcdu_large));
+                        me.controllers[lsk] =
+                            FuncController.new(func (owner, val) { owner.appendViaTo(val); });
+                    }
                     break;
                 }
                 else {
                     append(me.views, StaticView.new(0, y, leg.airwayID, mcdu_green | mcdu_large));
                     append(me.views, StaticView.new(16, y, leg.toID, mcdu_green | mcdu_large));
-                    me.controllers[lsk] =
-                        (func (i) {
-                            return FuncController.new(
-                                func (owner, val) {
-                                    # printf("Append before WP %i", j);
-                                    owner.setScratchpadMsg("NOT ALLOWED", mcdu_yellow);
-                                },
-                                func (owner) {
-                                    # printf("Delete WP %i", j);
-                                    owner.startEditing();
-                                    owner.deleteLeg(i);
-                                });
-                        })(j);
+                    if (j == size(me.route.legs) - 1) {
+                        me.controllers[lsk] =
+                            (func (i) {
+                                return FuncController.new(
+                                    func (owner, val) {
+                                        # printf("Append before WP %i", j);
+                                        owner.setScratchpadMsg("NOT ALLOWED", mcdu_yellow);
+                                    },
+                                    func (owner) {
+                                        # printf("Delete WP %i", j);
+                                        owner.startEditing();
+                                        owner.deleteLeg(i);
+                                    });
+                            })(j);
+                    }
                 }
                 y += 2;
             }
-
-
-            ############
-            #var waypoints = fms.getRouteLegs(me.fp);
-            #var numWaypoints = size(waypoints);
-            #var firstWP = (p - 1) * 5;
-            #me.views = [];
-            #me.controllers = {};
-            #append(me.views, StaticView.new(1, 1, "VIA", mcdu_white));
-            #append(me.views, StaticView.new(21, 1, "TO", mcdu_white));
-            #var y = 2;
-            #for (var i = 0; i < 5; i += 1) {
-            #    var lsk = sprintf("R%i", i + 1);
-            #    var wp = nil;
-            #    var j = firstWP + i;
-            #    if (j < size(waypoints)) {
-            #        wp = waypoints[j];
-            #    }
-            #    if (wp == nil) {
-            #        append(me.views, StaticView.new(0, y, "-----", mcdu_green | mcdu_large));
-            #        me.controllers[lsk] =
-            #            FuncController.new(func (owner, val) { owner.appendViaTo(val); });
-            #        break;
-            #    }
-            #    else {
-            #        append(me.views, StaticView.new(0, y, (wp[0] == "DCT") ? "DIRECT" : wp[0], mcdu_green | mcdu_large));
-            #        append(me.views, StaticView.new(16, y, sprintf("%8s", wp[1].id), mcdu_green | mcdu_large));
-            #        if (wp[1].wp_role == nil) {
-            #            # Only enroute waypoints can be deleted
-            #            me.controllers[lsk] =
-            #                (func (wpi) {
-            #                    return FuncController.new(
-            #                        func (owner, val) {
-            #                            # printf("Append before WP %i", j);
-            #                            owner.appendViaTo(val, wpi);
-            #                        },
-            #                        func (owner) {
-            #                            # printf("Delete WP %i", j);
-            #                            owner.startEditing();
-            #                            owner.deleteWP(wpi);
-            #                        });
-            #                })(wp[1].index);
-            #        }
-            #    }
-            #    y += 2;
-            # }
         }
-        if (me.routeStatus == 'ACT') {
-        }
-        else {
+        if (me.routeStatus != 'ACT') {
             append(me.views,
                 StaticView.new(0, 12, left_triangle ~ "CANCEL", mcdu_white | mcdu_large));
             me.controllers["L6"] = FuncController.new(func (owner, val) {

@@ -97,6 +97,14 @@ var Route = {
         return m;
     },
 
+    isClosed: func () {
+        if (size(me.legs) < 1) return 0;
+        var lastLeg = me.legs[size(me.legs) - 1];
+        if (lastLeg == nil) return 0;
+        if (me.destinationAirport == nil) return 0;
+        return (me.destinationAirport.id == lastLeg.toID);
+    },
+
     makeLeg: func (airwayID, fromID, toID) {
         # debug.dump(airwayID, fromID, toID);
         var m = {
@@ -255,33 +263,8 @@ var Route = {
 };
 
 setlistener('/fms/airways/loaded', func(node) {
-    print("ROUTE TEST");
-    if (airwaysDB == nil) {
-        print("ROUTE TEST: AIRWAYS NOT LOADED YET");
-    }
-    else {
-        print("ROUTE TEST: AIRWAYS LOADED, MAKING TEST ROUTE");
-        var testRoute =
-            Route.new(
-                    'EHAM',
-                    'EDDM',
-                    [
-                        [nil, 'ARNEM'],
-                        ['L620', 'SONEB'],
-                        ['Z841', 'BIGSU'],
-                        ['L603', 'BOMBI'],
-                        ['T104', 'ROKIL'],
-                        [nil, 'EDDM'],
-                    ]
-                );
-        print("ROUTE TEST: TEST ROUTE DONE");
-        print('TEST ROUTE: ' ~ testRoute.getRouteString());
-        var fp = testRoute.toFlightplan();
-        printf("%3i waypoints", fp.getPlanSize());
-        for (var i = 0; i < fp.getPlanSize(); i += 1) {
-            var wp = fp.getWP(i);
-            printf('%3i %s', i, wp.id);
-        }
+    if (airwaysDB != nil) {
+        print("AIRWAYS LOADED, MAKING TEST ROUTE");
     }
 });
 
