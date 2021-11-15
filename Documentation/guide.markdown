@@ -704,6 +704,21 @@ provides the exact same functionality. You can download it from
 
 https://github.com/tdammers/fg-simbrief-addon
 
+## MCDU Route Entry
+
+The FMS supports entering airway routes, just like the real aircraft. However,
+because the way airway data is exposed to aircraft models from FG core is
+insufficient for this, the E-Jet relies on finding and parsing the airway data
+file itself. To make this work, you need to have a file named
+`/NavData/awy/awy.dat` in one of your scenery directories (the propery tree has
+a list of all the directories to look in under `/sim/fg-scenery`; you can
+configure these through the launcher, or by passing one or more `--fg-scenery`
+arguments to the `fgfs` binary on startup).
+
+FlightGear ships with a severely outdated `awy.dat.gz` as part of FGDATA; this
+file will not work as-is, but if you want to use it for the E-Jet, you can
+simply un-gzip it.
+
 ## Electronic Flight Bag (EFB)
 
 The EFB is a virtual tablet that can be used to view charts in PDF format. See
