@@ -152,6 +152,16 @@ var keyProps = {
     "ZMON": "/sim/time/utc/month",
     "ZYEAR": "/sim/time/utc/year",
 
+    # NDB info
+    "NDBAIRAC": "/fms/airac/cycle",
+    "NDBSOURCE": "/fms/airac/source/str",
+    "NDBFROM_DAY": "/fms/airac/valid-from/day",
+    "NDBFROM_MON": "/fms/airac/valid-from/month",
+    "NDBFROM_YEAR": "/fms/airac/valid-from/year",
+    "NDBUNTIL_DAY": "/fms/airac/valid-until/day",
+    "NDBUNTIL_MON": "/fms/airac/valid-until/month",
+    "NDBUNTIL_YEAR": "/fms/airac/valid-until/year",
+
     # Position
     "CALLSIG": "/sim/multiplay/callsign",
     "FLTID": "/sim/multiplay/callsign", # TODO: separate property for this

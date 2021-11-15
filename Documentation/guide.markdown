@@ -719,6 +719,15 @@ FlightGear ships with a severely outdated `awy.dat.gz` as part of FGDATA; this
 file will not work as-is, but if you want to use it for the E-Jet, you can
 simply un-gzip it.
 
+To check which nav data has been loaded, consult the FMS "NAV IDENT" page. It
+should show an indication of the loaded dataset, as well as the date range of
+validity, based on the self-reported AIRAC cycle in the loaded file, if any. If
+no file has been loaded, this will be reported as "19SEP 16OCT/13", and
+"FG-MINIMAL", indicating that only basic navigation data is available (no
+airways). If you have an awy.dat from Navigraph, it will be reported as
+"NAVIGRAPH", with dates corresponding to the reported AIRAC cycle; awy.dat
+files from XPlane will also work, and report as "AWYXP700" or similar.
+
 ## Electronic Flight Bag (EFB)
 
 The EFB is a virtual tablet that can be used to view charts in PDF format. See

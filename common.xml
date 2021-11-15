@@ -2430,6 +2430,9 @@
         <polyfill>
             <file>Aircraft/E-jet-family/Nasal/polyfill.nas</file>
         </polyfill>
+        <datetime>
+            <file>Aircraft/E-jet-family/Nasal/datetime.nas</file>
+        </datetime>
         <fastercanvas>
             <file>Aircraft/E-jet-family/Nasal/fastercanvas.nas</file>
         </fastercanvas>
