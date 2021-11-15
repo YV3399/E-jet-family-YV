@@ -179,17 +179,5 @@ thread.newthread(func {
 
     if (airwaysDB != nil) {
         setprop('/fms/airways/loaded', 1);
-        var fromID = 'KEMAD';
-        var toID = 'TIR';
-        var airwayID = 'L602';
-        var path = airwaysDB.findSegmentsFromTo(airwayID, fromID, toID);
-        if (path == nil) path = [];
-        var pathIDs = [];
-        foreach (var wp; path) {
-            append(pathIDs, wp.id);
-        }
-
-        printf("Airway routing %s %s %s: %s",
-            fromID, airwayID, toID, string.join(' ', pathIDs));
     }
 });
