@@ -66,14 +66,6 @@
         <aircraft-data>
             <path>/sim/model/autopush/route/show</path>
             <path>/sim/model/autopush/route/show-wingtip</path>
-            <!--
-            <path>/sim/simbrief/username</path>
-            <path>/sim/simbrief/options/autocommit</path>
-            <path>/sim/simbrief/options/import-payload</path>
-            <path>/sim/simbrief/options/import-fob</path>
-            <path>/sim/simbrief/options/import-perfinit</path>
-            <path>/sim/simbrief/options/import-winds-aloft</path>
-            -->
             <path>/instrumentation/mfd/resolution</path>
             <path>/instrumentation/mfd/scanrate</path>
             <path>/instrumentation/pfd[0]/enabled</path>
@@ -86,27 +78,13 @@
             <path>/instrumentation/efb/brightness</path>
             <path>/instrumentation/efb/flightbag-companion-uri</path>
             <path>/controls/gear/enable-tiller</path>
+            <path>/controls/switches/hud-flip[0]</path>
+            <path>/controls/switches/hud-flip[1]</path>
             <path>/sim/http/local-ip</path>
         </aircraft-data>
 
-        <!--
-        <simbrief>
-            <username type="string" userarchive="y" />
-            <options>
-                <autocommit type="bool" userarchive="y">0</autocommit>
-                <import-fp type="bool" userarchive="y">1</import-fp>
-                <import-payload type="bool" userarchive="y">0</import-payload>
-                <import-fob type="bool" userarchive="y">0</import-fob>
-                <import-perfinit type="bool" userarchive="y">0</import-perfinit>
-                <import-winds-aloft type="bool" userarchive="y">0</import-winds-aloft>
-            </options>
-            <downloading type="bool">0</downloading>
-            <text-status type="string"></text-status>
-        </simbrief>
-        -->
-
         <http>
-            <local-ip userarchive="y">localhost:8080</local-ip>
+            <local-ip>localhost:8080</local-ip>
         </http>
 
         <flaps>
@@ -712,7 +690,7 @@
 
     <options>
         <system>
-            <keyboard-mode type="bool" userarchive="y">0</keyboard-mode>
+            <keyboard-mode type="bool">0</keyboard-mode>
         </system>
     </options>
 
@@ -1737,7 +1715,7 @@
 
         <gear>
             <brake-parking type="bool">true</brake-parking>
-            <enable-tiller userarchive="y" type="bool">true</enable-tiller>
+            <enable-tiller type="bool">true</enable-tiller>
             <tiller-cmd-norm type="float">0</tiller-cmd-norm>
         </gear>
 
@@ -1860,11 +1838,11 @@
 
     <instrumentation>
         <IESS>
-            <brightness type="float" userarchive="y">0.75</brightness>
+            <brightness type="float">0.75</brightness>
         </IESS>
 
         <eicas>
-            <enabled type="bool" userarchive="y">true</enabled>
+            <enabled type="bool">true</enabled>
             <signals>
                 <messages-changed type="bool">false</messages-changed>
             </signals>
@@ -1898,20 +1876,20 @@
         </eicas>
 
         <mcdu>
-            <enabled type="bool" userarchive="y">true</enabled>
+            <enabled type="bool">true</enabled>
             <display>IDENT</display>
             <input type="string"/>
             <serviceable type="bool">true</serviceable>
             <command type="string"></command>
-            <brightness type="double" userarchive="y">0.8</brightness>
+            <brightness type="double">0.8</brightness>
         </mcdu>
         <mcdu>
-            <enabled type="bool" userarchive="y">true</enabled>
+            <enabled type="bool">true</enabled>
             <display>IDENT</display>
             <input type="string"/>
             <serviceable type="bool">true</serviceable>
             <command type="string"></command>
-            <brightness type="double" userarchive="y">0.8</brightness>
+            <brightness type="double">0.8</brightness>
         </mcdu>
 
         <wxr>
@@ -1979,7 +1957,7 @@
         </annun>
 
         <pfd>
-            <enabled type="bool" userarchive="y">true</enabled>
+            <enabled type="bool">true</enabled>
             <!-- 0 = slow, 1 = default, 2 = fast -->
             <update-rate type="int">1</update-rate>
             <!-- 0 = FMS, 1,2 = VOR1/LOC1, VOR2,LOC2 -->
@@ -2058,7 +2036,7 @@
         </pfd>
 
         <pfd>
-            <enabled type="bool" userarchive="y">true</enabled>
+            <enabled type="bool">true</enabled>
             <update-rate type="int">0</update-rate>
             <!-- 0 = FMS, 1,2 = VOR1/LOC1, VOR2,LOC2 -->
             <nav-src type="int">2</nav-src>
@@ -2136,7 +2114,7 @@
         </pfd>
 
         <mfd>
-            <enabled type="bool" userarchive="y">true</enabled>
+            <enabled type="bool">true</enabled>
             <lateral-range type="double">20</lateral-range>
             <!-- 0 = Map, 1 = Plan, 2 = Systems -->
             <page>0</page>
@@ -2148,12 +2126,12 @@
             </cursor>
             <wx-mode type="int">0</wx-mode>
             <wx-mode-indicated type="int">0</wx-mode-indicated>
-            <scan-rate type="int" userarchive="y">1</scan-rate>
-            <resolution type="int" userarchive="y">6</resolution>
+            <scan-rate type="int">1</scan-rate>
+            <resolution type="int">6</resolution>
         </mfd>
 
         <mfd>
-            <enabled type="bool" userarchive="y">true</enabled>
+            <enabled type="bool">true</enabled>
             <lateral-range type="double">20</lateral-range>
             <!-- 0 = Map, 1 = Plan, 2 = Systems -->
             <page>0</page>
@@ -2165,8 +2143,8 @@
             </cursor>
             <wx-mode type="int">0</wx-mode>
             <wx-mode-indicated type="int">0</wx-mode-indicated>
-            <scan-rate type="int" userarchive="y">1</scan-rate>
-            <resolution type="int" userarchive="y">6</resolution>
+            <scan-rate type="int">1</scan-rate>
+            <resolution type="int">6</resolution>
         </mfd>
 
         <nav-compass>
@@ -2227,12 +2205,12 @@
         </mk-viii>
 
         <efb>
-            <available type="bool" userarchive="y">false</available>
+            <available type="bool">false</available>
             <power type="bool">true</power>
-            <brightness type="double" userarchive="y">0.75</brightness>
+            <brightness type="double">0.75</brightness>
             <orientation-norm type="double">0</orientation-norm>
             <selected-orientation-norm type="double">0</selected-orientation-norm>
-            <flightbag-companion-uri type="string" userarchive="y">http://localhost:7675/</flightbag-companion-uri>
+            <flightbag-companion-uri type="string">http://localhost:7675/</flightbag-companion-uri>
         </efb>
     </instrumentation>
 
