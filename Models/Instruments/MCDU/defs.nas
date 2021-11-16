@@ -155,6 +155,7 @@ var keyProps = {
     # NDB info
     "NDBAIRAC": "/fms/airac/cycle",
     "NDBSOURCE": "/fms/airac/source/str",
+    "NDBVERSION": "/fms/airac/source/version",
     "NDBFROM_DAY": "/fms/airac/valid-from/day",
     "NDBFROM_MON": "/fms/airac/valid-from/month",
     "NDBFROM_YEAR": "/fms/airac/valid-from/year",

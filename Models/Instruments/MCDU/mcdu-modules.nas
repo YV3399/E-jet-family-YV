@@ -2029,7 +2029,7 @@ var NavIdentModule = {
                 StaticView.new( 2,  5, "SW", mcdu_white),
                 FormatView.new( 1,  6, mcdu_large | mcdu_green, "FGVER", 10, "%-10s"),
                 StaticView.new(11,  5, "NDS", mcdu_white),
-                StaticView.new(15,  5, "V3.01 16M", mcdu_green),
+                FormatView.new(15,  5, mcdu_green, "NDBVERSION", 9),
                 FormatView.new(12,  6, mcdu_large | mcdu_green, "NDBSOURCE", 12),
                 StaticView.new( 0, 12, left_triangle ~ "MAINTENANCE", mcdu_large | mcdu_white),
                 StaticView.new(12, 12, "   POS INIT" ~ right_triangle, mcdu_large | mcdu_white),
