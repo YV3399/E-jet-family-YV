@@ -222,4 +222,111 @@
         </input>
         <output>/fdm/jsbsim/fcs/elevator-cmd-fbw</output>
     </filter>
+
+    <!-- Multi-purpose spoiler FBW -->
+    <filter>
+        <name>Ailerons to spoilers, left</name>
+        <type>gain</type>
+        <gain>-1</gain>
+        <input>/controls/flight/aileron</input>
+        <output>/fbw/spoilers/bank-left</output>
+    </filter>
+    <filter>
+        <name>Ailerons to spoilers, right</name>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>/controls/flight/aileron</input>
+        <output>/fbw/spoilers/bank-right</output>
+    </filter>
+
+    <filter>
+        <name>Left Outboard MPS Master</name>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <!-- in direct law, do not deploy spoilers at all -->
+            <condition>
+                <equals>
+                    <property>/fbw/spoilers/law</property>
+                    <value>0</value>
+                </equals>
+            </condition>
+            <value>0</value>
+        </input>
+        <input>
+            <expression>
+                <sum>
+                    <property>/controls/flight/ground-spoilers</property>
+                    <property>/fbw/spoilers/bank-left</property>
+                    <property>/controls/flight/speedbrake</property>
+                    <property>/controls/flight/steep-approach-speedbrake</property>
+                </sum>
+            </expression>
+        </input>
+        <output>/fdm/jsbsim/fcs/mfs-left-outboard-cmd-norm</output>
+    </filter>
+    <filter>
+        <name>Right Outboard MPS Master</name>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <!-- in direct law, do not deploy spoilers at all -->
+            <condition>
+                <equals>
+                    <property>/fbw/spoilers/law</property>
+                    <value>0</value>
+                </equals>
+            </condition>
+            <value>0</value>
+        </input>
+        <input>
+            <expression>
+                <sum>
+                    <property>/controls/flight/ground-spoilers</property>
+                    <property>/fbw/spoilers/bank-right</property>
+                    <property>/controls/flight/speedbrake</property>
+                    <property>/controls/flight/steep-approach-speedbrake</property>
+                </sum>
+            </expression>
+        </input>
+        <output>/fdm/jsbsim/fcs/mfs-right-outboard-cmd-norm</output>
+    </filter>
+    <filter>
+        <name>Left Inboard MPS Master</name>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <!-- in direct law, do not deploy spoilers at all -->
+            <condition>
+                <equals>
+                    <property>/fbw/spoilers/law</property>
+                    <value>0</value>
+                </equals>
+            </condition>
+            <value>0</value>
+        </input>
+        <input>
+            <property>/controls/flight/ground-spoilers</property>
+        </input>
+        <output>/fdm/jsbsim/fcs/mfs-left-inboard-cmd-norm</output>
+    </filter>
+    <filter>
+        <name>Right Inboard MPS Master</name>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <!-- in direct law, do not deploy spoilers at all -->
+            <condition>
+                <equals>
+                    <property>/fbw/spoilers/law</property>
+                    <value>0</value>
+                </equals>
+            </condition>
+            <value>0</value>
+        </input>
+        <input>
+            <property>/controls/flight/ground-spoilers</property>
+        </input>
+        <output>/fdm/jsbsim/fcs/mfs-right-inboard-cmd-norm</output>
+    </filter>
 </PropertyList>

@@ -150,4 +150,5 @@ setlistener("sim/signals/fdm-initialized", func {
     listenOnProp("/systems/electrical/buses/dc[5]/powered", no, MSG_CAUTION, 'DC ESS BUS 3 OFF', 0);
     listenOnProp("fdm/jsbsim/fcs/yaw-damper-enable", no, MSG_ADVISORY, 'YD OFF', 0);
     listenOnProp("/instrumentation/eicas/messages/apu/shutdown", yes, MSG_STATUS, 'APU SHUTTING DOWN', 0);
+    listenOnProp("/controls/flight/steep-approach", yes, MSG_STATUS, 'STEEP APPR', 0);
 });

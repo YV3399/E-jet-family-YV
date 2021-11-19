@@ -16,11 +16,11 @@
                     <value>0</value>
                 </not-equals>
                 <not-equals>
-                    <property>/fdm/jsbsim/fcs/spoiler-pos-norm</property>
+                    <property>/controls/flight/speedbrake</property>
                     <value>0</value>
                 </not-equals>
                 <not-equals>
-                    <property>/fdm/jsbsim/fcs/speedbrake-pos-norm</property>
+                    <property>/controls/flight/ground-spoilers</property>
                     <value>0</value>
                 </not-equals>
                 <not-equals>

@@ -1312,7 +1312,7 @@
                 <tru n="0">
                     <name>TRU ESS</name>
                     <volts type="double">0</volts>
-                    <amps type="double">0</amps>
+                    <amfs type="double">0</amfs>
                     <load type="double">0</load>
                     <status type="int">0</status>
                 </tru>
@@ -1320,7 +1320,7 @@
                 <tru n="1">
                     <name>TRU 1</name>
                     <volts type="double">0</volts>
-                    <amps type="double">0</amps>
+                    <amfs type="double">0</amfs>
                     <load type="double">0</load>
                     <status type="int">0</status>
                 </tru>
@@ -1328,7 +1328,7 @@
                 <tru n="2">
                     <name>TRU 2</name>
                     <volts type="double">0</volts>
-                    <amps type="double">0</amps>
+                    <amfs type="double">0</amfs>
                     <load type="double">0</load>
                     <status type="int">0</status>
                 </tru>
@@ -1635,6 +1635,7 @@
         <flight>
             <ground-spoilers-armed type="bool">false</ground-spoilers-armed>
             <speedbrake-lever type="double">0</speedbrake-lever>
+            <steep-approach type="bool">false</steep-approach>
 
             <!--
                 These are the pilot-selected v-speeds; any non-zero setting
@@ -1830,8 +1831,7 @@
             <law type="int">1</law>
         </rudder>
         <spoilers>
-            <!-- not currently functional yet, we only need this for MDF and
-                 cockpit animations. -->
+            <!-- 1 = normal, 0 = direct -->
             <law type="int">1</law>
         </spoilers>
     </fbw>
@@ -2297,6 +2297,11 @@
                     <property>/it-autoflight/input/toga</property>
                     <value type="bool">true</value>
                 </binding>
+                <binding>
+                    <command>property-assign</command>
+                    <property>/controls/flight/steep-approach</property>
+                    <value type="bool">false</value>
+                </binding>
             </key>
             <key n="2">
                 <name>Ctrl-b</name>
@@ -2551,11 +2556,26 @@
                     <drag-mach type="double">0.021</drag-mach>
                     <drag-parasitic type="double">0.0125</drag-parasitic>
                     <drag-slat type="double">0.003</drag-slat>
-                    <drag-speedbrake type="double">0.05</drag-speedbrake>
+                    <drag-mfs type="double">0.01</drag-mfs>
+                    <yaw-mfs type="double">0.01</yaw-mfs>
+                    <bank-mfs type="double">0.01</bank-mfs>
                     <yaw-damper-beta type="double">-5</yaw-damper-beta>
                     <yaw-damper-rate type="double">2</yaw-damper-rate>
                 </coefficients>
             </aero-config>
         </jsbsim>
     </fdm>
+
+    <surface-positions>
+        <mfs1-pos-norm  type="double">0</mfs1-pos-norm>
+        <mfs2-pos-norm  type="double">0</mfs2-pos-norm>
+        <mfs3-pos-norm  type="double">0</mfs3-pos-norm>
+        <mfs4-pos-norm  type="double">0</mfs4-pos-norm>
+        <mfs5-pos-norm  type="double">0</mfs5-pos-norm>
+        <mfs6-pos-norm  type="double">0</mfs6-pos-norm>
+        <mfs7-pos-norm  type="double">0</mfs7-pos-norm>
+        <mfs8-pos-norm  type="double">0</mfs8-pos-norm>
+        <mfs9-pos-norm  type="double">0</mfs9-pos-norm>
+        <mfs10-pos-norm type="double">0</mfs10-pos-norm>
+    </surface-positions>
 </PropertyList>

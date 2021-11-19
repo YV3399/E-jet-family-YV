@@ -388,9 +388,9 @@
         </actuator>
     </channel>
     
-    <channel name="Speedbrake">
-        <kinematic name="Speedbrake Control">
-            <input>fcs/speedbrake-cmd-norm</input>
+    <channel name="MFS Left Outboard">
+        <kinematic name="MFS1 Control">
+            <input>fcs/mfs-left-outboard-cmd-norm</input>
             <traverse>
                 <setting>
                     <position> 0 </position>
@@ -401,9 +401,140 @@
                     <time>     1 </time>
                 </setting>
             </traverse>
-            <output>fcs/speedbrake-pos-norm</output>
+            <output>fcs/mfs1-pos-norm</output>
         </kinematic>
-        
+        <kinematic name="MFS2 Control">
+            <input>fcs/mfs-left-outboard-cmd-norm</input>
+            <traverse>
+                <setting>
+                    <position> 0 </position>
+                    <time>     0 </time>
+                </setting>
+                <setting>
+                    <position> 1 </position>
+                    <time>     1 </time>
+                </setting>
+            </traverse>
+            <output>fcs/mfs2-pos-norm</output>
+        </kinematic>
+        <kinematic name="MFS3 Control">
+            <input>fcs/mfs-left-outboard-cmd-norm</input>
+            <traverse>
+                <setting>
+                    <position> 0 </position>
+                    <time>     0 </time>
+                </setting>
+                <setting>
+                    <position> 1 </position>
+                    <time>     1 </time>
+                </setting>
+            </traverse>
+            <output>fcs/mfs3-pos-norm</output>
+        </kinematic>
+    </channel>
+    <channel name="MFS Left Inboard">
+        <kinematic name="MFS4 Control">
+            <input>fcs/mfs-left-inboard-cmd-norm</input>
+            <traverse>
+                <setting>
+                    <position> 0 </position>
+                    <time>     0 </time>
+                </setting>
+                <setting>
+                    <position> 1 </position>
+                    <time>     1 </time>
+                </setting>
+            </traverse>
+            <output>fcs/mfs4-pos-norm</output>
+        </kinematic>
+        <kinematic name="MFS5 Control">
+            <input>fcs/mfs-left-inboard-cmd-norm</input>
+            <traverse>
+                <setting>
+                    <position> 0 </position>
+                    <time>     0 </time>
+                </setting>
+                <setting>
+                    <position> 1 </position>
+                    <time>     1 </time>
+                </setting>
+            </traverse>
+            <output>fcs/mfs5-pos-norm</output>
+        </kinematic>
+    </channel>
+    <channel name="MFS Right Outboard">
+        <kinematic name="MFS10 Control">
+            <input>fcs/mfs-right-outboard-cmd-norm</input>
+            <traverse>
+                <setting>
+                    <position> 0 </position>
+                    <time>     0 </time>
+                </setting>
+                <setting>
+                    <position> 1 </position>
+                    <time>     1 </time>
+                </setting>
+            </traverse>
+            <output>fcs/mfs10-pos-norm</output>
+        </kinematic>
+        <kinematic name="MFS9 Control">
+            <input>fcs/mfs-right-outboard-cmd-norm</input>
+            <traverse>
+                <setting>
+                    <position> 0 </position>
+                    <time>     0 </time>
+                </setting>
+                <setting>
+                    <position> 1 </position>
+                    <time>     1 </time>
+                </setting>
+            </traverse>
+            <output>fcs/mfs9-pos-norm</output>
+        </kinematic>
+        <kinematic name="MFS8 Control">
+            <input>fcs/mfs-right-outboard-cmd-norm</input>
+            <traverse>
+                <setting>
+                    <position> 0 </position>
+                    <time>     0 </time>
+                </setting>
+                <setting>
+                    <position> 1 </position>
+                    <time>     1 </time>
+                </setting>
+            </traverse>
+            <output>fcs/mfs8-pos-norm</output>
+        </kinematic>
+    </channel>
+    <channel name="MFS Right Inboard">
+        <kinematic name="MFS7 Control">
+            <input>fcs/mfs-right-inboard-cmd-norm</input>
+            <traverse>
+                <setting>
+                    <position> 0 </position>
+                    <time>     0 </time>
+                </setting>
+                <setting>
+                    <position> 1 </position>
+                    <time>     1 </time>
+                </setting>
+            </traverse>
+            <output>fcs/mfs7-pos-norm</output>
+        </kinematic>
+        <kinematic name="MFS6 Control">
+            <input>fcs/mfs-right-inboard-cmd-norm</input>
+            <traverse>
+                <setting>
+                    <position> 0 </position>
+                    <time>     0 </time>
+                </setting>
+                <setting>
+                    <position> 1 </position>
+                    <time>     1 </time>
+                </setting>
+            </traverse>
+            <output>fcs/mfs6-pos-norm</output>
+        </kinematic>
     </channel>
     
     <channel name="FADEC">

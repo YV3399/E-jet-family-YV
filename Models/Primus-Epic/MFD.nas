@@ -252,6 +252,16 @@ var MFD = {
                 'aileron-right': props.globals.getNode("surface-positions/right-aileron-pos-norm"),
                 'rudder': props.globals.getNode("surface-positions/rudder-pos-norm"),
                 'elevator': props.globals.getNode("surface-positions/elevator-pos-norm"),
+                'mfs1':  props.globals.getNode("fdm/jsbsim/fcs/mfs1-pos-norm"),
+                'mfs2':  props.globals.getNode("fdm/jsbsim/fcs/mfs2-pos-norm"),
+                'mfs3':  props.globals.getNode("fdm/jsbsim/fcs/mfs3-pos-norm"),
+                'mfs4':  props.globals.getNode("fdm/jsbsim/fcs/mfs4-pos-norm"),
+                'mfs5':  props.globals.getNode("fdm/jsbsim/fcs/mfs5-pos-norm"),
+                'mfs6':  props.globals.getNode("fdm/jsbsim/fcs/mfs6-pos-norm"),
+                'mfs7':  props.globals.getNode("fdm/jsbsim/fcs/mfs7-pos-norm"),
+                'mfs8':  props.globals.getNode("fdm/jsbsim/fcs/mfs8-pos-norm"),
+                'mfs9':  props.globals.getNode("fdm/jsbsim/fcs/mfs9-pos-norm"),
+                'mfs10': props.globals.getNode("fdm/jsbsim/fcs/mfs10-pos-norm"),
             };
 
         var masterProp = props.globals.getNode("/instrumentation/mfd[" ~ index ~ "]");
@@ -701,6 +711,46 @@ var MFD = {
                 'fctl.rudder-right.cover',
                 'fctl.rudder-right.dashedbox',
                 'fctl.rudder-right.stripes',
+                'fctl.mfs1',
+                'fctl.mfs1.cover',
+                'fctl.mfs1.dashedbox',
+                'fctl.mfs1.stripes',
+                'fctl.mfs2',
+                'fctl.mfs2.cover',
+                'fctl.mfs2.dashedbox',
+                'fctl.mfs2.stripes',
+                'fctl.mfs3',
+                'fctl.mfs3.cover',
+                'fctl.mfs3.dashedbox',
+                'fctl.mfs3.stripes',
+                'fctl.mfs4',
+                'fctl.mfs4.cover',
+                'fctl.mfs4.dashedbox',
+                'fctl.mfs4.stripes',
+                'fctl.mfs5',
+                'fctl.mfs5.cover',
+                'fctl.mfs5.dashedbox',
+                'fctl.mfs5.stripes',
+                'fctl.mfs6',
+                'fctl.mfs6.cover',
+                'fctl.mfs6.dashedbox',
+                'fctl.mfs6.stripes',
+                'fctl.mfs7',
+                'fctl.mfs7.cover',
+                'fctl.mfs7.dashedbox',
+                'fctl.mfs7.stripes',
+                'fctl.mfs8',
+                'fctl.mfs8.cover',
+                'fctl.mfs8.dashedbox',
+                'fctl.mfs8.stripes',
+                'fctl.mfs9',
+                'fctl.mfs9.cover',
+                'fctl.mfs9.dashedbox',
+                'fctl.mfs9.stripes',
+                'fctl.mfs10',
+                'fctl.mfs10.cover',
+                'fctl.mfs10.dashedbox',
+                'fctl.mfs10.stripes',
         ];
         foreach (var key; mapkeys) {
             me.elems[key] = me.mapOverlay.getElementById(key);
@@ -2141,6 +2191,16 @@ var MFD = {
             me.initFlightControl('fctl.elev-rh-up', self.props['elevator'], 0, -68, -1);
             me.initFlightControl('fctl.elev-lh-down', self.props['elevator'], 0, 54, 1);
             me.initFlightControl('fctl.elev-rh-down', self.props['elevator'], 0, 54, 1);
+            me.initFlightControl('fctl.mfs1', self.props['mfs1'], 0, -34, 1);
+            me.initFlightControl('fctl.mfs2', self.props['mfs2'], 0, -34, 1);
+            me.initFlightControl('fctl.mfs3', self.props['mfs3'], 0, -34, 1);
+            me.initFlightControl('fctl.mfs4', self.props['mfs4'], 0, -34, 1);
+            me.initFlightControl('fctl.mfs5', self.props['mfs5'], 0, -34, 1);
+            me.initFlightControl('fctl.mfs6', self.props['mfs6'], 0, -34, 1);
+            me.initFlightControl('fctl.mfs7', self.props['mfs7'], 0, -34, 1);
+            me.initFlightControl('fctl.mfs8', self.props['mfs8'], 0, -34, 1);
+            me.initFlightControl('fctl.mfs9', self.props['mfs9'], 0, -34, 1);
+            me.initFlightControl('fctl.mfs10', self.props['mfs10'], 0, -34, 1);
 
             append(me.systemsListeners,
                 setlistener(me.props['elevator-law'], func (node) {
@@ -2173,20 +2233,6 @@ var MFD = {
                         self.elems['fctl.mode.rudder.frame'].show();
                     }
                 }, 1, 0));
-
-            # append(me.systemsListeners,
-            #     setlistener(me.props['spoilers-law'], func (node) {
-            #         var law = node.getValue();
-
-            #         if (law == 1) {
-            #             self.elems['fctl.mode.spoilers.text'].setText('NORMAL').setColor(0, 1, 0);
-            #             self.elems['fctl.mode.spoilers.frame'].hide();
-            #         }
-            #         else {
-            #             self.elems['fctl.mode.spoilers.text'].setText('DIRECT').setColor(0, 0, 0);
-            #             self.elems['fctl.mode.spoilers.frame'].show();
-            #         }
-            #     }, 1, 0));
         }
     },
 

@@ -83,19 +83,172 @@
 		<output>/controls/flight/ground-spoilers</output>
 	</logic>
 
+    <filter>
+        <name>Steep approach disable</name>
+        <type>gain</type>
+        <gain>1</gain>
+        <enable>
+            <condition>
+                <and>
+                    <property>controls/flight/steep-approach</property>
+                    <or>
+                        <property>gear/gear[0]/wow</property>
+                        <property>gear/gear[1]/wow</property>
+                        <property>gear/gear[2]/wow</property>
+                    </or>
+                </and>
+            </condition>
+        </enable>
+        <input>
+            <value>0</value>
+        </input>
+        <output>controls/flight/steep-approach</output>
+    </filter>
+
+    <filter>
+        <name>Steep approach speedbrake controller</name>
+        <!-- In steep approach mode, deploy 50% speedbrake, +/- elevator input -->
+        <type>gain</type>
+        <input>
+            <condition>
+                <and>
+                    <!-- Steep approach button must be pressed -->
+                    <property>controls/flight/steep-approach</property>
+                    <!-- Flaps 2 or higher selected -->
+                    <greater-than>
+                        <property>controls/flight/flaps</property>
+                        <value>0.18</value>
+                    </greater-than>
+                </and>
+            </condition>
+            <expression>
+                <sum>
+                    <value>0.5</value>
+                    <product>
+                        <value>0.5</value>
+                        <property>/controls/flight/elevator</property>
+                    </product>
+                </sum>
+            </expression>
+        </input>
+        <input>
+            <value>0</value>
+        </input>
+		<output>/controls/flight/steep-approach-speedbrake</output>
+    </filter>
+
 	<filter>
 		<name>Main speedbrake controller</name>
 		<type>gain</type>
 		<gain>1.0</gain>
+        <input>
+            <!-- automatically disable speedbrake when flaps 2+ selected -->
+            <condition>
+                <greater-than>
+                    <property>controls/flight/flaps</property>
+                    <value>0.18</value>
+                </greater-than>
+            </condition>
+            <value>0</value>
+        </input>
 		<input>
-			<expression>
-				<max>
-					<property>/controls/flight/ground-spoilers</property>
-					<property>/controls/flight/speedbrake-lever</property>
-				</max>
-			</expression>
+            <property>/controls/flight/speedbrake-lever</property>
 		</input>
 		<output>/controls/flight/speedbrake</output>
 	</filter>
+
+    <!-- Forward spoiler positions to 'normal' props -->
+    <filter>
+        <name>mfs1 position</name>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>fdm/jsbsim/fcs/mfs1-pos-norm</input>
+        <output>surface-positions/mfs1-pos-norm</output>
+    </filter>
+    <filter>
+        <name>mfs2 position</name>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>fdm/jsbsim/fcs/mfs2-pos-norm</input>
+        <output>surface-positions/mfs2-pos-norm</output>
+    </filter>
+    <filter>
+        <name>mfs3 position</name>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>fdm/jsbsim/fcs/mfs3-pos-norm</input>
+        <output>surface-positions/mfs3-pos-norm</output>
+    </filter>
+    <filter>
+        <name>mfs4 position</name>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>fdm/jsbsim/fcs/mfs4-pos-norm</input>
+        <output>surface-positions/mfs4-pos-norm</output>
+    </filter>
+    <filter>
+        <name>mfs5 position</name>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>fdm/jsbsim/fcs/mfs5-pos-norm</input>
+        <output>surface-positions/mfs5-pos-norm</output>
+    </filter>
+    <filter>
+        <name>mfs6 position</name>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>fdm/jsbsim/fcs/mfs6-pos-norm</input>
+        <output>surface-positions/mfs6-pos-norm</output>
+    </filter>
+    <filter>
+        <name>mfs7 position</name>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>fdm/jsbsim/fcs/mfs7-pos-norm</input>
+        <output>surface-positions/mfs7-pos-norm</output>
+    </filter>
+    <filter>
+        <name>mfs8 position</name>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>fdm/jsbsim/fcs/mfs8-pos-norm</input>
+        <output>surface-positions/mfs8-pos-norm</output>
+    </filter>
+    <filter>
+        <name>mfs9 position</name>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>fdm/jsbsim/fcs/mfs9-pos-norm</input>
+        <output>surface-positions/mfs9-pos-norm</output>
+    </filter>
+    <filter>
+        <name>mfs10 position</name>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>fdm/jsbsim/fcs/mfs10-pos-norm</input>
+        <output>surface-positions/mfs10-pos-norm</output>
+    </filter>
+
+    <filter>
+        <name>Speedbrake position</name>
+        <type>gain</type>
+        <gain>1.0</gain>
+        <input>
+            <expression>
+                <div>
+                    <sum>
+                        <property>/surface-positions/mfs1-pos-norm</property>
+                        <property>/surface-positions/mfs2-pos-norm</property>
+                        <property>/surface-positions/mfs3-pos-norm</property>
+                        <property>/surface-positions/mfs8-pos-norm</property>
+                        <property>/surface-positions/mfs9-pos-norm</property>
+                        <property>/surface-positions/mfs10-pos-norm</property>
+                    </sum>
+                    <value>6.0</value>
+                </div>
+            </expression>
+        </input>
+        <output>/surface-positions/speedbrake-pos-norm</output>
+    </filter>
 
 </PropertyList>

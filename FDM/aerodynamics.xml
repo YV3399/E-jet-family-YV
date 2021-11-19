@@ -80,13 +80,94 @@
             </product>
         </function>
 
-        <function name="aero/force/Lift_speedbrake">
-            <description>Delta Lift due to speedbrake</description>
+        <function name="aero/force/Lift_mfs_1">
+            <description>Delta Lift due to multi-purpose spoiler 1</description>
             <product>
                 <property>aero/qbar-psf</property>
                 <property>metrics/Sw-sqft</property>
-                <property>fcs/speedbrake-pos-norm</property>
-                <value>-0.2</value>
+                <property>fcs/mfs1-pos-norm</property>
+                <value>-0.015</value>
+            </product>
+        </function>
+        <function name="aero/force/Lift_mfs_2">
+            <description>Delta Lift due to multi-purpose spoiler 2</description>
+            <product>
+                <property>aero/qbar-psf</property>
+                <property>metrics/Sw-sqft</property>
+                <property>fcs/mfs2-pos-norm</property>
+                <value>-0.015</value>
+            </product>
+        </function>
+        <function name="aero/force/Lift_mfs_3">
+            <description>Delta Lift due to multi-purpose spoiler 3</description>
+            <product>
+                <property>aero/qbar-psf</property>
+                <property>metrics/Sw-sqft</property>
+                <property>fcs/mfs3-pos-norm</property>
+                <value>-0.015</value>
+            </product>
+        </function>
+        <function name="aero/force/Lift_mfs_4">
+            <description>Delta Lift due to multi-purpose spoiler 4</description>
+            <product>
+                <property>aero/qbar-psf</property>
+                <property>metrics/Sw-sqft</property>
+                <property>fcs/mfs4-pos-norm</property>
+                <value>-0.015</value>
+            </product>
+        </function>
+        <function name="aero/force/Lift_mfs_5">
+            <description>Delta Lift due to multi-purpose spoiler 5</description>
+            <product>
+                <property>aero/qbar-psf</property>
+                <property>metrics/Sw-sqft</property>
+                <property>fcs/mfs5-pos-norm</property>
+                <value>-0.015</value>
+            </product>
+        </function>
+        <function name="aero/force/Lift_mfs_6">
+            <description>Delta Lift due to multi-purpose spoiler 6</description>
+            <product>
+                <property>aero/qbar-psf</property>
+                <property>metrics/Sw-sqft</property>
+                <property>fcs/mfs6-pos-norm</property>
+                <value>-0.015</value>
+            </product>
+        </function>
+        <function name="aero/force/Lift_mfs_7">
+            <description>Delta Lift due to multi-purpose spoiler 7</description>
+            <product>
+                <property>aero/qbar-psf</property>
+                <property>metrics/Sw-sqft</property>
+                <property>fcs/mfs7-pos-norm</property>
+                <value>-0.015</value>
+            </product>
+        </function>
+        <function name="aero/force/Lift_mfs_8">
+            <description>Delta Lift due to multi-purpose spoiler 8</description>
+            <product>
+                <property>aero/qbar-psf</property>
+                <property>metrics/Sw-sqft</property>
+                <property>fcs/mfs8-pos-norm</property>
+                <value>-0.015</value>
+            </product>
+        </function>
+        <function name="aero/force/Lift_mfs_9">
+            <description>Delta Lift due to multi-purpose spoiler 9</description>
+            <product>
+                <property>aero/qbar-psf</property>
+                <property>metrics/Sw-sqft</property>
+                <property>fcs/mfs9-pos-norm</property>
+                <value>-0.015</value>
+            </product>
+        </function>
+        <function name="aero/force/Lift_mfs_10">
+            <description>Delta Lift due to multi-purpose spoiler 10</description>
+            <product>
+                <property>aero/qbar-psf</property>
+                <property>metrics/Sw-sqft</property>
+                <property>fcs/mfs10-pos-norm</property>
+                <value>-0.015</value>
             </product>
         </function>
 
@@ -237,14 +318,94 @@
             </product>
         </function>
 
-        <function name="aero/force/Drag_speedbrake">
-            <description>Drag due to speedbrakes</description>
+        <function name="aero/force/Drag_mfs_1">
+            <description>Drag due to multi-purpose spoiler 1</description>
             <product>
                 <property>aero/qbar-psf</property>
                 <property>metrics/Sw-sqft</property>
-                <property>fcs/speedbrake-pos-norm</property>
-                <!-- <value>0.05</value> -->
-                <property>aero-config/coefficients/drag-speedbrake</property>
+                <property>fcs/mfs1-pos-norm</property>
+                <property>aero-config/coefficients/drag-mfs</property>
+            </product>
+        </function>
+        <function name="aero/force/Drag_mfs_2">
+            <description>Drag due to multi-purpose spoiler 2</description>
+            <product>
+                <property>aero/qbar-psf</property>
+                <property>metrics/Sw-sqft</property>
+                <property>fcs/mfs2-pos-norm</property>
+                <property>aero-config/coefficients/drag-mfs</property>
+            </product>
+        </function>
+        <function name="aero/force/Drag_mfs_3">
+            <description>Drag due to multi-purpose spoiler 3</description>
+            <product>
+                <property>aero/qbar-psf</property>
+                <property>metrics/Sw-sqft</property>
+                <property>fcs/mfs3-pos-norm</property>
+                <property>aero-config/coefficients/drag-mfs</property>
+            </product>
+        </function>
+        <function name="aero/force/Drag_mfs_4">
+            <description>Drag due to multi-purpose spoiler 4</description>
+            <product>
+                <property>aero/qbar-psf</property>
+                <property>metrics/Sw-sqft</property>
+                <property>fcs/mfs4-pos-norm</property>
+                <property>aero-config/coefficients/drag-mfs</property>
+            </product>
+        </function>
+        <function name="aero/force/Drag_mfs_5">
+            <description>Drag due to multi-purpose spoiler 5</description>
+            <product>
+                <property>aero/qbar-psf</property>
+                <property>metrics/Sw-sqft</property>
+                <property>fcs/mfs5-pos-norm</property>
+                <property>aero-config/coefficients/drag-mfs</property>
+            </product>
+        </function>
+        <function name="aero/force/Drag_mfs_6">
+            <description>Drag due to multi-purpose spoiler 6</description>
+            <product>
+                <property>aero/qbar-psf</property>
+                <property>metrics/Sw-sqft</property>
+                <property>fcs/mfs6-pos-norm</property>
+                <property>aero-config/coefficients/drag-mfs</property>
+            </product>
+        </function>
+        <function name="aero/force/Drag_mfs_7">
+            <description>Drag due to multi-purpose spoiler 7</description>
+            <product>
+                <property>aero/qbar-psf</property>
+                <property>metrics/Sw-sqft</property>
+                <property>fcs/mfs7-pos-norm</property>
+                <property>aero-config/coefficients/drag-mfs</property>
+            </product>
+        </function>
+        <function name="aero/force/Drag_mfs_8">
+            <description>Drag due to multi-purpose spoiler 8</description>
+            <product>
+                <property>aero/qbar-psf</property>
+                <property>metrics/Sw-sqft</property>
+                <property>fcs/mfs8-pos-norm</property>
+                <property>aero-config/coefficients/drag-mfs</property>
+            </product>
+        </function>
+        <function name="aero/force/Drag_mfs_9">
+            <description>Drag due to multi-purpose spoiler 9</description>
+            <product>
+                <property>aero/qbar-psf</property>
+                <property>metrics/Sw-sqft</property>
+                <property>fcs/mfs9-pos-norm</property>
+                <property>aero-config/coefficients/drag-mfs</property>
+            </product>
+        </function>
+        <function name="aero/force/Drag_mfs_10">
+            <description>Drag due to multi-purpose spoiler 10</description>
+            <product>
+                <property>aero/qbar-psf</property>
+                <property>metrics/Sw-sqft</property>
+                <property>fcs/mfs10-pos-norm</property>
+                <property>aero-config/coefficients/drag-mfs</property>
             </product>
         </function>
 
@@ -334,7 +495,115 @@
                         2.00    0.33
                     </tableData>
                 </table>
-                <value>0.1</value>
+                <value>0.05</value>
+            </product>
+        </function>
+
+        <!-- Left outboard spoilers -->
+        <function name="aero/moment/Roll_mfs_1">
+            <description>Roll moment due to multi-purpose spoiler 1</description>
+            <product>
+                <property>aero/qbar-psf</property>
+                <property>metrics/Sw-sqft</property>
+                <property>metrics/bw-ft</property>
+                <property>fcs/mfs1-pos-norm</property>
+                <value>-0.006</value>
+            </product>
+        </function>
+        <function name="aero/moment/Roll_mfs_2">
+            <description>Roll moment due to multi-purpose spoiler 2</description>
+            <product>
+                <property>aero/qbar-psf</property>
+                <property>metrics/Sw-sqft</property>
+                <property>metrics/bw-ft</property>
+                <property>fcs/mfs2-pos-norm</property>
+                <value>-0.005</value>
+            </product>
+        </function>
+        <function name="aero/moment/Roll_mfs_3">
+            <description>Roll moment due to multi-purpose spoiler 3</description>
+            <product>
+                <property>aero/qbar-psf</property>
+                <property>metrics/Sw-sqft</property>
+                <property>metrics/bw-ft</property>
+                <property>fcs/mfs3-pos-norm</property>
+                <value>-0.004</value>
+            </product>
+        </function>
+
+        <!-- Left inboard spoilers -->
+        <function name="aero/moment/Roll_mfs_4">
+            <description>Roll moment due to multi-purpose spoiler 4</description>
+            <product>
+                <property>aero/qbar-psf</property>
+                <property>metrics/Sw-sqft</property>
+                <property>metrics/bw-ft</property>
+                <property>fcs/mfs4-pos-norm</property>
+                <value>-0.002</value>
+            </product>
+        </function>
+        <function name="aero/moment/Roll_mfs_5">
+            <description>Roll moment due to multi-purpose spoiler 5</description>
+            <product>
+                <property>aero/qbar-psf</property>
+                <property>metrics/Sw-sqft</property>
+                <property>metrics/bw-ft</property>
+                <property>fcs/mfs5-pos-norm</property>
+                <value>-0.001</value>
+            </product>
+        </function>
+
+        <!-- Right outboard spoilers -->
+        <function name="aero/moment/Roll_mfs_10">
+            <description>Roll moment due to multi-purpose spoiler 10</description>
+            <product>
+                <property>aero/qbar-psf</property>
+                <property>metrics/Sw-sqft</property>
+                <property>metrics/bw-ft</property>
+                <property>fcs/mfs10-pos-norm</property>
+                <value>0.006</value>
+            </product>
+        </function>
+        <function name="aero/moment/Roll_mfs_9">
+            <description>Roll moment due to multi-purpose spoiler 9</description>
+            <product>
+                <property>aero/qbar-psf</property>
+                <property>metrics/Sw-sqft</property>
+                <property>metrics/bw-ft</property>
+                <property>fcs/mfs9-pos-norm</property>
+                <value>0.005</value>
+            </product>
+        </function>
+        <function name="aero/moment/Roll_mfs_8">
+            <description>Roll moment due to multi-purpose spoiler 8</description>
+            <product>
+                <property>aero/qbar-psf</property>
+                <property>metrics/Sw-sqft</property>
+                <property>metrics/bw-ft</property>
+                <property>fcs/mfs8-pos-norm</property>
+                <value>0.004</value>
+            </product>
+        </function>
+
+        <!-- Right inboard spoilers -->
+        <function name="aero/moment/Roll_mfs_7">
+            <description>Roll moment due to multi-purpose spoiler 7</description>
+            <product>
+                <property>aero/qbar-psf</property>
+                <property>metrics/Sw-sqft</property>
+                <property>metrics/bw-ft</property>
+                <property>fcs/mfs6-pos-norm</property>
+                <value>0.002</value>
+            </product>
+        </function>
+        <function name="aero/moment/Roll_mfs_6">
+            <description>Roll moment due to multi-purpose spoiler 6</description>
+            <product>
+                <property>aero/qbar-psf</property>
+                <property>metrics/Sw-sqft</property>
+                <property>metrics/bw-ft</property>
+                <property>fcs/mfs6-pos-norm</property>
+                <value>0.001</value>
             </product>
         </function>
 
@@ -469,6 +738,8 @@
             </product>
         </function>
 
+        <!-- TODO: This is actually wrong; adverse yaw should be based on
+             bank rate, not aileron deflection. -->
         <function name="aero/moment/Yaw_aileron">
             <description>Adverse yaw</description>
             <product>
@@ -479,6 +750,115 @@
                 <value>0.01</value>
             </product>
         </function>
+
+        <!-- Left outboard spoilers -->
+        <function name="aero/moment/Yaw_mfs_1">
+            <description>Yaw moment due to multi-purpose spoiler 1</description>
+            <product>
+                <property>aero/qbar-psf</property>
+                <property>metrics/Sw-sqft</property>
+                <property>metrics/bw-ft</property>
+                <property>fcs/mfs1-pos-norm</property>
+                <value>-0.006</value>
+            </product>
+        </function>
+        <function name="aero/moment/Yaw_mfs_2">
+            <description>Yaw moment due to multi-purpose spoiler 2</description>
+            <product>
+                <property>aero/qbar-psf</property>
+                <property>metrics/Sw-sqft</property>
+                <property>metrics/bw-ft</property>
+                <property>fcs/mfs2-pos-norm</property>
+                <value>-0.005</value>
+            </product>
+        </function>
+        <function name="aero/moment/Yaw_mfs_3">
+            <description>Yaw moment due to multi-purpose spoiler 3</description>
+            <product>
+                <property>aero/qbar-psf</property>
+                <property>metrics/Sw-sqft</property>
+                <property>metrics/bw-ft</property>
+                <property>fcs/mfs3-pos-norm</property>
+                <value>-0.004</value>
+            </product>
+        </function>
+
+        <!-- Left inboard spoilers -->
+        <function name="aero/moment/Yaw_mfs_4">
+            <description>Yaw moment due to multi-purpose spoiler 4</description>
+            <product>
+                <property>aero/qbar-psf</property>
+                <property>metrics/Sw-sqft</property>
+                <property>metrics/bw-ft</property>
+                <property>fcs/mfs4-pos-norm</property>
+                <value>-0.002</value>
+            </product>
+        </function>
+        <function name="aero/moment/Yaw_mfs_5">
+            <description>Yaw moment due to multi-purpose spoiler 5</description>
+            <product>
+                <property>aero/qbar-psf</property>
+                <property>metrics/Sw-sqft</property>
+                <property>metrics/bw-ft</property>
+                <property>fcs/mfs5-pos-norm</property>
+                <value>-0.001</value>
+            </product>
+        </function>
+
+        <!-- Right outboard spoilers -->
+        <function name="aero/moment/Yaw_mfs_10">
+            <description>Yaw moment due to multi-purpose spoiler 10</description>
+            <product>
+                <property>aero/qbar-psf</property>
+                <property>metrics/Sw-sqft</property>
+                <property>metrics/bw-ft</property>
+                <property>fcs/mfs10-pos-norm</property>
+                <value>0.006</value>
+            </product>
+        </function>
+        <function name="aero/moment/Yaw_mfs_9">
+            <description>Yaw moment due to multi-purpose spoiler 9</description>
+            <product>
+                <property>aero/qbar-psf</property>
+                <property>metrics/Sw-sqft</property>
+                <property>metrics/bw-ft</property>
+                <property>fcs/mfs9-pos-norm</property>
+                <value>0.005</value>
+            </product>
+        </function>
+        <function name="aero/moment/Yaw_mfs_8">
+            <description>Yaw moment due to multi-purpose spoiler 8</description>
+            <product>
+                <property>aero/qbar-psf</property>
+                <property>metrics/Sw-sqft</property>
+                <property>metrics/bw-ft</property>
+                <property>fcs/mfs8-pos-norm</property>
+                <value>0.004</value>
+            </product>
+        </function>
+
+        <!-- Right inboard spoilers -->
+        <function name="aero/moment/Yaw_mfs_7">
+            <description>Yaw moment due to multi-purpose spoiler 7</description>
+            <product>
+                <property>aero/qbar-psf</property>
+                <property>metrics/Sw-sqft</property>
+                <property>metrics/bw-ft</property>
+                <property>fcs/mfs7-pos-norm</property>
+                <value>0.002</value>
+            </product>
+        </function>
+        <function name="aero/moment/Yaw_mfs_6">
+            <description>Yaw moment due to multi-purpose spoiler 6</description>
+            <product>
+                <property>aero/qbar-psf</property>
+                <property>metrics/Sw-sqft</property>
+                <property>metrics/bw-ft</property>
+                <property>fcs/mfs6-pos-norm</property>
+                <value>0.001</value>
+            </product>
+        </function>
+
 
     </axis>
 

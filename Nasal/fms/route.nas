@@ -264,7 +264,7 @@ var Route = {
 
 setlistener('/fms/airways/loaded', func(node) {
     if (airwaysDB != nil) {
-        print("AIRWAYS LOADED, MAKING TEST ROUTE");
+        print("AIRWAYS LOADED");
     }
 });
 
