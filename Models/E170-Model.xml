@@ -88,6 +88,8 @@
         <type>material</type>
         <object-name>fuselage</object-name>
         <object-name>fuselage.001</object-name>
+        <object-name>reverser.001</object-name>
+        <object-name>nacelle.001</object-name>
         <object-name>winglet.l</object-name>
         <object-name>winglet.r</object-name>
         <object-name>rudder</object-name>
@@ -97,8 +99,6 @@
         <object-name>geardoor.f.r</object-name>
         <object-name>reverser</object-name>
         <object-name>nacelle</object-name>
-        <object-name>reverser.001</object-name>
-        <object-name>nacelle.001</object-name>
         <object-name>door.l1</object-name>
         <object-name>door.l2</object-name>
         <object-name>door.r1</object-name>
@@ -249,7 +249,7 @@
     <animation>
         <type>rotate</type>
         <object-name>wing.r.3</object-name>
-        <object-name>greennlav</object-name>
+        <object-name>greennav</object-name>
         <object-name>strobe.right</object-name>
         <object-name>wingtiptrails.right</object-name>
         <property>fdm/jsbsim/aero/coefficient/CLalpha</property>
@@ -461,36 +461,6 @@
             <z2-m>0.48</z2-m>
         </axis>
     </animation>
-    <!--<animation>
-        <type>rotate</type>
-        <object-name>flapac.l.3</object-name>--> <!--flapac.l.3-->
-    <!--<property>surface-positions/flap-pos-norm</property>
-		<interpolation>
-			<entry><ind>0.00</ind><dep>0.0</dep></entry>
-			<entry><ind>0.25</ind><dep>4.0</dep></entry>
-			<entry><ind>0.45</ind><dep>15.0</dep></entry>
-		</interpolation>
-                <axis><y>1</y></axis>
-        <center>
-            <x-m>1.07429</x-m>
-            <z-m>0.52355</z-m>
-        </center>
-    </animation>
-    <animation>
-        <type>rotate</type>
-        <object-name>flapac.l.4</object-name>--> <!--flapac.l.4-->
-    <!--<property>surface-positions/flap-pos-norm</property>
-		<interpolation>
-			<entry><ind>0.00</ind><dep>0.0</dep></entry>
-			<entry><ind>0.25</ind><dep>4.0</dep></entry>
-			<entry><ind>0.45</ind><dep>15.0</dep></entry>
-		</interpolation>
-                <axis><y>1</y></axis>
-        <center>
-            <x-m>1.61053</x-m>
-            <z-m>0.77608</z-m>
-        </center>
-    </animation>-->
     
     <!-- Right Wing Inner Flaps -->
     <animation>
@@ -581,44 +551,13 @@
             <z2-m>0.48</z2-m>
         </axis>
     </animation>
-    <!--<animation>
-        <type>rotate</type>
-        <object-name>flapac.r.3</object-name>
-        <property>surface-positions/flap-pos-norm</property>
-		<interpolation>
-			<entry><ind>0.00</ind><dep>0.0</dep></entry>
-			<entry><ind>0.25</ind><dep>4.0</dep></entry>
-			<entry><ind>0.45</ind><dep>15.0</dep></entry>
-		</interpolation>
-                <axis><y>1</y></axis>
-        <center>
-            <x-m>1.07429</x-m>
-            <z-m>0.52355</z-m>
-        </center>
-    </animation>
-    <animation>
-        <type>rotate</type>
-        <object-name>flapac.r.4</object-name>
-        <property>surface-positions/flap-pos-norm</property>
-		<interpolation>
-			<entry><ind>0.00</ind><dep>0.0</dep></entry>
-			<entry><ind>0.25</ind><dep>4.0</dep></entry>
-			<entry><ind>0.45</ind><dep>15.0</dep></entry>
-		</interpolation>
-                <axis><y>1</y></axis>
-        <center>
-            <x-m>1.61053</x-m>
-            <z-m>0.77608</z-m>
-        </center>
-    </animation>-->
-    
     
     <!-- Spoilers -->
     <animation>
         <name>Left Inner Spoiler</name>
         <type>rotate</type>
         <object-name>spoiler.l.1</object-name>
-        <property>surface-positions/speedbrake-pos-norm</property>
+        <property>surface-positions/mfs5-pos-norm</property>
         <factor>55</factor>
         <axis>
             <x1-m>-0.03</x1-m>
@@ -633,7 +572,7 @@
         <name>Right Inner Spoiler</name>
         <type>rotate</type>
         <object-name>spoiler.r.1</object-name>
-        <property>surface-positions/speedbrake-pos-norm</property>
+        <property>surface-positions/mfs6-pos-norm</property>
         <factor>-55</factor>
         <axis>
             <x1-m>-0.03</x1-m>
@@ -648,7 +587,7 @@
         <name>Left Outer Spoilers</name>
         <type>rotate</type>
         <object-name>spoiler.l.2</object-name>
-        <property>surface-positions/speedbrake-pos-norm</property>
+        <property>surface-positions/mfs2-pos-norm</property>
         <factor>50</factor>
         <axis>
             <x1-m>0.25</x1-m>
@@ -663,98 +602,8 @@
         <name>Right Outer Spoilers</name>
         <type>rotate</type>
         <object-name>spoiler.r.2</object-name>
-        <property>surface-positions/speedbrake-pos-norm</property>
+        <property>surface-positions/mfs9-pos-norm</property>
         <factor>-50</factor>
-        <axis>
-            <x1-m>0.25</x1-m>
-            <y1-m>4.57</y1-m>
-            <z1-m>0.14</z1-m>
-            <x2-m>0.99</x2-m>
-            <y2-m>7.13</y2-m>
-            <z2-m>0.37</z2-m>
-        </axis>
-    </animation>
-    
-    <!-- Spoilers turn with Ailerons -->
-    <animation>
-        <name>Left Inner Spoiler</name>
-        <type>rotate</type>
-        <object-name>spoiler.l.1</object-name>
-        <property>surface-positions/left-aileron-pos-norm</property>
-        <interpolation>
-            <entry>
-                <ind>0</ind><dep>0.0</dep>
-            </entry>
-            <entry>
-                <ind>-1</ind><dep>30</dep>
-            </entry>
-        </interpolation>
-        <axis>
-            <x1-m>-0.03</x1-m>
-            <y1-m>-1.82</y1-m>
-            <z1-m>-0.13</z1-m>
-            <x2-m>-0.03</x2-m>
-            <y2-m>-2.98</y2-m>
-            <z2-m>0.02</z2-m>
-        </axis>
-    </animation>
-    <animation>
-        <name>Left Outer Spoilers</name>
-        <type>rotate</type>
-        <object-name>spoiler.l.2</object-name>
-        <property>surface-positions/left-aileron-pos-norm</property>
-        <interpolation>
-            <entry>
-                <ind>0</ind><dep>0.0</dep>
-            </entry>
-            <entry>
-                <ind>-1</ind><dep>25</dep>
-            </entry>
-        </interpolation>
-        <axis>
-            <x1-m>0.25</x1-m>
-            <y1-m>-4.57</y1-m>
-            <z1-m>0.14</z1-m>
-            <x2-m>0.99</x2-m>
-            <y2-m>-7.13</y2-m>
-            <z2-m>0.37</z2-m>
-        </axis>
-    </animation>
-    <animation>
-        <name>Right Inner Spoiler</name>
-        <type>rotate</type>
-        <object-name>spoiler.r.1</object-name>
-        <property>surface-positions/right-aileron-pos-norm</property>
-        <interpolation>
-            <entry>
-                <ind>0</ind><dep>0.0</dep>
-            </entry>
-            <entry>
-                <ind>1</ind><dep>-30</dep>
-            </entry>
-        </interpolation>
-        <axis>
-            <x1-m>-0.03</x1-m>
-            <y1-m>1.82</y1-m>
-            <z1-m>-0.13</z1-m>
-            <x2-m>-0.03</x2-m>
-            <y2-m>2.98</y2-m>
-            <z2-m>0.02</z2-m>
-        </axis>
-    </animation>
-    <animation>
-        <name>Right Outer Spoilers</name>
-        <type>rotate</type>
-        <object-name>spoiler.r.2</object-name>
-        <property>surface-positions/right-aileron-pos-norm</property>
-        <interpolation>
-            <entry>
-                <ind>0</ind><dep>0.0</dep>
-            </entry>
-            <entry>
-                <ind>1</ind><dep>-25</dep>
-            </entry>
-        </interpolation>
         <axis>
             <x1-m>0.25</x1-m>
             <y1-m>4.57</y1-m>
@@ -1483,7 +1332,6 @@
         </axis>
     </animation>
     
-    
     <!-- Strobe and Navigation Lights -->
     
     <model>
@@ -1602,9 +1450,6 @@
         <object-name>Windscreen</object-name>
         <object-name>PassengerWindow</object-name>
     </effect>
-    
-    
-    <!-- Effects -->
     
     <!-- Contrails -->
     
