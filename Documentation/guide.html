@@ -645,20 +645,10 @@ identical, except that flaps 5 arms ground spoilers while flaps 4 does not
 <h3>Speedbrake</h3>
 
 <p>The speedbrake lever controls spoiler deployment to increase drag and reduce
-lift in flight, typically to achieve a rapid descent. The spoilers also double
-as ground spoilers, deploying when the following conditions are met:</p>
-
-<ul>
-<li>Speedbrake lever is in the "up" position (i.e., no manual speedbrake
-deployment).</li>
-<li>Flap lever is in position 5 or 6/FULL.</li>
-<li>Weight on wheels (WOW).</li>
-<li>Airspeed 60 kts or more. Ground spoilers automatically retract when airspeed
-drops below 60.</li>
-</ul>
-
-<p>The speedbrake lever in this simulation has 5 positions (up, 1/4, 1/2, 3/4,
-full), which you can cycle with the Ctrl-B key.</p>
+lift in flight, typically to achieve a rapid descent. The speedbrake lever in
+this simulation has 5 positions (up, 1/4, 1/2, 3/4, full), which you can cycle
+with the Ctrl-B key (and backwards with Ctrl-Shift-B). For a detailed
+description of spoiler functionality see below, under Fly-By-Wire.</p>
 
 <h3>Autobrakes</h3>
 
@@ -716,20 +706,43 @@ compensate for the increased effectiveness of control surfaces.</li>
 
 <h4>Spoilers</h4>
 
-<p>The flight spoilers will deploy for 3 different uses: as ground spoilers (see
-above), as speedbrakes (see above), and asymmetrically to augment aileron
-input. Spoiler deployment on aileron input adapts to airspeed, providing the
-pilots with a consistent roll response across the performance envelope.</p>
+<p>The spoiler system consists of 10 spoiler panels, in 4 groups. On each wing,
+there is an outboard group of 3 multi-function spoiler panels, and an inboard
+group of 2 ground spoilers.</p>
 
-<p>(As of 2021-08-31, the spoiler system is not implemented entirely correctly
-yet; the 3D model and FDM only feature a single group of spoilers, and do not
-model the various deployment modes accurately).</p>
+<p>The multi-function spoilers are used for the following purposes:</p>
+
+<ul>
+<li><strong>Speedbrake</strong>, according to speedbrake lever. Speedbrakes automatically retract
+when flaps 2 or higher is selected.</li>
+<li><strong>Ground spoilers.</strong> When flaps 5 of FULL is selected, and the speedbrake
+lever is in the "UP" position, the spoilers will extend fully upon
+weight-on-wheels, and retract when either TOGA is activated, or airspeed
+drops below 60 knots. Ground spoilers also deploy when a rejected takeoff is
+detected.</li>
+<li><strong>Roll control.</strong> Multi-function spoilers deploy asymmetrically to support
+aileron input (the ailerons themselves are actuated mechanically, and do not
+offer FBW features).</li>
+<li><strong>Steep approach configuration.</strong> (This feature is available as an option in
+the real aircraft; the FG model has it on all types in the family). The STEEP
+APPROACH button on the center pedestal activates steep approach mode; when
+this mode is selected, and flaps 2 or higher are selected, the spoilers will
+deploy 50%, +/- elevator input. This allows the aircraft to descend on a
+steep glide path while keeping the engines running at about 55% N1, and
+increases vertical controllability. The steep approach mode automatically
+disarms when weight-on-wheels is detected, or when TOGA is activated.
+Retracting flaps to UP or flaps 1 disables steep approach, but keeps it
+armed. Steep approach cannot be armed or engaged on the ground.</li>
+</ul>
+
+<p>The inboard ground spoilers only deploy as ground spoilers, together with the
+outboard panels, and follow the same logic.</p>
 
 <h4>FBW Laws</h4>
 
 <p>Each FBW channel has 2 laws: "Normal Law", in which all of the above
 functionality is available, and "Direct Law", in which control surfaces mirror
-raw control inputs.</p>
+raw control inputs, except spoilers, which simply will not deploy at all.</p>
 
 <p>Direct Law is activated whenever there is a failure that may indicate a
 malfunction that makes Normal Law unusable or unsafe; it is also possible to
