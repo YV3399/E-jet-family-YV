@@ -2,12 +2,42 @@
 
 ## An advanced simulation of the Embraer Family for FlightGear.
 
-This aircraft was modified and updated in a joint effort by the following people @2020:
+Authors and contributors:
+
+2020-... overhaul:
 
 - Gabriel Hernandez (YV3399)
 - D-ECHO
-- Tobias Dammers (tdammers / nl256)
+- Tobias Dammers (tdammers / nl256; https://github.com/tdammers) (current maintainer)
+- Semir Gebran (CaptB) (3D)
+- Stefan Frank (3D, liveries)
+- legoboyvldp (3D, systems, whatever we stole from the A320, being generally
+  helpful)
+- ...and others
+
+ITAF autoflight system:
+
+- Joshua Davidson https://github.com/Octal450
+
+Auto-pushback:
+
+- Michael Danilov <mike.d.ft402 -eh- gmail.com>
+- Joshua Davidson https://github.com/Octal450
+- Merspieler https://gitlab.com/merspieler
  
+Original version:
+
+- Narendran Muraleedharan: Main developer
+- Skyop: The Basic Systems and Autopilot were derived from Skyop's Airbus A320-family.
+- HanselVB: All the Embraer Sounds.
+- AndersG: FDM
+- Brandano: FDM and the map animations
+- Geir: A lot of the cockpit images and specs were from him
+- James: Part of the Livery Team.
+- Tristan: Part of the Livery Team.
+- Chris: Organized the Livery Team and managed the progress.
+- Jonathan: Conviasa livery and bugfix
+
 # Installation
 
 ## Recommended Method
