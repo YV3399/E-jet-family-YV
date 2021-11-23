@@ -3202,6 +3202,21 @@
             </binding>
         </action>
     </animation>
+
+    <!-- Steep approach button -->
+    <animation>
+        <name>Steep Approach Button pick</name>
+        <type>pick</type>
+        <object-name>btn_SteepApp</object-name>
+        <action>
+            <button>0</button>
+            <repeatable type="bool">false</repeatable>
+            <binding>
+                <command>property-toggle</command>
+                <property>controls/flight/steep-approach</property>
+            </binding>
+        </action>
+    </animation>
     
     <!-- Ram Air Turbine Manual Deploy -->
     
