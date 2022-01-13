@@ -109,6 +109,7 @@
         <property-base>sim/model/livery</property-base>
         <texture-prop>texture</texture-prop>
         <texture>blank.png</texture>
+        <transparency><alpha>1</alpha></transparency>
     </animation>
     
     <!-- Door Illumination (only inside) -->
