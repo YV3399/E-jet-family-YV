@@ -1,0 +1,954 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<PropertyList>
+    <name type="string">ready-taxi</name>
+    <readable-name type="string">Ready to taxi</readable-name>
+    <description type="string">Ready to taxi: engines running, systems on</description>
+    <overlay>
+        <controls>
+            <flight>
+                <aileron type="double">0</aileron>
+                <aileron-trim type="double">0</aileron-trim>
+                <elevator type="double">0</elevator>
+                <elevator-trim type="double">0</elevator-trim>
+                <rudder type="double">0</rudder>
+                <rudder-trim type="double">0</rudder-trim>
+                <flaps type="double">0</flaps>
+                <flaps-serviceable type="bool">true</flaps-serviceable>
+                <ground-spoilers-armed type="bool">false</ground-spoilers-armed>
+                <speedbrake-lever type="double">0</speedbrake-lever>
+                <steep-approach type="bool">false</steep-approach>
+                <speedbrake type="double">0</speedbrake>
+                <spoilers type="double">0</spoilers>
+                <slats type="double">0</slats>
+                <ground-spoilers type="bool">false</ground-spoilers>
+                <steep-approach-speedbrake type="double">0</steep-approach-speedbrake>
+            </flight>
+            <engines>
+                <engine>
+                    <starter type="bool">false</starter>
+                    <throttle type="double">0</throttle>
+                    <cutoff type="bool">false</cutoff>
+                    <cutoff-switch type="bool">false</cutoff-switch>
+                    <starter-switch type="bool">false</starter-switch>
+                    <fuel-pump type="bool">false</fuel-pump>
+                    <fire-switch type="bool">false</fire-switch>
+                    <fire-bottle-discharge type="bool">false</fire-bottle-discharge>
+                    <feed_tank type="int">-1</feed_tank>
+                    <ignition type="int">0</ignition>
+                    <reverser type="bool">false</reverser>
+                    <throttle-int type="double">0</throttle-int>
+                </engine>
+                <engine n="1">
+                    <starter type="bool">false</starter>
+                    <throttle type="double">0</throttle>
+                    <cutoff type="bool">false</cutoff>
+                    <cutoff-switch type="bool">false</cutoff-switch>
+                    <starter-switch type="bool">false</starter-switch>
+                    <fuel-pump type="bool">false</fuel-pump>
+                    <fire-switch type="bool">false</fire-switch>
+                    <fire-bottle-discharge type="bool">false</fire-bottle-discharge>
+                    <feed_tank type="int">-1</feed_tank>
+                    <ignition type="int">0</ignition>
+                    <reverser type="bool">false</reverser>
+                    <throttle-int type="double">0</throttle-int>
+                </engine>
+                <engine-start-switch type="int">1</engine-start-switch>
+                <throttle_idle type="bool">true</throttle_idle>
+                <throttle-cmd-pid type="double">0</throttle-cmd-pid>
+                <throttle-all type="double">0</throttle-all>
+                <mixture-all type="double">0</mixture-all>
+                <propeller-pitch-all type="double">0</propeller-pitch-all>
+            </engines>
+            <gear>
+                <brake-parking type="double">1</brake-parking>
+                <gear-down type="bool">true</gear-down>
+            </gear>
+            <lighting>
+                <taxi-light type="bool">true</taxi-light>
+                <landing-lights type="bool">false</landing-lights>
+                <nav-lights type="bool">true</nav-lights>
+                <beacon type="bool">true</beacon>
+                <strobe type="bool">false</strobe>
+                <cones type="bool">true</cones>
+                <landing-lights n="1" type="bool">false</landing-lights>
+                <landing-lights n="2" type="bool">false</landing-lights>
+                <taxi-lights type="bool">true</taxi-lights>
+                <taxi-lights n="1" type="bool">true</taxi-lights>
+                <nav-lights-switch type="int">0</nav-lights-switch>
+                <turn-off-lights type="bool">false</turn-off-lights>
+                <logo-lights type="bool">false</logo-lights>
+            </lighting>
+            <pressurization>
+                <pack>
+                    <pack-on type="bool">false</pack-on>
+                </pack>
+                <pack n="1">
+                    <pack-on type="bool">false</pack-on>
+                </pack>
+            </pressurization>
+            <apu>
+                <fire-switch type="bool">false</fire-switch>
+                <master-switch type="bool">false</master-switch>
+                <starter type="int">0</starter>
+            </apu>
+            <electric>
+                <avionics-switch type="bool">true</avionics-switch>
+                <battery-switch type="bool">true</battery-switch>
+                <battery-switch n="1" type="bool">true</battery-switch>
+                <apu-generator type="bool">false</apu-generator>
+                <engine>
+                    <generator type="bool">true</generator>
+                    <bus-tie type="bool">false</bus-tie>
+                    <bleed type="double">1</bleed>
+                </engine>
+                <engine n="1">
+                    <generator type="bool">true</generator>
+                    <bus-tie type="bool">false</bus-tie>
+                    <bleed type="double">1</bleed>
+                </engine>
+                <tru-switch type="bool">true</tru-switch>
+                <tru-switch n="1" type="bool">true</tru-switch>
+                <tru-switch n="2" type="bool">true</tru-switch>
+                <ram-air-turbine type="bool">false</ram-air-turbine>
+                <bus-tie-ac type="int">0</bus-tie-ac>
+                <bus-tie-dc type="int">0</bus-tie-dc>
+                <external-power type="bool">false</external-power>
+                <external-power-connected type="bool">false</external-power-connected>
+                <APU-generator type="bool">false</APU-generator>
+            </electric>
+            <switches>
+                <no-smoking-sign type="bool">true</no-smoking-sign>
+                <seatbelt-sign type="bool">false</seatbelt-sign>
+                <chocks type="bool">false</chocks>
+                <cones type="bool">false</cones>
+            </switches>
+            <pneumatic>
+                <APU-bleed type="bool">false</APU-bleed>
+                <engine>
+                    <bleed type="bool">false</bleed>
+                </engine>
+                <engine n="1">
+                    <bleed type="bool">false</bleed>
+                </engine>
+                <engine n="2">
+                    <bleed type="bool">false</bleed>
+                </engine>
+            </pneumatic>
+            <APU>
+                <off-start-run type="int">0</off-start-run>
+                <fire-switch type="bool">false</fire-switch>
+            </APU>
+        </controls>
+        <systems>
+            <pitot>
+                <serviceable type="bool">true</serviceable>
+                <total-pressure-inhg type="double">30.5747971</total-pressure-inhg>
+                <measured-total-pressure-inhg type="double">30.5747971</measured-total-pressure-inhg>
+            </pitot>
+            <static>
+                <serviceable type="bool">true</serviceable>
+                <pressure-inhg type="double">30.5747971</pressure-inhg>
+            </static>
+            <electrical>
+                <serviceable type="bool">true</serviceable>
+                <outputs>
+                    <strobe type="double">0</strobe>
+                    <beacon type="double">0</beacon>
+                    <taxi-lights type="double">115</taxi-lights>
+                    <logo-lights type="double">0</logo-lights>
+                    <landing-lights type="double">0</landing-lights>
+                    <landing-lights n="1" type="double">0</landing-lights>
+                    <landing-lights n="2" type="double">0</landing-lights>
+                    <nav-lights type="double">0</nav-lights>
+                    <fuel-pump type="double">115</fuel-pump>
+                    <fuel-pump n="1" type="double">115</fuel-pump>
+                    <fuel-pump n="2" type="double">115</fuel-pump>
+                    <fuel-pump n="3" type="double">28</fuel-pump>
+                    <main-panel-light type="double">0.8</main-panel-light>
+                    <pedestal-light type="double">0.8</pedestal-light>
+                    <mfd n="1" type="double">28</mfd>
+                    <mcdu type="double">28</mcdu>
+                    <pfd type="double">28</pfd>
+                    <airstairs type="double">28</airstairs>
+                    <ccd n="1" type="double">28</ccd>
+                    <passenger-signs type="double">28</passenger-signs>
+                    <elpu type="double">28</elpu>
+                    <radar-altimeter type="double">28</radar-altimeter>
+                    <wx-radar-control type="double">28</wx-radar-control>
+                    <wx-radar type="double">28</wx-radar>
+                    <overhead-panel-light type="double">0.8</overhead-panel-light>
+                    <pfd n="1" type="double">28</pfd>
+                    <nosewheel-steering type="double">28</nosewheel-steering>
+                    <nav n="1" type="double">28</nav>
+                    <dme n="1" type="double">28</dme>
+                    <adf n="1" type="double">28</adf>
+                    <adf type="double">28</adf>
+                    <clock type="double">28</clock>
+                    <dme type="double">28</dme>
+                    <eicas type="double">28</eicas>
+                    <iess type="double">28</iess>
+                    <nav type="double">28</nav>
+                    <transponder type="double">28</transponder>
+                    <master-warn-caution type="double">28</master-warn-caution>
+                    <mcdu n="1" type="double">28</mcdu>
+                    <mfd type="double">28</mfd>
+                    <iess n="1" type="double">28</iess>
+                    <master-warn-caution n="1" type="double">28</master-warn-caution>
+                    <mk-viii type="double">28</mk-viii>
+                    <dome-light type="double">0</dome-light>
+                    <pushbutton-lights type="double">28</pushbutton-lights>
+                    <rudder-trim type="double">28</rudder-trim>
+                    <crossfeed-valve type="double">28</crossfeed-valve>
+                    <efis type="double">115</efis>
+                    <exciter n="2" type="double">115</exciter>
+                    <taxi-lights n="1" type="double">115</taxi-lights>
+                    <exciter n="3" type="double">115</exciter>
+                    <taxi-lights n="2" type="double">115</taxi-lights>
+                    <exciter type="double">115</exciter>
+                    <exciter n="1" type="double">115</exciter>
+                    <landing-lights-norm type="double">0</landing-lights-norm>
+                    <landing-lights-norm n="1" type="double">0</landing-lights-norm>
+                    <landing-lights-norm n="2" type="double">0</landing-lights-norm>
+                    <taxi-lights-norm type="double">1</taxi-lights-norm>
+                    <taxi-lights-norm n="1" type="double">1</taxi-lights-norm>
+                    <taxi-lights-norm n="2" type="double">1</taxi-lights-norm>
+                    <logo-lights-norm type="double">0</logo-lights-norm>
+                    <nav-lights-norm type="double">0</nav-lights-norm>
+                    <beacon-norm type="double">0</beacon-norm>
+                    <strobe-norm type="double">0</strobe-norm>
+                </outputs>
+                <sources>
+                    <generator>
+                        <name>APU GEN</name>
+                        <volts type="double">0</volts>
+                        <watts type="double">0</watts>
+                        <load type="double">0</load>
+                        <status type="int">0</status>
+                        <visible type="double">0</visible>
+                    </generator>
+                    <generator n="1">
+                        <name>IDG 1</name>
+                        <volts type="double">115</volts>
+                        <watts type="double">40000</watts>
+                        <load type="double">1039</load>
+                        <status type="int">1</status>
+                    </generator>
+                    <generator n="2">
+                        <name>IDG 2</name>
+                        <volts type="double">115</volts>
+                        <watts type="double">40000</watts>
+                        <load type="double">454</load>
+                        <status type="int">1</status>
+                    </generator>
+                    <generator n="3">
+                        <name>RAT</name>
+                        <volts type="double">0</volts>
+                        <watts type="double">0</watts>
+                        <load type="double">0</load>
+                        <status type="int">0</status>
+                    </generator>
+                    <ac-gpu>
+                        <name>AC GPU</name>
+                        <volts type="double">0</volts>
+                        <watts type="double">0</watts>
+                        <load type="double">0</load>
+                        <status type="int">0</status>
+                    </ac-gpu>
+                    <tru>
+                        <name>TRU ESS</name>
+                        <volts type="double">28</volts>
+                        <amfs type="double">0</amfs>
+                        <load type="double">0.5</load>
+                        <status type="int">1</status>
+                    </tru>
+                    <tru n="1">
+                        <name>TRU 1</name>
+                        <volts type="double">28</volts>
+                        <amfs type="double">0</amfs>
+                        <load type="double">15.4</load>
+                        <status type="int">1</status>
+                    </tru>
+                    <tru n="2">
+                        <name>TRU 2</name>
+                        <volts type="double">28</volts>
+                        <amfs type="double">0</amfs>
+                        <load type="double">3.9</load>
+                        <status type="int">1</status>
+                    </tru>
+                    <inverter>
+                        <name>INVERTER</name>
+                        <volts type="double">115</volts>
+                        <watts type="double">250</watts>
+                        <load type="double">0</load>
+                        <status type="int">1</status>
+                    </inverter>
+                    <battery>
+                        <name>BATT 1</name>
+                        <volts type="double">22.8</volts>
+                        <volts-avail type="double">22.8</volts-avail>
+                        <load type="double">-20</load>
+                        <charge-norm type="double">1</charge-norm>
+                        <charge type="double">200</charge>
+                        <capacity type="double">200</capacity>
+                        <status type="int">1</status>
+                    </battery>
+                    <battery n="1">
+                        <name>BATT 2</name>
+                        <volts type="double">22.8</volts>
+                        <volts-avail type="double">22.8</volts-avail>
+                        <load type="double">-20</load>
+                        <charge-norm type="double">1</charge-norm>
+                        <charge type="double">200</charge>
+                        <capacity type="double">200</capacity>
+                        <available-for-bus type="bool">true</available-for-bus>
+                        <status type="int">1</status>
+                    </battery>
+                    <dc-gpu>
+                        <name>DC GPU</name>
+                        <volts type="double">0</volts>
+                        <watts type="double">0</watts>
+                        <load type="double">0</load>
+                        <status type="int">0</status>
+                    </dc-gpu>
+                </sources>
+                <buses>
+                    <ac>
+                        <name>AC BUS TIE</name>
+                        <volts type="double">115</volts>
+                        <load type="double">0</load>
+                        <powered type="int">1</powered>
+                        <feed type="int">3</feed>
+                        <loads>
+                            <ac n="1" type="double">0</ac>
+                            <ac n="2" type="double">0</ac>
+                        </loads>
+                    </ac>
+                    <ac n="1">
+                        <name>AC 1</name>
+                        <volts type="double">115</volts>
+                        <load type="double">1039</load>
+                        <powered type="int">1</powered>
+                        <feed type="int">1</feed>
+                        <loads>
+                            <tru n="1" type="double">539</tru>
+                            <ac type="double">0</ac>
+                            <ac n="2" type="double">0</ac>
+                            <exciter n="2" type="double">0</exciter>
+                        </loads>
+                    </ac>
+                    <ac n="2">
+                        <name>AC 2</name>
+                        <volts type="double">115</volts>
+                        <load type="double">454</load>
+                        <powered type="int">1</powered>
+                        <feed type="int">1</feed>
+                        <loads>
+                            <tru n="2" type="double">136.5</tru>
+                            <ac type="double">0</ac>
+                            <ac n="3" type="double">17.5</ac>
+                            <exciter n="3" type="double">0</exciter>
+                        </loads>
+                    </ac>
+                    <ac n="3">
+                        <name>AC ESS</name>
+                        <volts type="double">115</volts>
+                        <load type="double">17.5</load>
+                        <powered type="int">1</powered>
+                        <feed type="int">1</feed>
+                        <loads>
+                            <tru type="double">17.5</tru>
+                            <ac n="4" type="double">0</ac>
+                        </loads>
+                    </ac>
+                    <ac n="4">
+                        <name>AC STBY</name>
+                        <volts type="double">115</volts>
+                        <load type="double">0</load>
+                        <powered type="int">1</powered>
+                        <feed type="int">1</feed>
+                        <loads>
+                            <exciter type="double">0</exciter>
+                            <exciter n="1" type="double">0</exciter>
+                        </loads>
+                    </ac>
+                    <ac n="5">
+                        <name>AC GND</name>
+                        <volts type="double">0</volts>
+                        <load type="double">0</load>
+                        <powered type="int">0</powered>
+                        <feed type="int">0</feed>
+                    </ac>
+                    <dc>
+                        <name>UNUSED BUS TIE</name>
+                        <volts type="double">0</volts>
+                        <load type="double">0</load>
+                        <powered type="int">0</powered>
+                        <feed type="int">0</feed>
+                    </dc>
+                    <dc n="1">
+                        <name>DC 1</name>
+                        <volts type="double">28</volts>
+                        <load type="double">15.4</load>
+                        <powered type="int">1</powered>
+                        <feed type="int">1</feed>
+                        <loads>
+                            <dc n="2" type="double">0</dc>
+                            <dc n="3" type="double">8.1</dc>
+                        </loads>
+                    </dc>
+                    <dc n="2">
+                        <name>DC 2</name>
+                        <volts type="double">28</volts>
+                        <load type="double">3.9</load>
+                        <powered type="int">1</powered>
+                        <feed type="int">1</feed>
+                        <loads>
+                            <dc n="1" type="double">0</dc>
+                            <dc n="4" type="double">7.5</dc>
+                        </loads>
+                    </dc>
+                    <dc n="3">
+                        <name>DC ESS 1</name>
+                        <volts type="double">28</volts>
+                        <load type="double">8.1</load>
+                        <powered type="int">1</powered>
+                        <feed type="int">1</feed>
+                        <loads>
+                            <inverter type="double">0</inverter>
+                            <dc n="5" type="double">0</dc>
+                        </loads>
+                    </dc>
+                    <dc n="4">
+                        <name>DC ESS 2</name>
+                        <volts type="double">28</volts>
+                        <load type="double">7.5</load>
+                        <powered type="int">1</powered>
+                        <feed type="int">1</feed>
+                        <loads>
+                            <dc n="5" type="double">0</dc>
+                        </loads>
+                    </dc>
+                    <dc n="5">
+                        <name>DC ESS 3</name>
+                        <volts type="double">28</volts>
+                        <load type="double">0.5</load>
+                        <powered type="int">1</powered>
+                        <feed type="int">1</feed>
+                        <loads>
+                            <dc n="3" type="double">0</dc>
+                            <dc n="4" type="double">0</dc>
+                            <rudder-trim type="double">0</rudder-trim>
+                        </loads>
+                    </dc>
+                    <dc n="6">
+                        <name>APU START</name>
+                        <volts type="double">0</volts>
+                        <load type="double">0</load>
+                        <powered type="int">0</powered>
+                        <feed type="int">0</feed>
+                    </dc>
+                </buses>
+                <amps type="double">0</amps>
+            </electrical>
+            <vacuum>
+                <serviceable type="bool">true</serviceable>
+                <suction-inhg type="double">0</suction-inhg>
+            </vacuum>
+            <vacuum n="1">
+                <serviceable type="bool">true</serviceable>
+                <suction-inhg type="double">0</suction-inhg>
+            </vacuum>
+            <refuel>
+                <serviceable type="bool">true</serviceable>
+                <contact-radius-m type="double">76</contact-radius-m>
+                <report-contact type="bool">false</report-contact>
+                <max-fuel-transfer-lbs-min type="double">6000</max-fuel-transfer-lbs-min>
+            </refuel>
+            <fuel>
+                <difference type="double">-89.89965332</difference>
+                <imbalance type="int">0</imbalance>
+                <imbalance-left-low type="int">0</imbalance-left-low>
+                <imbalance-right-low type="int">0</imbalance-right-low>
+                <external-flow>
+                    <apu type="double">0</apu>
+                    <crossfeed type="double">-0</crossfeed>
+                    <crossfeed-aux type="double">0</crossfeed-aux>
+                </external-flow>
+                <external-flow n="1">
+                    <apu type="double">-0</apu>
+                    <crossfeed type="double">0</crossfeed>
+                    <crossfeed-aux type="double">0</crossfeed-aux>
+                </external-flow>
+                <external-flow n="2">
+                    <apu type="double">0</apu>
+                    <crossfeed-aux type="double">-0</crossfeed-aux>
+                </external-flow>
+                <crossfeed-valve type="double">0</crossfeed-valve>
+                <fuel-pump n="3">
+                    <demand type="bool">false</demand>
+                    <running type="bool">false</running>
+                </fuel-pump>
+                <fuel-pump>
+                    <demand type="bool">false</demand>
+                    <running type="bool">false</running>
+                </fuel-pump>
+                <fuel-pump n="2">
+                    <demand type="bool">true</demand>
+                    <running type="bool">true</running>
+                </fuel-pump>
+                <fuel-pump n="1">
+                    <demand type="bool">false</demand>
+                    <running type="bool">false</running>
+                </fuel-pump>
+                <full-left type="bool">false</full-left>
+                <full-right type="bool">false</full-right>
+                <crossfeed-flow-pps type="double">0</crossfeed-flow-pps>
+                <crossfeed-flow-aux-left-pps type="double">0</crossfeed-flow-aux-left-pps>
+                <crossfeed-flow-aux-right-pps type="double">0</crossfeed-flow-aux-right-pps>
+                <pressure>
+                    <engine type="bool">true</engine>
+                    <tank type="bool">true</tank>
+                    <engine n="1" type="bool">true</engine>
+                    <tank n="1" type="bool">true</tank>
+                    <apu type="bool">false</apu>
+                    <pump type="bool">false</pump>
+                    <pump n="2" type="bool">false</pump>
+                    <pump n="4" type="bool">true</pump>
+                    <pump n="1" type="bool">false</pump>
+                    <pump n="3" type="bool">false</pump>
+                    <pump n="5" type="bool">true</pump>
+                </pressure>
+            </fuel>
+        </systems>
+        <fdm>
+            <jsbsim>
+                <fcs>
+                    <steer-pos-deg type="double">0</steer-pos-deg>
+                    <slat-pos-norm type="double">0</slat-pos-norm>
+                    <flap-pos-norm type="double">0</flap-pos-norm>
+                    <left-brake-cmd-norm type="double">1</left-brake-cmd-norm>
+                    <right-brake-cmd-norm type="double">1</right-brake-cmd-norm>
+                    <aileron-cmd-norm type="double">0</aileron-cmd-norm>
+                    <elevator-cmd-norm type="double">0</elevator-cmd-norm>
+                    <rudder-cmd-norm type="double">-0</rudder-cmd-norm>
+                    <flap-cmd-norm type="double">0</flap-cmd-norm>
+                    <speedbrake-cmd-norm type="double">0</speedbrake-cmd-norm>
+                    <spoiler-cmd-norm type="double">0</spoiler-cmd-norm>
+                    <pitch-trim-cmd-norm type="double">0</pitch-trim-cmd-norm>
+                    <roll-trim-cmd-norm type="double">0</roll-trim-cmd-norm>
+                    <yaw-trim-cmd-norm type="double">-0</yaw-trim-cmd-norm>
+                    <left-aileron-pos-rad type="double">0</left-aileron-pos-rad>
+                    <left-aileron-pos-deg type="double">0</left-aileron-pos-deg>
+                    <left-aileron-pos-norm type="double">0</left-aileron-pos-norm>
+                    <mag-left-aileron-pos-rad type="double">0</mag-left-aileron-pos-rad>
+                    <right-aileron-pos-rad type="double">0</right-aileron-pos-rad>
+                    <right-aileron-pos-deg type="double">0</right-aileron-pos-deg>
+                    <right-aileron-pos-norm type="double">0</right-aileron-pos-norm>
+                    <mag-right-aileron-pos-rad type="double">0</mag-right-aileron-pos-rad>
+                    <elevator-pos-rad type="double">0</elevator-pos-rad>
+                    <elevator-pos-deg type="double">0</elevator-pos-deg>
+                    <elevator-pos-norm type="double">0</elevator-pos-norm>
+                    <mag-elevator-pos-rad type="double">0</mag-elevator-pos-rad>
+                    <rudder-pos-rad type="double">0</rudder-pos-rad>
+                    <rudder-pos-deg type="double">0</rudder-pos-deg>
+                    <rudder-pos-norm type="double">0</rudder-pos-norm>
+                    <mag-rudder-pos-rad type="double">0</mag-rudder-pos-rad>
+                    <flap-pos-rad type="double">0</flap-pos-rad>
+                    <flap-pos-deg type="double">0</flap-pos-deg>
+                    <speedbrake-pos-rad type="double">0</speedbrake-pos-rad>
+                    <speedbrake-pos-deg type="double">0</speedbrake-pos-deg>
+                    <speedbrake-pos-norm type="double">0</speedbrake-pos-norm>
+                    <mag-speedbrake-pos-rad type="double">0</mag-speedbrake-pos-rad>
+                    <spoiler-pos-rad type="double">0</spoiler-pos-rad>
+                    <spoiler-pos-deg type="double">0</spoiler-pos-deg>
+                    <spoiler-pos-norm type="double">0</spoiler-pos-norm>
+                    <mag-spoiler-pos-rad type="double">0</mag-spoiler-pos-rad>
+                    <center-brake-cmd-norm type="double">0</center-brake-cmd-norm>
+                    <wing-fold-pos-norm type="double">0</wing-fold-pos-norm>
+                    <steer-cmd-norm type="double">0</steer-cmd-norm>
+                    <throttle-cmd-norm type="double">0</throttle-cmd-norm>
+                    <throttle-pos-norm type="double">0</throttle-pos-norm>
+                    <mixture-cmd-norm type="double">1</mixture-cmd-norm>
+                    <mixture-pos-norm type="double">1</mixture-pos-norm>
+                    <advance-cmd-norm type="double">1</advance-cmd-norm>
+                    <advance-pos-norm type="double">1</advance-pos-norm>
+                    <feather-cmd-norm type="bool">false</feather-cmd-norm>
+                    <feather-pos-norm type="bool">false</feather-pos-norm>
+                    <throttle-cmd-norm n="1" type="double">0</throttle-cmd-norm>
+                    <throttle-pos-norm n="1" type="double">0</throttle-pos-norm>
+                    <mixture-cmd-norm n="1" type="double">1</mixture-cmd-norm>
+                    <mixture-pos-norm n="1" type="double">1</mixture-pos-norm>
+                    <advance-cmd-norm n="1" type="double">1</advance-cmd-norm>
+                    <advance-pos-norm n="1" type="double">1</advance-pos-norm>
+                    <feather-cmd-norm n="1" type="bool">false</feather-cmd-norm>
+                    <feather-pos-norm n="1" type="bool">false</feather-pos-norm>
+                    <pitch-trim-sum type="double">0</pitch-trim-sum>
+                    <elevator-control type="double">0</elevator-control>
+                    <elevator-normalization type="double">0</elevator-normalization>
+                    <roll-trim-sum type="double">0</roll-trim-sum>
+                    <left-aileron-control type="double">0</left-aileron-control>
+                    <right-aileron-control type="double">0</right-aileron-control>
+                    <left-aileron-normalization type="double">0</left-aileron-normalization>
+                    <right-aileron-normalization type="double">0</right-aileron-normalization>
+                    <rudder-command-sum type="double">0</rudder-command-sum>
+                    <yaw-damper-rate type="double">-0</yaw-damper-rate>
+                    <yaw-damper-beta type="double">-0</yaw-damper-beta>
+                    <yaw-damper type="double">-0</yaw-damper>
+                    <yaw-damper-sum type="double">0</yaw-damper-sum>
+                    <yaw-damper-final type="double">0</yaw-damper-final>
+                    <rudder-sum type="double">0</rudder-sum>
+                    <rudder-control type="double">0</rudder-control>
+                    <rudder-normalization type="double">0</rudder-normalization>
+                    <slat-cmd-int-deg type="double">0</slat-cmd-int-deg>
+                    <slats-cmd type="double">0</slats-cmd>
+                    <slat-pos-deg type="double">0</slat-pos-deg>
+                    <slats-control type="double">0</slats-control>
+                    <slat-normalization type="double">0</slat-normalization>
+                    <flap-cmd-int-deg type="double">0</flap-cmd-int-deg>
+                    <flaps-cmd type="double">0</flaps-cmd>
+                    <flaps-control type="double">0</flaps-control>
+                    <flap-normalization type="double">0</flap-normalization>
+                    <gear-control type="double">1</gear-control>
+                    <steer-nose-deg type="double">0</steer-nose-deg>
+                    <nose-wheel-steering-0 type="double">0</nose-wheel-steering-0>
+                    <gear-nose-actuator n="0" type="double">0</gear-nose-actuator>
+                    <gear-nose-actuator n="0">
+                        <malfunction>
+                            <fail_zero type="bool">false</fail_zero>
+                            <fail_hardover type="bool">false</fail_hardover>
+                            <fail_stuck type="bool">false</fail_stuck>
+                        </malfunction>
+                        <saturated type="bool">false</saturated>
+                    </gear-nose-actuator>
+                    <mfs1-pos-norm type="double">0</mfs1-pos-norm>
+                    <mfs1-control type="double">0</mfs1-control>
+                    <mfs2-pos-norm type="double">0</mfs2-pos-norm>
+                    <mfs2-control type="double">0</mfs2-control>
+                    <mfs3-pos-norm type="double">0</mfs3-pos-norm>
+                    <mfs3-control type="double">0</mfs3-control>
+                    <mfs4-pos-norm type="double">0</mfs4-pos-norm>
+                    <mfs4-control type="double">0</mfs4-control>
+                    <mfs5-pos-norm type="double">0</mfs5-pos-norm>
+                    <mfs5-control type="double">0</mfs5-control>
+                    <mfs10-pos-norm type="double">0</mfs10-pos-norm>
+                    <mfs10-control type="double">0</mfs10-control>
+                    <mfs9-pos-norm type="double">0</mfs9-pos-norm>
+                    <mfs9-control type="double">0</mfs9-control>
+                    <mfs8-pos-norm type="double">0</mfs8-pos-norm>
+                    <mfs8-control type="double">0</mfs8-control>
+                    <mfs7-pos-norm type="double">0</mfs7-pos-norm>
+                    <mfs7-control type="double">0</mfs7-control>
+                    <mfs6-pos-norm type="double">0</mfs6-pos-norm>
+                    <mfs6-control type="double">0</mfs6-control>
+                    <brake-left n="0" type="double">0</brake-left>
+                    <brake-left n="0">
+                        <malfunction>
+                            <fail_zero type="bool">false</fail_zero>
+                            <fail_hardover type="bool">false</fail_hardover>
+                            <fail_stuck type="bool">false</fail_stuck>
+                        </malfunction>
+                        <saturated type="bool">false</saturated>
+                    </brake-left>
+                    <brake-right n="0" type="double">0</brake-right>
+                    <brake-right n="0">
+                        <malfunction>
+                            <fail_zero type="bool">false</fail_zero>
+                            <fail_hardover type="bool">false</fail_hardover>
+                            <fail_stuck type="bool">false</fail_stuck>
+                        </malfunction>
+                        <saturated type="bool">false</saturated>
+                    </brake-right>
+                    <brake-avail type="double">1</brake-avail>
+                    <left-brake-input type="double">1</left-brake-input>
+                    <left-brake-actuator n="0" type="double">1</left-brake-actuator>
+                    <left-brake-actuator n="0">
+                        <malfunction>
+                            <fail_zero type="bool">false</fail_zero>
+                            <fail_hardover type="bool">false</fail_hardover>
+                            <fail_stuck type="bool">false</fail_stuck>
+                        </malfunction>
+                        <saturated type="bool">false</saturated>
+                    </left-brake-actuator>
+                    <right-brake-input type="double">1</right-brake-input>
+                    <right-brake-actuator n="0" type="double">1</right-brake-actuator>
+                    <right-brake-actuator n="0">
+                        <malfunction>
+                            <fail_zero type="bool">false</fail_zero>
+                            <fail_hardover type="bool">false</fail_hardover>
+                            <fail_stuck type="bool">false</fail_stuck>
+                        </malfunction>
+                        <saturated type="bool">false</saturated>
+                    </right-brake-actuator>
+                    <elevator-cmd-fbw type="double">0</elevator-cmd-fbw>
+                    <mfs-left-outboard-cmd-norm type="double">0</mfs-left-outboard-cmd-norm>
+                    <mfs-right-outboard-cmd-norm type="double">0</mfs-right-outboard-cmd-norm>
+                    <mfs-left-inboard-cmd-norm type="double">0</mfs-left-inboard-cmd-norm>
+                    <mfs-right-inboard-cmd-norm type="double">0</mfs-right-inboard-cmd-norm>
+                </fcs>
+                <inertia>
+                    <pointmass-weight-lbs type="double">300</pointmass-weight-lbs>
+                    <pointmass-weight-lbs n="1" type="double">9625</pointmass-weight-lbs>
+                    <weight-lbs type="double">89427.7792</weight-lbs>
+                    <mass-slugs type="double">2779.500311</mass-slugs>
+                    <empty-weight-lbs type="double">70900.00213</empty-weight-lbs>
+                    <cg-x-in type="double">-16.98822857</cg-x-in>
+                    <cg-y-in type="double">-0.2968895894</cg-y-in>
+                    <cg-z-in type="double">-0.4420093268</cg-z-in>
+                    <ixx-slugs_ft2 type="double">695383.3747</ixx-slugs_ft2>
+                    <iyy-slugs_ft2 type="double">533496.844</iyy-slugs_ft2>
+                    <izz-slugs_ft2 type="double">728752.4823</izz-slugs_ft2>
+                    <ixy-slugs_ft2 type="double">287.0120817</ixy-slugs_ft2>
+                    <ixz-slugs_ft2 type="double">428.6360151</ixz-slugs_ft2>
+                    <iyz-slugs_ft2 type="double">-31.33480201</iyz-slugs_ft2>
+                    <print-mass-properties type="int"></print-mass-properties>
+                    <pointmass-location-X-inches type="double">-527.29</pointmass-location-X-inches>
+                    <pointmass-location-Y-inches type="double">0</pointmass-location-Y-inches>
+                    <pointmass-location-Z-inches type="double">1.14</pointmass-location-Z-inches>
+                    <pointmass-location-X-inches n="1" type="double">50</pointmass-location-X-inches>
+                    <pointmass-location-Y-inches n="1" type="double">0</pointmass-location-Y-inches>
+                    <pointmass-location-Z-inches n="1" type="double">1.14</pointmass-location-Z-inches>
+                </inertia>
+                <external_reactions>
+                    <tractor>
+                        <magnitude alias="/sim[0]/model[0]/autopush[0]/force-lbf[0]"/>
+                        <x alias="/sim[0]/model[0]/autopush[0]/force-x[0]"/>
+                        <y alias="/sim[0]/model[0]/autopush[0]/force-y[0]"/>
+                        <z alias="/sim[0]/model[0]/autopush[0]/force-z[0]"/>
+                        <location-x-in type="double">-455.71</location-x-in>
+                        <location-y-in type="double">0</location-y-in>
+                        <location-z-in type="double">-89.832</location-z-in>
+                    </tractor>
+                </external_reactions>
+                <aero-config>
+                    <coefficients>
+                        <drag-alpha type="double">1.1</drag-alpha>
+                        <drag-beta type="double">1</drag-beta>
+                        <drag-elevator type="double">0.01</drag-elevator>
+                        <drag-flap type="double">0.04</drag-flap>
+                        <drag-gear type="double">0.04</drag-gear>
+                        <drag-induced type="double">0.035</drag-induced>
+                        <drag-mach type="double">0.021</drag-mach>
+                        <drag-parasitic type="double">0.0125</drag-parasitic>
+                        <drag-slat type="double">0.003</drag-slat>
+                        <drag-mfs type="double">0.01</drag-mfs>
+                        <yaw-mfs type="double">0.01</yaw-mfs>
+                        <bank-mfs type="double">0.01</bank-mfs>
+                        <yaw-damper-beta type="double">-5</yaw-damper-beta>
+                        <yaw-damper-rate type="double">2</yaw-damper-rate>
+                    </coefficients>
+                </aero-config>
+                <ground>
+                    <bumpiness type="double">0</bumpiness>
+                    <solid type="bool">true</solid>
+                    <maximum-force-lbs type="double">1.45037738e+26</maximum-force-lbs>
+                    <rolling_friction-factor type="double">1</rolling_friction-factor>
+                    <static-friction-factor type="double">1</static-friction-factor>
+                </ground>
+                <gear>
+                    <unit n="1">
+                        <wheel-speed-fps type="double">2.053757657e-08</wheel-speed-fps>
+                        <compression-ft type="double">0.8114535953</compression-ft>
+                        <dynamic_friction_coeff type="double">0.5</dynamic_friction_coeff>
+                        <solid type="bool">true</solid>
+                        <bumpiness type="double">0</bumpiness>
+                        <maximum-force-lbs type="double">1.45037738e+26</maximum-force-lbs>
+                        <rolling_friction-factor type="double">1</rolling_friction-factor>
+                        <static-friction-factor type="double">1</static-friction-factor>
+                        <WOW type="bool">true</WOW>
+                        <x-position type="double">50.1</x-position>
+                        <y-position type="double">-101.258</y-position>
+                        <z-position type="double">-93.772</z-position>
+                        <compression-velocity-fps type="double">-4.74857214e-06</compression-velocity-fps>
+                        <static_friction_coeff type="double">0.4</static_friction_coeff>
+                        <slip-angle-deg type="double">85.46443615</slip-angle-deg>
+                        <side_friction_coeff type="double">0.5774949866</side_friction_coeff>
+                        <rolling_friction_coeff type="double">0.005</rolling_friction_coeff>
+                        <pos-norm type="double">1</pos-norm>
+                    </unit>
+                    <gear-pos-norm type="double">1</gear-pos-norm>
+                    <gear-cmd-norm type="double">1</gear-cmd-norm>
+                    <tailhook-pos-norm type="double">0</tailhook-pos-norm>
+                    <num-units type="int">7</num-units>
+                    <wow type="bool">true</wow>
+                    <unit>
+                        <solid type="bool">true</solid>
+                        <bumpiness type="double">0</bumpiness>
+                        <maximum-force-lbs type="double">1.45037738e+26</maximum-force-lbs>
+                        <rolling_friction-factor type="double">1</rolling_friction-factor>
+                        <static-friction-factor type="double">1</static-friction-factor>
+                        <WOW type="bool">true</WOW>
+                        <x-position type="double">-455.71</x-position>
+                        <y-position type="double">0</y-position>
+                        <z-position type="double">-89.832</z-position>
+                        <compression-ft type="double">0.4729460893</compression-ft>
+                        <compression-velocity-fps type="double">-3.4786847e-07</compression-velocity-fps>
+                        <static_friction_coeff type="double">1.5</static_friction_coeff>
+                        <dynamic_friction_coeff type="double">0.5</dynamic_friction_coeff>
+                        <slip-angle-deg type="double">85.4625479</slip-angle-deg>
+                        <wheel-speed-fps type="double">2.03957939e-08</wheel-speed-fps>
+                        <side_friction_coeff type="double">0.65676683</side_friction_coeff>
+                        <rolling_friction_coeff type="double">0.005</rolling_friction_coeff>
+                        <pos-norm type="double">1</pos-norm>
+                    </unit>
+                    <unit n="2">
+                        <solid type="bool">true</solid>
+                        <bumpiness type="double">0</bumpiness>
+                        <maximum-force-lbs type="double">1.45037738e+26</maximum-force-lbs>
+                        <rolling_friction-factor type="double">1</rolling_friction-factor>
+                        <static-friction-factor type="double">1</static-friction-factor>
+                        <WOW type="bool">true</WOW>
+                        <x-position type="double">50.1</x-position>
+                        <y-position type="double">101.258</y-position>
+                        <z-position type="double">-93.772</z-position>
+                        <compression-ft type="double">0.802675554</compression-ft>
+                        <compression-velocity-fps type="double">-4.89525242e-06</compression-velocity-fps>
+                        <static_friction_coeff type="double">0.4</static_friction_coeff>
+                        <dynamic_friction_coeff type="double">0.5</dynamic_friction_coeff>
+                        <slip-angle-deg type="double">85.46455316</slip-angle-deg>
+                        <wheel-speed-fps type="double">2.148212302e-08</wheel-speed-fps>
+                        <side_friction_coeff type="double">0.5774949491</side_friction_coeff>
+                        <rolling_friction_coeff type="double">0.005</rolling_friction_coeff>
+                        <pos-norm type="double">1</pos-norm>
+                    </unit>
+                </gear>
+                <inertial>
+                    <sea-level-radius_ft type="double">20893923.92</sea-level-radius_ft>
+                </inertial>
+                <simulation>
+                    <gravity-model type="int">1</gravity-model>
+                    <integrator>
+                        <rate>
+                            <rotational type="int">1</rotational>
+                            <translational type="int">3</translational>
+                        </rate>
+                        <position>
+                            <rotational type="int">1</rotational>
+                            <translational type="int">4</translational>
+                        </position>
+                    </integrator>
+                    <write-state-file type="int"></write-state-file>
+                    <channel-dt type="double">0.008333333333</channel-dt>
+                    <gravitational-torque type="bool">false</gravitational-torque>
+                    <force-output type="int"></force-output>
+                    <do_simple_trim type="int"></do_simple_trim>
+                    <reset type="int"></reset>
+                    <disperse type="int">0</disperse>
+                    <randomseed type="int">0</randomseed>
+                    <terminate type="int">537526272</terminate>
+                    <pause type="int">1735655424</pause>
+                    <sim-time-sec type="double">2977.883333</sim-time-sec>
+                    <dt type="double">0.008333333333</dt>
+                    <jsbsim-debug type="int">0</jsbsim-debug>
+                    <frame type="int">357346</frame>
+                    <trim-completed type="int">0</trim-completed>
+                </simulation>
+                <propulsion>
+                    <tat-r type="double">484.4965947</tat-r>
+                    <tat-c type="double">-3.985225156</tat-c>
+                    <pt-lbs_sqft type="double">2162.286583</pt-lbs_sqft>
+                    <tank>
+                        <contents-lbs type="double">4400.484138</contents-lbs>
+                        <unusable-volume-gal type="double">0</unusable-volume-gal>
+                        <pct-full type="double">30.47367984</pct-full>
+                        <density-lbs_per_gal type="double">6.6</density-lbs_per_gal>
+                        <priority type="int">2</priority>
+                        <external-flow-rate-pps type="double">0</external-flow-rate-pps>
+                        <local-ixx-slug_ft2 type="double">0</local-ixx-slug_ft2>
+                        <local-iyy-slug_ft2 type="double">0</local-iyy-slug_ft2>
+                        <local-izz-slug_ft2 type="double">0</local-izz-slug_ft2>
+                        <x-position type="double">33.096</x-position>
+                        <y-position type="double">-133.96</y-position>
+                        <z-position type="double">-5.91</z-position>
+                    </tank>
+                    <tank n="1">
+                        <contents-lbs type="double">4202.289329</contents-lbs>
+                        <unusable-volume-gal type="double">0</unusable-volume-gal>
+                        <pct-full type="double">29.10116605</pct-full>
+                        <density-lbs_per_gal type="double">6.6</density-lbs_per_gal>
+                        <priority type="int">2</priority>
+                        <external-flow-rate-pps type="double">0</external-flow-rate-pps>
+                        <local-ixx-slug_ft2 type="double">0</local-ixx-slug_ft2>
+                        <local-iyy-slug_ft2 type="double">0</local-iyy-slug_ft2>
+                        <local-izz-slug_ft2 type="double">0</local-izz-slug_ft2>
+                        <x-position type="double">33.096</x-position>
+                        <y-position type="double">133.96</y-position>
+                        <z-position type="double">-5.91</z-position>
+                    </tank>
+                    <tank n="2">
+                        <contents-lbs type="double">0</contents-lbs>
+                        <unusable-volume-gal type="double">0</unusable-volume-gal>
+                        <pct-full type="double">0</pct-full>
+                        <density-lbs_per_gal type="double">6.6</density-lbs_per_gal>
+                        <priority type="int">1</priority>
+                        <external-flow-rate-pps type="double">0</external-flow-rate-pps>
+                        <local-ixx-slug_ft2 type="double">0</local-ixx-slug_ft2>
+                        <local-iyy-slug_ft2 type="double">0</local-iyy-slug_ft2>
+                        <local-izz-slug_ft2 type="double">0</local-izz-slug_ft2>
+                        <x-position type="double">30.072</x-position>
+                        <y-position type="double">0</y-position>
+                        <z-position type="double">-10.642</z-position>
+                    </tank>
+                    <set-running type="int"></set-running>
+                    <starter_cmd type="int">0</starter_cmd>
+                    <cutoff_cmd type="int">0</cutoff_cmd>
+                    <active_engine type="int">-1</active_engine>
+                    <total-fuel-lbs type="double">8602.773467</total-fuel-lbs>
+                    <total-oxidizer-lbs type="double">0</total-oxidizer-lbs>
+                    <fuel_freeze type="bool"></fuel_freeze>
+                    <engine>
+                        <IdleThrust type="double">0.02357332958</IdleThrust>
+                        <MilThrust type="double">1.076601245</MilThrust>
+                        <pitch-angle-rad type="double">0.01919862177</pitch-angle-rad>
+                        <yaw-angle-rad type="double">-0.01745329252</yaw-angle-rad>
+                        <reverser-angle-rad type="double">0</reverser-angle-rad>
+                        <set-running type="bool">true</set-running>
+                        <thrust-lbs type="double">465.5544006</thrust-lbs>
+                        <fuel-flow-rate-pps type="double">0.2161906124</fuel-flow-rate-pps>
+                        <fuel-flow-rate-gph type="double">117.9221522</fuel-flow-rate-gph>
+                        <fuel-used-lbs type="double">8.761105481</fuel-used-lbs>
+                        <n1 type="double">21.8</n1>
+                        <n2 type="double">52.8</n2>
+                        <injection_cmd type="bool">false</injection_cmd>
+                        <seized type="bool">false</seized>
+                        <stalled type="bool">false</stalled>
+                        <bleed-factor type="double">0.03</bleed-factor>
+                        <MaxN1 type="double">106.2</MaxN1>
+                        <MaxN2 type="double">105</MaxN2>
+                        <InjectionTimer type="double">0</InjectionTimer>
+                        <InjWaterNorm type="double">0</InjWaterNorm>
+                        <InjN1increment type="double">0</InjN1increment>
+                        <InjN2increment type="double">0</InjN2increment>
+                    </engine>
+                    <engine n="1">
+                        <IdleThrust type="double">0.02357332958</IdleThrust>
+                        <MilThrust type="double">1.076601245</MilThrust>
+                        <pitch-angle-rad type="double">0.01919862177</pitch-angle-rad>
+                        <yaw-angle-rad type="double">0.01745329252</yaw-angle-rad>
+                        <reverser-angle-rad type="double">0</reverser-angle-rad>
+                        <set-running type="bool">true</set-running>
+                        <thrust-lbs type="double">465.5544006</thrust-lbs>
+                        <fuel-flow-rate-pps type="double">0.2161906124</fuel-flow-rate-pps>
+                        <fuel-flow-rate-gph type="double">117.9221522</fuel-flow-rate-gph>
+                        <fuel-used-lbs type="double">3.774563527</fuel-used-lbs>
+                        <n1 type="double">21.8</n1>
+                        <n2 type="double">52.8</n2>
+                        <injection_cmd type="bool">false</injection_cmd>
+                        <seized type="bool">false</seized>
+                        <stalled type="bool">false</stalled>
+                        <bleed-factor type="double">0.03</bleed-factor>
+                        <MaxN1 type="double">106.2</MaxN1>
+                        <MaxN2 type="double">105</MaxN2>
+                        <InjectionTimer type="double">0</InjectionTimer>
+                        <InjWaterNorm type="double">0</InjWaterNorm>
+                        <InjN1increment type="double">0</InjN1increment>
+                        <InjN2increment type="double">0</InjN2increment>
+                    </engine>
+                </propulsion>
+                <systems>
+                    <stall-warn-norm type="double">0</stall-warn-norm>
+                    <override-fg-brake-properties type="bool">false</override-fg-brake-properties>
+                </systems>
+            </jsbsim>
+        </fdm>
+    </overlay>
+</PropertyList>

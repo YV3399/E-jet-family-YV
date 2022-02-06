@@ -9,6 +9,9 @@
         <expected-aircraft-dir-name>E-jet-family</expected-aircraft-dir-name>
         <minimum-fg-version>2020.3</minimum-fg-version>
 
+        <state n="0" include="States/cold-and-dark.xml" />
+        <state n="1" include="States/ready-taxi.xml" />
+
         <model>
             <livery>
                 <file type="string"/>

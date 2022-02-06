@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<PropertyList>
+    <name type="string">parked</name>
+    <readable-name type="string">Cold And Dark</readable-name>
+    <description type="string">Parked, cold and dark. Everything switched off</description>
+    <overlay>
+        
+    </overlay>
+</PropertyList>
