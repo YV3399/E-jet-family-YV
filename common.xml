@@ -107,6 +107,10 @@
 
         <systems>
             <autopilot>
+                <name>Gear AGL Altitude</name>
+                <path>Aircraft/E-jet-family/Systems/gear-agl-ft.xml</path>
+            </autopilot>
+            <autopilot>
                 <name>Autopilot</name>
                 <path>Aircraft/E-jet-family/Systems/fadec.xml</path>
             </autopilot>
@@ -141,10 +145,6 @@
             <autopilot>
                 <name>FMS VNAV</name>
                 <path>Aircraft/E-jet-family/Systems/vnav.xml</path>
-            </autopilot>
-            <autopilot>
-                <name>Gear AGL Altitude</name>
-                <path>Aircraft/E-jet-family/Systems/gear-agl-ft.xml</path>
             </autopilot>
             <autopilot>
                 <name>Spoilers</name>
@@ -1549,41 +1549,6 @@
             </pack>
         </pressurization>
 
-        <autoflight>
-            <autopilot>
-                <engage type="bool">false</engage>
-            </autopilot>
-
-            <flight-director>
-                <engage type="bool">false</engage>
-            </flight-director>
-
-            <yaw-damper>
-                <engage type="bool">false</engage>
-            </yaw-damper>
-
-            <yaw-damper>
-                <engage type="bool">false</engage>
-            </yaw-damper>
-
-            <altitude-select type="double">10000</altitude-select>
-            <autothrottle-engage type="bool">false</autothrottle-engage>
-            <basic-roll-mode type="int">0</basic-roll-mode>
-            <basic-roll-target-heading-deg type="double">0</basic-roll-target-heading-deg>
-            <basic-roll-target-roll-deg type="double">0</basic-roll-target-roll-deg>
-            <bank-angle-select type="float">30</bank-angle-select>
-            <disengage-pos-norm type="int">0</disengage-pos-norm>
-            <heading-select type="double">360</heading-select>
-            <lateral-mode type="int">-1</lateral-mode>
-            <mach-select type="double">0</mach-select>
-            <nav-mode type="int">0</nav-mode>
-            <pitch-select type="double">0</pitch-select>
-            <speed-mode type="int">0</speed-mode>
-            <speed-select type="double">160</speed-select>
-            <vertical-mode type="int">-1</vertical-mode>
-            <vertical-speed-select type="double">1800</vertical-speed-select>
-        </autoflight>
-
         <apu>
             <fire-switch type="bool">false</fire-switch>
             <master-switch type="bool">false</master-switch>
@@ -1717,7 +1682,12 @@
                 <lat-mode type="int">0</lat-mode>
                 <nav2 type="bool">false</nav2>
             </nav-src>
+
         </flight>
+
+        <autoflight>
+            <disconnect type="bool">false</disconnect>
+        </autoflight>
 
         <gear>
             <brake-parking type="bool">true</brake-parking>
@@ -1948,6 +1918,8 @@
 
             <ap-engaged type="bool">false</ap-engaged>
             <at-engaged type="bool">false</at-engaged>
+            <ap-disconnect-warning type="bool">false</ap-disconnect-warning>
+            <at-disconnect-warning type="bool">false</at-disconnect-warning>
 
             <lat-mode type="string"></lat-mode>
             <lat-mode-armed type="string"></lat-mode-armed>
@@ -2038,6 +2010,11 @@
                 <lat-offset-deg type="double">0</lat-offset-deg>
                 <vert-offset-deg type="double">0</vert-offset-deg>
             </fd>
+            <fma>
+                <ap type="int">0</ap>
+                <at type="int">0</at>
+            </fma>
+            <blink-state type="bool">false</blink-state>
         </pfd>
 
         <pfd>
@@ -2116,6 +2093,11 @@
                 <lat-offset-deg type="double">0</lat-offset-deg>
                 <vert-offset-deg type="double">0</vert-offset-deg>
             </fd>
+            <fma>
+                <ap type="int">0</ap>
+                <at type="int">0</at>
+            </fma>
+            <blink-state type="bool">false</blink-state>
         </pfd>
 
         <mfd>

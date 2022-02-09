@@ -9,6 +9,68 @@ re-run build.sh.
 -->
 <PropertyList>
   <filter>
+    <update-interval-secs type="double">0.1</update-interval-secs>
+    <name>AP Annunciator State</name>
+    <type>gain</type>
+    <gain>1</gain>
+    <input>
+      <condition>
+        <and>
+          <property>/instrumentation/annun/ap-disconnect-warning</property>
+          <property>/instrumentation/pfd[1]/blink-state</property>
+        </and>
+      </condition>
+      <value>3</value>
+    </input>
+    <input>
+      <condition>
+        <property>/instrumentation/annun/ap-disconnect-warning</property>
+      </condition>
+      <value>2</value>
+    </input>
+    <input>
+      <condition>
+        <property>/it-autoflight/output/ap1</property>
+      </condition>
+      <value>1</value>
+    </input>
+    <input>
+      <value>0</value>
+    </input>
+    <output>/instrumentation/pfd[1]/fma/ap</output>
+  </filter>
+  <filter>
+    <update-interval-secs type="double">0.1</update-interval-secs>
+    <name>AP Annunciator State</name>
+    <type>gain</type>
+    <gain>1</gain>
+    <input>
+      <condition>
+        <and>
+          <property>/instrumentation/annun/at-disconnect-warning</property>
+          <property>/instrumentation/pfd[1]/blink-state</property>
+        </and>
+      </condition>
+      <value>3</value>
+    </input>
+    <input>
+      <condition>
+        <property>/instrumentation/annun/at-disconnect-warning</property>
+      </condition>
+      <value>2</value>
+    </input>
+    <input>
+      <condition>
+        <property>/it-autoflight/output/athr</property>
+      </condition>
+      <value>1</value>
+    </input>
+    <input>
+      <value>0</value>
+    </input>
+    <output>/instrumentation/pfd[1]/fma/at</output>
+  </filter>
+  <filter>
     <name>Alt Tape Offset</name>
     <type>gain</type>
     <gain>1</gain>

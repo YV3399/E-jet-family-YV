@@ -15,6 +15,68 @@ runs. If you want make changes to the PFD XML, edit pfd.xsl and
 re-run build.sh.
 ]]></xsl:comment>
         <PropertyList>
+            <filter>
+                <update-interval-secs type="double">0.1</update-interval-secs>
+                <name>AP Annunciator State</name>
+                <type>gain</type>
+                <gain>1</gain>
+                <input>
+                    <condition>
+                        <and>
+                            <property>/instrumentation/annun/ap-disconnect-warning</property>
+                            <property>/instrumentation/pfd[<xsl:value-of select="$index"/>]/blink-state</property>
+                        </and>
+                    </condition>
+                    <value>3</value>
+                </input>
+                <input>
+                    <condition>
+                        <property>/instrumentation/annun/ap-disconnect-warning</property>
+                    </condition>
+                    <value>2</value>
+                </input>
+                <input>
+                    <condition>
+                        <property>/it-autoflight/output/ap1</property>
+                    </condition>
+                    <value>1</value>
+                </input>
+                <input>
+                    <value>0</value>
+                </input>
+                <output>/instrumentation/pfd[<xsl:value-of select="$index"/>]/fma/ap</output>
+            </filter>
+            <filter>
+                <update-interval-secs type="double">0.1</update-interval-secs>
+                <name>AP Annunciator State</name>
+                <type>gain</type>
+                <gain>1</gain>
+                <input>
+                    <condition>
+                        <and>
+                            <property>/instrumentation/annun/at-disconnect-warning</property>
+                            <property>/instrumentation/pfd[<xsl:value-of select="$index"/>]/blink-state</property>
+                        </and>
+                    </condition>
+                    <value>3</value>
+                </input>
+                <input>
+                    <condition>
+                        <property>/instrumentation/annun/at-disconnect-warning</property>
+                    </condition>
+                    <value>2</value>
+                </input>
+                <input>
+                    <condition>
+                        <property>/it-autoflight/output/athr</property>
+                    </condition>
+                    <value>1</value>
+                </input>
+                <input>
+                    <value>0</value>
+                </input>
+                <output>/instrumentation/pfd[<xsl:value-of select="$index"/>]/fma/at</output>
+            </filter>
             <!-- Altitude tape -->
             <filter>
                 <name>Alt Tape Offset</name>

@@ -286,3 +286,36 @@ checkNavDisengage();
 setlistener("/controls/flight/nav-src/side", checkNavDisengage);
 setlistener("/instrumentation/pfd[0]/nav-src", checkNavDisengage);
 setlistener("/instrumentation/pfd[1]/nav-src", checkNavDisengage);
+
+var apActiveProp = props.globals.getNode('it-autoflight/output/ap1', 1);
+var apControlProp1 = props.globals.getNode('it-autoflight/input/ap1', 1);
+var apControlProp2 = props.globals.getNode('it-autoflight/input/ap2', 1);
+var apWarningProp = props.globals.getNode('instrumentation/annun/ap-disconnect-warning', 1);
+
+var atActiveProp = props.globals.getNode('it-autoflight/output/athr', 1);
+var atControlProp = props.globals.getNode('it-autoflight/input/athr', 1);
+var atWarningProp = props.globals.getNode('instrumentation/annun/at-disconnect-warning', 1);
+
+setlistener("/controls/autoflight/disconnect", func (node) {
+    if (node.getBoolValue()) {
+        apWarningProp.setBoolValue(apActiveProp.getBoolValue());
+        apControlProp1.setBoolValue(0);
+        apControlProp2.setBoolValue(0);
+    }
+}, 1, 0);
+setlistener("/it-autoflight/output/ap1", func (node) {
+    if (node.getBoolValue()) {
+        apWarningProp.setBoolValue(0);
+    }
+}, 1, 0);
+setlistener("/controls/autoflight/at-disconnect", func (node) {
+    if (node.getBoolValue()) {
+        atWarningProp.setBoolValue(atActiveProp.getBoolValue());
+        atControlProp.setBoolValue(0);
+    }
+}, 1, 0);
+setlistener("/it-autoflight/output/at", func (node) {
+    if (node.getBoolValue()) {
+        atWarningProp.setBoolValue(0);
+    }
+}, 1, 0);

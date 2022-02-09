@@ -202,6 +202,7 @@ var PFDCanvas = {
         m.props["/instrumentation/pfd/alt-tape-thousands"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/alt-tape-thousands");
         m.props["/instrumentation/pfd/asi-100"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/asi-100");
         m.props["/instrumentation/pfd/asi-10"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/asi-10");
+        m.props["/instrumentation/pfd/blink-state"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/blink-state");
         m.props["/instrumentation/pfd/bearing[0]/bearing"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/bearing[0]/bearing");
         m.props["/instrumentation/pfd/bearing[0]/source"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/bearing[0]/source");
         m.props["/instrumentation/pfd/bearing[0]/visible"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/bearing[0]/visible");
@@ -213,6 +214,8 @@ var PFDCanvas = {
         m.props["/instrumentation/pfd/dme/ete-unit"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/dme/ete-unit");
         m.props["/instrumentation/pfd/dme/hold"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/dme/hold");
         m.props["/instrumentation/pfd/dme/in-range"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/dme/in-range");
+        m.props["/instrumentation/pfd/fma/ap"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/fma/ap");
+        m.props["/instrumentation/pfd/fma/at"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/fma/at");
         m.props["/instrumentation/pfd/groundspeed-kt"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/groundspeed-kt");
         m.props["/instrumentation/pfd/hsi/deflection"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/hsi/deflection");
         m.props["/instrumentation/pfd/hsi/from-flag"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/hsi/from-flag");
@@ -262,7 +265,6 @@ var PFDCanvas = {
         m.props["/it-autoflight/mode/thr"] = props.globals.getNode("/it-autoflight/mode/thr");
         m.props["/it-autoflight/mode/vert"] = props.globals.getNode("/it-autoflight/mode/vert");
         m.props["/it-autoflight/output/ap1"] = props.globals.getNode("/it-autoflight/output/ap1");
-        m.props["/it-autoflight/output/ap2"] = props.globals.getNode("/it-autoflight/output/ap2");
         m.props["/it-autoflight/output/appr-armed"] = props.globals.getNode("/it-autoflight/output/appr-armed");
         m.props["/it-autoflight/output/athr"] = props.globals.getNode("/it-autoflight/output/athr");
         m.props["/it-autoflight/output/lnav-armed"] = props.globals.getNode("/it-autoflight/output/lnav-armed");
@@ -393,9 +395,11 @@ var PFDCanvas = {
             "fd.pitch",
             "fd.roll",
             "fma.ap",
+            "fma.ap.bg",
             "fma.appr",
             "fma.apprarmed",
             "fma.at",
+            "fma.at.bg",
             "fma.lat",
             "fma.latarmed",
             "fma.spd",
@@ -811,11 +815,49 @@ var PFDCanvas = {
             }, 1, 0));
 
         # FMA
-        append(me.listeners, setlistener(self.props["/it-autoflight/output/ap1"], func (node) {
-                self["fma.ap"].setVisible(node.getBoolValue());
+        append(me.listeners, setlistener(self.props["/instrumentation/pfd/fma/ap"], func (node) {
+                var mode = node.getValue() or 0;
+                if (mode == 0) {
+                    self["fma.ap"].hide();
+                    self["fma.ap.bg"].hide();
+                }
+                elsif (mode == 1) {
+                    self["fma.ap"].show();
+                    self["fma.ap.bg"].hide();
+                    self["fma.ap"].setColor(0, 1, 0);
+                }
+                elsif (mode == 2) {
+                    self["fma.ap"].show();
+                    self["fma.ap.bg"].hide();
+                    self["fma.ap"].setColor(1, 0, 0);
+                }
+                elsif (mode == 3) {
+                    self["fma.ap"].show();
+                    self["fma.ap.bg"].show();
+                    self["fma.ap"].setColor(0, 0, 0);
+                }
             }, 1, 0));
-        append(me.listeners, setlistener(self.props["/it-autoflight/output/athr"], func (node) {
-                self["fma.at"].setVisible(node.getBoolValue());
+        append(me.listeners, setlistener(self.props["/instrumentation/pfd/fma/at"], func (node) {
+                var mode = node.getValue() or 0;
+                if (mode == 0) {
+                    self["fma.at"].hide();
+                    self["fma.at.bg"].hide();
+                }
+                elsif (mode == 1) {
+                    self["fma.at"].show();
+                    self["fma.at.bg"].hide();
+                    self["fma.at"].setColor(0, 1, 0);
+                }
+                elsif (mode == 2) {
+                    self["fma.at"].show();
+                    self["fma.at.bg"].hide();
+                    self["fma.at"].setColor(1, 0, 0);
+                }
+                elsif (mode == 3) {
+                    self["fma.at"].show();
+                    self["fma.at.bg"].show();
+                    self["fma.at"].setColor(0, 0, 0);
+                }
             }, 1, 0));
         append(me.listeners, setlistener("/instrumentation/annun/lat-mode", func (node) {
                 self["fma.lat"].setText(node.getValue());
@@ -939,6 +981,10 @@ var PFDCanvas = {
         append(me.listeners, setlistener(self.props["/instrumentation/pfd/minimums-decision-altitude"], func(node) {
             self["minimums.digital"].setText(sprintf("%d", node.getValue()));
         }, 1, 0));
+    },
+
+    toggleBlink: func() {
+        me.props["/instrumentation/pfd/blink-state"].toggleBoolValue();
     },
 
     updateSlow: func() {
@@ -1207,6 +1253,7 @@ var PFDCanvas = {
 initialize = func {
     var timer = [];
     var timerSlow = [];
+    var blinkTimer = [];
 
     for (var i = 0; i < 2; i += 1) {
         PFD_display[i] = canvas.new({
@@ -1228,6 +1275,8 @@ initialize = func {
             rateProp = props.globals.getNode("instrumentation/pfd[" ~ j ~ "]/update-rate");
             append(timer, maketimer(0.04, func() { pfd[j].update(); }));
             append(timerSlow, maketimer(1.0, func() { pfd[j].updateSlow(); }));
+            append(blinkTimer, maketimer(0.25, func () { pfd[j].toggleBlink(); }));
+            blinkTimer[j].simulatedTime = 1;
             var check = func {
                 var visible = ((outputProp.getValue() or 0) >= 15) and enabledProp.getBoolValue();
                 PFD_master[j].setVisible(visible);
@@ -1241,11 +1290,13 @@ initialize = func {
                     pfd[j].setupListeners();
                     timer[j].restart(interval);
                     timerSlow[j].start();
+                    blinkTimer[j].start();
                 }
                 else {
                     pfd[j].deleteListeners();
                     timer[j].stop();
                     timerSlow[j].stop();
+                    blinkTimer[j].stop();
                 }
             };
 
