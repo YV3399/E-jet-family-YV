@@ -488,18 +488,7 @@
     <type>gain</type>
     <gain>1</gain>
     <input>
-        <expression>
-            <div>
-                <difference>
-                    <property>/fadec/trs-limit</property>
-                    <property>/fadec/configuration/idle-n1</property>
-                </difference>
-                <difference>
-                    <property>/fadec/configuration/max-n1</property>
-                    <property>/fadec/configuration/idle-n1</property>
-                </difference>
-            </div>
-        </expression>
+        <property>/fadec/configuration/throttle-toga-norm</property>
     </input>
 	<output>/it-autoflight/settings/autothrottle-max</output>
 </filter>

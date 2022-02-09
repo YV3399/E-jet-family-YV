@@ -198,7 +198,12 @@
                     <property>fadec/configuration/throttle-toga-norm</property>
                 </greater-than>
             </condition>
-            <property>trs/thrust/to</property>
+            <expression>
+                <min>
+                    <property>trs/thrust/to</property>
+                    <property>fadec/trs-limit</property>
+                </min>
+            </expression>
         </input>
         <!-- Normal mode: interpolate thrust between idle and TOGA. -->
         <input>
@@ -445,7 +450,12 @@
                     <property>fadec/configuration/throttle-toga-norm</property>
                 </greater-than>
             </condition>
-            <property>trs/thrust/to</property>
+            <expression>
+                <min>
+                    <property>trs/thrust/to</property>
+                    <property>fadec/trs-limit</property>
+                </min>
+            </expression>
         </input>
         <!-- Normal mode: interpolate thrust between idle and TOGA. -->
         <input>
