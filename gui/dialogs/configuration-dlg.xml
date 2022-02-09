@@ -37,7 +37,7 @@
         
         <empty><stretch>1</stretch></empty>
         <text>
-            <label>Keyboard</label>
+            <label>Controls</label>
         </text>
         <empty><stretch>1</stretch></empty>
     </group>
@@ -46,17 +46,26 @@
         <layout>hbox</layout>
         <halign>left</halign>
         <valign>top</valign>
-        <group>
-            <layout>hbox</layout>
-            <checkbox>
-                <label>Keyboard Mode (Num Pad = flight controls)</label>
-                <property>/options/system/keyboard-mode</property>
-                <halign>left</halign>
-                <binding>
-                    <command>dialog-apply</command>
-                </binding>
-            </checkbox>
-        </group>
+        <checkbox>
+            <label>Keyboard Mode (Num Pad = flight controls)</label>
+            <property>/options/system/keyboard-mode</property>
+            <halign>left</halign>
+            <binding>
+                <command>dialog-apply</command>
+            </binding>
+        </checkbox>
+    </group>
+    <group>
+        <layout>hbox</layout>
+        <checkbox>
+            <label>Separate tiller steering</label>
+            <property>controls/gear/enable-tiller</property>
+            <halign>left</halign>
+            <binding>
+                <command>dialog-apply</command>
+            </binding>
+        </checkbox>
+		<live type="bool">true</live>
     </group>
 
     <hrule/>

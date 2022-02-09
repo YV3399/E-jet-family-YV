@@ -37,7 +37,7 @@
 
 	<checkbox>
 		<halign>left</halign>
-		<label>Enable tiller steering</label>
+		<label>Separate tiller steering</label>
 		<property>controls/gear/enable-tiller</property>
 		<binding>
 			<command>dialog-apply</command>
