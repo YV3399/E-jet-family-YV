@@ -319,3 +319,19 @@ setlistener("/it-autoflight/output/at", func (node) {
         atWarningProp.setBoolValue(0);
     }
 }, 1, 0);
+
+var resetBrakeHeat = func {
+    var tempC = getprop('/environment/temperature-degc');
+    var tempK = tempC + 273.2;
+    printf("Brake heat reset - temperature: %i°C / %i K", tempC, tempK);
+    foreach (var g; [1,2]) {
+        foreach (var b; [0,1]) {
+            var basepath = '/gear/gear[' ~ g ~ ']/brakes/brake[' ~ b ~ ']';
+            var c = getprop(basepath ~ '/heat-capacity');
+            var h = c * tempK;
+            setprop(basepath ~ '/heat', h);
+        }
+    }
+};
+
+setlistener("sim/signals/fdm-initialized", settimer(func {resetBrakeHeat();}, 10));
