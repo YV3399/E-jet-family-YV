@@ -777,6 +777,10 @@
          82704.1 J/K per brake disc.
 
          At 20°C (293.2), each disc stores 24249000 J.
+
+         Experience shows that an E190 at MLW causes a brake overheat even with
+         max reversers on a normal landing, so we bump it up to a nice even
+         90000 J/K to give ourselves some headroom.
     -->
     <gear>
         <brake-overheat type="bool">false</brake-overheat>
@@ -785,7 +789,7 @@
             <brakes>
                 <brake>
                     <!-- in joules per Kelvin -->
-                    <heat-capacity type="double">82704.1</heat-capacity>
+                    <heat-capacity type="double">90000</heat-capacity>
                     <!-- in joules -->
                     <heat type="double">24249000</heat>
                     <temperature-c type="double">20</temperature-c>
@@ -801,7 +805,7 @@
                 </brake>
                 <brake>
                     <!-- in joules per Kelvin -->
-                    <heat-capacity type="double">82704.1</heat-capacity>
+                    <heat-capacity type="double">90000</heat-capacity>
                     <!-- in joules -->
                     <heat type="double">24249000</heat>
                     <temperature-c type="double">20</temperature-c>
@@ -821,7 +825,7 @@
             <brakes>
                 <brake>
                     <!-- in joules per Kelvin -->
-                    <heat-capacity type="double">82704.1</heat-capacity>
+                    <heat-capacity type="double">90000</heat-capacity>
                     <!-- in joules -->
                     <heat type="double">24249000</heat>
                     <temperature-c type="double">20</temperature-c>
@@ -837,7 +841,7 @@
                 </brake>
                 <brake>
                     <!-- in joules per Kelvin -->
-                    <heat-capacity type="double">82704.1</heat-capacity>
+                    <heat-capacity type="double">90000</heat-capacity>
                     <!-- in joules -->
                     <heat type="double">24249000</heat>
                     <temperature-c type="double">20</temperature-c>
