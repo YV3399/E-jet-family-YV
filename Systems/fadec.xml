@@ -498,6 +498,17 @@
         <type>noise-spike</type>
         <max-rate-of-change>0.715</max-rate-of-change>
         <input>
+            <condition>
+                <not>
+                    <or>
+                        <property>/gear/gear[1]/wow</property>
+                        <property>/gear/gear[2]/wow</property>
+                    </or>
+                </not>
+            </condition>
+            <value>0</value>
+        </input>
+        <input>
             <property>/controls/engines/engine[0]/reverser</property>
         </input>
         <output>/engines/engine[0]/reverser-pos-norm</output>
@@ -513,6 +524,17 @@
         <name>Reverser Right</name>
         <type>noise-spike</type>
         <max-rate-of-change>0.715</max-rate-of-change>
+        <input>
+            <condition>
+                <not>
+                    <or>
+                        <property>/gear/gear[1]/wow</property>
+                        <property>/gear/gear[2]/wow</property>
+                    </or>
+                </not>
+            </condition>
+            <value>0</value>
+        </input>
         <input>
             <property>/controls/engines/engine[1]/reverser</property>
         </input>
