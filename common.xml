@@ -947,7 +947,8 @@
         <ignition-switch type="int">1</ignition-switch>
         <trs-limit type="double">100.0</trs-limit>
         <configuration>
-            <throttle-toga-norm type="double">0.95</throttle-toga-norm>
+            <throttle-toga-norm type="double">0.72</throttle-toga-norm>
+            <throttle-toga-reserve type="double">0.82</throttle-toga-reserve>
         </configuration>
     </fadec>
 

@@ -117,11 +117,11 @@
                 <or>
                     <greater-than>
                         <property>controls/engines/engine[0]/throttle</property>
-                        <property>fadec/configuration/throttle-toga-norm</property>
+                        <property>fadec/configuration/throttle-toga-reserve</property>
                     </greater-than>
                     <greater-than>
                         <property>controls/engines/engine[1]/throttle</property>
-                        <property>fadec/configuration/throttle-toga-norm</property>
+                        <property>fadec/configuration/throttle-toga-reserve</property>
                     </greater-than>
                 </or>
                 <or>
