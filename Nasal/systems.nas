@@ -335,3 +335,12 @@ var resetBrakeHeat = func {
 };
 
 setlistener("sim/signals/fdm-initialized", func settimer(func {resetBrakeHeat();}, 10));
+
+setlistener('autopilot/disconnect-conditions/control-input-filtered', func (node) {
+    if (node.getDoubleValue() > 0.99999) {
+        if (getprop('it-autoflight/output/ap1')) {
+            setprop('controls/autoflight/disconnect', 1);
+            setprop('controls/autoflight/disconnect', 0);
+        }
+    }
+}, 1, 0);

@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 
 <!-- IT-AUTOFLIGHT Autopilot Control Dialog -->
-<!-- Copyright (c) 2021 Josh Davidson (Octal450) -->
+<!-- Copyright (c) 2022 Josh Davidson (Octal450) -->
 
 <PropertyList>
 	
@@ -687,38 +687,134 @@
 	</group>
 	
 	<group>
-		<layout>hbox</layout>
+		<layout>table</layout>
 		
 		<checkbox>
-			<label>Track</label>
+			<row>0</row>
+			<col>0</col>
+			<label>TRK</label>
 			<property>/it-autoflight/input/trk</property>
 			<binding>
 				<command>dialog-apply</command>
 			</binding>
 			<live>true</live>
 		</checkbox>
-		<checkbox>
-			<label>True</label>
-			<property>/it-autoflight/input/true-course</property>
+		
+		<text>
+			<row>0</row>
+			<col>1</col>
+			<label>NAV Sel:</label>
+			<valign>center</valign>
+		</text>
+		
+		<button>
+			<row>0</row>
+			<col>2</col>
+			<visible>
+				<equals>
+					<property>/it-autoflight/input/radio-sel</property>
+					<value>0</value>
+				</equals>
+			</visible>
+			<pref-width>33</pref-width>
+			<pref-height>25</pref-height>
+			<legend>[ 1 ]</legend>
 			<binding>
-				<command>dialog-apply</command>
+				<command>property-assign</command>
+				<property>/it-autoflight/input/radio-sel</property>
+				<value>0</value>
 			</binding>
-			<live>true</live>
-		</checkbox>
-		<checkbox>
-			<label>Use NAV2 Radio</label>
-			<property>/it-autoflight/input/use-nav2-radio</property>
-			<enable>
+		</button>
+		<button>
+			<row>0</row>
+			<col>2</col>
+			<visible>
 				<not-equals>
-					<property>/it-autoflight/output/vert</property>
+					<property>/it-autoflight/input/radio-sel</property>
+					<value>0</value>
+				</not-equals>
+			</visible>
+			<pref-width>33</pref-width>
+			<pref-height>25</pref-height>
+			<legend>1</legend>
+			<binding>
+				<command>property-assign</command>
+				<property>/it-autoflight/input/radio-sel</property>
+				<value>0</value>
+			</binding>
+		</button>
+		<button>
+			<row>0</row>
+			<col>3</col>
+			<visible>
+				<equals>
+					<property>/it-autoflight/input/radio-sel</property>
+					<value>1</value>
+				</equals>
+			</visible>
+			<pref-width>33</pref-width>
+			<pref-height>25</pref-height>
+			<legend>[ 2 ]</legend>
+			<binding>
+				<command>property-assign</command>
+				<property>/it-autoflight/input/radio-sel</property>
+				<value>1</value>
+			</binding>
+		</button>
+		<button>
+			<row>0</row>
+			<col>3</col>
+			<visible>
+				<not-equals>
+					<property>/it-autoflight/input/radio-sel</property>
+					<value>1</value>
+				</not-equals>
+			</visible>
+			<pref-width>33</pref-width>
+			<pref-height>25</pref-height>
+			<legend>2</legend>
+			<binding>
+				<command>property-assign</command>
+				<property>/it-autoflight/input/radio-sel</property>
+				<value>1</value>
+			</binding>
+		</button>
+		<button>
+			<row>0</row>
+			<col>4</col>
+			<visible>
+				<equals>
+					<property>/it-autoflight/input/radio-sel</property>
+					<value>2</value>
+				</equals>
+			</visible>
+			<pref-width>33</pref-width>
+			<pref-height>25</pref-height>
+			<legend>[ 3 ]</legend>
+			<binding>
+				<command>property-assign</command>
+				<property>/it-autoflight/input/radio-sel</property>
+				<value>2</value>
+			</binding>
+		</button>
+		<button>
+			<row>0</row>
+			<col>4</col>
+			<visible>
+				<not-equals>
+					<property>/it-autoflight/input/radio-sel</property>
 					<value>2</value>
 				</not-equals>
-			</enable>
+			</visible>
+			<pref-width>33</pref-width>
+			<pref-height>25</pref-height>
+			<legend>3</legend>
 			<binding>
-				<command>dialog-apply</command>
+				<command>property-assign</command>
+				<property>/it-autoflight/input/radio-sel</property>
+				<value>2</value>
 			</binding>
-			<live>true</live>
-		</checkbox>
+		</button>
 	</group>
 	
 	<group>

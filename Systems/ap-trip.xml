@@ -1,0 +1,72 @@
+<PropertyList>
+
+    <!-- Autopilot trip logic:
+         - If any control is deflected more than 10%, disconnect AP immediately
+         - If any control is deflected more than 1%, disconnect AP after 5 seconds
+         - If no control is deflected more than 1%, reset AP disconnect timer
+         - At any point, if TCS is pressed, do not disconnect AP.
+     -->
+    <filter>
+        <name>Control input magnitude</name>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <expression>
+                <max>
+                    <abs><property>controls/flight/aileron</property></abs>
+                    <abs><property>controls/flight/elevator</property></abs>
+                    <abs><property>controls/flight/rudder</property></abs>
+                </max>
+            </expression>
+        </input>
+        <output>autopilot/disconnect-conditions/control-input</output>
+    </filter>
+
+    <filter>
+        <name>Control input filtered</name>
+        <type>noise-spike</type>
+        <max-rate-of-change>
+            <condition>
+                <less-than>
+                    <property>autopilot/disconnect-conditions/control-input</property>
+                    <value>0.01</value>
+                </less-than>
+            </condition>
+            <value>1000</value>
+        </max-rate-of-change>
+        <max-rate-of-change>
+            <condition>
+                <less-than>
+                    <property>autopilot/disconnect-conditions/control-input</property>
+                    <value>0.1</value>
+                </less-than>
+            </condition>
+            <value>0.2</value>
+        </max-rate-of-change>
+        <max-rate-of-change>
+            <value>1000</value>
+        </max-rate-of-change>
+        <input>
+            <condition>
+                <less-than>
+                    <property>autopilot/disconnect-conditions/control-input</property>
+                    <value>0.01</value>
+                </less-than>
+            </condition>
+            <value>0</value>
+        </input>
+        <input>
+            <condition>
+                <less-than>
+                    <property>autopilot/disconnect-conditions/control-input</property>
+                    <value>0.1</value>
+                </less-than>
+            </condition>
+            <value>1</value>
+        </input>
+        <input>
+            <value>1</value>
+        </input>
+        <output>autopilot/disconnect-conditions/control-input-filtered</output>
+    </filter>
+</PropertyList>

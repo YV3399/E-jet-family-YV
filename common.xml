@@ -196,15 +196,18 @@
                 <path>Aircraft/E-jet-family/Systems/brakes.xml</path>
             </property-rule>
             <property-rule n="107">
-                <path>Aircraft/E-jet-family/Systems/messages.xml</path>
+                <path>Aircraft/E-jet-family/Systems/ap-trip.xml</path>
             </property-rule>
             <property-rule n="108">
-                <path>Aircraft/E-jet-family/Systems/services.xml</path>
+                <path>Aircraft/E-jet-family/Systems/messages.xml</path>
             </property-rule>
             <property-rule n="109">
-                <path>Aircraft/E-jet-family/Systems/EFB.xml</path>
+                <path>Aircraft/E-jet-family/Systems/services.xml</path>
             </property-rule>
             <property-rule n="110">
+                <path>Aircraft/E-jet-family/Systems/EFB.xml</path>
+            </property-rule>
+            <property-rule n="111">
                 <path>Aircraft/E-jet-family/Systems/electrical/batteries.xml</path>
             </property-rule>
             <autopilot>
@@ -213,16 +216,16 @@
             <autopilot>
                 <path>Aircraft/E-jet-family/Systems/speed-limits.xml</path>
             </autopilot>
-            <property-rule n="111">
+            <property-rule n="112">
                 <path>Aircraft/E-jet-family/Systems/iess.xml</path>
             </property-rule>
-            <property-rule n="112">
+            <property-rule n="113">
                 <path>Aircraft/E-jet-family/Systems/chrono.xml</path>
             </property-rule>
-            <property-rule n="113">
+            <property-rule n="114">
                 <path>Aircraft/E-jet-family/Systems/cockpit-animations.xml</path>
             </property-rule>
-            <property-rule n="114">
+            <property-rule n="115">
                 <path>Aircraft/E-jet-family/Systems/views.xml</path>
             </property-rule>
 
@@ -735,11 +738,17 @@
             <land-enable>1</land-enable> <!-- Enable/Disable Autoland -->
             <land-flap>0.5</land-flap> <!-- Minimum Flap used for Landing -->
             <lat-agl-ft>200</lat-agl-ft> <!-- Set to 999999 if you do not want T/O to change automatically to HDG, or LNAV -->
-            <reduc-agl-ft>1300</reduc-agl-ft> <!-- Set to 999999 if you do not want TOGA to change automatically to FLCH -->
+            <accel-ft>1300</accel-ft> <!-- Set to 999999 if you do not want TOGA to change automatically to FLCH -->
             <retard-enable>1</retard-enable> <!-- AGL to Thrust Retard -->
             <retard-ft>30</retard-ft> <!-- Enable Thrust Retard -->
-            <togaspd>165</togaspd> <!-- V2 + 10kts -->
+            <toga-spd>165</toga-spd> <!-- V2 + 10kts -->
+            <use-controls-flight>0</use-controls-flight>
         </settings>
+        <internal>
+            <aileron type="double">0</aileron>
+            <elevator type="double">0</elevator>
+            <rudder type="double">0</rudder>
+        </internal>
     </it-autoflight>
 
     <consumables>
@@ -880,6 +889,12 @@
             <target-altitude-ft type="double">33000</target-altitude-ft>
             <vertical-speed-fpm type="double">2000</vertical-speed-fpm>
         </settings>
+
+        <disconnect-conditions>
+            <control-input type="double">0.0</control-input>
+            <control-input-filtered type="double">0.0</control-input-filtered>
+        </disconnect-conditions>
+
         <flight-director-serviceable type="bool">true</flight-director-serviceable>
         <autoflight-serviceable type="bool">true</autoflight-serviceable>
         <autothrottle-serviceable type="bool">true</autothrottle-serviceable>

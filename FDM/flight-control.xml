@@ -36,7 +36,8 @@
     
     <channel name="Roll">
         <summer name="Roll Trim Sum">
-            <input>fcs/aileron-cmd-norm</input>
+            <input>/controls/flight/aileron</input>
+            <input>/it-autoflight/internal/aileron</input>
             <input>fcs/roll-trim-cmd-norm</input>
             <clipto>
                 <min> -1 </min>
@@ -92,7 +93,8 @@
     
     <channel name="Yaw">
         <summer name="Rudder Command Sum">
-            <input>fcs/rudder-cmd-norm</input>
+            <input>/controls/flight/rudder</input>
+            <input>/it-autoflight/internal/rudder</input>
             <input>fcs/yaw-trim-cmd-norm</input>
             <clipto>
                 <min> -0.55 </min>

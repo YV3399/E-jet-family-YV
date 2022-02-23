@@ -195,6 +195,7 @@
             <expression>
                 <sum>
                     <property>/controls/flight/elevator</property>
+                    <property>/it-autoflight/internal/elevator</property>
                     <property>/fbw/elevator/etc</property>
                     <property>/fbw/elevator/tsa/elevator-command</property>
                 </sum>

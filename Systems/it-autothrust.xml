@@ -1,13 +1,22 @@
 <?xml version="1.0"?>
 
 <!-- IT-AUTOFLIGHT: AUTOTHRUST -->
-<!-- Copyright (c) 2021 Josh Davidson (Octal450) -->
+<!-- Copyright (c) 2022 Josh Davidson (Octal450) -->
 
 <PropertyList>
 	
+	<logic>
+		<input>
+			<equals>
+				<property>/it-autoflight/output/athr</property>
+				<value>1</value>
+			</equals>
+		</input>
+		<output>/it-autoflight/output/athr-on</output>
+	</logic>
+	
 	<filter>
 		<name>A/THR Knots Input Gain</name>
-		<debug>false</debug>
 		<type>gain</type>
 		<gain>1.0</gain>
 		<input>/it-autoflight/input/kts</input>
@@ -32,7 +41,6 @@
 	
 	<filter>
 		<name>A/THR Knots Input Filter</name>
-		<debug>false</debug>
 		<type>noise-spike</type>
 		<initialize-to>output</initialize-to>
 		<input>/it-autoflight/internal/athr-kts-cmd</input>
@@ -40,10 +48,7 @@
 		<max-rate-of-change>
 			<condition>
 				<and>
-					<equals>
-						<property>/it-autoflight/output/athr</property>
-						<value>1</value>
-					</equals>
+					<property>/it-autoflight/output/athr-on</property>
 					<equals>
 						<property>/it-autoflight/output/thr-mode</property>
 						<value>0</value>
@@ -69,7 +74,6 @@
 	
 	<filter>
 		<name>A/THR Mach Input Gain</name>
-		<debug>false</debug>
 		<type>gain</type>
 		<gain>1.0</gain>
 		<input>/it-autoflight/input/mach</input>
@@ -94,7 +98,6 @@
 	
 	<filter>
 		<name>A/THR Mach Input Filter</name>
-		<debug>false</debug>
 		<type>noise-spike</type>
 		<feedback-if-disabled>true</feedback-if-disabled>
 		<initialize-to>output</initialize-to>
@@ -103,10 +106,7 @@
 		<max-rate-of-change>
 			<condition>
 				<and>
-					<equals>
-						<property>/it-autoflight/output/athr</property>
-						<value>1</value>
-					</equals>
+					<property>/it-autoflight/output/athr-on</property>
 					<equals>
 						<property>/it-autoflight/output/thr-mode</property>
 						<value>0</value>
@@ -132,14 +132,10 @@
 	
 	<pid-controller>
 		<name>IT-CONTROLLER: Knots</name>
-		<debug>false</debug>
 		<enable>
 			<condition>
 				<and>
-					<equals>
-						<property>/it-autoflight/output/athr</property>
-						<value>1</value>
-					</equals>
+					<property>/it-autoflight/output/athr-on</property>
 					<equals>
 						<property>/it-autoflight/input/kts-mach</property>
 						<value>0</value>
@@ -153,9 +149,9 @@
 		</enable>
 		<input>/instrumentation/airspeed-indicator/indicated-speed-kt</input>
 		<reference>/it-autoflight/internal/athr-kts</reference>
-		<output>/controls/engines/throttle-cmd-pid</output>
+		<output>/it-autoflight/internal/throttle-cmd-pid</output>
 		<config>
-			<Kp>0.06</Kp>
+			<Kp>0.055</Kp>
 			<Ti>9.0</Ti>
 			<Td>0.00001</Td>   
 			<u_min>/it-autoflight/settings/autothrottle-min</u_min>  
@@ -165,14 +161,10 @@
 	
 	<pid-controller>
 		<name>IT-CONTROLLER: Mach</name>
-		<debug>false</debug>
 		<enable>
 			<condition>
 				<and>
-					<equals>
-						<property>/it-autoflight/output/athr</property>
-						<value>1</value>
-					</equals>
+					<property>/it-autoflight/output/athr-on</property>
 					<equals>
 						<property>/it-autoflight/input/kts-mach</property>
 						<value>1</value>
@@ -192,9 +184,9 @@
 			<property>/it-autoflight/internal/athr-mach</property>
 			<scale>1000</scale>
 		</reference>
-		<output>/controls/engines/throttle-cmd-pid</output>
+		<output>/it-autoflight/internal/throttle-cmd-pid</output>
 		<config>
-			<Kp>0.06</Kp>
+			<Kp>0.055</Kp>
 			<Ti>9.0</Ti>
 			<Td>0.00001</Td>  
 			<u_min>/it-autoflight/settings/autothrottle-min</u_min>  
@@ -204,16 +196,12 @@
 	
 	<filter>
 		<name>IT-CONTROLLER: Idle Limit</name>
-		<debug>false</debug>
 		<type>gain</type>
 		<gain>1.0</gain>
 		<enable>
 			<condition>
 				<and>
-					<equals>
-						<property>/it-autoflight/output/athr</property>
-						<value>1</value>
-					</equals>
+					<property>/it-autoflight/output/athr-on</property>
 					<equals>
 						<property>/it-autoflight/output/thr-mode</property>
 						<value>1</value>
@@ -231,21 +219,17 @@
 			<value>0</value>
 		</input>
 		<input>/it-autoflight/settings/autothrottle-min</input>
-		<output>/controls/engines/throttle-cmd-pid</output>
+		<output>/it-autoflight/internal/throttle-cmd-pid</output>
 	</filter>
 	
 	<filter>
 		<name>IT-CONTROLLER: Thrust Limit</name>
-		<debug>false</debug>
 		<type>gain</type>
 		<gain>1.0</gain>
 		<enable>
 			<condition>
 				<and>
-					<equals>
-						<property>/it-autoflight/output/athr</property>
-						<value>1</value>
-					</equals>
+					<property>/it-autoflight/output/athr-on</property>
 					<equals>
 						<property>/it-autoflight/output/thr-mode</property>
 						<value>2</value>
@@ -254,24 +238,20 @@
 			</condition>
 		</enable>
 		<input>/it-autoflight/settings/autothrottle-max</input>
-		<output>/controls/engines/throttle-cmd-pid</output>
+		<output>/it-autoflight/internal/throttle-cmd-pid</output>
 	</filter>
 	
 	<filter>
 		<name>System Command: Throttle</name>
-		<debug>false</debug>
 		<type>noise-spike</type>
 		<feedback-if-disabled>true</feedback-if-disabled>
 		<initialize-to>output</initialize-to>
 		<enable>
 			<condition>
-				<equals>
-					<property>/it-autoflight/output/athr</property>
-					<value>1</value>
-				</equals>
+				<property>/it-autoflight/output/athr-on</property>
 			</condition>
 		</enable>
-		<input>/controls/engines/throttle-cmd-pid</input>
+		<input>/it-autoflight/internal/throttle-cmd-pid</input>
 		<output>
 			<property>/controls/engines/engine[0]/throttle</property>
 			<property>/controls/engines/engine[1]/throttle</property>

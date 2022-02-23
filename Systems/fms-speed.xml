@@ -633,7 +633,7 @@
                 </sum>
             </expression>
         </input>
-        <output>/it-autoflight/settings/togaspd</output>
+        <output>/it-autoflight/settings/toga-spd</output>
     </filter>
 
     <filter>
