@@ -1816,6 +1816,13 @@
             <brightness type="float">0.75</brightness>
         </IESS>
 
+        <comm n="0">
+            <mode type="string">25/8.33</mode>
+        </comm>
+        <comm n="1">
+            <mode type="string">25/8.33</mode>
+        </comm>
+
         <eicas>
             <enabled type="bool">true</enabled>
             <signals>

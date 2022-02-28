@@ -102,7 +102,7 @@ var PropModel = {
         var m = BaseModel.new();
         m.parents = prepended(PropModel, m.parents);
         m.key = key;
-        m.prop = props.globals.getNode(keyProps[key]);
+        m.prop = props.globals.getNode(keyProps[key], 1);
         if (defval == nil) {
             m.defval = keyDefs[key];
         }

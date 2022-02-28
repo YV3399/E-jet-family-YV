@@ -2150,6 +2150,7 @@ var ComRadioDetailsModule = {
                 StaticView.new(  1,  5, "MEM TUNE",               mcdu_white ),
                 StaticView.new( 16,  1, "SQUELCH",                mcdu_white ),
                 StaticView.new( 19,  3, "MODE",                   mcdu_white ),
+                FormatView.new(17, 4, mcdu_large | mcdu_green, "COM" ~ me.radioNum ~ "M", 7),
                 StaticView.new( 19,  5, "FREQ",                   mcdu_white ),
                 StaticView.new(  0, 12, left_triangle, mcdu_large | mcdu_white ),
                 StaticView.new(  1, 12, "MEMORY", mcdu_large | mcdu_white ),
@@ -2157,6 +2158,7 @@ var ComRadioDetailsModule = {
             me.controllers = {
                 "L1": PropSwapController.new("COM" ~ me.radioNum ~ "S", "COM" ~ me.radioNum ~ "A"),
                 "L2": FreqController.new("COM" ~ me.radioNum ~ "S"),
+                "R2": ComModeController.new("COM" ~ me.radioNum ~ "M"),
             };
             if (me.ptitle != nil) {
                 me.controllers["R6"] = SubmodeController.new("ret");
