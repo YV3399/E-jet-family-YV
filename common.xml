@@ -1817,10 +1817,10 @@
         </IESS>
 
         <comm n="0">
-            <mode type="string">25/8.33</mode>
+            <spacing type="string">25/8.33</spacing>
         </comm>
         <comm n="1">
-            <mode type="string">25/8.33</mode>
+            <spacing type="string">25/8.33</spacing>
         </comm>
 
         <eicas>

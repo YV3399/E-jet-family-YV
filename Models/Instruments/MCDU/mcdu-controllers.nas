@@ -527,7 +527,7 @@ var FreqController = {
         }
         m.mode = ty;
         if (ty == "COM") {
-            m.modeProp = props.globals.getNode(keyProps[substr(key, 0, 4) ~ "M"], 1);
+            m.modeProp = props.globals.getNode(keyProps[substr(key, 0, 4) ~ "FS"], 1);
             m.min = 118.0;
             m.max = 137.0;
             m.nearest = func (f) {
