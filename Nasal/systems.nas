@@ -334,4 +334,4 @@ var resetBrakeHeat = func {
     }
 };
 
-setlistener("sim/signals/fdm-initialized", settimer(func {resetBrakeHeat();}, 10));
+setlistener("sim/signals/fdm-initialized", func settimer(func {resetBrakeHeat();}, 10));
