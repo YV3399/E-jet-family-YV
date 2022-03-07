@@ -1,6 +1,3 @@
-var currentRoute = nil;
-var modifiedRoute = nil;
-
 var findWaypoint = func (wpID, near=nil) {
     var candidates = [];
     if (near == nil) {

@@ -250,6 +250,10 @@ var RouteModule = {
             m.route = fms.getActiveRoute();
             m.routeStatus = 'ACT';
         }
+        if (fms.alternateRoute == nil) {
+            fms.alternateRoute = fms.Route.new(m.route.destinationAirport, nil, nil);
+        }
+        m.alternateRoute = fms.alternateRoute;
         m.timer = nil;
         return m;
     },
@@ -278,9 +282,16 @@ var RouteModule = {
     getNumPages: func () {
         var legs = me.route.legs;
         var numEntries = size(legs);
+
+        var altLegs = me.alternateRoute.legs;
+        var numAltEntries = size(altLegs);
+
         # one extra page at the beginning, one extra entry for the
         # destination.
-        return math.max(1, math.ceil((numEntries + 1) / 5)) + 1;
+        return
+            math.max(1, math.ceil((numEntries + 1) / 5)) +
+            math.max(1, math.ceil((numAltEntries + 1) / 5)) +
+            1;
     },
 
     activate: func () {
@@ -300,16 +311,28 @@ var RouteModule = {
     },
 
     getTitle: func () {
-        return me.routeStatus ~ " RTE";
+        var legs = me.route.legs;
+        var numEntries = size(legs);
+        if (me.page > math.max(1, math.ceil((numEntries + 1) / 5)) + 1) {
+            return 'ALT RTE';
+        }
+        else {
+            return me.routeStatus ~ " RTE";
+        }
     },
 
-    deleteLeg: func (deleteIndex) {
+    deleteLeg: func (deleteIndex, alternate=0) {
         me.startEditing();
-        me.route.deleteLeg(deleteIndex);
-        fms.updateModifiedFlightplanFromRoute();
+        if (alternate) {
+            me.alternateRoute.deleteLeg(deleteIndex);
+        }
+        else {
+            me.route.deleteLeg(deleteIndex);
+            fms.updateModifiedFlightplanFromRoute();
+        }
     },
 
-    appendViaTo: func (viaTo, appendIndex = nil) {
+    appendViaTo: func (viaTo, appendIndex=nil, alternate=0) {
         # printf("Append VIA-TO: %s", viaTo);
         var s = split('.', viaTo);
         # debug.dump(s);
@@ -321,12 +344,14 @@ var RouteModule = {
             return 'INVALID';
         }
 
+        var route = alternate ? me.alternateRoute : me.route;
+
         # No route entered yet? Let's first check if the first element is a
         # SID.
-        if (size(me.route.legs) == 0 and me.route.departureAirport != nil) {
-            var sid = me.route.departureAirport.getSid(s[0]);
+        if (size(route.legs) == 0 and route.departureAirport != nil) {
+            var sid = route.departureAirport.getSid(s[0]);
             if (typeof(sid) == 'ghost') {
-                me.route.sid = sid;
+                route.sid = sid;
                 s = subvec(s, 1);
             }
         }
@@ -337,12 +362,12 @@ var RouteModule = {
             # then try for a STAR
 
             if (size(s) == 2 and
-                me.route.destinationAirport != nil and
-                s[1] == me.route.destinationAirport.id) {
-                var star = me.route.destinationAirport.getStar(s[0]);
+                route.destinationAirport != nil and
+                s[1] == route.destinationAirport.id) {
+                var star = route.destinationAirport.getStar(s[0]);
                 if (typeof(star) == 'ghost') {
-                    me.route.star = star;
-                    me.route.closed = 1;
+                    route.star = star;
+                    route.closed = 1;
                     result = 'OK';
                     break;
                 }
@@ -350,7 +375,7 @@ var RouteModule = {
 
             # Attempt to interpret as airway.fix....
             if (size(s) > 1) {
-                result = me.route.appendLeg(s[0], s[1]);
+                result = route.appendLeg(s[0], s[1]);
                 if (result == 'OK') {
                     s = subvec(s, 2);
                     continue;
@@ -358,7 +383,7 @@ var RouteModule = {
             }
 
             # If that doesn't work, interpret as fix....
-            result = me.route.appendLeg(nil, s[0]);
+            result = route.appendLeg(nil, s[0]);
             if (result == 'OK') {
                 s = subvec(s, 1);
                 continue;
@@ -379,6 +404,7 @@ var RouteModule = {
     loadPageItems: func (p) {
         var departureModel = makeAirportModel(me, "DEPARTURE-AIRPORT");
         var destinationModel = makeAirportModel(me, "DESTINATION-AIRPORT");
+        var alternateModel = makeAirportModel(me, "ALTERNATE-AIRPORT");
 
         if (p == 0) {
             me.views = [
@@ -411,22 +437,28 @@ var RouteModule = {
             append(me.views, StaticView.new(21, 1, "TO", mcdu_white));
             var y = 2;
             var firstEntry = (p - 1) * 5;
+            var alternate = firstEntry >= me.route.legs + 1;
+            var route = me.route;
+            if (alternate) {
+                route = me.alternateRoute;
+                firstEntry = firstEntry - (me.route.legs + 1);
+            }
             for (var i = 0; i < 5; i += 1) {
                 var j = firstEntry + i;
                 var lsk = sprintf("R%i", i + 1);
-                var leg = (j < size(me.route.legs)) ? me.route.legs[j] : nil;
+                var leg = (j < size(route.legs)) ? route.legs[j] : nil;
                 if (leg == nil) {
-                    if (!me.route.isClosed()) {
+                    if (!route.isClosed()) {
                         append(me.views, StaticView.new(0, y, "-----", mcdu_green | mcdu_large));
                         me.controllers[lsk] =
-                            FuncController.new(func (owner, val) { owner.appendViaTo(val); });
+                            FuncController.new(func (owner, val) { owner.appendViaTo(val, nil, alternate); });
                     }
                     break;
                 }
                 else {
                     append(me.views, StaticView.new(0, y, leg.airwayID, mcdu_green | mcdu_large));
                     append(me.views, StaticView.new(16, y, leg.toID, mcdu_green | mcdu_large));
-                    if (j == size(me.route.legs) - 1) {
+                    if (j == size(route.legs) - 1) {
                         me.controllers[lsk] =
                             (func (i) {
                                 return FuncController.new(
@@ -437,7 +469,7 @@ var RouteModule = {
                                     func (owner) {
                                         # printf("Delete WP %i", j);
                                         owner.startEditing();
-                                        owner.deleteLeg(i);
+                                        owner.deleteLeg(i, alternate);
                                     });
                             })(j);
                     }
@@ -480,6 +512,7 @@ var FlightPlanModule = {
                 m.fpStatus = 'ACT';
             }
         }
+        m.altFP = fms.alternateFlightplan();
         m.timer = nil;
         return m;
     },
@@ -508,7 +541,8 @@ var FlightPlanModule = {
     getNumPages: func () {
         var numEntries = me.fp.getPlanSize();
         var firstEntry = me.fp.current - 1;
-        return math.max(1, math.ceil((numEntries - firstEntry) / 5));
+        return math.max(1, math.ceil((numEntries - firstEntry) / 5)) +
+               math.max(1, math.ceil(me.altFP.getPlanSize() / 5));
     },
 
     activate: func () {
@@ -528,7 +562,12 @@ var FlightPlanModule = {
     },
 
     getTitle: func () {
-        return me.fpStatus ~ " FLT PLAN";
+        if (me.page > math.max(1, math.ceil((numEntries - firstEntry) / 5))) {
+            return "ALT FLT PLAN"
+        }
+        else {
+            return me.fpStatus ~ " FLT PLAN";
+        }
     },
 
     deleteWP: func (wpi) {

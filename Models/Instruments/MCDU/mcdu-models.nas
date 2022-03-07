@@ -153,36 +153,32 @@ var PropModel = {
     },
 };
 
-var fpDepartureLens = {
-    get: func (fp) { return fp.departure; },
-    set: func (fp, val) { fp.departure = val; },
+var departureLens = {
+    get: func (owner) { return owner.route.departureAirport; },
+    set: func (owner, val) { return owner.route.departureAirport = val; }
 };
 
-var fpDestinationLens = {
-    get: func (fp) { return fp.destination; },
-    set: func (fp, val) { fp.destination = val; },
+var destinationLens = {
+    get: func (owner) { return owner.route.destinationAirport; },
+    set: func (owner, val) { return owner.alternateRoute.departureAirport = owner.route.destinationAirport = val; }
 };
 
-var routeDepartureLens = {
-    get: func (route) { return route.departureAirport; },
-    set: func (route, val) { return route.departureAirport = val; }
-};
-
-var routeDestinationLens = {
-    get: func (route) { return route.destinationAirport; },
-    set: func (route, val) { return route.destinationAirport = val; }
+var alternateLens = {
+    get: func (owner) { return owner.alternateRoute.destinationAirport; },
+    set: func (owner, val) { return owner.alternateRoute.destinationAirport = val; }
 };
 
 var routeLenses = {
-    'DEPARTURE-AIRPORT': routeDepartureLens,
-    'DESTINATION-AIRPORT': routeDestinationLens,
+    'DEPARTURE-AIRPORT': departureLens,
+    'DESTINATION-AIRPORT': destinationLens,
+    'ALTERNATE-AIRPORT': alternateLens,
 };
 
 var makeAirportModel = func(owner, key) {
     return FuncModel.new(key,
         func () {
             var lens = routeLenses[key];
-            var ap = lens.get(owner.route);
+            var ap = lens.get(owner);
             if (ap == nil) return "▯▯▯▯";
             return ap.id;
         },
@@ -192,7 +188,7 @@ var makeAirportModel = func(owner, key) {
             var aps = findAirportsByICAO(icao);
             if (size(aps) == 1) {
                 owner.startEditing();
-                lens.set(owner.route, aps[0]);
+                lens.set(owner, aps[0]);
                 fms.kickRouteManager();
                 owner.fullRedraw();
             }
@@ -203,7 +199,7 @@ var makeAirportModel = func(owner, key) {
         func () {
             var lens = routeLenses[key];
             owner.startEditing();
-            lens.set(owner.route, nil);
+            lens.set(owner, nil);
             fms.kickRouteManager();
             owner.fullRedraw();
         });

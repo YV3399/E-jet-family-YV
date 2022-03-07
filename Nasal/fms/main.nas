@@ -8,9 +8,11 @@ var slow_update = func () {
 };
 
 var modifiedFlightplan = nil;
+var alternateFlightplan = nil;
 
 var activeRoute = nil;
 var modifiedRoute = nil;
+var alternateRoute = nil;
 
 var calcPressureAlt = func (elev, qnh) {
     return 145366.45 * (1.0 - math.pow(qnh / 1013.25, 0.190284));
@@ -156,6 +158,7 @@ var discardRoute = func () {
 var updateModifiedFlightplanFromRoute = func () {
     if (modifiedRoute != nil) {
         modifiedFlightplan = modifiedRoute.toFlightplan();
+        alternateFlightplan = alternateRoute.toFlightplan();
         kickRouteManager();
     }
 };
