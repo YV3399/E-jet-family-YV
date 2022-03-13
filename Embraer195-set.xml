@@ -64,6 +64,9 @@
         </view>
         <view n="104">
             <name>Passenger View</name>
+            <config>
+                <walkable type="bool">true</walkable>
+            </config>
         </view>
 
         <previews>

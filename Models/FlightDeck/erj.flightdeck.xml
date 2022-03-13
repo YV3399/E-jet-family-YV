@@ -1759,66 +1759,20 @@
             <property>/systems/electrical/outputs/pushbutton-lights</property>
         </condition>
     </animation>
+
     <!-- NAV -->
-    
     <animation>
         <type>pick</type>
         <object-name>NAV</object-name>
-        <condition>
-            <or>
-                <equals>
-                    <property>it-autoflight/input/lat</property>
-                    <value>1</value>
-                </equals>
-                <equals>
-                    <property>it-autoflight/input/lat</property>
-                    <value>2</value>
-                </equals>
-            </or>
-        </condition>
         <action>
             <button>0</button>
             <repeatable type="bool">false</repeatable>
             <binding>
-                <command>property-assign</command>
-                <property>it-autoflight/input/lat</property>
-                <value>0</value>
+                <command>nasal</command>
+                <script>autoflight.navButton();</script>
             </binding>
         </action>
     </animation>
-    <animation>
-        <type>pick</type>
-        <object-name>NAV</object-name>
-        <condition>
-            <not>
-                <or>
-                    <equals>
-                        <property>it-autoflight/input/lat</property>
-                        <value>1</value>
-                    </equals>
-                    <equals>
-                        <property>it-autoflight/input/lat</property>
-                        <value>2</value>
-                    </equals>
-                </or>
-            </not>
-        </condition>
-        <action>
-            <button>0</button>
-            <repeatable type="bool">false</repeatable>
-            <binding>
-                <command>property-assign</command>
-                <property>it-autoflight/input/lat</property>
-                <property>/controls/flight/nav-src/lat-mode</property>
-            </binding>
-            <binding>
-                <command>property-assign</command>
-                <property>it-autoflight/input/use-nav2-radio</property>
-                <property>/controls/flight/nav-src/nav2</property>
-            </binding>
-        </action>
-    </animation>
-    
     <animation>
         <type>select</type>
         <object-name>NAV.light</object-name>
@@ -1846,10 +1800,8 @@
             <button>0</button>
             <repeatable type="bool">false</repeatable>
             <binding>
-                <command>property-cycle</command>
-                <property>it-autoflight/input/lat</property>
-                <value>0</value>
-                <value>3</value>
+                <command>nasal</command>
+                <script>autoflight.hdgButton();</script>
             </binding>
         </action>
     </animation>
@@ -1874,16 +1826,8 @@
             <button>0</button>
             <repeatable type="bool">false</repeatable>
             <binding>
-                <command>property-cycle</command>
-                <property>it-autoflight/input/lat</property>
-                <value>2</value>
-                <value>3</value>
-            </binding>
-            <binding>
-                <command>property-cycle</command>
-                <property>it-autoflight/input/vert</property>
-                <value>2</value>
-                <value>0</value>
+                <command>nasal</command>
+                <script>autoflight.apprButton();</script>
             </binding>
         </action>
     </animation>

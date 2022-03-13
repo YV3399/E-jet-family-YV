@@ -48,6 +48,12 @@
         </max-rate-of-change>
         <input>
             <condition>
+                <property>controls/flight/tcs</property>
+            </condition>
+            <value>-1000</value>
+        </input>
+        <input>
+            <condition>
                 <less-than>
                     <property>autopilot/disconnect-conditions/control-input</property>
                     <value>0.01</value>

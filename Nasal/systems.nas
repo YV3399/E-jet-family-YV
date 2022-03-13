@@ -242,83 +242,6 @@ setlistener("sim/signals/fdm-initialized", func {
     settimer(atKtsMachLoop, 2);
 });
 
-## AUTOPILOT
-############
-
-# Selecting a different nav source on the active side, or switching sides,
-# when the autopilot is in LNAV or NAV mode, reverts the autopilot to HDG
-# mode.
-
-var checkNavDisengage = func () {
-    var side = getprop("/controls/flight/nav-src/side");
-    var navsrc = getprop("/instrumentation/pfd[" ~ side ~ "]/nav-src");
-    var apLat = getprop("/it-autoflight/output/lat");
-    var apNav2 = getprop("/it-autoflight/input/use-nav2-radio");
-    var apNavsrc = navsrc;
-    setprop("/controls/flight/nav-src/lat-mode", (navsrc == 0) ? 1 : 2);
-    setprop("/controls/flight/nav-src/nav2", (navsrc == 2) ? 1 : 0);
-    if (apLat == 1) {
-        # LNAV
-        apNavsrc = 0;
-    }
-    else if (apLat == 2) {
-        # VOR/LOC
-        if (apNav2) {
-            apNavsrc = 2;
-        }
-        else {
-            apNavsrc = 1;
-        }
-    }
-    else {
-        # Some other mode - no need to disengage anything
-        return;
-    }
-    if (apNavsrc != navsrc) {
-        # disengage!
-        # (select HDG HOLD)
-        setprop("/it-autoflight/input/lat", 3);
-    }
-};
-
-# once to initialize, and then on each change of any of the inputs.
-checkNavDisengage();
-setlistener("/controls/flight/nav-src/side", checkNavDisengage);
-setlistener("/instrumentation/pfd[0]/nav-src", checkNavDisengage);
-setlistener("/instrumentation/pfd[1]/nav-src", checkNavDisengage);
-
-var apActiveProp = props.globals.getNode('it-autoflight/output/ap1', 1);
-var apControlProp1 = props.globals.getNode('it-autoflight/input/ap1', 1);
-var apControlProp2 = props.globals.getNode('it-autoflight/input/ap2', 1);
-var apWarningProp = props.globals.getNode('instrumentation/annun/ap-disconnect-warning', 1);
-
-var atActiveProp = props.globals.getNode('it-autoflight/output/athr', 1);
-var atControlProp = props.globals.getNode('it-autoflight/input/athr', 1);
-var atWarningProp = props.globals.getNode('instrumentation/annun/at-disconnect-warning', 1);
-
-setlistener("/controls/autoflight/disconnect", func (node) {
-    if (node.getBoolValue()) {
-        apWarningProp.setBoolValue(apActiveProp.getBoolValue());
-        apControlProp1.setBoolValue(0);
-        apControlProp2.setBoolValue(0);
-    }
-}, 1, 0);
-setlistener("/it-autoflight/output/ap1", func (node) {
-    if (node.getBoolValue()) {
-        apWarningProp.setBoolValue(0);
-    }
-}, 1, 0);
-setlistener("/controls/autoflight/at-disconnect", func (node) {
-    if (node.getBoolValue()) {
-        atWarningProp.setBoolValue(atActiveProp.getBoolValue());
-        atControlProp.setBoolValue(0);
-    }
-}, 1, 0);
-setlistener("/it-autoflight/output/at", func (node) {
-    if (node.getBoolValue()) {
-        atWarningProp.setBoolValue(0);
-    }
-}, 1, 0);
 
 var resetBrakeHeat = func {
     var tempC = getprop('/environment/temperature-degc');
@@ -336,11 +259,3 @@ var resetBrakeHeat = func {
 
 setlistener("sim/signals/fdm-initialized", func settimer(func {resetBrakeHeat();}, 10));
 
-setlistener('autopilot/disconnect-conditions/control-input-filtered', func (node) {
-    if (node.getDoubleValue() > 0.99999) {
-        if (getprop('it-autoflight/output/ap1')) {
-            setprop('controls/autoflight/disconnect', 1);
-            setprop('controls/autoflight/disconnect', 0);
-        }
-    }
-}, 1, 0);

@@ -5,8 +5,8 @@ var yViewNode = props.globals.getNode("sim/current-view/x-offset-m", 1);
 var hViewNode = props.globals.getNode("sim/current-view/heading-offset-deg", 1);
 
 var walk_about = func(wa_distance) {
-	var i = getprop("sim/current-view/view-number");
-	if (i == view.indexof("Pilot View") or i == view.indexof("Model View") or i == view.indexof("Passenger View") or i == view.indexof("Copilot View")) {
+	var walkable = getprop("sim/current-view/config/walkable") or 0;
+	if (walkable) {
 		var wa_heading_rad = hViewNode.getValue() * 0.01745329252;
 		var new_x_position = xViewNode.getValue() - (math.cos(wa_heading_rad) * wa_distance);
 		var new_y_position = yViewNode.getValue() - (math.sin(wa_heading_rad) * wa_distance);

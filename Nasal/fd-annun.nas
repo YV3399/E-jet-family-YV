@@ -36,6 +36,7 @@ var latModeMap = {
     "LOC": "LOC",
     "ALGN": "ROLL",
     "RLOU": "ROLL",
+    "ROLL": "ROLL",
     "T/O": "TRACK"
 };
 var latModeArmedMap = {
@@ -43,6 +44,7 @@ var latModeArmedMap = {
     "LOC": "LOC",
     "ILS": "LOC",
     "HDG": "HDG",
+    "ROLL": "ROLL",
     "HDG HLD": "ROLL",
     "HDG SEL": "HDG",
     "T/O": "TRACK"

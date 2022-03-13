@@ -99,6 +99,7 @@
                 <x-offset-m archive="y">-1.09</x-offset-m>
                 <y-offset-m archive="y">1.28</y-offset-m>
                 <z-offset-m archive="y">0</z-offset-m>
+                <walkable type="bool">true</walkable>
             </config>
         </view>
 

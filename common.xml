@@ -657,15 +657,15 @@
             </key>
             <key>
                 <name>w</name>
-                <desc>walk forward toward view direction</desc>
+                <desc>Walkable views: walk forward toward view direction; cockpit: TCS</desc>
             </key>
             <key>
                 <name>W</name>
-                <desc>run forward toward view direction</desc>
+                <desc>Walkable views: run forward toward view direction</desc>
             </key>
             <key>
                 <name>s</name>
-                <desc>walk backward from view direction</desc>
+                <desc>Walkable views: walk backward from view direction</desc>
             </key>
         </help>
 
@@ -1621,6 +1621,7 @@
             <ground-spoilers-armed type="bool">false</ground-spoilers-armed>
             <speedbrake-lever type="double">0</speedbrake-lever>
             <steep-approach type="bool">false</steep-approach>
+            <tcs type="bool">false</tcs>
 
             <!--
                 These are the pilot-selected v-speeds; any non-zero setting
@@ -2288,14 +2289,41 @@
             </key>
             <key n="119">
                 <name>w</name>
-                <desc>Walk forward toward view</desc>
+                <desc>TCS / Walk forward toward view</desc>
                 <repeatable type="bool">true</repeatable>
                 <binding>
+                    <enable>
+                        <condition>
+                            <property>/sim/current-view/config/walkable</property>
+                        </condition>
+                    </enable>
                     <command>nasal</command>
                     <script>
                         walk.walk_about(0.1);
                     </script>
                 </binding>
+                <binding>
+                    <enable>
+                        <condition>
+                            <not><property>/sim/current-view/config/walkable</property></not>
+                        </condition>
+                    </enable>
+                    <command>property-assign</command>
+                    <property>controls/flight/tcs</property>
+                    <value type="bool">true</value>
+                </binding>
+                <mod-up>
+                    <binding>
+                        <enable>
+                            <condition>
+                                <not><property>/sim/current-view/config/walkable</property></not>
+                            </condition>
+                        </enable>
+                        <command>property-assign</command>
+                        <property>controls/flight/tcs</property>
+                        <value type="bool">false</value>
+                    </binding>
+                </mod-up>
             </key>
             <key n="113">
                 <name>q</name>
@@ -2432,6 +2460,10 @@
             <file>Aircraft/E-jet-family/Nasal/ELTmessage.nas</file>
         </ELT>
 
+        <viewLogic>
+            <file>Aircraft/E-jet-family/Nasal/view.nas</file>
+        </viewLogic>
+
         <itaf>
             <file>Aircraft/E-jet-family/Nasal/it-autoflight.nas</file>
         </itaf>
@@ -2468,6 +2500,9 @@
             <file>Aircraft/E-jet-family/Nasal/systems.nas</file>
             <file>Aircraft/E-jet-family/Nasal/limits.nas</file>
         </systems>
+        <autoflight>
+            <file>Aircraft/E-jet-family/Nasal/autopilot-control.nas</file>
+        </autoflight>
         <reversethrust>
             <file>Aircraft/E-jet-family/Nasal/reversethrust.nas</file>
         </reversethrust>

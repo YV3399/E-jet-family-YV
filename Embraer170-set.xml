@@ -61,6 +61,9 @@
         </view>
         <view n="104">
             <name>Passenger View (Economy Class)</name>
+            <config>
+                <walkable type="bool">true</walkable>
+            </config>
         </view>
 
         <previews>

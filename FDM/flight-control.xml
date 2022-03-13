@@ -2,6 +2,20 @@
 
 <flight_control name="FCS: E-Jet-Family">
     <channel name="Pitch">
+        <fcs_function name="fcs/elevator-sum">
+            <function>
+                <sum>
+                    <p>/controls/flight/elevator</p>
+                    <ifthen>
+                        <p>/controls/flight/tcs</p>
+                        <v>0</v>
+                        <p>/it-autoflight/internal/elevator</p>
+                    </ifthen>
+                </sum>
+            </function>
+            <output>fcs/elevator-sum</output>
+        </fcs_function>
+
         <summer name="Pitch Trim Sum">
             <input>fcs/elevator-cmd-fbw</input>
             <input>fcs/pitch-trim-cmd-norm</input>
@@ -35,9 +49,22 @@
     </channel>
     
     <channel name="Roll">
+        <fcs_function name="fcs/aileron-sum">
+            <function>
+                <sum>
+                    <p>/controls/flight/aileron</p>
+                    <ifthen>
+                        <p>/controls/flight/tcs</p>
+                        <v>0</v>
+                        <p>/it-autoflight/internal/aileron</p>
+                    </ifthen>
+                </sum>
+            </function>
+            <output>fcs/aileron-sum</output>
+        </fcs_function>
+
         <summer name="Roll Trim Sum">
-            <input>/controls/flight/aileron</input>
-            <input>/it-autoflight/internal/aileron</input>
+            <input>fcs/aileron-sum</input>
             <input>fcs/roll-trim-cmd-norm</input>
             <clipto>
                 <min> -1 </min>
@@ -93,7 +120,7 @@
     
     <channel name="Yaw">
         <summer name="Rudder Command Sum">
-            <input>/controls/flight/rudder</input>
+            <input>-/controls/flight/rudder</input>
             <input>/it-autoflight/internal/rudder</input>
             <input>fcs/yaw-trim-cmd-norm</input>
             <clipto>
