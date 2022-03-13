@@ -1932,30 +1932,28 @@
 
         <ap-disconnect>
             <name>AP Disconnect</name>
-            <mode>once</mode>
+            <mode>looped</mode>
             <type>avionics</type>
             <path>Aircraft/E-jet-family/Sounds/APdisco.wav</path>
             <condition>
-                <property>/it-autoflight/sound/apoffsound</property>
+                <property>/instrumentation/annun/ap-disconnect-warning</property>
             </condition>
             <volume>
                 <factor>1</factor>
             </volume>
         </ap-disconnect>
-
-        <ap-disconnect>
-            <name>AP Disconnect 2</name>
-            <mode>once</mode>
+        <at-disconnect>
+            <name>AT Disconnect</name>
+            <mode>looped</mode>
             <type>avionics</type>
-            <path>Aircraft/E-jet-family/Sounds/APdisco.wav</path>
+            <path>Aircraft/E-jet-family/Sounds/ATdisco.wav</path>
             <condition>
-                <property>/it-autoflight/sound/apoffsound2</property>
+                <property>/instrumentation/annun/at-disconnect-warning</property>
             </condition>
             <volume>
                 <factor>1</factor>
             </volume>
-        </ap-disconnect>
-
+        </at-disconnect>
 
         <!-- Master warning / caution -->
         <alarm>
