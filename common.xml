@@ -1761,6 +1761,7 @@
             <serviceable type="bool">true</serviceable>
             <feed type="int">-1</feed>
             <cutoff type="bool">true</cutoff>
+            <temp-c type="double">0</temp-c>
         </apu>
 
         <engine n="0">

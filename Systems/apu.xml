@@ -294,4 +294,75 @@
         </input>
         <output>/systems/fuel/external-flow[2]/apu</output>
     </filter>
+
+    <filter>
+        <name>APU heat production</name>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <!-- no fuel flow: use current environmental air temp -->
+            <condition>
+                <property>engines/apu/cutoff</property>
+            </condition>
+            <!-- <property>environment/temperature-degc</property> -->
+            <value>0</value>
+        </input>
+        <input>
+            <value>500</value>
+        </input>
+        <output>engines/apu/heat-in</output>
+    </filter>
+    <filter>
+        <name>APU temp diff</name>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <expression>
+                <difference>
+                    <property>engines/apu/temp-c</property>
+                    <property>environment/temperature-degc</property>
+                </difference>
+            </expression>
+        </input>
+        <output>engines/apu/temp-diff-c</output>
+    </filter>
+    <filter>
+        <name>APU heat out</name>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <expression>
+                <product>
+                    <property>engines/apu/temp-diff-c</property>
+                    <sum>
+                        <property>engines/apu/rpm</property>
+                        <value>50</value>
+                    </sum>
+                    <value>0.01</value>
+                </product>
+            </expression>
+        </input>
+        <output>engines/apu/heat-out</output>
+    </filter>
+    <filter>
+        <type>gain</type>
+        <gain>1</gain>
+        <update-interval-secs>0.1</update-interval-secs>
+        <debug type="bool">false</debug>
+        <input>
+            <expression>
+                <sum>
+                    <product>
+                        <difference>
+                            <property>engines/apu/heat-in</property>
+                            <property>engines/apu/heat-out</property>
+                        </difference>
+                        <value>0.1</value>
+                    </product>
+                    <property>engines/apu/temp-c</property>
+                </sum>
+            </expression>
+        </input>
+        <output>engines/apu/temp-c</output>
+    </filter>
 </PropertyList>

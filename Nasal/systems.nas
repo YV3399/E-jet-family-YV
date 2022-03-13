@@ -243,7 +243,7 @@ setlistener("sim/signals/fdm-initialized", func {
 });
 
 
-var resetBrakeHeat = func {
+var resetTemperatures = func {
     var tempC = getprop('/environment/temperature-degc');
     var tempK = tempC + 273.2;
     printf("Brake heat reset - temperature: %i°C / %i K", tempC, tempK);
@@ -255,7 +255,8 @@ var resetBrakeHeat = func {
             setprop(basepath ~ '/heat', h);
         }
     }
+    setprop('engines/apu/temp-c', tempC);
 };
 
-setlistener("sim/signals/fdm-initialized", func settimer(func {resetBrakeHeat();}, 10));
+setlistener("sim/signals/fdm-initialized", func settimer(func {resetTemperatures();}, 10));
 
