@@ -346,8 +346,10 @@ adapted for a single-engine taxi.
 - 4 **Nav source**. Left = captain side, right = FO side. (NOT IMPLEMENTED
   YET).
 - 5 **Lateral mode**. Upper = active, lower = armed. TRACK = track runway
-  heading (takeoff / go-around), HDG = track selected heading, VOR = track VOR
-  heading, LOC = track ILS localizer, LNAV = track FMS route.
+  heading (takeoff / go-around), ROLL = roll hold,
+  HDG = track selected heading, VOR = track VOR
+  heading, LOC = track ILS localizer, LNAV = track FMS route. (Note that ROLL
+  will command 0° bank if bank angle is less than 6° upon activation).
 - 6 **Vertical mode**. Upper = active, lower = armed. TO = takeoff, GA =
   go-around, FLCH = flight level change, FPA = flight path angle, VS = vertical
   speed, GS = ILS glideslope. If VNAV is active, modes are selected by the FMS,
@@ -361,9 +363,7 @@ adapted for a single-engine taxi.
 - 8 **FPA / VS target**. The currently selected vertical speed or flight path
   angle. In VNAV mode, the FMS will set this.
 - 9 **Autoland annunciation**. Left, white = armed, right, green = active.
-  APPR1 means CAT-I autoland, APPR2 means CAT-II autoland. (NOT FULLY
-  IMPLEMENTED YET: conditions must be met for either autoland mode to arm and
-  activate).
+  APPR1 means CAT-I autoland, APPR2 means CAT-II autoland.
 
 ### Basic Autopilot Usage
 
@@ -399,11 +399,43 @@ Under normal conditions, you will only use the following procedures:
   arm LOC and GS mode. If all goes well, the LOC and GS modes will
   automatically engage when the localizer and glideslope are intercepted.
 - Once established on the glideslope, extend landing gear, set flaps as
-  appropriate, and reduce speed with the SPD SEL knob. The APPR2 annunciations
-  should appear on the top of the PFD, first the white one, then the green, and
-  the aircraft should then land itself automatically. The autothrottle should
-  disengage on main gear touchdown, the autopilot may require manual
-  disconnecting.
+  appropriate, and reduce speed with the SPD SEL knob. The APPR1 annunciations
+  should appear on the top of the PFD, first the white one, then the green.
+  Disengage AP and AT around 1000 ft AGL, and manually land the aircraft.
+
+### Autopilot disconnection
+
+The autopilot will disconnect under the following circumstances:
+
+- Pushing the AP disconn button on the yoke or the Z key (normal disconnect)
+- Pushing the AP button on the glareshield panel while the autopilot is active
+  (normal disconnect)
+- Small inputs on the yoke or rudder for more than 5 seconds (non-normal
+  disconnect)
+- Large inputs on the yoke or rudder (non-normal disconnect)
+- Various failures (non-normal disconnect, not implemented)
+
+When the autopilot disconnects, the AP annunciation on the PFD will flash red,
+and there will be an aural alert "AUTOPILOT, AUTOPILOT", until you push the
+yoke button or the AP button on the glareshield panel again.
+
+### TCS (Touch Control Steering)
+
+The autopilot can be temporarily bypassed without disconnecting it entirely,
+using the TCS button (W key in most views, including all cockpit views).
+
+While the TCS button is depressed, the rudder and yoke controls will
+temporarily control the aircraft; when the TCS button is released, the
+autopilot resumes its previously selected modes.
+
+If the lateral mode was ROLL before using TCS, then releasing TCS will
+re-synchronize aircraft roll attitude with the autopilot; otherwise, it will
+resume the previously commanded heading or NAV course.
+
+If the vertical mode was FPA, then releasing TCS will sync the FPA target to
+the current FPA. If the vertical mode was VS, then releasing TCS will sync the
+VS target to the current vertical speed. In all other modes, the target will
+remain unaffected.
 
 ### Advanced Autopilot Usage: VNAV
 
