@@ -2406,16 +2406,28 @@
             <!-- Custom autopilot hotkeys -->
             <key n="26">
                 <name>Ctrl-Z</name>
-                <desc>Toggle master autopilot switch</desc>
+                <desc>Master autopilot on</desc>
                 <binding>
-                    <command>property-toggle</command>
+                    <command>property-assign</command>
                     <property>it-autoflight/input/ap1</property>
+                    <value>1</value>
                 </binding>
+            </key>
+            <key n="122">
+                <name>z</name>
+                <desc>Autopilot disconnect</desc>
                 <binding>
-                    <command>property-set</command>
-                    <property>it-autoflight/input/ap2</property>
-                    <property>it-autoflight/input/ap1</property>
+                    <command type="string">property-assign</command>
+                    <property>controls/autoflight/disconnect</property>
+                    <value type="bool">true</value>
                 </binding>
+                <mod-up>
+                    <binding>
+                        <command type="string">property-assign</command>
+                        <property>controls/autoflight/disconnect</property>
+                        <value type="bool">false</value>
+                    </binding>
+                </mod-up>
             </key>
             <key n="25">
                 <name>Ctrl-Y</name>
