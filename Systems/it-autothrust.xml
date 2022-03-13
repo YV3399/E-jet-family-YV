@@ -5,16 +5,6 @@
 
 <PropertyList>
 	
-	<logic>
-		<input>
-			<equals>
-				<property>/it-autoflight/output/athr</property>
-				<value>1</value>
-			</equals>
-		</input>
-		<output>/it-autoflight/output/athr-on</output>
-	</logic>
-	
 	<filter>
 		<name>A/THR Knots Input Gain</name>
 		<type>gain</type>
@@ -48,7 +38,10 @@
 		<max-rate-of-change>
 			<condition>
 				<and>
-					<property>/it-autoflight/output/athr-on</property>
+					<equals>
+						<property>/it-autoflight/output/athr</property>
+						<value>1</value>
+					</equals>
 					<equals>
 						<property>/it-autoflight/output/thr-mode</property>
 						<value>0</value>
@@ -106,7 +99,10 @@
 		<max-rate-of-change>
 			<condition>
 				<and>
-					<property>/it-autoflight/output/athr-on</property>
+					<equals>
+						<property>/it-autoflight/output/athr</property>
+						<value>1</value>
+					</equals>
 					<equals>
 						<property>/it-autoflight/output/thr-mode</property>
 						<value>0</value>
@@ -135,7 +131,10 @@
 		<enable>
 			<condition>
 				<and>
-					<property>/it-autoflight/output/athr-on</property>
+					<equals>
+						<property>/it-autoflight/output/athr</property>
+						<value>1</value>
+					</equals>
 					<equals>
 						<property>/it-autoflight/input/kts-mach</property>
 						<value>0</value>
@@ -164,7 +163,10 @@
 		<enable>
 			<condition>
 				<and>
-					<property>/it-autoflight/output/athr-on</property>
+					<equals>
+						<property>/it-autoflight/output/athr</property>
+						<value>1</value>
+					</equals>
 					<equals>
 						<property>/it-autoflight/input/kts-mach</property>
 						<value>1</value>
@@ -201,7 +203,10 @@
 		<enable>
 			<condition>
 				<and>
-					<property>/it-autoflight/output/athr-on</property>
+					<equals>
+						<property>/it-autoflight/output/athr</property>
+						<value>1</value>
+					</equals>
 					<equals>
 						<property>/it-autoflight/output/thr-mode</property>
 						<value>1</value>
@@ -229,7 +234,10 @@
 		<enable>
 			<condition>
 				<and>
-					<property>/it-autoflight/output/athr-on</property>
+					<equals>
+						<property>/it-autoflight/output/athr</property>
+						<value>1</value>
+					</equals>
 					<equals>
 						<property>/it-autoflight/output/thr-mode</property>
 						<value>2</value>
@@ -248,7 +256,10 @@
 		<initialize-to>output</initialize-to>
 		<enable>
 			<condition>
-				<property>/it-autoflight/output/athr-on</property>
+				<equals>
+					<property>/it-autoflight/output/athr</property>
+					<value>1</value>
+				</equals>
 			</condition>
 		</enable>
 		<input>/it-autoflight/internal/throttle-cmd-pid</input>

@@ -6,11 +6,7 @@
             <function>
                 <sum>
                     <p>/controls/flight/elevator</p>
-                    <ifthen>
-                        <p>/controls/flight/tcs</p>
-                        <v>0</v>
-                        <p>/it-autoflight/internal/elevator</p>
-                    </ifthen>
+                    <p>/it-autoflight/internal/elevator</p>
                 </sum>
             </function>
             <output>fcs/elevator-sum</output>
@@ -53,11 +49,7 @@
             <function>
                 <sum>
                     <p>/controls/flight/aileron</p>
-                    <ifthen>
-                        <p>/controls/flight/tcs</p>
-                        <v>0</v>
-                        <p>/it-autoflight/internal/aileron</p>
-                    </ifthen>
+                    <p>/it-autoflight/internal/aileron</p>
                 </sum>
             </function>
             <output>fcs/aileron-sum</output>

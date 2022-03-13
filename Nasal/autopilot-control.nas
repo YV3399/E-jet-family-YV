@@ -74,6 +74,7 @@ var apVertModeOutProp = props.globals.getNode('it-autoflight/output/vert', 1);
 var apApprArmedProp = props.globals.getNode('it-autoflight/output/appr-armed', 1);
 var navSourceLatModeProp = props.globals.getNode('controls/flight/nav-src/lat-mode', 1);
 var navSourceNav2Prop = props.globals.getNode('controls/flight/nav-src/nav2', 1);
+var itafCWSProp = props.globals.getNode('it-autoflight/output/cws', 1);
 
 var syncRoll = func () {
     # Calculate target bank angle:
@@ -170,6 +171,7 @@ setlistener("/controls/flight/tcs", func (node) {
         syncRoll();
         syncVert();
     }
+    itafCWSProp.setValue(node.getValue());
 }, 1, 0);
 
 setlistener("/controls/autoflight/disconnect", func (node) {
