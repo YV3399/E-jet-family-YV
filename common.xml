@@ -228,6 +228,9 @@
             <property-rule n="115">
                 <path>Aircraft/E-jet-family/Systems/views.xml</path>
             </property-rule>
+            <property-rule n="116">
+                <path>Aircraft/E-jet-family/Systems/callouts.xml</path>
+            </property-rule>
 
             <!--Disable XML electrical system-->
             <electrical>
@@ -1958,6 +1961,15 @@
 
             <hud-declutter type="int">0</hud-declutter>
         </annun>
+
+        <callouts>
+            <eighty type="bool">false</eighty>
+            <v1 type="bool">false</v1>
+            <v2 type="bool">false</v2>
+            <vr type="bool">false</vr>
+            <gearup type="bool">false</gearup>
+        </callouts>
+
 
         <pfd>
             <enabled type="bool">true</enabled>
