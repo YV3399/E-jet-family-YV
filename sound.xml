@@ -1961,7 +1961,10 @@
             <type>avionics</type>
             <path>Aircraft/E-jet-family/Sounds/Cockpit/80kt.wav</path>
             <condition>
-                <property>/instrumentation/callouts/eighty</property>
+                <and>
+                    <property>/instrumentation/callouts/eighty</property>
+                    <property>systems/electrical/outputs/master-warn-caution[0]</property>
+                </and>
             </condition>
             <volume>
                 <factor>1</factor>

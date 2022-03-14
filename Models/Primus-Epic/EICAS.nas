@@ -121,6 +121,9 @@ var canvas_ED_only = {
         me["ITTR.shade"] = canvas_group.createChild('path');
         me["ITTR.shade"].set('z-index', -10).setColorFill(0.5, 0.5, 0.5);
 
+        me["flaps.shade"] = canvas_group.createChild('path');
+        me["flaps.shade"].set('z-index', -10).setColorFill(0.5, 0.5, 0.5);
+
 		me.page = canvas_group;
 
         var self = me;
@@ -192,7 +195,6 @@ var canvas_ED_only = {
 		return [
             "flaps.UP",
             "flaps.IND",
-            "flaps.SHADE",
             "flaps.SCALE",
             "flaps.TGT",
             "slat.IND",
@@ -272,20 +274,34 @@ var canvas_ED_only = {
 		var flap_pos=getprop("/fdm/jsbsim/fcs/flap-pos-deg") or 0;
 		var flap_cmd=getprop("/fdm/jsbsim/fcs/flap-cmd-int-deg") or 0;
 		
-		if(flap_pos==0){
+		if (flap_pos == 0) {
 			me["flaps.IND"].hide();
-			me["flaps.SHADE"].hide();
 			me["flaps.SCALE"].hide();
 			me["flaps.TGT"].hide();
 			me["flaps.UP"].show();
-		}else{
+			me["flaps.shade"].hide();
+		}
+        else {
 			me["flaps.IND"].show();
-			me["flaps.SHADE"].show();
+			me["flaps.shade"].show();
 			me["flaps.SCALE"].show();
 			me["flaps.TGT"].show();
 			me["flaps.UP"].hide();
 			me["flaps.TGT"].setRotation(flap_cmd * D2R);
 			me["flaps.IND"].setRotation(flap_pos * D2R);
+            var shade = me["flaps.shade"];
+            var (cx, cy) = me["flaps.IND"].getCenter();
+            var sf = math.sin(flap_pos * D2R);
+            var cf = math.cos(flap_pos * D2R);
+            var r = 128.0;
+            var h = 16.0;
+            shade.reset();
+            shade
+                .moveTo(cx, cy)
+                .line(0, -h)
+                .line(r, h)
+                .arcSmallCWTo(r, r, 0, cx + r * cf, cy + r * sf)
+                .lineTo(cx, cy);
 		}
 		
 		var slat_pos=getprop("/fdm/jsbsim/fcs/slat-pos-deg") or 0;
