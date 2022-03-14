@@ -79,7 +79,7 @@ var canvas_ED_only = {
             canvas_group.setVisible(node.getValue() > 18);
         }, 1, 0);
 
-		 var svg_keys = me.getKeys();
+        var svg_keys = me.getKeys();
 		 
 		foreach(var key; svg_keys) {
 			me[key] = canvas_group.getElementById(key);
@@ -163,7 +163,6 @@ var canvas_ED_only = {
         setlistener(blinkProp, updateBlinks);
         setlistener("/instrumentation/eicas/signals/messages-changed", func () {
             updateBlinks();
-            var (r, g, b) = [0, 0, 0];
             var i = 0;
             var elem = nil;
             foreach (var msg; messages.messages) {
