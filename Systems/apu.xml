@@ -143,7 +143,7 @@
                         <value>1</value>
                     </equals>
                     <or>
-                        <property>/system/fuel/fuel-pump[0]/running</property>
+                        <property>/systems/fuel/fuel-pump[0]/running</property>
                         <property>/engines/engine[0]/running</property>
                     </or>
                 </and>
@@ -159,7 +159,7 @@
                         <value>2</value>
                     </greater-than>
                     <!-- can only use tank 3 if AC fuel pump 3 is running -->
-                    <property>/system/fuel/fuel-pump[2]/running</property>
+                    <property>/systems/fuel/fuel-pump[2]/running</property>
                 </and>
             </condition>
             <value>2</value>
