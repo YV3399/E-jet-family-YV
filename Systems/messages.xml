@@ -181,18 +181,7 @@
         <output>/instrumentation/eicas/messages/electrical/batteries-off</output>
     </logic>
     <logic>
-        <input>
-            <and>
-                <greater-than>
-                    <property>/engines/apu/rpm</property>
-                    <value>0</value>
-                </greater-than>
-                <equals>
-                    <property>/engines/apu/rpm-target</property>
-                    <value>0</value>
-                </equals>
-            </and>
-        </input>
+        <input><property>/engines/apu/shutting-down</property></input>
         <output>/instrumentation/eicas/messages/apu/shutdown</output>
     </logic>
 

@@ -147,6 +147,15 @@
     <filter>
         <name>APU RPM</name>
         <type>noise-spike</type>
+        <max-rate-of-change>
+            <condition>
+                <less-than>
+                    <property>/engines/apu/rpm-target</property>
+                    <property>/engines/apu/rpm</property>
+                </less-than>
+            </condition>
+            <value>9.0</value>
+        </max-rate-of-change>
         <max-rate-of-change>3.0</max-rate-of-change>
         <input>
             <condition>
@@ -198,6 +207,42 @@
         <input><value>1</value></input>
         <output>/controls/apu/starter</output>
     </filter>
+    <filter>
+        <name>APU startup inhibit</name>
+        <type>gain</type>
+        <gain>1</gain>
+        <enable>
+            <condition>
+                <property>/engines/apu/shutting-down</property>
+            </condition>
+        </enable>
+        <input><value>0</value></input>
+        <output>/controls/apu/starter</output>
+    </filter>
+
+    <flipflop>
+        <name>APU shutting down on</name>
+        <type>RS</type>
+        <S>
+            <and>
+                <greater-than>
+                    <property>engines/apu/temp-c</property>
+                    <value>100</value>
+                </greater-than>
+                <less-than>
+                    <property>engines/apu/rpm-target</property>
+                    <value>50</value>
+                </less-than>
+            </and>
+        </S>
+        <R>
+            <less-than>
+                <property>engines/apu/temp-c</property>
+                <value>100</value>
+            </less-than>
+        </R>
+        <output>engines/apu/shutting-down</output>
+    </flipflop>
 
     <filter>
         <name>APU fuel valve</name>
@@ -298,17 +343,19 @@
     <filter>
         <name>APU heat production</name>
         <type>gain</type>
-        <gain>1</gain>
+        <gain>0.75</gain>
         <input>
             <!-- no fuel flow: use current environmental air temp -->
             <condition>
-                <property>engines/apu/cutoff</property>
+                <less-than>
+                    <property>engines/apu/rpm</property>
+                    <value>25</value>
+                </less-than>
             </condition>
-            <!-- <property>environment/temperature-degc</property> -->
             <value>0</value>
         </input>
         <input>
-            <value>500</value>
+            <property>engines/apu/rpm</property>
         </input>
         <output>engines/apu/heat-in</output>
     </filter>
@@ -336,9 +383,9 @@
                     <property>engines/apu/temp-diff-c</property>
                     <sum>
                         <property>engines/apu/rpm</property>
-                        <value>50</value>
+                        <value>25</value>
                     </sum>
-                    <value>0.01</value>
+                    <value>0.0014</value>
                 </product>
             </expression>
         </input>

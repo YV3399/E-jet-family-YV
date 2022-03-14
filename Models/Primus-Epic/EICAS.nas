@@ -528,9 +528,9 @@ var canvas_ED_only = {
 		}
 		
 		var apurpm=getprop("/engines/apu/rpm");
-		#var aputmp=getprop("/engines/apu/temp") or 0;
-		me["apu.PCT"].setText(sprintf("%u", apurpm));
-		#me["apu.DEGC"].setText(sprintf("%u", aputmp));
+		var aputmp=getprop("/engines/apu/temp-c") or 0;
+		me["apu.PCT"].setText(sprintf("%3i", apurpm));
+		me["apu.DEGC"].setText(sprintf("%3i", aputmp));
 		
 	},
 };
