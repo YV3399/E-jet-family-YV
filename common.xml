@@ -1602,6 +1602,7 @@
                 <cutoff-switch type="bool">true</cutoff-switch>
                 <starter type="bool">false</starter>
                 <starter-switch type="bool">false</starter-switch>
+                <itt-degc type="double">0</itt-degc>
             </engine>
 
             <engine n="1">
@@ -1609,6 +1610,7 @@
                 <cutoff-switch type="bool">true</cutoff-switch>
                 <starter type="bool">false</starter>
                 <starter-switch type="bool">false</starter-switch>
+                <itt-degc type="double">0</itt-degc>
             </engine>
         </engines>
         

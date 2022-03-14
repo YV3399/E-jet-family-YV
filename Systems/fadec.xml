@@ -250,6 +250,72 @@
         <output>fadec/throttle-cmd[0]</output>
     </filter>
 
+    <filter>
+        <name>Left Engine heat production</name>
+        <type>gain</type>
+        <gain>0.05</gain>
+        <input>
+            <property>engines/engine[0]/fuel-flow_pph</property>
+        </input>
+        <output>engines/engine[0]/heat-in</output>
+    </filter>
+    <filter>
+        <name>Left Engine temp diff</name>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <expression>
+                <difference>
+                    <property>engines/engine[0]/itt-degc</property>
+                    <property>environment/temperature-degc</property>
+                </difference>
+            </expression>
+        </input>
+        <output>engines/engine[0]/temp-diff-c</output>
+    </filter>
+    <filter>
+        <name>Left Engine heat out</name>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <expression>
+                <product>
+                    <property>engines/engine[0]/temp-diff-c</property>
+                    <max>
+                        <sum>
+                            <property>engines/engine[0]/n1</property>
+                            <value>-5</value>
+                        </sum>
+                        <value>5</value>
+                    </max>
+                    <value>0.0065</value>
+                </product>
+            </expression>
+        </input>
+        <output>engines/engine[0]/heat-out</output>
+    </filter>
+    <filter>
+        <type>gain</type>
+        <gain>1</gain>
+        <update-interval-secs>0.1</update-interval-secs>
+        <debug type="bool">false</debug>
+        <input>
+            <expression>
+                <sum>
+                    <product>
+                        <difference>
+                            <property>engines/engine[0]/heat-in</property>
+                            <property>engines/engine[0]/heat-out</property>
+                        </difference>
+                        <value>0.1</value>
+                    </product>
+                    <property>engines/engine[0]/itt-degc</property>
+                </sum>
+            </expression>
+        </input>
+        <output>engines/engine[0]/itt-degc</output>
+    </filter>
+
     <!-- RIGHT ENGINE -->
     <logic>
         <output>/controls/engines/engine[1]/starter</output>
@@ -500,6 +566,72 @@
             </expression>
         </input>
         <output>fadec/throttle-cmd[1]</output>
+    </filter>
+
+    <filter>
+        <name>Right Engine heat production</name>
+        <type>gain</type>
+        <gain>0.05</gain>
+        <input>
+            <property>engines/engine[1]/fuel-flow_pph</property>
+        </input>
+        <output>engines/engine[1]/heat-in</output>
+    </filter>
+    <filter>
+        <name>Right Engine temp diff</name>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <expression>
+                <difference>
+                    <property>engines/engine[1]/itt-degc</property>
+                    <property>environment/temperature-degc</property>
+                </difference>
+            </expression>
+        </input>
+        <output>engines/engine[1]/temp-diff-c</output>
+    </filter>
+    <filter>
+        <name>Right Engine heat out</name>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <expression>
+                <product>
+                    <property>engines/engine[1]/temp-diff-c</property>
+                    <max>
+                        <sum>
+                            <property>engines/engine[1]/n1</property>
+                            <value>-5</value>
+                        </sum>
+                        <value>5</value>
+                    </max>
+                    <value>0.0065</value>
+                </product>
+            </expression>
+        </input>
+        <output>engines/engine[1]/heat-out</output>
+    </filter>
+    <filter>
+        <type>gain</type>
+        <gain>1</gain>
+        <update-interval-secs>0.1</update-interval-secs>
+        <debug type="bool">false</debug>
+        <input>
+            <expression>
+                <sum>
+                    <product>
+                        <difference>
+                            <property>engines/engine[1]/heat-in</property>
+                            <property>engines/engine[1]/heat-out</property>
+                        </difference>
+                        <value>0.1</value>
+                    </product>
+                    <property>engines/engine[1]/itt-degc</property>
+                </sum>
+            </expression>
+        </input>
+        <output>engines/engine[1]/itt-degc</output>
     </filter>
 
     <!-- REVERSERS -->

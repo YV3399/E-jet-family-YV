@@ -11,32 +11,7 @@ var DC=0.01744;
 var started = 0;
 var stop=0;
 
-setprop("/engines/engine[0]/n1", 0);
-setprop("/engines/engine[1]/n1", 0);
-setprop("/engines/engine[0]/n2", 0);
-setprop("/engines/engine[1]/n2", 0);
-setprop("/engines/engine[0]/itt_degc", 0);
-setprop("/engines/engine[1]/itt_degc", 0);
-setprop("/engines/engine[0]/oil-pressure-psi", 0);
-setprop("/MFD/oil-pressure-needle[0]", 0);
-setprop("/engines/engine[1]/oil-pressure-psi", 0);
-setprop("/MFD/oil-pressure-needle[1]", 0);
-setprop("/engines/engine[0]/oil-temperature-degc", 0);
-setprop("/MFD/oil-temperature-needle[0]", 0);
-setprop("/engines/engine[1]/oil-temperature-degc", 0);
-setprop("/MFD/oil-temperature-needle[1]", 0);
-setprop("/engines/engine[0]/fuel-flow_pph", 0);
-setprop("/engines/engine[1]/fuel-flow_pph", 0);
-setprop("/engines/engine[0]/reverser-pos-norm", 0);
-setprop("/engines/engine[1]/reverser-pos-norm", 0);
-setprop("/controls/engines/engine[0]/condition-lever-state", 0);
-setprop("/controls/engines/engine[1]/condition-lever-state", 0);
-setprop("/controls/engines/engine[0]/throttle-int", 0);
-setprop("/controls/engines/engine[1]/throttle-int", 0);
-setprop("/test", 0);
-setprop("instrumentation/airspeed-indicator/indicated-speed-deg-2", 0);
 setprop("/gear/gear[2]/wow", 1);
-
 setprop("/systems/electrical/outputs/clock", 0);
 
 var roundToNearest = func(n, m) {

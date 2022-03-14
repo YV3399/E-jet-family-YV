@@ -8,8 +8,8 @@ var ED_only = nil;
 var ED_display = nil;
 var page = "only";
 
-setprop("/engines/engine[0]/itt_degc", 0);
-setprop("/engines/engine[1]/itt_degc", 0);
+setprop("/engines/engine[0]/itt-degc", 0);
+setprop("/engines/engine[1]/itt-degc", 0);
 setprop("/engines/engine[0]/oil-pressure-psi", 0);
 setprop("/MFD/oil-pressure-needle[0]", 0);
 setprop("/engines/engine[1]/oil-pressure-psi", 0);
@@ -40,6 +40,8 @@ var engParam = {
     "N2R": props.globals.getNode("engines/engine[1]/n2"),
     "offL": props.globals.getNode("controls/engines/engine[0]/cutoff-switch"),
     "offR": props.globals.getNode("controls/engines/engine[1]/cutoff-switch"),
+    "ITTL": props.globals.getNode("engines/engine[0]/itt-degc", 1),
+    "ITTR": props.globals.getNode("engines/engine[1]/itt-degc", 1),
 };
 
 var engLoff	=	props.globals.getNode("controls/engines/engine[0]/cutoff-switch", 1);
@@ -113,6 +115,11 @@ var canvas_ED_only = {
         me["N1L.shade"].set('z-index', -10).setColorFill(0.5, 0.5, 0.5);
         me["N1R.shade"] = canvas_group.createChild('path');
         me["N1R.shade"].set('z-index', -10).setColorFill(0.5, 0.5, 0.5);
+
+        me["ITTL.shade"] = canvas_group.createChild('path');
+        me["ITTL.shade"].set('z-index', -10).setColorFill(0.5, 0.5, 0.5);
+        me["ITTR.shade"] = canvas_group.createChild('path');
+        me["ITTR.shade"].set('z-index', -10).setColorFill(0.5, 0.5, 0.5);
 
 		me.page = canvas_group;
 
@@ -201,6 +208,8 @@ var canvas_ED_only = {
             "N2R",
             "ITTL",
             "ITTR",
+            "ITTL.needle",
+            "ITTR.needle",
             "FFL",
             "FFR",
             "FQL",
@@ -330,8 +339,6 @@ var canvas_ED_only = {
 		var ln2=engParam["N2L"].getValue();
 		var rn2=engParam["N2R"].getValue();
 
-		var litt=getprop("/engines/engine[0]/itt_degc");
-		var ritt=getprop("/engines/engine[1]/itt_degc");
 		var lff=getprop("/engines/engine[0]/fuel-flow_pph") * LB2KG;
 		var rff=getprop("/engines/engine[1]/fuel-flow_pph") * LB2KG;
 		var fq=getprop("/consumables/fuel/total-fuel-kg");
@@ -427,11 +434,40 @@ var canvas_ED_only = {
                 target.line(-rd * ctgt, -rd * stgt);
             }
         }
+        foreach (var gauge; ["ITTL", "ITTR"]) {
+            var temp = engParam[gauge].getValue();
+            var degs = math.max(0, math.min(270, (temp - 130) / 890 * 270)); # 120°C - 1000°C, wild guess
+            me[gauge ~ ".needle"].setRotation(degs*D2R);
+            # me[gauge ~ ".rated-max"].setRotation(trs*D2R*2.568);
+            me[gauge].setText(sprintf("%-i", temp));
+
+            var r = 80;
+            var sc45 = math.sin(45 * D2R);
+            var (cx, cy) = me[gauge ~ ".needle"].getCenter();
+
+            var ddegs = degs - 45;
+            var rdegs = ddegs * D2R;
+            var sdegs = math.sin(rdegs);
+            var cdegs = math.cos(rdegs);
+		
+            var shade = me[gauge ~ ".shade"];
+            shade.reset();
+            if (temp >= 100) {
+                shade
+                    .moveTo(cx, cy)
+                    .line(-r * sc45, r * sc45);
+                if (ddegs > 135) {
+                    shade.arcLargeCWTo(r, r, 0, cx - r * cdegs, cy - r * sdegs);
+                }
+                else {
+                    shade.arcSmallCWTo(r, r, 0, cx - r * cdegs, cy - r * sdegs);
+                } 
+                shade.lineTo(cx, cy);
+            }
+        }
 
 		me["N2L"].setText(sprintf("%.1f", ln2));
 		me["N2R"].setText(sprintf("%.1f", rn2));
-		me["ITTL"].setText(sprintf("%u", litt));
-		me["ITTR"].setText(sprintf("%u", ritt));
 		me["FFL"].setText(sprintf("%u", math.round(lff, 10)));
 		me["FFR"].setText(sprintf("%u", math.round(rff, 10)));
 		me["FQL"].setText(sprintf("%u", math.round(lfq, 10)));
@@ -439,8 +475,8 @@ var canvas_ED_only = {
 		me["FQC"].setText(sprintf("%u", math.round(fq, 10)));
 		me["OPL"].setText(sprintf("%u", lop));
 		me["OPR"].setText(sprintf("%u", rop));
-		me["OTL"].setText(sprintf("%u", lot));
-		me["OTR"].setText(sprintf("%u", rot));
+		me["OTL"].setText(sprintf("%-i", lot));
+		me["OTR"].setText(sprintf("%-i", rot));
 
 		var lrvs=getprop("/engines/engine[0]/reverser-pos-norm");
 		var rrvs=getprop("/engines/engine[0]/reverser-pos-norm");
@@ -539,7 +575,7 @@ setlistener("sim/signals/fdm-initialized", func {
     if (ED_display != nil) return; # already initialized
 	ED_display = canvas.new({
 		"name": "EICAS",
-		"size": [512, 1024],
+		"size": [1024, 2048],
 		"view": [1024, 1404],
 		"mipmapping": 1
 	});
