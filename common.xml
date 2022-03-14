@@ -700,6 +700,9 @@
         </system>
     </options>
 
+    <position>
+        <gear-agl-ft type="double">0</gear-agl-ft>
+    </position>
 
     <it-autoflight>
         <config>
