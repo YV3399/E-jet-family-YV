@@ -264,14 +264,7 @@
 		</enable>
 		<input>/it-autoflight/internal/throttle-cmd-pid</input>
 		<output>
-			<property>/controls/engines/engine[0]/throttle</property>
-			<property>/controls/engines/engine[1]/throttle</property>
-			<property>/controls/engines/engine[2]/throttle</property>
-			<property>/controls/engines/engine[3]/throttle</property>
-			<property>/controls/engines/engine[4]/throttle</property>
-			<property>/controls/engines/engine[5]/throttle</property>
-			<property>/controls/engines/engine[6]/throttle</property>
-			<property>/controls/engines/engine[7]/throttle</property>
+            <property>/it-autoflight/internal/throttle</property>
 		</output>
 		<max-rate-of-change>
 			<condition>

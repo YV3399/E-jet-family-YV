@@ -36,6 +36,8 @@ var engParam = {
     "N1R.target": props.globals.getNode("fadec/target[1]"),
     "N1L.trs-limit": props.globals.getNode("fadec/trs-limit"),
     "N1R.trs-limit": props.globals.getNode("fadec/trs-limit"),
+    "N1L.lever": props.globals.getNode("fadec/lever[0]"),
+    "N1R.lever": props.globals.getNode("fadec/lever[1]"),
     "N2L": props.globals.getNode("engines/engine[0]/n2"),
     "N2R": props.globals.getNode("engines/engine[1]/n2"),
     "offL": props.globals.getNode("controls/engines/engine[0]/cutoff-switch"),
@@ -236,6 +238,8 @@ var canvas_ED_only = {
             "N1R.needle",
             "N1L.rated-max",
             "N1R.rated-max",
+            "N1L.lever",
+            "N1R.lever",
             "parkbrake",
             "engL.off",
             "engR.off",
@@ -400,8 +404,10 @@ var canvas_ED_only = {
             var n1 = engParam[gauge].getValue();
             var tgt = engParam[gauge ~ ".target"].getValue();
             var trs = engParam[gauge ~ ".trs-limit"].getValue();
+            var lvr = engParam[gauge ~ ".lever"].getValue();
             me[gauge ~ ".needle"].setRotation(n1*D2R*2.568);
             me[gauge ~ ".rated-max"].setRotation(trs*D2R*2.568);
+            me[gauge ~ ".lever"].setRotation(lvr*D2R*2.568);
 
             me[gauge].setText(sprintf("%.1f", n1));
 
@@ -454,7 +460,6 @@ var canvas_ED_only = {
             var temp = engParam[gauge].getValue();
             var degs = math.max(0, math.min(270, (temp - 130) / 890 * 270)); # 120°C - 1000°C, wild guess
             me[gauge ~ ".needle"].setRotation(degs*D2R);
-            # me[gauge ~ ".rated-max"].setRotation(trs*D2R*2.568);
             me[gauge].setText(sprintf("%-i", temp));
 
             var r = 80;
