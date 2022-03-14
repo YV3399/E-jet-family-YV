@@ -43,7 +43,9 @@
             </condition>
             <property>/systems/electrical/sources/battery[1]/volts</property>
         </input>
-        <input><value>0</value></input>
+        <input>
+            <value>0</value>
+        </input>
         <output>/engines/apu/starter-power</output>
     </filter>
 
@@ -51,16 +53,6 @@
         <name>APU RPM target</name>
         <type>gain</type>
         <gain>100</gain>
-        <enable>
-            <condition>
-                <not>
-                    <equals>
-                        <property>/controls/apu/starter</property>
-                        <value>1</value>
-                    </equals>
-                </not>
-            </condition>
-        </enable>
         <input>
             <!-- insufficient power for starter -->
             <condition>
@@ -81,7 +73,39 @@
             <value>0</value>
         </input>
         <input>
-            <!-- starter switch in "START" position -->
+            <!-- starter switch in "START" position, but no fuel flow -->
+            <condition>
+                <and>
+                    <less-than>
+                        <property>engines/apu/feed</property>
+                        <value>0</value>
+                    </less-than>
+                    <equals>
+                        <property>/controls/apu/starter</property>
+                        <value>2</value>
+                    </equals>
+                </and>
+            </condition>
+            <value>0.25</value>
+        </input>
+        <input>
+            <!-- starter switch in "ON" position, but no fuel flow -->
+            <condition>
+                <and>
+                    <less-than>
+                        <property>engines/apu/feed</property>
+                        <value>0</value>
+                    </less-than>
+                    <equals>
+                        <property>/controls/apu/starter</property>
+                        <value>1</value>
+                    </equals>
+                </and>
+            </condition>
+            <value>0</value>
+        </input>
+        <input>
+            <!-- starter switch in "START" or "ON" position, and everything OK -->
             <value>1</value>
         </input>
         <output>/engines/apu/rpm-target</output>
@@ -140,7 +164,9 @@
             </condition>
             <value>2</value>
         </input>
-        <input><value>-1</value></input>
+        <input>
+            <value>-1</value>
+        </input>
         <output>/engines/apu/feed</output>
     </filter>
 
@@ -164,9 +190,16 @@
                     <value>-1</value>
                 </equals>
             </condition>
-            <value>0</value>
+            <expression>
+                <min>
+                    <property>/engines/apu/rpm-target</property>
+                    <value>25</value>
+                </min>
+            </expression>
         </input>
-        <input><property>/engines/apu/rpm-target</property></input>
+        <input>
+            <property>/engines/apu/rpm-target</property>
+        </input>
         <output>/engines/apu/rpm</output>
     </filter>
 
@@ -204,7 +237,9 @@
                 </and>
             </condition>
         </enable>
-        <input><value>1</value></input>
+        <input>
+            <value>1</value>
+        </input>
         <output>/controls/apu/starter</output>
     </filter>
     <filter>
@@ -216,7 +251,9 @@
                 <property>/engines/apu/shutting-down</property>
             </condition>
         </enable>
-        <input><value>0</value></input>
+        <input>
+            <value>0</value>
+        </input>
         <output>/controls/apu/starter</output>
     </filter>
 
@@ -345,17 +382,23 @@
         <type>gain</type>
         <gain>0.75</gain>
         <input>
-            <!-- no fuel flow: use current environmental air temp -->
             <condition>
-                <less-than>
-                    <property>engines/apu/rpm</property>
-                    <value>25</value>
-                </less-than>
+                <and>
+                    <greater-than>
+                        <property>engines/apu/rpm</property>
+                        <value>25</value>
+                    </greater-than>
+                    <greater-than>
+                        <property>engines/apu/feed</property>
+                        <value>-1</value>
+                    </greater-than>
+                </and>
             </condition>
-            <value>0</value>
+            <property>engines/apu/rpm</property>
         </input>
         <input>
-            <property>engines/apu/rpm</property>
+            <!-- no fuel flow: no heat produced -->
+            <value>0</value>
         </input>
         <output>engines/apu/heat-in</output>
     </filter>
