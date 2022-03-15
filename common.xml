@@ -734,8 +734,9 @@
             </rollout>
         </config>
         <settings>
-            <autoland-without-ap type="bool">false</autoland-without-ap> <!-- Engage LAND and FLARE Modes even if the AP is off -->
+            <accel-ft type="double">1300</accel-ft> <!-- Set to 999999 if you do not want TOGA to change automatically to FLCH -->
             <auto-bank-max-deg type="double">35</auto-bank-max-deg> <!-- Maximum Auto Bank Limit -->
+            <autoland-without-ap type="bool">false</autoland-without-ap> <!-- Engage LAND and FLARE Modes even if the AP is off -->
             <autothrottle-max type="double">0.907</autothrottle-max>
             <autothrottle-min type="double">0.0</autothrottle-min>
             <custom-fma type="bool">false</custom-fma>
@@ -743,11 +744,11 @@
             <hdg-hld-separate type="bool">false</hdg-hld-separate> <!-- Separates the HDG HLD mode from the HDG SEL mode -->
             <land-enable type="bool">true</land-enable> <!-- Enable/Disable Autoland -->
             <land-flap type="double">0.5</land-flap> <!-- Minimum Flap used for Landing -->
-            <lat-agl-ft type="double">200</lat-agl-ft> <!-- Set to 999999 if you do not want T/O to change automatically to HDG, or LNAV -->
-            <accel-ft type="double">1300</accel-ft> <!-- Set to 999999 if you do not want TOGA to change automatically to FLCH -->
+            <lnav-ft type="double">200</lnav-ft> <!-- Set to 999999 if you do not want T/O to change automatically to HDG, or LNAV -->
             <retard-enable type="bool">true</retard-enable> <!-- AGL to Thrust Retard -->
             <retard-ft type="double">30</retard-ft> <!-- Enable Thrust Retard -->
             <toga-spd type="double">165</toga-spd> <!-- V2 + 10kts -->
+            <use-controls-engines type="bool">false</use-controls-engines>
             <use-controls-flight type="bool">false</use-controls-flight>
         </settings>
         <internal>

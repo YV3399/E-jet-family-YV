@@ -148,7 +148,7 @@
 		</enable>
 		<input>/instrumentation/airspeed-indicator/indicated-speed-kt</input>
 		<reference>/it-autoflight/internal/athr-kts</reference>
-		<output>/it-autoflight/internal/throttle-cmd-pid</output>
+		<output>/it-autoflight/internal/throttle-cmd</output>
 		<config>
 			<Kp>0.055</Kp>
 			<Ti>9.0</Ti>
@@ -186,7 +186,7 @@
 			<property>/it-autoflight/internal/athr-mach</property>
 			<scale>1000</scale>
 		</reference>
-		<output>/it-autoflight/internal/throttle-cmd-pid</output>
+		<output>/it-autoflight/internal/throttle-cmd</output>
 		<config>
 			<Kp>0.055</Kp>
 			<Ti>9.0</Ti>
@@ -224,7 +224,7 @@
 			<value>0</value>
 		</input>
 		<input>/it-autoflight/settings/autothrottle-min</input>
-		<output>/it-autoflight/internal/throttle-cmd-pid</output>
+		<output>/it-autoflight/internal/throttle-cmd</output>
 	</filter>
 	
 	<filter>
@@ -246,7 +246,7 @@
 			</condition>
 		</enable>
 		<input>/it-autoflight/settings/autothrottle-max</input>
-		<output>/it-autoflight/internal/throttle-cmd-pid</output>
+		<output>/it-autoflight/internal/throttle-cmd</output>
 	</filter>
 	
 	<filter>
@@ -262,10 +262,8 @@
 				</equals>
 			</condition>
 		</enable>
-		<input>/it-autoflight/internal/throttle-cmd-pid</input>
-		<output>
-            <property>/it-autoflight/internal/throttle</property>
-		</output>
+		<input>/it-autoflight/internal/throttle-cmd</input>
+		<output>/it-autoflight/internal/throttle</output>
 		<max-rate-of-change>
 			<condition>
 				<or>
@@ -309,6 +307,443 @@
 			<value>0.05</value>
 		</max-rate-of-change>
 		<max-rate-of-change>0.3</max-rate-of-change>
+	</filter>
+	
+	<filter>
+		<name>System Command: Throttle Comparator</name>
+		<type>gain</type>
+		<gain>1.0</gain>
+		<input>
+			<expression>
+				<max>
+					<property>/controls/engines/engine[0]/throttle</property>
+					<property>/controls/engines/engine[1]/throttle</property>
+					<property>/controls/engines/engine[2]/throttle</property>
+					<property>/controls/engines/engine[3]/throttle</property>
+					<property>/controls/engines/engine[4]/throttle</property>
+					<property>/controls/engines/engine[5]/throttle</property>
+					<property>/controls/engines/engine[6]/throttle</property>
+					<property>/controls/engines/engine[7]/throttle</property>
+				</max>
+			</expression>
+		</input>
+		<output>/it-autoflight/internal/throttle-compare-max</output>
+	</filter>
+	
+	<filter>
+		<name>System Command: Throttle Inactive Sync</name>
+		<type>gain</type>
+		<gain>1.0</gain>
+		<enable>
+			<condition>
+				<not-equals>
+					<property>/it-autoflight/output/athr</property>
+					<value>1</value>
+				</not-equals>
+			</condition>
+		</enable>
+		<input>/it-autoflight/internal/throttle-compare-max</input>
+		<output>/it-autoflight/internal/throttle</output>
+	</filter>
+	
+	<!-- Engine 1 -->
+	<filter>
+		<name>System Command: Throttle 1 Filter</name>
+		<type>noise-spike</type>
+		<initialize-to>output</initialize-to>
+		<input>
+			<condition>
+				<equals>
+					<property>/it-autoflight/output/athr</property>
+					<value>1</value>
+				</equals>
+			</condition>
+			<property>/it-autoflight/internal/throttle</property>
+		</input>
+		<input>/controls/engines/engine[0]/throttle</input>
+		<output>/it-autoflight/internal/throttle-1</output>
+		<max-rate-of-change>
+			<condition>
+				<equals>
+					<property>/it-autoflight/output/athr</property>
+					<value>1</value>
+				</equals>
+			</condition>
+			<value>0.3</value>
+		</max-rate-of-change>
+		<max-rate-of-change>100</max-rate-of-change>
+	</filter>
+	
+	<filter>
+		<name>System Command: Throttle Backdrive 1</name>
+		<type>gain</type>
+		<gain>1.0</gain>
+		<enable>
+			<condition>
+				<and>
+					<equals>
+						<property>/it-autoflight/output/athr</property>
+						<value>1</value>
+					</equals>
+					<equals>
+						<property>/it-autoflight/settings/use-controls-engines</property>
+						<value>1</value>
+					</equals>
+				</and>
+			</condition>
+		</enable>
+		<input>/it-autoflight/internal/throttle-1</input>
+		<output>/controls/engines/engine[0]/throttle</output>
+	</filter>
+	
+	<!-- Engine 2 -->
+	<filter>
+		<name>System Command: Throttle 2 Filter</name>
+		<type>noise-spike</type>
+		<initialize-to>output</initialize-to>
+		<input>
+			<condition>
+				<equals>
+					<property>/it-autoflight/output/athr</property>
+					<value>1</value>
+				</equals>
+			</condition>
+			<property>/it-autoflight/internal/throttle</property>
+		</input>
+		<input>/controls/engines/engine[1]/throttle</input>
+		<output>/it-autoflight/internal/throttle-2</output>
+		<max-rate-of-change>
+			<condition>
+				<equals>
+					<property>/it-autoflight/output/athr</property>
+					<value>1</value>
+				</equals>
+			</condition>
+			<value>0.3</value>
+		</max-rate-of-change>
+		<max-rate-of-change>100</max-rate-of-change>
+	</filter>
+	
+	<filter>
+		<name>System Command: Throttle Backdrive 2</name>
+		<type>gain</type>
+		<gain>1.0</gain>
+		<enable>
+			<condition>
+				<and>
+					<equals>
+						<property>/it-autoflight/output/athr</property>
+						<value>1</value>
+					</equals>
+					<equals>
+						<property>/it-autoflight/settings/use-controls-engines</property>
+						<value>1</value>
+					</equals>
+				</and>
+			</condition>
+		</enable>
+		<input>/it-autoflight/internal/throttle-2</input>
+		<output>/controls/engines/engine[1]/throttle</output>
+	</filter>
+	
+	<!-- Engine 3 -->
+	<filter>
+		<name>System Command: Throttle 3 Filter</name>
+		<type>noise-spike</type>
+		<initialize-to>output</initialize-to>
+		<input>
+			<condition>
+				<equals>
+					<property>/it-autoflight/output/athr</property>
+					<value>1</value>
+				</equals>
+			</condition>
+			<property>/it-autoflight/internal/throttle</property>
+		</input>
+		<input>/controls/engines/engine[2]/throttle</input>
+		<output>/it-autoflight/internal/throttle-3</output>
+		<max-rate-of-change>
+			<condition>
+				<equals>
+					<property>/it-autoflight/output/athr</property>
+					<value>1</value>
+				</equals>
+			</condition>
+			<value>0.3</value>
+		</max-rate-of-change>
+		<max-rate-of-change>100</max-rate-of-change>
+	</filter>
+	
+	<filter>
+		<name>System Command: Throttle Backdrive 3</name>
+		<type>gain</type>
+		<gain>1.0</gain>
+		<enable>
+			<condition>
+				<and>
+					<equals>
+						<property>/it-autoflight/output/athr</property>
+						<value>1</value>
+					</equals>
+					<equals>
+						<property>/it-autoflight/settings/use-controls-engines</property>
+						<value>1</value>
+					</equals>
+				</and>
+			</condition>
+		</enable>
+		<input>/it-autoflight/internal/throttle-3</input>
+		<output>/controls/engines/engine[2]/throttle</output>
+	</filter>
+	
+	<!-- Engine 4 -->
+	<filter>
+		<name>System Command: Throttle 4 Filter</name>
+		<type>noise-spike</type>
+		<initialize-to>output</initialize-to>
+		<input>
+			<condition>
+				<equals>
+					<property>/it-autoflight/output/athr</property>
+					<value>1</value>
+				</equals>
+			</condition>
+			<property>/it-autoflight/internal/throttle</property>
+		</input>
+		<input>/controls/engines/engine[3]/throttle</input>
+		<output>/it-autoflight/internal/throttle-4</output>
+		<max-rate-of-change>
+			<condition>
+				<equals>
+					<property>/it-autoflight/output/athr</property>
+					<value>1</value>
+				</equals>
+			</condition>
+			<value>0.3</value>
+		</max-rate-of-change>
+		<max-rate-of-change>100</max-rate-of-change>
+	</filter>
+	
+	<filter>
+		<name>System Command: Throttle Backdrive 4</name>
+		<type>gain</type>
+		<gain>1.0</gain>
+		<enable>
+			<condition>
+				<and>
+					<equals>
+						<property>/it-autoflight/output/athr</property>
+						<value>1</value>
+					</equals>
+					<equals>
+						<property>/it-autoflight/settings/use-controls-engines</property>
+						<value>1</value>
+					</equals>
+				</and>
+			</condition>
+		</enable>
+		<input>/it-autoflight/internal/throttle-4</input>
+		<output>/controls/engines/engine[3]/throttle</output>
+	</filter>
+	
+	<!-- Engine 5 -->
+	<filter>
+		<name>System Command: Throttle 5 Filter</name>
+		<type>noise-spike</type>
+		<initialize-to>output</initialize-to>
+		<input>
+			<condition>
+				<equals>
+					<property>/it-autoflight/output/athr</property>
+					<value>1</value>
+				</equals>
+			</condition>
+			<property>/it-autoflight/internal/throttle</property>
+		</input>
+		<input>/controls/engines/engine[4]/throttle</input>
+		<output>/it-autoflight/internal/throttle-5</output>
+		<max-rate-of-change>
+			<condition>
+				<equals>
+					<property>/it-autoflight/output/athr</property>
+					<value>1</value>
+				</equals>
+			</condition>
+			<value>0.3</value>
+		</max-rate-of-change>
+		<max-rate-of-change>100</max-rate-of-change>
+	</filter>
+	
+	<filter>
+		<name>System Command: Throttle Backdrive 5</name>
+		<type>gain</type>
+		<gain>1.0</gain>
+		<enable>
+			<condition>
+				<and>
+					<equals>
+						<property>/it-autoflight/output/athr</property>
+						<value>1</value>
+					</equals>
+					<equals>
+						<property>/it-autoflight/settings/use-controls-engines</property>
+						<value>1</value>
+					</equals>
+				</and>
+			</condition>
+		</enable>
+		<input>/it-autoflight/internal/throttle-5</input>
+		<output>/controls/engines/engine[4]/throttle</output>
+	</filter>
+	
+	<!-- Engine 6 -->
+	<filter>
+		<name>System Command: Throttle 6 Filter</name>
+		<type>noise-spike</type>
+		<initialize-to>output</initialize-to>
+		<input>
+			<condition>
+				<equals>
+					<property>/it-autoflight/output/athr</property>
+					<value>1</value>
+				</equals>
+			</condition>
+			<property>/it-autoflight/internal/throttle</property>
+		</input>
+		<input>/controls/engines/engine[5]/throttle</input>
+		<output>/it-autoflight/internal/throttle-6</output>
+		<max-rate-of-change>
+			<condition>
+				<equals>
+					<property>/it-autoflight/output/athr</property>
+					<value>1</value>
+				</equals>
+			</condition>
+			<value>0.3</value>
+		</max-rate-of-change>
+		<max-rate-of-change>100</max-rate-of-change>
+	</filter>
+	
+	<filter>
+		<name>System Command: Throttle Backdrive 6</name>
+		<type>gain</type>
+		<gain>1.0</gain>
+		<enable>
+			<condition>
+				<and>
+					<equals>
+						<property>/it-autoflight/output/athr</property>
+						<value>1</value>
+					</equals>
+					<equals>
+						<property>/it-autoflight/settings/use-controls-engines</property>
+						<value>1</value>
+					</equals>
+				</and>
+			</condition>
+		</enable>
+		<input>/it-autoflight/internal/throttle-6</input>
+		<output>/controls/engines/engine[5]/throttle</output>
+	</filter>
+	
+	<!-- Engine 7 -->
+	<filter>
+		<name>System Command: Throttle 7 Filter</name>
+		<type>noise-spike</type>
+		<initialize-to>output</initialize-to>
+		<input>
+			<condition>
+				<equals>
+					<property>/it-autoflight/output/athr</property>
+					<value>1</value>
+				</equals>
+			</condition>
+			<property>/it-autoflight/internal/throttle</property>
+		</input>
+		<input>/controls/engines/engine[6]/throttle</input>
+		<output>/it-autoflight/internal/throttle-7</output>
+		<max-rate-of-change>
+			<condition>
+				<equals>
+					<property>/it-autoflight/output/athr</property>
+					<value>1</value>
+				</equals>
+			</condition>
+			<value>0.3</value>
+		</max-rate-of-change>
+		<max-rate-of-change>100</max-rate-of-change>
+	</filter>
+	
+	<filter>
+		<name>System Command: Throttle Backdrive 7</name>
+		<type>gain</type>
+		<gain>1.0</gain>
+		<enable>
+			<condition>
+				<and>
+					<equals>
+						<property>/it-autoflight/output/athr</property>
+						<value>1</value>
+					</equals>
+					<equals>
+						<property>/it-autoflight/settings/use-controls-engines</property>
+						<value>1</value>
+					</equals>
+				</and>
+			</condition>
+		</enable>
+		<input>/it-autoflight/internal/throttle-7</input>
+		<output>/controls/engines/engine[6]/throttle</output>
+	</filter>
+	
+	<!-- Engine 8 -->
+	<filter>
+		<name>System Command: Throttle 8 Filter</name>
+		<type>noise-spike</type>
+		<initialize-to>output</initialize-to>
+		<input>
+			<condition>
+				<equals>
+					<property>/it-autoflight/output/athr</property>
+					<value>1</value>
+				</equals>
+			</condition>
+			<property>/it-autoflight/internal/throttle</property>
+		</input>
+		<input>/controls/engines/engine[7]/throttle</input>
+		<output>/it-autoflight/internal/throttle-8</output>
+		<max-rate-of-change>
+			<condition>
+				<equals>
+					<property>/it-autoflight/output/athr</property>
+					<value>1</value>
+				</equals>
+			</condition>
+			<value>0.3</value>
+		</max-rate-of-change>
+		<max-rate-of-change>100</max-rate-of-change>
+	</filter>
+	
+	<filter>
+		<name>System Command: Throttle Backdrive 8</name>
+		<type>gain</type>
+		<gain>1.0</gain>
+		<enable>
+			<condition>
+				<and>
+					<equals>
+						<property>/it-autoflight/output/athr</property>
+						<value>1</value>
+					</equals>
+					<equals>
+						<property>/it-autoflight/settings/use-controls-engines</property>
+						<value>1</value>
+					</equals>
+				</and>
+			</condition>
+		</enable>
+		<input>/it-autoflight/internal/throttle-8</input>
+		<output>/controls/engines/engine[7]/throttle</output>
 	</filter>
 
 </PropertyList>
