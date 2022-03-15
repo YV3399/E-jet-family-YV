@@ -361,7 +361,7 @@
 			<property>/it-autoflight/internal/throttle</property>
 		</input>
 		<input>/controls/engines/engine[0]/throttle</input>
-		<output>/it-autoflight/internal/throttle-1</output>
+		<output>/it-autoflight/internal/throttle[0]</output>
 		<max-rate-of-change>
 			<condition>
 				<equals>
@@ -392,7 +392,7 @@
 				</and>
 			</condition>
 		</enable>
-		<input>/it-autoflight/internal/throttle-1</input>
+		<input>/it-autoflight/internal/throttle[0]</input>
 		<output>/controls/engines/engine[0]/throttle</output>
 	</filter>
 	
@@ -411,7 +411,7 @@
 			<property>/it-autoflight/internal/throttle</property>
 		</input>
 		<input>/controls/engines/engine[1]/throttle</input>
-		<output>/it-autoflight/internal/throttle-2</output>
+		<output>/it-autoflight/internal/throttle[1]</output>
 		<max-rate-of-change>
 			<condition>
 				<equals>
@@ -442,7 +442,7 @@
 				</and>
 			</condition>
 		</enable>
-		<input>/it-autoflight/internal/throttle-2</input>
+		<input>/it-autoflight/internal/throttle[1]</input>
 		<output>/controls/engines/engine[1]/throttle</output>
 	</filter>
 	
@@ -461,7 +461,7 @@
 			<property>/it-autoflight/internal/throttle</property>
 		</input>
 		<input>/controls/engines/engine[2]/throttle</input>
-		<output>/it-autoflight/internal/throttle-3</output>
+		<output>/it-autoflight/internal/throttle[2]</output>
 		<max-rate-of-change>
 			<condition>
 				<equals>
@@ -492,7 +492,7 @@
 				</and>
 			</condition>
 		</enable>
-		<input>/it-autoflight/internal/throttle-3</input>
+		<input>/it-autoflight/internal/throttle[2]</input>
 		<output>/controls/engines/engine[2]/throttle</output>
 	</filter>
 	
@@ -511,7 +511,7 @@
 			<property>/it-autoflight/internal/throttle</property>
 		</input>
 		<input>/controls/engines/engine[3]/throttle</input>
-		<output>/it-autoflight/internal/throttle-4</output>
+		<output>/it-autoflight/internal/throttle[3]</output>
 		<max-rate-of-change>
 			<condition>
 				<equals>
@@ -542,7 +542,7 @@
 				</and>
 			</condition>
 		</enable>
-		<input>/it-autoflight/internal/throttle-4</input>
+		<input>/it-autoflight/internal/throttle[3]</input>
 		<output>/controls/engines/engine[3]/throttle</output>
 	</filter>
 	
@@ -561,7 +561,7 @@
 			<property>/it-autoflight/internal/throttle</property>
 		</input>
 		<input>/controls/engines/engine[4]/throttle</input>
-		<output>/it-autoflight/internal/throttle-5</output>
+		<output>/it-autoflight/internal/throttle[4]</output>
 		<max-rate-of-change>
 			<condition>
 				<equals>
@@ -592,7 +592,7 @@
 				</and>
 			</condition>
 		</enable>
-		<input>/it-autoflight/internal/throttle-5</input>
+		<input>/it-autoflight/internal/throttle[4]</input>
 		<output>/controls/engines/engine[4]/throttle</output>
 	</filter>
 	
@@ -611,7 +611,7 @@
 			<property>/it-autoflight/internal/throttle</property>
 		</input>
 		<input>/controls/engines/engine[5]/throttle</input>
-		<output>/it-autoflight/internal/throttle-6</output>
+		<output>/it-autoflight/internal/throttle[5]</output>
 		<max-rate-of-change>
 			<condition>
 				<equals>
@@ -642,7 +642,7 @@
 				</and>
 			</condition>
 		</enable>
-		<input>/it-autoflight/internal/throttle-6</input>
+		<input>/it-autoflight/internal/throttle[5]</input>
 		<output>/controls/engines/engine[5]/throttle</output>
 	</filter>
 	
@@ -661,7 +661,7 @@
 			<property>/it-autoflight/internal/throttle</property>
 		</input>
 		<input>/controls/engines/engine[6]/throttle</input>
-		<output>/it-autoflight/internal/throttle-7</output>
+		<output>/it-autoflight/internal/throttle[6]</output>
 		<max-rate-of-change>
 			<condition>
 				<equals>
@@ -692,7 +692,7 @@
 				</and>
 			</condition>
 		</enable>
-		<input>/it-autoflight/internal/throttle-7</input>
+		<input>/it-autoflight/internal/throttle[6]</input>
 		<output>/controls/engines/engine[6]/throttle</output>
 	</filter>
 	
@@ -711,7 +711,7 @@
 			<property>/it-autoflight/internal/throttle</property>
 		</input>
 		<input>/controls/engines/engine[7]/throttle</input>
-		<output>/it-autoflight/internal/throttle-8</output>
+		<output>/it-autoflight/internal/throttle[7]</output>
 		<max-rate-of-change>
 			<condition>
 				<equals>
@@ -742,7 +742,7 @@
 				</and>
 			</condition>
 		</enable>
-		<input>/it-autoflight/internal/throttle-8</input>
+		<input>/it-autoflight/internal/throttle[7]</input>
 		<output>/controls/engines/engine[7]/throttle</output>
 	</filter>
 

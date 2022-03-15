@@ -154,7 +154,7 @@
 					<value>1</value>
 				</equals>
             </condition>
-            <property>/it-autoflight/internal/throttle-1</property>
+            <property>/it-autoflight/internal/throttle[0]</property>
 		</input>
         <input>
             <property>controls/engines/engine[0]/throttle</property>
@@ -562,7 +562,7 @@
 					<value>1</value>
 				</equals>
             </condition>
-            <property>/it-autoflight/internal/throttle-2</property>
+            <property>/it-autoflight/internal/throttle[1]</property>
 		</input>
         <input>
             <property>controls/engines/engine[1]/throttle</property>
