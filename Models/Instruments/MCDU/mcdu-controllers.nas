@@ -179,7 +179,10 @@ var FuncController = {
 
     send: func (owner, val) {
         if (me.setFn != nil) {
-            me.setFn(owner, val);
+            return me.setFn(owner, val);
+        }
+        else {
+            return nil;
         }
     },
 
@@ -230,8 +233,11 @@ var SubmodeController = {
             owner.ret();
         }
         else {
-            if (me.pushStack) {
+            if (me.pushStack == 1) {
                 owner.push(me.submode);
+            }
+            elsif (me.pushStack == 2) {
+                owner.sidestep(me.submode);
             }
             else {
                 owner.goto(me.submode);

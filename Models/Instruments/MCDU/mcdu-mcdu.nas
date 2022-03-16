@@ -33,6 +33,12 @@ var MCDU = {
                 m.handleKeyboardRelease();
             }
         }, 1, 0);
+        var unreadProp = props.globals.getNode('/cpdlc/unread', 1);
+        setlistener(unreadProp, func(node) {
+            if (node.getBoolValue()) {
+                m.setScratchpadMsg('ATC UPLINK', mcdu_yellow);
+            }
+        }, 1, 1);
         return m;
     },
 
@@ -69,7 +75,129 @@ var MCDU = {
         "COM2": func (mcdu, parent) { return ComRadioDetailsModule.new(mcdu, parent, 2); },
         "XPDR": func (mcdu, parent) { return TransponderModule.new(mcdu, parent); },
 
+        # CPDLC modules
+        "CPDLC-LOGON": func (mcdu, parent) { return ATCLogonModule.new(mcdu, parent); },
+        "CPDLC-LOG": func (mcdu, parent) { return CPDLCLogModule.new(mcdu, parent); },
+
         # Index modules
+        "ATCINDEX": func(mcdu, parent) { return IndexModule.new(mcdu, parent,
+                        "ATC INDEX",
+                        [ # PAGE 1
+                          [ "CPDLC-EMERGENCY", "EMERGENCY" ]
+                        , [ "CPDLC-REQUEST", "REQUEST" ]
+                        , [ "CPDLC-WHENCANWE", "WHEN CAN WE" ]
+                        , [ "CPDLC-DOWNLINK-TXTD-1", "FREE TEXT" ]
+                        , nil
+                        , [ "CPDLC-LOGON", "LOGON/STATUS" ]
+
+                        , [ "CPDLC-DOWNLINK-RTED-5", "POS REPORT" ]
+                        , [ "CPDLC-REPORT", "REPORT" ]
+                        , [ "CPDLC-DOWNLINK-COMD-1", "VOICE" ]
+                        , [ "CPDLC-CLEARANCE", "CLEARANCE" ]
+                        , nil
+                        , [ "CPDLC-LOG", "LOG" ]
+                        ]); },
+        "CPDLC-REPORT": func(mcdu, parent) { return IndexModule.new(mcdu, parent,
+                        "REPORT",
+                        [ # PAGE 1
+                          [ "CPDLC-DOWNLINK-LATD-3", "CLR/WEATHER" ]
+                        , [ "CPDLC-DOWNLINK-LATD-4", "BACK ON RTE" ]
+                        , [ "CPDLC-DOWNLINK-LATD-5", "DIVERTING" ]
+                        , nil
+                        , nil
+                        , [ "ret", "ATC INDEX" ]
+
+                        , [ "CPDLC-DOWNLINK-LATD-8", "PASSING WP" ]
+                        , [ "CPDLC-DOWNLINK-ADVD-2", "TRAFFIC" ]
+                        , [ "CPDLC-DOWNLINK-LVLD-18", "TOD" ]
+                        , [ "CPDLC-DOWNLINK-COMD-2", "RELAY" ]
+                        , nil
+                        , nil
+
+                          # PAGE 2
+
+                        , [ "CPDLC-DOWNLINK-LATD-6", "OFFSETTING" ]
+                        , nil
+                        , [ "CPDLC-DOWNLINK-LVLD-12", "PREF FL" ]
+                        , [ "CPDLC-DOWNLINK-LVLD-8", "LEAVING FL" ]
+                        , [ "CPDLC-DOWNLINK-LVLD-9", "MAINT FL" ]
+                        , [ "ret", "ATC INDEX" ]
+
+                        , [ "CPDLC-DOWNLINK-LATD-7", "DEVIATING" ]
+                        , nil
+                        , [ "CPDLC-DOWNLINK-LVLD-10", "BLOCK FL" ]
+                        , [ "CPDLC-DOWNLINK-LVLD-13", "CLIMBING" ]
+                        , [ "CPDLC-DOWNLINK-LVLD-14", "DESCENDING" ]
+                        , nil
+                        ]); },
+        "CPDLC-EMERGENCY": func(mcdu, parent) { return IndexModule.new(mcdu, parent,
+                        "EMERGENCY",
+                        [ # PAGE 1
+                          [ "CPDLC-DOWNLINK-EMGD-1", "PAN PAN" ]
+                        , [ "CPDLC-DOWNLINK-EMGD-2", "MAYDAY" ]
+                        , nil
+                        , nil
+                        , nil
+                        , [ "ret", "ATC INDEX" ]
+
+                        , [ "CPDLC-DOWNLINK-EMGD-3", "ENDRNC/POB" ]
+                        , [ "CPDLC-DOWNLINK-EMGD-4", "CANCEL EMG" ]
+                        , nil
+                        , nil
+                        , nil
+                        , nil
+                        ]); },
+        "CPDLC-REQUEST": func(mcdu, parent) { return IndexModule.new(mcdu, parent,
+                        "REQUEST",
+                        [ # PAGE 1
+                          [ "CPDLC-DOWNLINK-RTED-2", "FREEFORM" ]
+                        , [ "CPDLC-DOWNLINK-SPDD-5", "SPEED" ]
+                        , [ "CPDLC-DOWNLINK-RTED-1", "DIRECT" ]
+                        , [ "CPDLC-DOWNLINK-RTED-6", "HEADING" ]
+                        , [ "CPDLC-DOWNLINK-RTED-7", "TRACK" ]
+                        , [ "ret", "ATC INDEX" ]
+
+                        , [ "CPDLC-DOWNLINK-LVLD-1", "LEVEL" ]
+                        , [ "CPDLC-DOWNLINK-LVLD-2", "CLIMB" ]
+                        , [ "CPDLC-DOWNLINK-LVLD-3", "DESCENT" ]
+                        , [ "CPDLC-DOWNLINK-LVLD-4", "LVL AT WAYP" ]
+                        , [ "CPDLC-DOWNLINK-LVLD-5", "LVL AT TIME" ]
+                        , nil
+                        ]); },
+        "CPDLC-WHENCANWE": func(mcdu, parent) { return IndexModule.new(mcdu, parent,
+                        "WHEN CAN WE",
+                        [ # PAGE 1
+                          [ "CPDLC-DOWNLINK-RTED-8", "BACK ON ROUTE" ]
+                        , [ "CPDLC-DOWNLINK-LVLD-6", "LOWER" ]
+                        , [ "CPDLC-DOWNLINK-LVLD-7", "HIGHER" ]
+                        , [ "CPDLC-DOWNLINK-SPDD-2", "SPEED" ]
+                        , nil
+                        , [ "ret", "ATC INDEX" ]
+
+                        , nil
+                        , nil
+                        , nil
+                        , nil
+                        , nil
+                        , nil
+                        ]); },
+        "CPDLC-CLEARANCE": func(mcdu, parent) { return IndexModule.new(mcdu, parent,
+                        "CLEARANCE",
+                        [ # PAGE 1
+                          [ "CPDLC-DOWNLINK-RTED-2", "ROUTE" ]
+                        , [ "CPDLC-DOWNLINK-RTED-3", "TYPE" ]
+                        , nil
+                        , nil
+                        , nil
+                        , [ "ret", "ATC INDEX" ]
+
+                        , nil
+                        , nil
+                        , nil
+                        , nil
+                        , nil
+                        , nil
+                        ]); },
         "NAVINDEX": func(mcdu, parent) { return IndexModule.new(mcdu, parent,
                         "NAV INDEX",
                         [ # PAGE 1
@@ -80,7 +208,7 @@ var MCDU = {
                         , [ nil, "FIX INFO" ]
                         , [ "DEPARTURE", "DEPARTURE" ]
 
-                        , nil
+                        , [ "ATCINDEX", "ATC" ]
                         , nil
                         , [ nil, "FLT SUM" ]
                         , nil
@@ -192,13 +320,42 @@ var MCDU = {
     },
 
     activateModule: func (module, parent = nil) {
+        # print("--- MODULE STACK ---");
+        # foreach (var m; me.moduleStack) {
+        #     print(m.getTitle());
+        # }
         if (me.activeModule != nil) {
             me.activeModule.deactivate();
         }
         if (typeof(module) == "scalar") {
             var factory = me.makeModule[module];
             if (factory == nil) {
-                me.activeModule = PlaceholderModule.new(me, parent, module);
+                printf('makeModule entry not found for %s', module);
+                var prefix = 'CPDLC-DOWNLINK-';
+                var l = size(prefix);
+                if (substr(module, 0, l) == prefix) {
+                    var type = substr(module, l, 6);
+                    printf('Found CPDLC-DOWNLINK- prefix, type = %s', type);
+                    var downlink = globals.cpdlc.downlink_messages[type];
+                    if (downlink == nil) {
+                        me.activeModule = PlaceholderModule.new(me, parent, module);
+                    }
+                    else {
+                        var parts = [];
+                        var args = [];
+                        foreach (var a; downlink.args) {
+                            append(args, '');
+                        }
+                        append(parts, { type: type, args: args });
+                        if (substr(type, 0, 4) != 'TXTD') {
+                            append(parts, { type: 'TXTD-1', args: [''] });
+                        }
+                        me.activeModule = CPDLCComposeDownlinkModule.new(me, parent, parts, nil);
+                    }
+                }
+                else {
+                    me.activeModule = PlaceholderModule.new(me, parent, module);
+                }
             }
             else {
                 me.activeModule = factory(me, parent);
@@ -224,8 +381,10 @@ var MCDU = {
     },
 
     popScratchpad: func () {
+        # Early abort so as to not remove a scratchpad message that may exist
+        if (me.scratchpad == '') return '';
         var val = me.scratchpad;
-        me.scratchpad = "";
+        me.scratchpad = '';
         me.scratchpadElem.setText(me.scratchpad);
         return val;
     },
@@ -275,17 +434,25 @@ var MCDU = {
             # this is a "char" command
             me.scratchpad = me.scratchpad ~ cmd;
             me.scratchpadElem.setText(me.scratchpad);
+            me.scratchpadElem.setColor(1, 1, 1);
+        }
+        else if (cmd == "SP") {
+            me.scratchpad = me.scratchpad ~ ' ';
+            me.scratchpadElem.setText(me.scratchpad);
+            me.scratchpadElem.setColor(1, 1, 1);
         }
         else if (cmd == "CLR") {
             if (me.scratchpad == '*DELETE*') {
                 me.scratchpad = '';
                 me.scratchpadElem.setText(me.scratchpad);
+                me.scratchpadElem.setColor(1, 1, 1);
             }
             else {
                 var l = size(me.scratchpad);
                 if (l > 0) {
                     me.scratchpad = substr(me.scratchpad, 0, l - 1);
                     me.scratchpadElem.setText(me.scratchpad);
+                    me.scratchpadElem.setColor(1, 1, 1);
                 }
             }
         }

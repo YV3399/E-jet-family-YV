@@ -1,9 +1,9 @@
 # 
 
 var modelFactory = func (key) {
-    # for now, only PropModel can be loaded
+    # for now, only KeyPropModel can be loaded
     if (contains(keyProps, key)) {
-        return PropModel.new(key);
+        return KeyPropModel.new(key);
     }
     else {
         return BaseModel.new();
@@ -27,6 +27,7 @@ var BaseModel = {
     unsubscribe: func (l) { },
 };
 
+# Model backed by a set of functions.
 var FuncModel = {
     new: func (key, getter, setter, resetter = nil) {
         var m = BaseModel.new();
@@ -97,14 +98,17 @@ var ObjectFieldModel = {
     },
 };
 
+# Model backed by a property
 var PropModel = {
-    new: func (key, defval = '') {
+    new: func (prop, key = nil, defval = '') {
         var m = BaseModel.new();
         m.parents = prepended(PropModel, m.parents);
         m.key = key;
-        m.prop = props.globals.getNode(keyProps[key], 1);
+        m.prop = (typeof(prop) == 'scalar') ?
+                    props.globals.getNode(prop) :
+                    prop;
         if (defval == nil) {
-            m.defval = keyDefs[key];
+            m.defval = '';
         }
         else {
             m.defval = defval;
@@ -150,6 +154,20 @@ var PropModel = {
 
     unsubscribe: func (l) {
         removelistener(l);
+    },
+};
+
+# Prop model that is linked to a prop key, allowing it to be boxed.
+var KeyPropModel = {
+    new: func (key, defval = nil) {
+        var prop = props.globals.getNode(keyProps[key], 1);
+        if (defval == nil) {
+            defval = keyDefs[key];
+        }
+        var m = PropModel.new(prop, defval);
+        m.parents = prepended(KeyPropModel, m.parents);
+        m.key = key;
+        return m;
     },
 };
 

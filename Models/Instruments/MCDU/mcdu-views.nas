@@ -50,8 +50,8 @@ var StaticView = {
     new: func (x, y, txt, flags) {
         var m = BaseView.new(x, y, flags);
         m.parents = prepended(StaticView, m.parents);
-        m.w = size(txt);
-        m.txt = txt;
+        m.w = size(txt or '');
+        m.txt = txt or '';
         return m;
     },
 
@@ -125,13 +125,14 @@ var ToggleView = {
 };
 
 var FormatView = {
-    new: func (x, y, flags, model, w, fmt = nil, mapping = nil) {
+    new: func (x, y, flags, model, w, fmt = nil, mapping = nil, visible = 1) {
         var m = ModelView.new(x, y, flags, model);
         m.parents = prepended(FormatView, m.parents);
         m.mapping = mapping;
         m.w = w;
         if (fmt == nil) { fmt = "%" ~ w ~ "s"; }
         m.fmt = fmt;
+        m.visible = visible;
         return m;
     },
 
@@ -154,6 +155,16 @@ var FormatView = {
     },
 
     draw: func (mcdu, val) {
+        var visibility = 1;
+        var format = me.getFormat(val);
+        var flags = me.getFlags(val);
+        if (typeof(me.visible) == "func") {
+            visibility = me.visible(val);
+        }
+        elsif (typeof(me.visible) == "scalar") {
+            visibility = me.visible;
+        }
+        if (!visibility) return;
         if (me.mapping != nil) {
             if (typeof(me.mapping) == "func") {
                 val = me.mapping(val);
@@ -162,7 +173,10 @@ var FormatView = {
                 val = me.mapping[val];
             }
         }
-        mcdu.print(me.x, me.y, sprintf(me.getFormat(val), val), me.getFlags(val));
+        else {
+            if (val == nil) val = '';
+        }
+        mcdu.print(me.x, me.y, sprintf(format, val), flags);
     },
 };
 
@@ -295,7 +309,6 @@ var CycleView = {
         }
     },
 };
-
 
 var FreqView = {
     new: func (x, y, flags, model, ty = nil) {
