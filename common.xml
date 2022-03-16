@@ -2495,6 +2495,10 @@
             <file>Aircraft/E-jet-family/Nasal/view.nas</file>
         </viewLogic>
 
+        <cpdlc>
+            <file>Aircraft/E-jet-family/Nasal/cpdlc/main.nas</file>
+        </cpdlc>
+
         <itaf>
             <file>Aircraft/E-jet-family/Nasal/it-autoflight.nas</file>
         </itaf>

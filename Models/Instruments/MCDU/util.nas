@@ -359,3 +359,12 @@ var findWaypointsByID = func (ident, ref=nil) {
         return findFixesByID(ref, ident);
     }
 };
+
+var cpdlcDatalinkStatusName = func (status) {
+    if (status == cpdlc.LOGON_NO_LINK) {
+        return 'ATN FAIL';
+    }
+    else {
+        return 'ATN READY';
+    }
+};

@@ -298,6 +298,13 @@ var keyProps = {
     "WIND-HEAD": "/environment/headwind-kt",
     "WIND-CROSS": "/environment/crosswind-kt",
     "GS": "/velocities/groundspeed-kt",
+
+    # CPDLC
+    "CPDLC-DRIVER": "/cpdlc/driver",
+    "CPDLC-LOGON-STATUS": "/cpdlc/logon-status",
+    "CPDLC-CURRENT-STATION": "/cpdlc/current-station",
+    "CPDLC-LOGON-STATION": "/cpdlc/logon-station",
+    "CPDLC-NEXT-STATION": "/cpdlc/next-station",
 };
 
 var keyDefs = {
