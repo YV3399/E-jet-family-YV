@@ -202,13 +202,13 @@ var PFDCanvas = {
         m.props["/instrumentation/pfd/alt-tape-thousands"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/alt-tape-thousands");
         m.props["/instrumentation/pfd/asi-100"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/asi-100");
         m.props["/instrumentation/pfd/asi-10"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/asi-10");
-        m.props["/instrumentation/pfd/blink-state"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/blink-state");
         m.props["/instrumentation/pfd/bearing[0]/bearing"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/bearing[0]/bearing");
         m.props["/instrumentation/pfd/bearing[0]/source"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/bearing[0]/source");
         m.props["/instrumentation/pfd/bearing[0]/visible"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/bearing[0]/visible");
         m.props["/instrumentation/pfd/bearing[1]/bearing"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/bearing[1]/bearing");
         m.props["/instrumentation/pfd/bearing[1]/source"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/bearing[1]/source");
         m.props["/instrumentation/pfd/bearing[1]/visible"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/bearing[1]/visible");
+        m.props["/instrumentation/pfd/blink-state"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/blink-state");
         m.props["/instrumentation/pfd/dme/dist10"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/dme/dist10");
         m.props["/instrumentation/pfd/dme/ete"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/dme/ete");
         m.props["/instrumentation/pfd/dme/ete-unit"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/dme/ete-unit");
@@ -231,9 +231,7 @@ var PFDCanvas = {
         m.props["/instrumentation/pfd/minimums-decision-altitude"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/minimums-decision-altitude");
         m.props["/instrumentation/pfd/minimums-indicator-visible"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/minimums-indicator-visible");
         m.props["/instrumentation/pfd/minimums-mode"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/minimums-mode");
-        m.props["/instrumentation/pfd/minimums-mode"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/minimums-mode");
         m.props["/instrumentation/pfd/minimums-radio"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/minimums-radio");
-        m.props["/instrumentation/pfd/minimums-visible"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/minimums-visible");
         m.props["/instrumentation/pfd/minimums-visible"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/minimums-visible");
         m.props["/instrumentation/pfd/nav/course-source"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/nav/course-source");
         m.props["/instrumentation/pfd/nav/course-source-type"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/nav/course-source-type");
@@ -969,7 +967,7 @@ var PFDCanvas = {
             self["radioalt"].setVisible(node.getBoolValue());   
         }, 1, 0));
         append(me.listeners, setlistener(self.props["/instrumentation/pfd/minimums-mode"], func(node) {
-            if (node.getValue()) {
+            if (node.getBoolValue()) {
                 self["minimums.barora"].setText("BARO");
                 self["minimums.digital"].setColor(1, 1, 0);
             }

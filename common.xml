@@ -2029,10 +2029,10 @@
                 <ete type="int">0</ete>
                 <ete-unit type="int">0</ete-unit>
             </waypoint>
-            <qnh-mode>0</qnh-mode>
-            <minimums-mode>0</minimums-mode>
-            <minimums-radio>200</minimums-radio>
-            <minimums-baro>400</minimums-baro>
+            <qnh-mode type="int">0</qnh-mode>
+            <minimums-mode type="int">1</minimums-mode>
+            <minimums-radio type="int">200</minimums-radio>
+            <minimums-baro type="int">400</minimums-baro>
             <minimums-visible type="bool">true</minimums-visible>
             <groundspeed-kt type="int">0</groundspeed-kt>
             <wind-speed-kt type="int">0</wind-speed-kt>
@@ -2112,10 +2112,10 @@
                 <ete type="int">0</ete>
                 <ete-unit type="int">0</ete-unit>
             </waypoint>
-            <qnh-mode>0</qnh-mode>
-            <minimums-mode>0</minimums-mode>
-            <minimums-radio>200</minimums-radio>
-            <minimums-baro>400</minimums-baro>
+            <qnh-mode type="int">0</qnh-mode>
+            <minimums-mode type="int">1</minimums-mode>
+            <minimums-radio type="int">200</minimums-radio>
+            <minimums-baro type="int">400</minimums-baro>
             <minimums-visible type="bool">true</minimums-visible>
             <groundspeed-kt type="int">0</groundspeed-kt>
             <wind-speed-kt type="int">0</wind-speed-kt>
