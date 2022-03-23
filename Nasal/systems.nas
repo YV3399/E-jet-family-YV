@@ -36,18 +36,23 @@ var engineLoop = func(engine_no) {
 	if (props.getNode("sim/failure-manager/engines/engine[" ~ engine_no ~ "]/serviceable").getBoolValue()) {
 		props.getNode(tree2 ~ "cutoff").setBoolValue(props.getNode(tree2 ~ "cutoff-switch").getBoolValue());
 	}
-
-	settimer(func {
-		engineLoop(engine_no);
-	}, 0);
 };
+
+var engineTimer = nil;
 
 # start the loop 2 seconds after the FDM initializes
 
 setlistener("sim/signals/fdm-initialized", func {
 	settimer(func {
-		engineLoop(0);
-		engineLoop(1);
+        if (engineTimer == nil) {
+            engineTimer = maketimer(0.5, func {
+                engineLoop(0);
+                engineLoop(1);
+            });
+            engineTimer.simulatedTime = 1;
+            engineTimer.singleShot = 0;
+            engineTimer.start();
+        }
 	}, 2);
 	# itaf.ap_init();
 });
@@ -109,113 +114,6 @@ controls.gearDown = func(v) {
 		setprop("/controls/gear/gear-down", 1);
 	}
 }
-
-## INSTRUMENTS
-##############
-
-var instruments = {
-	calcBugDeg: func(bug, limit) {
-		var heading = getprop("orientation/heading-magnetic-deg");
-		var bugDeg = 0;
-
-		while (bug < 0) {
-			bug += 360;
-		}
-		while (bug > 360) {
-			bug -= 360;
-		}
-		if (bug < limit) {
-			bug += 360;
-		}
-		if (heading < limit) {
-			heading += 360;
-		}
-		# bug is adjusted normally
-		var bugPos = heading - bug;
-
-		if (math.abs(bugPos) < limit) {
-			bugDeg = bugPos;
-		} else {
-			if (bugPos < 0) {
-				bugPos = math.abs(bugPos + 360);
-			}
-
-			# bug is on the far right
-			if (bugPos >= 180) {
-				bugDeg = -limit;
-			# bug is on the far left
-			} elsif (bugPos < 180){
-				bugDeg = limit;
-			}
-		}
-
-		return bugDeg;
-	},
-	loop: func {
-		instruments.setHSIBugsDeg();
-		instruments.setSpeedBugs();
-		instruments.setMPProps();
-		instruments.calcEGTDegC();
-
-		settimer(instruments.loop, 0);
-	},
-	# set the rotation of the HSI bugs
-	setHSIBugsDeg: func {
-		setprop("sim/model/ERJ/heading-bug-pfd-deg", instruments.calcBugDeg(getprop("autopilot/settings/heading-bug-deg"), 80));
-		setprop("sim/model/ERJ/heading-bug-deg", instruments.calcBugDeg(getprop("autopilot/settings/heading-bug-deg"), 37));
-		setprop("sim/model/ERJ/nav1-bug-deg", instruments.calcBugDeg(getprop("instrumentation/nav[0]/heading-deg"), 37));
-		setprop("sim/model/ERJ/nav2-bug-deg", instruments.calcBugDeg(getprop("instrumentation/nav[1]/heading-deg"), 37));
-		if (getprop("autopilot/route-manager/route/num") > 0 and getprop("autopilot/route-manager/wp[0]/bearing-deg") != nil) {
-			setprop("sim/model/ERJ/wp-bearing-deg", instruments.calcBugDeg(getprop("autopilot/route-manager/wp[0]/bearing-deg"), 45));
-		}
-	},
-	setSpeedBugs: func {
-		setprop("sim/model/ERJ/ias-bug-kt-norm", getprop("autopilot/settings/target-speed-kt") - getprop("velocities/airspeed-kt"));
-		setprop("sim/model/ERJ/mach-bug-kt-norm", (getprop("autopilot/settings/target-speed-mach") - getprop("velocities/mach")) * 600);
-	},
-	setMPProps: func {
-		var getCoord = func(tree) {
-			var x = getprop(tree ~ "position/global-x");
-			var y = getprop(tree ~ "position/global-y");
-			var z = getprop(tree ~ "position/global-z");
-			return geo.Coord.new().set_xyz(x, y, z);
-		};
-		var calcMPDistance = func(tree) {
-			var distance = nil;
-			call(func distance = geo.aircraft_position().distance_to(getCoord(tree)), nil, var err = []);
-			if (size(err) or distance == nil) {
-				return 0;
-			} else {
-				return distance;
-			}
-		};
-		var calcMPBearing = func(tree) {
-			return geo.aircraft_position().course_to(getCoord(tree));
-		};
-
-		for (var i = 0; i < 6; i += 1) {
-			var mp = "ai/models/multiplayer[" ~ i ~ "]/";
-			if (getprop(mp ~ "valid")) {
-				setprop("sim/model/ERJ/multiplayer-distance[" ~ i ~ "]", calcMPDistance(mp));
-				setprop("sim/model/ERJ/multiplayer-bearing[" ~ i ~ "]", instruments.calcBugDeg(calcMPBearing(mp), 45));
-			}
-		}
-	},
-	calcEGTDegC: func() {
-		foreach (var engine; props.getNode("engines").getChildren("engine")) {
-			var egt_degf = engine.getValue("egt-degf");
-
-			if (egt_degf != nil) {
-				engine.setValue("egt-degc", (egt_degf - 32) * 1.8);
-			}
-		}
-	}
-};
-
-# start the loop 2 seconds after the FDM initializes
-setlistener("sim/signals/fdm-initialized", func {
-	settimer(instruments.loop, 2);
-});
 
 ## AUTOMATIC A/T KTS/MACH SWITCHING
 ###################################

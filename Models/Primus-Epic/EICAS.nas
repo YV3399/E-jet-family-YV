@@ -69,10 +69,52 @@ var canvas_ED_only = {
 	},
 
 	init: func(canvas_group, file) {
+        ##################### PROPS ##################### 
+
+        var propkeys = [
+                "/autopilot/autobrake/step",
+                "/consumables/fuel/tank[0]/level-kg",
+                "/consumables/fuel/tank[1]/level-kg",
+                "/consumables/fuel/total-fuel-kg",
+                "/controls/flight/aileron-trim",
+                "/controls/flight/elevator-trim",
+                "/controls/flight/flaps",
+                "/controls/flight/ground-spoilers",
+                "/controls/flight/rudder-trim",
+                "/controls/flight/speedbrake-lever",
+                "/controls/flight/trs/flex-to",
+                "/engines/apu/rpm",
+                "/engines/apu/temp-c",
+                "/engines/engine[0]/fuel-flow_pph",
+                "/engines/engine[0]/oil-pressure-psi",
+                "/engines/engine[0]/oil-temperature-degc",
+                "/engines/engine[0]/reverser-pos-norm",
+                "/engines/engine[1]/fuel-flow_pph",
+                "/engines/engine[1]/oil-pressure-psi",
+                "/engines/engine[1]/oil-temperature-degc",
+                "/fadec/trs-limit",
+                "/fdm/jsbsim/fcs/flap-cmd-int-deg",
+                "/fdm/jsbsim/fcs/flap-pos-deg",
+                "/fdm/jsbsim/fcs/slat-cmd-int-deg",
+                "/fdm/jsbsim/fcs/slat-pos-deg",
+                "/gear/gear[0]/position-norm",
+                "/gear/gear[1]/position-norm",
+                "/gear/gear[2]/position-norm",
+                "/surface-positions/speedbrake-pos-norm",
+                "/trs/mode",
+                "/trs/thrust/climb-submode",
+                "/trs/thrust/to-submode",
+            ];
+        me.props = {};
+        foreach (var k; propkeys) {
+            me.props[k] = props.globals.getNode(k);
+        }
+
+        ##################### SVG setup ##################### 
+
 		var font_mapper = func(family, weight) {
 			return "LiberationFonts/LiberationSans-Regular.ttf";
 		};
-
 
 		canvas.parsesvg(canvas_group, file, {'font-mapper': font_mapper});
         setlistener("/systems/electrical/outputs/eicas", func (node) {
@@ -274,8 +316,8 @@ var canvas_ED_only = {
 	},
 	update: func() {
 			
-		var flap_pos=getprop("/fdm/jsbsim/fcs/flap-pos-deg") or 0;
-		var flap_cmd=getprop("/fdm/jsbsim/fcs/flap-cmd-int-deg") or 0;
+		var flap_pos=me.props["/fdm/jsbsim/fcs/flap-pos-deg"].getValue() or 0;
+		var flap_cmd=me.props["/fdm/jsbsim/fcs/flap-cmd-int-deg"].getValue() or 0;
 		
 		if (flap_pos == 0) {
 			me["flaps.IND"].hide();
@@ -307,8 +349,8 @@ var canvas_ED_only = {
                 .lineTo(cx, cy);
 		}
 		
-		var slat_pos=getprop("/fdm/jsbsim/fcs/slat-pos-deg") or 0;
-		var slat_cmd=getprop("/fdm/jsbsim/fcs/slat-cmd-int-deg") or 0;
+		var slat_pos=me.props["/fdm/jsbsim/fcs/slat-pos-deg"].getValue() or 0;
+		var slat_cmd=me.props["/fdm/jsbsim/fcs/slat-cmd-int-deg"].getValue() or 0;
 		if(slat_pos==0){
 			me["slat.IND"].hide();
 			me["slat.SCALE"].hide();
@@ -321,9 +363,9 @@ var canvas_ED_only = {
 			me["slat.IND"].setRotation(slat_pos*(-D2R));
 		}
 
-        var gndspl_extension = getprop("/controls/flight/ground-spoilers");
-        var spdbrk_extension = getprop("/controls/flight/speedbrake-lever");
-        var extension = getprop("/surface-positions/speedbrake-pos-norm") or 0;
+        var gndspl_extension = me.props["/controls/flight/ground-spoilers"].getValue();
+        var spdbrk_extension = me.props["/controls/flight/speedbrake-lever"].getValue();
+        var extension = me.props["/surface-positions/speedbrake-pos-norm"].getValue() or 0;
         if (extension > 0.001) {
             me["spoilers.IND"].show();
             me["spoilers.IND"].setRotation(-30 * D2R * extension);
@@ -347,45 +389,45 @@ var canvas_ED_only = {
             me["spoilers.ANN"].hide();
         }
 		
-        var flap_cmd_raw = math.round((getprop("/controls/flight/flaps") or 0) / 0.125);
+        var flap_cmd_raw = math.round((me.props["/controls/flight/flaps"].getValue() or 0) / 0.125);
 		me["fs"].setText(sprintf("%u", flap_cmd_raw));
 
-        me["pitchtrim.digital"].setText(sprintf("%3.1f", (getprop("/controls/flight/elevator-trim") or 0.0) * -10));
-        me["pitchtrim.pointer"].setTranslation(0, math.round((getprop("/controls/flight/elevator-trim") or 0) * 60));
-        me["ruddertrim.pointer"].setTranslation(math.round((getprop("/controls/flight/rudder-trim") or 0) * 60), 0);
-        me["ailerontrim.pointer"].setRotation(math.round((getprop("/controls/flight/aileron-trim") or 0) * 30));
+        me["pitchtrim.digital"].setText(sprintf("%3.1f", (me.props["/controls/flight/elevator-trim"].getValue() or 0.0) * -10));
+        me["pitchtrim.pointer"].setTranslation(0, math.round((me.props["/controls/flight/elevator-trim"].getValue() or 0) * 60));
+        me["ruddertrim.pointer"].setTranslation(math.round((me.props["/controls/flight/rudder-trim"].getValue() or 0) * 60), 0);
+        me["ailerontrim.pointer"].setRotation(math.round((me.props["/controls/flight/aileron-trim"].getValue() or 0) * 30));
 		
 		var ln2=engParam["N2L"].getValue();
 		var rn2=engParam["N2R"].getValue();
 
-		var lff=getprop("/engines/engine[0]/fuel-flow_pph") * LB2KG;
-		var rff=getprop("/engines/engine[1]/fuel-flow_pph") * LB2KG;
-		var fq=getprop("/consumables/fuel/total-fuel-kg");
-		var lfq=getprop("/consumables/fuel/tank[0]/level-kg");
-		var rfq=getprop("/consumables/fuel/tank[1]/level-kg");
-		var lop=getprop("/engines/engine[0]/oil-pressure-psi");
-		var rop=getprop("/engines/engine[1]/oil-pressure-psi");
-		var lot=getprop("/engines/engine[0]/oil-temperature-degc");
-		var rot=getprop("/engines/engine[1]/oil-temperature-degc");
+		var lff=me.props["/engines/engine[0]/fuel-flow_pph"].getValue() * LB2KG;
+		var rff=me.props["/engines/engine[1]/fuel-flow_pph"].getValue() * LB2KG;
+		var fq=me.props["/consumables/fuel/total-fuel-kg"].getValue();
+		var lfq=me.props["/consumables/fuel/tank[0]/level-kg"].getValue();
+		var rfq=me.props["/consumables/fuel/tank[1]/level-kg"].getValue();
+		var lop=me.props["/engines/engine[0]/oil-pressure-psi"].getValue();
+		var rop=me.props["/engines/engine[1]/oil-pressure-psi"].getValue();
+		var lot=me.props["/engines/engine[0]/oil-temperature-degc"].getValue();
+		var rot=me.props["/engines/engine[1]/oil-temperature-degc"].getValue();
 
         # TRS
-        var mode = getprop("/trs/mode") or 0;
+        var mode = me.props["/trs/mode"].getValue() or 0;
         var modeLabel = trsModeLabels[mode] or "---";
         if (modeLabel == "TO" or modeLabel == "GA") {
             if (modeLabel == "TO") {
-                if (getprop("/controls/flight/trs/flex-to")) {
+                if (me.props["/controls/flight/trs/flex-to"].getValue()) {
                     modeLabel = "FLEX-TO";
                 }
             }
-            var submode = getprop("/trs/thrust/to-submode") or 1;
+            var submode = me.props["/trs/thrust/to-submode"].getValue() or 1;
             modeLabel = modeLabel ~ "-" ~ submode;
         }
         else if (modeLabel == "CLB") {
-            var submode = getprop("/trs/thrust/climb-submode") or 1;
+            var submode = me.props["/trs/thrust/climb-submode"].getValue() or 1;
             modeLabel = modeLabel ~ "-" ~ submode;
         }
         me["trsMode"].setText(modeLabel);
-        var limit = getprop("/fadec/trs-limit");
+        var limit = me.props["/fadec/trs-limit"].getValue();
         if (limit == nil) {
             me["limitL.digital"].setText("+++++");
             me["limitR.digital"].setText("+++++");
@@ -498,8 +540,8 @@ var canvas_ED_only = {
 		me["OTL"].setText(sprintf("%-i", lot));
 		me["OTR"].setText(sprintf("%-i", rot));
 
-		var lrvs=getprop("/engines/engine[0]/reverser-pos-norm");
-		var rrvs=getprop("/engines/engine[0]/reverser-pos-norm");
+		var lrvs=me.props["/engines/engine[0]/reverser-pos-norm"].getValue();
+		var rrvs=me.props["/engines/engine[0]/reverser-pos-norm"].getValue();
 		if(lrvs==0){
 			me["revL"].hide();
 		}else if(lrvs>0 and lrvs<1){
@@ -519,9 +561,9 @@ var canvas_ED_only = {
 			me["revR"].setColor(0,1,0);
 		}
 		
-		var fg=getprop("/gear/gear[0]/position-norm");
-		var lg=getprop("/gear/gear[1]/position-norm");
-		var rg=getprop("/gear/gear[2]/position-norm");
+		var fg=me.props["/gear/gear[0]/position-norm"].getValue();
+		var lg=me.props["/gear/gear[1]/position-norm"].getValue();
+		var rg=me.props["/gear/gear[2]/position-norm"].getValue();
 		
 		if(fg>0){
 			me["gearF.C"].show();
@@ -570,7 +612,7 @@ var canvas_ED_only = {
 			me["gearR.T"].hide();
 		}
 		
-		var autobrake=getprop("/autopilot/autobrake/step");
+		var autobrake=me.props["/autopilot/autobrake/step"].getValue();
 		if(autobrake==0){
 			me["AB"].setText("OFF");
 		}else if(autobrake==1){
@@ -583,8 +625,8 @@ var canvas_ED_only = {
 			me["AB"].setText("RTO");
 		}
 		
-		var apurpm=getprop("/engines/apu/rpm");
-		var aputmp=getprop("/engines/apu/temp-c") or 0;
+		var apurpm=me.props["/engines/apu/rpm"].getValue();
+		var aputmp=me.props["/engines/apu/temp-c"].getValue() or 0;
 		me["apu.PCT"].setText(sprintf("%3i", apurpm));
 		me["apu.DEGC"].setText(sprintf("%3i", aputmp));
 		
