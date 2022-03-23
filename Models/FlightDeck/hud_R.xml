@@ -3,15 +3,7 @@
     <path>Aircraft/E-jet-family/Models/FlightDeck/hud2.ac</path>
     <effect>
         <object-name>Screen</object-name>
-        <inherits-from>Effects/model-transparent</inherits-from>
-        <technique n="11">
-            <pass n="0">
-                <blend n="0">
-                    <source>one</source>
-                    <destination>one</destination>
-                </blend>
-            </pass>
-        </technique>
+        <inherits-from>Aircraft/E-jet-family/Models/Effects/hud</inherits-from>
     </effect>
     <effect>
         <object-name>Glass</object-name>
@@ -25,6 +17,12 @@
             <green>1</green>
             <blue>0.5</blue>
         </emission>
+        <transparency><alpha>0.9</alpha></transparency>
+    </animation>
+    <animation>
+        <type>material</type>
+        <object-name>Glass</object-name>
+        <transparency><alpha>0.1</alpha></transparency>
     </animation>
     <animation>
         <type>pick</type>

@@ -3204,5 +3204,11 @@
             </binding>
         </action>
     </animation>
+
+    <animation>
+        <type>material</type>
+        <object-name>fuselage</object-name>
+        <transparency><alpha>1</alpha></transparency>
+    </animation>
     
 </PropertyList>
