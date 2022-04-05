@@ -22,6 +22,7 @@ var System = {
                 driver: nil,
             },
             driver: nil,
+            drivers: {},
             nextMIN: 1,
         };
         return m;
@@ -50,11 +51,18 @@ var System = {
         me.props.unread = me.props.base.getNode('unread', 1);
         me.props.unread.setValue(0);
         me.props.driver = me.props.base.getNode('driver', 1);
-        me.props.driver.setValue('');
+        me.setDriver(me.props.driver.getValue() or '');
         me.updateUnread();
     },
 
+    registerDriver: func (driver) {
+        var name = driver.getDriverName();
+        me.drivers[name] = driver;
+    },
+
     setDriver: func (driver) {
+        if (typeof(driver) == 'scalar')
+            driver = me.drivers[driver];
         if (me.driver != nil) {
             me.driver.stop();
             me.props.driver.setValue('');
@@ -70,6 +78,17 @@ var System = {
         else {
             me.setLogonStatus(LOGON_NO_LINK);
         }
+    },
+
+    getDriver: func () {
+        if (me.driver)
+            return me.driver.getDriverName();
+        else
+            return '';
+    },
+
+    listDrivers: func () {
+        return sort(keys(me.drivers), func (a, b) { return string.icmp(a, b); });
     },
 
     setNextStation: func (station) {

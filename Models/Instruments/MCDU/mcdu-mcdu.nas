@@ -78,6 +78,7 @@ var MCDU = {
         # CPDLC modules
         "CPDLC-LOGON": func (mcdu, parent) { return ATCLogonModule.new(mcdu, parent); },
         "CPDLC-LOG": func (mcdu, parent) { return CPDLCLogModule.new(mcdu, parent); },
+        "CPDLC-DATALINK": func (mcdu, parent) { return CPDLCDatalinkSetupModule.new(mcdu, parent); },
 
         # Index modules
         "ATCINDEX": func(mcdu, parent) { return IndexModule.new(mcdu, parent,
@@ -96,6 +97,21 @@ var MCDU = {
                         , [ "CPDLC-CLEARANCE", "CLEARANCE" ]
                         , nil
                         , [ "CPDLC-LOG", "LOG" ]
+
+                          # PAGE 2
+                        , [ "CPDLC-DATALINK", "DATALINK CFG" ]
+                        , nil
+                        , nil
+                        , nil
+                        , nil
+                        , nil
+
+                        , nil
+                        , nil
+                        , nil
+                        , nil
+                        , nil
+                        , nil
                         ]); },
         "CPDLC-REPORT": func(mcdu, parent) { return IndexModule.new(mcdu, parent,
                         "REPORT",

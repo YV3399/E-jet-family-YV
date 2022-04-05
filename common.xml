@@ -81,6 +81,7 @@
             <path>/controls/switches/hud-flip[0]</path>
             <path>/controls/switches/hud-flip[1]</path>
             <path>/sim/http/local-ip</path>
+            <path>/cpdlc/driver</path>
         </aircraft-data>
 
         <http>
@@ -693,6 +694,10 @@
             </generic>
         </multiplay>
     </sim>
+
+    <cpdlc>
+        <driver type="string"></driver>
+    </cpdlc>
 
     <options>
         <system>
