@@ -10,6 +10,7 @@ var HoppieDriver = {
         };
         m.listeners = {
             uplink: nil,
+            running: nil,
         };
         return m;
     },

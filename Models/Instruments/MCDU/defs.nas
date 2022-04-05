@@ -301,6 +301,7 @@ var keyProps = {
 
     # CPDLC
     "CPDLC-DRIVER": "/cpdlc/driver",
+    "CPDLC-DATALINK-STATUS": "/cpdlc/datalink-status",
     "CPDLC-LOGON-STATUS": "/cpdlc/logon-status",
     "CPDLC-CURRENT-STATION": "/cpdlc/current-station",
     "CPDLC-LOGON-STATION": "/cpdlc/logon-station",

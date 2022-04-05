@@ -2332,6 +2332,21 @@ var ATCLogonModule = {
     getTitle: func () { return "ATC LOGON/STATUS"; },
     getNumPages: func () { return 2; },
 
+    activate: func () {
+        me.loadPage(me.page);
+        me.timer = maketimer(1, me, func () {
+            globals.cpdlc.system.updateDatalinkStatus();
+        });
+        me.timer.start();
+    },
+
+    deactivate: func () {
+        if (me.timer != nil) {
+            me.timer.stop();
+            me.timer = nil;
+        }
+    },
+
     loadPageItems: func (n) {
         if (n == 0) {
             me.views = [
@@ -2394,12 +2409,12 @@ var ATCLogonModule = {
                 FormatView.new(20, 10, mcdu_green | mcdu_large, "ARRIVAL-AIRPORT", 4),
 
                 StaticView.new(14, 11, "DATALINK", mcdu_white),
-                FormatView.new(12, 12, mcdu_green | mcdu_large, "CPDLC-LOGON-STATUS", 12, "%12s",
+                FormatView.new(12, 12, mcdu_green | mcdu_large, "CPDLC-DATALINK-STATUS", 12, "%12s",
                     func(val) {
-                        if (val == cpdlc.LOGON_NO_LINK)
-                            return "DISCONNECTED";
-                        else
+                        if (val)
                             return "READY";
+                        else
+                            return "DISCONNECTED";
                     }),
             ];
 

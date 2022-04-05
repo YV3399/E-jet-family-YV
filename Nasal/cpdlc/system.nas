@@ -40,6 +40,8 @@ var System = {
             # Assume it's a property node already
             me.props.base = propBase;
         }
+        me.props.datalinkStatus = me.props.base.getNode('datalink-status', 1);
+        me.props.datalinkStatus.setValue(0);
         me.props.logonStatus = me.props.base.getNode('logon-status', 1);
         me.props.logonStatus.setValue(0);
         me.props.currentStation = me.props.base.getNode('current-station', 1);
@@ -68,6 +70,7 @@ var System = {
             me.driver.stop();
             me.props.driver.setValue('');
         }
+        me.props.datalinkStatus.setValue(0);
         me.driver = driver;
         if (me.driver != nil) {
             driver.start();
@@ -75,10 +78,15 @@ var System = {
         }
         if (me.driver != nil and me.driver.isAvailable()) {
             me.setLogonStatus(LOGON_NOT_CONNECTED);
+            me.props.datalinkStatus.setValue(1);
         }
         else {
             me.setLogonStatus(LOGON_NO_LINK);
         }
+    },
+
+    updateDatalinkStatus: func () {
+        me.props.datalinkStatus.setBoolValue(me.driver != nil and me.driver.isAvailable());
     },
 
     getDriver: func () {
