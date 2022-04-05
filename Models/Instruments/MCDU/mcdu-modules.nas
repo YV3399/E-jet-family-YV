@@ -2356,6 +2356,8 @@ var ATCLogonModule = {
                     func(val) {
                         if (val == globals.cpdlc.LOGON_ACCEPTED)
                             return mcdu_green | mcdu_large;
+                        elsif (val == globals.cpdlc.LOGON_OK)
+                            return mcdu_white | mcdu_large;
                         elsif (val == globals.cpdlc.LOGON_FAILED)
                             return mcdu_yellow | mcdu_large;
                         elsif (val == globals.cpdlc.LOGON_SENT)
@@ -2367,6 +2369,8 @@ var ATCLogonModule = {
                     func(val) {
                         if (val == globals.cpdlc.LOGON_ACCEPTED)
                             return "ACCEPTED";
+                        elsif (val == globals.cpdlc.LOGON_OK)
+                            return "    OPEN";
                         elsif (val == globals.cpdlc.LOGON_FAILED)
                             return "  FAILED";
                         elsif (val == globals.cpdlc.LOGON_SENT)
@@ -2537,10 +2541,15 @@ var CPDLCLogModule = {
             append(me.views,
                 StaticView.new(1, y, sprintf("%04sZ", item.getValue('timestamp') or '----'), mcdu_white));
             var flags = mcdu_white;
-            if ((item.getValue('status') or '') == 'NEW')
+            var status = item.getValue('status') or '';
+            if (status == 'NEW')
                 flags = mcdu_white | mcdu_reverse;
+            if (status == 'SENT')
+                statusText = item.getValue('response-status') or '';
+            else
+                statusText = status;
             append(me.views,
-                StaticView.new(12, y, sprintf("%11s", item.getValue('status') or 'OLD'), flags));
+                StaticView.new(12, y, sprintf("%11s", statusText or 'OLD'), flags));
             append(me.views,
                 StaticView.new(0, y+1, (dir == 'up') ? '↑' : '↓', mcdu_white | mcdu_large));
             append(me.views,

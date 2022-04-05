@@ -4,7 +4,8 @@ var LOGON_NO_LINK = -4; # Transport is not available, cannot logon
 var LOGON_NO_LOGON_STATION = -5; # No logon station selected, can't logon
 var LOGON_FAILED = -2; # Last logon attempt did not succeed
 var LOGON_NOT_CONNECTED = -1; # Currently disconnected, connecting possible
-var LOGON_ACCEPTED = 0; # Logged on successfully
+var LOGON_OK = 0; # Logged on successfully
+var LOGON_ACCEPTED = 2; # Logon accepted, wait for CURRENT DATA AUTHORITY
 var LOGON_SENT = 1; # Logon request sent, no reply received
 
 var System = {
@@ -95,12 +96,21 @@ var System = {
         me.props.nextStation.setValue(station);
     },
 
-    setCurrentStation: func (station) {
+    setLogonAccepted: func (station) {
         if (station == '') {
             me.setLogonStatus(LOGON_NOT_CONNECTED);
         }
         else {
             me.setLogonStatus(LOGON_ACCEPTED);
+        }
+    },
+
+    setCurrentStation: func (station) {
+        if (station == '') {
+            me.setLogonStatus(LOGON_NOT_CONNECTED);
+        }
+        else {
+            me.setLogonStatus(LOGON_OK);
         }
         me.props.currentStation.setValue(station);
         me.props.nextStation.setValue('');
@@ -124,8 +134,10 @@ var System = {
     },
 
 
-    connect: func {
-        var logonStation = me.props.logonStation.getValue();
+    connect: func (logonStation='') {
+        if (logonStation == '') {
+            logonStation = me.props.logonStation.getValue();
+        }
         if (logonStation == '') {
             logonStation = me.props.nextStation.getValue();
         }
@@ -141,11 +153,17 @@ var System = {
         me.driver.disconnect();
     },
 
-    send: func(msg) {
-        msg.min = me.nextMIN;
+    genMIN: func {
+        var min = me.nextMIN;
         me.nextMIN += 1;
+        return min;
+    },
+
+    send: func(msg) {
+        msg.min = me.genMIN();
+        var mid = me.logMessage(msg);
         me.driver.send(msg);
-        return me.logMessage(msg);
+        return mid;
     },
 
     receive: func(msg) {
@@ -157,10 +175,17 @@ var System = {
         return me.logMessage(msg);
     },
 
+    markMessageSent: func(mid) {
+        var msgNode = me.props.messages.getNode(mid, 0);
+        if (msgNode != nil) {
+            msgNode.setValue('status', 'SENT');
+        }
+    },
+
     logMessage: func(msg) {
         if (size(msg.parts) == 0) return nil;
         msg.timestamp = sprintf('%02i%02i', getprop('/sim/time/utc/hour'), getprop('/sim/time/utc/minute'));
-        var mid = msg.dir ~ msg.min;
+        var mid = msg.getMID();
         var otherDir = (msg.dir == 'up') ? 'down' : 'up';
 
         var msgNode = me.props.messages.getNode(mid, 1);
@@ -169,16 +194,20 @@ var System = {
 
         msgNode.setValues(msg);
 
-        if (msg.getRA() == '') {
+        var ra = msg.getRA();
+        if (ra == '' or ra == 'N') {
             msgNode.setValue('response-status', '');
-            msgNode.setValue('status', '');
+            if (msg.dir == 'up')
+                msgNode.setValue('status', '');
+            else
+                msgNode.setValue('status', 'SENDING');
         }
         else {
             msgNode.setValue('response-status', 'OPEN');
             if (msg.dir == 'up')
                 msgNode.setValue('status', 'NEW');
             else
-                msgNode.setValue('status', 'OPEN');
+                msgNode.setValue('status', 'SENDING');
         }
         if (msg.mrn != nil) {
             # establish parent-child relationship
