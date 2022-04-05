@@ -58,4 +58,8 @@ var Message = {
         if (messageType == nil) return '';
         return string.uc(string.join('', messageType.r_opts));
     },
+
+    getMID: func {
+        return me.dir ~ me.min;
+    },
 };

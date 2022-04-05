@@ -93,6 +93,7 @@ var IRCDriver = {
         if (msg.getRA() == 'Y') {
             append(me.openDownlinks, msg.min);
         }
+        me.system.markMessageSent(msg.getMID());
     },
 
     receive: func (rawMessage) {

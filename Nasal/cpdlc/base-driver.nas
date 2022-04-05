@@ -8,7 +8,7 @@ var BaseDriver = {
         };
     },
 
-    getDriverName: func () { return 'DUMMY'; },
+    getDriverName: func () { return 'NONE'; },
     isAvailable: func () { return 0; },
     start: func () { },
     stop: func () { },

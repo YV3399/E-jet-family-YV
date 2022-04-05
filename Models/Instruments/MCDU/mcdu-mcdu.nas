@@ -167,7 +167,7 @@ var MCDU = {
                         "REQUEST",
                         [ # PAGE 1
                           [ "CPDLC-DOWNLINK-RTED-2", "FREEFORM" ]
-                        , [ "CPDLC-DOWNLINK-SPDD-5", "SPEED" ]
+                        , [ "CPDLC-DOWNLINK-SPDD-1", "SPEED" ]
                         , [ "CPDLC-DOWNLINK-RTED-1", "DIRECT" ]
                         , [ "CPDLC-DOWNLINK-RTED-6", "HEADING" ]
                         , [ "CPDLC-DOWNLINK-RTED-7", "TRACK" ]
