@@ -5,10 +5,7 @@ io.include('irc-driver.nas');
 io.include('system.nas');
 
 var system = System.new();
-
-var drivers = [
-    IRCDriver.new(system),
-];
-
+system.registerDriver(IRCDriver.new(system));
+system.registerDriver(BaseDriver.new(system));
+debug.dump("CPDLC DRIVERS: ", system.listDrivers());
 system.attach('cpdlc');
-system.setDriver(drivers[0]);

@@ -2374,7 +2374,7 @@ var ATCLogonModule = {
                         elsif (val == globals.cpdlc.LOGON_NOT_CONNECTED)
                             return "    SEND" ~ right_triangle;
                         else
-                            return "";
+                            return "        ";
                     }),
 
                 StaticView.new(15,  3, "ACT CTR", mcdu_white),
@@ -2419,6 +2419,63 @@ var ATCLogonModule = {
             me.controllers["L6"] = SubmodeController.new("ret");
             append(me.views,
                     StaticView.new(0, 12, left_triangle ~ me.ptitle, mcdu_white));
+        }
+    },
+};
+
+var CPDLCDatalinkSetupModule = {
+    new: func (mcdu, parentModule) {
+        var m = BaseModule.new(mcdu, parentModule);
+        m.parents = prepended(CPDLCDatalinkSetupModule, m.parents);
+        m.loadOptions();
+        return m;
+    },
+
+    loadOptions: func () {
+        me.options = [];
+        foreach (var k; globals.cpdlc.system.listDrivers()) {
+            append(me.options, k);
+        }
+        # debug.dump(me.options);
+    },
+
+    getTitle: func () {
+        return "DATALINK SETUP";
+    },
+
+    activate: func () {
+        me.loadOptions();
+        me.loadPage(me.page);
+    },
+
+    getNumPages: func () {
+        return math.ceil(size(me.options) / 5);
+    },
+
+    loadPageItems: func (n) {
+        # debug.dump('LOAD PAGE', n);
+        me.views = [];
+        me.controllers = {};
+        for (var i = 0; i < 5; i += 1) {
+            if (i + n * 5 >= size(me.options)) break;
+            var item = me.options[i + n * 5];
+            append(me.views, StaticView.new(0, i * 2 + 2, left_triangle, mcdu_large | mcdu_white));
+            append(me.views, StaticView.new(1, i * 2 + 2, item,
+                (item == globals.cpdlc.system.getDriver()) ?
+                    (mcdu_large | mcdu_green) :
+                    mcdu_white));
+            me.controllers['L' ~ (i + 1)] =
+                (func (k) { return FuncController.new(func (owner, val) {
+                    globals.cpdlc.system.setDriver(k);
+                    owner.loadPage(owner.page);
+                    owner.fullRedraw();
+                    return nil;
+                }); })(item);
+        }
+        if (me.ptitle != nil) {
+            me.controllers["L6"] = SubmodeController.new("ret");
+            append(me.views,
+                 StaticView.new(0, 12, left_triangle ~ me.ptitle, mcdu_large));
         }
     },
 };
