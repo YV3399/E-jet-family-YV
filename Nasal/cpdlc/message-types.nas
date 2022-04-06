@@ -1,3 +1,8 @@
+# message-types.nas
+#
+# Copyright (C) 2020  Henning Stahlke
+# Copyright (C) 2022  Tobias Dammers
+#
 # Adapted from:
 #
 # cpdlc.nas --- CPDLC library
@@ -64,6 +69,17 @@ var responses = {
     r: {id: "RSPD-4", txt: "ROGER"},
     # need clarification
     # single Y in Doc 4444 means any?
+};
+
+# These are not in ICAO Doc 4444; we use these to inject system events into the
+# message log, but we never send or receive these.
+var pseudo_messages = {
+    "CONX-1": { txt: "LOGON TO $1", args: [ARG_FACILITY] },
+    "CONX-2": { txt: "LOGOFF", args: [] },
+    "CONX-3": { txt: "HANDOVER TO $1 FROM $2", args: [ARG_FACILITY, ARG_FACILITY] },
+    "CONX-4": { txt: "DATALINK $1 UP", args: [ARG_TEXT] },
+    "CONX-5": { txt: "DATALINK $1 DOWN", args: [ARG_TEXT] },
+    "CONX-6": { txt: "LOGON ERROR $1", args: [ARG_TEXT] },
 };
 
 #-- messages from ATC to aircraft --
@@ -324,6 +340,7 @@ var downlink_messages = {
 var formatMessagePart = func (type, args) {
     if (args == nil) args = [];
     var messageType =
+            contains(pseudo_messages, type) ? pseudo_messages[type] :
             contains(uplink_messages, type) ? uplink_messages[type] :
             contains(downlink_messages, type) ? downlink_messages[type] :
             nil;
@@ -349,6 +366,7 @@ var formatMessage = func (parts) {
 var formatMessagePartFancy = func (type, args) {
     if (args == nil) args = [];
     var messageType =
+            contains(pseudo_messages, type) ? pseudo_messages[type] :
             contains(uplink_messages, type) ? uplink_messages[type] :
             contains(downlink_messages, type) ? downlink_messages[type] :
             nil;

@@ -2565,10 +2565,13 @@ var CPDLCLogModule = {
                 statusText = status;
             append(me.views,
                 StaticView.new(12, y, sprintf("%11s", statusText or 'OLD'), flags));
+            if (dir != 'pseudo') {
+                append(me.views,
+                    StaticView.new(0, y+1, (dir == 'up') ? '↑' : '↓', mcdu_white | mcdu_large));
+            }
             append(me.views,
-                StaticView.new(0, y+1, (dir == 'up') ? '↑' : '↓', mcdu_white | mcdu_large));
-            append(me.views,
-                StaticView.new(1, y+1, summary, ((dir == 'up') ? mcdu_green : mcdu_blue) | mcdu_large));
+                StaticView.new(1, y+1, summary,
+                    ((dir == 'up') ? mcdu_green : (dir == 'pseudo' ? mcdu_white : mcdu_blue)) | mcdu_large));
             append(me.views,
                 StaticView.new(23, y+1, right_triangle, mcdu_white | mcdu_large));
             var lsk = 'R' ~ (i + 1);
@@ -2842,7 +2845,7 @@ var CPDLCMessageModule = {
             me.elems = cpdlc.formatMessageFancy(message.parts);
             me.dir = message.dir;
             me.status = message['status'] or 'OLD';
-            me.station = (me.dir == 'up') ? message.from : message.to;
+            me.station = (me.dir == 'down') ? message.to : message.from;
             me.timestamp = messageNode.getValue('timestamp');
             me.parts = message.parts;
 
@@ -2934,31 +2937,33 @@ var CPDLCMessageModule = {
         nextLine();
 
         evenLine();
-        if (me.replyID != nil and me.dir == 'down') {
-            append(views, StaticView.new(0, y, left_triangle ~ "UPLINK", mcdu_white | mcdu_large));
-            controllers[lsk('L')] = (func(mid) {
-                    return SubmodeController.new(func (owner, parent) {
-                        return CPDLCMessageModule.new(owner, parent, mid);
-                    }, 2);
-            })(me.replyID);
+        if (me.dir != 'pseudo') {
+            if (me.replyID != nil and me.dir == 'down') {
+                append(views, StaticView.new(0, y, left_triangle ~ "UPLINK", mcdu_white | mcdu_large));
+                controllers[lsk('L')] = (func(mid) {
+                        return SubmodeController.new(func (owner, parent) {
+                            return CPDLCMessageModule.new(owner, parent, mid);
+                        }, 2);
+                })(me.replyID);
+            }
+            elsif (me.parentID != nil) {
+                append(views, StaticView.new(0, y, left_triangle ~ "REQUEST", mcdu_white | mcdu_large));
+                controllers[lsk('L')] = (func(mid) {
+                        return SubmodeController.new(func (owner, parent) {
+                            return CPDLCMessageModule.new(owner, parent, mid);
+                        }, 2);
+                })(me.parentID);
+            }
+            elsif (me.replyID != nil and me.dir == 'up') {
+                append(views, StaticView.new(0, y, left_triangle ~ "RESPONSE", mcdu_white | mcdu_large));
+                controllers[lsk('L')] = (func(mid) {
+                        return SubmodeController.new(func (owner, parent) {
+                            return CPDLCMessageModule.new(owner, parent, mid);
+                        }, 2);
+                })(me.replyID);
+            }
+            nextLine();
         }
-        elsif (me.parentID != nil) {
-            append(views, StaticView.new(0, y, left_triangle ~ "REQUEST", mcdu_white | mcdu_large));
-            controllers[lsk('L')] = (func(mid) {
-                    return SubmodeController.new(func (owner, parent) {
-                        return CPDLCMessageModule.new(owner, parent, mid);
-                    }, 2);
-            })(me.parentID);
-        }
-        elsif (me.replyID != nil and me.dir == 'up') {
-            append(views, StaticView.new(0, y, left_triangle ~ "RESPONSE", mcdu_white | mcdu_large));
-            controllers[lsk('L')] = (func(mid) {
-                    return SubmodeController.new(func (owner, parent) {
-                        return CPDLCMessageModule.new(owner, parent, mid);
-                    }, 2);
-            })(me.replyID);
-        }
-        nextLine();
 
         var color = mcdu_white;
         var lineSel = unevenLine;
@@ -3202,6 +3207,9 @@ var CPDLCMessageModule = {
         # spaces left to fit green timestamp
         if (me.dir == 'up') {
             return "        ATC UPLINK";
+        }
+        elsif (me.dir == 'pseudo') {
+            return "        SYS MSG   ";
         }
         else {
             return "        REQUEST   ";

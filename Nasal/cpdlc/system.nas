@@ -86,7 +86,25 @@ var System = {
     },
 
     updateDatalinkStatus: func () {
+        var oldStatus = me.props.datalinkStatus.getBoolValue();
         me.props.datalinkStatus.setBoolValue(me.driver != nil and me.driver.isAvailable());
+        var newStatus = me.props.datalinkStatus.getBoolValue();
+        if (oldStatus != newStatus) {
+            var msg = Message.new();
+            msg.dir = 'pseudo';
+            if (newStatus) {
+                # datalink up
+                msg.parts = [{type: 'CONX-4', args: [me.driver.getDriverName()]}];
+            }
+            else {
+                # datalink down
+                msg.parts = [{type: 'CONX-5', args: [me.driver.getDriverName()]}];
+            }
+            msg.from = 'SYSTEM';
+            msg.min = me.genMIN();
+            msg.status = '';
+            me.logMessage(msg);
+        }
     },
 
     getDriver: func () {
@@ -114,6 +132,7 @@ var System = {
     },
 
     setCurrentStation: func (station) {
+        var prevStation = me.props.currentStation.getValue() or '';
         if (station == '') {
             me.setLogonStatus(LOGON_NOT_CONNECTED);
         }
@@ -123,6 +142,33 @@ var System = {
         me.props.currentStation.setValue(station);
         me.props.nextStation.setValue('');
         me.props.logonStation.setValue('');
+
+        var msg = Message.new();
+        msg.dir = 'pseudo';
+        if (prevStation == '') {
+            if (station == '') {
+                # invalid situation
+                msg.parts = [{type: 'CONX-6', args: ['NO LOGON STATION'] }];
+            }
+            else {
+                # logon
+                msg.parts = [{type: 'CONX-1', args: [station]}];
+            }
+        }
+        else {
+            if (station == '') {
+                # logoff
+                msg.parts = [{type: 'CONX-2', args: [] }];
+            }
+            else {
+                # handover
+                msg.parts = [{type: 'CONX-3', args: [station, prevStation]}];
+            }
+        }
+        msg.from = 'SYSTEM';
+        msg.min = me.genMIN();
+        msg.status = '';
+        me.logMessage(msg);
     },
 
     getCurrentStation: func {
@@ -138,6 +184,15 @@ var System = {
     },
 
     setLogonStatus: func (status) {
+        if (status == LOGON_FAILED) {
+            var msg = Message.new();
+            msg.dir = 'pseudo';
+            msg.parts = [{type: 'CONX-6', args: ['LOGON FAILED']}];
+            msg.from = 'SYSTEM';
+            msg.min = me.genMIN();
+            msg.status = '';
+            me.logMessage(msg);
+        }
         me.props.logonStatus.setValue(status);
     },
 
@@ -208,17 +263,17 @@ var System = {
         var ra = msg.getRA();
         if (ra == '' or ra == 'N') {
             msgNode.setValue('response-status', '');
-            if (msg.dir == 'up')
-                msgNode.setValue('status', '');
-            else
+            if (msg.dir == 'down')
                 msgNode.setValue('status', 'SENDING');
+            else
+                msgNode.setValue('status', '');
         }
         else {
             msgNode.setValue('response-status', 'OPEN');
-            if (msg.dir == 'up')
-                msgNode.setValue('status', 'NEW');
-            else
+            if (msg.dir == 'down')
                 msgNode.setValue('status', 'SENDING');
+            else
+                msgNode.setValue('status', 'NEW');
         }
         if (msg.mrn != nil) {
             # establish parent-child relationship
