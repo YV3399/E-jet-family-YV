@@ -2639,12 +2639,22 @@ var CPDLCComposeDownlinkModule = {
         }
 
         append(me.views, StaticView.new( 0, 12, left_triangle ~ me.ptitle, mcdu_white | mcdu_large));
-        append(me.views, StaticView.new(20, 12, "SEND" ~ right_triangle, mcdu_white | mcdu_large));
+        append(me.views, StaticView.new(19, 12, "SEND" ~ right_triangle, mcdu_white | mcdu_large));
         me.controllers['L6'] = SubmodeController.new("ret");
         me.controllers['R6'] = FuncController.new(func (owner, val) {
                                     var msg = globals.cpdlc.Message.new();
                                     msg.mrn = self.mrn;
-                                    msg.parts = self.parts;
+                                    msg.parts = [];
+                                    foreach (var part; self.parts) {
+                                        # don't send empty text parts
+                                        if ((substr(part.type, 0, 3) == 'TXT' or
+                                             substr(part.type, 0, 3) == 'SUP') and
+                                            (size(part.args) == 0 or
+                                             part.args[0] == nil or
+                                             part.args[0] == ''))
+                                            continue;
+                                        append(msg.parts, part);
+                                    }
                                     msg.dir = 'down';
                                     var mid = globals.cpdlc.system.send(msg);
                                     if (mid != nil) owner.ret();
@@ -3133,14 +3143,16 @@ var CPDLCMessageModule = {
                         words = split(' ', replySpec.txt);
                     var title = '';
                     foreach (var word; words) {
+                        if (title != '')
+                            title = title ~ ' ';
                         if (word[0] == '$')
                             word = '..';
-                        if (size(title) + size(word) + 1 > 12) {
+                        if (size(title) + size(word) > 10) {
                             if (title == '')
-                                title = substr(word, 10) ~ '..';
+                                title = substr(word, 0, 8) ~ '..';
                             break;
                         }
-                        title = title ~ ' ' ~ word;
+                        title = title ~ word;
                     }
                     var args = [];
                     if (reply['args'] == nil) {
@@ -3160,11 +3172,10 @@ var CPDLCMessageModule = {
                         }
                     }
                     var ctrl = (func (reply, args) { return SubmodeController.new(func (owner, parent) {
-                            return CPDLCComposeDownlinkModule.new(owner, parent,
-                                [ {type: reply.type, args: args}
-                                , {type: 'TXTD-1', args: ['']}
-                                ],
-                                self.min);
+                            var parts = [{type: reply.type, args: args}];
+                            if (substr(reply.type, 0, 3) != 'TXT')
+                                append(parts, {type: 'TXTD-1', args: ['']});
+                            return CPDLCComposeDownlinkModule.new(owner, parent, parts, self.min);
                         }); })(reply, args);
                     if (left) {
                         append(views, StaticView.new( 0, y, left_triangle ~ title, mcdu_white));
@@ -3172,7 +3183,7 @@ var CPDLCMessageModule = {
                         left = 0;
                     }
                     else {
-                        append(views, StaticView.new(12, y, title ~ right_triangle, mcdu_white));
+                        append(views, StaticView.new(12, y, sprintf("%11s", title) ~ right_triangle, mcdu_white));
                         controllers[lsk('R')] = ctrl;
                         left = 1;
                         nextLine(); evenLine();
