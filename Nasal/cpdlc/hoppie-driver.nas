@@ -248,7 +248,13 @@ var HoppieDriver = {
                    string.match(spacesRemoved, 'MACH.[0-9][0-9]') or
                    string.match(spacesRemoved, 'MACH.[0-9]') or
                    string.match(spacesRemoved, 'M.[0-9][0-9]') or
-                   string.match(spacesRemoved, 'M.[0-9]');
+                   string.match(spacesRemoved, 'M.[0-9]') or
+                   string.match(spacesRemoved, 'MACH0[0-9][0-9]') or
+                   string.match(spacesRemoved, 'MACH[0-9][0-9]') or
+                   string.match(spacesRemoved, 'MACH[0-9]') or
+                   string.match(spacesRemoved, 'M0[0-9][0-9]') or
+                   string.match(spacesRemoved, 'M[0-9][0-9]') or
+                   string.match(spacesRemoved, 'M[0-9]');
         }
         else {
             # We skip validating any other argument types; the only messages
