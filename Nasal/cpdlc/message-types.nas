@@ -47,6 +47,8 @@ var ARG_SPEED_TYPE = 22;
 var ARG_FACILITY = 23;
 var ARG_ALTIMETER = 24;
 var ARG_DATA_AUTHORITY = 25;
+var ARG_VSPEED = 26;
+var ARG_MINUTES = 27;
 
 
 #keys according to tables in ICAO doc 4444
@@ -121,13 +123,34 @@ var uplink_messages = {
     "LVLU-6": { txt: "CLIMB TO $1", args: [ARG_FL_ALT], r_opts: ["w","u"] },
     "LVLU-7": { txt: "AT TIME $1 CLIMB TO $2", args: [ARG_TIME, ARG_FL_ALT], r_opts: ["w","u"] },
     "LVLU-8": { txt: "AT $1 CLIMB TO $2", args: [ARG_NAVPOS, ARG_FL_ALT], r_opts: ["w","u"] },
-    "LVLU-9": { txt: "DESCENT TO $1", args: [ARG_FL_ALT], r_opts: ["w","u"] },
-    "LVLU-10": { txt: "AT TIME $1 DESCENT TO $2", args: [ARG_TIME, ARG_FL_ALT], r_opts: ["w","u"] },
-    "LVLU-11": { txt: "AT $1 DESCENT TO $2", args: [ARG_NAVPOS, ARG_FL_ALT], r_opts: ["w","u"] },
+    "LVLU-9": { txt: "DESCEND TO $1", args: [ARG_FL_ALT], r_opts: ["w","u"] },
+    "LVLU-10": { txt: "AT TIME $1 DESCEND TO $2", args: [ARG_TIME, ARG_FL_ALT], r_opts: ["w","u"] },
+    "LVLU-11": { txt: "AT $1 DESCEND TO $2", args: [ARG_NAVPOS, ARG_FL_ALT], r_opts: ["w","u"] },
     "LVLU-12": { txt: "CLIMB TO REACH $1 BEFORE TIME $2", args: [ARG_FL_ALT, ARG_TIME], r_opts: ["w","u"] },
     "LVLU-13": { txt: "CLIMB TO REACH $1 BEFORE PASSING $2", args: [ARG_FL_ALT, ARG_NAVPOS], r_opts: ["w","u"] },
     "LVLU-14": { txt: "DESCEND TO REACH $1 BEFORE TIME $2", args: [ARG_FL_ALT, ARG_TIME], r_opts: ["w","u"] },
     "LVLU-15": { txt: "DESCEND TO REACH $1 BEFORE PASSING $2", args: [ARG_FL_ALT, ARG_NAVPOS], r_opts: ["w","u"] },
+    "LVLU-16": { txt: "STOP CLIMB AT $1", args: [ARG_FL_ALT], r_opts: ["w","u"] },
+    "LVLU-17": { txt: "STOP DESCENT AT $1", args: [ARG_FL_ALT], r_opts: ["w","u"] },
+    "LVLU-18": { txt: "CLIMB AT $1 OR GREATER", args: [ARG_VSPEED], r_opts: ["w","u"] },
+    "LVLU-19": { txt: "CLIMB AT $1 OR LESS", args: [ARG_VSPEED], r_opts: ["w","u"] },
+    "LVLU-20": { txt: "DESCEND AT $1 OR GREATER", args: [ARG_VSPEED], r_opts: ["w","u"] },
+    "LVLU-21": { txt: "DESCEND AT $1 OR LESS", args: [ARG_VSPEED], r_opts: ["w","u"] },
+    "LVLU-22": { txt: "EXPECT $1 $2 AFTER DEPARTURE", args: [ARG_FL_ALT, ARG_MINUTES], r_opts: ["r"] },
+    "LVLU-23": { txt: "REPORT LEAVING $1", args: [ARG_FL_ALT], r_opts: ["w","u"] },
+    "LVLU-24": { txt: "REPORT MAINTAINING $1", args: [ARG_FL_ALT], r_opts: ["w","u"] },
+    "LVLU-25": { txt: "REPORT PRESENT LEVEL", args: [], r_opts: ["y"],
+                            replies: [{type:"LVLD-9", args:['']},
+                                      {type:"LVLD-13", args:['']},
+                                      {type:"LVLD-14", args:['']},
+                                     ] },
+    "LVLU-26": { txt: "REPORT REACHING BLOCK $1 TO $2", args: [ARG_FL_ALT, ARG_FL_ALT], r_opts: ["w","u"] },
+    "LVLU-27": { txt: "CONFIRM ASSIGNED LEVEL", args: [], r_opts: ["y"], replies: [{type:"LVLD-11", args:['']}] },
+    "LVLU-28": { txt: "ADVISE PREFERRED LEVEL", args: [], r_opts: ["y"], replies: [{type:"LVLD-12", args:['']}] },
+    "LVLU-29": { txt: "ADVISE TOP OF DESCENT", args: [], r_opts: ["y"], replies: [{type:"LVLD-18", args:['']}] },
+    "LVLU-30": { txt: "WHEN CAN YOU ACCEPT $1", args: [ARG_FL_ALT], r_opts: ["y"], replies: [{type:"LVLD-15", args:['$1', '']}, {type:"LVLD-16", args:['$1', '']}, {type:"LVLD-17", args:['$1']}] },
+    "LVLU-31": { txt: "CAN YOU ACCEPT $1 AT $2", args: [ARG_FL_ALT, ARG_TEXT], r_opts: ["a", "n"] },
+    "LVLU-32": { txt: "CAN YOU ACCEPT $1 AT TIME $2", args: [ARG_FL_ALT, ARG_TIME], r_opts: ["a", "n"] },
 
     "CSTU-1": { txt: "CROSS $1 AT $2", args: [ARG_NAVPOS, ARG_FL_ALT], r_opts: ["w","u"] },
     "CSTU-2": { txt: "CROSS $1 AT OR ABOVE $2", args: [ARG_NAVPOS, ARG_FL_ALT], r_opts: ["w","u"] },
@@ -165,7 +188,7 @@ var uplink_messages = {
 
     "ADVU-1":  { txt: "$1 ALTIMETER $2", args: [ARG_FACILITY, ARG_ALTIMETER], r_opts: ["r"] }, 
     "ADVU-2":  { txt: "SERVICE TERMINATED", args: [], r_opts: ["r"] }, 
-    "ADVU-3":  { txt: "IDENTIFIED $1", args: [], r_opts: ["r"] }, 
+    "ADVU-3":  { txt: "IDENTIFIED $1", args: [ARG_TEXT], r_opts: ["r"] }, 
     "ADVU-4":  { txt: "IDENTIFICATION LOST", args: [], r_opts: ["r"] }, 
     "ADVU-5":  { txt: "ATIS $1", args: [ARG_ATIS_CODE], r_opts: ["r"] }, 
     "ADVU-6":  { txt: "REQUEST AGAIN WITH NEXT ATC UNIT", args: [], r_opts: [] }, 
@@ -197,19 +220,19 @@ var uplink_messages = {
     "EMGU-2": { txt: "IMMEDIATELY", args: [], r_opts: ["y"] },
     "EMGU-3": { txt: "CONFIRM ADS-C EMERGENCY", args: [], r_opts: ["a","n"] }, 
 
-    "SUPU-1": { text: "WHEN READY", args: [], r_opts: [] },
-    "SUPU-2": { text: "DUE TO $1", args: [ARG_REASON], r_opts: [] },
-    "SUPU-3": { text: "EXPEDITE", args: [], r_opts: [] },
-    "SUPU-4": { text: "REVISED $1", args: [ARG_REASON], r_opts: [] },
+    "SUPU-1": { txt: "WHEN READY", args: [], r_opts: [] },
+    "SUPU-2": { txt: "DUE TO $1", args: [ARG_REASON], r_opts: [] },
+    "SUPU-3": { txt: "EXPEDITE", args: [], r_opts: [] },
+    "SUPU-4": { txt: "REVISED $1", args: [ARG_REASON], r_opts: [] },
 
-    "RSPU-1": { text: "UNABLE", args: [], r_opts: [] },
-    "RSPU-2": { text: "STANDBY", args: [], r_opts: [] },
-    "RSPU-3": { text: "REQUEST DEFERRED", args: [], r_opts: [] },
-    "RSPU-4": { text: "ROGER", args: [], r_opts: [] },
-    "RSPU-5": { text: "AFFIRM", args: [], r_opts: [] },
-    "RSPU-6": { text: "NEGATIVE", args: [], r_opts: [] },
-    "RSPU-7": { text: "REQUEST FORWARDED", args: [], r_opts: [] },
-    "RSPU-8": { text: "CONFIRM REQUEST", args: [], r_opts: [] },
+    "RSPU-1": { txt: "UNABLE", args: [], r_opts: [] },
+    "RSPU-2": { txt: "STANDBY", args: [], r_opts: [] },
+    "RSPU-3": { txt: "REQUEST DEFERRED", args: [], r_opts: [] },
+    "RSPU-4": { txt: "ROGER", args: [], r_opts: [] },
+    "RSPU-5": { txt: "AFFIRM", args: [], r_opts: [] },
+    "RSPU-6": { txt: "NEGATIVE", args: [], r_opts: [] },
+    "RSPU-7": { txt: "REQUEST FORWARDED", args: [], r_opts: [] },
+    "RSPU-8": { txt: "CONFIRM REQUEST", args: [], r_opts: [] },
 
     "TXTU-1":  { txt: "$1", args: [ARG_TEXT], r_opts: ["r"] },
     "TXTU-2":  { txt: "$1", args: [ARG_TEXT], r_opts: [] },
@@ -265,7 +288,7 @@ var downlink_messages = {
     "LVLD-15": { txt: "WE CAN ACCEPT $1 AT TIME $2", args: [ARG_FL_ALT, ARG_TIME], r_opts: [] },
     "LVLD-16": { txt: "WE CAN ACCEPT $1 AT $2", args: [ARG_FL_ALT, ARG_NAVPOS], r_opts: [] },
     "LVLD-17": { txt: "WE CANNOT ACCEPT $1", args: [ARG_FL_ALT], r_opts: [] },
-    "LVLD-18": { txt: "TOP OF DESCENT $1 TIME $2", args: [ARG_FL_ALT, ARG_TIME], r_opts: [] },
+    "LVLD-18": { txt: "TOP OF DESCENT $1 TIME $2", args: [ARG_TEXT, ARG_TIME], r_opts: [] },
 
     "ADVD-1": { txt: "SQUAWKING $1", args: [ARG_XPDR], r_opts: [] },
     "ADVD-2": { txt: "TRAFFIC $1", args: [ARG_TEXT], r_opts: [] },
@@ -334,7 +357,7 @@ var formatMessagePartFancy = func (type, args) {
         return [];
     }
     var words = split(' ', messageType.txt);
-    if (type == 'TXTD-1') {
+    if (substr(type, 0, 3) == 'TXT') {
         words = ['FREE', 'TEXT'] ~ words;
     }
     var line = [];
