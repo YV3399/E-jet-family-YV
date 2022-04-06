@@ -785,3 +785,59 @@ General operation:
 - LMB clicking on the case flips between portrait and landscape **orientation**
 - Mouse wheel on the case adjusts **brightness**
 - MMB clicking on the case operates the **power** button
+
+## CPDLC / ACARS
+
+The E-Jet Family supports in-sim [CPDLC (Controller-Pilot Data Link
+Communications)](https://en.wikipedia.org/wiki/Controller%E2%80%93pilot_data_link_communications),
+controlled via the MCDU.
+
+Three transport backends are provided:
+
+- **"NONE"**, a dummy backend that never becomes available. This backend can be
+  used to effectively disable the entire CPDLC system.
+- **"FGMP"**: this backend connects to IRC via FG's built-in CPDLC API, on FG
+  versions that support it. It becomes available whenever you are connected to
+  the FG Multiplayer environment.
+  *Side note:* FG's built-in CPDLC API does not implement MIN/MRN, and because
+  of this, matching replies to requests is a best guess, based on message types
+  and sequencing. If you use the FGMP backend, it is recommended that you do
+  not issue a new request until all previous dialogs have been closed, as
+  uplinks referring to older requests may otherwise be incorrectly interpreted
+  as replies to the newer request.
+- **"HOPPIE"**: this connects to [Hoppie's ACARS](http://www.hoppie.nl/acars/),
+  an HTTP-based ACARS/CPDLC environment used for VATSIM and other networks. To
+  use the Hoppie backend, you will need to install and configure the [Hoppie
+  ACARS addon](https://github.com/tdammers/fg-hoppie-acars). The Hoppie backend
+  will become available when the Hoppie ACARS addon is loaded and connected.
+  *Side note:* The Hoppie system does not transmit ICAO 4444 standard message
+  codes, instead, it transmits formatted messages in plaintext, using '@' signs
+  to mark variables. As a result, the CPDLC system will only understand
+  messages correctly if they are spelled exactly as specified in ICAO doc 4444,
+  and if variables are marked with '@'. Any deviation from this will cause the
+  CPDLC system to downgrade such messages to "FREE TEXT"; you will still be
+  able to read them and issue standard and free text replies, but variables
+  will not be detected, and message-specific reply options will not be given.
+
+### Usage
+
+First, select the backend you want to use. On the MCDU, press the `NAV` button,
+then select `ATC` (LSK 1R), and then, on page 2, `DATALINK CFG` (LSK 1L).
+Select the backend you want to use, and return to page 1 of the `ATC INDEX`
+page.
+
+On the `LOGON/STATUS` page, the `DATALINK STATUS` line tells you whether the
+transport is working; if it says "READY", then you are connected to the
+selected transport. In the middle of the screen, between "FLT ID" and "ACT
+CTR", you can see which backend is currently in use.
+
+You can use the `LOGON TO` field to enter a station you want to log on to, and
+then push `SEND` (LSK R1) to request a logon. The remaining logon process, as
+well as handovers, and automatic.
+
+The `LOG` page lists recent messages, both uplinks (from ATC to you) and
+downlinks (from you to ATC). This should be largely self-explanatory. Use the
+LSK's on the right to open a message, read it, and possibly respond to it.
+
+The remaining items on the `ATC INDEX` page allow you to compose downlinks from
+predefined standard templates to initiate a new dialog.
