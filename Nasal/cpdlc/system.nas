@@ -169,6 +169,9 @@ var System = {
 
     send: func(msg) {
         msg.min = me.genMIN();
+        if (msg.to == nil or msg.to == '') {
+            msg.to = me.getCurrentStation();
+        }
         var mid = me.logMessage(msg);
         me.driver.send(msg);
         return mid;

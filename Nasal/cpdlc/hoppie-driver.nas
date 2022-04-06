@@ -62,7 +62,7 @@ var HoppieDriver = {
         var ra = msg.getRA();
         var packed = me._pack(msg.min or '', msg.mrn or '', ra or 'N', body);
         var self = me;
-        debug.dump('ABOUT TO SEND:', packed);
+        # debug.dump('ABOUT TO SEND:', packed);
         me._send(to, packed, func {
             self.system.markMessageSent(msg.getMID());
         });
@@ -105,12 +105,162 @@ var HoppieDriver = {
             }
         }
         else {
-            debug.dump('CPDLC', raw, cpdlc);
+            # debug.dump('CPDLC', raw, cpdlc);
+            var msg = Message.new();
+            msg.dir = 'up';
+            msg.min = cpdlc.min;
+            msg.mrn = cpdlc.mrn;
+            msg.parts = [];
+            msg.from = raw.from;
+            msg.to = raw.to;
+            msg.dir = 'up';
+            msg.valid = 1;
+            foreach (var m; cpdlc.message) {
+                var rawPart = me._parseCPDLCPart(m);
+                var type = me._matchCPDLCMessageType(rawPart[0], rawPart[1]);
+                var args = rawPart[1];
+                if (type == nil) {
+                    args = [m];
+                    if (cpdlc.ra == 'WU')
+                        type = 'TXTU-4';
+                    elsif (cpdlc.ra == 'AN')
+                        type = 'TXTU-5';
+                    elsif (cpdlc.ra == 'R')
+                        type = 'TXTU-1';
+                    else
+                        type = 'TXTU-2';
+                }
+                append(msg.parts, {type: type, args: args});
+            }
+            # debug.dump('RECEIVED', msg);
+            me.system.receive(msg);
+        }
+    },
+
+    _parseCPDLCPart: func (txt, dir='up') {
+        var words = split(' ', txt);
+        var parsed = [];
+        var i = 0;
+        var args = [];
+        var a = [];
+        var argmode = 0;
+        var argnum = 1;
+        forindex (var i; words) {
+            var word = words[i];
+            if (word == '') continue;
+            if (argmode) {
+                if (substr(word, -1) == '@') {
+                    # found terminating '@'
+                    append(a, string.replace(word, '@', ''));
+                    if (size(a)) {
+                        append(args, string.join(' ', a));
+                    }
+                    a = [];
+                    argmode = 0;
+                }
+                else {
+                    append(a, word);
+                }
+            }
+            else {
+                if (substr(word, 0, 1) == '@') {
+                    # found opening '@'
+                    append(parsed, '$' ~ argnum);
+                    argnum += 1;
+                    if (substr(word, -1) == '@') {
+                        # found terminating '@'
+                        append(args, substr(word, 1, size(word) - 2));
+                    }
+                    else {
+                        append(a, substr(word, 1));
+                        argmode = 1;
+                    }
+                }
+                else {
+                    append(parsed, word);
+                }
+            }
+        }
+        if (size(a)) {
+            append(args, string.join(' ', a));
+        }
+        var txt = string.join(' ', parsed);
+        return [txt, args];
+    },
+
+    _matchCPDLCMessageType: func (txt, args, dir='up') {
+        var messages = (dir == 'up') ? uplink_messages : downlink_messages;
+        var msg = nil;
+        foreach (var msgKey; keys(messages)) {
+            var message = messages[msgKey];
+            if (message.txt != txt) {
+                continue;
+            }
+            var valid = 1;
+            forindex (var i; message.args) {
+                var argTy = message.args[i];
+                var argVal = args[i] or '';
+                if (!me._validateArg(argTy, argVal)) {
+                    valid = 0;
+                    break;
+                }
+            }
+            if (valid) {
+                msg = msgKey;
+                break;
+            }
+        }
+        return msg;
+    },
+
+    _validateArg: func (argTy, argVal) {
+        var spacesRemoved = string.replace(argVal, ' ', '');
+        if (argTy == ARG_FL_ALT) {
+            return string.match(spacesRemoved, 'FL[0-9][0-9][0-9]') or
+                   string.match(spacesRemoved, 'FL[0-9][0-9]') or
+
+                   string.match(spacesRemoved, '[0-9][0-9][0-9][0-9]FT');
+                   string.match(spacesRemoved, '[0-9][0-9][0-9][0-9][0-9]FT') or
+
+                   string.match(spacesRemoved, '[0-9][0-9][0-9][0-9]FEET') or
+                   string.match(spacesRemoved, '[0-9][0-9][0-9][0-9][0-9]FEET') or
+
+                   string.match(spacesRemoved, '[0-9][0-9][0-9][0-9]') or
+                   string.match(spacesRemoved, '[0-9][0-9][0-9][0-9][0-9]') or
+
+                   string.match(spacesRemoved, '[0-9][0-9][0-9]M');
+                   string.match(spacesRemoved, '[0-9][0-9][0-9][0-9]M');
+                   string.match(spacesRemoved, '[0-9][0-9][0-9][0-9][0-9]M') or
+
+                   string.match(spacesRemoved, '[0-9][0-9][0-9]METERS') or
+                   string.match(spacesRemoved, '[0-9][0-9][0-9][0-9]METERS') or
+                   string.match(spacesRemoved, '[0-9][0-9][0-9][0-9][0-9]METERS');
+        }
+        elsif (argTy == ARG_SPEED) {
+            return string.match(spacesRemoved, '[0-9][0-9][0-9]KTS') or
+                   string.match(spacesRemoved, '[0-9][0-9]KTS') or
+                   string.match(spacesRemoved, '[0-9][0-9][0-9]KNOTS') or
+                   string.match(spacesRemoved, '[0-9][0-9]KNOTS') or
+                   string.match(spacesRemoved, '[0-9][0-9][0-9]KMH') or
+                   string.match(spacesRemoved, '[0-9][0-9]KMH') or
+                   string.match(spacesRemoved, '[0-9][0-9][0-9]KPH') or
+                   string.match(spacesRemoved, '[0-9][0-9]KPH') or
+                   string.match(spacesRemoved, 'MACH.[0-9][0-9]') or
+                   string.match(spacesRemoved, 'MACH.[0-9]') or
+                   string.match(spacesRemoved, 'M.[0-9][0-9]') or
+                   string.match(spacesRemoved, 'M.[0-9]');
+        }
+        else {
+            # We skip validating any other argument types; the only messages
+            # that are potentially ambiguous are those that can take either a
+            # speed or an altitude/flight level, so these are the only types
+            # we need to distinguish here.
+            return 1;
         }
     },
 
     _send: func (to, packed, then=nil) {
-        debug.dump('SENDING', to, packed);
+        # debug.dump('SENDING', to, packed);
         globals.acars.send(to, 'cpdlc', packed, then);
     },
 
@@ -164,3 +314,23 @@ var HoppieDriver = {
 var startswith = func (haystack, needle) {
     return (left(haystack, size(needle)) == needle);
 };
+
+var testMessages = [
+    "CONTACT @LONDON CONTROL@ @127.100",
+    "ROGER",
+    "CLIMB TO @FL360",
+    "DESCEND TO @FL110",
+    "PROCEED DIRECT TO @HELEN@ DESCEND TO @FL200",
+    "PROCEED DIRECT TO @BUB",
+    "SQUAWK @1000",
+    "FLIGHT PLAN NOT HELD",
+    "INCREASE SPEED TO @250 KTS",
+    "MAINTAIN @FL100",
+    "MAINTAIN @210 KTS",
+];
+
+# foreach (var msg; testMessages) {
+#     var parsed = HoppieDriver._parseCPDLCPart(msg);
+#     var msgType = HoppieDriver._matchCPDLCMessageType(parsed[0], parsed[1]);
+#     debug.dump(msg, parsed, msgType);
+# }
