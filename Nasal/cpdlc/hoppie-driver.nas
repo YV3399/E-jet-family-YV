@@ -2,11 +2,14 @@ var HoppieDriver = {
     new: func (system) {
         var m = BaseDriver.new(system);
         m.parents = [HoppieDriver] ~ m.parents;
+
+        var hoppieNode = props.globals.getNode('/hoppie', 1);
+
         m.props = {
-            downlink: props.globals.getNode('/acars/downlink', 1),
-            uplink: props.globals.getNode('/acars/uplink', 1),
-            status: props.globals.getNode('/acars/status-text', 1),
-            uplinkStatus: props.globals.getNode('/acars/uplink/status', 1),
+            downlink: hoppieNode.getNode('downlink', 1),
+            uplink: hoppieNode.getNode('uplink', 1),
+            status: hoppieNode.getNode('status-text', 1),
+            uplinkStatus: hoppieNode.getNode('uplink/status', 1),
         };
         m.listeners = {
             uplink: nil,
