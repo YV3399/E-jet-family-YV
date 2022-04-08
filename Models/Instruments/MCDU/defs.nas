@@ -88,6 +88,8 @@ var right_triangle = "►";
 var left_right_arrow = "↔";
 var up_down_arrow = "↕";
 var black_square = "■";
+var hollow_square =  "▯";
+var hollow_squares =  "▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯";
 
 var xpdrModeLabels = [
     "STBY",
@@ -306,6 +308,19 @@ var keyProps = {
     "CPDLC-CURRENT-STATION": "/cpdlc/current-station",
     "CPDLC-LOGON-STATION": "/cpdlc/logon-station",
     "CPDLC-NEXT-STATION": "/cpdlc/next-station",
+
+    # PDC REQUEST DIALOG
+    "ACARS-PDC-FACILITY": "/acars/pdc-dialog/facility",
+    "ACARS-PDC-FLIGHT-ID": "/acars/pdc-dialog/flight-id",
+    "ACARS-PDC-ATIS": "/acars/pdc-dialog/atis",
+    "ACARS-PDC-DEPARTURE-AIRPORT": "/acars/pdc-dialog/departure-airport",
+    "ACARS-PDC-DESTINATION-AIRPORT": "/acars/pdc-dialog/destination-airport",
+    "ACARS-PDC-GATE": "/acars/pdc-dialog/gate",
+    "ACARS-PDC-AIRCRAFT-TYPE": "/acars/pdc-dialog/aircraft-type",
+    "ACARS-PDC-VALID": "/acars/pdc-dialog/valid",
+
+    "ACARS-TELEX-TO": "/acars/telex-dialog/to",
+    "ACARS-TELEX-TEXT": "/acars/telex-dialog/text",
 };
 
 var keyDefs = {
