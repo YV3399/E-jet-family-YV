@@ -20,6 +20,7 @@ var System = {
                 nextStation: nil,
                 history: nil,
                 unread: nil,
+                incoming: nil,
                 driver: nil,
             },
             driver: nil,
@@ -53,6 +54,8 @@ var System = {
         me.props.messages = me.props.base.getNode('messages', 1);
         me.props.unread = me.props.base.getNode('unread', 1);
         me.props.unread.setValue(0);
+        me.props.incoming = me.props.base.getNode('incoming', 1);
+        me.props.incoming.setValue(0);
         me.props.driver = me.props.base.getNode('driver', 1);
         me.setDriver(me.props.driver.getValue() or '');
         me.updateUnread();
@@ -257,6 +260,11 @@ var System = {
         var msgNode = me.props.messages.getNode(mid, 1);
         msgNode.removeAllChildren();
         msg.toNode(msgNode);
+
+        if (msg.dir == 'up') {
+            me.props.incoming.setValue(1);
+            me.props.incoming.setValue(0);
+        }
 
         msgNode.setValues(msg);
 

@@ -2058,6 +2058,14 @@
                 </and>
             </condition>
         </alarm>
+        <alarm>
+            <!-- TODO: this does not currently work -->
+            <name>ATC Uplink</name>
+            <mode>once</mode>
+            <type>avionics</type>
+            <path>Sounds/single-chime.wav</path>
+            <property>/cpdlc/incoming</property>
+        </alarm>
     </fx>
 
 </PropertyList>
