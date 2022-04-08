@@ -368,3 +368,21 @@ var cpdlcDatalinkStatusName = func (status) {
         return 'ATN READY';
     }
 };
+
+var orDashes = func (length, ralign=0) {
+    return func (val) {
+        if (val == nil or val == '')
+            return substr('------------------------', 0, length);
+        else
+            return sprintf('%' ~ (ralign ? '' : '-') ~ length ~ "s", val);
+    }
+};
+
+var orBoxes = func (length, ralign=0) {
+    return func (val) {
+        if (val == nil or val == '')
+            return utf8.substr(hollow_squares, 0, length);
+        else
+            return sprintf('%' ~ (ralign ? '' : '-') ~ length ~ "s", val);
+    }
+};

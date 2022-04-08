@@ -22,7 +22,7 @@ var HoppieDriver = {
 
     isAvailable: func () {
         return
-            contains(globals, 'acars') and
+            contains(globals, 'hoppieAcars') and
             (me.props.status.getValue() == 'running');
     },
 
@@ -270,7 +270,7 @@ var HoppieDriver = {
 
     _send: func (to, packed, then=nil) {
         # debug.dump('SENDING', to, packed);
-        globals.acars.send(to, 'cpdlc', packed, then);
+        globals.hoppieAcars.send(to, 'cpdlc', packed, then);
     },
 
     _pack: func (min, mrn, ra, message) {

@@ -1842,6 +1842,23 @@
         </spoilers>
     </fbw>
 
+    <acars>
+        <pdc-dialog>
+            <facility type="string"></facility>
+            <flight-id type="string"></flight-id>
+            <atis type="string"></atis>
+            <departure-airport type="string"></departure-airport>
+            <destination-airport type="string"></destination-airport>
+            <gate type="string"></gate>
+            <aircraft-type type="string"></aircraft-type>
+            <valid type="bool">false</valid>
+        </pdc-dialog>
+        <telex-dialog>
+            <to type="string"></to>
+            <text type="string"></text>
+        </telex-dialog>
+    </acars>
+
     <instrumentation>
         <IESS>
             <brightness type="float">0.75</brightness>
@@ -2503,6 +2520,9 @@
         <cpdlc>
             <file>Aircraft/E-jet-family/Nasal/cpdlc/main.nas</file>
         </cpdlc>
+        <acars>
+            <file>Aircraft/E-jet-family/Nasal/acars/main.nas</file>
+        </acars>
 
         <itaf>
             <file>Aircraft/E-jet-family/Nasal/it-autoflight.nas</file>

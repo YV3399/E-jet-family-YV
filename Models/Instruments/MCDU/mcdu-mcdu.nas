@@ -80,6 +80,12 @@ var MCDU = {
         "CPDLC-LOG": func (mcdu, parent) { return CPDLCLogModule.new(mcdu, parent); },
         "CPDLC-DATALINK": func (mcdu, parent) { return CPDLCDatalinkSetupModule.new(mcdu, parent); },
 
+        # ACARS modules
+        "ACARS-RCVD": func (mcdu, parent) { return ACARSLogModule.new(mcdu, parent, 'RECEIVED'); },
+        "ACARS-SENT": func (mcdu, parent) { return ACARSLogModule.new(mcdu, parent, 'SENT'); },
+        "ACARS-PDC": func (mcdu, parent) { return ACARSPDCModule.new(mcdu, parent); },
+        "ACARS-TELEX": func (mcdu, parent) { return ACARSTelexModule.new(mcdu, parent); },
+
         # Index modules
         "ATCINDEX": func(mcdu, parent) { return IndexModule.new(mcdu, parent,
                         "ATC INDEX",
@@ -213,6 +219,23 @@ var MCDU = {
                         , nil
                         , nil
                         , nil
+                        ]); },
+        "DATALINK": func(mcdu, parent) { return IndexModule.new(mcdu, parent,
+                        "DATALINK",
+                        [ # PAGE 1
+                            [ "ACARS-RCVD", "RCVD MSGS" ]
+                          , [ "ACARS-SENT", "SENT MSGS" ]
+                          , nil
+                          , nil
+                          , nil
+                          , nil
+
+                          , [ "ACARS-TELEX", "FREEFORM" ]
+                          , [ nil, "WEATHER" ]
+                          , [ nil, "ATIS" ]
+                          , [ "ACARS-PDC", "PREDEP CLX" ]
+                          , [ "ACARS-OCC", "OCEANIC CLX" ]
+                          , nil
                         ]); },
         "NAVINDEX": func(mcdu, parent) { return IndexModule.new(mcdu, parent,
                         "NAV INDEX",
@@ -479,7 +502,7 @@ var MCDU = {
             me.gotoModule("RADIO");
         }
         else if (cmd == "DLK") {
-            me.gotoModule("DLK");
+            me.gotoModule("DATALINK");
         }
         else if (cmd == "TRS") {
             me.gotoModule("TRS");
@@ -572,8 +595,8 @@ var MCDU = {
         me.scratchpadBorderElem.setColor(0, 1, 1);
         me.scratchpadBorderElem.setColorFill(0, 0.2, 0.2);
         me.scratchpadBorderElem.rect(
-            margin_left - 1, cells_y * cell_h + margin_top + 5, 
-            512 - 2 * margin_left + 2, cell_h + 2 - 5);
+            -1, cells_y * cell_h + margin_top + 5, 
+            510, cell_h + 2 - 5);
         me.scratchpadElem = me.g.createChild("text", "scratchpad");
         me.scratchpadElem.setText("");
         me.scratchpadElem.setFontSize(font_size_large);
