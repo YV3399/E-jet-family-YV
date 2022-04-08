@@ -134,6 +134,7 @@ var PFDCanvas = {
         m.props["/controls/flight/selected-alt"] = props.globals.getNode("/controls/flight/selected-alt");
         m.props["/controls/flight/speed-mode"] = props.globals.getNode("/controls/flight/speed-mode");
         m.props["/controls/flight/vnav-enabled"] = props.globals.getNode("/controls/flight/vnav-enabled");
+        m.props["/cpdlc/unread"] = props.globals.getNode("/cpdlc/unread", 1);
         m.props["/environment/wind-from-heading-deg"] = props.globals.getNode("/environment/wind-from-heading-deg");
         m.props["/environment/wind-speed-kt"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/wind-speed-kt");
         m.props["/fms/speed-limits/green-dot-kt"] = props.globals.getNode("/fms/speed-limits/green-dot-kt");
@@ -248,6 +249,7 @@ var PFDCanvas = {
         m.props["/instrumentation/pfd/waypoint/ete"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/waypoint/ete");
         m.props["/instrumentation/pfd/waypoint/ete-unit"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/waypoint/ete-unit");
         m.props["/instrumentation/slip-skid-ball/indicated-slip-skid"] = props.globals.getNode("/instrumentation/slip-skid-ball/indicated-slip-skid");
+        m.props["/instrumentation/tcas/inputs/mode"] = props.globals.getNode("/instrumentation/tcas/inputs/mode");
         m.props["/instrumentation/vertical-speed-indicator/indicated-speed-fpm"] = props.globals.getNode("/instrumentation/vertical-speed-indicator/indicated-speed-fpm");
         m.props["/it-autoflight/fd/pitch-bar"] = props.globals.getNode("/it-autoflight/fd/pitch-bar");
         m.props["/it-autoflight/fd/roll-bar"] = props.globals.getNode("/it-autoflight/fd/roll-bar");
@@ -380,6 +382,7 @@ var PFDCanvas = {
             "asi.tape",
             "asi.tape_clip",
             "asi.vspeeds",
+            "atc.indicator",
             "barberpole",
             "chrono.digital",
             "compass",
@@ -460,6 +463,7 @@ var PFDCanvas = {
             "speedref.vr",
             "speedref.vref",
             "speedtrend.vector",
+            "tcas.warning",
             "vhf1.act",
             "vhf1.sby",
             "vs.needle",
@@ -978,6 +982,26 @@ var PFDCanvas = {
         }, 1, 0));
         append(me.listeners, setlistener(self.props["/instrumentation/pfd/minimums-decision-altitude"], func(node) {
             self["minimums.digital"].setText(sprintf("%d", node.getValue()));
+        }, 1, 0));
+        append(me.listeners, setlistener(self.props["/cpdlc/unread"], func (node) {
+            self["atc.indicator"].setVisible(node.getValue() != 0);
+        }, 1, 0));
+        append(me.listeners, setlistener(self.props["/instrumentation/tcas/inputs/mode"], func (node) {
+            var tcasMode = node.getValue();
+            if (tcasMode == 3) {
+                # TA/RA
+                self["tcas.warning"].hide();
+            }
+            elsif (tcasMode == 2) {
+                # TA ONLY
+                self["tcas.warning"].setText('TA ONLY');
+                self["tcas.warning"].show();
+            }
+            else {
+                # TA OFF
+                self["tcas.warning"].setText('TCAS OFF');
+                self["tcas.warning"].show();
+            }
         }, 1, 0));
     },
 
