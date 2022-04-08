@@ -834,11 +834,18 @@ the EFB.</p>
 
 <h2>CPDLC / ACARS</h2>
 
-<p>The E-Jet Family supports in-sim <a href="https://en.wikipedia.org/wiki/Controller%E2%80%93pilot_data_link_communications">CPDLC (Controller-Pilot Data Link
+<p>The E-Jet Family supports in-sim <a href="https://en.wikipedia.org/wiki/ACARS">ACARS</a>
+and <a href="https://en.wikipedia.org/wiki/Controller%E2%80%93pilot_data_link_communications">CPDLC (Controller-Pilot Data Link
 Communications)</a>,
 controlled via the MCDU.</p>
 
-<p>Three transport backends are provided:</p>
+<p>ACARS uses <a href="http://www.hoppie.nl/acars/">Hoppie's ACARS</a>, an HTTP-based
+ACARS/CPDLC environment used for VATSIM and other networks. To use the Hoppie
+backend, you will need to install and configure the <a href="https://github.com/tdammers/fg-hoppie-acars">Hoppie ACARS
+addon</a>. The addon is automatically
+detected and used if it is loaded properly.</p>
+
+<p>For CPDLC, three transport backends are supported:</p>
 
 <ul>
 <li><strong>"NONE"</strong>, a dummy backend that never becomes available. This backend can be
@@ -852,11 +859,7 @@ and sequencing. If you use the FGMP backend, it is recommended that you do
 not issue a new request until all previous dialogs have been closed, as
 uplinks referring to older requests may otherwise be incorrectly interpreted
 as replies to the newer request.</li>
-<li><strong>"HOPPIE"</strong>: this connects to <a href="http://www.hoppie.nl/acars/">Hoppie's ACARS</a>,
-an HTTP-based ACARS/CPDLC environment used for VATSIM and other networks. To
-use the Hoppie backend, you will need to install and configure the <a href="https://github.com/tdammers/fg-hoppie-acars">Hoppie
-ACARS addon</a>. The Hoppie backend
-will become available when the Hoppie ACARS addon is loaded and connected.
+<li><strong>"HOPPIE"</strong>: This uses the Hoppie ACARS system for CPDLC (see above).
 <em>Side note:</em> The Hoppie system does not transmit ICAO 4444 standard message
 codes, instead, it transmits formatted messages in plaintext, using '@' signs
 to mark variables. As a result, the CPDLC system will only understand
@@ -867,7 +870,28 @@ able to read them and issue standard and free text replies, but variables
 will not be detected, and message-specific reply options will not be given.</li>
 </ul>
 
-<h3>Usage</h3>
+<p>Note that selecting a backend other than HOPPIE for CPDLC will still keep the
+ACARS system on the Hoppie network; if you are flying on FGMP and wish to
+communicate via the FGMP IRC, then you will have to use CPDLC for that; ACARS
+will not work.</p>
+
+<h3>ACARS Usage</h3>
+
+<p>ACARS functionality can be accessed through the DLK menu. Options include:</p>
+
+<ul>
+<li>RECV MESSAGES: a log of received TELEX messages.</li>
+<li>SENT MESSAGES: a log of TELEX messages you sent.</li>
+<li>FREEFORM: send a free-form TELEX message.</li>
+<li>WEATHER: request METAR (not implemented yet)</li>
+<li>ATIS: request ATIS (not implemented yet)</li>
+<li>PREDEP CLX: compose and send a PDC request over ACARS (this is the default
+method on VATSIM).</li>
+<li>OCEANIC CLX: compose and send an oceanic clearance request over ACARS (not
+implemented yet).</li>
+</ul>
+
+<h3>CPDLC Usage</h3>
 
 <p>First, select the backend you want to use. On the MCDU, press the <code>NAV</code> button,
 then select <code>ATC</code> (LSK 1R), and then, on page 2, <code>DATALINK CFG</code> (LSK 1L).
