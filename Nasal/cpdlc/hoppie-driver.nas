@@ -277,6 +277,8 @@ var HoppieDriver = {
         if (typeof(message) == 'vector') {
             message = string.join('/', message);
         }
+        if (ra == '')
+            ra = 'N';
         return string.join('/', ['', 'data2', min, mrn, ra, message]);
     },
 
