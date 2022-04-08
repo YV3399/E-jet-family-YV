@@ -33,7 +33,7 @@ var MCDU = {
                 m.handleKeyboardRelease();
             }
         }, 1, 0);
-        var unreadProp = props.globals.getNode('/cpdlc/unread', 1);
+        var unreadProp = props.globals.getNode('/cpdlc/incoming', 1);
         setlistener(unreadProp, func(node) {
             if (node.getBoolValue()) {
                 m.setScratchpadMsg('ATC UPLINK', mcdu_yellow);
