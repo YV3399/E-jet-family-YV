@@ -2560,11 +2560,11 @@ var CPDLCLogModule = {
             if (status == 'NEW')
                 flags = mcdu_white | mcdu_reverse;
             if (status == 'SENT')
-                statusText = item.getValue('response-status') or '';
+                statusText = item.getValue('response-status') or 'OLD';
             else
-                statusText = status;
+                statusText = status or 'OLD';
             append(me.views,
-                StaticView.new(12, y, sprintf("%11s", statusText or 'OLD'), flags));
+                StaticView.new(23 - size(statusText), y, statusText, flags));
             if (dir != 'pseudo') {
                 append(me.views,
                     StaticView.new(0, y+1, (dir == 'up') ? '↑' : '↓', mcdu_white | mcdu_large));
