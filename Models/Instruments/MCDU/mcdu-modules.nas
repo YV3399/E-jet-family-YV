@@ -2594,7 +2594,7 @@ var CPDLCLogModule = {
 };
 
 var CPDLCComposeDownlinkModule = {
-    new: func (mcdu, parentModule, parts, mrn = nil) {
+    new: func (mcdu, parentModule, parts, mrn = nil, to = nil) {
         # debug.dump(parts);
         var m = BaseModule.new(mcdu, parentModule);
         m.parents = prepended(CPDLCComposeDownlinkModule, m.parents);
@@ -2609,6 +2609,7 @@ var CPDLCComposeDownlinkModule = {
         elsif (parentModule != nil) {
             m.ptitle = parentModule.getTitle();
         }
+        m.to = to;
         return m;
     },
 
@@ -2659,6 +2660,7 @@ var CPDLCComposeDownlinkModule = {
                                         append(msg.parts, part);
                                     }
                                     msg.dir = 'down';
+                                    msg.to = owner.to;
                                     var mid = globals.cpdlc.system.send(msg);
                                     if (mid != nil) owner.ret();
                                 });
@@ -3047,7 +3049,8 @@ var CPDLCMessageModule = {
                             , {type: 'SUPD-1', args: ['']}
                             , {type: 'TXTD-1', args: ['']}
                             ],
-                            self.min);
+                            self.min,
+                            self.station);
                     });
 
                 append(views, StaticView.new(12, y, '      ROGER' ~ right_triangle, mcdu_white));
@@ -3057,7 +3060,8 @@ var CPDLCMessageModule = {
                             [ {type: 'RSPD-4', args: []}
                             , {type: 'TXTD-1', args: ['']}
                             ],
-                            self.min);
+                            self.min,
+                            self.station);
                     });
 
                 nextLine(); evenLine();
@@ -3068,7 +3072,8 @@ var CPDLCMessageModule = {
                             [ {type: 'RSPD-3', args: []}
                             , {type: 'TXTD-1', args: ['']}
                             ],
-                            self.min);
+                            self.min,
+                            self.station);
                     });
             }
             elsif (me.ra == 'WU') {
@@ -3080,7 +3085,8 @@ var CPDLCMessageModule = {
                             , {type: 'SUPD-1', args: ['']}
                             , {type: 'TXTD-1', args: ['']}
                             ],
-                            self.min);
+                            self.min,
+                            self.station);
                     });
 
                 append(views, StaticView.new(12, y, '      WILCO' ~ right_triangle, mcdu_white));
@@ -3090,7 +3096,8 @@ var CPDLCMessageModule = {
                             [ {type: 'RSPD-1', args: []}
                             , {type: 'TXTD-1', args: ['']}
                             ],
-                            self.min);
+                            self.min,
+                            self.station);
                     });
 
                 nextLine(); evenLine();
@@ -3101,7 +3108,8 @@ var CPDLCMessageModule = {
                             [ {type: 'RSPD-3', args: []}
                             , {type: 'TXTD-1', args: ['']}
                             ],
-                            self.min);
+                            self.min,
+                            self.station);
                     });
             }
             elsif (me.ra == 'AN') {
@@ -3112,7 +3120,8 @@ var CPDLCMessageModule = {
                             [ {type: 'RSPD-6', args: []}
                             , {type: 'TXTD-1', args: ['']}
                             ],
-                            self.min);
+                            self.min,
+                            self.station);
                     });
 
                 append(views, StaticView.new(12, y, 'AFFIRMATIVE' ~ right_triangle, mcdu_white));
@@ -3122,7 +3131,8 @@ var CPDLCMessageModule = {
                             [ {type: 'RSPD-5', args: []}
                             , {type: 'TXTD-1', args: ['']}
                             ],
-                            self.min);
+                            self.min,
+                            self.station);
                     });
 
                 nextLine(); evenLine();
@@ -3133,7 +3143,8 @@ var CPDLCMessageModule = {
                             [ {type: 'RSPD-3', args: []}
                             , {type: 'TXTD-1', args: ['']}
                             ],
-                            self.min);
+                            self.min,
+                            self.station);
                     });
             }
             elsif (me.ra == 'Y') {
@@ -3180,7 +3191,7 @@ var CPDLCMessageModule = {
                             var parts = [{type: reply.type, args: args}];
                             if (substr(reply.type, 0, 3) != 'TXT')
                                 append(parts, {type: 'TXTD-1', args: ['']});
-                            return CPDLCComposeDownlinkModule.new(owner, parent, parts, self.min);
+                            return CPDLCComposeDownlinkModule.new(owner, parent, parts, self.min, self.station);
                         }); })(reply, args);
                     if (left) {
                         append(views, StaticView.new( 0, y, left_triangle ~ title, mcdu_white));
