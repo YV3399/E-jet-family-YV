@@ -151,4 +151,5 @@ setlistener("sim/signals/fdm-initialized", func {
     listenOnProp("fdm/jsbsim/fcs/yaw-damper-enable", no, MSG_ADVISORY, 'YD OFF', 0);
     listenOnProp("/instrumentation/eicas/messages/apu/shutdown", yes, MSG_STATUS, 'APU SHUTTING DOWN', 0);
     listenOnProp("/controls/flight/steep-approach", yes, MSG_STATUS, 'STEEP APPR', 0);
+    listenOnProp("/cpdlc/unread", yes, MSG_STATUS, 'ATC UPLINK', 0);
 });

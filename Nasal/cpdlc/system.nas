@@ -338,7 +338,7 @@ var System = {
         foreach (var msgNode; msgNodes) {
             if (msgNode.getValue('status') == 'NEW') {
                 me.props.unread.setValue(1);
-                break;
+                return;
             }
         }
         me.props.unread.setValue(0);
