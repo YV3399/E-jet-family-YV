@@ -1880,6 +1880,7 @@
             <master>
                 <caution type="bool">false</caution>
                 <warning type="bool">false</warning>
+                <cpdlc-incoming type="bool">false</cpdlc-incoming>
             </master>
             <messages>
                 <fuel-low-left type="bool">false</fuel-low-left>

@@ -2064,7 +2064,16 @@
             <mode>once</mode>
             <type>avionics</type>
             <path>Sounds/single-chime.wav</path>
-            <property>/cpdlc/incoming</property>
+            <condition>
+                <and>
+                    <property>/instrumentation/eicas/master/cpdlc-incoming</property>
+                    <greater-than>
+                        <!-- TODO: this may not actually be correct, the chime probably feeds from a separate electrical output, but this will do for now -->
+                        <property>/systems/electrical/outputs/master-warn-caution[0]</property>
+                        <value>20</value>
+                    </greater-than>
+                </and>
+            </condition>
         </alarm>
     </fx>
 

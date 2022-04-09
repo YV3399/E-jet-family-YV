@@ -261,9 +261,10 @@ var System = {
         msgNode.removeAllChildren();
         msg.toNode(msgNode);
 
+        var self = me;
         if (msg.dir == 'up') {
             me.props.incoming.setValue(1);
-            me.props.incoming.setValue(0);
+            settimer(func { self.props.incoming.setValue(0); }, 0.1, 1);
         }
 
         msgNode.setValues(msg);
