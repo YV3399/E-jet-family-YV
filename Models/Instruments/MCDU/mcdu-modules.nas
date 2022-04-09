@@ -3295,7 +3295,7 @@ var ACARSLogModule = {
         for (var i = 0; i < 5; i += 1) {
             if (r < 0) break;
             var msgID = refs[r].getValue();
-            var item = refs[i];
+            var item = refs[-1-i];
             if (item == nil) {
                 continue;
             }
@@ -3475,7 +3475,7 @@ var ACARSMessageModule = {
         m.msgNode = props.globals.getNode('/acars/telex/' ~ (dir == 'SENT' ? 'sent' : 'received') ~ '/m' ~ serial);
         m.lines = me.splitLines(m.msgNode.getValue('text'));
         m.dir = dir;
-        debug.dump(m.lines);
+        # debug.dump(m.lines);
         return m;
     },
 
@@ -3505,9 +3505,9 @@ var ACARSMessageModule = {
         var lines = [];
         var origLines = split("\n", text);
         foreach (var origLine; origLines) {
-            debug.dump('LINE:', origLine);
+            # debug.dump('LINE:', origLine);
             var words = split(' ', origLine);
-            debug.dump('WORDS:', words);
+            # debug.dump('WORDS:', words);
             var line = '';
             var freshLine = 1;
             foreach (var word; words) {
