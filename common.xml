@@ -82,6 +82,7 @@
             <path>/controls/switches/hud-flip[1]</path>
             <path>/sim/http/local-ip</path>
             <path>/cpdlc/driver</path>
+            <path>/acars/config</path>
         </aircraft-data>
 
         <http>
@@ -1857,6 +1858,10 @@
             <to type="string"></to>
             <text type="string"></text>
         </telex-dialog>
+        <config>
+            <weather-backend type="string">AUTO</weather-backend>
+            <atis-backend type="string">AUTO</atis-backend>
+        </config>
     </acars>
 
     <instrumentation>

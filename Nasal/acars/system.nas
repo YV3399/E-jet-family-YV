@@ -13,6 +13,8 @@ var System = {
                 downlink: nil,
                 uplinkStatus: nil,
                 downlinkStatus: nil,
+                weatherBackend: nil,
+                atisBackend: nil,
             },
             listeners: {
                 uplink: nil,
@@ -44,6 +46,8 @@ var System = {
         me.props.downlink = props.globals.getNode('/hoppie/downlink', 1);
         me.props.uplinkStatus = props.globals.getNode('/hoppie/uplink/status', 1);
         me.props.downlinkStatus = props.globals.getNode('/hoppie/downlink/status', 1);
+        me.props.weatherBackend = me.props.base.getNode('config/weather-backend', 1);
+        me.props.atisBackend = me.props.base.getNode('config/atis-backend', 1);
         me.updateUnread();
         var self = me;
         me.listeners.uplink = setlistener(me.props.uplinkStatus, func (node) {
@@ -83,7 +87,7 @@ var System = {
     receive: func (msg=nil) {
         if (msg == nil)
             msg = me.props.uplink.getValues();
-        debug.dump('ACARS UPLINK', msg);
+        # debug.dump('ACARS UPLINK', msg);
         if (msg.type == 'telex') {
             var serial = me.genSerial();
             var historyNode = me.props.telexReceived.addChild('m' ~ serial);
@@ -100,7 +104,7 @@ var System = {
         var status = node.getValue();
         if (status == 'sent' or status == 'error') {
             var msg = me.props.downlink.getValues();
-            debug.dump('ACARS DOWNLINK', msg);
+            # debug.dump('ACARS DOWNLINK', msg);
             if (msg.type == 'telex') {
                 var serial = me.genSerial();
                 var historyNode = me.props.telexSent.addChild('m' ~ serial);
@@ -125,17 +129,45 @@ var System = {
         }
     },
 
-    sendMetarRequest: func (station) { me.sendInfoRequest('metar', station); },
-    sendTafRequest: func (station) { me.sendInfoRequest('taf', station); },
-    sendAtisRequest: func (station) { me.sendInfoRequest('atis', station); },
-
     sendInfoRequest: func (what, station=nil) {
         if (station == nil)
             station = getprop('/acars/inforeq-dialog/station');
-        if (getprop('/hoppie/status-text') == 'running')
-            me.sendHoppieInfoRequest(what, station);
+        if (what == 'metar' or what == 'taf' or what == 'shorttaf') {
+            me.sendWeatherRequest(what, station);
+        }
+        elsif (what == 'atis' or what == 'vatatis') {
+            me.sendAtisRequest(station);
+        }
+    },
+
+    sendWeatherRequest: func (what, station) {
+        var mode = me.props.weatherBackend.getValue() or 'AUTO';
+        if (mode == 'AUTO') {
+            if (getprop('/hoppie/status-text') == 'running')
+                mode = 'HOPPIE';
+            else
+                mode = 'NOAA';
+        }
+        if (mode == 'HOPPIE')
+            return me.sendHoppieInfoRequest(what, station);
+        elsif (mode == 'NOAA')
+            return me.sendNoaaInfoRequest(what, station);
         else
-            me.sendNoaaInfoRequest(what, station);
+            return 0;
+    },
+
+    sendAtisRequest: func (station) {
+        var mode = me.props.atisBackend.getValue() or 'AUTO';
+        if (mode == 'AUTO') {
+            if (getprop('/hoppie/status-text') == 'running')
+                mode = 'HOPPIE';
+            else
+                mode = 'OFF';
+        }
+        if (mode == 'HOPPIE')
+            return me.sendHoppieInfoRequest('vatatis', station);
+        else
+            return 0;
     },
 
     noaaTemplates: {
@@ -154,7 +186,6 @@ var System = {
             var self = me;
             http.load(url)
                 .done(func(r) {
-                    debug.dump(r.status, r.reason, r.response);
                     if (r.status == 200) {
                         var lines = split("\n", r.response);
                         var packet = string.join("\n", subvec(lines, 1));
@@ -166,12 +197,23 @@ var System = {
                         };
                         self.receive(msg);
                     }
+                    elsif (r.status == 404) {
+                        var msg = {
+                            type: 'telex',
+                            from: 'NOAA',
+                            packet: 'THIS STATION IS NOT AVAILABLE',
+                            timestamp: globals.hoppieAcars.getCurrentTimestamp(),
+                        };
+                        self.receive(msg);
+                    }
                     else {
                         # TODO: handle HTTP error
+                        print(r.status ~ ' ' ~ r.reason);
                     }
                 })
-                .fail(func {
+                .fail(func (r) {
                     # TODO
+                    debug.dump(r);
                 });
         }, [url], me, {}, errors);
         if (size(errors) > 0) {
@@ -183,12 +225,10 @@ var System = {
 
     sendHoppieInfoRequest: func (what, station) {
         if (what == nil or what == '') return 0;
-        if (what == 'atis') what = 'vatatis';
         if (station == nil or station == '') return 0;
         var self = me;
         globals.hoppieAcars.send('SERVER', 'inforeq', what ~ ' ' ~ station,
             func (response) {
-                debug.dump(response);
                 if (string.match(response, 'ok {server info {*}}')) {
                     packet = string.uc(
                                 substr(response,

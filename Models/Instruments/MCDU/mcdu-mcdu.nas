@@ -93,6 +93,7 @@ var MCDU = {
         "ACARS-TAF": func (mcdu, parent) { return ACARSInfoReqModule.new(mcdu, parent, 'taf'); },
         "ACARS-SHORTTAF": func (mcdu, parent) { return ACARSInfoReqModule.new(mcdu, parent, 'shorttaf'); },
         "ACARS-ATIS": func (mcdu, parent) { return ACARSInfoReqModule.new(mcdu, parent, 'atis'); },
+        "ACARS-CONFIG": func (mcdu, parent) { return ACARSConfigModule.new(mcdu, parent); },
         "ACARS-NEWEST-UNREAD": func (mcdu, parent) {
             var newestMessage = getprop('/acars/telex/newest-unread');
             return ACARSMessageModule.new(mcdu, parent, 'RECEIVED', newestMessage);
@@ -233,13 +234,13 @@ var MCDU = {
                         , nil
                         ]); },
         "DATALINK": func(mcdu, parent) { return IndexModule.new(mcdu, parent,
-                        "DATALINK INDEX",
+                        "DLK INDEX",
                         [ # PAGE 1
                             [ "ACARS-RCVD", "RCVD MSGS" ]
                           , [ "ACARS-SENT", "SENT MSGS" ]
                           , nil
                           , nil
-                          , nil
+                          , [ "ACARS-CONFIG", "ACARS CFG" ]
                           , nil
 
                           , [ "ACARS-TELEX", "FREEFORM" ]
@@ -274,7 +275,17 @@ var MCDU = {
                           , nil
                           , nil
                           , nil
-                          , nil
+                          , [ "ACARS-NEWEST-UNREAD",
+                              func(x, y, ralign) {
+                                return FormatView.new(x - 11, y, mcdu_white | mcdu_large, "ACARS-NEWEST-UNREAD", 5,
+                                    func (serial) {
+                                        if (serial != nil and serial != 0)
+                                            return "NEW MESSAGE" ~ right_triangle;
+                                        else
+                                            return "     ";
+                                    });
+                              }
+                            ]
                         ]); },
         "NAVINDEX": func(mcdu, parent) { return IndexModule.new(mcdu, parent,
                         "NAV INDEX",
@@ -446,7 +457,6 @@ var MCDU = {
             me.activeModule = module;
         }
         if (me.activeModule != nil) {
-            debug.dump(me.activeModule.getTitle());
             me.activeModule.activate();
             me.activeModule.fullRedraw();
         }
