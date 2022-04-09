@@ -325,6 +325,9 @@ var keyProps = {
     "ACARS-INFOREQ-STATION": "/acars/inforeq-dialog/station",
 
     "ACARS-NEWEST-UNREAD": "/acars/telex/newest-unread",
+
+    "ACARS-CONFIG-WEATHER": "/acars/config/weather-backend",
+    "ACARS-CONFIG-ATIS": "/acars/config/atis-backend",
 };
 
 var keyDefs = {

@@ -3285,6 +3285,37 @@ var CPDLCMessageModule = {
     },
 };
 
+var ACARSConfigModule = {
+    new: func (mcdu, parentModule) {
+        var m = BaseModule.new(mcdu, parentModule);
+        m.parents = prepended(ACARSConfigModule, m.parents);
+        return m;
+    },
+
+    getTitle: func () {
+        return 'DLK SETUP'
+    },
+
+    getNumPages: func () {
+        return 1;
+    },
+
+    loadPageItems: func (n) {
+        me.views = [
+            StaticView.new(1, 1, 'WEATHER SOURCE', mcdu_white),
+            FormatView.new(1, 2, mcdu_green | mcdu_large, 'ACARS-CONFIG-WEATHER', 12, "%-12s"),
+            StaticView.new(1, 3, 'ATIS SOURCE', mcdu_white),
+            FormatView.new(1, 4, mcdu_green | mcdu_large, 'ACARS-CONFIG-ATIS', 12, "%-12s"),
+        ];
+        me.controllers = {
+            'L1': CycleController.new('ACARS-CONFIG-WEATHER', ['AUTO', 'HOPPIE', 'NOAA', 'OFF']),
+            'L2': CycleController.new('ACARS-CONFIG-ATIS', ['AUTO', 'HOPPIE', 'OFF']),
+        };
+        append(me.views, StaticView.new( 0, 12, left_triangle ~ me.ptitle, mcdu_white | mcdu_large));
+        me.controllers['L6'] = SubmodeController.new("ret");
+    },
+};
+
 var ACARSLogModule = {
     new: func (mcdu, parentModule, dir) {
         var m = BaseModule.new(mcdu, parentModule);
