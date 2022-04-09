@@ -152,4 +152,5 @@ setlistener("sim/signals/fdm-initialized", func {
     listenOnProp("/instrumentation/eicas/messages/apu/shutdown", yes, MSG_STATUS, 'APU SHUTTING DOWN', 0);
     listenOnProp("/controls/flight/steep-approach", yes, MSG_STATUS, 'STEEP APPR', 0);
     listenOnProp("/cpdlc/unread", yes, MSG_STATUS, 'ATC UPLINK', 0);
+    listenOnProp("/acars/telex/unread", yes, MSG_STATUS, 'ACARS MSG', 0);
 });

@@ -323,6 +323,8 @@ var keyProps = {
     "ACARS-TELEX-TEXT": "/acars/telex-dialog/text",
 
     "ACARS-INFOREQ-STATION": "/acars/inforeq-dialog/station",
+
+    "ACARS-NEWEST-UNREAD": "/acars/telex/newest-unread",
 };
 
 var keyDefs = {
