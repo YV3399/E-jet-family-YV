@@ -85,6 +85,10 @@ var MCDU = {
         "ACARS-SENT": func (mcdu, parent) { return ACARSLogModule.new(mcdu, parent, 'SENT'); },
         "ACARS-PDC": func (mcdu, parent) { return ACARSPDCModule.new(mcdu, parent); },
         "ACARS-TELEX": func (mcdu, parent) { return ACARSTelexModule.new(mcdu, parent); },
+        "ACARS-METAR": func (mcdu, parent) { return ACARSInfoReqModule.new(mcdu, parent, 'metar'); },
+        "ACARS-TAF": func (mcdu, parent) { return ACARSInfoReqModule.new(mcdu, parent, 'taf'); },
+        "ACARS-SHORTTAF": func (mcdu, parent) { return ACARSInfoReqModule.new(mcdu, parent, 'shorttaf'); },
+        "ACARS-ATIS": func (mcdu, parent) { return ACARSInfoReqModule.new(mcdu, parent, 'atis'); },
 
         # Index modules
         "ATCINDEX": func(mcdu, parent) { return IndexModule.new(mcdu, parent,
@@ -221,7 +225,7 @@ var MCDU = {
                         , nil
                         ]); },
         "DATALINK": func(mcdu, parent) { return IndexModule.new(mcdu, parent,
-                        "DATALINK",
+                        "DATALINK INDEX",
                         [ # PAGE 1
                             [ "ACARS-RCVD", "RCVD MSGS" ]
                           , [ "ACARS-SENT", "SENT MSGS" ]
@@ -231,10 +235,27 @@ var MCDU = {
                           , nil
 
                           , [ "ACARS-TELEX", "FREEFORM" ]
-                          , [ nil, "WEATHER" ]
-                          , [ nil, "ATIS" ]
+                          , [ "ACARS-WEATHER", "WEATHER" ]
+                          , [ "ACARS-ATIS", "ATIS" ]
                           , [ "ACARS-PDC", "PREDEP CLX" ]
                           , [ "ACARS-OCC", "OCEANIC CLX" ]
+                          , nil
+                        ]); },
+        "ACARS-WEATHER": func(mcdu, parent) { return IndexModule.new(mcdu, parent,
+                        "WEATHER RQ",
+                        [ # PAGE 1
+                            [ "ACARS-METAR", "METAR" ]
+                          , [ "ACARS-TAF", "TAF" ]
+                          , [ "ACARS-SHORTTAF", "SHORTTAF" ]
+                          , nil
+                          , nil
+                          , [ "ret", "DATALINK INDEX" ]
+
+                          , nil
+                          , nil
+                          , nil
+                          , nil
+                          , nil
                           , nil
                         ]); },
         "NAVINDEX": func(mcdu, parent) { return IndexModule.new(mcdu, parent,

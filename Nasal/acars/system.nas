@@ -126,7 +126,9 @@ var System = {
     sendTafRequest: func (station) { me.sendInfoRequest('taf', station); },
     sendAtisRequest: func (station) { me.sendInfoRequest('atis', station); },
 
-    sendInfoRequest: func (what, station) {
+    sendInfoRequest: func (what, station=nil) {
+        if (station == nil)
+            station = getprop('/acars/inforeq-dialog/station');
         if (getprop('/hoppie/status-text') == 'running')
             me.sendHoppieInfoRequest(what, station);
         else
