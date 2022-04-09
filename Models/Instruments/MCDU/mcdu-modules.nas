@@ -3502,38 +3502,49 @@ var ACARSMessageModule = {
     },
 
     splitLines: func (text) {
-        var words = split(' ', text);
         var lines = [];
-        var line = '';
-        foreach (var word; words) {
-            if (line != '')
-                line = line ~ ' ';
-            if (size(line) + size(word) > 22) {
-                if (line == '') {
-                    append(lines, substr(word, 0, 20) ~ '..');
-                }
-                else {
-                    append(lines, line);
-                    if (size(word) > 22) {
+        var origLines = split("\n", text);
+        foreach (var origLine; origLines) {
+            debug.dump('LINE:', origLine);
+            var words = split(' ', origLine);
+            debug.dump('WORDS:', words);
+            var line = '';
+            var freshLine = 1;
+            foreach (var word; words) {
+                if (freshLine)
+                    freshLine = 0;
+                else
+                    line = line ~ ' ';
+                if (size(line) + size(word) > 22) {
+                    if (freshLine) {
                         append(lines, substr(word, 0, 20) ~ '..');
-                        line = '';
                     }
                     else {
-                        line = word;
+                        append(lines, line);
+                        if (size(word) > 22) {
+                            append(lines, substr(word, 0, 20) ~ '..');
+                            line = '';
+                            freshLine = 1;
+                        }
+                        else {
+                            line = word;
+                            freshLine = 0;
+                        }
                     }
                 }
+                else {
+                    line = line ~ word;
+                    freshLine = 0;
+                }
             }
-            else {
-                line = line ~ word;
-            }
+            if (line != '')
+                append(lines, line);
         }
-        if (line != '')
-            append(lines, line);
         return lines;
     },
 
     getNumPages: func () {
-        return math.max(1, math.floor((size(me.lines) + 4) / 5));
+        return math.max(1, math.ceil((size(me.lines) + 2) / 9));
     },
 
     loadPageItems: func (n) {
@@ -3558,12 +3569,12 @@ var ACARSMessageModule = {
             y += 2;
         }
         else {
-            i = n * 5 - 1;
+            i = n * 9 - 2;
         }
         while (y < 11 and i < size(me.lines)) {
             append(me.views, StaticView.new( 0, y, me.lines[i], mcdu_green | mcdu_large));
             i += 1;
-            y += 2;
+            y += 1;
         }
         append(me.views, StaticView.new( 0, 12, left_triangle ~ "LOG", mcdu_white | mcdu_large));
         me.controllers['L6'] = SubmodeController.new("ret");
