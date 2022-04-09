@@ -3329,7 +3329,7 @@ var ACARSLogModule = {
         append(me.views, StaticView.new(14, 12, "CLEAR LOG" ~ right_triangle, mcdu_white | mcdu_large));
         me.controllers['L6'] = SubmodeController.new("ret");
         me.controllers['R6'] = FuncController.new(func (owner, val) {
-            globals.hoppieAcars.system.clearHistory();
+            globals.acars.system.clearHistory();
             return nil;
         });
     },
