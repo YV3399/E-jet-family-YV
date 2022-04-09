@@ -77,8 +77,9 @@ var System = {
         return result;
     },
 
-    receive: func {
-        var msg = me.props.uplink.getValues();
+    receive: func (msg=nil) {
+        if (msg == nil)
+            msg = me.props.uplink.getValues();
         debug.dump('ACARS UPLINK', msg);
         if (msg.type == 'telex') {
             var serial = me.genSerial();
@@ -119,6 +120,29 @@ var System = {
         else {
             return 0;
         }
+    },
+
+    sendInfoRequest: func (what) {
+        if (what == nil) return 0;
+        var self = me;
+        globals.hoppieAcars.send('SERVER', 'inforeq', what,
+            func (response) {
+                debug.dump(response);
+                if (string.match(response, 'ok {server info {*}}')) {
+                    packet = string.uc(
+                                substr(response,
+                                    size('ok {server info {'),
+                                    size(response) - size('ok {server info {}}')));
+                    var msg = {
+                        type: 'telex',
+                        from: 'SYSTEM',
+                        packet: packet,
+                        timestamp: globals.hoppieAcars.getCurrentTimestamp(),
+                    };
+                    self.receive(msg);
+                }
+            });
+        return 1;
     },
 
     clearTelexDialog: func () {
