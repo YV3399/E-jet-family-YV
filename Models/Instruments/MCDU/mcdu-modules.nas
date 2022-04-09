@@ -741,11 +741,19 @@ var FlightPlanModule = {
         var label = "";
         var key = nil;
 
-        if (!getprop("/fms/performance-initialized")) {
+        if (getprop("/cpdlc/unread")) {
+            label = "ATC UPLINK";
+            key = "CPDLC-NEWEST-UPLINK";
+        }
+        elsif (getprop("/acars/telex/newest-unread") != 0) {
+            label = "DLK MSG";
+            key = "ACARS-NEWEST-UNREAD";
+        }
+        elsif (!getprop("/fms/performance-initialized")) {
             label = "PERF INIT";
             key = "PERFINIT";
         }
-        else if (fms.vnav.desNowAvailable) {
+        elsif (fms.vnav.desNowAvailable) {
             label = "DES NOW";
             key = FuncController.new(func (owner, val) {
                 if (!vnav.desNow()) {
@@ -753,7 +761,7 @@ var FlightPlanModule = {
                 }
             });
         }
-        else if (me.fp.departure_runway == nil or me.fp.sid == nil) {
+        elsif (me.fp.departure_runway == nil or me.fp.sid == nil) {
             label = "DEPARTURE";
             key = "DEPARTURE";
         }
@@ -1200,27 +1208,47 @@ var IndexModule = {
         me.controllers = {};
         # left side
         for (i = 0; i < 6; i += 1) {
+            if (i >= size(items)) break;
             var item = items[i];
             var lsk = "L" ~ (i + 1);
             if (item != nil) {
-                append(me.views,
-                    StaticView.new(0, 2 + i * 2, left_triangle ~ item[1], mcdu_large | mcdu_white));
-                if (item[0] != nil) {
+                if (typeof(item[1]) == 'scalar') {
+                    append(me.views,
+                        StaticView.new(0, 2 + i * 2, left_triangle ~ item[1], mcdu_large | mcdu_white));
+                }
+                elsif (typeof(item[1]) == 'func') {
+                    append(me.views, item[1](0, 2 + i * 2, 0));
+                }
+
+                if (typeof(item[0]) == 'scalar') {
                     me.controllers[lsk] =
                         SubmodeController.new(item[0]);
+                }
+                elsif (typeof(item[0]) == 'func') {
+                    me.controllers[lsk] = item[0](me);
                 }
             }
         }
         # right side
         for (i = 0; i < 6; i += 1) {
+            if (i + 6 >= size(items)) break;
             var item = items[i + 6];
             var lsk = "R" ~ (i + 1);
             if (item != nil) {
-                append(me.views,
-                    StaticView.new(23 - size(item[1]), 2 + i * 2, item[1] ~ right_triangle, mcdu_large | mcdu_white));
-                if (item[0] != nil) {
+                if (typeof(item[1]) == 'scalar') {
+                    append(me.views,
+                        StaticView.new(23 - size(item[1]), 2 + i * 2, item[1] ~ right_triangle, mcdu_large | mcdu_white));
+                }
+                elsif (typeof(item[1]) == 'func') {
+                    append(me.views, item[1](23, 2 + i * 2, 1));
+                }
+
+                if (typeof(item[0]) == 'scalar') {
                     me.controllers[lsk] =
                         SubmodeController.new(item[0]);
+                }
+                elsif (typeof(item[0]) == 'func') {
+                    me.controllers[lsk] = item[0](me);
                 }
             }
         }
@@ -2807,6 +2835,10 @@ var CPDLCMessageModule = {
     },
 
     activate: func () {
+        if (me.msgID == '') {
+            me.mcdu.popModule();
+            return;
+        }
         me.loadPage(me.page);
         me.timer = maketimer(1, me, func () {
             me.loadMessage();
@@ -3244,9 +3276,12 @@ var CPDLCMessageModule = {
         append(me.views, StaticView.new(3, 0, me.timestamp or '----', mcdu_green | mcdu_large));
         append(me.views, StaticView.new(7, 0, 'Z', mcdu_green));
         append(me.views, StaticView.new( 0, 12, left_triangle ~ "ATC INDEX", mcdu_white | mcdu_large));
-        append(me.views, StaticView.new(20, 12, "LOG" ~ right_triangle, mcdu_white | mcdu_large));
         me.controllers['L6'] = SubmodeController.new("ATCINDEX", 0);
-        me.controllers['R6'] = SubmodeController.new("ret");
+        if (me.ptitle != nil) {
+            me.controllers["R6"] = SubmodeController.new("ret");
+            append(me.views,
+                 StaticView.new(23 - size(me.ptitle), 12, me.ptitle ~ right_triangle, mcdu_large));
+        }
     },
 };
 
@@ -3516,7 +3551,8 @@ var ACARSMessageModule = {
         m.parents = prepended(ACARSMessageModule, m.parents);
         m.title = dir;
         m.msgNode = props.globals.getNode('/acars/telex/' ~ (dir == 'SENT' ? 'sent' : 'received') ~ '/m' ~ serial);
-        m.lines = me.splitLines(m.msgNode.getValue('text'));
+        if (m.msgNode != nil)
+            m.lines = me.splitLines(m.msgNode.getValue('text'));
         m.dir = dir;
         # debug.dump(m.lines);
         return m;
@@ -3527,8 +3563,14 @@ var ACARSMessageModule = {
     },
 
     activate: func () {
-        if (me.msgNode.getValue('status') == 'new')
+        if (me.msgNode == nil) {
+            me.mcdu.popModule();
+            return;
+        }
+        if (me.msgNode.getValue('status') == 'new') {
             me.msgNode.setValue('status', '');
+            globals.acars.system.updateUnread();
+        }
         me.loadPage(me.page);
         me.timer = maketimer(1, me, func () {
             me.loadPage(me.page);
@@ -3619,7 +3661,7 @@ var ACARSMessageModule = {
             i += 1;
             y += 1;
         }
-        append(me.views, StaticView.new( 0, 12, left_triangle ~ "LOG", mcdu_white | mcdu_large));
+        append(me.views, StaticView.new( 0, 12, left_triangle ~ me.ptitle, mcdu_white | mcdu_large));
         me.controllers['L6'] = SubmodeController.new("ret");
     },
 };

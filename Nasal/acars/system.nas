@@ -7,6 +7,7 @@ var System = {
                 telexReceived: nil,
                 telexSent: nil,
                 unread: nil,
+                newestUnread: nil,
                 statusText: nil,
                 uplink: nil,
                 downlink: nil,
@@ -36,6 +37,8 @@ var System = {
         me.props.telexSent = me.props.base.getNode('telex/sent', 1);
         me.props.telexReceived = me.props.base.getNode('telex/received', 1);
         me.props.unread = me.props.base.getNode('telex/unread', 1);
+        me.props.newestUnread = me.props.base.getNode('telex/newest-unread', 1);
+        me.props.newestUnread.setValue(0);
         me.props.statusText = props.globals.getNode('/hoppie/status-text');
         me.props.uplink = props.globals.getNode('/hoppie/uplink', 1);
         me.props.downlink = props.globals.getNode('/hoppie/downlink', 1);
@@ -258,13 +261,17 @@ var System = {
 
     updateUnread: func () {
         var msgNodes = me.props.telexReceived.getChildren();
+        var numUnread = 0;
+        var newest = 0;
         foreach (var msgNode; msgNodes) {
             if (msgNode.getValue('status') == 'new') {
-                me.props.unread.setValue(1);
-                break;
+                numUnread += 1;
+                if (newest == 0)
+                    newest = msgNode.getValue('serial');
             }
         }
-        me.props.unread.setValue(0);
+        me.props.unread.setValue(numUnread);
+        me.props.newestUnread.setValue(newest);
     },
 
     clearHistory: func () {

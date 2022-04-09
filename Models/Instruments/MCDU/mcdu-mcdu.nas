@@ -79,6 +79,10 @@ var MCDU = {
         "CPDLC-LOGON": func (mcdu, parent) { return ATCLogonModule.new(mcdu, parent); },
         "CPDLC-LOG": func (mcdu, parent) { return CPDLCLogModule.new(mcdu, parent); },
         "CPDLC-DATALINK": func (mcdu, parent) { return CPDLCDatalinkSetupModule.new(mcdu, parent); },
+        "CPDLC-NEWEST-UPLINK": func (mcdu, parent) {
+            var newestMessage = getprop('/cpdlc/newest-unread');
+            return CPDLCMessageModule.new(mcdu, parent, newestMessage);
+        },
 
         # ACARS modules
         "ACARS-RCVD": func (mcdu, parent) { return ACARSLogModule.new(mcdu, parent, 'RECEIVED'); },
@@ -89,6 +93,10 @@ var MCDU = {
         "ACARS-TAF": func (mcdu, parent) { return ACARSInfoReqModule.new(mcdu, parent, 'taf'); },
         "ACARS-SHORTTAF": func (mcdu, parent) { return ACARSInfoReqModule.new(mcdu, parent, 'shorttaf'); },
         "ACARS-ATIS": func (mcdu, parent) { return ACARSInfoReqModule.new(mcdu, parent, 'atis'); },
+        "ACARS-NEWEST-UNREAD": func (mcdu, parent) {
+            var newestMessage = getprop('/acars/telex/newest-unread');
+            return ACARSMessageModule.new(mcdu, parent, 'RECEIVED', newestMessage);
+        },
 
         # Index modules
         "ATCINDEX": func(mcdu, parent) { return IndexModule.new(mcdu, parent,
@@ -239,7 +247,17 @@ var MCDU = {
                           , [ "ACARS-ATIS", "ATIS" ]
                           , [ "ACARS-PDC", "PREDEP CLX" ]
                           , [ "ACARS-OCC", "OCEANIC CLX" ]
-                          , nil
+                          , [ "ACARS-NEWEST-UNREAD",
+                              func(x, y, ralign) {
+                                return FormatView.new(x - 11, y, mcdu_white | mcdu_large, "ACARS-NEWEST-UNREAD", 5,
+                                    func (serial) {
+                                        if (serial != nil and serial != 0)
+                                            return "NEW MESSAGE" ~ right_triangle;
+                                        else
+                                            return "     ";
+                                    });
+                              }
+                            ]
                         ]); },
         "ACARS-WEATHER": func(mcdu, parent) { return IndexModule.new(mcdu, parent,
                         "WEATHER RQ",
@@ -428,6 +446,7 @@ var MCDU = {
             me.activeModule = module;
         }
         if (me.activeModule != nil) {
+            debug.dump(me.activeModule.getTitle());
             me.activeModule.activate();
             me.activeModule.fullRedraw();
         }

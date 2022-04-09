@@ -20,6 +20,7 @@ var System = {
                 nextStation: nil,
                 history: nil,
                 unread: nil,
+                newestUnread: nil,
                 incoming: nil,
                 driver: nil,
             },
@@ -54,6 +55,8 @@ var System = {
         me.props.messages = me.props.base.getNode('messages', 1);
         me.props.unread = me.props.base.getNode('unread', 1);
         me.props.unread.setValue(0);
+        me.props.newestUnread = me.props.base.getNode('newest-unread', 1);
+        me.props.newestUnread.setValue('');
         me.props.incoming = me.props.base.getNode('incoming', 1);
         me.props.incoming.setValue(0);
         me.props.driver = me.props.base.getNode('driver', 1);
@@ -344,14 +347,19 @@ var System = {
 
     updateUnread: func () {
         var msgNodes = me.props.messages.getChildren();
+        var numUnread = 0;
+        var newest = '';
         foreach (var msgNode; msgNodes) {
             if (msgNode.getValue('status') == 'NEW') {
-                me.props.unread.setValue(1);
-                return;
+                var msg = Message.fromNode(msgNode);
+                newest = msg.getMID();
+                numUnread += 1;
             }
         }
-        me.props.unread.setValue(0);
+        me.props.unread.setValue(numUnread);
+        me.props.newestUnread.setValue(newest);
     },
+
 
     clearHistory: func () {
         me.props.history.removeAllChildren();
