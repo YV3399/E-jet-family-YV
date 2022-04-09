@@ -3309,7 +3309,7 @@ var ACARSConfigModule = {
         ];
         me.controllers = {
             'L1': CycleController.new('ACARS-CONFIG-WEATHER', ['AUTO', 'HOPPIE', 'NOAA', 'OFF']),
-            'L2': CycleController.new('ACARS-CONFIG-ATIS', ['AUTO', 'HOPPIE', 'OFF']),
+            'L2': CycleController.new('ACARS-CONFIG-ATIS', ['AUTO', 'HOPPIE', 'DATIS', 'OFF']),
         };
         append(me.views, StaticView.new( 0, 12, left_triangle ~ me.ptitle, mcdu_white | mcdu_large));
         me.controllers['L6'] = SubmodeController.new("ret");

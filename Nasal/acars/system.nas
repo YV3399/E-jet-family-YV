@@ -162,12 +162,82 @@ var System = {
             if (getprop('/hoppie/status-text') == 'running')
                 mode = 'HOPPIE';
             else
-                mode = 'OFF';
+                mode = 'DATIS';
         }
         if (mode == 'HOPPIE')
             return me.sendHoppieInfoRequest('vatatis', station);
+        elsif (mode == 'DATIS')
+            return me.sendDAtisRequest(station);
         else
             return 0;
+    },
+
+    dAtisTemplate: string.compileTemplate('https://datis.clowd.io/api/{station}'),
+
+    sendDAtisRequest: func (station) {
+        var url = me.dAtisTemplate({'station': station});
+        var errors = [];
+
+        call(func (url) {
+            var self = me;
+            http.load(url)
+                .done(func(r) {
+                    if (r.status == 200) {
+                        var data = json.parse(r.response);
+                        if (typeof(data) == 'vector') {
+                            if (size(data) == 0) {
+                                var msg = {
+                                    type: 'telex',
+                                    from: 'DATIS',
+                                    packet: "ATIS " ~ station ~ ":\nNO ATIS AVAILABLE FOR THIS STATION",
+                                    timestamp: globals.hoppieAcars.getCurrentTimestamp(),
+                                };
+                                self.receive(msg);
+                            }
+                            else {
+                                var msg = {
+                                    type: 'telex',
+                                    from: 'DATIS',
+                                    packet: data[0].datis,
+                                    timestamp: globals.hoppieAcars.getCurrentTimestamp(),
+                                };
+                                self.receive(msg);
+                            }
+                        }
+                        elsif (typeof(data) == 'hash') {
+                            var msg = {
+                                type: 'telex',
+                                from: 'DATIS',
+                                packet: "ATIS " ~ station ~ ":\n" ~ string.uc(data.error or 'THIS STATION IS NOT AVAILABLE'),
+                                timestamp: globals.hoppieAcars.getCurrentTimestamp(),
+                            };
+                            self.receive(msg);
+                        }
+                    }
+                    elsif (r.status == 404) {
+                        var msg = {
+                            type: 'telex',
+                            from: 'DATIS',
+                            packet: "ATIS " ~ station ~ ":\n" ~ 'THIS STATION IS NOT AVAILABLE',
+                            timestamp: globals.hoppieAcars.getCurrentTimestamp(),
+                        };
+                        self.receive(msg);
+                    }
+                    else {
+                        # TODO: handle HTTP error
+                        print(r.status ~ ' ' ~ r.reason);
+                    }
+                })
+                .fail(func (r) {
+                    # TODO
+                    debug.dump(r);
+                });
+        }, [url], me, {}, errors);
+        if (size(errors) > 0) {
+            debug.dump(errors);
+            return 0;
+        }
+        return 1;
     },
 
     noaaTemplates: {
@@ -201,7 +271,7 @@ var System = {
                         var msg = {
                             type: 'telex',
                             from: 'NOAA',
-                            packet: 'THIS STATION IS NOT AVAILABLE',
+                            packet: "ATIS " ~ station ~ ":\n" ~ 'THIS STATION IS NOT AVAILABLE',
                             timestamp: globals.hoppieAcars.getCurrentTimestamp(),
                         };
                         self.receive(msg);
