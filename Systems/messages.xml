@@ -207,5 +207,12 @@
         </input>
         <output>/instrumentation/eicas/messages/electrical/idg2</output>
     </logic>
+
+    <flipflop>
+        <type>monostable</type>
+        <S><property>/cpdlc/incoming</property></S>
+        <time>1.0</time>
+        <output>/instrumentation/eicas/master/cpdlc-incoming</output>
+    </flipflop>
     
 </PropertyList>
