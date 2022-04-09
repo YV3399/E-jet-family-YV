@@ -124,7 +124,7 @@ var System = {
 
     sendMetarRequest: func (station) { me.sendInfoRequest('metar', station); },
     sendTafRequest: func (station) { me.sendInfoRequest('taf', station); },
-    sendAtisRequest: func (station) { me.sendInfoRequest('vatatis', station); },
+    sendAtisRequest: func (station) { me.sendInfoRequest('atis', station); },
 
     sendInfoRequest: func (what, station) {
         if (getprop('/hoppie/status-text') == 'running')
@@ -178,6 +178,7 @@ var System = {
 
     sendHoppieInfoRequest: func (what, station) {
         if (what == nil or what == '') return 0;
+        if (what == 'atis') what = 'vatatis';
         if (station == nil or station == '') return 0;
         var self = me;
         globals.hoppieAcars.send('SERVER', 'inforeq', what ~ ' ' ~ station,
