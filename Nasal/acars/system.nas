@@ -122,10 +122,65 @@ var System = {
         }
     },
 
-    sendInfoRequest: func (what) {
-        if (what == nil) return 0;
+    sendMetarRequest: func (station) { me.sendInfoRequest('metar', station); },
+    sendTafRequest: func (station) { me.sendInfoRequest('taf', station); },
+    sendAtisRequest: func (station) { me.sendInfoRequest('vatatis', station); },
+
+    sendInfoRequest: func (what, station) {
+        if (getprop('/hoppie/status-text') == 'running')
+            me.sendHoppieInfoRequest(what, station);
+        else
+            me.sendNoaaInfoRequest(what, station);
+    },
+
+    noaaTemplates: {
+        'metar': string.compileTemplate('https://tgftp.nws.noaa.gov/data/observations/metar/stations/{station}.TXT'),
+        'taf': string.compileTemplate('https://tgftp.nws.noaa.gov/data/forecasts/taf/stations/{station}.TXT'),
+        'shorttaf': string.compileTemplate('https://tgftp.nws.noaa.gov/data/forecasts/taf/stations/{station}.TXT'),
+    },
+
+    sendNoaaInfoRequest: func (what, station) {
+        var template = me.noaaTemplates[what];
+        if (template == nil) return 0;
+        var url = template({'station': station});
+        var errors = [];
+
+        call(func (url) {
+            var self = me;
+            http.load(url)
+                .done(func(r) {
+                    debug.dump(r.status, r.reason, r.response);
+                    if (r.status == 200) {
+                        var lines = split("\n", r.response);
+                        var packet = string.join("\n", subvec(lines, 1));
+                        var msg = {
+                            type: 'telex',
+                            from: 'NOAA',
+                            packet: packet,
+                            timestamp: globals.hoppieAcars.getCurrentTimestamp(),
+                        };
+                        self.receive(msg);
+                    }
+                    else {
+                        # TODO: handle HTTP error
+                    }
+                })
+                .fail(func {
+                    # TODO
+                });
+        }, [url], me, {}, errors);
+        if (size(errors) > 0) {
+            debug.dump(errors);
+            return 0;
+        }
+        return 1;
+    },
+
+    sendHoppieInfoRequest: func (what, station) {
+        if (what == nil or what == '') return 0;
+        if (station == nil or station == '') return 0;
         var self = me;
-        globals.hoppieAcars.send('SERVER', 'inforeq', what,
+        globals.hoppieAcars.send('SERVER', 'inforeq', what ~ ' ' ~ station,
             func (response) {
                 debug.dump(response);
                 if (string.match(response, 'ok {server info {*}}')) {
