@@ -321,6 +321,8 @@ var keyProps = {
 
     "ACARS-TELEX-TO": "/acars/telex-dialog/to",
     "ACARS-TELEX-TEXT": "/acars/telex-dialog/text",
+
+    "ACARS-INFOREQ-STATION": "/acars/inforeq-dialog/station",
 };
 
 var keyDefs = {

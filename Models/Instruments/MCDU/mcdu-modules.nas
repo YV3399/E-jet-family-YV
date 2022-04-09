@@ -2408,7 +2408,7 @@ var ATCLogonModule = {
                 StaticView.new(20,  9, "DEST", mcdu_white),
                 FormatView.new(20, 10, mcdu_green | mcdu_large, "ARRIVAL-AIRPORT", 4),
 
-                StaticView.new(14, 11, "DATALINK", mcdu_white),
+                StaticView.new(14, 11, "DLK INDEX", mcdu_white),
                 FormatView.new(12, 12, mcdu_green | mcdu_large, "CPDLC-DATALINK-STATUS", 12, "%12s",
                     func(val) {
                         if (val)
@@ -3325,13 +3325,56 @@ var ACARSLogModule = {
             r -= 1;
             y += 2;
         }
-        append(me.views, StaticView.new( 0, 12, left_triangle ~ "DATALINK", mcdu_white | mcdu_large));
+        append(me.views, StaticView.new( 0, 12, left_triangle ~ "DLK INDEX", mcdu_white | mcdu_large));
         append(me.views, StaticView.new(14, 12, "CLEAR LOG" ~ right_triangle, mcdu_white | mcdu_large));
         me.controllers['L6'] = SubmodeController.new("ret");
         me.controllers['R6'] = FuncController.new(func (owner, val) {
             globals.acars.system.clearHistory();
             return nil;
         });
+    },
+};
+
+var ACARSInfoReqModule = {
+    new: func (mcdu, parentModule, what) {
+        var m = BaseModule.new(mcdu, parentModule);
+        m.parents = prepended(ACARSInfoReqModule, m.parents);
+        m.what = what;
+        return m;
+    },
+
+    getTitle: func () {
+        return string.uc(me.what) ~ " RQ";
+    },
+
+    getNumPages: func {
+        return 1;
+    },
+
+    loadPageItems: func(n) {
+        me.views = [
+            StaticView.new(15, 1, "STATION", mcdu_white),
+            FormatView.new(19, 2, mcdu_green | mcdu_large, "ACARS-INFOREQ-STATION", 4, orBoxes(4, 1)),
+
+            StaticView.new( 0, 12, left_triangle ~ "DLK INDEX", mcdu_white | mcdu_large),
+            FormatView.new(19, 12, mcdu_white | mcdu_large, "ACARS-INFOREQ-STATION", 5,
+                func (station) {
+                    if (station != nil and station != '')
+                        return "SEND" ~ right_triangle;
+                    else
+                        return "     ";
+                }),
+        ];
+
+        me.controllers = {
+            'R1': ModelController.new('ACARS-INFOREQ-STATION'),
+
+            'L6': SubmodeController.new('ret'),
+            'R6': FuncController.new(func (owner, val) {
+                        if (globals.acars.system.sendInfoRequest(owner.what))
+                            owner.ret();
+                    }),
+        };
     },
 };
 
@@ -3388,7 +3431,7 @@ var ACARSPDCModule = {
             StaticView.new(1, 7, "GATE", mcdu_white),
             FormatView.new(1, 8, mcdu_green | mcdu_large, "ACARS-PDC-GATE", 8, orBoxes(8)),
 
-            StaticView.new( 0, 12, left_triangle ~ "DATALINK", mcdu_white | mcdu_large),
+            StaticView.new( 0, 12, left_triangle ~ "DLK INDEX", mcdu_white | mcdu_large),
             FormatView.new(19, 12, mcdu_white | mcdu_large, "ACARS-PDC-VALID", 5,
                 func (valid) {
                     if (valid)
@@ -3442,7 +3485,7 @@ var ACARSTelexModule = {
             StaticView.new(1, 3, "TEXT", mcdu_white),
             FormatView.new(1, 4, mcdu_green | mcdu_large, "ACARS-TELEX-TEXT", 22, orDashes(22)),
 
-            StaticView.new( 0, 12, left_triangle ~ "DATALINK", mcdu_white | mcdu_large),
+            StaticView.new( 0, 12, left_triangle ~ "DLK INDEX", mcdu_white | mcdu_large),
             FormatView.new(19, 12, mcdu_white | mcdu_large, "ACARS-TELEX-TO", 5,
                 func (to) {
                     if (to != nil and to != '')
