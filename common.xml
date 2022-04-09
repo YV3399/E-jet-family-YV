@@ -2506,6 +2506,9 @@
     </input>
 
     <nasal>
+        <json>
+            <file>Aircraft/E-jet-family/Nasal/json.nas</file>
+        </json>
         <polyfill>
             <file>Aircraft/E-jet-family/Nasal/polyfill.nas</file>
         </polyfill>
