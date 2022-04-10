@@ -174,6 +174,16 @@ var System = {
 
     dAtisTemplate: string.compileTemplate('https://datis.clowd.io/api/{station}'),
 
+    injectSystemMessage: func (from, packet) {
+        var msg = {
+            type: 'telex',
+            from: '$' ~ from,
+            packet: packet,
+            timestamp: me.getCurrentTimestamp(),
+        };
+        me.receive(msg);
+    },
+
     sendDAtisRequest: func (station) {
         var url = me.dAtisTemplate({'station': station});
         var errors = [];
@@ -183,54 +193,33 @@ var System = {
             http.load(url)
                 .done(func(r) {
                     if (r.status == 200) {
-                        var data = json.parse(r.response);
-                        if (typeof(data) == 'vector') {
-                            if (size(data) == 0) {
-                                var msg = {
-                                    type: 'telex',
-                                    from: 'DATIS',
-                                    packet: "ATIS " ~ station ~ ":\nNO ATIS AVAILABLE FOR THIS STATION",
-                                    timestamp: globals.hoppieAcars.getCurrentTimestamp(),
-                                };
-                                self.receive(msg);
-                            }
-                            else {
-                                var msg = {
-                                    type: 'telex',
-                                    from: 'DATIS',
-                                    packet: data[0].datis,
-                                    timestamp: globals.hoppieAcars.getCurrentTimestamp(),
-                                };
-                                self.receive(msg);
-                            }
+                        var data = call(json.parse, [r.response], nil, errors);
+                        if (size(errors) != 0) {
+                            debug.dump(errors);
+                            self.injectSystemMessage('DATIS', 'DATALINK ERROR');
                         }
-                        elsif (typeof(data) == 'hash') {
-                            var msg = {
-                                type: 'telex',
-                                from: 'DATIS',
-                                packet: "ATIS " ~ station ~ ":\n" ~ string.uc(data.error or 'THIS STATION IS NOT AVAILABLE'),
-                                timestamp: globals.hoppieAcars.getCurrentTimestamp(),
-                            };
-                            self.receive(msg);
+                        elsif (typeof(data) == 'vector') {
+                            if (size(data) == 0)
+                                self.injectSystemMessage('DATIS', "ATIS " ~ station ~ ":\nNO ATIS AVAILABLE FOR THIS STATION");
+                            else
+                                self.injectSystemMessage('DATIS', data[0].datis);
                         }
+                        elsif (typeof(data) == 'hash')
+                            self.injectSystemMessage('DATIS', "ATIS " ~ station ~ ":\n" ~ string.uc(data.error or 'THIS STATION IS NOT AVAILABLE'));
                     }
                     elsif (r.status == 404) {
-                        var msg = {
-                            type: 'telex',
-                            from: 'DATIS',
-                            packet: "ATIS " ~ station ~ ":\n" ~ 'THIS STATION IS NOT AVAILABLE',
-                            timestamp: globals.hoppieAcars.getCurrentTimestamp(),
-                        };
-                        self.receive(msg);
+                        self.injectSystemMessage('DATIS', "ATIS " ~ station ~ ":\n" ~ 'THIS STATION IS NOT AVAILABLE');
                     }
                     else {
                         # TODO: handle HTTP error
                         print(r.status ~ ' ' ~ r.reason);
+                        self.injectSystemMessage('DATIS', 'DATALINK ERROR');
                     }
                 })
                 .fail(func (r) {
                     # TODO
                     debug.dump(r);
+                    self.injectSystemMessage('DATIS', 'DATALINK ERROR');
                 });
         }, [url], me, {}, errors);
         if (size(errors) > 0) {
@@ -259,31 +248,21 @@ var System = {
                     if (r.status == 200) {
                         var lines = split("\n", r.response);
                         var packet = string.join("\n", subvec(lines, 1));
-                        var msg = {
-                            type: 'telex',
-                            from: 'NOAA',
-                            packet: packet,
-                            timestamp: globals.hoppieAcars.getCurrentTimestamp(),
-                        };
-                        self.receive(msg);
+                        self.injectSystemMessage('NOAA', packet);
                     }
                     elsif (r.status == 404) {
-                        var msg = {
-                            type: 'telex',
-                            from: 'NOAA',
-                            packet: "ATIS " ~ station ~ ":\n" ~ 'THIS STATION IS NOT AVAILABLE',
-                            timestamp: globals.hoppieAcars.getCurrentTimestamp(),
-                        };
-                        self.receive(msg);
+                        self.injectSystemMessage('NOAA', "ATIS " ~ station ~ ":\n" ~ 'THIS STATION IS NOT AVAILABLE');
                     }
                     else {
                         # TODO: handle HTTP error
                         print(r.status ~ ' ' ~ r.reason);
+                        self.injectSystemMessage('DATIS', 'DATALINK ERROR');
                     }
                 })
                 .fail(func (r) {
                     # TODO
                     debug.dump(r);
+                    self.injectSystemMessage('DATIS', 'DATALINK ERROR');
                 });
         }, [url], me, {}, errors);
         if (size(errors) > 0) {
@@ -304,13 +283,7 @@ var System = {
                                 substr(response,
                                     size('ok {server info {'),
                                     size(response) - size('ok {server info {}}')));
-                    var msg = {
-                        type: 'telex',
-                        from: 'SYSTEM',
-                        packet: packet,
-                        timestamp: globals.hoppieAcars.getCurrentTimestamp(),
-                    };
-                    self.receive(msg);
+                    self.injectSystemMessage('HOPPIE', packet);
                 }
             });
         return 1;
@@ -388,6 +361,17 @@ var System = {
         me.props.telexReceived.removeAllChildren();
         me.props.telexSent.removeAllChildren();
         me.updateUnread();
+    },
+
+    getCurrentTimestamp: func () {
+        var utcNode = props.globals.getNode('/sim/time/utc');
+        return sprintf('%04u%02u%02uT%02u%02u%02u',
+            utcNode.getValue('year'),
+            utcNode.getValue('month'),
+            utcNode.getValue('day'),
+            utcNode.getValue('hour'),
+            utcNode.getValue('minute'),
+            utcNode.getValue('second'));
     },
 };
 
