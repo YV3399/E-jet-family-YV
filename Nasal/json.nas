@@ -142,8 +142,6 @@ var Parser = {
                     c = "\r";
                 elsif (c == 't')
                     c = "\t";
-                elsif (c == 'b')
-                    c = "\b";
                 elsif (c == 'u') {
                     var hexStr = '0x' ~ me.consumeN(4);
                     c = utf8.chstr(int(hexStr));
