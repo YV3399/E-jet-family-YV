@@ -34,6 +34,14 @@ var Parser = {
         return result;
     },
 
+    consumeN: func (n) {
+        if (size(me.src) < n)
+            die('Unexpected end of input');
+        var result = substr(me.src, 0, n);
+        me.src = substr(me.src, n);
+        return result;
+    },
+
     test: func (what) {
         var len = size(what);
         return (substr(me.src, 0, len) == what);
@@ -136,8 +144,10 @@ var Parser = {
                     c = "\t";
                 elsif (c == 'b')
                     c = "\b";
-                elsif (c == 'u')
-                    die('Unicode escapes not supported yet');
+                elsif (c == 'u') {
+                    var hexStr = '0x' ~ me.consumeN(4);
+                    c = utf8.chstr(int(hexStr));
+                }
             }
             result = result ~ c;
         }
@@ -200,6 +210,7 @@ var parse = func (src) {
 #     '{"foo":"bar"}',
 #     '{"foo":"bar", "baz": "quux"}',
 #     '{"foo": 123, "baz": \'quux\'}',
+#     '"\u2603"'
 # ];
 # foreach (var testDocument; testDocuments)
 #     debug.dump(testDocument, parse(testDocument));
