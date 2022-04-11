@@ -845,6 +845,27 @@ backend, you will need to install and configure the <a href="https://github.com/
 addon</a>. The addon is automatically
 detected and used if it is loaded properly.</p>
 
+<p>Some ACARS services can also be configured to use other (non-Hoppie) backends.
+To configure ACARS backends, go to the "DLK" MCDU page, and select "ACARS CFG"
+(LSK L5). At the moment, these configurable services are:</p>
+
+<ul>
+<li><strong>WEATHER</strong> (METAR, TAF, SHORTTAF). Available options are HOPPIE (uses the
+Hoppie ACARS system's VATSIM weather feature), NOAA (fetches weather
+information over HTTP, from noaa.gov's free service, the same as what FG
+itself uses), AUTO (uses HOPPIE when available, NOAA otherwise), and OFF
+(turn off the weather backend).</li>
+<li><strong>ATIS</strong>. Available options are HOPPIE (uses Hoppie ACARS to fetch VATSIM
+ATIS; this only works for stations that have an active ATIS on VATSIM at the
+time of sending the request), DATIS (uses the FAA's d-atis service; this will
+provide real-world ATIS, but only for supported airports in the US), AUTO
+(uses HOPPIE if available, DATIS otherwise), and OFF (turn off the ATIS
+backend).</li>
+</ul>
+
+<p>The "FREEFORM" (TELEX) and "PREDEP CLX" features always use HOPPIE if
+available, and will not function otherwise.</p>
+
 <p>For CPDLC, three transport backends are supported:</p>
 
 <ul>
@@ -870,6 +891,9 @@ able to read them and issue standard and free text replies, but variables
 will not be detected, and message-specific reply options will not be given.</li>
 </ul>
 
+<p>To select a CPDLC backend, on the MCDU, go to the NAV page, then select "ATC"
+(LSK R1), go to page 2, and select "DATALINK CFG" (LSK L1).</p>
+
 <p>Note that selecting a backend other than HOPPIE for CPDLC will still keep the
 ACARS system on the Hoppie network; if you are flying on FGMP and wish to
 communicate via the FGMP IRC, then you will have to use CPDLC for that; ACARS
@@ -884,9 +908,9 @@ will not work.</p>
 <li>SENT MESSAGES: a log of TELEX messages you sent.</li>
 <li>FREEFORM: send a free-form TELEX message.</li>
 <li>WEATHER: request METAR (not implemented yet)</li>
-<li>ATIS: request ATIS (not implemented yet)</li>
+<li>ATIS: request ATIS</li>
 <li>PREDEP CLX: compose and send a PDC request over ACARS (this is the default
-method on VATSIM).</li>
+method on VATSIM; the response will be given via CPDLC).</li>
 <li>OCEANIC CLX: compose and send an oceanic clearance request over ACARS (not
 implemented yet).</li>
 </ul>
