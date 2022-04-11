@@ -3727,6 +3727,7 @@ var ACARSMessageModule = {
     printMessage: func {
         if (me.msgNode == nil) return;
         var msgTxt = me.msgNode.getValue('text');
+        debug.dump(msgTxt, lineWrap(msgTxt, printer.paperWidth, '...'));
         var lines =
                 [ "--- ACARS BEGIN ---"
                 , sprintf("%s %s %s",
