@@ -2873,15 +2873,16 @@ var CPDLCMessageModule = {
             me.min = nil;
             me.pages = [];
             me.parts = [];
+            me.message = nil;
         }
         else {
-            var message = cpdlc.Message.fromNode(messageNode);
-            me.elems = cpdlc.formatMessageFancy(message.parts);
-            me.dir = message.dir;
-            me.status = message['status'] or 'OLD';
-            me.station = (me.dir == 'down') ? message.to : message.from;
+            me.message = cpdlc.Message.fromNode(messageNode);
+            me.elems = cpdlc.formatMessageFancy(me.message.parts);
+            me.dir = me.message.dir;
+            me.status = me.message['status'] or 'OLD';
+            me.station = (me.dir == 'down') ? me.message.to : me.message.from;
             me.timestamp = messageNode.getValue('timestamp');
-            me.parts = message.parts;
+            me.parts = me.message.parts;
 
             # Mark as read *after* loading the message, so that the status
             # still shows as 'NEW'
@@ -2909,9 +2910,9 @@ var CPDLCMessageModule = {
             }
 
             if (me.dir == 'up') {
-                me.ra = message.getRA() or '';
+                me.ra = me.message.getRA() or '';
                 me.replies = [];
-                var ty = cpdlc.uplink_messages[message.parts[0].type];
+                var ty = cpdlc.uplink_messages[me.message.parts[0].type];
                 if (ty != nil and ty['replies'] != nil) {
                     me.replies = ty['replies'];
                 }
@@ -2919,9 +2920,28 @@ var CPDLCMessageModule = {
             else {
                 me.ra = '';
             }
-            me.min = message.min;
+            me.min = me.message.min;
             me.makePages();
         }
+    },
+
+    printMessage: func {
+        if (me.message == nil) return;
+        var msgTxt = cpdlc.formatMessage(me.message.parts);
+        var lines =
+                [ "--- CPDLC BEGIN ---"
+                , sprintf("%02u:%02u %s %s",
+                    substr(me.message.timestamp, 0, 2),
+                    substr(me.message.timestamp, 2, 2),
+                    me.message.from,
+                    me.message.to)
+                , ''
+                ] ~
+                lineWrap(msgTxt, printer.paperWidth, '...') ~
+                [ "--- CPDLC END ---"
+                , ''
+                ];
+        printer.newJob(lines);
     },
 
     makePages: func () {
@@ -3002,8 +3022,8 @@ var CPDLCMessageModule = {
         var color = mcdu_white;
         var lineSel = unevenLine;
 
+        var first = 0;
         foreach (var part; me.elems) {
-            var first = 1;
             foreach (var elem; part) {
                 var val = elem.value;
                 if (first) {
@@ -3030,10 +3050,10 @@ var CPDLCMessageModule = {
                 if (val == '') val = '----------------';
                 var words = split(' ', val);
                 var line = '';
+                lineSel();
                 foreach (var word; words) {
                     if (size(line) == 0) {
                         while (size(word) > 24) {
-                            lineSel();
                             append(views, StaticView.new(0, y, substr(word, 0, 22) ~ '..', color));
                             nextLine();
                             word = substr(word, 22);
@@ -3042,7 +3062,6 @@ var CPDLCMessageModule = {
                     }
                     else {
                         if (size(line) + 1 + size(word) > 24) {
-                            lineSel();
                             append(views, StaticView.new(0, y, line, color));
                             nextLine();
                             line = word;
@@ -3053,11 +3072,11 @@ var CPDLCMessageModule = {
                     }
                 }
                 if (size(line) > 0) {
-                    lineSel();
                     append(views, StaticView.new(0, y, line, color));
                     nextLine();
                 }
             }
+            first = 1;
         }
 
         evenLine();
@@ -3066,8 +3085,8 @@ var CPDLCMessageModule = {
             append(views, StaticView.new(14, y, me.replyTimestamp, mcdu_green | mcdu_large));
             append(views, StaticView.new(18, y, "Z", mcdu_green));
             append(views, StaticView.new(19, y, " <<<<", mcdu_white | mcdu_large));
-            nextLine();
         }
+        nextLine();
 
         if (me.ra != '' and me.status == 'OPEN') {
             evenLine(8);
@@ -3234,13 +3253,18 @@ var CPDLCMessageModule = {
                         append(views, StaticView.new(12, y, sprintf("%11s", title) ~ right_triangle, mcdu_white));
                         controllers[lsk('R')] = ctrl;
                         left = 1;
-                        nextLine(); evenLine();
+                        nextLine();
                     }
                 }
             }
             # append(views, StaticView.new(12, y, '      APPLY' ~ right_triangle, mcdu_white));
-            nextLine();
+            # nextLine();
         }
+
+        unevenLine();
+        evenLine();
+        append(views, StaticView.new(12, y, sprintf("%11s", 'PRINT') ~ right_triangle, mcdu_white));
+        controllers[lsk('R')] = FuncController.new(func (owner, val) { return owner.printMessage(); });
 
         if (size(views))
             nextPage();
@@ -3659,6 +3683,25 @@ var ACARSMessageModule = {
         return lines;
     },
 
+    printMessage: func {
+        if (me.msgNode == nil) return;
+        var msgTxt = me.msgNode.getValue('text');
+        var lines =
+                [ "--- ACARS BEGIN ---"
+                , sprintf("%s %s %s",
+                    me.msgNode.getValue('timestamp'),
+                    me.msgNode.getValue('from'),
+                    me.msgNode.getValue('to') or getprop('/sim/multiplay/callsign'))
+                , ''
+                ] ~
+                lineWrap(msgTxt, printer.paperWidth, '...') ~
+                [ "--- ACARS END ---"
+                , ''
+                ];
+        printer.newJob(string.join("\n", lines));
+    },
+
+
     getNumPages: func () {
         return math.max(1, math.ceil((size(me.lines) + 2) / 9));
     },
@@ -3694,6 +3737,8 @@ var ACARSMessageModule = {
         }
         append(me.views, StaticView.new( 0, 12, left_triangle ~ me.ptitle, mcdu_white | mcdu_large));
         me.controllers['L6'] = SubmodeController.new("ret");
+        append(me.views, StaticView.new(12, 12, sprintf("%11s", 'PRINT') ~ right_triangle, mcdu_white));
+        me.controllers['R6'] = FuncController.new(func (owner, val) { return owner.printMessage(); });
     },
 };
 

@@ -123,7 +123,7 @@ var HoppieDriver = {
                 var type = me._matchCPDLCMessageType(rawPart[0], rawPart[1]);
                 var args = rawPart[1];
                 if (type == nil) {
-                    args = [m];
+                    args = [string.replace(m, "@", " ")];
                     if (cpdlc.ra == 'WU')
                         type = 'TXTU-4';
                     elsif (cpdlc.ra == 'AN')

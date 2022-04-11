@@ -177,7 +177,7 @@ var System = {
     injectSystemMessage: func (from, packet) {
         var msg = {
             type: 'telex',
-            from: '$' ~ from,
+            from: 'SYS:' ~ from,
             packet: packet,
             timestamp: me.getCurrentTimestamp(),
         };

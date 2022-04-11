@@ -386,3 +386,32 @@ var orBoxes = func (length, ralign=0) {
             return sprintf('%' ~ (ralign ? '' : '-') ~ length ~ "s", val);
     }
 };
+
+var lineWrap = func (txt, maxLength, ellipse='..') {
+    var lines = [];
+    var line = [];
+    var getLineLen = func (words) {
+        var len = 0;
+        foreach (var word; words)
+            len = len + utf8.size(word);
+        return len + math.max(size(words) - 1, 0);
+    };
+    var pushLine = func {
+        if (size(line) == 0) return;
+        append(lines, string.join(' ', line));
+        line = [];
+    };
+    var rawLines = split("\n", txt);
+    foreach (var rawLine; rawLines) {
+        var words = split(' ', txt);
+        foreach (var word; words) {
+            if (getLineLen(line ~ [word]) >= maxLength)
+                pushLine();
+            if (utf8.size(word) > maxLength)
+                word = utf8.substr(word, 0, maxLength - utf8.size(ellipse)) ~ ellipse;
+            append(line, word);
+        }
+        pushLine();
+    }
+    return lines;
+};

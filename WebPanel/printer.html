@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Flightdeck Printer</title>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+        <meta name="apple-mobile-web-app-status-bar" content="#db4938" />
+        <meta name="theme-color" content="#db4938" />
+        <link rel="stylesheet" href="./printer.css" />
+    </head>
+    <body>
+        <div class="columns">
+            <div class="column">
+                <h3>Printer</h3>
+                <div class="printer">
+                    <div id="current" class="paper current"></div>
+                </div>
+                <div class="buttons">
+                    <button type="button" id="cutPaper">Cut Paper</button>
+                </div>
+            </div>
+            <div class="column">
+                <h3>Clipboard</h3>
+                <div class="clipboard">
+                    <div id="archive" class="paper"></div>
+                </div>
+                <div class="buttons">
+                    <button type="button" id="archivePrev">←</button>
+                    <button type="button" id="archiveNext">→</button>
+                    <button type="button" id="archiveDelete">Discard</button>
+                </div>
+            </div>
+            <div class="column">
+                <h3>Manual Input</h3>
+                <form class="printform" action="#">
+                    <textarea id="printJob"></textarea>
+                    <div class="buttons">
+                        <button type="button" id="sendPrintJob">Print</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <script src="printer.js"></script>
+    </body>
+</html>
