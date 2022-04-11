@@ -799,6 +799,25 @@ backend, you will need to install and configure the [Hoppie ACARS
 addon](https://github.com/tdammers/fg-hoppie-acars). The addon is automatically
 detected and used if it is loaded properly.
 
+Some ACARS services can also be configured to use other (non-Hoppie) backends.
+To configure ACARS backends, go to the "DLK" MCDU page, and select "ACARS CFG"
+(LSK L5). At the moment, these configurable services are:
+
+- **WEATHER** (METAR, TAF, SHORTTAF). Available options are HOPPIE (uses the
+  Hoppie ACARS system's VATSIM weather feature), NOAA (fetches weather
+  information over HTTP, from noaa.gov's free service, the same as what FG
+  itself uses), AUTO (uses HOPPIE when available, NOAA otherwise), and OFF
+  (turn off the weather backend).
+- **ATIS**. Available options are HOPPIE (uses Hoppie ACARS to fetch VATSIM
+  ATIS; this only works for stations that have an active ATIS on VATSIM at the
+  time of sending the request), DATIS (uses the FAA's d-atis service; this will
+  provide real-world ATIS, but only for supported airports in the US), AUTO
+  (uses HOPPIE if available, DATIS otherwise), and OFF (turn off the ATIS
+  backend).
+
+The "FREEFORM" (TELEX) and "PREDEP CLX" features always use HOPPIE if
+available, and will not function otherwise.
+
 For CPDLC, three transport backends are supported:
 
 - **"NONE"**, a dummy backend that never becomes available. This backend can be
@@ -822,6 +841,9 @@ For CPDLC, three transport backends are supported:
   able to read them and issue standard and free text replies, but variables
   will not be detected, and message-specific reply options will not be given.
 
+To select a CPDLC backend, on the MCDU, go to the NAV page, then select "ATC"
+(LSK R1), go to page 2, and select "DATALINK CFG" (LSK L1).
+
 Note that selecting a backend other than HOPPIE for CPDLC will still keep the
 ACARS system on the Hoppie network; if you are flying on FGMP and wish to
 communicate via the FGMP IRC, then you will have to use CPDLC for that; ACARS
@@ -835,9 +857,9 @@ ACARS functionality can be accessed through the DLK menu. Options include:
 - SENT MESSAGES: a log of TELEX messages you sent.
 - FREEFORM: send a free-form TELEX message.
 - WEATHER: request METAR (not implemented yet)
-- ATIS: request ATIS (not implemented yet)
+- ATIS: request ATIS
 - PREDEP CLX: compose and send a PDC request over ACARS (this is the default
-  method on VATSIM).
+  method on VATSIM; the response will be given via CPDLC).
 - OCEANIC CLX: compose and send an oceanic clearance request over ACARS (not
   implemented yet).
 
