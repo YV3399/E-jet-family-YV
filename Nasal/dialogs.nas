@@ -13,6 +13,7 @@ var Dialogs = {
     mcdu1: gui.Dialog.new("sim/gui/dialogs/mcdu1/dialog", dialogs_path~"mcdu1-dlg.xml"),
     mcdu2: gui.Dialog.new("sim/gui/dialogs/mcdu2/dialog", dialogs_path~"mcdu2-dlg.xml"),
     mcduweb: gui.Dialog.new("sim/gui/dialogs/mcduweb/dialog", dialogs_path~"mcduweb.xml"),
+    webprinter: gui.Dialog.new("sim/gui/dialogs/webprinter/dialog", dialogs_path~"webprinter.xml"),
     pfd1: gui.Dialog.new("sim/gui/dialogs/pfd1/dialog", dialogs_path~"pfd1-dlg.xml"),
     pfd2: gui.Dialog.new("sim/gui/dialogs/pfd2/dialog", dialogs_path~"pfd2-dlg.xml"),
     mfd1: gui.Dialog.new("sim/gui/dialogs/mfd1/dialog", dialogs_path~"mfd1-dlg.xml"),

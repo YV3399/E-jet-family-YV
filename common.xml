@@ -441,7 +441,7 @@
         <menubar>
             <default>
                 <menu n="99">
-                    <label>EFIS Screens</label>
+                    <label>Instruments</label>
                     <enabled type="bool">true</enabled>
                     <item>
                         <name>pfd1</name>
@@ -505,6 +505,14 @@
                         <binding>
                             <command>dialog-show</command>
                             <dialog-name>mcduweb</dialog-name>
+                        </binding>
+                    </item>
+                    <item>
+                        <name>webprinter</name>
+                        <label>Remote Printer</label>
+                        <binding>
+                            <command>dialog-show</command>
+                            <dialog-name>webprinter</dialog-name>
                         </binding>
                     </item>
                 </menu>
