@@ -102,6 +102,7 @@ var MCDU = {
         # Index modules
         "ATCINDEX": func(mcdu, parent) { return IndexModule.new(mcdu, parent,
                         "ATC INDEX",
+                        "ATC INDEX",
                         [ # PAGE 1
                           [ "CPDLC-EMERGENCY", "EMERGENCY" ]
                         , [ "CPDLC-REQUEST", "REQUEST" ]
@@ -133,6 +134,7 @@ var MCDU = {
                         , nil
                         ]); },
         "CPDLC-REPORT": func(mcdu, parent) { return IndexModule.new(mcdu, parent,
+                        "REPORT",
                         "REPORT",
                         [ # PAGE 1
                           [ "CPDLC-DOWNLINK-LATD-3", "CLR/WEATHER" ]
@@ -167,6 +169,7 @@ var MCDU = {
                         ]); },
         "CPDLC-EMERGENCY": func(mcdu, parent) { return IndexModule.new(mcdu, parent,
                         "EMERGENCY",
+                        "EMERGENCY",
                         [ # PAGE 1
                           [ "CPDLC-DOWNLINK-EMGD-1", "PAN PAN" ]
                         , [ "CPDLC-DOWNLINK-EMGD-2", "MAYDAY" ]
@@ -183,6 +186,7 @@ var MCDU = {
                         , nil
                         ]); },
         "CPDLC-REQUEST": func(mcdu, parent) { return IndexModule.new(mcdu, parent,
+                        "REQUEST",
                         "REQUEST",
                         [ # PAGE 1
                           [ "CPDLC-DOWNLINK-RTED-2", "FREEFORM" ]
@@ -201,6 +205,7 @@ var MCDU = {
                         ]); },
         "CPDLC-WHENCANWE": func(mcdu, parent) { return IndexModule.new(mcdu, parent,
                         "WHEN CAN WE",
+                        "WHEN CAN",
                         [ # PAGE 1
                           [ "CPDLC-DOWNLINK-RTED-8", "BACK ON ROUTE" ]
                         , [ "CPDLC-DOWNLINK-LVLD-6", "LOWER" ]
@@ -218,6 +223,7 @@ var MCDU = {
                         ]); },
         "CPDLC-CLEARANCE": func(mcdu, parent) { return IndexModule.new(mcdu, parent,
                         "CLEARANCE",
+                        "CLEARANCE",
                         [ # PAGE 1
                           [ "CPDLC-DOWNLINK-RTED-2", "ROUTE" ]
                         , [ "CPDLC-DOWNLINK-RTED-3", "TYPE" ]
@@ -234,6 +240,7 @@ var MCDU = {
                         , nil
                         ]); },
         "DATALINK": func(mcdu, parent) { return IndexModule.new(mcdu, parent,
+                        "DATALINK INDEX",
                         "DLK INDEX",
                         [ # PAGE 1
                             [ "ACARS-RCVD", "RCVD MSGS" ]
@@ -262,13 +269,14 @@ var MCDU = {
                         ]); },
         "ACARS-WEATHER": func(mcdu, parent) { return IndexModule.new(mcdu, parent,
                         "WEATHER RQ",
+                        "WEATHER",
                         [ # PAGE 1
                             [ "ACARS-METAR", "METAR" ]
                           , [ "ACARS-TAF", "TAF" ]
                           , [ "ACARS-SHORTTAF", "SHORTTAF" ]
                           , nil
                           , nil
-                          , [ "ret", "DATALINK INDEX" ]
+                          , [ "ret", "DLK INDEX" ]
 
                           , nil
                           , nil
@@ -288,6 +296,7 @@ var MCDU = {
                             ]
                         ]); },
         "NAVINDEX": func(mcdu, parent) { return IndexModule.new(mcdu, parent,
+                        "NAV INDEX",
                         "NAV INDEX",
                         [ # PAGE 1
                           [ "NAVIDENT", "NAV IDENT" ]
@@ -321,6 +330,7 @@ var MCDU = {
                         ]); },
         "PATTERNS": func(mcdu, parent) { return IndexModule.new(mcdu, parent,
                         "PATTERNS",
+                        "PATTERNS",
                         [ # PAGE 1
                           [ "PATTERN-HOLD", "HOLD" ],
                           [ "PATTERN-FLYOVER", "FLYOVER" ],
@@ -338,6 +348,7 @@ var MCDU = {
                         ]); },
         "PERFINDEX": func(mcdu, parent) { return IndexModule.new(mcdu, parent,
                         "PERF INDEX",
+                        "PERF IDX",
                         [ # PAGE 1
                           [ "PERFINIT", "PERF INIT" ],
                           [ "PERF-PLAN", "PERF PLAN" ],
