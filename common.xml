@@ -2506,12 +2506,15 @@
     </input>
 
     <nasal>
-        <json>
-            <file>Aircraft/E-jet-family/Nasal/json.nas</file>
-        </json>
         <polyfill>
             <file>Aircraft/E-jet-family/Nasal/polyfill.nas</file>
         </polyfill>
+        <json>
+            <file>Aircraft/E-jet-family/Nasal/json.nas</file>
+        </json>
+        <printer>
+            <file>Aircraft/E-jet-family/Nasal/printer.nas</file>
+        </printer>
         <datetime>
             <file>Aircraft/E-jet-family/Nasal/datetime.nas</file>
         </datetime>

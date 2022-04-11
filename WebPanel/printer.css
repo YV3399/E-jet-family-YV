@@ -1,0 +1,60 @@
+html {
+    background-color: grey;
+    font-family: sans-serif;
+}
+
+.printer,
+.clipboard {
+    width: 320px;
+    height: 580px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    margin: 2px;
+}
+
+.printer {
+    display: flex;
+    flex-direction: column-reverse;
+}
+
+.printer .paper {
+    margin-bottom: 0;
+}
+
+.paper {
+    font-family: monospace;
+    font-size: 12px;
+    width: 312px;
+    background-color: white;
+    color: black;
+    padding: 10px;
+    border: none;
+    box-shadow: 4px 4px 4px rgba(0,0,0,0.25);
+    box-sizing: border-box;
+    margin: 4px;
+}
+
+.printform textarea {
+    height: 300px;
+    width: 312px;
+    box-sizing: border-box;
+    margin: 2px;
+}
+
+.columns {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.column {
+    width: 320px;
+    overflow: hidden;
+    background-color: silver;
+    margin: 2px;
+    padding: 8px;
+}
+
+h3 {
+    margin: 0;
+    padding: 0;
+}
