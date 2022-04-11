@@ -8,13 +8,18 @@ var BaseModule = {
         var maxw = math.round(cells_x / 2) - 1;
         m.ptitle = nil;
         if (parentModule != nil) {
-            m.ptitle = sprintf("%s %d/%d",
-                parentModule.getTitle(),
-                parentModule.page + 1,
-                parentModule.getNumPages());
+            if (parentModule.getNumPages() > 1) {
+                m.ptitle = sprintf("%s %d/%d",
+                    parentModule.getShortTitle(),
+                    parentModule.page + 1,
+                    parentModule.getNumPages());
+            }
+            else {
+                m.ptitle = parentModule.getShortTitle();
+            }
         }
         if (m.ptitle != nil and size(m.ptitle) > maxw) {
-            m.ptitle = parentModule.getTitle();
+            m.ptitle = parentModule.getShortTitle();
         }
         if (m.ptitle != nil and size(m.ptitle) > maxw) {
             m.ptitle = substr(m.ptitle, 0, maxw);
@@ -34,9 +39,9 @@ var BaseModule = {
         return 1;
     },
 
-    getTitle: func() {
-        return "MODULE";
-    },
+    getTitle: func() { return "MODULE"; },
+
+    getShortTitle: func { return me.getTitle(); },
 
     loadPage: func (n) {
         me.loadPageItems(n);
@@ -535,6 +540,10 @@ var FlightPlanModule = {
         return me.fpStatus ~ " FLT PLAN";
     },
 
+    getShortTitle: func () {
+        return me.fpStatus ~ " FPL";
+    },
+
     deleteWP: func (wpi) {
         if (wpi > 0) {
             me.fp.deleteWP(wpi);
@@ -885,6 +894,9 @@ var PerfInitModule = {
     getTitle: func () {
         return "PERFORMANCE INIT-KG";
     },
+    getShortTitle: func () {
+        return "PERF INIT";
+    },
 
     loadPageItems: func (n) {
         if (n == 0) {
@@ -1187,11 +1199,12 @@ var PerfDataModule = {
 
 
 var IndexModule = {
-    new: func (mcdu, parentModule, title, items) {
+    new: func (mcdu, parentModule, title, shorttitle, items) {
         var m = BaseModule.new(mcdu, parentModule);
         m.parents = prepended(IndexModule, m.parents);
         m.items = items;
         m.title = title;
+        m.shorttitle = shorttitle or title;
         return m;
     },
 
@@ -1200,6 +1213,7 @@ var IndexModule = {
     },
 
     getTitle: func () { return me.title; },
+    getShortTitle: func () { return me.shorttitle; },
 
     loadPageItems: func (n) {
         var items = subvec(me.items, n * 12, 12);
@@ -1679,6 +1693,24 @@ var DepartureSelectModule = {
         }
     },
 
+    getShortTitle: func () {
+        if (me.mode == 0) {
+            return "DEP RWY";
+        }
+        else if (me.mode == 1) {
+            return "SIDS";
+        }
+        else if (me.mode == 2) {
+            return "DEP TRANS";
+        }
+        else if (me.mode == 3) {
+            return "PROCEDURE";
+        }
+        else {
+            return "DEPARTURE";
+        }
+    },
+
     setMode: func (mode) {
         me.mode = mode;
         me.loadItems(mode);
@@ -2081,6 +2113,7 @@ var PosInitModule = {
     },
 
     getTitle: func () { return "POSITION INIT"; },
+    getShortTitle: func () { return "POS INIT"; },
     getNumPages: func () { return 1; },
 
     loadPageItems: func (n) {
@@ -2358,6 +2391,7 @@ var ATCLogonModule = {
     },
 
     getTitle: func () { return "ATC LOGON/STATUS"; },
+    getShortTitle: func () { return "ATC LOGON"; },
     getNumPages: func () { return 2; },
 
     activate: func () {
@@ -2486,9 +2520,8 @@ var CPDLCDatalinkSetupModule = {
         # debug.dump(me.options);
     },
 
-    getTitle: func () {
-        return "DATALINK SETUP";
-    },
+    getTitle: func () { return "DATALINK SETUP"; },
+    getShortTitle: func () { return "DLK SETUP"; },
 
     activate: func () {
         me.loadOptions();
@@ -2536,9 +2569,7 @@ var CPDLCLogModule = {
         return m;
     },
 
-    getTitle: func () {
-        return "ATC LOG";
-    },
+    getTitle: func () { return "ATC LOG"; },
 
     activate: func () {
         me.loadPage(me.page);
@@ -2652,6 +2683,13 @@ var CPDLCComposeDownlinkModule = {
             return "VERIFY REQUEST";
         else
             return "VERIFY RESPONSE";
+    },
+
+    getShortTitle: func () {
+        if (me.mrn == nil)
+            return "VER REQUEST";
+        else
+            return "VER RESPONSE";
     },
 
     getNumPages: func () {
@@ -3283,6 +3321,18 @@ var CPDLCMessageModule = {
         }
     },
 
+    getShortTitle: func () {
+        if (me.dir == 'up') {
+            return "ATC UPLINK";
+        }
+        elsif (me.dir == 'pseudo') {
+            return "SYS MSG";
+        }
+        else {
+            return "REQUEST";
+        }
+    },
+
     getNumPages: func () {
         return size(me.pages);
     },
@@ -3316,9 +3366,7 @@ var ACARSConfigModule = {
         return m;
     },
 
-    getTitle: func () {
-        return 'DLK SETUP'
-    },
+    getTitle: func () { return 'DLK SETUP' },
 
     getNumPages: func () {
         return 1;
@@ -3346,14 +3394,14 @@ var ACARSLogModule = {
         m.parents = prepended(ACARSLogModule, m.parents);
         m.listener = nil;
         m.title = dir ~ ' MSGS';
+        m.shorttitle = dir;
         m.historyNode = props.globals.getNode('/acars/telex/' ~ (dir == 'SENT' ? 'sent' : 'received'));
         m.dir = dir;
         return m;
     },
 
-    getTitle: func () {
-        return me.title;
-    },
+    getTitle: func () { return me.title; },
+    getShortTitle: func () { return me.shorttitle; },
 
     activate: func () {
         me.loadPage(me.page);
@@ -3433,9 +3481,7 @@ var ACARSInfoReqModule = {
         return m;
     },
 
-    getTitle: func () {
-        return string.uc(me.what) ~ " RQ";
-    },
+    getTitle: func () { return string.uc(me.what) ~ " RQ"; },
 
     getNumPages: func {
         return 1;
@@ -3475,9 +3521,8 @@ var ACARSPDCModule = {
         return m;
     },
 
-    getTitle: func () {
-        return "PREDEP CLX RQ";
-    },
+    getTitle: func () { return "PREDEP CLX RQ"; },
+    getShortTitle: func () { return "PDC RQ"; },
 
     getNumPages: func {
         return 1;
@@ -3556,9 +3601,7 @@ var ACARSTelexModule = {
         return m;
     },
 
-    getTitle: func () {
-        return "ACARS MSG";
-    },
+    getTitle: func () { return "ACARS MSG"; },
 
     getNumPages: func {
         return 1;
@@ -3613,9 +3656,7 @@ var ACARSMessageModule = {
         return m;
     },
 
-    getTitle: func () {
-        return me.title;
-    },
+    getTitle: func () { return me.title; },
 
     activate: func () {
         if (me.msgNode == nil) {
