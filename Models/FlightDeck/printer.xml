@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyList>
+    <path>Aircraft/E-jet-family/Models/FlightDeck/printer.ac</path>
+
+    <animation>
+        <type>pick</type>
+        <object-name>paper</object-name>
+        <action>
+            <button>0</button>
+            <repeatable type="bool">false</repeatable>
+            <binding>
+                <command>nasal</command>
+                <script>
+                    printer.cutPaper();
+                </script>
+            </binding>
+        </action>
+    </animation>
+</PropertyList>
+

@@ -389,29 +389,37 @@ var orBoxes = func (length, ralign=0) {
 
 var lineWrap = func (txt, maxLength, ellipse='..') {
     var lines = [];
-    var line = [];
-    var getLineLen = func (words) {
-        var len = 0;
-        foreach (var word; words)
-            len = len + utf8.size(word);
-        return len + math.max(size(words) - 1, 0);
-    };
-    var pushLine = func {
-        if (size(line) == 0) return;
-        append(lines, string.join(' ', line));
-        line = [];
-    };
+    var line = '';
+
     var rawLines = split("\n", txt);
+    var first = 1;
+
     foreach (var rawLine; rawLines) {
-        var words = split(' ', txt);
+        first = 1;
+        var words = split(' ', rawLine);
         foreach (var word; words) {
-            if (getLineLen(line ~ [word]) >= maxLength)
-                pushLine();
-            if (utf8.size(word) > maxLength)
-                word = utf8.substr(word, 0, maxLength - utf8.size(ellipse)) ~ ellipse;
-            append(line, word);
+            if (utf8.size(line) + utf8.size(word) + (first ? 0 : 1) >= maxLength) {
+                append(lines, line);
+                line = '';
+                first = 1;
+            }
+            if (first) {
+                while (utf8.size(word) > maxLength) {
+                    append(lines, utf8.substr(word, 0, maxLength - utf8.strlen(ellipse)) ~ ellipse);
+                    word = utf8.substr(word, maxLength - utf8.strlen(ellipse));
+                }
+                line = word;
+            }
+            else {
+                line = line ~ ' ' ~ word;
+            }
+            first = 0;
         }
-        pushLine();
+        if (!first) {
+            append(lines, line);
+            line = '';
+            first = 1;
+        }
     }
     return lines;
 };
