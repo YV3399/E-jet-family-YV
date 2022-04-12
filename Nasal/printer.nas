@@ -6,6 +6,7 @@ myprops.queue = myprops.base.getNode('job-queue', 1);
 myprops.paper = myprops.base.getNode('paper', 1);
 myprops.history = myprops.base.getNode('history', 1);
 myprops.printing = myprops.base.getNode('printing', 1);
+myprops.clipIndex = myprops.base.getNode('clipIndex', 1);
 myprops.printing.setBoolValue(0);
 
 paperWidth = getprop('instrumentation/printer/config/paper-width') or 32;
@@ -41,27 +42,63 @@ var paperCanvas = canvas.new({
     "view": [1024, 1024],
     "mipmapping": 1
 });
-
 paperCanvas.setColorBackground(1, 1, 1, 0);
-
 var paperGroup = paperCanvas.createGroup('paper');
 paperGroup.createChild('path')
     .rect(0, 0, 1024, 10240).setColorFill(1, 1, 1, 1);
-
 var textGroup = paperGroup.createChild('group');
-
 var feedStep = 48;
 var feed = 1024 - feedStep;
 var nextTxtY = 64;
 var fontSize = 24;
-
 paperGroup.setTranslation(0, feed);
+
+var clipboardCanvas = canvas.new({
+    "name": "clipboard",
+    "size": [1024, 4096],
+    "view": [1024, 4096],
+    "mipmapping": 1
+});
+clipboardCanvas.setColorBackground(1, 1, 1, 0);
+var clipboardGroup = clipboardCanvas.createGroup('clipboard');
+var clipboardPaper = clipboardGroup.createChild('path').setColorFill(1, 1, 1, 1);
+var clipTextGroup = clipboardGroup.createChild('group');
+
+var updateClipboard = func {
+    var index = myprops.clipIndex.getValue();
+    var sheet = myprops.history.getNode('sheet[' ~ index ~ ']');
+    clipboardPaper.reset();
+    clipTextGroup.removeAllChildren();
+    if (sheet != nil) {
+        var lines = sheet.getValues()['line'];
+        debug.dump(lines);
+        if (lines != nil) {
+            if (typeof(lines) == 'scalar') {
+                lines = [lines];
+            }
+            var h = feedStep * (size(lines) + 4);
+            clipboardPaper.rect(0, 0, 1024, h);
+            var y = feedStep * 2;
+            foreach (var line; lines) {
+                clipTextGroup.createChild('text')
+                    .setText(line)
+                    .setFontSize(fontSize, 1)
+                    .setTranslation(256, y)
+                    .setColor(0, 0, 0, 1);
+                y += feedStep;
+            }
+        }
+    }
+};
 
 var cutPaper = func {
     var values = myprops.paper.getValues();
     if (values != nil) {
         var sheet = myprops.history.addChild('sheet');
         sheet.setValues(myprops.paper.getValues());
+        var index = sheet.getIndex();
+        myprops.clipIndex.setValue(index);
+        updateClipboard();
     }
     myprops.paper.removeAllChildren();
     feed = 1024 - feedStep;
@@ -108,6 +145,7 @@ setlistener("sim/signals/fdm-initialized", func {
     if (!initialized) {
         initialized = 1;
         paperCanvas.addPlacement({"node": "paper"});
+        clipboardCanvas.addPlacement({"node": "clipPaper"});
         printTimer.start();
     }
 });

@@ -3214,11 +3214,24 @@
     <!-- Printer -->
     <model>
         <path>Aircraft/E-jet-family/Models/FlightDeck/printer.xml</path>
-        <name>EFB1</name>
+        <name>Printer</name>
         <offsets>
             <x-m>0</x-m>
             <y-m>0</y-m>
             <z-m>0.001</z-m>
+        </offsets>
+    </model>
+
+    <!-- Printout clipboard -->
+    <model>
+        <path>Aircraft/E-jet-family/Models/FlightDeck/clipboard.xml</path>
+        <name>Clipboard 1</name>
+        <offsets>
+            <x-m>-12.41</x-m>
+            <y-m>-0.79</y-m>
+            <z-m>1.12</z-m>
+            <pitch-deg>-11</pitch-deg>
+            <heading-deg>30</heading-deg>
         </offsets>
     </model>
     
