@@ -16,5 +16,49 @@
             </binding>
         </action>
     </animation>
+
+    <animation>
+        <type>rotate</type>
+        <object-name>paper</object-name>
+        <expression>
+            <sum>
+                <product>
+                    <sin>
+                        <product>
+                            <property>/sim/time/elapsed-sec</property>
+                            <value>4</value>
+                        </product>
+                    </sin>
+                    <value>2</value>
+                </product>
+                <product>
+                    <sin>
+                        <product>
+                            <property>/sim/time/elapsed-sec</property>
+                            <value>12</value>
+                        </product>
+                    </sin>
+                    <value>1</value>
+                    <property>/instrumentation/printer/printing</property>
+                </product>
+                <product>
+                    <difference>
+                        <property>/accelerations/pilot-gdamped</property>
+                        <value>1</value>
+                    </difference>
+                    <value>10</value>
+                </product>
+            </sum>
+        </expression>
+        <axis>
+            <x1-m>-11.65400</x1-m>
+            <y1-m>  0.10308</y1-m>
+            <z1-m>  0.65215</z1-m>
+
+            <x2-m>-11.52000</x2-m>
+            <y2-m>  0.10308</y2-m>
+            <z2-m>  0.64557</z2-m>
+        </axis>
+    </animation>
 </PropertyList>
 
