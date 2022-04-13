@@ -7,6 +7,7 @@ myprops.paper = myprops.base.getNode('paper', 1);
 myprops.history = myprops.base.getNode('history', 1);
 myprops.printing = myprops.base.getNode('printing', 1);
 myprops.clipIndex = myprops.base.getNode('clipIndex', 1);
+myprops.clipIndex.setValue(0);
 myprops.printing.setBoolValue(0);
 
 paperWidth = getprop('instrumentation/printer/config/paper-width') or 32;
@@ -78,7 +79,7 @@ var updateClipboard = func {
             }
             var h = feedStep * (size(lines) + 4);
             clipboardPaper.rect(0, 0, 1024, h);
-            var y = feedStep * 2;
+            var y = feedStep * 3;
             foreach (var line; lines) {
                 clipTextGroup.createChild('text')
                     .setText(line)
@@ -90,6 +91,29 @@ var updateClipboard = func {
         }
     }
 };
+
+var clipboardNext = func {
+    var sheets = myprops.history.getChildren('sheet');
+    var index = myprops.clipIndex.getValue();
+    index += 1;
+    if (index >= size(sheets)) {
+        index = 0;
+    }
+    myprops.clipIndex.setValue(index);
+    me.updateClipboard();
+};
+
+var clipboardPrev = func {
+    var sheets = myprops.history.getChildren('sheet');
+    var index = myprops.clipIndex.getValue();
+    index -= 1;
+    if (index < 0) {
+        index = math.max(size(sheets) - 1, 0);
+    }
+    myprops.clipIndex.setValue(index);
+    me.updateClipboard();
+};
+
 
 var cutPaper = func {
     var values = myprops.paper.getValues();

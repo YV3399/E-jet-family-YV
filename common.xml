@@ -233,6 +233,9 @@
             <property-rule n="116">
                 <path>Aircraft/E-jet-family/Systems/callouts.xml</path>
             </property-rule>
+            <property-rule n="117">
+                <path>Aircraft/E-jet-family/Systems/gui3d.xml</path>
+            </property-rule>
 
             <!--Disable XML electrical system-->
             <electrical>
