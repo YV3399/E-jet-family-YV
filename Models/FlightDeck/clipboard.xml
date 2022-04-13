@@ -1,5 +1,64 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <PropertyList>
     <path>Aircraft/E-jet-family/Models/FlightDeck/clipboard.ac</path>
+
+    <animation>
+        <type>material</type>
+        <object-name>clipArrowRight</object-name>
+        <object-name>clipArrowLeft</object-name>
+        <emission>
+            <red>0.5</red>
+            <green>0.5</green>
+            <blue>0.5</blue>
+            <factor-prop>instrumentation/clipboard/gui-illum</factor-prop>
+        </emission>
+        <transparency>
+            <alpha-prop>instrumentation/clipboard/gui-illum</alpha-prop>
+        </transparency>
+    </animation>
+
+    <animation>
+        <type>pick</type>
+        <object-name>clipArrowRight</object-name>
+        <object-name>clipArrowLeft</object-name>
+        <object-name>clipPaper</object-name>
+        <hovered>
+            <binding>
+                <command>property-assign</command>
+                <property>instrumentation/clipboard/hovering</property>
+                <value>0.5</value>
+            </binding>
+            <binding>
+                <command>nasal</command>
+            </binding>
+        </hovered>
+    </animation>
+
+    <animation>
+        <type>pick</type>
+        <object-name>clipArrowRight</object-name>
+        <action>
+            <button>0</button>
+            <binding>
+                <command>nasal</command>
+                <script>
+                    printer.clipboardNext();
+                </script>
+            </binding>
+        </action>
+    </animation>
+    <animation>
+        <type>pick</type>
+        <object-name>clipArrowLeft</object-name>
+        <action>
+            <button>0</button>
+            <binding>
+                <command>nasal</command>
+                <script>
+                    printer.clipboardPrev();
+                </script>
+            </binding>
+        </action>
+    </animation>
 </PropertyList>
 
