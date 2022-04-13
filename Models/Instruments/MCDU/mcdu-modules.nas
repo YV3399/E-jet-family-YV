@@ -306,6 +306,7 @@ var RouteModule = {
             me.timer.stop();
             me.timer = nil;
         }
+        me.unloadPage();
     },
 
     getTitle: func () {
@@ -534,6 +535,7 @@ var FlightPlanModule = {
             me.timer.stop();
             me.timer = nil;
         }
+        me.unloadPage();
     },
 
     getTitle: func () {
@@ -1220,18 +1222,42 @@ var IndexModule = {
         var i = 0;
         me.views = [];
         me.controllers = {};
-        # left side
-        for (i = 0; i < 6; i += 1) {
-            if (i >= size(items)) break;
-            var item = items[i];
-            var lsk = "L" ~ (i + 1);
+
+        var renderItem = func (item, side, y, lsk) {
             if (item != nil) {
+                var conditionModel = nil;
+                if (size(item) > 2) {
+                    conditionModel = item[2];
+                }
                 if (typeof(item[1]) == 'scalar') {
-                    append(me.views,
-                        StaticView.new(0, 2 + i * 2, left_triangle ~ item[1], mcdu_large | mcdu_white));
+                    var title = item[1];
+                    var x = 0;
+                    if (side) {
+                        title = title ~ right_triangle;
+                        x = 24 - utf8.size(title);
+                    }
+                    else {
+                        title = left_triangle ~ title;
+                        x = 0;
+                    }
+                    if (conditionModel == nil) {
+                        append(me.views, StaticView.new(x, y, title, mcdu_large | mcdu_white));
+                    }
+                    else {
+                        append(me.views,
+                            FormatView.new(x, y, mcdu_large | mcdu_white, conditionModel,
+                                utf8.size(title), func (val) {
+                                    if (val)
+                                        return title;
+                                    else
+                                        return utf8.substr('                        ', 0, utf8.size(title))
+                                }));
+                    }
                 }
                 elsif (typeof(item[1]) == 'func') {
-                    append(me.views, item[1](0, 2 + i * 2, 0));
+                    var x = 0;
+                    if (side) x = 23;
+                    append(me.views, item[1](x, y, side));
                 }
 
                 if (typeof(item[0]) == 'scalar') {
@@ -1243,28 +1269,18 @@ var IndexModule = {
                 }
             }
         }
+
+        # left side
+        for (i = 0; i < 6; i += 1) {
+            if (i >= size(items)) break;
+            var item = items[i];
+            renderItem(item, 0, 2 + i * 2, 'L' ~ (i + 1));
+        }
         # right side
         for (i = 0; i < 6; i += 1) {
             if (i + 6 >= size(items)) break;
             var item = items[i + 6];
-            var lsk = "R" ~ (i + 1);
-            if (item != nil) {
-                if (typeof(item[1]) == 'scalar') {
-                    append(me.views,
-                        StaticView.new(23 - size(item[1]), 2 + i * 2, item[1] ~ right_triangle, mcdu_large | mcdu_white));
-                }
-                elsif (typeof(item[1]) == 'func') {
-                    append(me.views, item[1](23, 2 + i * 2, 1));
-                }
-
-                if (typeof(item[0]) == 'scalar') {
-                    me.controllers[lsk] =
-                        SubmodeController.new(item[0]);
-                }
-                elsif (typeof(item[0]) == 'func') {
-                    me.controllers[lsk] = item[0](me);
-                }
-            }
+            renderItem(item, 1, 2 + i * 2, 'R' ~ (i + 1));
         }
     },
 };
@@ -2407,6 +2423,7 @@ var ATCLogonModule = {
             me.timer.stop();
             me.timer = nil;
         }
+        me.unloadPage();
     },
 
     loadPageItems: func (n) {
@@ -2585,6 +2602,7 @@ var CPDLCLogModule = {
             me.timer.stop();
             me.timer = nil;
         }
+        me.unloadPage();
     },
 
     getNumPages: func () {
@@ -2891,6 +2909,7 @@ var CPDLCMessageModule = {
             me.timer.stop();
             me.timer = nil;
         }
+        me.unloadPage();
     },
 
 
@@ -3397,6 +3416,7 @@ var ACARSLogModule = {
         m.shorttitle = dir;
         m.historyNode = props.globals.getNode('/acars/telex/' ~ (dir == 'SENT' ? 'sent' : 'received'));
         m.dir = dir;
+        m.timer = nil;
         return m;
     },
 
@@ -3417,6 +3437,7 @@ var ACARSLogModule = {
             me.timer.stop();
             me.timer = nil;
         }
+        me.unloadPage();
     },
 
     getNumPages: func () {
@@ -3680,6 +3701,7 @@ var ACARSMessageModule = {
             me.timer.stop();
             me.timer = nil;
         }
+        me.unloadPage();
     },
 
     splitLines: func (text) {
