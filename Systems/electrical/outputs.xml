@@ -36,6 +36,20 @@
     <!-- PITOT / STATIC / AOA2 HEATER PWR -->
     <!-- PITOT / STATIC / AOA2 SENSOR -->
     <!-- PRINTER -->
+    <filter>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <condition>
+                <greater-than>
+                    <property>/systems/electrical/buses/dc[1]/volts</property>
+                    <value>18</value>
+                </greater-than>
+            </condition>
+            <value>1</value>
+        </input>
+        <output>/systems/electrical/outputs/printer</output>
+    </filter>
     <!-- READING LIGHTS AFT LEFT -->
     <!-- READING LIGHTS FWD LEFT -->
     <!-- REFUEL 1 -->
@@ -245,6 +259,17 @@
                         <!-- this one is pre-normalized! -->
                         <property>/systems/electrical/outputs/main-panel-light</property>
                         <value>0.5</value>
+                    </product>
+                    <product>
+                        <!-- this one is pre-normalized! -->
+                        <property>/systems/electrical/outputs/printer</property>
+                        <sum>
+                            <value>0.1</value>
+                            <product>
+                                <property>/instrumentation/printer/printing</property>
+                                <value>2</value>
+                            </product>
+                        </sum>
                     </product>
                     <product>
                         <!-- this one is pre-normalized! -->
