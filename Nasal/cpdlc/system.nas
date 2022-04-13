@@ -15,6 +15,7 @@ var System = {
             props: {
                 base: nil,
                 logonStatus: nil,
+                connected: nil,
                 currentStation: nil,
                 logonStation: nil,
                 nextStation: nil,
@@ -46,6 +47,8 @@ var System = {
         me.props.datalinkStatus.setValue(0);
         me.props.logonStatus = me.props.base.getNode('logon-status', 1);
         me.props.logonStatus.setValue(0);
+        me.props.connected = me.props.base.getNode('connected', 1);
+        me.props.connected.setValue(0);
         me.props.currentStation = me.props.base.getNode('current-station', 1);
         me.props.currentStation.setValue('');
         me.props.logonStation = me.props.base.getNode('logon-station', 1);
@@ -200,6 +203,7 @@ var System = {
             me.logMessage(msg);
         }
         me.props.logonStatus.setValue(status);
+        me.props.connected.setBoolValue(status == LOGON_OK);
     },
 
 

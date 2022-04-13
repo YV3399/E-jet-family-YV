@@ -104,17 +104,17 @@ var MCDU = {
                         "ATC INDEX",
                         "ATC INDEX",
                         [ # PAGE 1
-                          [ "CPDLC-EMERGENCY", "EMERGENCY" ]
-                        , [ "CPDLC-REQUEST", "REQUEST" ]
-                        , [ "CPDLC-WHENCANWE", "WHEN CAN WE" ]
-                        , [ "CPDLC-DOWNLINK-TXTD-1", "FREE TEXT" ]
+                          [ "CPDLC-EMERGENCY", "EMERGENCY", "CPDLC-CONNECTED" ]
+                        , [ "CPDLC-REQUEST", "REQUEST", "CPDLC-CONNECTED" ]
+                        , [ "CPDLC-WHENCANWE", "WHEN CAN WE", "CPDLC-CONNECTED" ]
+                        , [ "CPDLC-DOWNLINK-TXTD-1", "FREE TEXT", "CPDLC-CONNECTED" ]
                         , nil
                         , [ "CPDLC-LOGON", "LOGON/STATUS" ]
 
-                        , [ "CPDLC-DOWNLINK-RTED-5", "POS REPORT" ]
-                        , [ "CPDLC-REPORT", "REPORT" ]
-                        , [ "CPDLC-DOWNLINK-COMD-1", "VOICE" ]
-                        , [ "CPDLC-CLEARANCE", "CLEARANCE" ]
+                        , [ "CPDLC-DOWNLINK-RTED-5", "POS REPORT", "CPDLC-CONNECTED" ]
+                        , [ "CPDLC-REPORT", "REPORT", "CPDLC-CONNECTED" ]
+                        , [ "CPDLC-DOWNLINK-COMD-1", "VOICE", "CPDLC-CONNECTED" ]
+                        , [ "CPDLC-CLEARANCE", "CLEARANCE", "CPDLC-CONNECTED" ]
                         , nil
                         , [ "CPDLC-LOG", "LOG" ]
 
@@ -250,11 +250,11 @@ var MCDU = {
                           , [ "ACARS-CONFIG", "ACARS CFG" ]
                           , nil
 
-                          , [ "ACARS-TELEX", "FREEFORM" ]
-                          , [ "ACARS-WEATHER", "WEATHER" ]
-                          , [ "ACARS-ATIS", "ATIS" ]
-                          , [ "ACARS-PDC", "PREDEP CLX" ]
-                          , [ "ACARS-OCC", "OCEANIC CLX" ]
+                          , [ "ACARS-TELEX", "FREEFORM", "ACARS-TELEX-AVAILABLE" ]
+                          , [ "ACARS-WEATHER", "WEATHER", "ACARS-WEATHER-AVAILABLE" ]
+                          , [ "ACARS-ATIS", "ATIS", "ACARS-ATIS-AVAILABLE" ]
+                          , [ "ACARS-PDC", "PREDEP CLX", "ACARS-TELEX-AVAILABLE" ]
+                          , [ "ACARS-OCC", "OCEANIC CLX", "ACARS-TELEX-AVAILABLE" ]
                           , [ "ACARS-NEWEST-UNREAD",
                               func(x, y, ralign) {
                                 return FormatView.new(x - 11, y, mcdu_white | mcdu_large, "ACARS-NEWEST-UNREAD", 5,

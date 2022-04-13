@@ -307,6 +307,7 @@ var keyProps = {
     "CPDLC-LOGON-STATUS": "/cpdlc/logon-status",
     "CPDLC-CURRENT-STATION": "/cpdlc/current-station",
     "CPDLC-LOGON-STATION": "/cpdlc/logon-station",
+    "CPDLC-CONNECTED": "/cpdlc/connected",
     "CPDLC-NEXT-STATION": "/cpdlc/next-station",
 
     # PDC REQUEST DIALOG
@@ -328,6 +329,10 @@ var keyProps = {
 
     "ACARS-CONFIG-WEATHER": "/acars/config/weather-backend",
     "ACARS-CONFIG-ATIS": "/acars/config/atis-backend",
+
+    "ACARS-TELEX-AVAILABLE": "/acars/availability/telex",
+    "ACARS-WEATHER-AVAILABLE": "/acars/availability/weather",
+    "ACARS-ATIS-AVAILABLE": "/acars/availability/atis",
 };
 
 var keyDefs = {

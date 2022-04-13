@@ -15,6 +15,7 @@ var System = {
                 downlinkStatus: nil,
                 weatherBackend: nil,
                 atisBackend: nil,
+                availability: nil,
             },
             listeners: {
                 uplink: nil,
@@ -22,6 +23,7 @@ var System = {
             },
             nextSerial: 1,
         };
+        m.availabilityPingTimer = maketimer(1, m, m.updateAvailabilities);
         return m;
     },
 
@@ -48,6 +50,7 @@ var System = {
         me.props.downlinkStatus = props.globals.getNode('/hoppie/downlink/status', 1);
         me.props.weatherBackend = me.props.base.getNode('config/weather-backend', 1);
         me.props.atisBackend = me.props.base.getNode('config/atis-backend', 1);
+        me.props.availability = me.props.base.getNode('availability', 1);
         me.updateUnread();
         var self = me;
         me.listeners.uplink = setlistener(me.props.uplinkStatus, func (node) {
@@ -61,10 +64,12 @@ var System = {
                 self.validatePDC();
             });
         }
+        me.availabilityPingTimer.start();
     },
 
     detach: func {
         var errors = [];
+        m.availabilityPingTimer.stop();
         foreach (var k; keys(me.listeners)) {
             if (me.listeners[k] != nil)
                 call(removelistener, [me.listeners[k]], errors);
@@ -76,6 +81,28 @@ var System = {
 
     isAvailable: func {
         return contains(globals, 'hoppieAcars') and (me.props.statusText.getValue() or '') == 'running';
+    },
+
+    isAtisAvailable: func {
+        var backend = me.props.atisBackend.getValue();
+        if (backend == 'HOPPIE') return me.isAvailable();
+        if (backend == 'OFF') return 0;
+        return 1; # DATIS and AUTO are always available
+    },
+
+    isWeatherAvailable: func {
+        var backend = me.props.weatherBackend.getValue();
+        if (backend == 'HOPPIE') return me.isAvailable();
+        if (backend == 'OFF') return 0;
+        return 1; # NOAA and AUTO are always available
+    },
+
+    updateAvailabilities: func {
+        if (me.props.availability != nil) {
+            me.props.availability.setValue('telex', me.isAvailable());
+            me.props.availability.setValue('atis', me.isAtisAvailable());
+            me.props.availability.setValue('weather', me.isWeatherAvailable());
+        }
     },
 
     genSerial: func {
