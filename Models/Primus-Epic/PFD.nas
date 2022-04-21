@@ -994,12 +994,17 @@ var PFDCanvas = {
     update: func() {
         var pitch = (me.props["/instrumentation/pfd/pitch-scale"].getValue() or 0);
         var roll =  me.props["/orientation/roll-deg"].getValue() or 0;
+        var slip = me.props["/instrumentation/slip-skid-ball/indicated-slip-skid"].getValue() or 0;
         me.h_trans.setTranslation(0,pitch*8.05);
         me.h_rot.setRotation(-roll*D2R,me["horizon"].getCenter());
         if(math.abs(roll)<=45){
             me["roll.pointer"].setRotation(roll*(-D2R));
         }
-        me["slip.pointer"].setTranslation(math.round((me.props["/instrumentation/slip-skid-ball/indicated-slip-skid"].getValue() or 0)*50), 0);
+        me["slip.pointer"].setTranslation(math.round(slip * -25), 0);
+        if (math.abs(slip) >= 1.0)
+            me["slip.pointer"].setColorFill(1, 1, 1);
+        else
+            me["slip.pointer"].setColorFill(0, 0, 0);
 
         # wind direction
         # For some reason, if we attempt to do this in a listener, it will
