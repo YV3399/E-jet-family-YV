@@ -63,20 +63,18 @@
 							<property>/autopilot/autobrake/config/idle-throttle</property>
 						</less-than>
 					</and>
-					<!-- Spoilers not armed -->
+					<!-- Reversers active: always deploy ground spoilers, even if not armed. -->
 					<and>
-						<not>
-							<property>/controls/flight/ground-spoilers-armed</property>
-						</not>
 						<property>/controls/engines/engine[0]/reverser</property>
 						<property>/controls/engines/engine[1]/reverser</property>
 					</and>
 				</or>
 				<property>/gear/gear[1]/wow</property>
 				<property>/gear/gear[2]/wow</property>
+                <!-- retract below 45 kt groundspeed -->
 				<greater-than>
-					<property>/instrumentation/airspeed-indicator/indicated-speed-kt</property>
-					<value>72</value>
+					<property>/velocities/groundspeed-kt</property>
+					<value>45</value>
 				</greater-than>
 			</and>
 		</input>
