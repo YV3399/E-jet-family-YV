@@ -338,7 +338,6 @@ var MFD = {
         });
         me.trafficGroup = me.pageContainer.createChild("group");
         me.trafficLayer = mfdmap.TrafficLayer.new(me.mapCamera, me.trafficGroup);
-        me.trafficLayer.start();
 
         me.map = me.pageContainer.createChild("map");
         me.map.set("clip", "rect(0px, 1024px, 740px, 0px)");
@@ -988,6 +987,10 @@ var MFD = {
             self.elems['checkTCAS'].setVisible(viz);
             self.elems['tcas.master'].setVisible(viz);
             self.trafficGroup.setVisible(viz);
+            if (viz)
+                self.trafficLayer.start();
+            else
+                self.trafficLayer.stop();
             # self.map.layers['TFC-Ejet'].setVisible(viz);
         }, 1, 0);
         setlistener(me.props['tcas-mode'], func (node) {
