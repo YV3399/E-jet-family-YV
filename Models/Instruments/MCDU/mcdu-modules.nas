@@ -2414,6 +2414,7 @@ var ATCLogonModule = {
         me.loadPage(me.page);
         me.timer = maketimer(1, me, func () {
             globals.cpdlc.system.updateDatalinkStatus();
+            me.loadPage(me.page);
         });
         me.timer.start();
     },
@@ -2459,7 +2460,7 @@ var ATCLogonModule = {
                         else return mcdu_white;
                     },
                     "CPDLC-LOGON-STATUS", 12,
-                    "%12s",
+                    "%-12s",
                     func(val) {
                         if (val == globals.cpdlc.LOGON_ACCEPTED)
                             return "ACCEPTED";
@@ -2500,8 +2501,26 @@ var ATCLogonModule = {
             me.controllers = {
                 'L1': ModelController.new("CPDLC-LOGON-STATION"),
                 'R1': FuncController.new(func {
-                            if (!getprop('/cpdlc/logon-station')) return nil;
-                            globals.cpdlc.system.connect();
+                            if (getprop('/cpdlc/logon-station')) {
+                                # A logon station has been selected: connect.
+                                if (getprop('/cpdlc/logon-status') == cpdlc.LOGON_ACCEPTED) {
+                                    # This is not how the real aircraft works, but
+                                    # some controllers on VATSIM will not send the
+                                    # CURRENT ATC UNIT message, which leaves the
+                                    # CPDLC system in an "ACCEPTED" state.
+                                    globals.cpdlc.setCurrentStation(getprop('/cpdlc/logon-station'))
+                                }
+                                else {
+                                    globals.cpdlc.system.connect();
+                                }
+                            }
+                            else {
+                                # No logon station selected.
+                                var status = getprop('/cpdlc/logon-status');
+                                if (status == cpdlc.LOGON_OK or status == cpdlc.LOGON_ACCEPTED) {
+                                    globals.cpdlc.system.disconnect();
+                                }
+                            }
                             return nil;
                         }),
             };

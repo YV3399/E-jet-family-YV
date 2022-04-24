@@ -86,7 +86,10 @@ var System = {
             me.props.driver.setValue(me.driver.getDriverName());
         }
         if (me.driver != nil and me.driver.isAvailable()) {
-            me.setLogonStatus(LOGON_NOT_CONNECTED);
+            if ((me.props.logonStation.getValue() or '') == '')
+                me.setLogonStatus(LOGON_NO_LOGON_STATION);
+            else
+                me.setLogonStatus(LOGON_NOT_CONNECTED);
             me.props.datalinkStatus.setValue(1);
         }
         else {
