@@ -879,6 +879,14 @@ You can use the `LOGON TO` field to enter a station you want to log on to, and
 then push `SEND` (LSK R1) to request a logon. The remaining logon process, as
 well as handovers, and automatic.
 
+While you are connected (status: "OPEN"), pushing LSK R1 again will trigger a
+CPDLC logoff.
+
+*NOTE:* Some VATSIM controllers use CPDLC clients that do not send the CURRENT
+ATC UNIT message, which will leave the CPDLC status hanging in the "ACCEPTED"
+mode. If/when this happens, you can push LSK R1 again to force the status to
+"OPEN" and start making requests.
+
 The `LOG` page lists recent messages, both uplinks (from ATC to you) and
 downlinks (from you to ATC). This should be largely self-explanatory. Use the
 LSK's on the right to open a message, read it, and possibly respond to it.
