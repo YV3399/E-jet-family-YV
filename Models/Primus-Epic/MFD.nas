@@ -2236,6 +2236,65 @@ var MFD = {
         }
     },
 
+    updateSlow: func () {
+        var salt = me.props['altitude-selected'].getValue();
+        var range = me.props['range'].getValue();
+        var latZoom = 720.0 / range;
+        var page = me.props['page'].getValue();
+        var progress = me.props['route-progress'].getValue();
+        var progress = me.props['route-progress'].getValue();
+        var alt = me.props['altitude'].getValue();
+        var vs = me.props['vs'].getValue();
+        var gspd = me.props['groundspeed'].getValue();
+        var talt = alt;
+        if (gspd > 40) {
+            talt = alt + vs * 60 / gspd * range;
+        }
+
+        if (gspd > 40) {
+            me.elems['vnav-flightpath']
+                .reset()
+                .moveTo(220 + progress * latZoom,  1266 - alt * 0.04)
+                .lineTo(220 + (progress + range) * latZoom, 1266 - talt * 0.04)
+                .show();
+        }
+        else {
+            me.elems['vnav-flightpath'].hide();
+        }
+        if (page == 1) {
+            # Plan mode
+            var fp = fms.getVisibleFlightplan();
+            var wpi = me.planIndex == nil ? 0 : me.planIndex;
+
+            if (fp == nil or wpi > fp.getPlanSize()) {
+                me.setVnavVerticalScroll(0);
+                me.elems['vnav.lateral'].setTranslation(0, 0.0);
+            }
+            else {
+                var wp = fp.getWP(wpi);
+                var wpAlt = fms.vnav.nominalProfileAltAt(wp.distance_along_route);
+                me.setVnavVerticalScroll(wpAlt - 5000);
+                me.elems['vnav.lateral'].setTranslation((0.5 * range - wp.distance_along_route) * latZoom, 0.0);
+            }
+        }
+        else {
+            # Map or Systems mode: put aircraft to the left, and scroll to
+            # current lateral position
+            var delta = 0.5 * (salt - alt);
+            if (delta > 4000) { delta = 4000; }
+            if (delta < -4000) { delta = -4000; }
+            me.setVnavVerticalScroll(alt + delta - 5000);
+            me.elems['vnav.lateral'].setTranslation(-progress * latZoom, 0.0);
+        }
+        me.elems['vnav.aircraft.symbol'].setTranslation(progress * latZoom, -alt * 0.04);
+
+        var alt = me.props['altitude'].getValue();
+        me.trafficLayer.setRefAlt(alt);
+        if (me.trafficGroup.getVisible()) {
+            me.trafficLayer.update();
+        }
+    },
+
     update: func () {
         var heading = me.props['heading-mag'].getValue();
         var headingT = me.props['heading'].getValue();
@@ -2331,64 +2390,11 @@ var MFD = {
             }
         }
 
-        var alt = me.props['altitude'].getValue();
-        me.mapCamera.repositon(geo.aircraft_position(), headingT);
-        me.trafficLayer.setRefAlt(alt);
+        me.mapCamera.reposition(geo.aircraft_position(), headingT);
+
         if (me.trafficGroup.getVisible()) {
-            me.trafficLayer.update();
             me.trafficLayer.redraw();
         }
-
-        var salt = me.props['altitude-selected'].getValue();
-        var range = me.props['range'].getValue();
-        var latZoom = 720.0 / range;
-        var page = me.props['page'].getValue();
-        var progress = me.props['route-progress'].getValue();
-        var progress = me.props['route-progress'].getValue();
-        var alt = me.props['altitude'].getValue();
-        var vs = me.props['vs'].getValue();
-        var gspd = me.props['groundspeed'].getValue();
-        var talt = alt;
-        if (gspd > 40) {
-            talt = alt + vs * 60 / gspd * range;
-        }
-
-        if (gspd > 40) {
-            me.elems['vnav-flightpath']
-                .reset()
-                .moveTo(220 + progress * latZoom,  1266 - alt * 0.04)
-                .lineTo(220 + (progress + range) * latZoom, 1266 - talt * 0.04)
-                .show();
-        }
-        else {
-            me.elems['vnav-flightpath'].hide();
-        }
-        if (page == 1) {
-            # Plan mode
-            var fp = fms.getVisibleFlightplan();
-            var wpi = me.planIndex == nil ? 0 : me.planIndex;
-
-            if (fp == nil or wpi > fp.getPlanSize()) {
-                me.setVnavVerticalScroll(0);
-                me.elems['vnav.lateral'].setTranslation(0, 0.0);
-            }
-            else {
-                var wp = fp.getWP(wpi);
-                var wpAlt = fms.vnav.nominalProfileAltAt(wp.distance_along_route);
-                me.setVnavVerticalScroll(wpAlt - 5000);
-                me.elems['vnav.lateral'].setTranslation((0.5 * range - wp.distance_along_route) * latZoom, 0.0);
-            }
-        }
-        else {
-            # Map or Systems mode: put aircraft to the left, and scroll to
-            # current lateral position
-            var delta = 0.5 * (salt - alt);
-            if (delta > 4000) { delta = 4000; }
-            if (delta < -4000) { delta = -4000; }
-            me.setVnavVerticalScroll(alt + delta - 5000);
-            me.elems['vnav.lateral'].setTranslation(-progress * latZoom, 0.0);
-        }
-        me.elems['vnav.aircraft.symbol'].setTranslation(progress * latZoom, -alt * 0.04);
     },
 
     formatDist: func(dist) {
@@ -2428,16 +2434,19 @@ setlistener("sim/signals/fdm-initialized", func {
         (func (j) {
             outputProp = props.globals.getNode("systems/electrical/outputs/mfd[" ~ j ~ "]");
             enabledProp = props.globals.getNode("instrumentation/mfd[" ~ j ~ "]/enabled");
-            var timer = maketimer(0.1, func() {
-                mfd[j].update();
-            });
+            var timer = maketimer(0.1, func() { mfd[j].update(); });
+            var timerSlow = maketimer(1.0, func() { mfd[j].updateSlow(); });
             var check = func {
                 var visible = ((outputProp.getValue() or 0) >= 15) and enabledProp.getBoolValue();
                 mfd_master[j].setVisible(visible);
-                if (visible)
+                if (visible) {
                     timer.start();
-                else
+                    timerSlow.start();
+                }
+                else {
                     timer.stop();
+                    timerSlow.stop();
+                }
             };
             setlistener(outputProp, check, 1, 0);
             setlistener(enabledProp, check, 1, 0);

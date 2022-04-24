@@ -19,7 +19,7 @@ var Camera = {
         me.range = range;
     },
 
-    repositon: func(geo, hdg) {
+    reposition: func(geo, hdg) {
         me.camGeo = geo;
         me.camHdg = hdg;
     },
