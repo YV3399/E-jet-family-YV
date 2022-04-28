@@ -752,12 +752,14 @@
         </config>
         <settings>
             <accel-ft type="double">1300</accel-ft> <!-- Set to 999999 if you do not want TOGA to change automatically to FLCH -->
-            <auto-bank-max-deg type="double">35</auto-bank-max-deg> <!-- Maximum Auto Bank Limit -->
+			<auto-bank-limit-calc type="bool">1</auto-bank-limit-calc> <!-- Disable to add a custom auto bank limit schedule -->
             <autoland-without-ap type="bool">false</autoland-without-ap> <!-- Engage LAND and FLARE Modes even if the AP is off -->
             <autothrottle-max type="double">0.907</autothrottle-max>
             <autothrottle-min type="double">0.0</autothrottle-min>
+			<bank-max-deg type="double">35</bank-max-deg> <!-- Maximum Bank Limit -->
             <custom-fma type="bool">false</custom-fma>
             <disable-final type="bool">false</disable-final>
+			<fd-starts-on type="bool">0</fd-starts-on> <!-- Enable/Disable Flight Director being on by default -->
             <hdg-hld-separate type="bool">false</hdg-hld-separate> <!-- Separates the HDG HLD mode from the HDG SEL mode -->
             <land-enable type="bool">true</land-enable> <!-- Enable/Disable Autoland -->
             <land-flap type="double">0.5</land-flap> <!-- Minimum Flap used for Landing -->

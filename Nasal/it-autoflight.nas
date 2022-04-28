@@ -74,8 +74,6 @@ var Velocities = {
 	groundspeedMps: 0,
 	indicatedAirspeedKt: props.globals.getNode("/instrumentation/airspeed-indicator/indicated-speed-kt", 1),
 	indicatedMach: props.globals.getNode("/instrumentation/airspeed-indicator/indicated-mach", 1),
-	trueAirspeedKt: props.globals.getNode("/instrumentation/airspeed-indicator/true-speed-kt", 1),
-	trueAirspeedKtTemp: 0,
 };
 
 # IT-AUTOFLIGHT
@@ -126,10 +124,11 @@ var Internal = {
 	altDiff: 0,
 	altTemp: 0,
 	altPredicted: props.globals.initNode("/it-autoflight/internal/altitude-predicted", 0, "DOUBLE"),
-	bankLimit: props.globals.initNode("/it-autoflight/internal/bank-limit", 30, "INT"),
-	bankLimitAuto: 30,
-	bankLimitMax: [30, 5, 10, 15, 20, 25, 30],
-	bankLimitTemp: 30,
+	bankLimit: props.globals.initNode("/it-autoflight/internal/bank-limit", 0, "DOUBLE"),
+	bankLimitAuto: props.globals.initNode("/it-autoflight/internal/bank-limit-auto", 0, "DOUBLE"),
+	bankLimitCalc: 0,
+	bankLimitMax: [5, 10, 15, 20, 25, 30, 35],
+	bankLimitTemp: 0,
 	captVs: 0,
 	driftAngle: props.globals.initNode("/it-autoflight/internal/drift-angle-deg", 0, "DOUBLE"),
 	driftAngleTemp: 0,
@@ -183,9 +182,10 @@ var Text = {
 
 var Settings = {
 	accelFt: props.globals.getNode("/it-autoflight/settings/accel-ft", 1),
-	autoBankMaxDeg: props.globals.getNode("/it-autoflight/settings/auto-bank-max-deg", 1),
+	autoBankLimitCalc: props.globals.getNode("/it-autoflight/settings/auto-bank-limit-calc", 1),
 	autolandWithoutAp: props.globals.getNode("/it-autoflight/settings/autoland-without-ap", 1),
 	autolandWithoutApTemp: 0,
+	bankMaxDeg: props.globals.getNode("/it-autoflight/settings/bank-max-deg", 1),
 	customFma: props.globals.getNode("/it-autoflight/settings/custom-fma", 1),
 	disableFinal: props.globals.getNode("/it-autoflight/settings/disable-final", 1),
 	fdStartsOn: props.globals.getNode("/it-autoflight/settings/fd-starts-on", 1),
@@ -426,28 +426,14 @@ var ITAF = {
 		
 		# Thrust Mode Selector
 		me.updateThrustMode();
+		
+		# Bank Limits
+		me.bankLimit();
 	},
 	slowLoop: func() {
-		Input.bankLimitSwTemp = Input.bankLimitSw.getValue();
-		Velocities.trueAirspeedKtTemp = Velocities.trueAirspeedKt.getValue();
 		FPLN.activeTemp = FPLN.active.getValue();
 		FPLN.currentWpTemp = FPLN.currentWp.getValue();
 		FPLN.numTemp = FPLN.num.getValue();
-		
-		# Bank Limit
-		if (Velocities.trueAirspeedKtTemp >= 420) {
-			Internal.bankLimitAuto = 15;
-		} else if (Velocities.trueAirspeedKtTemp >= 340) {
-			Internal.bankLimitAuto = 20;
-		} else {
-			Internal.bankLimitAuto = 30;
-		}
-		
-		if (Internal.bankLimitAuto > Internal.bankLimitMax[Input.bankLimitSwTemp]) {
-			Internal.bankLimit.setValue(Internal.bankLimitMax[Input.bankLimitSwTemp]);
-		} else {
-			Internal.bankLimit.setValue(Internal.bankLimitAuto);
-		}
 		
 		# If in LNAV mode and route is not longer active, switch to HDG HLD
 		if (Output.lat.getValue() == 1) { # Only evaulate the rest of the condition if we are in LNAV mode
@@ -860,6 +846,17 @@ var ITAF = {
 			Output.thrMode.setValue(0);
 			Text.thr.setValue("THRUST");
 		}
+	},
+	bankLimit: func() {
+		Input.bankLimitSwTemp = Input.bankLimitSw.getValue();
+		Output.latTemp = Output.lat.getValue();
+		
+		if (Input.bankLimitSwTemp == 0) {
+			Internal.bankLimitCalc = Internal.bankLimitAuto.getValue();
+		} else {
+			Internal.bankLimitCalc = Internal.bankLimitMax[Input.bankLimitSwTemp - 1];
+		}
+		Internal.bankLimit.setValue(math.clamp(Internal.bankLimitCalc, 0, Settings.bankMaxDeg.getValue()));
 	},
 	activateLnav: func() {
 		if (Output.lat.getValue() != 1) {
