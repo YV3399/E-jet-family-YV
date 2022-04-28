@@ -9,6 +9,7 @@ var update_radios = func () {
     if (rwy == nil) return;
     var freq = rwy.ils_frequency_mhz;
     if (freq == nil) return;
+    var hdg = rwy.heading;
     # TODO: this can probably be done more efficiently, changing the property
     # only when destination runway updates, and doing the auto-setting in
     # a proprule.
@@ -16,6 +17,8 @@ var update_radios = func () {
     for (var i = 0; i < 2; i += 1) {
         if (getprop("/fms/radio/nav-auto[" ~ i ~ "]")) {
             setprop("/instrumentation/nav[" ~ i ~ "]/frequencies/selected-mhz", freq);
+            if (hdg != nil)
+                setprop("/instrumentation/nav[" ~ i ~ "]/radials/selected-deg", hdg);
         }
     }
 };
