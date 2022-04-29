@@ -44,6 +44,7 @@ var BaseModule = {
     getShortTitle: func { return me.getTitle(); },
 
     loadPage: func (n) {
+        me.unloadPage();
         me.loadPageItems(n);
         foreach (var view; me.views) {
             view.activate(me.mcdu);
