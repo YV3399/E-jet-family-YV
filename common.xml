@@ -898,7 +898,7 @@
         <autobrake>
             <config>
                 <idle-throttle type="double">0.1</idle-throttle>
-                <pilot-input type="double">0</pilot-input>
+                <pilot-input type="double">0.01</pilot-input>
             </config>
             <step type="int">0</step>
         </autobrake>
