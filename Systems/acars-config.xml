@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PropertyList>
+    <pdc-dialog>
+        <facility type="string"></facility>
+        <flight-id type="string"></flight-id>
+        <atis type="string"></atis>
+        <departure-airport type="string"></departure-airport>
+        <destination-airport type="string"></destination-airport>
+        <gate type="string"></gate>
+        <aircraft-type type="string"></aircraft-type>
+        <valid type="bool">false</valid>
+    </pdc-dialog>
+    <telex-dialog>
+        <to type="string"></to>
+        <text type="string"></text>
+    </telex-dialog>
+    <progress>
+        <dispatch-callsign type="string"></dispatch-callsign>
+    </progress>
+    <config>
+        <weather-backend type="string">AUTO</weather-backend>
+        <atis-backend type="string">AUTO</atis-backend>
+        <progress-backend type="string">AUTO</progress-backend>
+        <dispatch-callsign type="string"></dispatch-callsign>
+    </config>
+</PropertyList>
