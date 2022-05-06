@@ -329,10 +329,14 @@ var keyProps = {
 
     "ACARS-CONFIG-WEATHER": "/acars/config/weather-backend",
     "ACARS-CONFIG-ATIS": "/acars/config/atis-backend",
+    "ACARS-CONFIG-PROGRESS": "/acars/config/progress-backend",
+    "ACARS-CONFIG-DISPATCH-CALLSIGN": "/acars/config/dispatch-callsign",
+    "ACARS-DISPATCH-CALLSIGN": "/acars/dispatch-callsign",
 
     "ACARS-TELEX-AVAILABLE": "/acars/availability/telex",
     "ACARS-WEATHER-AVAILABLE": "/acars/availability/weather",
     "ACARS-ATIS-AVAILABLE": "/acars/availability/atis",
+    "ACARS-PROGRESS-AVAILABLE": "/acars/availability/progress",
 };
 
 var keyDefs = {

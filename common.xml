@@ -218,6 +218,9 @@
             <autopilot>
                 <path>Aircraft/E-jet-family/Systems/speed-limits.xml</path>
             </autopilot>
+            <autopilot>
+                <path>Aircraft/E-jet-family/Systems/oooi.xml</path>
+            </autopilot>
             <property-rule n="112">
                 <path>Aircraft/E-jet-family/Systems/iess.xml</path>
             </property-rule>
@@ -1292,6 +1295,28 @@
             </destination>
         </performance>
 
+        <oooi>
+            <phase type="int">0</phase>
+            <conditions>
+                <doors-closed type="bool">false</doors-closed>
+                <engines-running type="bool">false</engines-running>
+                <parking-brake-released type="bool">false</parking-brake-released>
+                <wow type="bool">true</wow>
+
+                <out type="bool">false</out>
+                <off type="bool">false</off>
+                <on type="bool">false</on>
+                <in type="bool">false</in>
+            </conditions>
+
+            <events>
+                <out type="string"></out>
+                <off type="string"></off>
+                <on type="string"></on>
+                <in type="string"></in>
+            </events>
+        </oooi>
+
     </fms>
 
     <systems>
@@ -1871,9 +1896,14 @@
             <to type="string"></to>
             <text type="string"></text>
         </telex-dialog>
+        <progress>
+            <dispatch-callsign type="string"></dispatch-callsign>
+        </progress>
         <config>
             <weather-backend type="string">AUTO</weather-backend>
             <atis-backend type="string">AUTO</atis-backend>
+            <progress-backend type="string">AUTO</progress-backend>
+            <dispatch-callsign type="string"></dispatch-callsign>
         </config>
     </acars>
 
@@ -2617,6 +2647,7 @@
             <file>Aircraft/E-jet-family/Nasal/fms/main.nas</file>
             <file>Aircraft/E-jet-family/Nasal/fms/performance.nas</file>
             <file>Aircraft/E-jet-family/Nasal/fms/airways.nas</file>
+            <file>Aircraft/E-jet-family/Nasal/fms/oooi.nas</file>
         </fms>
 
         <autopush>

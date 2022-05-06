@@ -15,6 +15,7 @@ var System = {
                 downlinkStatus: nil,
                 weatherBackend: nil,
                 atisBackend: nil,
+                progressBackend: nil,
                 availability: nil,
             },
             listeners: {
@@ -50,7 +51,11 @@ var System = {
         me.props.downlinkStatus = props.globals.getNode('/hoppie/downlink/status', 1);
         me.props.weatherBackend = me.props.base.getNode('config/weather-backend', 1);
         me.props.atisBackend = me.props.base.getNode('config/atis-backend', 1);
+        me.props.progressBackend = me.props.base.getNode('config/progress-backend', 1);
         me.props.availability = me.props.base.getNode('availability', 1);
+        me.props.callsign = props.globals.getNode('/sim/multiplay/callsign');
+        me.props.dispatchCallsign = me.props.base.getNode('dispatch-callsign', 1);
+        me.props.dispatchCallsignConfig = me.props.base.getNode('config/dispatch-callsign', 1);
         me.updateUnread();
         var self = me;
         me.listeners.uplink = setlistener(me.props.uplinkStatus, func (node) {
@@ -59,6 +64,20 @@ var System = {
         me.listeners.downlink = setlistener(me.props.downlinkStatus, func (node) {
             self.handleSent(node);
         });
+        me.listeners.callsign = setlistener(me.props.callsign, func (node) {
+            if ((self.props.dispatchCallsignConfig.getValue() or '') == '') {
+                self.props.dispatchCallsign.setValue(substr(node.getValue(), 0, 3));
+            }
+        }, 1, 0);
+        me.listeners.dispatchCallsignConfig = setlistener(me.props.dispatchCallsignConfig, func (node) {
+            var val = node.getValue();
+            if (val == nil or val == '') {
+                self.props.dispatchCallsign.setValue(substr(self.props.callsign.getValue(), 0, 3));
+            }
+            else {
+                self.props.dispatchCallsign.setValue(val);
+            }
+        }, 1, 0);
         foreach (var p; ['facility', 'departure-airport', 'destination-airport', 'flight-id', 'aircraft-type', 'atis', 'gate']) {
             me.listeners['pdc-dialog/' ~ p] = setlistener(props.globals.getNode('/acars/pdc-dialog/' ~ p), func (node) {
                 self.validatePDC();
@@ -97,10 +116,18 @@ var System = {
         return 1; # NOAA and AUTO are always available
     },
 
+    isProgressAvailable: func {
+        var backend = me.props.progressBackend.getValue();
+        if (backend == 'OFF') return 0;
+        # AUTO is currently always HOPPIE
+        return me.isAvailable();
+    },
+
     updateAvailabilities: func {
         if (me.props.availability != nil) {
             me.props.availability.setValue('telex', me.isAvailable());
             me.props.availability.setValue('atis', me.isAtisAvailable());
+            me.props.availability.setValue('progress', me.isProgressAvailable());
             me.props.availability.setValue('weather', me.isWeatherAvailable());
         }
     },
@@ -145,15 +172,40 @@ var System = {
     },
 
     sendTelex: func (to=nil, txt=nil) {
+        var mode = me.props.progressBackend.getValue() or 'AUTO';
+        if (mode == 'AUTO') {
+            if (getprop('/hoppie/status-text') == 'running')
+                mode = 'HOPPIE';
+            else
+                mode = 'OFF';
+        }
         if (to == nil) to = getprop('/acars/telex-dialog/to');
         if (txt == nil) txt = getprop('/acars/telex-dialog/text');
         if (to != '' and txt != '') {
-            globals.hoppieAcars.send(to, 'telex', txt);
-            return 1;
+            if (mode == 'HOPPIE') {
+                globals.hoppieAcars.send(to, 'progress', txt);
+                return 1;
+            }
         }
-        else {
-            return 0;
+        return 0;
+    },
+
+    sendProgress: func (to=nil, txt='') {
+        var mode = me.props.progressBackend.getValue() or 'AUTO';
+        if (mode == 'AUTO') {
+            if (getprop('/hoppie/status-text') == 'running')
+                mode = 'HOPPIE';
+            else
+                mode = 'OFF';
         }
+        if (to == nil) to = getprop('/acars/dispatch-callsign');
+        if (to != '' and txt != '') {
+            if (mode == 'HOPPIE') {
+                globals.hoppieAcars.send(to, 'progress', txt);
+                return 1;
+            }
+        }
+        return 0;
     },
 
     sendInfoRequest: func (what, station=nil) {
