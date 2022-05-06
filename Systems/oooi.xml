@@ -1,0 +1,122 @@
+<PropertyList>
+    <logic>
+        <input>
+            <and>
+                <property>sim/model/door-positions/l1/closed</property>
+                <property>sim/model/door-positions/l2/closed</property>
+                <property>sim/model/door-positions/r1/closed</property>
+                <property>sim/model/door-positions/r2/closed</property>
+                <property>sim/model/door-positions/cargo1/closed</property>
+                <property>sim/model/door-positions/cargo2/closed</property>
+                <property>sim/model/door-positions/fuel-panel/closed</property>
+                <property>sim/model/door-positions/avionics-front/closed</property>
+                <property>sim/model/door-positions/avionics-mid/closed</property>
+            </and>
+        </input>
+        <output>fms/oooi/conditions/doors-closed</output>
+    </logic>
+    <logic>
+        <input>
+            <less-than>
+                <property>controls/gear/brake-parking</property>
+                <value>0.1</value>
+            </less-than>
+        </input>
+        <output>fms/oooi/conditions/parking-brake-released</output>
+    </logic>
+    <logic>
+        <input>
+            <or>
+                <property>gear/gear[0]/wow</property>
+                <property>gear/gear[1]/wow</property>
+                <property>gear/gear[2]/wow</property>
+            </or>
+        </input>
+        <output>fms/oooi/conditions/wow</output>
+    </logic>
+    <logic>
+        <input>
+            <or>
+                <property>engines/engine[0]/running</property>
+                <property>engines/engine[0]/running</property>
+            </or>
+        </input>
+        <output>fms/oooi/conditions/engines-running</output>
+    </logic>
+
+    <logic>
+        <!--
+            PREFLIGHT -> OUT:
+            - doors closed
+            - parking brake released
+        -->
+        <input>
+            <and>
+                <equals>
+                    <property>fms/oooi/phase</property>
+                    <value>0</value>
+                </equals>
+                <property>fms/oooi/conditions/doors-closed</property>
+                <property>fms/oooi/conditions/parking-brake-released</property>
+            </and>
+        </input>
+        <output>fms/oooi/conditions/out</output>
+    </logic>
+    <logic>
+        <!--
+            OUT -> OFF
+            - !wow
+        -->
+        <input>
+            <and>
+                <equals>
+                    <property>fms/oooi/phase</property>
+                    <value>1</value>
+                </equals>
+                <not>
+                    <property>fms/oooi/conditions/wow</property>
+                </not>
+            </and>
+        </input>
+        <output>fms/oooi/conditions/off</output>
+    </logic>
+    <logic>
+        <!--
+            OFF -> ON
+            - wow
+        -->
+        <input>
+            <and>
+                <equals>
+                    <property>fms/oooi/phase</property>
+                    <value>2</value>
+                </equals>
+                <property>fms/oooi/conditions/wow</property>
+            </and>
+        </input>
+        <output>fms/oooi/conditions/on</output>
+    </logic>
+    <logic>
+        <!--
+            ON -> IN
+            - parking brake set
+            - engines off
+        -->
+        <input>
+            <and>
+                <equals>
+                    <property>fms/oooi/phase</property>
+                    <value>3</value>
+                </equals>
+                <not>
+                    <property>fms/oooi/conditions/engines-running</property>
+                </not>
+                <not>
+                    <property>fms/oooi/conditions/parking-brake-released</property>
+                </not>
+            </and>
+        </input>
+        <output>fms/oooi/conditions/in</output>
+    </logic>
+
+</PropertyList>
