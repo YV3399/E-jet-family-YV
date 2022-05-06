@@ -14,13 +14,13 @@
         <to type="string"></to>
         <text type="string"></text>
     </telex-dialog>
-    <progress>
-        <dispatch-callsign type="string"></dispatch-callsign>
-    </progress>
+    <!-- The effective dispatch callsign -->
+    <dispatch-callsign type="string"></dispatch-callsign>
     <config>
         <weather-backend type="string">AUTO</weather-backend>
         <atis-backend type="string">AUTO</atis-backend>
         <progress-backend type="string">AUTO</progress-backend>
+        <!-- dispatch callsign override; infer from own callsign if empty -->
         <dispatch-callsign type="string"></dispatch-callsign>
     </config>
 </PropertyList>
