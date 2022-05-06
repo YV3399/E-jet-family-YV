@@ -814,6 +814,13 @@ To configure ACARS backends, go to the "DLK" MCDU page, and select "ACARS CFG"
   provide real-world ATIS, but only for supported airports in the US), AUTO
   (uses HOPPIE if available, DATIS otherwise), and OFF (turn off the ATIS
   backend).
+- **PROGRESS**. This setting controls whether the aircraft will generate OOOI
+  (Off, Out, On, In) events, and if so, how it sends those. Currently, the only
+  supported backend is HOPPIE, but you may not want to send OOOI events when
+  not flying online, even if the Hoppie plugin is running, so you can turn it
+  off here. The progress configuration line also allows you to select a
+  receiving station other than the airline code from your flight ID (default is
+  "AUTO", which uses the first 3 characters from your own callsign).
 
 The "FREEFORM" (TELEX) and "PREDEP CLX" features always use HOPPIE if
 available, and will not function otherwise.
