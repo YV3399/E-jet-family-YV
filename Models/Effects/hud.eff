@@ -20,14 +20,5 @@
             </blend>
         </pass>
     </technique>
-    <technique n="13">
-        <pass n="0">
-            <blend>
-                <source>one</source>
-                <destination>one</destination>
-                <active type="bool">true</active>
-            </blend>
-        </pass>
-    </technique>
 </PropertyList>
 
