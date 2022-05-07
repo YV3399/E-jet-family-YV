@@ -310,10 +310,69 @@
         </input>
         <output>/engines/apu/cutoff</output>
     </filter>
+
+    <filter>
+        <name>APU bleed use</name>
+        <type>gain</type>
+        <gain>1.0</gain>
+        <input>
+            <!-- APU bleed off: no bleed load. -->
+            <condition>
+                <not>
+                    <property>controls/pneumatic/APU-bleed</property>
+                </not>
+            </condition>
+            <value>0</value>
+        </input>
+        <input>
+            <!-- Either engine running, or GPU connected: no bleed load, prefer bleed air from engines or GPU. -->
+            <condition>
+                <or>
+                    <property>controls/electric/external-power-connected</property>
+                    <and>
+                        <property>controls/pneumatic/engine[0]/bleed</property>
+                        <property>engines/engine[0]/running</property>
+                    </and>
+                    <and>
+                        <property>controls/pneumatic/engine[1]/bleed</property>
+                        <property>engines/engine[1]/running</property>
+                    </and>
+                </or>
+            </condition>
+            <value>0</value>
+        </input>
+        <input>
+            <!-- Otherwise: sum of bleed air consumers. -->
+            <expression>
+                <sum>
+                    <product>
+                        <property>/controls/engines/engine[0]/starter</property>
+                        <value>0.5</value>
+                    </product>
+                    <product>
+                        <property>/controls/engines/engine[1]/starter</property>
+                        <value>0.5</value>
+                    </product>
+                    <product>
+                        <property>controls/pressurization/pack[0]/pack-on</property>
+                        <value>0.1</value>
+                    </product>
+                    <product>
+                        <property>controls/pressurization/pack[1]/pack-on</property>
+                        <value>0.1</value>
+                    </product>
+                </sum>
+            </expression>
+        </input>
+        <output>/engines/apu/bleed-load-norm</output>
+    </filter>
+
     <filter>
         <name>APU fuel flow</name>
         <type>gain</type>
-        <gain>-250</gain>
+        <!-- positive kg/min to negative lbs/h -->
+        <gain>-132.27736</gain>
+
         <input>
             <condition>
                 <property>/engines/apu/cutoff</property>
@@ -322,10 +381,94 @@
         </input>
         <input>
             <expression>
-                <div>
+                <product>
+                    <sum>
+                        <!-- idle fuel flow -->
+                        <table>
+                            <property>/instrumentation/altimeter/pressure-alt-ft</property>
+                            <entry>
+                                <ind>0</ind>
+                                <dep>1.5</dep>
+                            </entry>
+                            <entry>
+                                <ind>5000</ind>
+                                <dep>1.3</dep>
+                            </entry>
+                            <entry>
+                                <ind>15000</ind>
+                                <dep>1.0</dep>
+                            </entry>
+                            <entry>
+                                <ind>33000</ind>
+                                <dep>0.7</dep>
+                            </entry>
+                        </table>
+
+                        <!-- generator load -->
+                        <product>
+                            <property>/systems/electrical/sources/generator[0]/load</property>
+                            <value>.00000625</value>
+                        </product>
+
+                        <!-- bleed load -->
+                        <product>
+                            <property>/engines/apu/bleed-load-norm</property>
+                            <table>
+                                <property>/instrumentation/altimeter/pressure-alt-ft</property>
+                                <entry>
+                                    <ind>0</ind>
+                                    <dep>0.65</dep>
+                                </entry>
+                                <entry>
+                                    <ind>5000</ind>
+                                    <dep>0.5</dep>
+                                </entry>
+                                <entry>
+                                    <ind>15000</ind>
+                                    <dep>0.45</dep>
+                                </entry>
+                                <entry>
+                                    <ind>33000</ind>
+                                    <dep>0.4</dep>
+                                </entry>
+                            </table>
+                        </product>
+
+                        <!-- airspeed -->
+                        <product>
+                            <table>
+                                <property>/instrumentation/airspeed-indicator/indicated-airspeed-kt</property>
+                                <entry>
+                                    <ind>170</ind>
+                                    <dep>0</dep>
+                                </entry>
+                                <entry>
+                                    <ind>300</ind>
+                                    <dep>-0.1</dep>
+                                </entry>
+                            </table>
+                            <table>
+                                <property>/instrumentation/altimeter/pressure-alt-ft</property>
+                                <entry>
+                                    <ind>0</ind>
+                                    <dep>0</dep>
+                                </entry>
+                                <entry>
+                                    <ind>15000</ind>
+                                    <dep>0</dep>
+                                </entry>
+                                <entry>
+                                    <ind>33000</ind>
+                                    <dep>1</dep>
+                                </entry>
+                            </table>
+                        </product>
+                    </sum>
+
+                    <!-- multiply by rpm / 100 -->
                     <property>/engines/apu/rpm</property>
-                    <value>100</value>
-                </div>
+                    <value>0.01</value>
+                </product>
             </expression>
         </input>
         <output>/engines/apu/fuel-flow-rate-pph</output>
