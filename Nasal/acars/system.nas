@@ -17,6 +17,11 @@ var System = {
                 atisBackend: nil,
                 progressBackend: nil,
                 availability: nil,
+                adscPeriodics: nil,
+                adscTimer: nil,
+                lat: nil,
+                lon: nil,
+                alt: nil,
             },
             listeners: {
                 uplink: nil,
@@ -25,6 +30,7 @@ var System = {
             nextSerial: 1,
         };
         m.availabilityPingTimer = maketimer(1, m, m.updateAvailabilities);
+        m.adscTimer = maketimer(10, m, m.updateADSC);
         return m;
     },
 
@@ -56,6 +62,11 @@ var System = {
         me.props.callsign = props.globals.getNode('/sim/multiplay/callsign');
         me.props.dispatchCallsign = me.props.base.getNode('dispatch-callsign', 1);
         me.props.dispatchCallsignConfig = me.props.base.getNode('config/dispatch-callsign', 1);
+        me.props.adscPeriodics = me.props.base.getNode('ads-c/periodics', 1);
+        me.props.adscTimer = me.props.base.getNode('ads-c/timer', 1);
+        me.props.lat = props.globals.getNode('/position/latitude-deg', 1);
+        me.props.lon = props.globals.getNode('/position/longitude-deg', 1);
+        me.props.alt = props.globals.getNode('/instrumentation/altimeter/indicated-altitude-ft', 1);
         me.updateUnread();
         var self = me;
         me.listeners.uplink = setlistener(me.props.uplinkStatus, func (node) {
@@ -84,11 +95,13 @@ var System = {
             });
         }
         me.availabilityPingTimer.start();
+        me.adscTimer.start();
     },
 
     detach: func {
         var errors = [];
         m.availabilityPingTimer.stop();
+        me.adscTimer.stop();
         foreach (var k; keys(me.listeners)) {
             if (me.listeners[k] != nil)
                 call(removelistener, [me.listeners[k]], errors);
@@ -152,6 +165,33 @@ var System = {
             historyNode.setValue('status', 'new');
             me.updateUnread();
         }
+        elsif (msg.type == 'ads-c') {
+            var words = split(' ', msg.packet);
+            if (words[0] == 'REQUEST' and words[1] == 'PERIODIC') {
+                var period = math.max(60, words[2] or 600);
+                var node = me.props.adscPeriodics.getNode(msg.from, 1);
+                node.setValue('period', period);
+                node.setValue('next', me.props.adscTimer.getValue());
+            }
+            elsif ((words[0] == 'CANCEL' and words[1] == 'REPORTING') or
+                   (words[0] == 'REQUEST' and words[1] == 'CANCEL')) {
+                var node = me.props.adscPeriodics.getNode(msg.from, 0);
+                if (node != nil) {
+                    node.remove();
+                }
+            }
+        }
+    },
+
+    updateADSC: func () {
+        var timer = me.props.adscTimer.getValue();
+        foreach (var periodicNode; me.props.adscPeriodics.getChildren()) {
+            if (periodicNode.getValue('next') <= timer) {
+                me.sendADSCReport(periodicNode.getName());
+                periodicNode.setValue('next', timer + periodicNode.getValue('period'));
+            }
+        }
+        me.props.adscTimer.setValue(timer + 10);
     },
 
     handleSent: func (node) {
@@ -364,6 +404,19 @@ var System = {
                 }
             });
         return 1;
+    },
+
+    sendADSCReport: func (station) {
+        var utcNode = props.globals.getNode('/sim/time/utc');
+        var txt = sprintf('REPORT %s %02i%02i%02i %1.5f %1.5f %i',
+                    me.props.callsign.getValue(),
+                    utcNode.getValue('day'),
+                    utcNode.getValue('hour'),
+                    utcNode.getValue('minute'),
+                    me.props.lat.getValue(),
+                    me.props.lon.getValue(),
+                    me.props.alt.getValue());
+        globals.hoppieAcars.send(station, 'ads-c', txt);
     },
 
     clearTelexDialog: func () {

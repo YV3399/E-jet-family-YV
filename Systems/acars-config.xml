@@ -16,6 +16,10 @@
     </telex-dialog>
     <!-- The effective dispatch callsign -->
     <dispatch-callsign type="string"></dispatch-callsign>
+    <ads-c>
+        <timer type="int">0</timer>
+        <periodics/>
+    </ads-c>
     <config>
         <weather-backend type="string">AUTO</weather-backend>
         <atis-backend type="string">AUTO</atis-backend>
