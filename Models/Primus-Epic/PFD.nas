@@ -241,11 +241,15 @@ var PFDCanvas = {
         m.props["/instrumentation/pfd/nav/selected-radial"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/nav/selected-radial");
         m.props["/instrumentation/pfd/nav-src"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/nav-src");
         m.props["/instrumentation/pfd/pitch-scale"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/pitch-scale");
+        m.props["/instrumentation/pfd/fpa-pitch-scale"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/fpa-pitch-scale");
+        m.props["/instrumentation/pfd/fpa-scale"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/fpa-scale");
         m.props["/instrumentation/pfd/preview"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/preview");
         m.props["/instrumentation/pfd/qnh-mode"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/qnh-mode");
         m.props["/instrumentation/pfd/radio-altimeter-visible"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/radio-altimeter-visible");
         m.props["/instrumentation/pfd/radio-alt"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/radio-alt");
+        m.props["/instrumentation/pfd/track-error-deg"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/track-error-deg");
         m.props["/instrumentation/pfd/vsi-needle-deg"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/vsi-needle-deg");
+        m.props["/instrumentation/pfd/vsi-target-deg"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/vsi-target-deg");
         m.props["/instrumentation/pfd/waypoint/dist10"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/waypoint/dist10");
         m.props["/instrumentation/pfd/waypoint/ete"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/waypoint/ete");
         m.props["/instrumentation/pfd/waypoint/ete-unit"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/waypoint/ete-unit");
@@ -399,6 +403,9 @@ var PFDCanvas = {
             "fma.src.arrow",
             "fma.vert",
             "fma.vertarmed",
+            "fpa.target",
+            "fpa.target.digital",
+            "fpv",
             "greendot",
             "groundspeed",
             "heading.digital",
@@ -445,6 +452,7 @@ var PFDCanvas = {
             "slip.pointer",
             "speedbar.amber",
             "speedbar.red",
+            "speederror.vector",
             "speedref.v1",
             "speedref.v2",
             "speedref.vac",
@@ -454,6 +462,7 @@ var PFDCanvas = {
             "speedref.vr",
             "speedref.vref",
             "speedtrend.vector",
+            "speedtrend.pointer",
             "tcas.warning",
             "vhf1.act",
             "vhf1.sby",
@@ -469,6 +478,8 @@ var PFDCanvas = {
             "VS.digital",
             "VS.digital.wrapper",
             "vs.needle",
+            "vs.needle.current",
+            "vs.needle.target",
             "vs.needle_clip",
             "waypoint",
             "waypoint.dist",
@@ -906,21 +917,41 @@ var PFDCanvas = {
             if (vertMode == "V/S") {
                 self["selectedvspeed.digital"].setText(sprintf("%+05d", (self.props["/it-autoflight/input/vs"].getValue() or 0)));
                 self["selectedvspeed.digital"].show();
+                self["vs.needle.target"].show();
+                self["fpa.target"].hide();
             }
             else if (vertMode == "FPA") {
-                self["selectedvspeed.digital"].setText(sprintf("%+4.1f", (self.props["/it-autoflight/input/fpa"].getValue() or 0)));
+                var fpaText = sprintf("%+4.1f", (self.props["/it-autoflight/input/fpa"].getValue() or 0));
+                self["selectedvspeed.digital"].setText(fpaText);
                 self["selectedvspeed.digital"].show();
+                self["vs.needle.target"].hide();
+                self["fpa.target.digital"].setText(fpaText);
+                self["fpa.target"].show();
             }
             else {
                 self["selectedvspeed.digital"].hide();
+                self["vs.needle.target"].hide();
+                self["fpa.target"].hide();
             }
         };
 
         append(me.listeners, setlistener(self.props["/it-autoflight/mode/vert"], func {
             updateSelectedVSpeed();
         }, 1, 0));
-        append(me.listeners, setlistener(self.props["/it-autoflight/input/vs"], updateSelectedVSpeed, 1, 0));
-        append(me.listeners, setlistener(self.props["/it-autoflight/input/fpa"], updateSelectedVSpeed, 1, 0));
+        append(me.listeners, setlistener(self.props["/it-autoflight/input/fpa"], func {
+            updateSelectedVSpeed();
+        }, 1, 0));
+        append(me.listeners, setlistener(self.props["/it-autoflight/input/vs"], func {
+            updateSelectedVSpeed();
+        }, 1, 0));
+        append(me.listeners, setlistener(self.props["/instrumentation/pfd/fpa-pitch-scale"], func (node) {
+            var fpaPitch = (self.props["/instrumentation/pfd/fpa-pitch-scale"].getValue() or 0);
+            self["fpa.target"].setTranslation(0,-fpaPitch*8.05);
+        }, 1, 0));
+        append(me.listeners, setlistener(self.props["/instrumentation/pfd/vsi-target-deg"], func (node) {
+            var vneedle = self.props["/instrumentation/pfd/vsi-target-deg"].getValue() or 0;
+            self["vs.needle.target"].setRotation(vneedle * D2R);
+        }, 1, 0));
 
         var updateSelectedSpeed = func {
             if (self.props["/it-autoflight/input/kts-mach"].getValue()) {
@@ -1024,6 +1055,8 @@ var PFDCanvas = {
         var pitch = (me.props["/instrumentation/pfd/pitch-scale"].getValue() or 0);
         var roll =  me.props["/orientation/roll-deg"].getValue() or 0;
         var slip = me.props["/instrumentation/slip-skid-ball/indicated-slip-skid"].getValue() or 0;
+        var trackError = me.props["/instrumentation/pfd/track-error-deg"].getValue() or 0;
+        var fpaScaled = me.props["/instrumentation/pfd/fpa-scale"].getValue() or 0;
         me.h_trans.setTranslation(0,pitch*8.05);
         me.h_rot.setRotation(-roll*D2R,me["horizon"].getCenter());
         if(math.abs(roll)<=45){
@@ -1034,7 +1067,6 @@ var PFDCanvas = {
             me["slip.pointer"].setColorFill(1, 1, 1);
         else
             me["slip.pointer"].setColorFill(0, 0, 0);
-
         # wind direction
         # For some reason, if we attempt to do this in a listener, it will
         # be extremely unreliable.
@@ -1050,6 +1082,11 @@ var PFDCanvas = {
         me["groundspeed"].setText(
             sprintf("%3d", me.props["/instrumentation/pfd/groundspeed-kt"].getValue() or 0));
 
+        # FPV
+        me["fpv"]
+            .setTranslation(geo.normdeg180(trackError) * 8.05, -fpaScaled * 8.05)
+            .setRotation(roll * D2R);
+
         # FD
         var pitchBar = me.props["/it-autoflight/fd/pitch-bar"].getValue() or 0;
         var rollBar = me.props["/it-autoflight/fd/roll-bar"].getValue() or 0;
@@ -1060,7 +1097,7 @@ var PFDCanvas = {
         var vspeed = me.props["/instrumentation/vertical-speed-indicator/indicated-speed-fpm"].getValue() or 0;
         me["VS.digital"].setText(sprintf("%+05d", vspeed));
         var vneedle = me.props["/instrumentation/pfd/vsi-needle-deg"].getValue() or 0;
-        me["vs.needle"].setRotation(vneedle * D2R);
+        me["vs.needle.current"].setRotation(vneedle * D2R);
         me["VS.digital.wrapper"].setVisible(math.abs(vspeed) >= 500);
 
         # Altitude
@@ -1162,6 +1199,13 @@ var PFDCanvas = {
         me["speedtrend.vector"].reset();
         me["speedtrend.vector"].rect(152, 450, 15,
             math.max(-40.0, math.min(40.0, (airspeedLookahead - airspeed))) * -6.42);
+
+        me["speederror.vector"].reset();
+        me["speederror.vector"].rect(419, 437, 10,
+            math.max(-40.0, math.min(40.0, (selectedKts - airspeed))) * -2);
+        me["speedtrend.pointer"].setTranslation(
+            0,
+            math.max(-40.0, math.min(40.0, (airspeedLookahead - airspeed))) * -2);
 
         me["asi.tape"].setTranslation(0,airspeed * 6.42);
         me["airspeed.bug"].setTranslation(0, (airspeed-selectedKts) * 6.42);

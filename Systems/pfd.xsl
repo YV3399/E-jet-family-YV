@@ -402,6 +402,65 @@ re-run build.sh.
                 <output>instrumentation/pfd[<xsl:value-of select="$index"/>]/pitch-scale</output>
             </filter>
 
+            <filter>
+                <update-interval-secs type="double">0.1</update-interval-secs>
+                <name>FPA Pitchscale</name>
+                <type>gain</type>
+                <gain>1.0</gain>
+                <input>
+                    <expression>
+                        <table>
+                            <property>/it-autoflight/input/fpa</property>
+                            <entry>
+                                <ind>90</ind><dep>90</dep>
+                            </entry>
+                            <entry>
+                                <ind>10</ind><dep>16.666</dep>
+                            </entry>
+                            <entry>
+                                <ind>0</ind><dep>0</dep>
+                            </entry>
+                            <entry>
+                                <ind>-10</ind><dep>-16.666</dep>
+                            </entry>
+                            <entry>
+                                <ind>-90</ind><dep>-90</dep>
+                            </entry>
+                        </table>
+                    </expression>
+                </input>
+                <output>instrumentation/pfd[<xsl:value-of select="$index"/>]/fpa-pitch-scale</output>
+            </filter>
+
+            <filter>
+                <update-interval-secs type="double">0.1</update-interval-secs>
+                <name>FPA scale</name>
+                <type>gain</type>
+                <gain>1.0</gain>
+                <input>
+                    <expression>
+                        <table>
+                            <property>/instrumentation/pfd[<xsl:value-of select="$index"/>]/fpa-deg</property>
+                            <entry>
+                                <ind>90</ind><dep>90</dep>
+                            </entry>
+                            <entry>
+                                <ind>10</ind><dep>16.666</dep>
+                            </entry>
+                            <entry>
+                                <ind>0</ind><dep>0</dep>
+                            </entry>
+                            <entry>
+                                <ind>-10</ind><dep>-16.666</dep>
+                            </entry>
+                            <entry>
+                                <ind>-90</ind><dep>-90</dep>
+                            </entry>
+                        </table>
+                    </expression>
+                </input>
+                <output>instrumentation/pfd[<xsl:value-of select="$index"/>]/fpa-scale</output>
+            </filter>
 
             <!-- VMO -->
             <filter>
@@ -1467,6 +1526,28 @@ re-run build.sh.
                     <expression>
                         <table>
                             <property>/instrumentation/vertical-speed-indicator/indicated-speed-fpm</property>
+                            <entry><ind>-5000</ind><dep>-60</dep></entry>
+                            <entry><ind>-3000</ind><dep>-45</dep></entry>
+                            <entry><ind>-1000</ind><dep>-30</dep></entry>
+                            <entry><ind>-500</ind><dep>-15</dep></entry>
+                            <entry><ind>0</ind><dep>0</dep></entry>
+                            <entry><ind>500</ind><dep>15</dep></entry>
+                            <entry><ind>1000</ind><dep>30</dep></entry>
+                            <entry><ind>3000</ind><dep>45</dep></entry>
+                            <entry><ind>5000</ind><dep>60</dep></entry>
+                        </table>
+                    </expression>
+                </input>
+            </filter>
+            <filter>
+                <update-interval-secs type="double">0.1</update-interval-secs>
+                <name>VSI Needle Target</name>
+                <type>gain</type>
+                <output>/instrumentation/pfd[<xsl:value-of select="$index"/>]/vsi-target-deg</output>
+                <input>
+                    <expression>
+                        <table>
+                            <property>/it-autoflight/input/vs</property>
                             <entry><ind>-5000</ind><dep>-60</dep></entry>
                             <entry><ind>-3000</ind><dep>-45</dep></entry>
                             <entry><ind>-1000</ind><dep>-30</dep></entry>
