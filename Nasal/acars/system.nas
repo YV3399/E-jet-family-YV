@@ -172,13 +172,11 @@ var System = {
     },
 
     sendTelex: func (to=nil, txt=nil) {
-        var mode = me.props.progressBackend.getValue() or 'AUTO';
-        if (mode == 'AUTO') {
-            if (getprop('/hoppie/status-text') == 'running')
-                mode = 'HOPPIE';
-            else
-                mode = 'OFF';
-        }
+        var mode = 'AUTO';
+        if (getprop('/hoppie/status-text') == 'running')
+            mode = 'HOPPIE';
+        else
+            mode = 'OFF';
         if (to == nil) to = getprop('/acars/telex-dialog/to');
         if (txt == nil) txt = getprop('/acars/telex-dialog/text');
         if (to != '' and txt != '') {
