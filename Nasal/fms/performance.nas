@@ -3,7 +3,31 @@
 # Note that we use lbs for fuel throughout, because that's what FG uses in
 # most places.
 
+io.include('performance/current-gs-ff.nas');
+io.include('performance/pilot-spd-ff.nas');
+
 var myprops = nil;
+
+var PERF_MODE_FULL_PERF = 0;
+var PERF_MODE_CURRENT_GS_FF = 1;
+var PERF_MODE_PILOT_SPD_FF = 2;
+
+var makeInfo = func {
+    var totalDist = myprops.totalDist.getValue();
+    return {
+        fob: myprops.totalFuel.getValue(),
+        totalDist: totalDist,
+        dist: totalDist - myprops.distRemaining.getValue(),
+        groundspeed: myprops.groundspeed.getValue(),
+        ff: myprops.fuelFlowL.getValue() + myprops.fuelFlowR.getValue(),
+        time: myprops.daySeconds.getValue(),
+        cruiseAlt: myprops.cruiseAlt.getValue(),
+        currentAlt: myprops.alt.getValue(),
+        landingAlt: myprops.landingAlt.getValue(),
+        cruiseIAS: myprops.cruiseIAS.getValue(),
+        cruiseMach: myprops.cruiseMach.getValue(),
+    };
+};
 
 # A performance point can be actual or estimated, and has the following keys:
 # - ta (time of arrival, seconds from midnight)
@@ -17,22 +41,17 @@ var initProfile = func() {
     };
 };
 
-var updateProfile = func (fp, mode, profile) {
+var updateProfile = func (mode, fp, info, profile) {
+    print("updateProfile");
     var totalDist = myprops.totalDist.getValue();
-    var info = {
-        fob: myprops.totalFuel.getValue(),
-        dist: totalDist - myprops.distRemaining.getValue(),
-        groundspeed: myprops.groundspeed.getValue(),
-        ff: myprops.fuelFlowL.getValue() + myprops.fuelFlowR.getValue(),
-        time: myprops.daySeconds.getValue(),
-    };
-
     var planSize = fp.getPlanSize();
 
     var current = {
         ta: info.time,
         fob: info.fob,
     };
+
+    mode.init(info);
 
     if (size(profile.estimated) < planSize) {
         setsize(profile.estimated, planSize);
@@ -67,7 +86,7 @@ var updateProfile = func (fp, mode, profile) {
         }
         else {
             # second situation: we have yet to reach the waypoint.
-            profile.estimated[i] = mode(wp.distance_along_route, info);
+            profile.estimated[i] = mode.estimateWaypoint(wp.distance_along_route, wp.id);
         }
         # forward some calculated to properties
         if (i == fp.current) {
@@ -85,23 +104,9 @@ var updateProfile = func (fp, mode, profile) {
     }
 };
 
-var estimateSimple = func(dist, info) {
-    var groundspeed = info.groundspeed;
-    if (groundspeed < 120) groundspeed = 120; # avoid div-by-0 and such
-    var delta_dist = dist - info.dist;
-    var te = delta_dist / groundspeed * 3600;
-    return {
-        # ETA is current time +/- est. time to/from waypoint
-        ta: info.time + te,
-
-        # EFOB is current FOB +/- est. fuel burn to/from waypoint
-        fob: info.fob - te * info.ff
-    };
-};
-
 var performanceProfile = initProfile();
 
-var printPerformanceProfile = func (profile) {
+var printPerformanceProfile = func (fp, profile) {
     print("----- PERFORMANCE PLAN -----");
     printf("%-8s %-5s/%-5s %-6s/%-6s",
         "WPT ID", "ETA", "ATA", "EFOB", "AFOB");
@@ -120,9 +125,23 @@ var printPerformanceProfile = func (profile) {
 }
 
 var initialized = 0;
+var listeners = [];
+var timer = nil;
 
-setlistener("sim/signals/fdm-initialized", func {
-    if (initialized) return;
+var teardown = func {
+    foreach (var l; listeners) {
+        removelistener(l);
+    }
+    listeners = [];
+    if (timer != nil) {
+        timer.stop();
+        timer = nil;
+    }
+    initialized = 0;
+};
+
+var initialize = func {
+    if (initialized) teardown();
     initialized = 1;
 
     myprops = {
@@ -139,14 +158,36 @@ setlistener("sim/signals/fdm-initialized", func {
         etaWP0: props.globals.getNode('/fms/performance/wp[0]/eta'),
         etaWP1: props.globals.getNode('/fms/performance/wp[1]/eta'),
         etaDest: props.globals.getNode('/fms/performance/destination/eta'),
+        perfMode: props.globals.getNode('/controls/flight/perf-mode'),
+        cruiseAlt: props.globals.getNode('/autopilot/route-manager/cruise/altitude-ft'),
+        cruiseIAS: props.globals.getNode('/controls/flight/speed-schedule/cruise-kts'),
+        cruiseMach: props.globals.getNode('/controls/flight/speed-schedule/cruise-mach'),
+        alt: props.globals.getNode('/instrumentation/altimeter/indicated-altitude-ft'),
+        landingAlt: props.globals.getNode('/fms/approach-conditions/runway-elevation'),
     };
-    setlistener("autopilot/route-manager/active", func { performanceProfile = initProfile(); });
-    setlistener("autopilot/route-manager/signals/edited", func { performanceProfile = initProfile(); });
-	var timer = maketimer(5, func () {
+    append(listeners,
+        setlistener("autopilot/route-manager/active", func { performanceProfile = initProfile(); }));
+    append(listeners,
+        setlistener("autopilot/route-manager/signals/edited", func { performanceProfile = initProfile(); }));
+    var perfMode = CurrentGsFfMode.new();
+    append(listeners,
+        setlistener("controls/flight/perf-mode", func (node) {
+            if (node.getValue() == PERF_MODE_PILOT_SPD_FF) {
+                perfMode = PilotSpeedFfMode.new();
+            }
+            else {
+                perfMode = CurrentGsFfMode.new();
+            }
+        }));
+	timer = maketimer(5, func () {
         var fp = getVisibleFlightplan();
-        updateProfile(fp, estimateSimple, performanceProfile);
+        var info = makeInfo();
+        updateProfile(perfMode, fp, info, performanceProfile);
+        printPerformanceProfile(fp, performanceProfile);
     });
     timer.simulatedTime = 1;
     timer.singleShot = 0;
 	timer.start();
-});
+};
+
+setlistener("sim/signals/fdm-initialized", initialize);
