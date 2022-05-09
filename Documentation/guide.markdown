@@ -673,6 +673,51 @@ In the LOW and MED modes, deploying reversers will reduce brake wear and
 heating, but will not change the required landing distance or deceleration
 rate.
 
+### Nosewheel Steering
+
+Nosewheel steering (NWS) can operate in 4 modes:
+
+1. **Towing.** This mode is active when a pushback is connected ("bypass pin
+   inserted"). The pushback truck controls NWS.
+2. **Tiller.** This mode is active in normal operation, when the "enable tiller
+   steering" configuration option is selected. In this mode, rudder pedals
+   command +/- 7° nosewheel deflection, and the tiller commands +/- 76°
+   nosewheel deflection, up to a wheel speed dependent limit (see below). In
+   the real aircraft, the tiller must be pushed down to activate it, and when
+   pushed down, it will override the rudder pedals; however, due to the
+   constraints of a typical sim setup, we allow inputs from both devices, and
+   simply sum their inputs.
+3. **Rudder Pedals.** This mode is active in normal operation, when the "enable
+   tiller steering" configuration option is deselected. It does not exist in
+   the real aircraft, but is provided to support sim setups without a separate
+   tiller axis. In this mode, rudder pedals command nosewheel deflection
+   proportional to the wheel speed dependent limit (see below).
+4. **Free castering.** This mode is not implemented yet, but exists in the real
+   aircraft. In this mode the nosewheel steering system disengages, allowing
+   the nosewheel to caster freely. It is active when there are any failures in
+   the NWS system, or when the pilot disables the NWS system. The aircraft can
+   be steered using rudder, differential thrust, and/or differential braking.
+
+The wheel speed dependent nose wheel deflection limits are:
+
+- +/- 76° up to 10 knots
+- +/- 20° between 26.2 knots and 89 knots
+- +/- 7° above 100 knots
+
+Between these zones, the limit scales proportionally to wheel speed, providing
+a smooth transition between the zones.
+
+The tiller axis does not actuate linearly; it is divided into 3 linear zones,
+according to the following schedule:
+
+-  0° handle deflection (normalized: 0.0, dead center) -> 0° nosewheel deflection
+- 20° handle deflection (normalized: 0.25, 1/4) -> 5° nosewheel deflection
+- 50° handle deflection (normalized: 0.625, 5/8) -> 25° nosewheel deflection
+- 80° handle deflection (normalized: 1.0, full input) -> 76° nosewheel deflection
+
+This allows for finer control around the center, while the response to stronger
+deflections is much more drastic.
+
 ### Fly-By-Wire
 
 The E-Jet has an open-loop FBW system controlling the elevator, rudder, and
