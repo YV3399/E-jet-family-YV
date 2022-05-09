@@ -359,6 +359,28 @@
             </test>
         </switch>
         
+        <fcs_function name="Nose Wheel Steering Limit 0">
+          <function name="fcs/steer-nose-limit-deg[0]">
+            <ifthen>
+              <eq>
+                <property>/sim/model/autopush/connected</property>
+                <value>1</value>
+              </eq>
+              <value>70</value>
+              <table>
+                  <independentVar lookup="row">/velocities/groundspeed-kt</independentVar>
+                  <tableData>
+                      0.0 76
+                     10.0 76
+                     26.2 20
+                     89.0 20
+                    100.0  7
+                  </tableData>
+              </table>
+            </ifthen>
+          </function>
+        </fcs_function>
+
         <fcs_function name="Nose Wheel Steering 0">
           <function name="fcs/steer-nose-deg[0]">
             <description>Steering command for nose gear</description>
@@ -376,27 +398,38 @@
                   <property>/controls/gear/enable-tiller</property>
                   <value>1</value>
                 </eq>
-                <table>
-                  <independentVar lookup="row">/controls/gear/tiller-cmd-norm</independentVar>
-                  <independentVar lookup="column">/controls/flight/rudder</independentVar>
-                  <tableData>
-                        -1   0   1
-                    -1 -70 -70 -70
-                     0  -7   0   7
-                     1  70  70  70
-                  </tableData>
-                </table>
-                <table>
-                  <independentVar lookup="row">/velocities/groundspeed-kt</independentVar>
-                  <independentVar lookup="column">/controls/flight/rudder</independentVar>
-                  <tableData>
-                        -1   0   1
-                     0 -70   0  70
-                    20 -70   0  70
-                    25 -30   0  30
-                    40  -7   0   7
-                  </tableData>
-                </table>
+
+                <!-- Tiller enabled: rudder pedals command +/- 7°, tiller follows IRL schedule. -->
+                <min>
+                    <property>fcs/steer-nose-limit-deg[0]</property>
+                    <max>
+                        <property>-fcs/steer-nose-limit-deg[0]</property>
+                        <sum>
+                            <table>
+                              <independentVar lookup="row">/controls/gear/tiller-cmd-norm</independentVar>
+                              <tableData>
+                                -1.000 -76
+                                -0.625 -25
+                                -0.250  -5
+                                 0.000   0
+                                 0.250   5
+                                 0.625  25
+                                 1.000  76
+                              </tableData>
+                            </table>
+                            <product>
+                              <property>/controls/flight/rudder</property>
+                              <value>7</value>
+                            </product>
+                        </sum>
+                    </max>
+                </min>
+
+                <!-- Tiller disabled: rudder pedals command up to NWS limit. -->
+                <product>
+                  <property>/controls/flight/rudder</property>
+                  <property>fcs/steer-nose-limit-deg[0]</property>
+                </product>
               </ifthen>
             </ifthen>
           </function>
