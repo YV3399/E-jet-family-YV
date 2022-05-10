@@ -1003,3 +1003,38 @@ LSK's on the right to open a message, read it, and possibly respond to it.</p>
 
 <p>The remaining items on the <code>ATC INDEX</code> page allow you to compose downlinks from
 predefined standard templates to initiate a new dialog.</p>
+
+<h2>Configuration</h2>
+
+<p>Some aspects of the E-Jet can be configured; most of the configuration options
+exist in order to find a balance between realism and the practicalities of a
+desktop flight simulator, while some others are mostly about performance.</p>
+
+<p>Configurable aspects include:</p>
+
+<ul>
+<li><strong>Keyboard mode.</strong> By default, the E-Jet overrides some keybindings that are
+normally used for flight controls: the number keys are used to switch views,
+or, when one of the MCDU's has grabbed the keyboard, MCDU scratchpad entry.
+In keyboard mode, these bindings are disabled, and the aircraft can be flown
+with the keyboard.</li>
+<li><strong>Separate tiller steering.</strong> When enabled (more realistic), the tiller is
+controlled separately through the tiller dialog or a tiller axis input, and
+closely matches the behavior of the real aircraft, while the rudder pedals
+command up to +/- 7° nosewheel steering. When disabled, the rudder pedals
+command a variable, groundspeed dependent, amount of nosewheel deflection
+between 7° and 76°; this is less realistic, but makes the aircraft flyable on
+setups that do not offer a separate tiller axis.</li>
+<li><strong>PFD Coupling.</strong> Normally, the PFD's on both sides have independent
+altimeters and minimums settings, controlled from the respective side of the
+glareshield panel. However, since most sim pilots fly the aircraft
+single-pilot, these checkboxes allow you to link one side to the other. When
+coupling is active, one side is the "master" side, and the controls on that
+side control altimeters and minimums on both sides. This is particularly
+important when using autoland, because APPR 2 will only arm when both sides'
+minimums agree.</li>
+<li><strong>EFB.</strong> Enables or disables the Electronic Flight Bag (EFB).</li>
+<li><strong>EFIS.</strong> This section allows you to turn off some of the EFIS screens, which
+can improve performance. It also provides options to tweak the terrain
+rendering on the MFD's, both resolution and update speed.</li>
+</ul>
