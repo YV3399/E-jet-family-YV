@@ -151,7 +151,7 @@ var canvas_ED_only = {
 			me["mach_unit"].hide();
 		}
 		
-		var alt=getprop("/instrumentation/altimeter/indicated-altitude-ft") or 0;
+		var alt=getprop("/instrumentation/altimeter[2]/indicated-altitude-ft") or 0;
 
 		me["alt.tape"].setTranslation(0,(alt - roundToNearest(alt, 2000))*0.2343);
 		if (roundToNearest(alt, 1000) == 0) {
@@ -185,7 +185,7 @@ var canvas_ED_only = {
 		#me["altTextHigh1"].setText(sprintf("%s", altNumCenter));
 		me["altTextHigh1"].setText(sprintf("%s", altNumHigh));
 		
-		me["qnh"].setText(sprintf("%u", (getprop("/instrumentation/altimeter/setting-hpa") or 0)));
+		me["qnh"].setText(sprintf("%u", (getprop("/instrumentation/altimeter[2]/setting-hpa") or 0)));
 		
 		var alt10000=getprop("/instrumentation/iess/alt-10000") or 0;
 		if(alt10000!=0){

@@ -95,7 +95,7 @@ re-run build.sh.
                 <input>
                     <expression>
                         <floor>
-                            <property>/instrumentation/altimeter/indicated-altitude-ft</property>
+                            <property>/instrumentation/altimeter[<xsl:value-of select="$index"/>]/indicated-altitude-ft</property>
                         </floor>
                     </expression>
                 </input>
@@ -110,7 +110,7 @@ re-run build.sh.
                     <expression>
                         <floor>
                             <div>
-                                <property>/instrumentation/altimeter/indicated-altitude-ft</property>
+                                <property>/instrumentation/altimeter[<xsl:value-of select="$index"/>]/indicated-altitude-ft</property>
                                 <value>1000</value>
                             </div>
                         </floor>
@@ -170,15 +170,15 @@ re-run build.sh.
                 <output>/instrumentation/pfd[<xsl:value-of select="$index"/>]/track-error-deg</output>
             </filter>
 
-            <!-- MINIMUMS -->
+            <!-- SLAVING -->
 
             <filter>
-                <name>Slave mode</name>
+                <name>Slave minimums mode</name>
                 <type>gain</type>
                 <gain>1</gain>
                 <enable>
                     <condition>
-                        <property>/instrumentation/pfd[<xsl:value-of select="$index"/>]/minimums-slaved</property>
+                        <property>/instrumentation/pfd[<xsl:value-of select="$index"/>]/slaved</property>
                     </condition>
                 </enable>
                 <input>
@@ -187,12 +187,12 @@ re-run build.sh.
                 <output>/instrumentation/pfd[<xsl:value-of select="$index"/>]/minimums-mode</output>
             </filter>
             <filter>
-                <name>Slave baro</name>
+                <name>Slave minimums baro</name>
                 <type>gain</type>
                 <gain>1</gain>
                 <enable>
                     <condition>
-                        <property>/instrumentation/pfd[<xsl:value-of select="$index"/>]/minimums-slaved</property>
+                        <property>/instrumentation/pfd[<xsl:value-of select="$index"/>]/slaved</property>
                     </condition>
                 </enable>
                 <input>
@@ -201,12 +201,12 @@ re-run build.sh.
                 <output>/instrumentation/pfd[<xsl:value-of select="$index"/>]/minimums-baro</output>
             </filter>
             <filter>
-                <name>Slave radio</name>
+                <name>Slave minimums radio</name>
                 <type>gain</type>
                 <gain>1</gain>
                 <enable>
                     <condition>
-                        <property>/instrumentation/pfd[<xsl:value-of select="$index"/>]/minimums-slaved</property>
+                        <property>/instrumentation/pfd[<xsl:value-of select="$index"/>]/slaved</property>
                     </condition>
                 </enable>
                 <input>
@@ -214,7 +214,50 @@ re-run build.sh.
                 </input>
                 <output>/instrumentation/pfd[<xsl:value-of select="$index"/>]/minimums-radio</output>
             </filter>
+            <filter>
+                <name>Slave altimeter qnh mode</name>
+                <type>gain</type>
+                <gain>1</gain>
+                <enable>
+                    <condition>
+                        <property>/instrumentation/pfd[<xsl:value-of select="$index"/>]/slaved</property>
+                    </condition>
+                </enable>
+                <input>
+                    <property>/instrumentation/pfd[<xsl:value-of select="$otherIndex"/>]/qnh-mode</property>
+                </input>
+                <output>/instrumentation/pfd[<xsl:value-of select="$index"/>]/qnh-mode</output>
+            </filter>
+            <filter>
+                <name>Slave altimeter setting hpa</name>
+                <type>gain</type>
+                <gain>1</gain>
+                <enable>
+                    <condition>
+                        <property>/instrumentation/pfd[<xsl:value-of select="$index"/>]/slaved</property>
+                    </condition>
+                </enable>
+                <input>
+                    <property>/instrumentation/pfd[<xsl:value-of select="$otherIndex"/>]/setting-hpa</property>
+                </input>
+                <output>/instrumentation/pfd[<xsl:value-of select="$index"/>]/setting-hpa</output>
+            </filter>
+            <filter>
+                <name>Slave altimeter setting inhg</name>
+                <type>gain</type>
+                <gain>1</gain>
+                <enable>
+                    <condition>
+                        <property>/instrumentation/pfd[<xsl:value-of select="$index"/>]/slaved</property>
+                    </condition>
+                </enable>
+                <input>
+                    <property>/instrumentation/pfd[<xsl:value-of select="$otherIndex"/>]/setting-inhg</property>
+                </input>
+                <output>/instrumentation/pfd[<xsl:value-of select="$index"/>]/setting-inhg</output>
+            </filter>
 
+            <!-- MINIMUMS -->
             <!-- mk-viii does not support actual baro minimums, so we provide fake
                  radio minimums based on configured baro minimums, current barometric
                  altitude, and current radar altimeter reading. -->
@@ -227,7 +270,7 @@ re-run build.sh.
                         <dif>
                             <property>/instrumentation/pfd[<xsl:value-of select="$index"/>]/minimums-baro</property>
                             <dif>
-                                <property>/instrumentation/altimeter/indicated-altitude-ft</property>
+                                <property>/instrumentation/altimeter[<xsl:value-of select="$index"/>]/indicated-altitude-ft</property>
                                 <property>/position/gear-agl-ft</property>
                             </dif>
                         </dif>
@@ -329,7 +372,7 @@ re-run build.sh.
                     <condition>
                         <property>/instrumentation/pfd[<xsl:value-of select="$index"/>]/minimums-mode</property>
                     </condition>
-                    <property>/instrumentation/altimeter/indicated-altitude-ft</property>
+                    <property>/instrumentation/altimeter[<xsl:value-of select="$index"/>]/indicated-altitude-ft</property>
                 </input>
                 <input>
                     <property>/position/gear-agl-ft</property>

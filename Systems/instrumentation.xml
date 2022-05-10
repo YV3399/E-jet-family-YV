@@ -25,6 +25,20 @@
 		<quantum>0</quantum>
 		<tau>0.1</tau>
 	</altimeter>
+	<altimeter>
+		<name>altimeter</name>
+		<number>1</number>
+		<static-pressure>/systems/static/pressure-inhg</static-pressure>
+		<quantum>0</quantum>
+		<tau>0.1</tau>
+	</altimeter>
+	<altimeter>
+		<name>altimeter</name>
+		<number>2</number>
+		<static-pressure>/systems/static/pressure-inhg</static-pressure>
+		<quantum>0</quantum>
+		<tau>0.1</tau>
+	</altimeter>
 
 	<attitude-indicator>
 		<name>attitude-indicator</name>

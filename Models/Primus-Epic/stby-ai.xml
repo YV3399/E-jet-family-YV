@@ -18,7 +18,7 @@
   <animation>
         <type>knob</type>
         <object-name>baroknob</object-name><!--
-				<property>instrumentation/altimeter/setting-inhg</property>
+				<property>instrumentation/altimeter[2]/setting-inhg</property>
                                 <factor>100</factor>
     <center>
       <y-m> -0.63869 </y-m>
@@ -32,7 +32,7 @@
         <action>
             <binding>
 				<command>property-adjust</command>
-				<property>instrumentation/altimeter/setting-hpa</property>
+				<property>instrumentation/altimeter[2]/setting-hpa</property>
 				<factor>1</factor>
 				<min>950</min>
 				<max>1050</max>
@@ -45,7 +45,7 @@
                 <tooltip-id>hpa</tooltip-id>
                 <label>QNH: %u hPa</label>
                 <mapping>QNH</mapping>
-				<property>instrumentation/altimeter/setting-hpa</property>
+				<property>instrumentation/altimeter[2]/setting-hpa</property>
             </binding>
         </hovered>
     </animation>
@@ -59,7 +59,7 @@
             <repeatable>false</repeatable>
             <binding>
             	<command>property-assign</command>
-				<property>instrumentation/altimeter/setting-hpa</property>
+				<property>instrumentation/altimeter[2]/setting-hpa</property>
                 <value>1013</value>
             </binding>
     </action>

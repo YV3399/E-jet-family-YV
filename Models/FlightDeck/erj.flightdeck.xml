@@ -1207,25 +1207,622 @@
     <animation>
         <type>pick</type>
         <object-name>QNH.left.knob</object-name>
-        <object-name>QNH.right.knob</object-name>
         <action>
             <button>0</button>
             <binding>
                 <command>property-assign</command>
-                <property>instrumentation/altimeter/setting-hpa</property>
+                <property>instrumentation/altimeter[0]/setting-hpa</property>
                 <value>1013.1</value>
             </binding>
             <binding>
                 <command>property-assign</command>
-                <property>instrumentation/altimeter/setting-inhg</property>
+                <property>instrumentation/altimeter[0]/setting-inhg</property>
                 <value>29.92</value>
+            </binding>
+        </action>
+    </animation>
+    <animation>
+        <type>knob</type>
+        <object-name>QNH.left.knob</object-name>
+        <axis>
+            <x>  1 </x>
+            <y>  0 </y>
+            <z>  0 </z>
+        </axis>
+        <action>
+            <binding>
+                <condition>
+                    <equals>
+                        <property>instrumentation/pfd[0]/qnh-mode</property>
+                        <value>0</value>
+                    </equals>
+                </condition>
+                <command>property-adjust</command>
+                <property>instrumentation/altimeter[0]/setting-hpa</property>
+                <min>880</min>
+                <max>1050</max>
+                <wrap>false</wrap>
+                <factor>1</factor>
+            </binding>
+            <binding>
+                <condition>
+                    <equals>
+                        <property>instrumentation/pfd[0]/qnh-mode</property>
+                        <value>1</value>
+                    </equals>
+                </condition>
+                <command>property-adjust</command>
+                <property>instrumentation/altimeter[0]/setting-inhg</property>
+                <min>26.0</min>
+                <max>31.0</max>
+                <wrap>false</wrap>
+                <factor>0.01</factor>
+            </binding>
+        </action>
+    </animation>
+    <animation>
+        <type>knob</type>
+        <object-name>QNH.left.ring</object-name>
+        <axis>
+            <x>  1 </x>
+            <y>  0 </y>
+            <z>  0 </z>
+        </axis>
+        <action>
+            <binding>
+                <command>property-cycle</command>
+                <property>instrumentation/pfd[0]/qnh-mode</property>
+                <value>1</value>
+                <value>0</value>
+                <wrap>0</wrap>
+            </binding>
+        </action>
+    </animation>
+    
+    
+    <!-- CRS Knob 1 Pick Animation -->
+    <animation>
+        <type>pick</type>
+        <object-name>CRS.knob</object-name>
+        <action>
+            <button>0</button>
+            <binding>
+                <command>nasal</command>
+                <script>
+                    var which = getprop("instrumentation/pfd[0]/nav-src") or getprop("instrumentation/pfd[0]/preview") or 0;
+                    if (which > 0) {
+                    var degrees = math.round(getprop("instrumentation/nav[" ~ (which - 1) ~ "]/heading-deg"));
+                    setprop("instrumentation/nav[" ~ (which - 1) ~ "]/radials/selected-deg", degrees);
+                    }
+                </script>
             </binding>
         </action>
     </animation>
     
     <animation>
         <type>knob</type>
-        <object-name>QNH.left.knob</object-name>
+        <object-name>CRS.knob</object-name>
+        <axis>
+            <x>  1 </x>
+            <y>  0 </y>
+            <z>  0 </z>
+        </axis>
+        <condition>
+            <or>
+                <equals>
+                    <property>/instrumentation/pfd[0]/nav-src</property>
+                    <value>1</value>
+                </equals>
+                <and>
+                    <equals>
+                        <property>/instrumentation/pfd[0]/nav-src</property>
+                        <value>0</value>
+                    </equals>
+                    <equals>
+                        <property>/instrumentation/pfd[0]/preview</property>
+                        <value>1</value>
+                    </equals>
+                </and>
+            </or>
+        </condition>
+        <action>
+            <binding>
+                <command>property-adjust</command>
+                <property>instrumentation/nav[0]/radials/selected-deg</property>
+                <min>0</min>
+                <max>360</max>
+                <wrap>true</wrap>
+                <factor>1</factor>
+            </binding>
+        </action>
+        <shift-action>
+            <binding>
+                <command>property-adjust</command>
+                <property>instrumentation/nav[0]/radials/selected-deg</property>
+                <min>0</min>
+                <max>360</max>
+                <wrap>true</wrap>
+                <factor>10</factor>
+            </binding>
+        </shift-action>
+    </animation>
+    <animation>
+        <type>knob</type>
+        <object-name>CRS.knob</object-name>
+        <axis>
+            <x>  1 </x>
+            <y>  0 </y>
+            <z>  0 </z>
+        </axis>
+        <condition>
+            <or>
+                <equals>
+                    <property>/instrumentation/pfd[0]/nav-src</property>
+                    <value>2</value>
+                </equals>
+                <and>
+                    <equals>
+                        <property>/instrumentation/pfd[0]/nav-src</property>
+                        <value>0</value>
+                    </equals>
+                    <equals>
+                        <property>/instrumentation/pfd[0]/preview</property>
+                        <value>2</value>
+                    </equals>
+                </and>
+            </or>
+        </condition>
+        <action>
+            <binding>
+                <command>property-adjust</command>
+                <property>instrumentation/nav[1]/radials/selected-deg</property>
+                <min>0</min>
+                <max>360</max>
+                <wrap>true</wrap>
+                <factor>1</factor>
+            </binding>
+        </action>
+        <shift-action>
+            <binding>
+                <command>property-adjust</command>
+                <property>instrumentation/nav[1]/radials/selected-deg</property>
+                <min>0</min>
+                <max>360</max>
+                <wrap>true</wrap>
+                <factor>10</factor>
+            </binding>
+        </shift-action>
+    </animation>
+    
+    <!-- CRS Knob 2 Pick Animations -->
+    <animation>
+        <type>pick</type>
+        <object-name>CRS2.knob</object-name>
+        <action>
+            <button>0</button>
+            <binding>
+                <command>nasal</command>
+                <script>
+                    var which = getprop("instrumentation/pfd[1]/nav-src") or getprop("instrumentation/pfd[1]/preview") or 0;
+                    if (which > 0) {
+                    var degrees = math.round(getprop("instrumentation/nav[" ~ (which - 1) ~ "]/heading-deg"));
+                    setprop("instrumentation/nav[" ~ (which - 1) ~ "]/radials/selected-deg", degrees);
+                    }
+                </script>
+            </binding>
+        </action>
+    </animation>
+    
+    <animation>
+        <type>knob</type>
+        <object-name>CRS2.knob</object-name>
+        <axis>
+            <x>  1 </x>
+            <y>  0 </y>
+            <z>  0 </z>
+        </axis>
+        <condition>
+            <or>
+                <equals>
+                    <property>/instrumentation/pfd[1]/nav-src</property>
+                    <value>1</value>
+                </equals>
+                <and>
+                    <equals>
+                        <property>/instrumentation/pfd[1]/nav-src</property>
+                        <value>0</value>
+                    </equals>
+                    <equals>
+                        <property>/instrumentation/pfd[1]/preview</property>
+                        <value>1</value>
+                    </equals>
+                </and>
+            </or>
+        </condition>
+        <action>
+            <binding>
+                <command>property-adjust</command>
+                <property>instrumentation/nav[0]/radials/selected-deg</property>
+                <min>0</min>
+                <max>360</max>
+                <wrap>true</wrap>
+                <factor>1</factor>
+            </binding>
+        </action>
+        <shift-action>
+            <binding>
+                <command>property-adjust</command>
+                <property>instrumentation/nav[0]/radials/selected-deg</property>
+                <min>0</min>
+                <max>360</max>
+                <wrap>true</wrap>
+                <factor>10</factor>
+            </binding>
+        </shift-action>
+    </animation>
+    <animation>
+        <type>knob</type>
+        <object-name>CRS2.knob</object-name>
+        <axis>
+            <x>  1 </x>
+            <y>  0 </y>
+            <z>  0 </z>
+        </axis>
+        <condition>
+            <or>
+                <equals>
+                    <property>/instrumentation/pfd[1]/nav-src</property>
+                    <value>2</value>
+                </equals>
+                <and>
+                    <equals>
+                        <property>/instrumentation/pfd[1]/nav-src</property>
+                        <value>0</value>
+                    </equals>
+                    <equals>
+                        <property>/instrumentation/pfd[1]/preview</property>
+                        <value>2</value>
+                    </equals>
+                </and>
+            </or>
+        </condition>
+        <action>
+            <binding>
+                <command>property-adjust</command>
+                <property>instrumentation/nav[1]/radials/selected-deg</property>
+                <min>0</min>
+                <max>360</max>
+                <wrap>true</wrap>
+                <factor>1</factor>
+            </binding>
+        </action>
+        <shift-action>
+            <binding>
+                <command>property-adjust</command>
+                <property>instrumentation/nav[1]/radials/selected-deg</property>
+                <min>0</min>
+                <max>360</max>
+                <wrap>true</wrap>
+                <factor>10</factor>
+            </binding>
+        </shift-action>
+    </animation>
+    
+    <!-- HDG Knob Pick Animations -->
+    
+    <animation>
+        <type>pick</type>
+        <object-name>HDG.knob</object-name>
+        <action>
+            <button>0</button>
+            <binding>
+                <command>nasal</command>
+                <script>setprop("it-autoflight/input/hdg", math.round(getprop("orientation/heading-magnetic-deg")));</script>
+            </binding>
+        </action>
+    </animation>
+    
+    <animation>
+        <type>knob</type>
+        <object-name>HDG.knob</object-name>
+        <axis>
+            <x>  1 </x>
+            <y>  0 </y>
+            <z>  0 </z>
+        </axis>
+        <action>
+            <binding>
+                <command>property-adjust</command>
+                <property>it-autoflight/input/hdg</property>
+                <min>0</min>
+                <max>360</max>
+                <wrap>true</wrap>
+                <factor>1</factor>
+            </binding>
+        </action>
+        <shift-action>
+            <binding>
+                <command>property-adjust</command>
+                <property>it-autoflight/input/hdg</property>
+                <min>0</min>
+                <max>360</max>
+                <wrap>true</wrap>
+                <factor>10</factor>
+            </binding>
+        </shift-action>
+    </animation>
+    
+    <!-- SPD Knob Pick Animations -->
+    
+    <animation>
+        <type>pick</type>
+        <object-name>SPD.knob</object-name>
+        <action>
+            <button>0</button>
+            <binding>
+                <command>property-cycle</command>
+                <property>it-autoflight/input/kts-mach</property>
+                <value>0</value>
+                <value>1</value>
+            </binding>
+        </action>
+    </animation>
+    
+    <animation>
+        <type>knob</type>
+        <object-name>SPD.knob</object-name>
+        <axis>
+            <x>  1 </x>
+            <y>  0 </y>
+            <z>  0 </z>
+        </axis>
+        <action>
+            <binding>
+                <condition>
+                    <equals>
+                        <property>it-autoflight/input/kts-mach</property>
+                        <value>0</value>
+                    </equals>
+                </condition>
+                <command>property-adjust</command>
+                <property>it-autoflight/input/kts</property>
+                <min>0</min>
+                <max>400</max>
+                <wrap>false</wrap>
+                <factor>1</factor>
+            </binding>
+            <binding>
+                <condition>
+                    <equals>
+                        <property>it-autoflight/input/kts-mach</property>
+                        <value>1</value>
+                    </equals>
+                </condition>
+                <command>property-adjust</command>
+                <property>it-autoflight/input/mach</property>
+                <min>0</min>
+                <max>0.99</max>
+                <wrap>false</wrap>
+                <factor>0.001</factor>
+            </binding>
+        </action>
+        <shift-action>
+            <binding>
+                <condition>
+                    <equals>
+                        <property>it-autoflight/input/kts-mach</property>
+                        <value>0</value>
+                    </equals>
+                </condition>
+                <command>property-adjust</command>
+                <property>it-autoflight/input/kts</property>
+                <min>0</min>
+                <max>400</max>
+                <wrap>false</wrap>
+                <factor>10</factor>
+            </binding>
+            <binding>
+                <condition>
+                    <equals>
+                        <property>it-autoflight/input/kts-mach</property>
+                        <value>1</value>
+                    </equals>
+                </condition>
+                <command>property-adjust</command>
+                <property>it-autoflight/input/mach</property>
+                <min>0</min>
+                <max>0.99</max>
+                <wrap>false</wrap>
+                <factor>0.01</factor>
+            </binding>
+        </shift-action>
+    </animation>
+    
+    <animation>
+        <type>knob</type>
+        <object-name>SPD.ring</object-name>
+        <axis>
+            <x>  1 </x>
+            <y>  0 </y>
+            <z>  0 </z>
+        </axis>
+        <action>
+            <binding>
+                <command>property-cycle</command>
+                <property>controls/flight/speed-mode</property>
+                <value>1</value>
+                <value>0</value>
+                <wrap>0</wrap>
+            </binding>
+        </action>
+    </animation>
+    
+    <!-- ALT Knob Pick Animations -->
+    
+    <animation>
+        <type>knob</type>
+        <object-name>ALT.knob</object-name>
+        <axis>
+            <x>  1 </x>
+            <y>  0 </y>
+            <z>  0 </z>
+        </axis>
+        <action>
+            <binding>
+                <command>property-adjust</command>
+                <property>/controls/flight/selected-alt</property>
+                <min>0</min>
+                <max>50000</max>
+                <wrap>false</wrap>
+                <factor>100</factor>
+            </binding>
+        </action>
+        <shift-action>
+            <binding>
+                <command>property-adjust</command>
+                <property>/controls/flight/selected-alt</property>
+                <min>0</min>
+                <max>50000</max>
+                <wrap>false</wrap>
+                <factor>1000</factor>
+            </binding>
+        </shift-action>
+    </animation>
+    
+    <!-- VS Knob Pick Animations -->
+    <animation>
+        <type>knob</type>
+        <object-name>VS.knob</object-name>
+        <axis>
+            <x>  0 </x>
+            <y>  0 </y>
+            <z>  1 </z>
+        </axis>
+        <action>
+            <binding>
+                <command>property-adjust</command>
+                <property>it-autoflight/input/vs</property>
+                <min>-9000</min>
+                <max>9000</max>
+                <wrap>false</wrap>
+                <factor>-100</factor>
+            </binding>
+        </action>
+    </animation>
+    
+    <!-- FPA Knob Pick Animations -->
+    <animation>
+        <type>knob</type>
+        <object-name>FPA.knob</object-name>
+        <axis>
+            <x>  0 </x>
+            <y>  0 </y>
+            <z>  1 </z>
+        </axis>
+        <action>
+            <binding>
+                <command>property-adjust</command>
+                <property>it-autoflight/input/fpa</property>
+                <min>-30</min>
+                <max>30</max>
+                <wrap>false</wrap>
+                <factor>0.1</factor>
+            </binding>
+        </action>
+        <shift-action>
+            <binding>
+                <command>property-adjust</command>
+                <property>it-autoflight/input/fpa</property>
+                <min>-30</min>
+                <max>30</max>
+                <wrap>false</wrap>
+                <factor>1</factor>
+            </binding>
+        </shift-action>
+    </animation>
+    
+    <!-- Buttons and Lights Animations -->
+    
+    <!-- IAS-MACH -->
+    
+    <animation>
+        <type>pick</type>
+        <object-name>IAS-MACH</object-name>
+        <action>
+            <button>0</button>
+            <repeatable type="bool">false</repeatable>
+            <binding>
+                <command>property-cycle</command>
+                <property>it-autoflight/kts-mach</property>
+                <value>0</value>
+                <value>1</value>
+            </binding>
+        </action>
+    </animation>
+    
+    <!-- FD -->
+    
+    <animation>
+        <type>pick</type>
+        <object-name>FD</object-name>
+        <action>
+            <button>0</button>
+            <repeatable type="bool">false</repeatable>
+            <binding>
+                <command>property-toggle</command>
+                <property>it-autoflight/input/fd1</property>
+            </binding>
+        </action>
+    </animation>
+    <animation>
+        <type>select</type>
+        <object-name>FD.light</object-name>
+        <condition>
+            <property>it-autoflight/output/fd1</property>
+            <property>/systems/electrical/outputs/pushbutton-lights</property>
+        </condition>
+    </animation>
+    
+    <animation>
+        <type>pick</type>
+        <object-name>FD2</object-name>
+        <action>
+            <button>0</button>
+            <repeatable type="bool">false</repeatable>
+            <binding>
+                <command>property-toggle</command>
+                <property>it-autoflight/input/fd2</property>
+            </binding>
+        </action>
+    </animation>
+    <animation>
+        <type>select</type>
+        <object-name>FD2.light</object-name>
+        <condition>
+            <property>it-autoflight/output/fd2</property>
+            <property>/systems/electrical/outputs/pushbutton-lights</property>
+        </condition>
+    </animation>
+
+    <animation>
+        <type>pick</type>
+        <object-name>QNH.right.knob</object-name>
+        <action>
+            <button>0</button>
+            <binding>
+                <command>property-assign</command>
+                <property>instrumentation/altimeter[1]/setting-hpa</property>
+                <value>1013.1</value>
+            </binding>
+            <binding>
+                <command>property-assign</command>
+                <property>instrumentation/altimeter[1]/setting-inhg</property>
+                <value>29.92</value>
+            </binding>
+        </action>
+    </animation>
+    <animation>
+        <type>knob</type>
         <object-name>QNH.right.knob</object-name>
         <axis>
             <x>  1 </x>
@@ -1236,12 +1833,12 @@
             <binding>
                 <condition>
                     <equals>
-                        <property>instrumentation/pfd/qnh-mode</property>
+                        <property>instrumentation/pfd[1]/qnh-mode</property>
                         <value>0</value>
                     </equals>
                 </condition>
                 <command>property-adjust</command>
-                <property>instrumentation/altimeter/setting-hpa</property>
+                <property>instrumentation/altimeter[1]/setting-hpa</property>
                 <min>880</min>
                 <max>1050</max>
                 <wrap>false</wrap>
@@ -1250,12 +1847,12 @@
             <binding>
                 <condition>
                     <equals>
-                        <property>instrumentation/pfd/qnh-mode</property>
+                        <property>instrumentation/pfd[1]/qnh-mode</property>
                         <value>1</value>
                     </equals>
                 </condition>
                 <command>property-adjust</command>
-                <property>instrumentation/altimeter/setting-inhg</property>
+                <property>instrumentation/altimeter[1]/setting-inhg</property>
                 <min>26.0</min>
                 <max>31.0</max>
                 <wrap>false</wrap>
@@ -1263,10 +1860,8 @@
             </binding>
         </action>
     </animation>
-    
     <animation>
         <type>knob</type>
-        <object-name>QNH.left.ring</object-name>
         <object-name>QNH.right.ring</object-name>
         <axis>
             <x>  1 </x>
@@ -1276,7 +1871,7 @@
         <action>
             <binding>
                 <command>property-cycle</command>
-                <property>instrumentation/pfd/qnh-mode</property>
+                <property>instrumentation/pfd[1]/qnh-mode</property>
                 <value>1</value>
                 <value>0</value>
                 <wrap>0</wrap>

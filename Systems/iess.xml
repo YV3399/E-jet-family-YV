@@ -10,7 +10,7 @@
             <expression>
                 <floor>
                     <div>
-                        <property>instrumentation/altimeter/indicated-altitude-ft</property>
+                        <property>instrumentation/altimeter[2]/indicated-altitude-ft</property>
                         <value>10000</value>
                     </div>
                 </floor>
@@ -26,7 +26,7 @@
             <expression>
                 <floor>
                     <div>
-                        <property>instrumentation/altimeter/indicated-altitude-ft</property>
+                        <property>instrumentation/altimeter[2]/indicated-altitude-ft</property>
                         <value>1000</value>
                     </div>
                 </floor>
@@ -42,7 +42,7 @@
             <expression>
                 <floor>
                     <div>
-                        <property>instrumentation/altimeter/indicated-altitude-ft</property>
+                        <property>instrumentation/altimeter[2]/indicated-altitude-ft</property>
                         <value>100</value>
                     </div>
                 </floor>
@@ -57,7 +57,7 @@
         <input>
             <expression>
                 <floor>
-                    <property>instrumentation/altimeter/indicated-altitude-ft</property>
+                    <property>instrumentation/altimeter[2]/indicated-altitude-ft</property>
                 </floor>
             </expression>
         </input>

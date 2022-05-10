@@ -69,9 +69,9 @@
             <path>/instrumentation/mfd/resolution</path>
             <path>/instrumentation/mfd/scanrate</path>
             <path>/instrumentation/pfd[0]/enabled</path>
-            <path>/instrumentation/pfd[0]/minimums-slaved</path>
+            <path>/instrumentation/pfd[0]/slaved</path>
             <path>/instrumentation/pfd[1]/enabled</path>
-            <path>/instrumentation/pfd[1]/minimums-slaved</path>
+            <path>/instrumentation/pfd[1]/slaved</path>
             <path>/instrumentation/mfd[0]/enabled</path>
             <path>/instrumentation/mfd[1]/enabled</path>
             <path>/instrumentation/eicas/enabled</path>
@@ -1890,6 +1890,16 @@
             <brightness type="float">0.75</brightness>
         </IESS>
 
+        <altimeter n="0">
+            <serviceable type="bool">true</serviceable>
+        </altimeter>
+        <altimeter n="1">
+            <serviceable type="bool">true</serviceable>
+        </altimeter>
+        <altimeter n="2">
+            <serviceable type="bool">true</serviceable>
+        </altimeter>
+
         <comm n="0">
             <spacing type="string">25/8.33</spacing>
         </comm>
@@ -2083,7 +2093,7 @@
             <minimums-radio type="int">200</minimums-radio>
             <minimums-baro type="int">400</minimums-baro>
             <minimums-visible type="bool">true</minimums-visible>
-            <minimums-slaved type="bool">false</minimums-slaved>
+            <slaved type="bool">false</slaved>
             <groundspeed-kt type="int">0</groundspeed-kt>
             <wind-speed-kt type="int">0</wind-speed-kt>
             <airspeed-alive type="bool">false</airspeed-alive>
@@ -2167,7 +2177,7 @@
             <minimums-radio type="int">200</minimums-radio>
             <minimums-baro type="int">400</minimums-baro>
             <minimums-visible type="bool">true</minimums-visible>
-            <minimums-slaved type="bool">false</minimums-slaved>
+            <slaved type="bool">false</slaved>
             <groundspeed-kt type="int">0</groundspeed-kt>
             <wind-speed-kt type="int">0</wind-speed-kt>
             <airspeed-alive type="bool">false</airspeed-alive>

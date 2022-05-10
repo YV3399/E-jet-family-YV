@@ -158,9 +158,9 @@ var PFDCanvas = {
         m.props["/gear/gear/wow"] = props.globals.getNode("/gear/gear/wow");
         m.props["/instrumentation/airspeed-indicator/indicated-mach"] = props.globals.getNode("/instrumentation/airspeed-indicator/indicated-mach");
         m.props["/instrumentation/airspeed-indicator/indicated-speed-kt"] = props.globals.getNode("/instrumentation/airspeed-indicator/indicated-speed-kt");
-        m.props["/instrumentation/altimeter/indicated-altitude-ft"] = props.globals.getNode("/instrumentation/altimeter/indicated-altitude-ft");
-        m.props["/instrumentation/altimeter/setting-hpa"] = props.globals.getNode("/instrumentation/altimeter/setting-hpa");
-        m.props["/instrumentation/altimeter/setting-inhg"] = props.globals.getNode("/instrumentation/altimeter/setting-inhg");
+        m.props["/instrumentation/altimeter/indicated-altitude-ft"] = props.globals.getNode("/instrumentation/altimeter[" ~ index ~ "]/indicated-altitude-ft");
+        m.props["/instrumentation/altimeter/setting-hpa"] = props.globals.getNode("/instrumentation/altimeter[" ~ index ~ "]/setting-hpa");
+        m.props["/instrumentation/altimeter/setting-inhg"] = props.globals.getNode("/instrumentation/altimeter[" ~ index ~ "]/setting-inhg");
         m.props["/instrumentation/chrono/elapsed_time/total"] = props.globals.getNode("/instrumentation/chrono/elapsed_time/total");
         m.props["/instrumentation/comm[0]/frequencies/selected-mhz"] = props.globals.getNode("/instrumentation/comm[0]/frequencies/selected-mhz");
         m.props["/instrumentation/comm[0]/frequencies/standby-mhz"] = props.globals.getNode("/instrumentation/comm[0]/frequencies/standby-mhz");
@@ -202,8 +202,6 @@ var PFDCanvas = {
         m.props["/instrumentation/pfd/airspeed-lookahead-10s"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/airspeed-lookahead-10s");
         m.props["/instrumentation/pfd/alt-tape-offset"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/alt-tape-offset");
         m.props["/instrumentation/pfd/alt-tape-thousands"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/alt-tape-thousands");
-        m.props["/instrumentation/pfd/asi-100"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/asi-100");
-        m.props["/instrumentation/pfd/asi-10"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/asi-10");
         m.props["/instrumentation/pfd/bearing[0]/bearing"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/bearing[0]/bearing");
         m.props["/instrumentation/pfd/bearing[0]/source"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/bearing[0]/source");
         m.props["/instrumentation/pfd/bearing[0]/visible"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/bearing[0]/visible");
@@ -1381,16 +1379,16 @@ initialize = func {
             setlistener(rateProp, check, 1, 0);
         })(i);
     }
-    setlistener('instrumentation/pfd[0]/minimums-slaved', func (node) {
+    setlistener('instrumentation/pfd[0]/slaved', func (node) {
         if (node.getBoolValue()) {
             print('deslave 1');
-            setprop('instrumentation/pfd[1]/minimums-slaved', 0);
+            setprop('instrumentation/pfd[1]/slaved', 0);
         }
     }, 0, 0);
-    setlistener('instrumentation/pfd[1]/minimums-slaved', func (node) {
+    setlistener('instrumentation/pfd[1]/slaved', func (node) {
         if (node.getBoolValue()) {
             print('deslave 0');
-            setprop('instrumentation/pfd[0]/minimums-slaved', 0);
+            setprop('instrumentation/pfd[0]/slaved', 0);
         }
     }, 0, 0);
 };

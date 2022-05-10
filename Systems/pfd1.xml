@@ -81,7 +81,7 @@ re-run build.sh.
     <input>
       <expression>
         <floor>
-          <property>/instrumentation/altimeter/indicated-altitude-ft</property>
+          <property>/instrumentation/altimeter[0]/indicated-altitude-ft</property>
         </floor>
       </expression>
     </input>
@@ -96,7 +96,7 @@ re-run build.sh.
       <expression>
         <floor>
           <div>
-            <property>/instrumentation/altimeter/indicated-altitude-ft</property>
+            <property>/instrumentation/altimeter[0]/indicated-altitude-ft</property>
             <value>1000</value>
           </div>
         </floor>
@@ -155,12 +155,12 @@ re-run build.sh.
     <output>/instrumentation/pfd[0]/track-error-deg</output>
   </filter>
   <filter>
-    <name>Slave mode</name>
+    <name>Slave minimums mode</name>
     <type>gain</type>
     <gain>1</gain>
     <enable>
       <condition>
-        <property>/instrumentation/pfd[0]/minimums-slaved</property>
+        <property>/instrumentation/pfd[0]/slaved</property>
       </condition>
     </enable>
     <input>
@@ -169,12 +169,12 @@ re-run build.sh.
     <output>/instrumentation/pfd[0]/minimums-mode</output>
   </filter>
   <filter>
-    <name>Slave baro</name>
+    <name>Slave minimums baro</name>
     <type>gain</type>
     <gain>1</gain>
     <enable>
       <condition>
-        <property>/instrumentation/pfd[0]/minimums-slaved</property>
+        <property>/instrumentation/pfd[0]/slaved</property>
       </condition>
     </enable>
     <input>
@@ -183,18 +183,60 @@ re-run build.sh.
     <output>/instrumentation/pfd[0]/minimums-baro</output>
   </filter>
   <filter>
-    <name>Slave radio</name>
+    <name>Slave minimums radio</name>
     <type>gain</type>
     <gain>1</gain>
     <enable>
       <condition>
-        <property>/instrumentation/pfd[0]/minimums-slaved</property>
+        <property>/instrumentation/pfd[0]/slaved</property>
       </condition>
     </enable>
     <input>
       <property>/instrumentation/pfd[1]/minimums-radio</property>
     </input>
     <output>/instrumentation/pfd[0]/minimums-radio</output>
+  </filter>
+  <filter>
+    <name>Slave altimeter qnh mode</name>
+    <type>gain</type>
+    <gain>1</gain>
+    <enable>
+      <condition>
+        <property>/instrumentation/pfd[0]/slaved</property>
+      </condition>
+    </enable>
+    <input>
+      <property>/instrumentation/pfd[1]/qnh-mode</property>
+    </input>
+    <output>/instrumentation/pfd[0]/qnh-mode</output>
+  </filter>
+  <filter>
+    <name>Slave altimeter setting hpa</name>
+    <type>gain</type>
+    <gain>1</gain>
+    <enable>
+      <condition>
+        <property>/instrumentation/pfd[0]/slaved</property>
+      </condition>
+    </enable>
+    <input>
+      <property>/instrumentation/pfd[1]/setting-hpa</property>
+    </input>
+    <output>/instrumentation/pfd[0]/setting-hpa</output>
+  </filter>
+  <filter>
+    <name>Slave altimeter setting inhg</name>
+    <type>gain</type>
+    <gain>1</gain>
+    <enable>
+      <condition>
+        <property>/instrumentation/pfd[0]/slaved</property>
+      </condition>
+    </enable>
+    <input>
+      <property>/instrumentation/pfd[1]/setting-inhg</property>
+    </input>
+    <output>/instrumentation/pfd[0]/setting-inhg</output>
   </filter>
   <filter>
     <name>Fake baro minimums</name>
@@ -205,7 +247,7 @@ re-run build.sh.
         <dif>
           <property>/instrumentation/pfd[0]/minimums-baro</property>
           <dif>
-            <property>/instrumentation/altimeter/indicated-altitude-ft</property>
+            <property>/instrumentation/altimeter[0]/indicated-altitude-ft</property>
             <property>/position/gear-agl-ft</property>
           </dif>
         </dif>
@@ -299,7 +341,7 @@ re-run build.sh.
       <condition>
         <property>/instrumentation/pfd[0]/minimums-mode</property>
       </condition>
-      <property>/instrumentation/altimeter/indicated-altitude-ft</property>
+      <property>/instrumentation/altimeter[0]/indicated-altitude-ft</property>
     </input>
     <input>
       <property>/position/gear-agl-ft</property>
