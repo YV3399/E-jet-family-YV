@@ -64,8 +64,41 @@
             <binding>
                 <command>dialog-apply</command>
             </binding>
+            <live type="bool">true</live>
         </checkbox>
-		<live type="bool">true</live>
+    </group>
+    <group>
+        <layout>hbox</layout>
+        
+        <empty><stretch>1</stretch></empty>
+        <text>
+            <label>Minimums Coupling</label>
+        </text>
+        <empty><stretch>1</stretch></empty>
+    </group>
+    <group>
+        <layout>hbox</layout>
+        <checkbox>
+            <label>1 follows 2 (FO is Pilot Flying)</label>
+            <property>/instrumentation/pfd[0]/minimums-slaved</property>
+            <binding>
+                <command>property-toggle</command>
+                <property>/instrumentation/pfd[0]/minimums-slaved</property>
+            </binding>
+            <halign>left</halign>
+            <live type="bool">true</live>
+        </checkbox>
+
+        <checkbox>
+            <label>2 follows 1 (Captain is Pilot Flying)</label>
+            <property>/instrumentation/pfd[1]/minimums-slaved</property>
+            <halign>left</halign>
+            <binding>
+                <command>property-toggle</command>
+                <property>/instrumentation/pfd[1]/minimums-slaved</property>
+            </binding>
+            <live type="bool">true</live>
+        </checkbox>
     </group>
 
     <hrule/>

@@ -1381,6 +1381,18 @@ initialize = func {
             setlistener(rateProp, check, 1, 0);
         })(i);
     }
+    setlistener('instrumentation/pfd[0]/minimums-slaved', func (node) {
+        if (node.getBoolValue()) {
+            print('deslave 1');
+            setprop('instrumentation/pfd[1]/minimums-slaved', 0);
+        }
+    }, 0, 0);
+    setlistener('instrumentation/pfd[1]/minimums-slaved', func (node) {
+        if (node.getBoolValue()) {
+            print('deslave 0');
+            setprop('instrumentation/pfd[0]/minimums-slaved', 0);
+        }
+    }, 0, 0);
 };
 
 var initialized = 0;

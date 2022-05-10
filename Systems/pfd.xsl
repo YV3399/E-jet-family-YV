@@ -3,6 +3,12 @@
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
     <xsl:param name="index"/>
     <xsl:output method="xml" indent="yes" />
+    <xsl:variable name="otherIndex">
+        <xsl:choose>
+            <xsl:when test="$index=0">1</xsl:when>
+            <xsl:otherwise>0</xsl:otherwise>
+        </xsl:choose>
+    </xsl:variable>
     <xsl:template match="/">
         <!-- Following comment only pertains to the output of this template,
              not the template itself. -->
@@ -165,6 +171,49 @@ re-run build.sh.
             </filter>
 
             <!-- MINIMUMS -->
+
+            <filter>
+                <name>Slave mode</name>
+                <type>gain</type>
+                <gain>1</gain>
+                <enable>
+                    <condition>
+                        <property>/instrumentation/pfd[<xsl:value-of select="$index"/>]/minimums-slaved</property>
+                    </condition>
+                </enable>
+                <input>
+                    <property>/instrumentation/pfd[<xsl:value-of select="$otherIndex"/>]/minimums-mode</property>
+                </input>
+                <output>/instrumentation/pfd[<xsl:value-of select="$index"/>]/minimums-mode</output>
+            </filter>
+            <filter>
+                <name>Slave baro</name>
+                <type>gain</type>
+                <gain>1</gain>
+                <enable>
+                    <condition>
+                        <property>/instrumentation/pfd[<xsl:value-of select="$index"/>]/minimums-slaved</property>
+                    </condition>
+                </enable>
+                <input>
+                    <property>/instrumentation/pfd[<xsl:value-of select="$otherIndex"/>]/minimums-baro</property>
+                </input>
+                <output>/instrumentation/pfd[<xsl:value-of select="$index"/>]/minimums-baro</output>
+            </filter>
+            <filter>
+                <name>Slave radio</name>
+                <type>gain</type>
+                <gain>1</gain>
+                <enable>
+                    <condition>
+                        <property>/instrumentation/pfd[<xsl:value-of select="$index"/>]/minimums-slaved</property>
+                    </condition>
+                </enable>
+                <input>
+                    <property>/instrumentation/pfd[<xsl:value-of select="$otherIndex"/>]/minimums-radio</property>
+                </input>
+                <output>/instrumentation/pfd[<xsl:value-of select="$index"/>]/minimums-radio</output>
+            </filter>
 
             <!-- mk-viii does not support actual baro minimums, so we provide fake
                  radio minimums based on configured baro minimums, current barometric

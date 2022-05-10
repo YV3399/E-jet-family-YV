@@ -155,6 +155,48 @@ re-run build.sh.
     <output>/instrumentation/pfd[0]/track-error-deg</output>
   </filter>
   <filter>
+    <name>Slave mode</name>
+    <type>gain</type>
+    <gain>1</gain>
+    <enable>
+      <condition>
+        <property>/instrumentation/pfd[0]/minimums-slaved</property>
+      </condition>
+    </enable>
+    <input>
+      <property>/instrumentation/pfd[1]/minimums-mode</property>
+    </input>
+    <output>/instrumentation/pfd[0]/minimums-mode</output>
+  </filter>
+  <filter>
+    <name>Slave baro</name>
+    <type>gain</type>
+    <gain>1</gain>
+    <enable>
+      <condition>
+        <property>/instrumentation/pfd[0]/minimums-slaved</property>
+      </condition>
+    </enable>
+    <input>
+      <property>/instrumentation/pfd[1]/minimums-baro</property>
+    </input>
+    <output>/instrumentation/pfd[0]/minimums-baro</output>
+  </filter>
+  <filter>
+    <name>Slave radio</name>
+    <type>gain</type>
+    <gain>1</gain>
+    <enable>
+      <condition>
+        <property>/instrumentation/pfd[0]/minimums-slaved</property>
+      </condition>
+    </enable>
+    <input>
+      <property>/instrumentation/pfd[1]/minimums-radio</property>
+    </input>
+    <output>/instrumentation/pfd[0]/minimums-radio</output>
+  </filter>
+  <filter>
     <name>Fake baro minimums</name>
     <type>gain</type>
     <gain>1</gain>
