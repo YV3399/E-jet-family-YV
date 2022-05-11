@@ -174,8 +174,13 @@ var PFDCanvas = {
         m.props["/instrumentation/dme[1]/indicated-distance-nm"] = props.globals.getNode("/instrumentation/dme[1]/indicated-distance-nm");
         m.props["/instrumentation/dme[1]/indicated-time-min"] = props.globals.getNode("/instrumentation/dme[1]/indicated-time-min");
         m.props["/instrumentation/dme[1]/in-range"] = props.globals.getNode("/instrumentation/dme[1]/in-range");
+        m.props["/instrumentation/eicas/master/caution"] = props.globals.getNode("/instrumentation/eicas/master/caution");
+        m.props["/instrumentation/eicas/master/warning"] = props.globals.getNode("/instrumentation/eicas/master/warning");
         m.props["/instrumentation/gps/cdi-deflection"] = props.globals.getNode("/instrumentation/gps/cdi-deflection");
         m.props["/instrumentation/gps/desired-course-deg"] = props.globals.getNode("/instrumentation/gps/desired-course-deg");
+        m.props["/instrumentation/marker-beacon/inner"] = props.globals.getNode("/instrumentation/marker-beacon/inner");
+        m.props["/instrumentation/marker-beacon/middle"] = props.globals.getNode("/instrumentation/marker-beacon/middle");
+        m.props["/instrumentation/marker-beacon/outer"] = props.globals.getNode("/instrumentation/marker-beacon/outer");
         m.props["/instrumentation/nav[0]/frequencies/selected-mhz"] = props.globals.getNode("/instrumentation/nav[0]/frequencies/selected-mhz");
         m.props["/instrumentation/nav[0]/frequencies/standby-mhz"] = props.globals.getNode("/instrumentation/nav[0]/frequencies/standby-mhz");
         m.props["/instrumentation/nav[0]/from-flag"] = props.globals.getNode("/instrumentation/nav[0]/from-flag");
@@ -200,6 +205,7 @@ var PFDCanvas = {
         m.props["/instrumentation/nav[1]/radials/selected-deg"] = props.globals.getNode("/instrumentation/nav[1]/radials/selected-deg");
         m.props["/instrumentation/pfd/airspeed-alive"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/airspeed-alive");
         m.props["/instrumentation/pfd/airspeed-lookahead-10s"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/airspeed-lookahead-10s");
+        m.props["/instrumentation/pfd/alt-bug-offset"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/alt-bug-offset");
         m.props["/instrumentation/pfd/alt-tape-offset"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/alt-tape-offset");
         m.props["/instrumentation/pfd/alt-tape-thousands"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/alt-tape-thousands");
         m.props["/instrumentation/pfd/bearing[0]/bearing"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/bearing[0]/bearing");
@@ -355,7 +361,9 @@ var PFDCanvas = {
             "alt.rollingdigits.pos",
             "alt.rollingdigits.zero",
             "alt.tape",
-            "alt.tape_clip",
+            "alt.tape.container",
+            "alt.tape.container_clip",
+            "alt.bug",
             "asi.1",
             "asi.10",
             "asi.10.0",
@@ -384,6 +392,8 @@ var PFDCanvas = {
             "dme.hold",
             "dme.id",
             "dme.selection",
+            "eicas.indicator",
+            "eicas.indicator.bg",
             "fd.pitch",
             "fd.roll",
             "fma.ap",
@@ -424,6 +434,9 @@ var PFDCanvas = {
             "ils.gsneedle",
             "ils.locneedle",
             "mach.digital",
+            "marker.inner",
+            "marker.middle",
+            "marker.outer",
             "minimums",
             "minimums.barora",
             "minimums.digital",
@@ -978,6 +991,9 @@ var PFDCanvas = {
         append(me.listeners, setlistener(self.props["/instrumentation/pfd/alt-tape-offset"], func(node) {
             self["alt.tape"].setTranslation(0, node.getValue() * 0.45);
         }, 1, 0));
+        append(me.listeners, setlistener(self.props["/instrumentation/pfd/alt-bug-offset"], func(node) {
+            self["alt.bug"].setTranslation(0, node.getValue() * 0.45);
+        }, 1, 0));
 
         append(me.listeners, setlistener(self.props["/instrumentation/pfd/alt-tape-thousands"], func(node) {
             var altTapeThousands = node.getValue() * 1000;
@@ -1020,6 +1036,37 @@ var PFDCanvas = {
         append(me.listeners, setlistener(self.props["/acars/telex/unread"], func (node) {
             self["dlk.indicator"].setVisible(node.getValue() != 0);
         }, 1, 0));
+
+        var updateEicasWarning = func () {
+            var warning = self.props['/instrumentation/eicas/master/warning'].getBoolValue();
+            var caution = self.props['/instrumentation/eicas/master/caution'].getBoolValue();
+            if (warning) {
+                self["eicas.indicator.bg"].setColorFill(1, 0, 0);
+                self["eicas.indicator"].show();
+            }
+            elsif (caution) {
+                self["eicas.indicator.bg"].setColorFill(1, 1, 0);
+                self["eicas.indicator"].show();
+            }
+            else {
+                self["eicas.indicator"].hide();
+            }
+        };
+
+        append(me.listeners, setlistener(self.props["/instrumentation/eicas/master/warning"], func (node) { updateEicasWarning(); }, 1, 0));
+        append(me.listeners, setlistener(self.props["/instrumentation/eicas/master/caution"], func (node) { updateEicasWarning(); }, 1, 0));
+
+        append(me.listeners, setlistener(self.props["/instrumentation/marker-beacon/inner"], func (node) {
+            self["marker.inner"].setVisible(node.getBoolValue());
+        }, 1, 0));
+        append(me.listeners, setlistener(self.props["/instrumentation/marker-beacon/middle"], func (node) {
+            self["marker.middle"].setVisible(node.getBoolValue());
+        }, 1, 0));
+        append(me.listeners, setlistener(self.props["/instrumentation/marker-beacon/outer"], func (node) {
+            self["marker.outer"].setVisible(node.getBoolValue());
+        }, 1, 0));
+
+
         append(me.listeners, setlistener(self.props["/instrumentation/tcas/inputs/mode"], func (node) {
             var tcasMode = node.getValue();
             if (tcasMode == 3) {

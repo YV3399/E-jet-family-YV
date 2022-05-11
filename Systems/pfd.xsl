@@ -102,6 +102,22 @@ re-run build.sh.
                 <output>/instrumentation/pfd[<xsl:value-of select="$index"/>]/alt-tape-offset</output>
             </filter>
             <filter>
+                <name>Alt Bug Offset</name>
+                <type>gain</type>
+                <gain>1</gain>
+                <input>
+                    <expression>
+                        <floor>
+                            <difference>
+                                <property>/instrumentation/altimeter[<xsl:value-of select="$index"/>]/indicated-altitude-ft</property>
+                                <property>/controls/flight/selected-alt</property>
+                            </difference>
+                        </floor>
+                    </expression>
+                </input>
+                <output>/instrumentation/pfd[<xsl:value-of select="$index"/>]/alt-bug-offset</output>
+            </filter>
+            <filter>
                 <update-interval-secs type="double">0.1</update-interval-secs>
                 <name>Alt Tape Thousands</name>
                 <type>gain</type>
