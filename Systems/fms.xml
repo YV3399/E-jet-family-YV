@@ -5,6 +5,77 @@
 <PropertyList>
 
     <filter>
+        <name>MAC Length</name>
+        <type>gain</type>
+        <gain>1</gain>
+        <update-interval-secs type="double">0.5</update-interval-secs>
+        <input>
+            <expression>
+                <product>
+                    <property>/fdm/jsbsim/metrics/cbarw-ft</property>
+                    <!-- factor 0.66 (MAC vs. wing root chord)
+                                        x
+                                 feet to inches (12)
+                    -->
+                    <value>7.92094</value>
+                </product>
+            </expression>
+        </input>
+        <output>/fms/weight-and-balance/mac-length-in</output>
+    </filter>
+
+    <filter>
+        <name>LEMAC</name>
+        <type>gain</type>
+        <gain>1</gain>
+        <update-interval-secs type="double">0.5</update-interval-secs>
+        <input>
+            <expression>
+                <product>
+                    <property>/fms/weight-and-balance/mac-length-in</property>
+                    <value>-0.5</value>
+                </product>
+            </expression>
+        </input>
+        <output>/fms/weight-and-balance/lemac</output>
+    </filter>
+
+    <filter>
+        <name>CG MAC Position Normalized</name>
+        <type>gain</type>
+        <gain>1</gain>
+        <update-interval-secs type="double">0.5</update-interval-secs>
+        <input>
+            <expression>
+                <div>
+                    <difference>
+                        <property>/fdm/jsbsim/inertia/cg-x-in</property>
+                        <property>/fms/weight-and-balance/lemac</property>
+                    </difference>
+                    <property>/fms/weight-and-balance/mac-length-in</property>
+                </div>
+            </expression>
+        </input>
+        <output>/fms/weight-and-balance/mac-position-norm</output>
+    </filter>
+
+    <filter>
+        <name>CG Percent MAC</name>
+        <type>gain</type>
+        <gain>1</gain>
+        <update-interval-secs type="double">0.5</update-interval-secs>
+        <input>
+            <expression>
+                <product>
+                    <property>/fms/weight-and-balance/mac-position-norm</property>
+                    <value>100</value>
+                </product>
+            </expression>
+        </input>
+        <output>/fms/weight-and-balance/mac-position-percent</output>
+    </filter>
+
+    <filter>
         <name>Zero-fuel weight</name>
         <type>gain</type>
         <gain>1</gain>
