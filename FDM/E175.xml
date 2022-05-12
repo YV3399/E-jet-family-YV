@@ -67,7 +67,7 @@
 
         <!-- extrapolated from E170 -->
         <location name="CG" unit="IN">
-            <x>-33</x>
+            <x>-50</x>
             <y>0.0</y>
             <z>0.0</z>
         </location>
@@ -84,7 +84,7 @@
             <!-- wikipedia -->
             <weight unit="LBS">22289</weight>
             <location name="POINTMASS" unit="IN">
-                <x>40</x>
+                <x>0</x>
                 <y>0</y>
                 <z>1.14</z>
             </location>
