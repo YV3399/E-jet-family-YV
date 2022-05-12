@@ -797,8 +797,10 @@
         <weight n="0">
             <name>Crew</name>
             <weight-lb alias="/fdm/jsbsim/inertia/pointmass-weight-lbs[0]"/>
-            <min-lb type="double">120</min-lb>
-            <max-lb type="double">400</max-lb>
+            <min-lb type="double">360</min-lb>
+            <max-lb type="double">720</max-lb>
+            <unit-lb type="double">180</unit-lb>
+            <unit-count type="int">2</unit-count>
         </weight>
     </payload>
 
@@ -2560,6 +2562,10 @@
             <file>Aircraft/E-jet-family/Nasal/ELTmessage.nas</file>
         </ELT>
 
+        <weights>
+            <file>Aircraft/E-jet-family/Nasal/weights.nas</file>
+        </weights>
+
         <viewLogic>
             <file>Aircraft/E-jet-family/Nasal/view.nas</file>
         </viewLogic>
@@ -2685,6 +2691,11 @@
         <keyboardFixes>
             <file>Aircraft/E-jet-family/Nasal/keyboard.nas</file>
         </keyboardFixes>
+
+        <gui>
+            <!-- override fuel and payload dialog -->
+            <file>Aircraft/E-jet-family/Nasal/weight-dialog.nas</file>
+        </gui>
     </nasal>
 
     <fdm>

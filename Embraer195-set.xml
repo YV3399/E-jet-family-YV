@@ -78,16 +78,65 @@
         </previews>
     </sim>
 
+
     <payload>
         <weight n="1">
-            <name>Passengers</name>
+            <name>Passengers Front</name>
             <weight-lb alias="/fdm/jsbsim/inertia/pointmass-weight-lbs[1]"/>
             <min-lb type="double">0</min-lb>
-            <max-lb type="double">30682</max-lb>
+            <max-lb type="double">15250</max-lb>
+            <unit-lb type="double">250</unit-lb>
+            <unit-count type="int">0</unit-count>
+        </weight>
+        <weight n="2">
+            <name>Passengers Back</name>
+            <weight-lb alias="/fdm/jsbsim/inertia/pointmass-weight-lbs[2]"/>
+            <min-lb type="double">0</min-lb>
+            <max-lb type="double">15250</max-lb>
+            <unit-lb type="double">250</unit-lb>
+            <unit-count type="int">0</unit-count>
+        </weight>
+        <weight n="3">
+            <name>Cargo Front</name>
+            <weight-lb alias="/fdm/jsbsim/inertia/pointmass-weight-lbs[3]"/>
+            <min-lb type="double">0</min-lb>
+            <max-lb type="double">4579</max-lb>
+        </weight>
+        <weight n="4">
+            <name>Cargo Back</name>
+            <weight-lb alias="/fdm/jsbsim/inertia/pointmass-weight-lbs[4]"/>
+            <min-lb type="double">0</min-lb>
+            <max-lb type="double">3675</max-lb>
         </weight>
     </payload>
 
     <limits>
+        <!-- values are estimations -->
+
+        <vne>370</vne>
+
+        <max-positive-g>4.4</max-positive-g>
+        <max-negative-g>-1.76</max-negative-g>
+
+        <max-flap-extension-speed n="0">
+            <flaps>0.10</flaps>
+            <speed>265</speed>
+        </max-flap-extension-speed>
+        <max-flap-extension-speed n="1">
+            <flaps>0.20</flaps>
+            <speed>240</speed>
+        </max-flap-extension-speed>
+        <max-flap-extension-speed n="2">
+            <flaps>0.03</flaps>
+            <speed>225</speed>
+        </max-flap-extension-speed>
+        <max-flap-extension-speed n="3">
+            <flaps>0.40</flaps>
+            <speed>210</speed>
+        </max-flap-extension-speed>
+
+        <max-gear-extension-speed>220</max-gear-extension-speed>
+
         <mass-and-balance>
             <maximum-takeoff-mass-lbs>115280</maximum-takeoff-mass-lbs>
             <maximum-landing-mass-lbs>100972</maximum-landing-mass-lbs>
@@ -112,4 +161,5 @@
             <max-n1>106.2</max-n1>
         </configuration>
     </fadec>
+
 </PropertyList>

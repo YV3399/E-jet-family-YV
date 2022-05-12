@@ -65,13 +65,13 @@
         <emptywt unit="KG" > 32159.7 </emptywt>
 
         <location name="CG" unit="IN">
-            <x>-60</x>
+            <x>-44</x>
             <y>0.0</y>
             <z>0.0</z>
         </location>
 
         <pointmass name="Crew">
-            <weight unit="LBS">300</weight>
+            <weight unit="LBS">360</weight>
             <location name="POINTMASS" unit="IN">
                 <x>-527.29</x>
                 <y>0</y>
@@ -79,10 +79,17 @@
             </location>
         </pointmass>
         <pointmass name="Passengers">
-            <!-- wikipedia -->
-            <weight unit="LBS">9625</weight>
+            <weight unit="LBS">0</weight>
             <location name="POINTMASS" unit="IN">
-                <x>0</x>
+                <x>-100.0</x>
+                <y>0</y>
+                <z>1.14</z>
+            </location>
+        </pointmass>
+        <pointmass name="Cargo">
+            <weight unit="LBS">0</weight>
+            <location name="POINTMASS" unit="IN">
+                <x>120</x>
                 <y>0</y>
                 <z>1.14</z>
             </location>
@@ -388,7 +395,7 @@
         <!-- Wing Fuel Tank LEFT -->
         <tank type="FUEL" number="0">
             <location unit="IN">
-                <x> 33.096 </x>
+                <x>  0.0 </x>
                 <y> -133.96 </y>
                 <z> -5.91 </z>
             </location>
@@ -399,7 +406,7 @@
         <!-- Wing Fuel Tank RIGHT -->
         <tank type="FUEL" number="1">
             <location unit="IN">
-                <x> 33.096 </x>
+                <x>   0.0 </x>
                 <y> 133.96 </y>
                 <z> -5.91 </z>
             </location>
@@ -410,7 +417,7 @@
         <!-- Extra Fuel Tank -->
         <tank type="FUEL" number="2">
             <location unit="IN">
-                <x> 30.072 </x>
+                <x> -40 </x>
                 <y> 0.00 </y>
                 <z> -10.642 </z>
             </location>

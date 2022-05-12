@@ -65,26 +65,49 @@
         <emptywt unit="KG" > 27837 </emptywt>
 
         <location name="CG" unit="IN">
-            <x>-60</x>
+            <x>-44</x>
             <y>0.0</y>
             <z>0.0</z>
         </location>
 
         <pointmass name="Crew">
-            <weight unit="LBS">300</weight>
+            <weight unit="LBS">360</weight>
             <location name="POINTMASS" unit="IN">
                 <x>-562.35</x>
                 <y>0</y>
                 <z>1.14</z>
             </location>
         </pointmass>
-        <pointmass name="Passengers">
-            <!-- wikipedia -->
-            <weight unit="LBS">30716</weight>
+        <pointmass name="Passengers Front">
+            <weight unit="LBS">0</weight>
             <location name="POINTMASS" unit="IN">
-                <x>0</x>
+                <x>-325.0</x>
                 <y>0</y>
                 <z>1.14</z>
+            </location>
+        </pointmass>
+        <pointmass name="Passengers Back">
+            <weight unit="LBS">0</weight>
+            <location name="POINTMASS" unit="IN">
+                <x>187.5</x>
+                <y>0</y>
+                <z>1.14</z>
+            </location>
+        </pointmass>
+        <pointmass name="Cargo Front">
+            <weight unit="LBS">0</weight>
+            <location name="POINTMASS" unit="IN">
+                <x>-325.0</x>
+                <y>0</y>
+                <z>0</z>
+            </location>
+        </pointmass>
+        <pointmass name="Cargo Back">
+            <weight unit="LBS">0</weight>
+            <location name="POINTMASS" unit="IN">
+                <x>189.38</x>
+                <y>0</y>
+                <z>0</z>
             </location>
         </pointmass>
 
@@ -386,7 +409,7 @@
         <!-- Wing Fuel Tank LEFT -->
         <tank type="FUEL" number="0">
             <location unit="IN">
-                <x> 33.096 </x>
+                <x>  0.0 </x>
                 <y> -133.96 </y>
                 <z> -5.91 </z>
             </location>
@@ -397,7 +420,7 @@
         <!-- Wing Fuel Tank RIGHT -->
         <tank type="FUEL" number="1">
             <location unit="IN">
-                <x> 33.096 </x>
+                <x>   0.0 </x>
                 <y> 133.96 </y>
                 <z> -5.91 </z>
             </location>
