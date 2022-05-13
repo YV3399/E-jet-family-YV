@@ -215,6 +215,11 @@
                 <path>Aircraft/E-jet-family/Systems/electrical/batteries.xml</path>
             </property-rule>
             <autopilot>
+                <name>Weights</name>
+                <path>Aircraft/E-jet-family/Systems/weights.xml</path>
+            </autopilot>
+
+            <autopilot>
                 <path>Aircraft/E-jet-family/Systems/vspeeds.xml</path>
             </autopilot>
             <autopilot>
@@ -803,6 +808,25 @@
             <unit-count type="int">2</unit-count>
         </weight>
     </payload>
+
+    <weight-and-balance>
+        <lemac type="double">0.0</lemac>
+        <mac-position-norm type="double">0.0</mac-position-norm>
+        <mac-position-percent type="double">0.0</mac-position-percent>
+        <limit-ref-weight-kg type="double">0.0</limit-ref-weight-kg>
+        <mac-percent-min-takeoff type="double">0.0</mac-percent-min-takeoff>
+        <mac-percent-max-takeoff type="double">0.0</mac-percent-max-takeoff>
+        <mac-percent-min-landing type="double">0.0</mac-percent-min-landing>
+        <mac-percent-max-landing type="double">0.0</mac-percent-max-landing>
+        <mac-percent-min-clean type="double">0.0</mac-percent-min-clean>
+        <mac-percent-max-clean type="double">0.0</mac-percent-max-clean>
+        <mac-takeoff-ok type="bool">true</mac-takeoff-ok>
+        <mac-takeoff-check-text type="string">???</mac-takeoff-check-text>
+        <mac-landing-ok type="bool">true</mac-landing-ok>
+        <mac-landing-check-text type="string">???</mac-landing-check-text>
+        <mac-clean-ok type="bool">true</mac-clean-ok>
+        <mac-clean-check-text type="string">???</mac-clean-check-text>
+    </weight-and-balance>
 
     <!-- Heat Capacity Estimate:
          we assume that the brakes are capable of bringing 60,000 kg of
