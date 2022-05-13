@@ -1112,7 +1112,6 @@
 
         <takeoff-conditions>
             <flaps type="double">0.250</flaps>
-            <pitch type="double">9.2</pitch>
             <runway-heading type="double">0</runway-heading>
             <runway-slope type="double">0</runway-slope>
             <!--
@@ -1129,6 +1128,7 @@
             <wind-dir type="double">0</wind-dir>
             <wind-speed type="double">0</wind-speed>
             <weight-kg type="double">0.0</weight-kg>
+            <pitch type="double">10.0</pitch>
         </takeoff-conditions>
 
         <landing-conditions>

@@ -548,6 +548,101 @@ re-run build.sh.
   </filter>
   <filter>
     <update-interval-secs type="double">0.1</update-interval-secs>
+    <name>FD pitch scale</name>
+    <type>gain</type>
+    <gain>1.0</gain>
+    <input>
+      <expression>
+        <table>
+          <sum>
+            <property>/instrumentation/pfd[0]/fpa-deg</property>
+            <property>/instrumentation/pfd[0]/fd/vert-offset-deg</property>
+          </sum>
+          <entry>
+            <ind>90</ind>
+            <dep>90</dep>
+          </entry>
+          <entry>
+            <ind>10</ind>
+            <dep>16.666</dep>
+          </entry>
+          <entry>
+            <ind>0</ind>
+            <dep>0</dep>
+          </entry>
+          <entry>
+            <ind>-10</ind>
+            <dep>-16.666</dep>
+          </entry>
+          <entry>
+            <ind>-90</ind>
+            <dep>-90</dep>
+          </entry>
+        </table>
+      </expression>
+    </input>
+    <output>instrumentation/pfd[0]/fd/pitch-scale</output>
+  </filter>
+  <filter>
+    <update-interval-secs type="double">0.1</update-interval-secs>
+    <name>FD pitch bar</name>
+    <type>gain</type>
+    <gain>1.0</gain>
+    <input>
+      <condition>
+        <less-than>
+          <property>/position/gear-agl-ft</property>
+          <value>10</value>
+        </less-than>
+      </condition>
+      <property>/fms/takeoff-conditions/pitch</property>
+    </input>
+    <input>
+      <expression>
+        <sum>
+          <property>/it-autoflight/fd/pitch-bar</property>
+          <property>/orientation/pitch-deg</property>
+        </sum>
+      </expression>
+    </input>
+    <output>instrumentation/pfd[0]/fd/pitch-bar-deg</output>
+  </filter>
+  <filter>
+    <update-interval-secs type="double">0.1</update-interval-secs>
+    <name>FD pitch bar scale</name>
+    <type>gain</type>
+    <gain>1.0</gain>
+    <input>
+      <expression>
+        <table>
+          <property>/instrumentation/pfd[0]/fd/pitch-bar-deg</property>
+          <entry>
+            <ind>90</ind>
+            <dep>90</dep>
+          </entry>
+          <entry>
+            <ind>10</ind>
+            <dep>16.666</dep>
+          </entry>
+          <entry>
+            <ind>0</ind>
+            <dep>0</dep>
+          </entry>
+          <entry>
+            <ind>-10</ind>
+            <dep>-16.666</dep>
+          </entry>
+          <entry>
+            <ind>-90</ind>
+            <dep>-90</dep>
+          </entry>
+        </table>
+      </expression>
+    </input>
+    <output>instrumentation/pfd[0]/fd/pitch-bar-scale</output>
+  </filter>
+  <filter>
+    <update-interval-secs type="double">0.1</update-interval-secs>
     <name>VMO</name>
     <type>gain</type>
     <gain>1.0</gain>

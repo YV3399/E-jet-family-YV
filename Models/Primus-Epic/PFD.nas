@@ -220,6 +220,10 @@ var PFDCanvas = {
         m.props["/instrumentation/pfd/dme/ete-unit"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/dme/ete-unit");
         m.props["/instrumentation/pfd/dme/hold"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/dme/hold");
         m.props["/instrumentation/pfd/dme/in-range"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/dme/in-range");
+        m.props["/instrumentation/pfd/fd/lat-offset-deg"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/fd/lat-offset-deg");
+        m.props["/instrumentation/pfd/fd/vert-offset-deg"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/fd/vert-offset-deg");
+        m.props["/instrumentation/pfd/fd/pitch-scale"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/fd/pitch-scale");
+        m.props["/instrumentation/pfd/fd/pitch-bar-scale"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/fd/pitch-bar-scale");
         m.props["/instrumentation/pfd/fma/ap"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/fma/ap");
         m.props["/instrumentation/pfd/fma/at"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/fma/at");
         m.props["/instrumentation/pfd/groundspeed-kt"] = props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/groundspeed-kt");
@@ -276,6 +280,7 @@ var PFDCanvas = {
         m.props["/it-autoflight/output/ap1"] = props.globals.getNode("/it-autoflight/output/ap1");
         m.props["/it-autoflight/output/appr-armed"] = props.globals.getNode("/it-autoflight/output/appr-armed");
         m.props["/it-autoflight/output/athr"] = props.globals.getNode("/it-autoflight/output/athr");
+        m.props["/it-autoflight/output/fd"] = props.globals.getNode("/it-autoflight/output/fd" ~ (index + 1));
         m.props["/it-autoflight/output/lnav-armed"] = props.globals.getNode("/it-autoflight/output/lnav-armed");
         m.props["/it-autoflight/output/loc-armed"] = props.globals.getNode("/it-autoflight/output/loc-armed");
         m.props["/orientation/heading-deg"] = props.globals.getNode("/orientation/heading-deg");
@@ -396,6 +401,8 @@ var PFDCanvas = {
             "eicas.indicator.bg",
             "fd.pitch",
             "fd.roll",
+            "fd.bars",
+            "fd.icon",
             "fma.ap",
             "fma.ap.bg",
             "fma.appr",
@@ -403,6 +410,7 @@ var PFDCanvas = {
             "fma.at",
             "fma.at.bg",
             "fma.lat",
+            "fma.lat.bg",
             "fma.latarmed",
             "fma.spd",
             "fma.spdarmed",
@@ -410,6 +418,7 @@ var PFDCanvas = {
             "fma.spd.minor",
             "fma.src.arrow",
             "fma.vert",
+            "fma.vert.bg",
             "fma.vertarmed",
             "fpa.target",
             "fpa.target.digital",
@@ -887,12 +896,14 @@ var PFDCanvas = {
             }, 1, 0));
         append(me.listeners, setlistener("/instrumentation/annun/lat-mode", func (node) {
                 self["fma.lat"].setText(node.getValue());
+                self["fma.lat.bg"].setColorFill(0, 0, 0); # TODO
             }, 1, 0));
         append(me.listeners, setlistener("/instrumentation/annun/lat-mode-armed", func (node) {
                 self["fma.latarmed"].setText(node.getValue());
             }, 1, 0));
         append(me.listeners, setlistener("/instrumentation/annun/vert-mode", func (node) {
                 self["fma.vert"].setText(node.getValue());
+                self["fma.vert.bg"].setColorFill(0, 0, 0); # TODO
             }, 1, 0));
         append(me.listeners, setlistener("/instrumentation/annun/vert-mode-armed", func (node) {
                 self["fma.vertarmed"].setText(node.getValue());
@@ -923,6 +934,25 @@ var PFDCanvas = {
                 }
             }, 1, 0));
 
+        var updateFDViz = func {
+            var viz = self.props["/it-autoflight/output/fd"].getBoolValue();
+            if (viz) {
+                var vertMode = self.props["/it-autoflight/mode/vert"].getValue();
+                if (vertMode == "T/O CLB" or vertMode == "G/A CLB") {
+                    self["fd.icon"].hide();
+                    self["fd.bars"].show();
+                }
+                else {
+                    self["fd.icon"].show();
+                    self["fd.bars"].hide();
+                }
+            }
+            else {
+                self["fd.icon"].hide();
+                self["fd.bars"].hide();
+            }
+        };
+
         var updateSelectedVSpeed = func {
             var vertMode = self.props["/it-autoflight/mode/vert"].getValue();
             if (vertMode == "V/S") {
@@ -946,8 +976,12 @@ var PFDCanvas = {
             }
         };
 
+        append(me.listeners, setlistener(self.props["/it-autoflight/output/fd"], func {
+            updateFDViz();
+        }, 1, 0));
         append(me.listeners, setlistener(self.props["/it-autoflight/mode/vert"], func {
             updateSelectedVSpeed();
+            updateFDViz();
         }, 1, 0));
         append(me.listeners, setlistener(self.props["/it-autoflight/input/fpa"], func {
             updateSelectedVSpeed();
@@ -1133,10 +1167,19 @@ var PFDCanvas = {
             .setRotation(roll * D2R);
 
         # FD
-        var pitchBar = me.props["/it-autoflight/fd/pitch-bar"].getValue() or 0;
-        var rollBar = me.props["/it-autoflight/fd/roll-bar"].getValue() or 0;
-        me["fd.pitch"].setTranslation(0, pitchBar * 8.05);
-        me["fd.roll"].setTranslation(rollBar * 8.05, 0);
+        var barPitch = me.props["/instrumentation/pfd/fd/pitch-bar-scale"].getValue() or 0;
+        var barRoll = me.props["/it-autoflight/fd/roll-bar"].getValue() or 0;
+        var trackError = me.props["/instrumentation/pfd/track-error-deg"].getValue() or 0;
+        var fdPitch = me.props["/instrumentation/pfd/fd/pitch-scale"].getValue() or 0;
+        var fdRoll = me.props["/instrumentation/pfd/fd/lat-offset-deg"].getValue() or 0;
+
+        me["fd.pitch"].setTranslation(0, (pitch - barPitch) * 8.05);
+        me["fd.roll"].setTranslation(barRoll * 8.05, 0);
+        me["fd.icon"]
+            .setTranslation(
+                geo.normdeg180(trackError + fdRoll) * 8.05,
+                fdPitch * -8.05)
+            .setRotation(roll * D2R);
 
         # V/S
         var vspeed = me.props["/instrumentation/vertical-speed-indicator/indicated-speed-fpm"].getValue() or 0;
