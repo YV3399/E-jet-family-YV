@@ -84,7 +84,7 @@
             <name>Passengers Front</name>
             <weight-lb alias="/fdm/jsbsim/inertia/pointmass-weight-lbs[1]"/>
             <min-lb type="double">0</min-lb>
-            <max-lb type="double">15250</max-lb>
+            <max-lb type="double">15500</max-lb>
             <unit-lb type="double">250</unit-lb>
             <unit-count type="int">0</unit-count>
         </weight>
@@ -92,7 +92,7 @@
             <name>Passengers Back</name>
             <weight-lb alias="/fdm/jsbsim/inertia/pointmass-weight-lbs[2]"/>
             <min-lb type="double">0</min-lb>
-            <max-lb type="double">15250</max-lb>
+            <max-lb type="double">15500</max-lb>
             <unit-lb type="double">250</unit-lb>
             <unit-count type="int">0</unit-count>
         </weight>

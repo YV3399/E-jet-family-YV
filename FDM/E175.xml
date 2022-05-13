@@ -414,7 +414,7 @@
         <!-- Wing Fuel Tank LEFT -->
         <tank type="FUEL" number="0">
             <location unit="IN">
-                <x>  0.0 </x>
+                <x> -30.0 </x>
                 <y> -133.96 </y>
                 <z> -5.91 </z>
             </location>
@@ -425,7 +425,7 @@
         <!-- Wing Fuel Tank RIGHT -->
         <tank type="FUEL" number="1">
             <location unit="IN">
-                <x>   0.0 </x>
+                <x> -30.0 </x>
                 <y> 133.96 </y>
                 <z> -5.91 </z>
             </location>

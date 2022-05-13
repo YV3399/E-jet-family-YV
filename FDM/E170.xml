@@ -65,7 +65,7 @@
         <emptywt unit="KG" > 21157 </emptywt>
 
         <location name="CG" unit="IN">
-            <x>-33</x>
+            <x>-34</x>
             <y>0.0</y>
             <z>0.0</z>
         </location>
@@ -409,7 +409,7 @@
         <!-- Wing Fuel Tank LEFT -->
         <tank type="FUEL" number="0">
             <location unit="IN">
-                <x>  0.0 </x>
+                <x> -35.0 </x>
                 <y> -133.96 </y>
                 <z> -5.91 </z>
             </location>
@@ -420,7 +420,7 @@
         <!-- Wing Fuel Tank RIGHT -->
         <tank type="FUEL" number="1">
             <location unit="IN">
-                <x>   0.0 </x>
+                <x> -35.0 </x>
                 <y> 133.96 </y>
                 <z> -5.91 </z>
             </location>
