@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!-- Embraer 190 AOM page 1894 -->
+
+<PropertyList>
+
+    <filter>
+        <name>MAC</name>
+        <type>gain</type>
+        <gain>1</gain>
+        <!-- <update-interval-secs type="double">0.5</update-interval-secs> -->
+        <input>
+            <expression>
+                <product>
+                    <property>/fdm/jsbsim/metrics/cbarw-ft</property>
+                    <value>7.92094</value>
+                </product>
+            </expression>
+        </input>
+        <output>/weight-and-balance/mac-length-in</output>
+    </filter>
+    <filter>
+        <name>LEMAC</name>
+        <type>gain</type>
+        <gain>1</gain>
+        <!-- <update-interval-secs type="double">0.5</update-interval-secs> -->
+        <input>
+            <expression>
+                <product>
+                    <property>/weight-and-balance/mac-length-in</property>
+                    <value>-0.5</value>
+                </product>
+            </expression>
+        </input>
+        <output>/weight-and-balance/lemac</output>
+    </filter>
+
+    <filter>
+        <name>CG MAC Position Normalized</name>
+        <type>gain</type>
+        <gain>1</gain>
+        <!-- <update-interval-secs type="double">0.5</update-interval-secs> -->
+        <input>
+            <expression>
+                <div>
+                    <difference>
+                        <property>/fdm/jsbsim/inertia/cg-x-in</property>
+                        <property>/weight-and-balance/lemac</property>
+                    </difference>
+                    <property>/weight-and-balance/mac-length-in</property>
+                </div>
+            </expression>
+        </input>
+        <output>/weight-and-balance/mac-position-norm</output>
+    </filter>
+
+    <filter>
+        <name>CG Percent MAC</name>
+        <type>gain</type>
+        <gain>1</gain>
+        <!-- <update-interval-secs type="double">0.5</update-interval-secs> -->
+        <input>
+            <expression>
+                <product>
+                    <property>/weight-and-balance/mac-position-norm</property>
+                    <value>100</value>
+                </product>
+            </expression>
+        </input>
+        <output>/weight-and-balance/mac-position-percent</output>
+    </filter>
+
+    <filter>
+        <!-- Because we don't have CG envelope references for the other types,
+             we derive them from the E190, by stretching the mass range
+             from OEW to MTOW to those of the E190. Because the middle section
+             of the envelope is constant, instead of interpolating the entire
+             range, we move the bottom and top halves as required, using 70600
+             lbs (~32000 kg) as the flipping point. -->
+        <name>CG Limit Ref Weight</name>
+        <type>gain</type>
+        <!-- <update-interval-secs type="double">0.5</update-interval-secs> -->
+        <gain>0.4535924</gain> <!-- convert lbs to kg -->
+        <input>
+            <!-- bottom half of envelope -->
+            <condition>
+                <less-than>
+                    <property>/fms/fuel/gw-lbs</property>
+                    <value>70600</value>
+                </less-than>
+            </condition>
+
+            <expression>
+                <!-- oew190 + gw - oew -->
+                <sum>
+                    <value>61370</value>
+                    <difference>
+                        <property>/fms/fuel/gw-lbs</property>
+                        <property>/fdm/jsbsim/inertia/empty-weight-lbs</property>
+                    </difference>
+                </sum>
+            </expression>
+        </input>
+        <input>
+            <!-- top half of envelope -->
+
+            <expression>
+                <!-- mlw190 + gw - mlw -->
+                <sum>
+                    <value>114199</value>
+                    <difference>
+                        <property>/fms/fuel/gw-lbs</property>
+                        <property>/limits/mass-and-balance/maximum-landing-mass-lbs</property>
+                    </difference>
+                </sum>
+            </expression>
+        </input>
+        <output>/weight-and-balance/limit-ref-weight-kg</output>
+    </filter>
+
+    <filter>
+        <name>CG Percent Takeoff Limit Low</name>
+        <type>gain</type>
+        <gain>1</gain>
+        <!-- <update-interval-secs type="double">0.5</update-interval-secs> -->
+        <input>
+            <expression>
+                <table>
+                    <property>/weight-and-balance/limit-ref-weight-kg</property>
+                    <entry> <ind>29500</ind><dep>18.4</dep> </entry>
+                    <entry> <ind>31500</ind><dep> 6.0</dep> </entry>
+                    <entry> <ind>48090</ind><dep> 6.0</dep> </entry>
+                    <entry> <ind>52000</ind><dep>10.7</dep> </entry>
+                </table>
+            </expression>
+        </input>
+        <output>/weight-and-balance/mac-percent-min-takeoff</output>
+    </filter>
+    <filter>
+        <name>CG Percent Takeoff Limit High</name>
+        <type>gain</type>
+        <gain>1</gain>
+        <!-- <update-interval-secs type="double">0.5</update-interval-secs> -->
+        <input>
+            <expression>
+                <table>
+                    <property>/weight-and-balance/limit-ref-weight-kg</property>
+                    <entry> <ind>29500</ind><dep>18.4</dep> </entry>
+                    <entry> <ind>30100</ind><dep>22.0</dep> </entry>
+                    <entry> <ind>40400</ind><dep>29.0</dep> </entry>
+                    <entry> <ind>40700</ind><dep>29.0</dep> </entry>
+                    <entry> <ind>51800</ind><dep>27.0</dep> </entry>
+                </table>
+            </expression>
+        </input>
+        <output>/weight-and-balance/mac-percent-max-takeoff</output>
+    </filter>
+    <filter>
+        <name>CG Percent Landing Limit Low</name>
+        <type>gain</type>
+        <gain>1</gain>
+        <!-- <update-interval-secs type="double">0.5</update-interval-secs> -->
+        <input>
+            <expression>
+                <table>
+                    <property>/weight-and-balance/limit-ref-weight-kg</property>
+                    <entry> <ind>28000</ind><dep>17.0</dep> </entry>
+                    <entry> <ind>31500</ind><dep> 6.0</dep> </entry>
+                    <entry> <ind>48090</ind><dep> 6.0</dep> </entry>
+                    <entry> <ind>52000</ind><dep>10.7</dep> </entry>
+                </table>
+            </expression>
+        </input>
+        <output>/weight-and-balance/mac-percent-min-landing</output>
+    </filter>
+    <filter>
+        <name>CG Percent Landing Limit High</name>
+        <type>gain</type>
+        <gain>1</gain>
+        <!-- <update-interval-secs type="double">0.5</update-interval-secs> -->
+        <input>
+            <expression>
+                <table>
+                    <property>/weight-and-balance/limit-ref-weight-kg</property>
+                    <entry> <ind>28000</ind><dep>23.4</dep> </entry>
+                    <entry> <ind>37000</ind><dep>29.0</dep> </entry>
+                    <entry> <ind>40700</ind><dep>29.0</dep> </entry>
+                    <entry> <ind>51800</ind><dep>27.0</dep> </entry>
+                </table>
+            </expression>
+        </input>
+        <output>/weight-and-balance/mac-percent-max-landing</output>
+    </filter>
+    <filter>
+        <name>CG Percent Clean Config Limit Low</name>
+        <type>gain</type>
+        <gain>1</gain>
+        <!-- <update-interval-secs type="double">0.5</update-interval-secs> -->
+        <input>
+            <expression>
+                <table>
+                    <property>/weight-and-balance/limit-ref-weight-kg</property>
+                    <entry> <ind>28000</ind><dep>15.0</dep> </entry>
+                    <entry> <ind>31500</ind><dep> 4.0</dep> </entry>
+                    <entry> <ind>48090</ind><dep> 4.0</dep> </entry>
+                    <entry> <ind>52000</ind><dep> 8.7</dep> </entry>
+                </table>
+            </expression>
+        </input>
+        <output>/weight-and-balance/mac-percent-min-clean</output>
+    </filter>
+    <filter>
+        <name>CG Percent Clean Config Limit High</name>
+        <type>gain</type>
+        <gain>1</gain>
+        <!-- <update-interval-secs type="double">0.5</update-interval-secs> -->
+        <input>
+            <expression>
+                <table>
+                    <property>/weight-and-balance/limit-ref-weight-kg</property>
+                    <entry> <ind>28000</ind><dep>25.4</dep> </entry>
+                    <entry> <ind>37000</ind><dep>31.0</dep> </entry>
+                    <entry> <ind>40700</ind><dep>31.0</dep> </entry>
+                    <entry> <ind>51800</ind><dep>29.0</dep> </entry>
+                </table>
+            </expression>
+        </input>
+        <output>/weight-and-balance/mac-percent-max-clean</output>
+    </filter>
+</PropertyList>
