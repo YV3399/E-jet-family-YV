@@ -615,7 +615,7 @@ re-run build.sh.
                             <value>10</value>
                         </less-than>
                     </condition>
-                    <property>/fms/takeoff-conditions/pitch</property>
+                    <property>/fms/vspeeds-effective/departure/pitch</property>
                 </input>
                 <input>
                     <expression>

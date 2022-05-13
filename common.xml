@@ -1128,7 +1128,6 @@
             <wind-dir type="double">0</wind-dir>
             <wind-speed type="double">0</wind-speed>
             <weight-kg type="double">0.0</weight-kg>
-            <pitch type="double">10.0</pitch>
         </takeoff-conditions>
 
         <landing-conditions>
@@ -1195,6 +1194,8 @@
                 <vf2 type="double">160</vf2>
                 <vf3 type="double">150</vf3>
                 <vf4 type="double">140</vf4>
+                <!-- takeoff pitch -->
+                <pitch type="double">11.0</pitch>
             </departure>
 
             <approach>
@@ -1258,6 +1259,8 @@
                 <vf2 type="double">160</vf2>
                 <vf3 type="double">150</vf3>
                 <vf4 type="double">140</vf4>
+                <!-- takeoff pitch -->
+                <pitch type="double">11.0</pitch>
             </departure>
 
             <approach>
@@ -1723,6 +1726,8 @@
                     <vf2 type="double">0</vf2>
                     <vf3 type="double">0</vf3>
                     <vf4 type="double">0</vf4>
+                    <!-- takeoff pitch -->
+                    <pitch type="double">0</pitch>
                 </departure>
 
                 <approach>

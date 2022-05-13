@@ -204,6 +204,7 @@ var keyProps = {
     "DEP-SEL-VF2": "/controls/flight/vspeeds/departure/vf2",
     "DEP-SEL-VF3": "/controls/flight/vspeeds/departure/vf3",
     "DEP-SEL-VF4": "/controls/flight/vspeeds/departure/vf4",
+    "DEP-SEL-PITCH": "/controls/flight/vspeeds/departure/pitch",
 
     # Pilot-selected vspeeds - approach
     "APP-SEL-VREF": "/controls/flight/vspeeds/approach/vref",
@@ -227,6 +228,7 @@ var keyProps = {
     "DEP-EFF-VF2": "/fms/vspeeds-effective/departure/vf2",
     "DEP-EFF-VF3": "/fms/vspeeds-effective/departure/vf3",
     "DEP-EFF-VF4": "/fms/vspeeds-effective/departure/vf4",
+    "DEP-EFF-PITCH": "/fms/vspeeds-effective/departure/pitch",
 
     # Effective vspeeds - approach
     "APP-EFF-VREF": "/fms/vspeeds-effective/approach/vref",

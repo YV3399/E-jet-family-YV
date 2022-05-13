@@ -65,6 +65,22 @@
         <output>/fms/vspeeds-effective/departure/vfs</output>
     </filter>
 
+    <filter>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <condition>
+                <greater-than>
+                    <property>/controls/flight/vspeeds/departure/pitch</property>
+                    <value>0</value>
+                </greater-than>
+            </condition>
+            <property>/controls/flight/vspeeds/departure/pitch</property>
+        </input>
+        <input><property>/fms/vspeeds-calculated/departure/pitch</property></input>
+        <output>/fms/vspeeds-effective/departure/pitch</output>
+    </filter>
+
 
     <!-- APPROACH / LANDING -->
     <filter>

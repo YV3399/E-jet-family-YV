@@ -1076,6 +1076,8 @@ var TakeoffPerfModule = {
                 StaticView.new(1, 7, "VFS", mcdu_white),
                 FormatView.new(0, 8, mcdu_large | mcdu_green, "DEP-EFF-VFS", 3),
                 StaticView.new(0, 10,left_triangle ~ "LANDING", mcdu_large | mcdu_white),
+                StaticView.new(14, 9, "T/O PITCH", mcdu_white),
+                FormatView.new(18, 10, mcdu_large | mcdu_green, "DEP-EFF-PITCH", 5, "%4.1f°"),
             ];
             me.controllers = {
                 "L1": ValueController.new("DEP-SEL-V1"),
@@ -1083,6 +1085,7 @@ var TakeoffPerfModule = {
                 "L3": ValueController.new("DEP-SEL-V2"),
                 "L4": ValueController.new("DEP-SEL-VFS"),
                 "L5": SubmodeController.new("PERF-LANDING"),
+                "R5": ValueController.new("DEP-SEL-PITCH"),
             };
         }
     },

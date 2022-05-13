@@ -324,19 +324,38 @@ var calcVref = func (weight = nil) {
     return lookupTable(table, [ weight, flapSetting ]);
 };
 
+var takeoffPitchTable = [
+    12.0, # FLAPS UP (not used)
+    11.0, # FLAPS 1
+    10.0, # FLAPS 2
+    11.0, # FLAPS 3
+    12.0, # FLAPS 4
+    12.0, # FLAPS 5 (not used for T/O, same as FLAPS 4)
+    13.0, # FLAPS FULL (not used for T/O)
+];
+
+var calcTakeoffPitch = func (weight = nil) {
+    # TODO: figure out how weight factors in
+    var flapSetting = math.round(getprop('/fms/takeoff-conditions/flaps') * 8);
+    return takeoffPitchTable[flapSetting] or 8.0;
+};
+
 var update_departure_vspeeds = func () {
     var v1 = calcV('V1');
     var vr = calcV('VR');
     var v2 = calcV('V2');
     var vfs = calcVFS();
+    var pitch = calcTakeoffPitch();
     printf("V1: %3.0f", (v1 == nil) ? "---" : v1);
     printf("VR: %3.0f", (vr == nil) ? "---" : vr);
     printf("V2: %3.0f", (v2 == nil) ? "---" : v2);
     printf("VFS: %3.0f", (vfs == nil) ? "---" : vfs);
+    printf("PITCH: %4.1f", (pitch == nil) ? "---" : pitch);
     if (v1 != nil and v1 > 0) { setprop('/fms/vspeeds-calculated/departure/v1', v1); }
     if (vr != nil and vr > 0) { setprop('/fms/vspeeds-calculated/departure/vr', vr); }
     if (v2 != nil and v2 > 0) { setprop('/fms/vspeeds-calculated/departure/v2', v2); }
     if (vfs != nil and vfs > 0) { setprop('/fms/vspeeds-calculated/departure/vfs', vfs); }
+    if (pitch != nil and pitch > 0) { setprop('/fms/vspeeds-calculated/departure/pitch', pitch); }
 };
 
 var update_approach_vspeeds = func () {
