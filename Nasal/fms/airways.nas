@@ -186,11 +186,13 @@ var loadAirwaysData = func () {
     var airwaysFile = nil;
 
     foreach (var node; sceneryPathNodes) {
-        var filename = node.getValue() ~ '/NavData/awy/awy.dat';
-        printf("AIRWAYS: Trying " ~ filename);
-        if (io.stat(filename) != nil) {
-            airwaysFile = filename;
-            break;
+        foreach (var basename; ['earth_awy.dat', 'awy.dat']) {
+            var filename = node.getValue() ~ '/NavData/awy/' ~ basename;
+            printf("AIRWAYS: Trying " ~ filename);
+            if (io.stat(filename) != nil) {
+                airwaysFile = filename;
+                break;
+            }
         }
     }
 
