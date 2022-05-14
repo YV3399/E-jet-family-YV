@@ -654,7 +654,7 @@ var FlightPlanModule = {
                             return DirectToModule.new(mcdu, parent, this.fp, val);
                         };
                         owner.mcdu.pushModule(directToModule);
-                        me.mcdu.setScratchpad('');
+                        owner.mcdu.setScratchpad('');
                     });
                 }
                 else {
@@ -671,7 +671,7 @@ var FlightPlanModule = {
                                         return DirectToModule.new(mcdu, parent, this.fp, val, directFromIndex);
                                     };
                                     owner.mcdu.pushModule(directToModule);
-                                    me.mcdu.setScratchpad('');
+                                    owner.mcdu.setScratchpad('');
                                 }
                             },
                             func (owner) {
@@ -707,7 +707,7 @@ var FlightPlanModule = {
                                             if (parsed.alt != nil) {
                                                 wpx.setAltitude(parsed.alt.val, parsed.alt.ty);
                                             }
-                                            me.mcdu.setScratchpad('');
+                                            owner.mcdu.setScratchpad('');
                                         }
                                     }
                                 }
