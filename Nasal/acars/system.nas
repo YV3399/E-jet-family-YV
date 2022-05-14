@@ -221,7 +221,7 @@ var System = {
         if (txt == nil) txt = getprop('/acars/telex-dialog/text');
         if (to != '' and txt != '') {
             if (mode == 'HOPPIE') {
-                globals.hoppieAcars.send(to, 'progress', txt);
+                globals.hoppieAcars.send(to, 'telex', txt);
                 return 1;
             }
         }
