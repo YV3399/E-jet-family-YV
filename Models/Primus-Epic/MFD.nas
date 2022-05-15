@@ -171,6 +171,7 @@ var MFD = {
         me.index = index;
         me.txRadarScanX = 0;
         me.systemsListeners = [];
+        me.listeners = [];
         me.elems = {};
         me.props = {
                 'page': props.globals.getNode('/instrumentation/mfd[' ~ index ~ ']/page'),
@@ -312,23 +313,21 @@ var MFD = {
         me.terrainViz = me.underlay.createChild("image");
         me.terrainViz.set("src", resolvepath("Aircraft/E-jet-family/Models/Primus-Epic/MFD/terrain" ~ index ~ ".png"));
         me.terrainViz.setCenter(128, 128);
-        var terrainTimerFunc = func () {
-            self.updateTerrainViz();
-            settimer(terrainTimerFunc, 0.1);
-        };
+        me.terrainTimer = maketimer(0.1, func { self.updateTerrainViz(); });
+        me.terrainTimer.simulatedTime = 1;
         me.radarViz = me.underlay.createChild("image");
         me.radarViz.set("src", resolvepath("Aircraft/E-jet-family/Models/Primus-Epic/MFD/radar" ~ index ~ ".png"));
         me.radarViz.setCenter(128, 128);
         me.lastRadarSweepAngle = -60;
-        setlistener("/instrumentation/wxr/sweep-pos-deg", func (node) {
+        append(me.listeners, setlistener("/instrumentation/wxr/sweep-pos-deg", func (node) {
             self.updateRadarViz(node.getValue());
-        });
-        setlistener(me.props['wx-range'], func () {
+        }));
+        append(me.listeners, setlistener(me.props['wx-range'], func () {
             self.updateRadarScale();
-        });
+        }));
 
         canvas.parsesvg(me.underlay, "Aircraft/E-jet-family/Models/Primus-Epic/MFD-radar-mask.svg");
-        settimer(terrainTimerFunc, 1.0);
+        me.terrainTimer.start();
 
         me.mapCamera = mfdmap.Camera.new({
             range: 25,
@@ -861,13 +860,13 @@ var MFD = {
         me.selectUnderlay(nil);
         me.setWxMode(nil);
 
-        setlistener(me.props['wx-gain'], func (node) {
+        append(me.listeners, setlistener(me.props['wx-gain'], func (node) {
             self.elems['weatherMenu.gain'].setText(sprintf("%3.0f", node.getValue() or 0));
-        }, 1, 0);
-        setlistener(me.props['wx-tilt'], func (node) {
+        }, 1, 0));
+        append(me.listeners, setlistener(me.props['wx-tilt'], func (node) {
             self.elems['weather.tilt'].setText(sprintf("%-2.0f", node.getValue() or 0));
-        }, 1, 0);
-        setlistener(me.props['wx-mode-indicated'], func(node) {
+        }, 1, 0));
+        append(me.listeners, setlistener(me.props['wx-mode-indicated'], func(node) {
             var modeIndex = node.getValue();
             if (modeIndex == 3) {
                 self.elems['weather.mode']
@@ -904,85 +903,85 @@ var MFD = {
                     .setText("FAIL")
                     .setColor([1, 0.5, 0, 1]);
             }
-        }, 1, 0);
-        setlistener(me.props['green-arc-dist'], func (node) {
+        }, 1, 0));
+        append(me.listeners, setlistener(me.props['green-arc-dist'], func (node) {
             self.updateGreenArc(node.getValue());
-        }, 1, 0);
-        setlistener(me.props['wx-sect'], func (node) {
+        }, 1, 0));
+        append(me.listeners, setlistener(me.props['wx-sect'], func (node) {
             self.elems['weatherMenu.checkSect'].setVisible(node.getBoolValue());
-        }, 1, 0);
-        setlistener('/fms/vnav/available', func () {
+        }, 1, 0));
+        append(me.listeners, setlistener('/fms/vnav/available', func () {
             self.updateVnavFlightplan();
-        }, 1, 0);
-        setlistener(me.props['wx-fsby-ovrd'], func (node) {
+        }, 1, 0));
+        append(me.listeners, setlistener(me.props['wx-fsby-ovrd'], func (node) {
             self.elems['weatherMenu.checkFsbyOvrd'].setVisible(node.getBoolValue());
-        }, 1, 0);
-        setlistener("/instrumentation/mfd[" ~ index ~ "]/lateral-range", func (node) {
+        }, 1, 0));
+        append(me.listeners, setlistener("/instrumentation/mfd[" ~ index ~ "]/lateral-range", func (node) {
             self.setRange(node.getValue());
-        }, 1, 0);
-        setlistener(me.props['heading-bug'], func (node) {
+        }, 1, 0));
+        append(me.listeners, setlistener(me.props['heading-bug'], func (node) {
             self.elems['arc.heading-bug'].setRotation(node.getValue() * DC);
-        }, 1, 0);
-        setlistener(me.props['track-mag'], func (node) {
+        }, 1, 0));
+        append(me.listeners, setlistener(me.props['track-mag'], func (node) {
             self.elems['arc.track'].setRotation(node.getValue() * DC);
-        }, 1, 0);
-        setlistener(me.props['nav-src'], func (node) {
+        }, 1, 0));
+        append(me.listeners, setlistener(me.props['nav-src'], func (node) {
             self.updateNavSrc();
-        }, 1, 0);
-        setlistener(me.props['wp-id'], func (node) {
+        }, 1, 0));
+        append(me.listeners, setlistener(me.props['wp-id'], func (node) {
             self.updateNavSrc();
-        }, 0, 0);
-        setlistener("/autopilot/route-manager/active", func {
+        }, 0, 0));
+        append(me.listeners, setlistener("/autopilot/route-manager/active", func {
             self.updatePlanWPT();
             self.updateVnavFlightplan();
-        }, 1, 0);
-        setlistener( "/autopilot/route-manager/cruise/altitude-ft", func {
+        }, 1, 0));
+        append(me.listeners, setlistener( "/autopilot/route-manager/cruise/altitude-ft", func {
             self.updateVnavFlightplan();
-        }, 1, 0);
-        setlistener(me.props['page'], func (node) {
+        }, 1, 0));
+        append(me.listeners, setlistener(me.props['page'], func (node) {
             self.updatePage();
-        }, 1, 0);
-        setlistener(me.props['submode'], func (node) {
+        }, 1, 0));
+        append(me.listeners, setlistener(me.props['submode'], func (node) {
             var submode = node.getValue();
             self.elems['btnSystems.mode.label'].setText(submodeNames[submode]);
             self.updateSystemsSubmode(submode);
             self.updatePage();
-        }, 1, 0);
-        setlistener(me.props['cursor'], func (node) {
+        }, 1, 0));
+        append(me.listeners, setlistener(me.props['cursor'], func (node) {
             self.cursor.setTranslation(
                 self.props['cursor.x'].getValue(),
                 self.props['cursor.y'].getValue()
             );
-        }, 1, 2);
-        setlistener(me.props['show-navaids'], func (node) {
+        }, 1, 2));
+        append(me.listeners, setlistener(me.props['show-navaids'], func (node) {
             var viz = node.getBoolValue();
             self.elems['checkNavaids'].setVisible(viz);
             self.map.layers['NDB'].setVisible(viz);
             self.map.layers['VOR'].setVisible(viz);
-        }, 1, 0);
-        setlistener(me.props['show-airports'], func (node) {
+        }, 1, 0));
+        append(me.listeners, setlistener(me.props['show-airports'], func (node) {
             var viz = node.getBoolValue();
             var range = me.map.getRange();
             self.elems['checkAirports'].setVisible(viz);
             self.map.layers["RWY"].setVisible(range < 9.5 and viz);
             self.map.layers["APT"].setVisible(range >= 9.5 and range < 99.5 and viz);
-        }, 1, 0);
-        setlistener(me.props['show-wpt'], func (node) {
+        }, 1, 0));
+        append(me.listeners, setlistener(me.props['show-wpt'], func (node) {
             var viz = node.getBoolValue();
             self.elems['checkWptIdent'].setVisible(viz);
             self.map.layers['WPT'].setVisible(viz);
-        }, 1, 0);
-        setlistener(me.props['show-progress'], func (node) {
+        }, 1, 0));
+        append(me.listeners, setlistener(me.props['show-progress'], func (node) {
             var viz = node.getBoolValue();
             self.elems['checkProgress'].setVisible(viz);
             self.elems['progress.master'].setVisible(viz);
-        }, 1, 0);
-        setlistener(me.props['show-missed'], func (node) {
+        }, 1, 0));
+        append(me.listeners, setlistener(me.props['show-missed'], func (node) {
             var viz = node.getBoolValue();
             self.elems['checkMissedAppr'].setVisible(viz);
             # TODO: toggle missed approach display
-        }, 1, 0);
-        setlistener(me.props['show-tcas'], func (node) {
+        }, 1, 0));
+        append(me.listeners, setlistener(me.props['show-tcas'], func (node) {
             var viz = node.getBoolValue();
             self.elems['checkTCAS'].setVisible(viz);
             self.elems['tcas.master'].setVisible(viz);
@@ -992,8 +991,8 @@ var MFD = {
             else
                 self.trafficLayer.stop();
             # self.map.layers['TFC-Ejet'].setVisible(viz);
-        }, 1, 0);
-        setlistener(me.props['tcas-mode'], func (node) {
+        }, 1, 0));
+        append(me.listeners, setlistener(me.props['tcas-mode'], func (node) {
             var mode = node.getValue();
             if (mode == 3) {
                 # TA/RA
@@ -1010,12 +1009,12 @@ var MFD = {
                 self.elems['tcas.mode'].setColor(1, 0.75, 0);
                 self.elems['tcas.mode'].setText('TCAS OFF');
             }
-        }, 1, 0);
-        setlistener(me.props['altitude-selected'], func (node) {
+        }, 1, 0));
+        append(me.listeners, setlistener(me.props['altitude-selected'], func (node) {
             var alt = node.getValue();
             var offset = -alt * 0.04;
             self.elems['vnav.selectedalt'].setTranslation(0, offset);
-        }, 1, 0);
+        }, 1, 0));
 
 
 
@@ -1027,6 +1026,20 @@ var MFD = {
         }
 
         return me;
+    },
+
+    deinit: func {
+        if (me.terrainTimer != nil) {
+            me.terrainTimer.stop();
+        }
+        foreach (var l; me.systemsListeners) {
+            removelistener(l);
+        }
+        me.systemsListeners = [];
+        foreach (var l; me.listeners) {
+            removelistener(l);
+        }
+        me.listeners = [];
     },
 
     updateACshared: func () {
@@ -2414,11 +2427,30 @@ var MFD = {
 };
 
 var path = resolvepath('Aircraft/E-jet-family/Models/Primus-Epic/MFD');
-# canvas.MapStructure.loadFile(path ~ '/TFC-Ejet.lcontroller', 'TFC-Ejet');
-# canvas.MapStructure.loadFile(path ~ '/TFC-Ejet.symbol', 'TFC-Ejet');
 
-setlistener("sim/signals/fdm-initialized", func {
-    if (initialized) return;
+var listeners = [];
+var timers = [];
+
+var teardown = func {
+    initialized = 0;
+    foreach (var l; listeners) {
+        removelistener(l);
+    }
+    listeners = [];
+    foreach (var t; timers) {
+        t.stop();
+    }
+    timers = [];
+    for (var i = 0; i <= 1; i += 1) {
+        mfd[i].deinit();
+        mfd[i] = nil;
+        mfd_display[i].del();
+        mfd_display[i] = nil;
+    }
+};
+
+var initialize = func {
+    if (initialized) { teardown(); }
     initialized = 1;
     for (var i = 0; i <= 1; i += 1) {
         mfd_display[i] = canvas.new({
@@ -2439,6 +2471,8 @@ setlistener("sim/signals/fdm-initialized", func {
             enabledProp = props.globals.getNode("instrumentation/mfd[" ~ j ~ "]/enabled");
             var timer = maketimer(0.1, func() { mfd[j].update(); });
             var timerSlow = maketimer(1.0, func() { mfd[j].updateSlow(); });
+            append(timers, timer);
+            append(timers, timerSlow);
             var check = func {
                 var visible = ((outputProp.getValue() or 0) >= 15) and enabledProp.getBoolValue();
                 mfd_master[j].setVisible(visible);
@@ -2451,8 +2485,10 @@ setlistener("sim/signals/fdm-initialized", func {
                     timerSlow.stop();
                 }
             };
-            setlistener(outputProp, check, 1, 0);
-            setlistener(enabledProp, check, 1, 0);
+            append(listeners, setlistener(outputProp, check, 1, 0));
+            append(listeners, setlistener(enabledProp, check, 1, 0));
         })(i);
     }
-});
+};
+
+setlistener("sim/signals/fdm-initialized", initialize);
