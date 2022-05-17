@@ -120,7 +120,7 @@ var System = {
     },
 
     getDriver: func () {
-        if (me.driver)
+        if (me.driver != nil)
             return me.driver.getDriverName();
         else
             return '';
@@ -131,7 +131,7 @@ var System = {
     },
 
     setNextStation: func (station) {
-        me.props.nextStation.setValue(station);
+        me.props.nextStation.setValue(station or '');
     },
 
     setLogonAccepted: func (station) {
@@ -151,7 +151,7 @@ var System = {
         else {
             me.setLogonStatus(LOGON_OK);
         }
-        me.props.currentStation.setValue(station);
+        me.props.currentStation.setValue(station or '');
         me.props.nextStation.setValue('');
         me.props.logonStation.setValue('');
 
