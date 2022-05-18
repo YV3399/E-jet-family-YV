@@ -66,6 +66,15 @@
             </binding>
             <live type="bool">true</live>
         </checkbox>
+        <checkbox>
+            <label>Realistic nosewheel steering</label>
+            <property>options/controls/realistic-nose-wheel-steering</property>
+            <halign>left</halign>
+            <binding>
+                <command>dialog-apply</command>
+            </binding>
+            <live type="bool">true</live>
+        </checkbox>
     </group>
     <group>
         <layout>hbox</layout>

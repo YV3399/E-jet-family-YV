@@ -329,4 +329,32 @@
         </input>
         <output>/fdm/jsbsim/fcs/mfs-right-inboard-cmd-norm</output>
     </filter>
+
+    <!-- Nosewheel steering -->
+    <logic>
+        <input>
+            <and>
+                <!-- TODO: disconnect NWS when no hydraulic pressure -->
+                <not>
+                    <property>/controls/gear/nose-wheel-steering</property>
+                </not>
+                <property>/options/controls/realistic-nose-wheel-steering</property>
+            </and>
+        </input>
+        <output>/fdm/jsbsim/gear/unit[0]/castered</output>
+    </logic>
+
+    <flipflop>
+        <type>RS</type>
+        <name>NWS engage/disengage</name>
+        <S>
+            <!-- tiller push engages NWS -->
+            <property>controls/gear/tiller-pushed</property>
+        </S>
+        <R>
+            <!-- explicit disconnect disengages NWS -->
+            <property>controls/gear/nose-wheel-steering-disconnect</property>
+        </R>
+        <output>controls/gear/nose-wheel-steering</output>
+    </flipflop>
 </PropertyList>

@@ -76,6 +76,7 @@
             <path>/instrumentation/mfd[1]/enabled</path>
             <path>/instrumentation/eicas/enabled</path>
             <path>/options/system/keyboard-mode</path>
+            <path>/options/controls/realistic-nose-wheel-steering</path>
             <path>/instrumentation/efb/available</path>
             <path>/instrumentation/efb/brightness</path>
             <path>/instrumentation/efb/flightbag-companion-uri</path>
@@ -726,6 +727,9 @@
         <system>
             <keyboard-mode type="bool">0</keyboard-mode>
         </system>
+        <controls>
+            <realistic-nose-wheel-steering type="bool">0</realistic-nose-wheel-steering>
+        </controls>
     </options>
 
     <position>
@@ -1796,6 +1800,8 @@
             <brake-parking type="bool">true</brake-parking>
             <enable-tiller type="bool">true</enable-tiller>
             <tiller-cmd-norm type="float">0</tiller-cmd-norm>
+            <tiller-pushed type="bool">0</tiller-pushed>
+            <nose-wheel-steering type="bool">1</nose-wheel-steering>
         </gear>
 
         <lighting>

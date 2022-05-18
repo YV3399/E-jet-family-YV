@@ -366,7 +366,7 @@
                 <property>/sim/model/autopush/connected</property>
                 <value>1</value>
               </eq>
-              <value>70</value>
+              <value>76</value>
               <table>
                   <independentVar lookup="row">/velocities/groundspeed-kt</independentVar>
                   <tableData>
@@ -394,42 +394,82 @@
                 <value>70</value>
               </product>
               <ifthen>
-                <eq>
-                  <property>/controls/gear/enable-tiller</property>
-                  <value>1</value>
-                </eq>
+                <property>gear/unit[0]/castered</property>
+                <property>gear/unit[0]/steering-angle-deg</property>
+                <ifthen>
+                  <eq>
+                    <property>/controls/gear/enable-tiller</property>
+                    <value>1</value>
+                  </eq>
 
-                <!-- Tiller enabled: rudder pedals command +/- 7°, tiller follows IRL schedule. -->
-                <min>
-                    <property>fcs/steer-nose-limit-deg[0]</property>
-                    <max>
-                        <property>-fcs/steer-nose-limit-deg[0]</property>
-                        <sum>
+                  <!-- Tiller enabled: rudder pedals command +/- 7°, tiller follows IRL schedule. -->
+                  <ifthen>
+                    <property>/options/controls/realistic-nose-wheel-steering</property>
+                    
+                    <!-- Realistic NWS: tiller must be kept down for tiller
+                         steering; rudder pedals only steer when tiller up. -->
+                      <min>
+                        <property>fcs/steer-nose-limit-deg[0]</property>
+                        <max>
+                          <property>-fcs/steer-nose-limit-deg[0]</property>
+                          <ifthen>
+                            <property>/controls/gear/tiller-pushed</property>
+                            <!-- tiller down -->
                             <table>
                               <independentVar lookup="row">/controls/gear/tiller-cmd-norm</independentVar>
                               <tableData>
-                                -1.000 -76
-                                -0.625 -25
-                                -0.250  -5
-                                 0.000   0
-                                 0.250   5
-                                 0.625  25
-                                 1.000  76
+                                  -1.000 -76
+                                  -0.625 -25
+                                  -0.250  -5
+                                  0.000   0
+                                  0.250   5
+                                  0.625  25
+                                  1.000  76
                               </tableData>
                             </table>
+                            <!-- tiller up -->
                             <product>
                               <property>/controls/flight/rudder</property>
                               <value>7</value>
                             </product>
-                        </sum>
-                    </max>
-                </min>
+                          </ifthen>
+                        </max>
+                    </min>
 
-                <!-- Tiller disabled: rudder pedals command up to NWS limit. -->
-                <product>
-                  <property>/controls/flight/rudder</property>
-                  <property>fcs/steer-nose-limit-deg[0]</property>
-                </product>
+                      <!-- tiller up -->
+
+                    <min>
+                        <property>fcs/steer-nose-limit-deg[0]</property>
+                        <max>
+                            <property>-fcs/steer-nose-limit-deg[0]</property>
+                            <sum>
+                                <table>
+                                  <independentVar lookup="row">/controls/gear/tiller-cmd-norm</independentVar>
+                                  <tableData>
+                                    -1.000 -76
+                                    -0.625 -25
+                                    -0.250  -5
+                                     0.000   0
+                                     0.250   5
+                                     0.625  25
+                                     1.000  76
+                                  </tableData>
+                                </table>
+                                <product>
+                                  <property>/controls/flight/rudder</property>
+                                  <value>7</value>
+                                </product>
+                            </sum>
+                        </max>
+                    </min>
+                  </ifthen>
+
+                  <!-- Tiller disabled: rudder pedals command up to NWS limit. -->
+                  <product>
+                    <property>/controls/flight/rudder</property>
+                    <property>fcs/steer-nose-limit-deg[0]</property>
+                  </product>
+                </ifthen>
               </ifthen>
             </ifthen>
           </function>

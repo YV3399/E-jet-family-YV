@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <?xml-stylesheet type="text/xsl" href="http://jsbsim.sourceforge.net/JSBSim.xsl"?>
-<fdm_config name="E170" version="2.0" release="BETA"
+<fdm_config name="E190" version="2.0" release="BETA"
    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
    xsi:noNamespaceSchemaLocation="http://jsbsim.sourceforge.net/JSBSim.xsd">
 
@@ -127,7 +127,8 @@
             <rolling_friction> 0.005 </rolling_friction>
             <spring_coeff unit="LBS/FT"> 25000 </spring_coeff>
             <damping_coeff unit="LBS/FT/SEC"> 10000 </damping_coeff>
-            <max_steer unit="DEG"> 70 </max_steer>
+            <max_steer unit="DEG">76</max_steer>
+            <castered>1</castered>
             <brake_group>NONE</brake_group>
             <retractable>1</retractable>
             <table name="CORNERING_COEFF" type="internal">
