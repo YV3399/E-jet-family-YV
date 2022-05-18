@@ -349,7 +349,7 @@ var formatMessagePart = func (type, args) {
     }
     var txt = messageType.txt;
     for (var i = 0; i < size(args); i += 1) {
-        txt = string.replace(txt, '$' ~ (i + 1), args[i]);
+        txt = string.replace(txt or '', '$' ~ (i + 1), args[i] or '');
     }
     # debug.dump("FORMAT", type, args, messageType, txt);
     return txt;
