@@ -617,19 +617,6 @@
     
     
     <animation>
-        <type>translate</type>
-        <object-name>pedal.left</object-name>
-        <object-name>pedal.right</object-name>
-        <property>controls/gear/brake-left</property>
-        <factor>-0.06</factor>
-        <axis>
-            <x>1.0</x>
-            <y>0.0</y>
-            <z>0.0</z>
-        </axis>
-    </animation>
-    
-    <animation>
         <type>rotate</type>
         <object-name>LHwiper</object-name>
         <object-name>LHwiper.blade</object-name>
@@ -3681,6 +3668,31 @@
         </axis>
     </animation>
     
+    <!-- Brakes Pedal Animation -->
+    
+    <animation>
+        <type>translate</type>
+        <object-name>pedal.left</object-name>
+        <property>controls/gear/brake-left</property>
+        <factor>-0.06</factor>
+        <axis>
+            <x>1.0</x>
+            <y>0.0</y>
+            <z>0.0</z>
+        </axis>
+    </animation>
+    <animation>
+        <type>translate</type>
+        <object-name>pedal.right</object-name>
+        <property>controls/gear/brake-right</property>
+        <factor>-0.06</factor>
+        <axis>
+            <x>1.0</x>
+            <y>0.0</y>
+            <z>0.0</z>
+        </axis>
+    </animation>
+
     <!-- Rudder Foot Pedal Animations -->
     
     <animation>
@@ -3707,20 +3719,6 @@
         </axis>
     </animation>
     
-    <!-- Brakes Pedal Animation -->
-    
-    <animation>
-        <type>translate</type>
-        <object-name>pedal.left</object-name>
-        <object-name>pedal.right</object-name>
-        <property>controls/gear/brake-left</property>
-        <factor>-0.06</factor>
-        <axis>
-            <x>1.0</x>
-            <y>0.0</y>
-            <z>0.0</z>
-        </axis>
-    </animation>
     
     <!-- Engine controls -->
     <animation>
