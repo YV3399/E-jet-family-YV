@@ -713,30 +713,27 @@ rate.</p>
 
 <h3>Nosewheel Steering</h3>
 
-<p>Nosewheel steering (NWS) can operate in 4 modes:</p>
+<p>The E-Jet features a complex nose wheel steering simulation faithful to the
+real aircraft's steer-by-wire system.</p>
 
-<ol>
-<li><strong>Towing.</strong> This mode is active when a pushback is connected ("bypass pin
-inserted"). The pushback truck controls NWS.</li>
-<li><strong>Tiller.</strong> This mode is active in normal operation, when the "enable tiller
-steering" configuration option is selected. In this mode, rudder pedals
-command +/- 7° nosewheel deflection, and the tiller commands +/- 76°
-nosewheel deflection, up to a wheel speed dependent limit (see below). In
-the real aircraft, the tiller must be pushed down to activate it, and when
-pushed down, it will override the rudder pedals; however, due to the
-constraints of a typical sim setup, we allow inputs from both devices, and
-simply sum their inputs.</li>
-<li><strong>Rudder Pedals.</strong> This mode is active in normal operation, when the "enable
-tiller steering" configuration option is deselected. It does not exist in
-the real aircraft, but is provided to support sim setups without a separate
-tiller axis. In this mode, rudder pedals command nosewheel deflection
-proportional to the wheel speed dependent limit (see below).</li>
-<li><strong>Free castering.</strong> This mode is not implemented yet, but exists in the real
-aircraft. In this mode the nosewheel steering system disengages, allowing
-the nosewheel to caster freely. It is active when there are any failures in
-the NWS system, or when the pilot disables the NWS system. The aircraft can
-be steered using rudder, differential thrust, and/or differential braking.</li>
-</ol>
+<p>When full realism is enabled (see below), the system works as follows:</p>
+
+<ul>
+<li>When the pushback is connected, the nosewheel steering system is disabled,
+and the pushback truck steers the aircraft.</li>
+<li><strong>Free Castering Mode:</strong> The nosewheel steering system will disengage in case
+of a failure (not simulated yet), or when the pilot pushes the NWS DISCONNECT
+button on the yoke. A "STEER OFF" advisory will appear on the EICAS. When the
+NWS system is disconnected, the nosewheel will caster freely; the aircraft
+can be steered using differential braking and differential thrust.</li>
+<li><strong>Tiller Steering Mode:</strong> Pushing the tiller handle down will engage the NWS
+system. While the handle is held down, the tiller controls the NWS system.</li>
+<li><strong>Rudder Steering Mode:</strong> When the tiller handle is released, the rudder
+pedals control the NWS system.</li>
+</ul>
+
+<p>Whenever the NWS is engaged, regardless of which input commands it, the maximum
+nose wheel deflection is limited by wheel rotation speed.</p>
 
 <p>The wheel speed dependent nose wheel deflection limits are:</p>
 
@@ -747,10 +744,10 @@ be steered using rudder, differential thrust, and/or differential braking.</li>
 </ul>
 
 <p>Between these zones, the limit scales proportionally to wheel speed, providing
-a smooth transition between the zones.</p>
+a smooth transition between zones.</p>
 
-<p>The tiller axis does not actuate linearly; it is divided into 3 linear zones,
-according to the following schedule:</p>
+<p>The tiller handle does not command nose wheel deflection linearly; its range is
+divided into 3 linear zones, according to the following schedule:</p>
 
 <ul>
 <li>0° handle deflection (normalized: 0.0, dead center) -> 0° nosewheel deflection</li>
@@ -761,6 +758,50 @@ according to the following schedule:</p>
 
 <p>This allows for finer control around the center, while the response to stronger
 deflections is much more drastic.</p>
+
+<p>Rudder pedals, however, always, command a fixed +/-7° range.</p>
+
+<h4>Nosewheel Steering Realism Options</h4>
+
+<p>Two configuration options (in the Configuration dialog) control the realism of
+the simulation:</p>
+
+<ul>
+<li>"Separate tiller steering": if set, tiller and rudder operate independently,
+as described above; if not set, the tiller axis is controlled by the
+rudder axis, up to the speed-dependent limit.</li>
+<li>"Realistic nosewheel steering": if disabled, the NWS system is always
+engaged, and both tiller and rudder pedals can control the NWS system at the
+same time. Inputs from tiller and rudder pedals are summed.</li>
+</ul>
+
+<p>For full realism, the following properties should have joystick inputs mapped
+to them:</p>
+
+<ul>
+<li><code>/controls/gear/tiller-pushed</code> (button): corresponds to pushing the tiller
+down to activate it.</li>
+<li><code>/controls/gear/tiller-cmd-norm</code> (axis): tiller steering command</li>
+<li><code>/controls/gear/nose-wheel-steering-disconnect</code> (button): corresponds to the
+"NWS DISCONNECT" button on the yoke.</li>
+</ul>
+
+<p>You will most likely also want to have rudder pedals with toe brakes
+configured, otherwise you will have trouble steering the aircraft on the ground
+when NWS is disengaged.</p>
+
+<h4>Recommended NWS settings:</h4>
+
+<ul>
+<li><strong>No rudder pedals:</strong> Separate tiller steering: OFF; Realistic nosewheel
+steering: OFF.</li>
+<li><strong>Rudder pedals, no tiller:</strong> Separate tiller steering: OFF; Realistic
+nosewheel steering: OFF</li>
+<li><strong>Rudder pedals, tiller, no spare buttons and/or no toe brakes:</strong> Separate
+tiller steering: ON; Realistic nosewheel steering: OFF</li>
+<li><strong>Rudder pedals with toe brakes, tiller, 2 spare buttons:</strong> Separate tiller
+steering: ON; Realistic nosewheel steering: ON</li>
+</ul>
 
 <h3>Fly-By-Wire</h3>
 
