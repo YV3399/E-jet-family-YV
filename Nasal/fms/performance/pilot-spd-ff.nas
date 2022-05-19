@@ -145,7 +145,7 @@ var PilotSpeedFfMode = {
     estimateWaypoint: func(dist, wpid) {
         var distRemaining = me.info.totalDist - dist;
 
-        printf("WAYPOINT: [%6.1f] %s", dist, wpid);
+        # printf("WAYPOINT: [%6.1f] %s", dist, wpid);
 
         # Climb
         foreach (var entry; me.perfSchedule.climb) {
@@ -164,13 +164,13 @@ var PilotSpeedFfMode = {
             var timeToDistSeconds = math.abs(nextDist - me.progress.dist) * 3600.0 / entry.tas;
             var fuel = timeToDistSeconds * entry.ff / 3600.0;
             nextAlt = me.progress.alt + entry.vs * timeToDistSeconds / 60.0;
-            printf("- climb %5.0f -> %5.0f: %2.0f min, %3.1f nmi to %3.1f nmi, %1.0f lbs",
-                me.progress.alt,
-                nextAlt,
-                timeToDistSeconds / 60.0,
-                nextDist - me.progress.dist,
-                nextDist,
-                fuel);
+            # printf("- climb %5.0f -> %5.0f: %2.0f min, %3.1f nmi to %3.1f nmi, %1.0f lbs",
+            #     me.progress.alt,
+            #     nextAlt,
+            #     timeToDistSeconds / 60.0,
+            #     nextDist - me.progress.dist,
+            #     nextDist,
+            #     fuel);
             me.progress.dist = nextDist;
             me.progress.distRemaining = me.info.totalDist - nextDist;
             me.progress.fob -= fuel;
@@ -186,12 +186,12 @@ var PilotSpeedFfMode = {
             var nextDist = math.min(dist, me.info.totalDist - me.perfSchedule.cruiseDescent.dist);
             var timeToDistSeconds = math.abs(nextDist - me.progress.dist) * 3600.0 / me.perfSchedule.cruise.tas;
             var fuel = timeToDistSeconds * me.perfSchedule.cruise.ff / 3600.0;
-            printf("- cruise %5.0f: %2.0f min, %3.1f nmi to %3.1f nmi, %1.0f lbs",
-                me.progress.alt,
-                timeToDistSeconds / 60.0,
-                nextDist - me.progress.dist,
-                nextDist,
-                fuel);
+            # printf("- cruise %5.0f: %2.0f min, %3.1f nmi to %3.1f nmi, %1.0f lbs",
+            #     me.progress.alt,
+            #     timeToDistSeconds / 60.0,
+            #     nextDist - me.progress.dist,
+            #     nextDist,
+            #     fuel);
             me.progress.dist = nextDist;
             me.progress.distRemaining = me.info.totalDist - nextDist;
             me.progress.fob -= fuel;
@@ -214,13 +214,13 @@ var PilotSpeedFfMode = {
             var timeToDistSeconds = math.abs(nextDist - me.progress.dist) * 3600.0 / entry.tas;
             var fuel = timeToDistSeconds * entry.ff / 3600.0;
             nextAlt = me.progress.alt - entry.vs * timeToDistSeconds / 60.0;
-            printf("- descend %5.0f -> %5.0f: %2.0f min, %3.1f nmi to %3.1f nmi, %1.0f lbs",
-                me.progress.alt,
-                nextAlt,
-                timeToDistSeconds / 60.0,
-                nextDist - me.progress.dist,
-                nextDist,
-                fuel);
+            # printf("- descend %5.0f -> %5.0f: %2.0f min, %3.1f nmi to %3.1f nmi, %1.0f lbs",
+            #     me.progress.alt,
+            #     nextAlt,
+            #     timeToDistSeconds / 60.0,
+            #     nextDist - me.progress.dist,
+            #     nextDist,
+            #     fuel);
             me.progress.dist = nextDist;
             me.progress.distRemaining = me.info.totalDist - nextDist;
             me.progress.fob -= fuel;
@@ -228,7 +228,7 @@ var PilotSpeedFfMode = {
             me.progress.alt = nextAlt;
         }
 
-        printf("At %s: %5.0f, %02.0f%02.0fz, %1.0f lbs",
+        # printf("At %s: %5.0f, %02.0f%02.0fz, %1.0f lbs",
             wpid,
             me.progress.alt, 
             math.floor(me.progress.ta / 3600.0),

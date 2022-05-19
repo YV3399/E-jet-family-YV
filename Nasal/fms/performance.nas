@@ -42,7 +42,7 @@ var initProfile = func() {
 };
 
 var updateProfile = func (mode, fp, info, profile) {
-    print("updateProfile");
+    # print("updateProfile");
     var totalDist = myprops.totalDist.getValue();
     var planSize = fp.getPlanSize();
 
@@ -183,7 +183,7 @@ var initialize = func {
         var fp = getVisibleFlightplan();
         var info = makeInfo();
         updateProfile(perfMode, fp, info, performanceProfile);
-        printPerformanceProfile(fp, performanceProfile);
+        # printPerformanceProfile(fp, performanceProfile);
     });
     timer.simulatedTime = 1;
     timer.singleShot = 0;
