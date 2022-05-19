@@ -229,11 +229,11 @@ var PilotSpeedFfMode = {
         }
 
         # printf("At %s: %5.0f, %02.0f%02.0fz, %1.0f lbs",
-            wpid,
-            me.progress.alt, 
-            math.floor(me.progress.ta / 3600.0),
-            math.fmod(math.floor(me.progress.ta / 60.0), 60),
-            me.progress.fob);
+        #     wpid,
+        #     me.progress.alt, 
+        #     math.floor(me.progress.ta / 3600.0),
+        #     math.fmod(math.floor(me.progress.ta / 60.0), 60),
+        #     me.progress.fob);
 
         return {
             ta: me.progress.ta,
