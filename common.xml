@@ -2577,6 +2577,58 @@
                     <property>it-autoflight/input/athr</property>
                 </binding>
             </key>
+            <key n="19">
+                <name>Ctrl-S</name>
+                <desc>Toggle autothrottle switch</desc>
+                <binding>
+                    <command>property-toggle</command>
+                    <property>it-autoflight/input/athr</property>
+                </binding>
+            </key>
+
+            <key n="1">
+                <name>Ctrl-A</name>
+                <desc>Autopilot ALT mode</desc>
+                <binding>
+                    <command>property-assign</command>
+                    <property>it-autoflight/input/vert</property>
+                    <value>0</value>
+                </binding>
+            </key>
+            <key n="6">
+                <name>Ctrl-F</name>
+                <desc>Autopilot FLCH mode</desc>
+                <binding>
+                    <command>property-assign</command>
+                    <property>it-autoflight/input/vert</property>
+                    <value>4</value>
+                </binding>
+            </key>
+            <key n="8">
+                <name>Ctrl-H</name>
+                <desc>Autopilot HDG button</desc>
+                <binding>
+                    <command>nasal</command>
+                    <script>autoflight.hdgButton();</script>
+                </binding>
+            </key>
+            <key n="14">
+                <name>Ctrl-N</name>
+                <desc>Autopilot NAV button</desc>
+                <binding>
+                    <command>nasal</command>
+                    <script>autoflight.navButton();</script>
+                </binding>
+            </key>
+            <key n="16">
+                <name>Ctrl-P</name>
+                <desc>Autopilot FPA mode</desc>
+                <binding>
+                    <command>property-assign</command>
+                    <property>it-autoflight/input/vert</property>
+                    <value>5</value>
+                </binding>
+            </key>
 
             <key n="91">
                 <name>[</name>

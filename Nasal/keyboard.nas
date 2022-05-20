@@ -110,3 +110,69 @@ var setupMCDUKeys = func () {
 
 setupViewKeys();
 setupMCDUKeys();
+
+var specialKeyNames = {
+    0: '<NUL>',
+    9: '<TAB>',
+    10: '<CR>',
+    13: '<LF>',
+    27: '<ESC>',
+    32: '<SP>',
+    127: '<DEL>',
+};
+
+#257    | F1               | nil
+#258    | F2               | nil
+#259    | F3               | Capture screen
+#261    | F5               | nil
+#262    | F6               | Toggle Autopilot Heading Mode
+#263    | F7               | nil
+#264    | F8               | 
+#266    | F10              | Toggle menubar
+#267    | F11              | Pop up autopilot dialog
+#268    | F12              | Pop up radio settings dialog
+#269    | Enter            | Move rudder right
+#309    | Keypad 5         | Center aileron, elevator, and rudder
+#356    | Left             | Move aileron left (or adjust AP heading.)
+#357    | Up               | Elevator down or decrease autopilot altitude
+#358    | Right            | Move aileron right (or adjust AP heading.)
+#359    | Down             | Elevator up or increase autopilot altitude
+#360    | PageUp           | Increase throttle or autopilot autothrottle
+#361    | PageDown         | Decrease throttle or autopilot autothrottle
+#362    | Home             | Increase elevator trim
+#363    | End              | Decrease elevator trim
+#364    | Insert           | Move rudder left
+
+var keyName = func (c) {
+    if (contains(specialKeyNames, c)) {
+        return specialKeyNames[c];
+    }
+    elsif (c < 0x20) {
+        return 'C-' ~ keyName(c + 0x40);
+    }
+    elsif (c == 0x20) {
+        return '<SP>';
+    }
+    elsif (c == 0x7F) {
+        return '<DEL>';
+    }
+    elsif (c < 0x80) {
+        return chr(c);
+    }
+    elsif (c >= 257 and c <= 268) {
+        return 'F' ~ (c - 256);
+    }
+    else {
+        return 'N-' ~ keyName(c - 256);
+    }
+};
+
+var dumpKeyBindings = func {
+    foreach (var n; props.globals.getNode('input/keyboard').getChildren('key')) {
+        var c = n.getIndex();
+        printf('%3i | %-7s | %-16s | %s',
+            c, keyName(c), n.getValue('name'), n.getValue('desc'));
+    }
+};
+
+dumpKeyBindings();
