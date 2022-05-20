@@ -29,6 +29,7 @@ var setupViewKeys = func () {
         if (keyNode == nil) {
             keyNode = props.globals.getNode('/input/keyboard').addChild('key', key, 0);
             keyNode.setValue('name', binding.name);
+            keyNode.setValue('desc', 'VIEW ' ~ binding.name);
         }
 
         # Now walk the existing bindings, if any, so they only fire when
@@ -68,7 +69,8 @@ var setupMCDUKeys = func () {
         var keyNode = props.globals.getNode('/input/keyboard/key[' ~ key ~ ']');
         if (keyNode == nil) {
             keyNode = props.globals.getNode('/input/keyboard').addChild('key', key, 0);
-            keyNode.setValue('name', 'MCDU ' ~ cmd);
+            keyNode.setValue('name', chr(key));
+            keyNode.setValue('desc', 'MCDU ' ~ cmd);
         }
 
         # Now walk the existing bindings, if any, so they only fire when
