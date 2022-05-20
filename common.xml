@@ -2445,6 +2445,26 @@
                     </binding>
                 </mod-up>
             </key>
+            <key n="17">
+                <name>Ctrl-Q</name>
+                <desc>Synchronize QNH on all altimeters</desc>
+                <repeatable type="bool">false</repeatable>
+                <binding>
+                    <command>property-assign</command>
+                    <property>/instrumentation/altimeter[0]/setting-inhg</property>
+                    <property>/environment/pressure-sea-level-inhg</property>
+                </binding>
+                <binding>
+                    <command>property-assign</command>
+                    <property>/instrumentation/altimeter[1]/setting-inhg</property>
+                    <property>/environment/pressure-sea-level-inhg</property>
+                </binding>
+                <binding>
+                    <command>property-assign</command>
+                    <property>/instrumentation/altimeter[2]/setting-inhg</property>
+                    <property>/environment/pressure-sea-level-inhg</property>
+                </binding>
+            </key>
             <key n="113">
                 <name>q</name>
                 <desc>TO/GA button</desc>
