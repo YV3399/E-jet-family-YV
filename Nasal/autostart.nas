@@ -67,7 +67,7 @@ var coldAndDark = func {
     setprop("/controls/lighting/landing-lights[1]", 0);
     setprop("/controls/lighting/landing-lights[2]", 0);
     setprop("/controls/lighting/logo-lights", 0);
-    setprop("/controls/lighting/nav-lights", 0);
+    setprop("/controls/lighting/nav-lights-switch", 0);
     setprop("/controls/lighting/strobe", 0);
     setprop("/controls/lighting/taxi-lights[0]", 0);
     setprop("/controls/lighting/taxi-lights[1]", 0);
@@ -114,7 +114,7 @@ var batteryPowered = func {
     setprop("/controls/lighting/landing-lights[1]", 0);
     setprop("/controls/lighting/landing-lights[2]", 0);
     setprop("/controls/lighting/logo-lights", 0);
-    setprop("/controls/lighting/nav-lights", 0);
+    setprop("/controls/lighting/nav-lights-switch", 0);
     setprop("/controls/lighting/strobe", 0);
     setprop("/controls/lighting/taxi-lights[0]", 0);
     setprop("/controls/lighting/taxi-lights[1]", 0);
@@ -162,7 +162,7 @@ var groundPowered = func {
     setprop("/controls/lighting/landing-lights[1]", 0);
     setprop("/controls/lighting/landing-lights[2]", 0);
     setprop("/controls/lighting/logo-lights", 0);
-    setprop("/controls/lighting/nav-lights", 0);
+    setprop("/controls/lighting/nav-lights-switch", 0);
     setprop("/controls/lighting/strobe", 0);
     setprop("/controls/lighting/taxi-lights[0]", 0);
     setprop("/controls/lighting/taxi-lights[1]", 0);
@@ -237,11 +237,9 @@ var startEngine = func (n, then = nil) {
 var readyToTaxi = func (method) {
     printf("Ready To Taxi, Method: %i", method);
     var whenReady = func {
-        setprop("/controls/lighting/beacon", 1);
         setprop("/controls/lighting/landing-lights[0]", 0);
         setprop("/controls/lighting/landing-lights[1]", 0);
         setprop("/controls/lighting/landing-lights[2]", 0);
-        setprop("/controls/lighting/nav-lights", 1);
         setprop("/controls/lighting/strobe", 0);
         setprop("/controls/lighting/taxi-lights[0]", 1);
         setprop("/controls/lighting/taxi-lights[1]", 1);
@@ -253,6 +251,12 @@ var readyToTaxi = func (method) {
     if (method == 0) {
         cancelOngoing();
         startAPU(func {
+            setprop("/controls/lighting/beacon", 1);
+            setprop("/controls/lighting/nav-lights-switch", 1);
+            setprop("/controls/fuel/tank[0]/boost-pump[0]", 1);
+            setprop("/controls/fuel/tank[1]/boost-pump[0]", 1);
+            setprop("/controls/fuel/tank[1]/boost-pump[1]", 1);
+            setprop("/controls/fuel/tank[2]/boost-pump[0]", 1);
             startEngine(0, func {
                 startEngine(1, func {
                     stopAPU();
@@ -264,6 +268,12 @@ var readyToTaxi = func (method) {
     else if (method == 1) {
         say("Enable GPU");
         groundPowered();
+        setprop("/controls/lighting/beacon", 1);
+        setprop("/controls/lighting/nav-lights-switch", 1);
+        setprop("/controls/fuel/tank[0]/boost-pump[0]", 1);
+        setprop("/controls/fuel/tank[1]/boost-pump[0]", 1);
+        setprop("/controls/fuel/tank[1]/boost-pump[1]", 1);
+        setprop("/controls/fuel/tank[2]/boost-pump[0]", 1);
         startEngine(0, func {
             startEngine(1, func {
                 setprop("/controls/electric/external-power", 0);
