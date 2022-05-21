@@ -122,6 +122,14 @@ var activateNavMode = func () {
     apLatModeInProp.setValue(navSrc);
 };
 
+var activateFpaMode = func () {
+    apVertModeInProp.setValue(VERTMODE_FPA);
+};
+
+var activateFlchMode = func () {
+    apVertModeInProp.setValue(VERTMODE_FLCH);
+};
+
 var deactivateApprMode = func () {
     apVertModeInProp.setValue(VERTMODE_ALT);
     # Always select wings level, do not synchronize roll
@@ -156,6 +164,18 @@ var apprButton = func () {
     else {
         activateApprMode();
     }
+};
+
+var flchButton = func () {
+    var currentMode = apVertModeOutProp.getValue();
+    if (currentMode == VERTMODE_FLCH)
+        activateFpaMode();
+    else
+        activateFlchMode();
+};
+
+var fpaButton = func () {
+    activateFpaMode();
 };
 
 var syncVert = func () {

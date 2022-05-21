@@ -2599,9 +2599,8 @@
                 <name>Ctrl-F</name>
                 <desc>Autopilot FLCH mode</desc>
                 <binding>
-                    <command>property-assign</command>
-                    <property>it-autoflight/input/vert</property>
-                    <value>4</value>
+                    <command>nasal</command>
+                    <script>autoflight.flchButton();</script>
                 </binding>
             </key>
             <key n="8">
@@ -2624,9 +2623,8 @@
                 <name>Ctrl-P</name>
                 <desc>Autopilot FPA mode</desc>
                 <binding>
-                    <command>property-assign</command>
-                    <property>it-autoflight/input/vert</property>
-                    <value>5</value>
+                    <command>nasal</command>
+                    <script>autoflight.fpaButton();</script>
                 </binding>
             </key>
 
