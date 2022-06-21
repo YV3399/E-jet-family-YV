@@ -27,8 +27,8 @@ var canvas_ED_base = {
 	init: func(canvas_group, file) {
 		var font_mapper = func(family, weight) {
 			if (family == "Arial") {
-				#return "7-Segment.ttf";
-				return "LiberationFonts/LiberationSans-Regular.ttf";
+				return "DSEG/DSEG7/Classic/DSEG7Classic-Bold.ttf";
+				# return "LiberationFonts/LiberationSans-Regular.ttf";
 			}else{
 				return "LiberationFonts/LiberationSans-Regular.ttf";
 			}
@@ -62,8 +62,6 @@ var canvas_ED_base = {
 		} else {
 			ED_only.page.hide();
 		}
-		
-		settimer(func me.update(), 0.02);
 	},
 };
 
@@ -84,12 +82,16 @@ var canvas_ED_only = {
 		
 		me["chrono.min"].setText(sprintf("%02d", getprop("/instrumentation/chrono/elapsed_time/minute") or 0));
 		me["chrono.sec"].setText(sprintf("%02d", getprop("/instrumentation/chrono/elapsed_time/second") or 0));
-		
-		settimer(func me.update(), 0.02);
 	},
 };
 
-setlistener("sim/signals/fdm-initialized", func {
+var initialized = 0;
+
+var init = func {
+    if (initialized)
+        return;
+    else
+        initialized = 1;
 	chrono_display = canvas.new({
 		"name": "Chrono",
 		"size": [1024, 1530],
@@ -101,9 +103,15 @@ setlistener("sim/signals/fdm-initialized", func {
 
 	ED_only = canvas_ED_only.new(groupED, "Aircraft/E-jet-family/Models/Instruments/Chrono/chronometer.svg");
 
-	ED_only.update();
-	canvas_ED_base.update();
-});
+    var timer = maketimer(0.2, func {
+        ED_only.update();
+        canvas_ED_base.update();
+    });
+    timer.simulatedTime = 1;
+    timer.start();
+};
+
+setlistener("sim/signals/fdm-initialized", init);
 
 var showChrono= func {
 	var dlg = canvas.Window.new([512, 765], "dialog").set("resize", 1);
