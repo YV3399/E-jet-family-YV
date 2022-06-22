@@ -233,9 +233,6 @@
             <property-rule n="112">
                 <path>Aircraft/E-jet-family/Systems/iess.xml</path>
             </property-rule>
-            <property-rule n="113">
-                <path>Aircraft/E-jet-family/Systems/chrono.xml</path>
-            </property-rule>
             <property-rule n="114">
                 <path>Aircraft/E-jet-family/Systems/cockpit-animations.xml</path>
             </property-rule>

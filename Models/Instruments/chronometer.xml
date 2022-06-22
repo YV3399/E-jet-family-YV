@@ -21,9 +21,57 @@
             <button>0</button>
             <repeatable>false</repeatable>
             <binding>
-                <command>property-toggle</command>
+                <command>property-assign</command>
                 <property>instrumentation/chrono/elapsed_time/reset</property>
+                <value type="bool">true</value>
             </binding>
+            <mod-up>
+                <binding>
+                    <command>property-assign</command>
+                    <property>instrumentation/chrono/elapsed_time/reset</property>
+                    <value type="bool">false</value>
+                </binding>
+            </mod-up>
+        </action>
+    </animation>
+    <animation>
+        <type>pick</type>
+        <object-name>chr</object-name>
+        <action>
+            <button>0</button>
+            <repeatable>false</repeatable>
+            <binding>
+                <command>property-assign</command>
+                <property>instrumentation/chrono/chrono/start</property>
+                <value type="bool">true</value>
+            </binding>
+            <mod-up>
+                <binding>
+                    <command>property-assign</command>
+                    <property>instrumentation/chrono/chrono/start</property>
+                    <value type="bool">false</value>
+                </binding>
+            </mod-up>
+        </action>
+    </animation>
+    <animation>
+        <type>pick</type>
+        <object-name>rst</object-name>
+        <action>
+            <button>0</button>
+            <repeatable>false</repeatable>
+            <binding>
+                <command>property-assign</command>
+                <property>instrumentation/chrono/chrono/reset</property>
+                <value type="bool">true</value>
+            </binding>
+            <mod-up>
+                <binding>
+                    <command>property-assign</command>
+                    <property>instrumentation/chrono/chrono/reset</property>
+                    <value type="bool">false</value>
+                </binding>
+            </mod-up>
         </action>
     </animation>
     
