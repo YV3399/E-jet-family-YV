@@ -163,8 +163,8 @@ re-run build.sh.
     <input>
       <expression>
         <difference>
-          <property>orientation/track-magnetic-deg</property>
-          <property>orientation/heading-magnetic-deg</property>
+          <property>instrumentation/iru[0]/outputs/track-magnetic-deg</property>
+          <property>instrumentation/iru[0]/outputs/heading-magnetic-deg</property>
         </difference>
       </expression>
     </input>
@@ -452,7 +452,7 @@ re-run build.sh.
     <input>
       <expression>
         <table>
-          <property>orientation/pitch-deg</property>
+          <property>instrumentation/iru[0]/outputs/pitch-deg</property>
           <entry>
             <ind>90</ind>
             <dep>90</dep>
@@ -601,7 +601,7 @@ re-run build.sh.
       <expression>
         <sum>
           <property>it-autoflight/fd/pitch-bar</property>
-          <property>orientation/pitch-deg</property>
+          <property>instrumentation/iru[0]/outputs/pitch-deg</property>
         </sum>
       </expression>
     </input>
@@ -737,7 +737,7 @@ re-run build.sh.
       <expression>
         <difference>
           <property>instrumentation/nav[0]/heading-deg</property>
-          <property>orientation/heading-magnetic-deg</property>
+          <property>instrumentation/iru[0]/outputs/heading-magnetic-deg</property>
         </difference>
       </expression>
     </input>
@@ -760,7 +760,7 @@ re-run build.sh.
       <expression>
         <difference>
           <property>autopilot/route-manager/wp[0]/bearing-deg</property>
-          <property>orientation/heading-magnetic-deg</property>
+          <property>instrumentation/iru[0]/outputs/heading-magnetic-deg</property>
         </difference>
       </expression>
     </input>
@@ -826,7 +826,7 @@ re-run build.sh.
       <expression>
         <difference>
           <property>instrumentation/nav[1]/heading-deg</property>
-          <property>orientation/heading-magnetic-deg</property>
+          <property>instrumentation/iru[0]/outputs/heading-magnetic-deg</property>
         </difference>
       </expression>
     </input>
@@ -849,7 +849,7 @@ re-run build.sh.
       <expression>
         <difference>
           <property>autopilot/route-manager/wp[0]/bearing-deg</property>
-          <property>orientation/heading-magnetic-deg</property>
+          <property>instrumentation/iru[0]/outputs/heading-magnetic-deg</property>
         </difference>
       </expression>
     </input>
@@ -1428,7 +1428,7 @@ re-run build.sh.
       <expression>
         <difference>
           <property>instrumentation/pfd[0]/ils/bearing</property>
-          <property>orientation/heading-deg</property>
+          <property>instrumentation/iru[0]/outputs/heading-deg</property>
         </difference>
       </expression>
     </input>
@@ -1472,7 +1472,7 @@ re-run build.sh.
       <expression>
         <difference>
           <property>instrumentation/pfd[0]/ils/heading</property>
-          <property>orientation/heading-deg</property>
+          <property>instrumentation/iru[0]/outputs/heading-deg</property>
         </difference>
       </expression>
     </input>

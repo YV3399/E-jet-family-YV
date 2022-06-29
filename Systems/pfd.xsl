@@ -178,8 +178,8 @@ re-run build.sh.
                 <input>
                     <expression>
                         <difference>
-                            <property>orientation/track-magnetic-deg</property>
-                            <property>orientation/heading-magnetic-deg</property>
+                            <property>instrumentation/iru[<xsl:value-of select="$index"/>]/outputs/track-magnetic-deg</property>
+                            <property>instrumentation/iru[<xsl:value-of select="$index"/>]/outputs/heading-magnetic-deg</property>
                         </difference>
                     </expression>
                 </input>
@@ -488,7 +488,7 @@ re-run build.sh.
                 <input>
                     <expression>
                         <table>
-                            <property>orientation/pitch-deg</property>
+                            <property>instrumentation/iru[<xsl:value-of select="$index"/>]/outputs/pitch-deg</property>
                             <entry>
                                 <ind>90</ind><dep>90</dep>
                             </entry>
@@ -621,7 +621,7 @@ re-run build.sh.
                     <expression>
                         <sum>
                             <property>it-autoflight/fd/pitch-bar</property>
-                            <property>orientation/pitch-deg</property>
+                            <property>instrumentation/iru[<xsl:value-of select="$index"/>]/outputs/pitch-deg</property>
                         </sum>
                     </expression>
                 </input>
@@ -746,7 +746,7 @@ re-run build.sh.
                     <expression>
                         <difference>
                             <property>instrumentation/nav[0]/heading-deg</property>
-                            <property>orientation/heading-magnetic-deg</property>
+                            <property>instrumentation/iru[<xsl:value-of select="$index"/>]/outputs/heading-magnetic-deg</property>
                         </difference>
                     </expression>
                 </input>
@@ -769,7 +769,7 @@ re-run build.sh.
                     <expression>
                         <difference>
                             <property>autopilot/route-manager/wp[0]/bearing-deg</property>
-                            <property>orientation/heading-magnetic-deg</property>
+                            <property>instrumentation/iru[<xsl:value-of select="$index"/>]/outputs/heading-magnetic-deg</property>
                         </difference>
                     </expression>
                 </input>
@@ -836,7 +836,7 @@ re-run build.sh.
                     <expression>
                         <difference>
                             <property>instrumentation/nav[1]/heading-deg</property>
-                            <property>orientation/heading-magnetic-deg</property>
+                            <property>instrumentation/iru[<xsl:value-of select="$index"/>]/outputs/heading-magnetic-deg</property>
                         </difference>
                     </expression>
                 </input>
@@ -859,7 +859,7 @@ re-run build.sh.
                     <expression>
                         <difference>
                             <property>autopilot/route-manager/wp[0]/bearing-deg</property>
-                            <property>orientation/heading-magnetic-deg</property>
+                            <property>instrumentation/iru[<xsl:value-of select="$index"/>]/outputs/heading-magnetic-deg</property>
                         </difference>
                     </expression>
                 </input>
@@ -1451,7 +1451,7 @@ re-run build.sh.
                     <expression>
                         <difference>
                             <property>instrumentation/pfd[<xsl:value-of select="$index"/>]/ils/bearing</property>
-                            <property>orientation/heading-deg</property>
+                            <property>instrumentation/iru[<xsl:value-of select="$index"/>]/outputs/heading-deg</property>
                         </difference>
                     </expression>
                 </input>
@@ -1495,7 +1495,7 @@ re-run build.sh.
                     <expression>
                         <difference>
                             <property>instrumentation/pfd[<xsl:value-of select="$index"/>]/ils/heading</property>
-                            <property>orientation/heading-deg</property>
+                            <property>instrumentation/iru[<xsl:value-of select="$index"/>]/outputs/heading-deg</property>
                         </difference>
                     </expression>
                 </input>

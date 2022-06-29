@@ -2,9 +2,9 @@
 # AOM 2-56 / p. 109: INERTIAL REFERENCE SYSTEM (alignment time, latitude limits)
 
 var STATUS_OFF = 0;
-var STATUS_NO_REFERENCE = -2;
-var STATUS_ALIGNING = -1;
 var STATUS_READY = 1;
+var STATUS_ALIGNING = 2;
+var STATUS_NO_REFERENCE = 3;
 
 var alignmentTimerDelta = 10.0;
 
@@ -39,6 +39,7 @@ var IRU = {
                 rollDeg: rootProp.getNode('outputs/roll-deg', 1),
                 headingDeg: rootProp.getNode('outputs/heading-deg', 1),
                 trueHeadingDeg: rootProp.getNode('outputs/true-heading-deg', 1),
+                trackDeg: rootProp.getNode('outputs/track-magnetic-deg', 1),
                 latitudeDeg: rootProp.getNode('outputs/latitude-deg', 1),
                 longitudeDeg: rootProp.getNode('outputs/longitude-deg', 1),
                 outputsValid: rootProp.getNode('outputs/valid', 1),

@@ -113,6 +113,28 @@ re-run build.sh.
                     </expression>
                 </input>
                 <output>/instrumentation/iru[<xsl:value-of select="$index"/>]/outputs/heading-deg</output>
+                <output>/instrumentation/iru[<xsl:value-of select="$index"/>]/outputs/heading-magnetic-deg</output>
+            </filter>
+            <filter>
+                <type>gain</type>
+                <gain>1</gain>
+                <enable>
+                    <condition>
+                        <equals>
+                            <property>/instrumentation/iru[<xsl:value-of select="$index"/>]/alignment/status</property>
+                            <value>1</value>
+                        </equals>
+                    </condition>
+                </enable>
+                <input>
+                    <expression>
+                        <sum>
+                            <property>/orientation/track-magnetic-deg</property>
+                            <property>/instrumentation/iru[<xsl:value-of select="$index"/>]/error/heading-deg</property>
+                        </sum>
+                    </expression>
+                </input>
+                <output>/instrumentation/iru[<xsl:value-of select="$index"/>]/outputs/track-magnetic-deg</output>
             </filter>
             <filter>
                 <type>gain</type>

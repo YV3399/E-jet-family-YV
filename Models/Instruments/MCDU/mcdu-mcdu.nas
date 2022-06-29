@@ -75,6 +75,10 @@ var MCDU = {
         "COM2": func (mcdu, parent) { return ComRadioDetailsModule.new(mcdu, parent, 2); },
         "XPDR": func (mcdu, parent) { return TransponderModule.new(mcdu, parent); },
 
+        # Pos Sensor modules
+        "IRS1-STATUS": func (mcdu, parent) { return IRSStatusModule.new(mcdu, parent, 1); },
+        "IRS2-STATUS": func (mcdu, parent) { return IRSStatusModule.new(mcdu, parent, 2); },
+
         # CPDLC modules
         "CPDLC-LOGON": func (mcdu, parent) { return ATCLogonModule.new(mcdu, parent); },
         "CPDLC-LOG": func (mcdu, parent) { return CPDLCLogModule.new(mcdu, parent); },
@@ -295,6 +299,24 @@ var MCDU = {
                               }
                             ]
                         ]); },
+        "POS-SENSORS": func(mcdu, parent) { return IndexModule.new(mcdu, parent,
+                        "POS SENSORS",
+                        "POS SENSORS",
+                        [ # PAGE 1
+                            [ "IRS1-STATUS", "IRS 1" ]
+                          , [ "IRS2-STATUS", "IRS 2" ]
+                          , nil
+                          , [ nil, "GPS 1" ]
+                          , [ nil, "GPS 2" ]
+                          , nil
+
+                          , nil
+                          , nil
+                          , nil
+                          , nil
+                          , nil
+                          , nil
+                        ]); },
         "NAVINDEX": func(mcdu, parent) { return IndexModule.new(mcdu, parent,
                         "NAV INDEX",
                         "NAV INDEX",
@@ -302,7 +324,7 @@ var MCDU = {
                           [ "NAVIDENT", "NAV IDENT" ]
                         , [ nil, "WPT LIST" ]
                         , [ nil, "FPL LIST" ]
-                        , [ nil, "POS SENSORS" ]
+                        , [ "POS-SENSORS", "POS SENSORS" ]
                         , [ nil, "FIX INFO" ]
                         , [ "DEPARTURE", "DEPARTURE" ]
 

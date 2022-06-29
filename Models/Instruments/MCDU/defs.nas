@@ -99,6 +99,13 @@ var xpdrModeLabels = [
     "TA/RA",
 ];
 
+var iruStatusNames = [
+    '         OFF        ',
+    '        READY       ',
+    'STATIONARY ALIGNMENT',
+    '    NO REFERENCE    ',
+];
+
 var keyProps = {
     # Radios
     "NAV1A": "/instrumentation/nav[0]/frequencies/selected-mhz",
@@ -177,6 +184,17 @@ var keyProps = {
     "POSLOADED1": "/fms/radio/position-loaded[0]",
     "POSLOADED2": "/fms/radio/position-loaded[1]",
     "POSLOADED3": "/fms/radio/position-loaded[2]",
+
+    # IRU's
+    "IRU1-REFLAT": "/instrumentation/iru[0]/reference/latitude-deg",
+    "IRU1-REFLON": "/instrumentation/iru[0]/reference/longitude-deg",
+    "IRU1-STATUS": "/instrumentation/iru[0]/alignment/status",
+    "IRU1-TIME-TO-NAV": "/instrumentation/iru[0]/alignment/time-remaining",
+
+    "IRU2-REFLAT": "/instrumentation/iru[1]/reference/latitude-deg",
+    "IRU2-REFLON": "/instrumentation/iru[1]/reference/longitude-deg",
+    "IRU2-STATUS": "/instrumentation/iru[1]/alignment/status",
+    "IRU2-TIME-TO-NAV": "/instrumentation/iru[1]/alignment/time-remaining",
 
     # Speed schedule
     "VDEP": "/controls/flight/speed-schedule/departure",
