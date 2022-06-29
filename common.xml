@@ -2665,6 +2665,10 @@
             <file>Aircraft/E-jet-family/Nasal/ELTmessage.nas</file>
         </ELT>
 
+        <iru>
+            <file>Aircraft/E-jet-family/Nasal/iru.nas</file>
+        </iru>
+
         <weights>
             <file>Aircraft/E-jet-family/Nasal/weights.nas</file>
         </weights>

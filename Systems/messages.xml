@@ -208,6 +208,22 @@
         <output>/instrumentation/eicas/messages/electrical/idg2</output>
     </logic>
 
+    <logic>
+        <input>
+            <and>
+                <or>
+                    <property>/instrumentation/iru[0]/signals/aligning</property>
+                    <property>/instrumentation/iru[1]/signals/aligning</property>
+                </or>
+                <greater-than>
+                    <property>/velocities/groundspeed-kt</property>
+                    <value>0.1</value>
+                </greater-than>
+            </and>
+        </input>
+        <output>/instrumentation/eicas/messages/iru-excessive-motion</output>
+    </logic>
+
     <flipflop>
         <type>monostable</type>
         <S><property>/cpdlc/incoming</property></S>

@@ -27,6 +27,12 @@
     <!-- MAU 1 FCM 2 PWR B -->
     <!-- MAU 1 PWR SUPPLY 3 -->
     <!-- MICRO IRU 2 (PWR 2) -->
+    <filter>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>/systems/electrical/buses/dc[1]/volts</input>
+        <output>/systems/electrical/outputs/iru[1]/pwr[1]</output>
+    </filter>
     <!-- MLS RECEIVER 1 -->
     <!-- OXYGEN DEPLOY 1 -->
     <!-- P-ACE #2-1 LEFT INBOARD ELEVATOR (P) -->
@@ -284,6 +290,13 @@
     </filter>
 
     <!-- DC BUS 2 OUTPUTS -->
+    <!-- MICRO IRU 2 (PWR 1) -->
+    <filter>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>/systems/electrical/buses/dc[2]/volts</input>
+        <output>/systems/electrical/outputs/iru[1]/pwr[0]</output>
+    </filter>
     <filter>
         <type>gain</type>
         <gain>1</gain>
@@ -404,6 +417,7 @@
         <output>/systems/electrical/outputs/nav[0]</output>
         <output>/systems/electrical/outputs/transponder[0]</output>
         <output>/systems/electrical/outputs/master-warn-caution[0]</output>
+        <output>/systems/electrical/outputs/iru[0]/pwr[0]</output>
     </filter>
     <filter>
         <name>DC ESS 1 loads</name>
@@ -473,6 +487,7 @@
         <output>/systems/electrical/outputs/master-warn-caution[1]</output>
         <!-- no idea where this goes, AOM doesn't say... -->
         <output>/systems/electrical/outputs/mk-viii</output>
+        <output>/systems/electrical/outputs/iru[0]/pwr[1]</output>
     </filter>
     <filter>
         <type>gain</type>

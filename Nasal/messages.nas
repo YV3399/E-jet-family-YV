@@ -134,6 +134,7 @@ setlistener("sim/signals/fdm-initialized", func {
     listenOnProp("/instrumentation/eicas/messages/doors/r2/open", yes, MSG_WARNING, 'DOOR SERV AFT OPEN', 0);
     listenOnProp("/instrumentation/eicas/messages/electrical/emergency", yes, MSG_WARNING, 'ELEC EMERGENCY', 0);
     listenOnProp("/instrumentation/eicas/messages/electrical/batteries-off", yes, MSG_WARNING, 'BATT 1-2 OFF', 0);
+    listenOnProp("/instrumentation/eicas/messages/iru-excessive-motion", yes, MSG_CAUTION, 'IRS EXCESSIVE MOTION', 0);
     listenOnProp("/systems/electrical/sources/battery[0]/status", no, MSG_CAUTION, 'BATT 1 OFF', 0);
     listenOnProp("/systems/electrical/sources/battery[1]/status", no, MSG_CAUTION, 'BATT 2 OFF', 0);
     listenOnProp("/instrumentation/eicas/messages/electrical/external-power-connected", yes, MSG_CAUTION, 'GPU CONNECTED', 0);
@@ -148,6 +149,8 @@ setlistener("sim/signals/fdm-initialized", func {
     listenOnProp("/systems/electrical/buses/dc[3]/powered", no, MSG_CAUTION, 'DC ESS BUS 1 OFF', 0);
     listenOnProp("/systems/electrical/buses/dc[4]/powered", no, MSG_CAUTION, 'DC ESS BUS 2 OFF', 0);
     listenOnProp("/systems/electrical/buses/dc[5]/powered", no, MSG_CAUTION, 'DC ESS BUS 3 OFF', 0);
+    listenOnProp("/instrumentation/iru[0]/signals/aligning", yes, MSG_ADVISORY, 'IRS 1 ALIGNING', 0);
+    listenOnProp("/instrumentation/iru[1]/signals/aligning", yes, MSG_ADVISORY, 'IRS 2 ALIGNING', 0);
     listenOnProp("fdm/jsbsim/fcs/yaw-damper-enable", no, MSG_ADVISORY, 'YD OFF', 0);
     listenOnProp("fdm/jsbsim/gear/unit[0]/castered", yes, MSG_ADVISORY, 'STEER OFF', 0);
     listenOnProp("/instrumentation/eicas/messages/apu/shutdown", yes, MSG_STATUS, 'APU SHUTTING DOWN', 0);
