@@ -149,8 +149,12 @@ setlistener("sim/signals/fdm-initialized", func {
     listenOnProp("/systems/electrical/buses/dc[3]/powered", no, MSG_CAUTION, 'DC ESS BUS 1 OFF', 0);
     listenOnProp("/systems/electrical/buses/dc[4]/powered", no, MSG_CAUTION, 'DC ESS BUS 2 OFF', 0);
     listenOnProp("/systems/electrical/buses/dc[5]/powered", no, MSG_CAUTION, 'DC ESS BUS 3 OFF', 0);
+    listenOnProp("/instrumentation/iru[0]/outputs/valid", no, MSG_ADVISORY, 'IRS 1 NAV MODE FAIL', 1);
+    listenOnProp("/instrumentation/iru[1]/outputs/valid", no, MSG_ADVISORY, 'IRS 2 NAV MODE FAIL', 1);
     listenOnProp("/instrumentation/iru[0]/signals/aligning", yes, MSG_ADVISORY, 'IRS 1 ALIGNING', 0);
     listenOnProp("/instrumentation/iru[1]/signals/aligning", yes, MSG_ADVISORY, 'IRS 2 ALIGNING', 0);
+    listenOnProp("/instrumentation/iru[0]/reference/valid", no, MSG_ADVISORY, 'IRS 1 PRES POS INVALID', 0);
+    listenOnProp("/instrumentation/iru[1]/reference/valid", no, MSG_ADVISORY, 'IRS 2 PRES POS INVALID', 0);
     listenOnProp("fdm/jsbsim/fcs/yaw-damper-enable", no, MSG_ADVISORY, 'YD OFF', 0);
     listenOnProp("fdm/jsbsim/gear/unit[0]/castered", yes, MSG_ADVISORY, 'STEER OFF', 0);
     listenOnProp("/instrumentation/eicas/messages/apu/shutdown", yes, MSG_STATUS, 'APU SHUTTING DOWN', 0);

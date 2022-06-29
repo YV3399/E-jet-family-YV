@@ -78,6 +78,22 @@
     </group>
     <group>
         <layout>hbox</layout>
+        <text>
+            <label>IRU alignment</label>
+        </text>
+        <combo>
+            <property>options/instrumentation/iru-alignment-mode</property>
+            <value>normal</value>
+            <value>fast</value>
+            <value>instant</value>
+            <binding>
+                <command>dialog-apply</command>
+            </binding>
+            <live type="bool">true</live>
+        </combo>
+    </group>
+    <group>
+        <layout>hbox</layout>
         
         <empty><stretch>1</stretch></empty>
         <text>

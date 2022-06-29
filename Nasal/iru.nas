@@ -2,6 +2,7 @@
 # AOM 2-56 / p. 109: INERTIAL REFERENCE SYSTEM (alignment time, latitude limits)
 
 var STATUS_OFF = 0;
+var STATUS_NO_REFERENCE = -2;
 var STATUS_ALIGNING = -1;
 var STATUS_READY = 1;
 
@@ -40,16 +41,20 @@ var IRU = {
                 trueHeadingDeg: rootProp.getNode('outputs/true-heading-deg', 1),
                 latitudeDeg: rootProp.getNode('outputs/latitude-deg', 1),
                 longitudeDeg: rootProp.getNode('outputs/longitude-deg', 1),
+                outputsValid: rootProp.getNode('outputs/valid', 1),
 
                 referenceValid: rootProp.getNode('reference/valid', 1),
                 latitudeReferenceDeg: rootProp.getNode('reference/latitude-deg', 1),
                 longitudeReferenceDeg: rootProp.getNode('reference/longitude-deg', 1),
 
+                pitchErrorDeg: rootProp.getNode('error/pitch-deg', 1),
+                rollErrorDeg: rootProp.getNode('error/roll-deg', 1),
                 headingErrorDeg: rootProp.getNode('error/heading-deg', 1),
                 trueHeadingErrorDeg: rootProp.getNode('error/true-heading-deg', 1),
                 latitudeErrorDeg: rootProp.getNode('error/latitude-deg', 1),
                 longitudeErrorDeg: rootProp.getNode('error/longitude-deg', 1),
 
+                alignmentMode: props.globals.getNode('options/instrumentation/iru-alignment-mode'),
                 alignmentCounter: rootProp.getNode('alignment/counter', 1),
                 alignmentTime: rootProp.getNode('alignment/time', 1),
                 alignmentTimeRemaining: rootProp.getNode('alignment/time-remaining', 1),
@@ -90,8 +95,23 @@ var IRU = {
         append(me.listeners, setlistener(me.props.elecPwr1, func { self.updatePower(); }, 1, 0));
         append(me.listeners, setlistener(me.props.elecPwr2, func { self.updatePower(); }, 1, 0));
         append(me.listeners, setlistener(me.props.powered, func { self.updateAlignment(0.0); }, 1, 0));
+        append(me.listeners, setlistener(me.props.referenceValid, func { self.updateAlignment(0.0); }, 1, 0));
         append(me.listeners, setlistener(me.props.alignmentStatus, func (node) {
                 self.props.signalsAligning.setBoolValue(node.getValue() == STATUS_ALIGNING);
+            }, 1, 0));
+        append(me.listeners, setlistener('/fms/radio/position-loaded[0]', func (node) {
+                if (node.getBoolValue()) {
+                    self.setReference(
+                        "/position/latitude-deg",
+                        "/position/longitude-deg");
+                }
+            }, 1, 0));
+        append(me.listeners, setlistener('/fms/radio/position-loaded[2]', func (node) {
+                if (node.getBoolValue()) {
+                    self.setReference(
+                        "/instrumentation/gps/indicated-latitude-deg",
+                        "/instrumentation/gps/indicated-longitude-deg");
+                }
             }, 1, 0));
     },
 
@@ -116,7 +136,7 @@ var IRU = {
     updateAlignment: func (delta = 0) {
         var status = me.props.alignmentStatus.getValue();
         var powered = me.props.powered.getBoolValue();
-        if (status == STATUS_OFF) {
+        if (status == STATUS_OFF or status == STATUS_NO_REFERENCE) {
             me.props.signalsExcessiveMotion.setBoolValue(0);
             if (powered) {
                 me.restartAlignment();
@@ -133,8 +153,12 @@ var IRU = {
                 me.restartAlignment();
                 me.props.signalsExcessiveMotion.setBoolValue(1);
             }
+            elsif (!me.props.referenceValid.getBoolValue()) {
+                # Reference invalid
+                me.restartAlignment();
+                me.props.signalsExcessiveMotion.setBoolValue(0);
+            }
             else {
-                # For now, align on perfect fake GPS.
                 me.stepAlignment(delta);
                 me.props.signalsExcessiveMotion.setBoolValue(0);
             }
@@ -147,13 +171,39 @@ var IRU = {
         }
     },
 
+    setReference: func (latprop, lonprop) {
+        var powered = me.props.powered.getBoolValue();
+        var lat = getprop(latprop);
+        var lon = getprop(lonprop);
+        if (lat == nil or lon == nil) {
+            me.props.referenceValid.setBoolValue(0);
+        }
+        else {
+            me.props.latitudeReferenceDeg.setValue(lat);
+            me.props.longitudeReferenceDeg.setValue(lon);
+            me.props.referenceValid.setBoolValue(1);
+        }
+        if (powered) {
+            me.restartAlignment();
+        }
+        else {
+            me.resetAlignment();
+        }
+    },
+
+
     restartAlignment: func {
-        var latitude = me.props.latitudeDegReal.getValue() or 0.0;
-        var alignmentTime = calcAlignmentTime(latitude);
-        me.props.alignmentTime.setValue(alignmentTime);
-        me.props.alignmentTimeRemaining.setValue(alignmentTime);
         me.props.alignmentCounter.setValue(0);
-        me.props.alignmentStatus.setValue(STATUS_ALIGNING);
+        if (!me.props.referenceValid.getBoolValue()) {
+            me.props.alignmentStatus.setValue(STATUS_NO_REFERENCE);
+        }
+        else {
+            var latitude = me.props.latitudeDegReal.getValue() or 0.0;
+            var alignmentTime = calcAlignmentTime(latitude);
+            me.props.alignmentTime.setValue(alignmentTime);
+            me.props.alignmentTimeRemaining.setValue(alignmentTime);
+            me.props.alignmentStatus.setValue(STATUS_ALIGNING);
+        }
     },
 
     resetAlignment: func {
@@ -164,7 +214,16 @@ var IRU = {
     stepAlignment: func (delta) {
         var counter = me.props.alignmentCounter.getValue();
         var time = me.props.alignmentTime.getValue();
-        counter = counter + delta;
+        var mode = me.props.alignmentMode.getValue();
+        if (mode == 'instant') {
+            counter = time + delta;
+        }
+        elsif (mode == 'fast') {
+            counter = counter + delta * 60;
+        }
+        else {
+            counter = counter + delta;
+        }
         me.props.alignmentCounter.setValue(counter);
         me.props.alignmentTimeRemaining.setValue(math.max(0.0, time - counter));
         if (counter >= time) {
@@ -173,8 +232,14 @@ var IRU = {
     },
 
     finishAlignment: func {
-        me.props.latitudeErrorDeg.setValue(0.0);
-        me.props.longitudeErrorDeg.setValue(0.0);
+        me.props.latitudeErrorDeg.setValue(
+            me.props.latitudeReferenceDeg.getValue() -
+            me.props.latitudeDegReal.getValue());
+        me.props.longitudeErrorDeg.setValue(
+            me.props.longitudeReferenceDeg.getValue() -
+            me.props.longitudeDegReal.getValue());
+        me.props.pitchErrorDeg.setValue(0.0);
+        me.props.rollErrorDeg.setValue(0.0);
         me.props.headingErrorDeg.setValue(0.0);
         me.props.trueHeadingErrorDeg.setValue(0.0);
         me.props.alignmentStatus.setValue(STATUS_READY);

@@ -77,6 +77,7 @@
             <path>/instrumentation/eicas/enabled</path>
             <path>/options/system/keyboard-mode</path>
             <path>/options/controls/realistic-nose-wheel-steering</path>
+            <path>/options/instrumentation/iru-alignment-mode</path>
             <path>/instrumentation/efb/available</path>
             <path>/instrumentation/efb/brightness</path>
             <path>/instrumentation/efb/flightbag-companion-uri</path>
@@ -117,11 +118,19 @@
                 <path>Aircraft/E-jet-family/Systems/gear-agl-ft.xml</path>
             </autopilot>
             <autopilot>
-                <name>Autopilot</name>
+                <name>IRU 1</name>
+                <path>Aircraft/E-jet-family/Systems/iru1.xml</path>
+            </autopilot>
+            <autopilot>
+                <name>IRU 2</name>
+                <path>Aircraft/E-jet-family/Systems/iru2.xml</path>
+            </autopilot>
+            <autopilot>
+                <name>FADECs</name>
                 <path>Aircraft/E-jet-family/Systems/fadec.xml</path>
             </autopilot>
             <autopilot>
-                <name>Autopilot</name>
+                <name>FBW</name>
                 <path>Aircraft/E-jet-family/Systems/fbw.xml</path>
             </autopilot>
             <autopilot>
@@ -727,6 +736,9 @@
         <controls>
             <realistic-nose-wheel-steering type="bool">0</realistic-nose-wheel-steering>
         </controls>
+        <instrumentation>
+            <iru-alignment-mode type="string">normal</iru-alignment-mode>
+        </instrumentation>
     </options>
 
     <position>

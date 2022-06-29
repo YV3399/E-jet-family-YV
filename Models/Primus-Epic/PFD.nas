@@ -178,6 +178,7 @@ var PFDCanvas = {
         m.props["/instrumentation/eicas/master/warning"] = props.globals.getNode("/instrumentation/eicas/master/warning");
         m.props["/instrumentation/gps/cdi-deflection"] = props.globals.getNode("/instrumentation/gps/cdi-deflection");
         m.props["/instrumentation/gps/desired-course-deg"] = props.globals.getNode("/instrumentation/gps/desired-course-deg");
+        m.props["/instrumentation/iru/outputs/valid"] = props.globals.getNode("/instrumentation/iru[" ~ index ~ "]/outputs/valid");
         m.props["/instrumentation/marker-beacon/inner"] = props.globals.getNode("/instrumentation/marker-beacon/inner");
         m.props["/instrumentation/marker-beacon/middle"] = props.globals.getNode("/instrumentation/marker-beacon/middle");
         m.props["/instrumentation/marker-beacon/outer"] = props.globals.getNode("/instrumentation/marker-beacon/outer");
@@ -389,6 +390,7 @@ var PFDCanvas = {
             "barberpole",
             "chrono.digital",
             "compass",
+            "compass.numbers",
             "dlk.indicator",
             "dme",
             "dme.dist",
@@ -399,6 +401,8 @@ var PFDCanvas = {
             "dme.selection",
             "eicas.indicator",
             "eicas.indicator.bg",
+            "failure.att",
+            "failure.hdg",
             "fd.pitch",
             "fd.roll",
             "fd.bars",
@@ -934,6 +938,29 @@ var PFDCanvas = {
                 }
             }, 1, 0));
 
+        append(me.listeners, setlistener(me.props["/instrumentation/iru/outputs/valid"], func (node) {
+                if (node.getBoolValue()) {
+                    self["compass.numbers"].show();
+                    self["horizon"].show();
+                    self["selectedheading.pointer"].show();
+                    self["heading.digital"].setColor(0, 1, 0);
+                    self["groundspeed"].setColor(0, 1, 0);
+                    self["failure.hdg"].hide();
+                    self["failure.att"].hide();
+                }
+                else {
+                    self["compass.numbers"].hide();
+                    self["horizon"].hide();
+                    self["selectedheading.pointer"].hide();
+                    self["heading.digital"].setColor(1, 0.5, 0);
+                    self["heading.digital"].setText('---');
+                    self["groundspeed"].setColor(1, 0.5, 0);
+                    self["groundspeed"].setText('---');
+                    self["failure.hdg"].show();
+                    self["failure.att"].show();
+                }
+            }, 1, 0));
+
         var updateFDViz = func {
             var viz = self.props["/it-autoflight/output/fd"].getBoolValue();
             if (viz) {
@@ -1146,20 +1173,21 @@ var PFDCanvas = {
             me["slip.pointer"].setColorFill(1, 1, 1);
         else
             me["slip.pointer"].setColorFill(0, 0, 0);
-        # wind direction
-        # For some reason, if we attempt to do this in a listener, it will
-        # be extremely unreliable.
-        me["wind.pointer"].setRotation((me.props["/environment/wind-from-heading-deg"].getValue() or 0) * D2R);
 
         # Heading
         var heading = me.props["/orientation/heading-magnetic-deg"].getValue() or 0;
-        me["wind.pointer.wrapper"].setRotation(heading * -D2R);
-        me["compass"].setRotation(heading * -D2R);
-        me["heading.digital"].setText(sprintf("%03d", heading));
-
-        # groundspeed
-        me["groundspeed"].setText(
-            sprintf("%3d", me.props["/instrumentation/pfd/groundspeed-kt"].getValue() or 0));
+        if (me.props["/instrumentation/iru/outputs/valid"].getBoolValue()) {
+            # wind direction
+            # For some reason, if we attempt to do this in a listener, it will
+            # be extremely unreliable.
+            me["wind.pointer"].setRotation((me.props["/environment/wind-from-heading-deg"].getValue() or 0) * D2R);
+            me["wind.pointer.wrapper"].setRotation(heading * -D2R);
+            me["compass"].setRotation(heading * -D2R);
+            me["heading.digital"].setText(sprintf("%03d", heading));
+            # groundspeed
+            me["groundspeed"].setText(
+                sprintf("%3d", me.props["/instrumentation/pfd/groundspeed-kt"].getValue() or 0));
+        }
 
         # FPV
         me["fpv"]

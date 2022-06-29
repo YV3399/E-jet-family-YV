@@ -169,11 +169,11 @@
      borderopacity="1.0"
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
-     inkscape:zoom="1.1555306"
-     inkscape:cx="629.19937"
-     inkscape:cy="404.63167"
+     inkscape:zoom="0.45418595"
+     inkscape:cx="146.62215"
+     inkscape:cy="743.13296"
      inkscape:document-units="px"
-     inkscape:current-layer="horizon"
+     inkscape:current-layer="layer1"
      showgrid="false"
      units="px"
      inkscape:window-width="1438"
@@ -218,7 +218,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -226,16 +226,17 @@
      inkscape:groupmode="layer"
      id="layer2"
      inkscape:label="horizon"
-     style="display:inline">
+     style="display:inline"
+     sodipodi:insensitive="true">
+    <rect
+       style="display:inline;opacity:0.99;fill:#0000c0;fill-opacity:1;stroke:none;stroke-width:2.0038;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="rect5901"
+       width="2000"
+       height="1918.0663"
+       x="-540.77002"
+       y="-1152" />
     <g
        id="horizon">
-      <rect
-         style="opacity:0.99;fill:#0000c0;fill-opacity:1;stroke:none;stroke-width:2.0038;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-         id="rect5901"
-         width="2000"
-         height="1600"
-         x="-540.77002"
-         y="-1152" />
       <rect
          y="445.32001"
          x="-540.77002"
@@ -945,7 +946,8 @@
      inkscape:groupmode="layer"
      id="layer4"
      inkscape:label="behind"
-     style="display:inline">
+     style="display:inline"
+     sodipodi:insensitive="true">
     <path
        style="display:inline;opacity:1;fill:#4f4f4f;fill-opacity:1;stroke:none;stroke-width:4;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        d="M -2.0195312,-132.90039 V 768.16016 H 1025.3789 V -132.90039 Z M 167.05078,185.41016 H 758.92969 V 755.83008 H 167.05078 Z"
@@ -2261,7 +2263,7 @@
          transform="translate(0,297.64)"
          inkscape:transform-center-y="0.19887"
          inkscape:transform-center-x="-0.17678"
-         id="g4646">
+         id="compass.numbers">
         <text
            style="font-style:normal;font-weight:normal;line-height:0%;font-family:E190;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
            x="459.84"
@@ -5356,10 +5358,61 @@
              style="font-size:27.1162px;line-height:1;text-align:center;text-anchor:middle;fill:#00ff00">O</tspan></text>
       </g>
     </g>
+    <g
+       id="failure.att">
+      <rect
+         style="fill:#ff0000;fill-opacity:1;stroke:none;stroke-width:3.26788;stroke-linecap:butt;stroke-miterlimit:4;stroke-dasharray:none"
+         id="rect2888"
+         width="100"
+         height="76"
+         x="423.47"
+         y="275.86804" />
+      <text
+         style="font-style:normal;font-weight:normal;line-height:0%;font-family:E190;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         x="475.37198"
+         y="307.46558"
+         id="text2892"><tspan
+           style="font-size:27.1162px;line-height:1.25;text-align:center;text-anchor:middle;fill:#000000"
+           sodipodi:role="line"
+           id="tspan2890"
+           x="475.37198"
+           y="307.46558">ATT</tspan><tspan
+           style="font-size:27.1162px;line-height:1.25;text-align:center;text-anchor:middle;fill:#000000"
+           sodipodi:role="line"
+           x="475.37198"
+           y="341.36084"
+           id="tspan2896">FAIL</tspan></text>
+    </g>
+    <g
+       id="failure.hdg">
+      <rect
+         style="fill:#ff0000;fill-opacity:1;stroke:none;stroke-width:3.26788;stroke-linecap:butt;stroke-miterlimit:4;stroke-dasharray:none"
+         id="rect2908"
+         width="100"
+         height="76"
+         x="423.47"
+         y="975.86804" />
+      <text
+         style="font-style:normal;font-weight:normal;line-height:0%;font-family:E190;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         x="475.37198"
+         y="1007.4656"
+         id="text2914"><tspan
+           style="font-size:27.1162px;line-height:1.25;text-align:center;text-anchor:middle;fill:#000000"
+           sodipodi:role="line"
+           id="tspan2910"
+           x="475.37198"
+           y="1007.4656">HDG</tspan><tspan
+           style="font-size:27.1162px;line-height:1.25;text-align:center;text-anchor:middle;fill:#000000"
+           sodipodi:role="line"
+           x="475.37198"
+           y="1041.3608"
+           id="tspan2912">FAIL</tspan></text>
+    </g>
   </g>
   <g
      inkscape:groupmode="layer"
      id="layer5"
      inkscape:label="Layer 2"
-     style="display:inline" />
+     style="display:inline"
+     sodipodi:insensitive="true" />
 </svg>

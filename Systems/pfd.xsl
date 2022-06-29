@@ -29,28 +29,28 @@ re-run build.sh.
                 <input>
                     <condition>
                         <and>
-                            <property>/instrumentation/annun/ap-disconnect-warning</property>
-                            <property>/instrumentation/pfd[<xsl:value-of select="$index"/>]/blink-state</property>
+                            <property>instrumentation/annun/ap-disconnect-warning</property>
+                            <property>instrumentation/pfd[<xsl:value-of select="$index"/>]/blink-state</property>
                         </and>
                     </condition>
                     <value>3</value>
                 </input>
                 <input>
                     <condition>
-                        <property>/instrumentation/annun/ap-disconnect-warning</property>
+                        <property>instrumentation/annun/ap-disconnect-warning</property>
                     </condition>
                     <value>2</value>
                 </input>
                 <input>
                     <condition>
-                        <property>/it-autoflight/output/ap1</property>
+                        <property>it-autoflight/output/ap1</property>
                     </condition>
                     <value>1</value>
                 </input>
                 <input>
                     <value>0</value>
                 </input>
-                <output>/instrumentation/pfd[<xsl:value-of select="$index"/>]/fma/ap</output>
+                <output>instrumentation/pfd[<xsl:value-of select="$index"/>]/fma/ap</output>
             </filter>
             <filter>
                 <update-interval-secs type="double">0.1</update-interval-secs>
@@ -60,28 +60,28 @@ re-run build.sh.
                 <input>
                     <condition>
                         <and>
-                            <property>/instrumentation/annun/at-disconnect-warning</property>
-                            <property>/instrumentation/pfd[<xsl:value-of select="$index"/>]/blink-state</property>
+                            <property>instrumentation/annun/at-disconnect-warning</property>
+                            <property>instrumentation/pfd[<xsl:value-of select="$index"/>]/blink-state</property>
                         </and>
                     </condition>
                     <value>3</value>
                 </input>
                 <input>
                     <condition>
-                        <property>/instrumentation/annun/at-disconnect-warning</property>
+                        <property>instrumentation/annun/at-disconnect-warning</property>
                     </condition>
                     <value>2</value>
                 </input>
                 <input>
                     <condition>
-                        <property>/it-autoflight/output/athr</property>
+                        <property>it-autoflight/output/athr</property>
                     </condition>
                     <value>1</value>
                 </input>
                 <input>
                     <value>0</value>
                 </input>
-                <output>/instrumentation/pfd[<xsl:value-of select="$index"/>]/fma/at</output>
+                <output>instrumentation/pfd[<xsl:value-of select="$index"/>]/fma/at</output>
             </filter>
             <!-- Altitude tape -->
             <filter>
@@ -95,11 +95,11 @@ re-run build.sh.
                 <input>
                     <expression>
                         <floor>
-                            <property>/instrumentation/altimeter[<xsl:value-of select="$index"/>]/indicated-altitude-ft</property>
+                            <property>instrumentation/altimeter[<xsl:value-of select="$index"/>]/indicated-altitude-ft</property>
                         </floor>
                     </expression>
                 </input>
-                <output>/instrumentation/pfd[<xsl:value-of select="$index"/>]/alt-tape-offset</output>
+                <output>instrumentation/pfd[<xsl:value-of select="$index"/>]/alt-tape-offset</output>
             </filter>
             <filter>
                 <name>Alt Bug Offset</name>
@@ -109,13 +109,13 @@ re-run build.sh.
                     <expression>
                         <floor>
                             <difference>
-                                <property>/instrumentation/altimeter[<xsl:value-of select="$index"/>]/indicated-altitude-ft</property>
-                                <property>/controls/flight/selected-alt</property>
+                                <property>instrumentation/altimeter[<xsl:value-of select="$index"/>]/indicated-altitude-ft</property>
+                                <property>controls/flight/selected-alt</property>
                             </difference>
                         </floor>
                     </expression>
                 </input>
-                <output>/instrumentation/pfd[<xsl:value-of select="$index"/>]/alt-bug-offset</output>
+                <output>instrumentation/pfd[<xsl:value-of select="$index"/>]/alt-bug-offset</output>
             </filter>
             <filter>
                 <update-interval-secs type="double">0.1</update-interval-secs>
@@ -126,13 +126,13 @@ re-run build.sh.
                     <expression>
                         <floor>
                             <div>
-                                <property>/instrumentation/altimeter[<xsl:value-of select="$index"/>]/indicated-altitude-ft</property>
+                                <property>instrumentation/altimeter[<xsl:value-of select="$index"/>]/indicated-altitude-ft</property>
                                 <value>1000</value>
                             </div>
                         </floor>
                     </expression>
                 </input>
-                <output>/instrumentation/pfd[<xsl:value-of select="$index"/>]/alt-tape-thousands</output>
+                <output>instrumentation/pfd[<xsl:value-of select="$index"/>]/alt-tape-thousands</output>
             </filter>
 
             <filter>
@@ -142,33 +142,33 @@ re-run build.sh.
                 <input>
                     <condition>
                         <greater-than>
-                            <property>/velocities/groundspeed-kt</property>
+                            <property>velocities/groundspeed-kt</property>
                             <value>40</value>
                         </greater-than>
                     </condition>
                     <expression>
                         <atan2>
                             <product>
-                                <property>/velocities/vertical-speed-fps</property>
+                                <property>velocities/vertical-speed-fps</property>
                                 <value>0.5925</value>
                             </product>
-                            <property>/velocities/groundspeed-kt</property>
+                            <property>velocities/groundspeed-kt</property>
                         </atan2>
                     </expression>
                 </input>
                 <input>
                     <value>0</value>
                 </input>
-                <output>/instrumentation/pfd[<xsl:value-of select="$index"/>]/fpa-rad</output>
+                <output>instrumentation/pfd[<xsl:value-of select="$index"/>]/fpa-rad</output>
             </filter>
             <filter>
                 <name>FPA deg</name>
                 <type>gain</type>
                 <gain>57.29577951308232</gain>
                 <input>
-                    <property>/instrumentation/pfd[<xsl:value-of select="$index"/>]/fpa-rad</property>
+                    <property>instrumentation/pfd[<xsl:value-of select="$index"/>]/fpa-rad</property>
                 </input>
-                <output>/instrumentation/pfd[<xsl:value-of select="$index"/>]/fpa-deg</output>
+                <output>instrumentation/pfd[<xsl:value-of select="$index"/>]/fpa-deg</output>
             </filter>
             <filter>
                 <update-interval-secs type="double">0.1</update-interval-secs>
@@ -178,12 +178,12 @@ re-run build.sh.
                 <input>
                     <expression>
                         <difference>
-                            <property>/orientation/track-magnetic-deg</property>
-                            <property>/orientation/heading-magnetic-deg</property>
+                            <property>orientation/track-magnetic-deg</property>
+                            <property>orientation/heading-magnetic-deg</property>
                         </difference>
                     </expression>
                 </input>
-                <output>/instrumentation/pfd[<xsl:value-of select="$index"/>]/track-error-deg</output>
+                <output>instrumentation/pfd[<xsl:value-of select="$index"/>]/track-error-deg</output>
             </filter>
 
             <!-- SLAVING -->
@@ -194,13 +194,13 @@ re-run build.sh.
                 <gain>1</gain>
                 <enable>
                     <condition>
-                        <property>/instrumentation/pfd[<xsl:value-of select="$index"/>]/slaved</property>
+                        <property>instrumentation/pfd[<xsl:value-of select="$index"/>]/slaved</property>
                     </condition>
                 </enable>
                 <input>
-                    <property>/instrumentation/pfd[<xsl:value-of select="$otherIndex"/>]/minimums-mode</property>
+                    <property>instrumentation/pfd[<xsl:value-of select="$otherIndex"/>]/minimums-mode</property>
                 </input>
-                <output>/instrumentation/pfd[<xsl:value-of select="$index"/>]/minimums-mode</output>
+                <output>instrumentation/pfd[<xsl:value-of select="$index"/>]/minimums-mode</output>
             </filter>
             <filter>
                 <name>Slave minimums baro</name>
@@ -208,13 +208,13 @@ re-run build.sh.
                 <gain>1</gain>
                 <enable>
                     <condition>
-                        <property>/instrumentation/pfd[<xsl:value-of select="$index"/>]/slaved</property>
+                        <property>instrumentation/pfd[<xsl:value-of select="$index"/>]/slaved</property>
                     </condition>
                 </enable>
                 <input>
-                    <property>/instrumentation/pfd[<xsl:value-of select="$otherIndex"/>]/minimums-baro</property>
+                    <property>instrumentation/pfd[<xsl:value-of select="$otherIndex"/>]/minimums-baro</property>
                 </input>
-                <output>/instrumentation/pfd[<xsl:value-of select="$index"/>]/minimums-baro</output>
+                <output>instrumentation/pfd[<xsl:value-of select="$index"/>]/minimums-baro</output>
             </filter>
             <filter>
                 <name>Slave minimums radio</name>
@@ -222,13 +222,13 @@ re-run build.sh.
                 <gain>1</gain>
                 <enable>
                     <condition>
-                        <property>/instrumentation/pfd[<xsl:value-of select="$index"/>]/slaved</property>
+                        <property>instrumentation/pfd[<xsl:value-of select="$index"/>]/slaved</property>
                     </condition>
                 </enable>
                 <input>
-                    <property>/instrumentation/pfd[<xsl:value-of select="$otherIndex"/>]/minimums-radio</property>
+                    <property>instrumentation/pfd[<xsl:value-of select="$otherIndex"/>]/minimums-radio</property>
                 </input>
-                <output>/instrumentation/pfd[<xsl:value-of select="$index"/>]/minimums-radio</output>
+                <output>instrumentation/pfd[<xsl:value-of select="$index"/>]/minimums-radio</output>
             </filter>
             <filter>
                 <name>Slave altimeter qnh mode</name>
@@ -236,13 +236,13 @@ re-run build.sh.
                 <gain>1</gain>
                 <enable>
                     <condition>
-                        <property>/instrumentation/pfd[<xsl:value-of select="$index"/>]/slaved</property>
+                        <property>instrumentation/pfd[<xsl:value-of select="$index"/>]/slaved</property>
                     </condition>
                 </enable>
                 <input>
-                    <property>/instrumentation/pfd[<xsl:value-of select="$otherIndex"/>]/qnh-mode</property>
+                    <property>instrumentation/pfd[<xsl:value-of select="$otherIndex"/>]/qnh-mode</property>
                 </input>
-                <output>/instrumentation/pfd[<xsl:value-of select="$index"/>]/qnh-mode</output>
+                <output>instrumentation/pfd[<xsl:value-of select="$index"/>]/qnh-mode</output>
             </filter>
             <filter>
                 <name>Slave altimeter setting hpa</name>
@@ -250,13 +250,13 @@ re-run build.sh.
                 <gain>1</gain>
                 <enable>
                     <condition>
-                        <property>/instrumentation/pfd[<xsl:value-of select="$index"/>]/slaved</property>
+                        <property>instrumentation/pfd[<xsl:value-of select="$index"/>]/slaved</property>
                     </condition>
                 </enable>
                 <input>
-                    <property>/instrumentation/pfd[<xsl:value-of select="$otherIndex"/>]/setting-hpa</property>
+                    <property>instrumentation/pfd[<xsl:value-of select="$otherIndex"/>]/setting-hpa</property>
                 </input>
-                <output>/instrumentation/pfd[<xsl:value-of select="$index"/>]/setting-hpa</output>
+                <output>instrumentation/pfd[<xsl:value-of select="$index"/>]/setting-hpa</output>
             </filter>
             <filter>
                 <name>Slave altimeter setting inhg</name>
@@ -264,13 +264,13 @@ re-run build.sh.
                 <gain>1</gain>
                 <enable>
                     <condition>
-                        <property>/instrumentation/pfd[<xsl:value-of select="$index"/>]/slaved</property>
+                        <property>instrumentation/pfd[<xsl:value-of select="$index"/>]/slaved</property>
                     </condition>
                 </enable>
                 <input>
-                    <property>/instrumentation/pfd[<xsl:value-of select="$otherIndex"/>]/setting-inhg</property>
+                    <property>instrumentation/pfd[<xsl:value-of select="$otherIndex"/>]/setting-inhg</property>
                 </input>
-                <output>/instrumentation/pfd[<xsl:value-of select="$index"/>]/setting-inhg</output>
+                <output>instrumentation/pfd[<xsl:value-of select="$index"/>]/setting-inhg</output>
             </filter>
 
             <!-- MINIMUMS -->
@@ -284,15 +284,15 @@ re-run build.sh.
                 <input>
                     <expression>
                         <dif>
-                            <property>/instrumentation/pfd[<xsl:value-of select="$index"/>]/minimums-baro</property>
+                            <property>instrumentation/pfd[<xsl:value-of select="$index"/>]/minimums-baro</property>
                             <dif>
-                                <property>/instrumentation/altimeter[<xsl:value-of select="$index"/>]/indicated-altitude-ft</property>
-                                <property>/position/gear-agl-ft</property>
+                                <property>instrumentation/altimeter[<xsl:value-of select="$index"/>]/indicated-altitude-ft</property>
+                                <property>position/gear-agl-ft</property>
                             </dif>
                         </dif>
                     </expression>
                 </input>
-                <output>/instrumentation/pfd[<xsl:value-of select="$index"/>]/minimums-fake-baro</output>
+                <output>instrumentation/pfd[<xsl:value-of select="$index"/>]/minimums-fake-baro</output>
             </filter>
 
             <!-- forward either fake-baro or radio minimums to mk-viii -->
@@ -311,60 +311,60 @@ re-run build.sh.
                 <input>
                     <condition>
                         <equals>
-                            <property>/instrumentation/pfd[<xsl:value-of select="$index"/>]/minimums-mode</property>
+                            <property>instrumentation/pfd[<xsl:value-of select="$index"/>]/minimums-mode</property>
                             <value>0</value>
                         </equals>
                     </condition>
-                    <property>/instrumentation/pfd[<xsl:value-of select="$index"/>]/minimums-radio</property>
+                    <property>instrumentation/pfd[<xsl:value-of select="$index"/>]/minimums-radio</property>
                 </input>
                 <input>
                     <condition>
                         <equals>
-                            <property>/instrumentation/pfd[<xsl:value-of select="$index"/>]/minimums-mode</property>
+                            <property>instrumentation/pfd[<xsl:value-of select="$index"/>]/minimums-mode</property>
                             <value>1</value>
                         </equals>
                     </condition>
-                    <property>/instrumentation/pfd[<xsl:value-of select="$index"/>]/minimums-fake-baro</property>
+                    <property>instrumentation/pfd[<xsl:value-of select="$index"/>]/minimums-fake-baro</property>
                 </input>
-                <output>/instrumentation/mk-viii/inputs/arinc429/decision-height</output>
+                <output>instrumentation/mk-viii/inputs/arinc429/decision-height</output>
             </filter>
 
             <filter>
                 <type>derivative</type>
                 <input>
-                    <property>/instrumentation/pfd[<xsl:value-of select="$index"/>]/minimums-radio</property>
+                    <property>instrumentation/pfd[<xsl:value-of select="$index"/>]/minimums-radio</property>
                 </input>
-                <output>/instrumentation/pfd[<xsl:value-of select="$index"/>]/minimums-radio-rate</output>
+                <output>instrumentation/pfd[<xsl:value-of select="$index"/>]/minimums-radio-rate</output>
                 <filter-time>1.0</filter-time>
             </filter>
 
             <filter>
                 <type>derivative</type>
                 <input>
-                    <property>/instrumentation/pfd[<xsl:value-of select="$index"/>]/minimums-baro</property>
+                    <property>instrumentation/pfd[<xsl:value-of select="$index"/>]/minimums-baro</property>
                 </input>
-                <output>/instrumentation/pfd[<xsl:value-of select="$index"/>]/minimums-baro-rate</output>
+                <output>instrumentation/pfd[<xsl:value-of select="$index"/>]/minimums-baro-rate</output>
                 <filter-time>1.0</filter-time>
             </filter>
 
             <filter>
                 <type>derivative</type>
                 <input>
-                    <property>/instrumentation/pfd[<xsl:value-of select="$index"/>]/minimums-mode</property>
+                    <property>instrumentation/pfd[<xsl:value-of select="$index"/>]/minimums-mode</property>
                 </input>
-                <output>/instrumentation/pfd[<xsl:value-of select="$index"/>]/minimums-mode-rate</output>
+                <output>instrumentation/pfd[<xsl:value-of select="$index"/>]/minimums-mode-rate</output>
                 <filter-time>1.0</filter-time>
             </filter>
 
             <logic>
                 <input>
                     <or>
-                        <property>/instrumentation/pfd[<xsl:value-of select="$index"/>]/minimums-radio-rate</property>
-                        <property>/instrumentation/pfd[<xsl:value-of select="$index"/>]/minimums-baro-rate</property>
-                        <property>/instrumentation/pfd[<xsl:value-of select="$index"/>]/minimums-mode-rate</property>
+                        <property>instrumentation/pfd[<xsl:value-of select="$index"/>]/minimums-radio-rate</property>
+                        <property>instrumentation/pfd[<xsl:value-of select="$index"/>]/minimums-baro-rate</property>
+                        <property>instrumentation/pfd[<xsl:value-of select="$index"/>]/minimums-mode-rate</property>
                     </or>
                 </input>
-                <output>/instrumentation/pfd[<xsl:value-of select="$index"/>]/minimums-delta</output>
+                <output>instrumentation/pfd[<xsl:value-of select="$index"/>]/minimums-delta</output>
             </logic>
 
             <flipflop>
@@ -375,48 +375,48 @@ re-run build.sh.
                     <value>20</value>
                 </time>
                 <S>
-                    <property>/instrumentation/pfd[<xsl:value-of select="$index"/>]/minimums-delta</property>
+                    <property>instrumentation/pfd[<xsl:value-of select="$index"/>]/minimums-delta</property>
                 </S>
-                <output>/instrumentation/pfd[<xsl:value-of select="$index"/>]/minimums-changed</output>
+                <output>instrumentation/pfd[<xsl:value-of select="$index"/>]/minimums-changed</output>
             </flipflop>
 
             <filter>
                 <name>Minimums reference alt</name>
                 <type>gain</type>
-                <output>/instrumentation/pfd[<xsl:value-of select="$index"/>]/minimums-reference-altitude</output>
+                <output>instrumentation/pfd[<xsl:value-of select="$index"/>]/minimums-reference-altitude</output>
                 <input>
                     <condition>
-                        <property>/instrumentation/pfd[<xsl:value-of select="$index"/>]/minimums-mode</property>
+                        <property>instrumentation/pfd[<xsl:value-of select="$index"/>]/minimums-mode</property>
                     </condition>
-                    <property>/instrumentation/altimeter[<xsl:value-of select="$index"/>]/indicated-altitude-ft</property>
+                    <property>instrumentation/altimeter[<xsl:value-of select="$index"/>]/indicated-altitude-ft</property>
                 </input>
                 <input>
-                    <property>/position/gear-agl-ft</property>
+                    <property>position/gear-agl-ft</property>
                 </input>
             </filter>
             <filter>
                 <name>Minimums decision alt</name>
                 <type>gain</type>
-                <output>/instrumentation/pfd[<xsl:value-of select="$index"/>]/minimums-decision-altitude</output>
+                <output>instrumentation/pfd[<xsl:value-of select="$index"/>]/minimums-decision-altitude</output>
                 <input>
                     <condition>
-                        <property>/instrumentation/pfd[<xsl:value-of select="$index"/>]/minimums-mode</property>
+                        <property>instrumentation/pfd[<xsl:value-of select="$index"/>]/minimums-mode</property>
                     </condition>
-                    <property>/instrumentation/pfd[<xsl:value-of select="$index"/>]/minimums-baro</property>
+                    <property>instrumentation/pfd[<xsl:value-of select="$index"/>]/minimums-baro</property>
                 </input>
                 <input>
-                    <property>/instrumentation/pfd[<xsl:value-of select="$index"/>]/minimums-radio</property>
+                    <property>instrumentation/pfd[<xsl:value-of select="$index"/>]/minimums-radio</property>
                 </input>
             </filter>
             <filter>
                 <update-interval-secs type="double">0.1</update-interval-secs>
                 <name>Radio altitude</name>
                 <type>gain</type>
-                <output>/instrumentation/pfd[<xsl:value-of select="$index"/>]/radio-alt</output>
+                <output>instrumentation/pfd[<xsl:value-of select="$index"/>]/radio-alt</output>
                 <input>
                     <expression>
                         <floor>
-                            <property>/position/gear-agl-ft</property>
+                            <property>position/gear-agl-ft</property>
                         </floor>
                     </expression>
                 </input>
@@ -426,22 +426,22 @@ re-run build.sh.
 
             <logic>
                 <name>Minimums indicator visible</name>
-                <output>/instrumentation/pfd[<xsl:value-of select="$index"/>]/minimums-indicator-visible</output>
+                <output>instrumentation/pfd[<xsl:value-of select="$index"/>]/minimums-indicator-visible</output>
                 <input>
                     <less-than>
-                        <property>/instrumentation/pfd[<xsl:value-of select="$index"/>]/minimums-reference-altitude</property>
-                        <property>/instrumentation/pfd[<xsl:value-of select="$index"/>]/minimums-decision-altitude</property>
+                        <property>instrumentation/pfd[<xsl:value-of select="$index"/>]/minimums-reference-altitude</property>
+                        <property>instrumentation/pfd[<xsl:value-of select="$index"/>]/minimums-decision-altitude</property>
                     </less-than>
                 </input>
             </logic>
             <logic>
                 <name>Radio altimeter visible</name>
-                <output>/instrumentation/pfd[<xsl:value-of select="$index"/>]/radio-altimeter-visible</output>
+                <output>instrumentation/pfd[<xsl:value-of select="$index"/>]/radio-altimeter-visible</output>
                 <input>
                     <or>
-                        <property>/instrumentation/pfd[<xsl:value-of select="$index"/>]/minimums-indicator-visible</property>
+                        <property>instrumentation/pfd[<xsl:value-of select="$index"/>]/minimums-indicator-visible</property>
                         <less-than>
-                            <property>/position/gear-agl-ft</property>
+                            <property>position/gear-agl-ft</property>
                             <value>4000</value>
                         </less-than>
                     </or>
@@ -449,12 +449,12 @@ re-run build.sh.
             </logic>
             <logic>
                 <name>Minimums visible</name>
-                <output>/instrumentation/pfd[<xsl:value-of select="$index"/>]/minimums-visible</output>
+                <output>instrumentation/pfd[<xsl:value-of select="$index"/>]/minimums-visible</output>
                 <input>
                     <or>
-                        <property>/instrumentation/pfd[<xsl:value-of select="$index"/>]/minimums-indicator-visible</property>
-                        <property>/instrumentation/pfd[<xsl:value-of select="$index"/>]/minimums-changed</property>
-                        <property>/instrumentation/pfd[<xsl:value-of select="$index"/>]/radio-altimeter-visible</property>
+                        <property>instrumentation/pfd[<xsl:value-of select="$index"/>]/minimums-indicator-visible</property>
+                        <property>instrumentation/pfd[<xsl:value-of select="$index"/>]/minimums-changed</property>
+                        <property>instrumentation/pfd[<xsl:value-of select="$index"/>]/radio-altimeter-visible</property>
                     </or>
                 </input>
             </logic>
@@ -464,11 +464,11 @@ re-run build.sh.
                 <name>Airspeed Alive</name>
                 <input>
                     <greater-than>
-                        <property>/instrumentation/airspeed-indicator/indicated-speed-kt</property>
+                        <property>instrumentation/airspeed-indicator/indicated-speed-kt</property>
                         <value>40</value>
                     </greater-than>
                 </input>
-                <output>/instrumentation/pfd[<xsl:value-of select="$index"/>]/airspeed-alive</output>
+                <output>instrumentation/pfd[<xsl:value-of select="$index"/>]/airspeed-alive</output>
             </logic>
 
             <predict-simple>
@@ -488,7 +488,7 @@ re-run build.sh.
                 <input>
                     <expression>
                         <table>
-                            <property>/orientation/pitch-deg</property>
+                            <property>orientation/pitch-deg</property>
                             <entry>
                                 <ind>90</ind><dep>90</dep>
                             </entry>
@@ -518,7 +518,7 @@ re-run build.sh.
                 <input>
                     <expression>
                         <table>
-                            <property>/it-autoflight/input/fpa</property>
+                            <property>it-autoflight/input/fpa</property>
                             <entry>
                                 <ind>90</ind><dep>90</dep>
                             </entry>
@@ -548,7 +548,7 @@ re-run build.sh.
                 <input>
                     <expression>
                         <table>
-                            <property>/instrumentation/pfd[<xsl:value-of select="$index"/>]/fpa-deg</property>
+                            <property>instrumentation/pfd[<xsl:value-of select="$index"/>]/fpa-deg</property>
                             <entry>
                                 <ind>90</ind><dep>90</dep>
                             </entry>
@@ -579,8 +579,8 @@ re-run build.sh.
                     <expression>
                         <table>
                             <sum>
-                                <property>/instrumentation/pfd[<xsl:value-of select="$index"/>]/fpa-deg</property>
-                                <property>/instrumentation/pfd[<xsl:value-of select="$index"/>]/fd/vert-offset-deg</property>
+                                <property>instrumentation/pfd[<xsl:value-of select="$index"/>]/fpa-deg</property>
+                                <property>instrumentation/pfd[<xsl:value-of select="$index"/>]/fd/vert-offset-deg</property>
                             </sum>
                             <entry>
                                 <ind>90</ind><dep>90</dep>
@@ -611,17 +611,17 @@ re-run build.sh.
                 <input>
                     <condition>
                         <less-than>
-                            <property>/position/gear-agl-ft</property>
+                            <property>position/gear-agl-ft</property>
                             <value>10</value>
                         </less-than>
                     </condition>
-                    <property>/fms/vspeeds-effective/departure/pitch</property>
+                    <property>fms/vspeeds-effective/departure/pitch</property>
                 </input>
                 <input>
                     <expression>
                         <sum>
-                            <property>/it-autoflight/fd/pitch-bar</property>
-                            <property>/orientation/pitch-deg</property>
+                            <property>it-autoflight/fd/pitch-bar</property>
+                            <property>orientation/pitch-deg</property>
                         </sum>
                     </expression>
                 </input>
@@ -636,7 +636,7 @@ re-run build.sh.
                 <input>
                     <expression>
                         <table>
-                            <property>/instrumentation/pfd[<xsl:value-of select="$index"/>]/fd/pitch-bar-deg</property>
+                            <property>instrumentation/pfd[<xsl:value-of select="$index"/>]/fd/pitch-bar-deg</property>
                             <entry>
                                 <ind>90</ind><dep>90</dep>
                             </entry>
@@ -667,13 +667,13 @@ re-run build.sh.
                 <input>
                     <condition>
                         <equals>
-                            <property>/controls/flight/flaps</property>
+                            <property>controls/flight/flaps</property>
                             <value>0</value>
                         </equals>
                     </condition>
                     <expression>
                         <table>
-                            <property>/position/altitude-ft</property>
+                            <property>position/altitude-ft</property>
                             <entry>
                                 <ind>0</ind><dep>300</dep>
                             </entry>
@@ -695,13 +695,13 @@ re-run build.sh.
                 <input>
                     <condition>
                         <greater-than>
-                            <property>/controls/flight/flaps</property>
+                            <property>controls/flight/flaps</property>
                             <value>0.0</value>
                         </greater-than>
                     </condition>
                     <expression>
                         <table>
-                            <property>/controls/flight/flaps</property>
+                            <property>controls/flight/flaps</property>
                             <entry>
                                 <ind>0.1</ind><dep>230</dep>
                             </entry>
@@ -917,7 +917,7 @@ re-run build.sh.
                     <expression>
                         <floor>
                             <sum>
-                                <property>/velocities/groundspeed-kt</property>
+                                <property>velocities/groundspeed-kt</property>
                                 <value>0.5</value>
                             </sum>
                         </floor>
@@ -936,7 +936,7 @@ re-run build.sh.
                     <expression>
                         <floor>
                             <sum>
-                                <property>/environment/wind-speed-kt</property>
+                                <property>environment/wind-speed-kt</property>
                                 <value>0.5</value>
                             </sum>
                         </floor>
@@ -954,15 +954,15 @@ re-run build.sh.
                 <output>instrumentation/pfd[<xsl:value-of select="$index"/>]/nav/dme-source</output>
                 <input>
                     <condition>
-                        <property>/instrumentation/pfd[<xsl:value-of select="$index"/>]/nav-src</property>
+                        <property>instrumentation/pfd[<xsl:value-of select="$index"/>]/nav-src</property>
                     </condition>
-                    <property>/instrumentation/pfd[<xsl:value-of select="$index"/>]/nav-src</property>
+                    <property>instrumentation/pfd[<xsl:value-of select="$index"/>]/nav-src</property>
                 </input>
                 <input>
                     <condition>
-                        <property>/instrumentation/pfd[<xsl:value-of select="$index"/>]/preview</property>
+                        <property>instrumentation/pfd[<xsl:value-of select="$index"/>]/preview</property>
                     </condition>
-                    <property>/instrumentation/pfd[<xsl:value-of select="$index"/>]/preview</property>
+                    <property>instrumentation/pfd[<xsl:value-of select="$index"/>]/preview</property>
                 </input>
                 <input>
                     <value>0</value>
@@ -972,66 +972,66 @@ re-run build.sh.
                 <update-interval-secs type="double">0.1</update-interval-secs>
                 <name>DME hold</name>
                 <type>gain</type>
-                <output>/instrumentation/pfd[<xsl:value-of select="$index"/>]/dme/hold</output>
+                <output>instrumentation/pfd[<xsl:value-of select="$index"/>]/dme/hold</output>
                 <input>
                     <condition>
                         <equals>
-                            <property>/instrumentation/pfd[<xsl:value-of select="$index"/>]/nav/dme-source</property>
+                            <property>instrumentation/pfd[<xsl:value-of select="$index"/>]/nav/dme-source</property>
                             <value>1</value>
                         </equals>
                     </condition>
-                    <property>/instrumentation/dme[0]/hold</property>
+                    <property>instrumentation/dme[0]/hold</property>
                 </input>
                 <input>
                     <condition>
                         <equals>
-                            <property>/instrumentation/pfd[<xsl:value-of select="$index"/>]/nav/dme-source</property>
+                            <property>instrumentation/pfd[<xsl:value-of select="$index"/>]/nav/dme-source</property>
                             <value>2</value>
                         </equals>
                     </condition>
-                    <property>/instrumentation/dme[1]/hold</property>
+                    <property>instrumentation/dme[1]/hold</property>
                 </input>
             </filter>
             <filter>
                 <update-interval-secs type="double">0.1</update-interval-secs>
                 <name>DME in range</name>
                 <type>gain</type>
-                <output>/instrumentation/pfd[<xsl:value-of select="$index"/>]/dme/in-range</output>
+                <output>instrumentation/pfd[<xsl:value-of select="$index"/>]/dme/in-range</output>
                 <input>
                     <condition>
                         <equals>
-                            <property>/instrumentation/pfd[<xsl:value-of select="$index"/>]/nav/dme-source</property>
+                            <property>instrumentation/pfd[<xsl:value-of select="$index"/>]/nav/dme-source</property>
                             <value>1</value>
                         </equals>
                     </condition>
-                    <property>/instrumentation/dme[0]/in-range</property>
+                    <property>instrumentation/dme[0]/in-range</property>
                 </input>
                 <input>
                     <condition>
                         <equals>
-                            <property>/instrumentation/pfd[<xsl:value-of select="$index"/>]/nav/dme-source</property>
+                            <property>instrumentation/pfd[<xsl:value-of select="$index"/>]/nav/dme-source</property>
                             <value>2</value>
                         </equals>
                     </condition>
-                    <property>/instrumentation/dme[1]/in-range</property>
+                    <property>instrumentation/dme[1]/in-range</property>
                 </input>
             </filter>
             <filter>
                 <update-interval-secs type="double">0.1</update-interval-secs>
                 <name>DME Dist</name>
                 <type>gain</type>
-                <output>/instrumentation/pfd[<xsl:value-of select="$index"/>]/dme/dist10</output>
+                <output>instrumentation/pfd[<xsl:value-of select="$index"/>]/dme/dist10</output>
                 <input>
                     <condition>
                         <equals>
-                            <property>/instrumentation/pfd[<xsl:value-of select="$index"/>]/nav/dme-source</property>
+                            <property>instrumentation/pfd[<xsl:value-of select="$index"/>]/nav/dme-source</property>
                             <value>1</value>
                         </equals>
                     </condition>
                     <expression>
                         <floor>
                             <product>
-                                <property>/instrumentation/dme[0]/indicated-distance-nm</property>
+                                <property>instrumentation/dme[0]/indicated-distance-nm</property>
                                 <value>10</value>
                             </product>
                         </floor>
@@ -1040,14 +1040,14 @@ re-run build.sh.
                 <input>
                     <condition>
                         <equals>
-                            <property>/instrumentation/pfd[<xsl:value-of select="$index"/>]/nav/dme-source</property>
+                            <property>instrumentation/pfd[<xsl:value-of select="$index"/>]/nav/dme-source</property>
                             <value>2</value>
                         </equals>
                     </condition>
                     <expression>
                         <floor>
                             <product>
-                                <property>/instrumentation/dme[1]/indicated-distance-nm</property>
+                                <property>instrumentation/dme[1]/indicated-distance-nm</property>
                                 <value>10</value>
                             </product>
                         </floor>
@@ -1058,18 +1058,18 @@ re-run build.sh.
                 <update-interval-secs type="double">0.1</update-interval-secs>
                 <name>DME ETE seconds</name>
                 <type>gain</type>
-                <output>/instrumentation/pfd[<xsl:value-of select="$index"/>]/dme/ete-sec</output>
+                <output>instrumentation/pfd[<xsl:value-of select="$index"/>]/dme/ete-sec</output>
                 <input>
                     <condition>
                         <equals>
-                            <property>/instrumentation/pfd[<xsl:value-of select="$index"/>]/nav/dme-source</property>
+                            <property>instrumentation/pfd[<xsl:value-of select="$index"/>]/nav/dme-source</property>
                             <value>1</value>
                         </equals>
                     </condition>
                     <expression>
                         <floor>
                             <product>
-                                <property>/instrumentation/dme[0]/indicated-time-min</property>
+                                <property>instrumentation/dme[0]/indicated-time-min</property>
                                 <value>60</value>
                             </product>
                         </floor>
@@ -1078,14 +1078,14 @@ re-run build.sh.
                 <input>
                     <condition>
                         <equals>
-                            <property>/instrumentation/pfd[<xsl:value-of select="$index"/>]/nav/dme-source</property>
+                            <property>instrumentation/pfd[<xsl:value-of select="$index"/>]/nav/dme-source</property>
                             <value>2</value>
                         </equals>
                     </condition>
                     <expression>
                         <floor>
                             <product>
-                                <property>/instrumentation/dme[1]/indicated-time-min</property>
+                                <property>instrumentation/dme[1]/indicated-time-min</property>
                                 <value>60</value>
                             </product>
                         </floor>
@@ -1096,11 +1096,11 @@ re-run build.sh.
                 <update-interval-secs type="double">0.1</update-interval-secs>
                 <name>DME ETE unit</name>
                 <type>gain</type>
-                <output>/instrumentation/pfd[<xsl:value-of select="$index"/>]/dme/ete-unit</output>
+                <output>instrumentation/pfd[<xsl:value-of select="$index"/>]/dme/ete-unit</output>
                 <input>
                     <condition>
                         <less-than>
-                            <property>/instrumentation/pfd[<xsl:value-of select="$index"/>]/dme/ete-sec</property>
+                            <property>instrumentation/pfd[<xsl:value-of select="$index"/>]/dme/ete-sec</property>
                             <value>60</value>
                         </less-than>
                     </condition>
@@ -1114,15 +1114,15 @@ re-run build.sh.
                 <update-interval-secs type="double">0.1</update-interval-secs>
                 <name>DME ETE</name>
                 <type>gain</type>
-                <output>/instrumentation/pfd[<xsl:value-of select="$index"/>]/dme/ete</output>
+                <output>instrumentation/pfd[<xsl:value-of select="$index"/>]/dme/ete</output>
                 <input>
                     <condition>
-                        <property>/instrumentation/pfd[<xsl:value-of select="$index"/>]/dme/ete-unit</property>
+                        <property>instrumentation/pfd[<xsl:value-of select="$index"/>]/dme/ete-unit</property>
                     </condition>
                     <expression>
                         <floor>
                             <div>
-                                <property>/instrumentation/pfd[<xsl:value-of select="$index"/>]/dme/ete-sec</property>
+                                <property>instrumentation/pfd[<xsl:value-of select="$index"/>]/dme/ete-sec</property>
                                 <value>60</value>
                             </div>
                         </floor>
@@ -1131,7 +1131,7 @@ re-run build.sh.
                 <input>
                     <expression>
                         <floor>
-                            <property>/instrumentation/pfd[<xsl:value-of select="$index"/>]/dme/ete-sec</property>
+                            <property>instrumentation/pfd[<xsl:value-of select="$index"/>]/dme/ete-sec</property>
                         </floor>
                     </expression>
                 </input>
@@ -1145,15 +1145,15 @@ re-run build.sh.
                 <output>instrumentation/pfd[<xsl:value-of select="$index"/>]/nav/course-source</output>
                 <input>
                     <condition>
-                        <property>/instrumentation/pfd[<xsl:value-of select="$index"/>]/nav-src</property>
+                        <property>instrumentation/pfd[<xsl:value-of select="$index"/>]/nav-src</property>
                     </condition>
-                    <property>/instrumentation/pfd[<xsl:value-of select="$index"/>]/nav-src</property>
+                    <property>instrumentation/pfd[<xsl:value-of select="$index"/>]/nav-src</property>
                 </input>
                 <input>
                     <condition>
-                        <property>/instrumentation/pfd[<xsl:value-of select="$index"/>]/preview</property>
+                        <property>instrumentation/pfd[<xsl:value-of select="$index"/>]/preview</property>
                     </condition>
-                    <property>/instrumentation/pfd[<xsl:value-of select="$index"/>]/preview</property>
+                    <property>instrumentation/pfd[<xsl:value-of select="$index"/>]/preview</property>
                 </input>
                 <input>
                     <value>0</value>
@@ -1168,14 +1168,14 @@ re-run build.sh.
                 <input>
                 <update-interval-secs type="double">0.1</update-interval-secs>
                     <condition>
-                        <property>/instrumentation/pfd[<xsl:value-of select="$index"/>]/nav-src</property>
+                        <property>instrumentation/pfd[<xsl:value-of select="$index"/>]/nav-src</property>
                     </condition>
                     <!-- NAV -->
                     <value>1</value>
                 </input>
                 <input>
                     <condition>
-                        <property>/instrumentation/pfd[<xsl:value-of select="$index"/>]/preview</property>
+                        <property>instrumentation/pfd[<xsl:value-of select="$index"/>]/preview</property>
                     </condition>
                     <!-- PREVIEW -->
                     <value>2</value>
@@ -1193,12 +1193,12 @@ re-run build.sh.
                 <output>instrumentation/pfd[<xsl:value-of select="$index"/>]/ils/source</output>
                 <input>
                     <condition>
-                        <property>/instrumentation/pfd[<xsl:value-of select="$index"/>]/nav-src</property>
+                        <property>instrumentation/pfd[<xsl:value-of select="$index"/>]/nav-src</property>
                     </condition>
-                    <property>/instrumentation/pfd[<xsl:value-of select="$index"/>]/nav-src</property>
+                    <property>instrumentation/pfd[<xsl:value-of select="$index"/>]/nav-src</property>
                 </input>
                 <input>
-                    <property>/instrumentation/pfd[<xsl:value-of select="$index"/>]/preview</property>
+                    <property>instrumentation/pfd[<xsl:value-of select="$index"/>]/preview</property>
                 </input>
             </filter>
 
@@ -1207,24 +1207,24 @@ re-run build.sh.
                 <name>Nav Selected Radial</name>
                 <type>gain</type>
                 <gain>1</gain>
-                <output>/instrumentation/pfd[<xsl:value-of select="$index"/>]/nav/selected-radial</output>
+                <output>instrumentation/pfd[<xsl:value-of select="$index"/>]/nav/selected-radial</output>
                 <input>
                     <condition>
                         <equals>
-                            <property>/instrumentation/pfd[<xsl:value-of select="$index"/>]/nav/course-source</property>
+                            <property>instrumentation/pfd[<xsl:value-of select="$index"/>]/nav/course-source</property>
                             <value>1</value>
                         </equals>
                     </condition>
-                    <property>/instrumentation/nav[0]/radials/selected-deg</property>
+                    <property>instrumentation/nav[0]/radials/selected-deg</property>
                 </input>
                 <input>
                     <condition>
                         <equals>
-                            <property>/instrumentation/pfd[<xsl:value-of select="$index"/>]/nav/course-source</property>
+                            <property>instrumentation/pfd[<xsl:value-of select="$index"/>]/nav/course-source</property>
                             <value>2</value>
                         </equals>
                     </condition>
-                    <property>/instrumentation/nav[1]/radials/selected-deg</property>
+                    <property>instrumentation/nav[1]/radials/selected-deg</property>
                 </input>
             </filter>
             <filter>
@@ -1236,23 +1236,23 @@ re-run build.sh.
                 <input>
                     <condition>
                         <equals>
-                            <property>/instrumentation/pfd[<xsl:value-of select="$index"/>]/nav-src</property>
+                            <property>instrumentation/pfd[<xsl:value-of select="$index"/>]/nav-src</property>
                             <value>1</value>
                         </equals>
                     </condition>
-                    <property>/instrumentation/nav[0]/radials/selected-deg</property>
+                    <property>instrumentation/nav[0]/radials/selected-deg</property>
                 </input>
                 <input>
                     <condition>
                         <equals>
-                            <property>/instrumentation/pfd[<xsl:value-of select="$index"/>]/nav-src</property>
+                            <property>instrumentation/pfd[<xsl:value-of select="$index"/>]/nav-src</property>
                             <value>2</value>
                         </equals>
                     </condition>
-                    <property>/instrumentation/nav[1]/radials/selected-deg</property>
+                    <property>instrumentation/nav[1]/radials/selected-deg</property>
                 </input>
                 <input>
-                    <property>/instrumentation/gps/desired-course-deg</property>
+                    <property>instrumentation/gps/desired-course-deg</property>
                 </input>
             </filter>
             <filter>
@@ -1264,24 +1264,24 @@ re-run build.sh.
                 <input>
                     <condition>
                         <equals>
-                            <property>/instrumentation/pfd[<xsl:value-of select="$index"/>]/nav-src</property>
+                            <property>instrumentation/pfd[<xsl:value-of select="$index"/>]/nav-src</property>
                             <value>1</value>
                         </equals>
                     </condition>
-                    <property>/instrumentation/nav[0]/heading-needle-deflection-norm</property>
+                    <property>instrumentation/nav[0]/heading-needle-deflection-norm</property>
                 </input>
                 <input>
                     <condition>
                         <equals>
-                            <property>/instrumentation/pfd[<xsl:value-of select="$index"/>]/nav-src</property>
+                            <property>instrumentation/pfd[<xsl:value-of select="$index"/>]/nav-src</property>
                             <value>2</value>
                         </equals>
                     </condition>
-                    <property>/instrumentation/nav[1]/heading-needle-deflection-norm</property>
+                    <property>instrumentation/nav[1]/heading-needle-deflection-norm</property>
                 </input>
                 <input>
                     <product>
-                        <property>/instrumentation/gps/cdi-deflection</property>
+                        <property>instrumentation/gps/cdi-deflection</property>
                         <value>0.1</value>
                     </product>
                 </input>
@@ -1295,20 +1295,20 @@ re-run build.sh.
                 <input>
                     <condition>
                         <equals>
-                            <property>/instrumentation/pfd[<xsl:value-of select="$index"/>]/nav-src</property>
+                            <property>instrumentation/pfd[<xsl:value-of select="$index"/>]/nav-src</property>
                             <value>1</value>
                         </equals>
                     </condition>
-                    <property>/instrumentation/nav[0]/from-flag</property>
+                    <property>instrumentation/nav[0]/from-flag</property>
                 </input>
                 <input>
                     <condition>
                         <equals>
-                            <property>/instrumentation/pfd[<xsl:value-of select="$index"/>]/nav-src</property>
+                            <property>instrumentation/pfd[<xsl:value-of select="$index"/>]/nav-src</property>
                             <value>2</value>
                         </equals>
                     </condition>
-                    <property>/instrumentation/nav[1]/from-flag</property>
+                    <property>instrumentation/nav[1]/from-flag</property>
                 </input>
                 <input>
                     <value>-1</value>
@@ -1320,45 +1320,45 @@ re-run build.sh.
                 <name>ILS GS Needle</name>
                 <type>gain</type>
                 <gain>1</gain>
-                <output>/instrumentation/pfd[<xsl:value-of select="$index"/>]/ils/gs-needle</output>
+                <output>instrumentation/pfd[<xsl:value-of select="$index"/>]/ils/gs-needle</output>
                 <input>
                     <condition>
                         <equals>
-                            <property>/instrumentation/pfd[<xsl:value-of select="$index"/>]/ils/source</property>
+                            <property>instrumentation/pfd[<xsl:value-of select="$index"/>]/ils/source</property>
                             <value>1</value>
                         </equals>
                     </condition>
-                    <property>/instrumentation/nav[0]/gs-needle-deflection-norm</property>
+                    <property>instrumentation/nav[0]/gs-needle-deflection-norm</property>
                 </input>
                 <input>
                     <condition>
                         <equals>
-                            <property>/instrumentation/pfd[<xsl:value-of select="$index"/>]/ils/source</property>
+                            <property>instrumentation/pfd[<xsl:value-of select="$index"/>]/ils/source</property>
                             <value>1</value>
                         </equals>
                     </condition>
-                    <property>/instrumentation/nav[1]/gs-needle-deflection-norm</property>
+                    <property>instrumentation/nav[1]/gs-needle-deflection-norm</property>
                 </input>
             </filter>
             <logic>
                 <update-interval-secs type="double">0.1</update-interval-secs>
                 <name>ILS GS In Range</name>
-                <output>/instrumentation/pfd[<xsl:value-of select="$index"/>]/ils/gs-in-range</output>
+                <output>instrumentation/pfd[<xsl:value-of select="$index"/>]/ils/gs-in-range</output>
                 <input>
                     <or>
                         <and>
                             <equals>
-                                <property>/instrumentation/pfd[<xsl:value-of select="$index"/>]/ils/source</property>
+                                <property>instrumentation/pfd[<xsl:value-of select="$index"/>]/ils/source</property>
                                 <value>1</value>
                             </equals>
-                            <property>/instrumentation/nav[0]/gs-in-range</property>
+                            <property>instrumentation/nav[0]/gs-in-range</property>
                         </and>
                         <and>
                             <equals>
-                                <property>/instrumentation/pfd[<xsl:value-of select="$index"/>]/ils/source</property>
+                                <property>instrumentation/pfd[<xsl:value-of select="$index"/>]/ils/source</property>
                                 <value>2</value>
                             </equals>
-                            <property>/instrumentation/nav[1]/gs-in-range</property>
+                            <property>instrumentation/nav[1]/gs-in-range</property>
                         </and>
                     </or>
                 </input>
@@ -1366,22 +1366,22 @@ re-run build.sh.
             <logic>
                 <update-interval-secs type="double">0.1</update-interval-secs>
                 <name>ILS Has GS</name>
-                <output>/instrumentation/pfd[<xsl:value-of select="$index"/>]/ils/has-gs</output>
+                <output>instrumentation/pfd[<xsl:value-of select="$index"/>]/ils/has-gs</output>
                 <input>
                     <or>
                         <and>
                             <equals>
-                                <property>/instrumentation/pfd[<xsl:value-of select="$index"/>]/ils/source</property>
+                                <property>instrumentation/pfd[<xsl:value-of select="$index"/>]/ils/source</property>
                                 <value>1</value>
                             </equals>
-                            <property>/instrumentation/nav[0]/has-gs</property>
+                            <property>instrumentation/nav[0]/has-gs</property>
                         </and>
                         <and>
                             <equals>
-                                <property>/instrumentation/pfd[<xsl:value-of select="$index"/>]/ils/source</property>
+                                <property>instrumentation/pfd[<xsl:value-of select="$index"/>]/ils/source</property>
                                 <value>2</value>
                             </equals>
-                            <property>/instrumentation/nav[1]/has-gs</property>
+                            <property>instrumentation/nav[1]/has-gs</property>
                         </and>
                     </or>
                 </input>
@@ -1392,24 +1392,24 @@ re-run build.sh.
                 <name>ILS LOC Needle</name>
                 <type>gain</type>
                 <gain>1</gain>
-                <output>/instrumentation/pfd[<xsl:value-of select="$index"/>]/ils/loc-needle</output>
+                <output>instrumentation/pfd[<xsl:value-of select="$index"/>]/ils/loc-needle</output>
                 <input>
                     <condition>
                         <equals>
-                            <property>/instrumentation/pfd[<xsl:value-of select="$index"/>]/ils/source</property>
+                            <property>instrumentation/pfd[<xsl:value-of select="$index"/>]/ils/source</property>
                             <value>1</value>
                         </equals>
                     </condition>
-                    <property>/instrumentation/nav[0]/heading-needle-deflection-norm</property>
+                    <property>instrumentation/nav[0]/heading-needle-deflection-norm</property>
                 </input>
                 <input>
                     <condition>
                         <equals>
-                            <property>/instrumentation/pfd[<xsl:value-of select="$index"/>]/ils/source</property>
+                            <property>instrumentation/pfd[<xsl:value-of select="$index"/>]/ils/source</property>
                             <value>1</value>
                         </equals>
                     </condition>
-                    <property>/instrumentation/nav[1]/heading-needle-deflection-norm</property>
+                    <property>instrumentation/nav[1]/heading-needle-deflection-norm</property>
                 </input>
             </filter>
             <filter>
@@ -1417,24 +1417,24 @@ re-run build.sh.
                 <name>ILS LOC Bearing</name>
                 <type>gain</type>
                 <gain>1</gain>
-                <output>/instrumentation/pfd[<xsl:value-of select="$index"/>]/ils/bearing</output>
+                <output>instrumentation/pfd[<xsl:value-of select="$index"/>]/ils/bearing</output>
                 <input>
                     <condition>
                         <equals>
-                            <property>/instrumentation/pfd[<xsl:value-of select="$index"/>]/ils/source</property>
+                            <property>instrumentation/pfd[<xsl:value-of select="$index"/>]/ils/source</property>
                             <value>1</value>
                         </equals>
                     </condition>
-                    <property>/instrumentation/nav[0]/heading-deg</property>
+                    <property>instrumentation/nav[0]/heading-deg</property>
                 </input>
                 <input>
                     <condition>
                         <equals>
-                            <property>/instrumentation/pfd[<xsl:value-of select="$index"/>]/ils/source</property>
+                            <property>instrumentation/pfd[<xsl:value-of select="$index"/>]/ils/source</property>
                             <value>1</value>
                         </equals>
                     </condition>
-                    <property>/instrumentation/nav[1]/heading-deg</property>
+                    <property>instrumentation/nav[1]/heading-deg</property>
                 </input>
             </filter>
             <filter>
@@ -1442,7 +1442,7 @@ re-run build.sh.
                 <name>ILS LOC Bearing Error</name>
                 <type>gain</type>
                 <gain>1</gain>
-                <output>/instrumentation/pfd[<xsl:value-of select="$index"/>]/ils/bearing-error</output>
+                <output>instrumentation/pfd[<xsl:value-of select="$index"/>]/ils/bearing-error</output>
                 <period>
                     <min>-180</min>
                     <max>180</max>
@@ -1450,7 +1450,7 @@ re-run build.sh.
                 <input>
                     <expression>
                         <difference>
-                            <property>/instrumentation/pfd[<xsl:value-of select="$index"/>]/ils/bearing</property>
+                            <property>instrumentation/pfd[<xsl:value-of select="$index"/>]/ils/bearing</property>
                             <property>orientation/heading-deg</property>
                         </difference>
                     </expression>
@@ -1461,24 +1461,24 @@ re-run build.sh.
                 <name>ILS LOC Heading</name>
                 <type>gain</type>
                 <gain>1</gain>
-                <output>/instrumentation/pfd[<xsl:value-of select="$index"/>]/ils/heading</output>
+                <output>instrumentation/pfd[<xsl:value-of select="$index"/>]/ils/heading</output>
                 <input>
                     <condition>
                         <equals>
-                            <property>/instrumentation/pfd[<xsl:value-of select="$index"/>]/ils/source</property>
+                            <property>instrumentation/pfd[<xsl:value-of select="$index"/>]/ils/source</property>
                             <value>1</value>
                         </equals>
                     </condition>
-                    <property>/instrumentation/nav[0]/radials/target-radial-deg</property>
+                    <property>instrumentation/nav[0]/radials/target-radial-deg</property>
                 </input>
                 <input>
                     <condition>
                         <equals>
-                            <property>/instrumentation/pfd[<xsl:value-of select="$index"/>]/ils/source</property>
+                            <property>instrumentation/pfd[<xsl:value-of select="$index"/>]/ils/source</property>
                             <value>1</value>
                         </equals>
                     </condition>
-                    <property>/instrumentation/nav[1]/radials/target-radial-deg</property>
+                    <property>instrumentation/nav[1]/radials/target-radial-deg</property>
                 </input>
             </filter>
             <filter>
@@ -1486,7 +1486,7 @@ re-run build.sh.
                 <name>ILS LOC Heading Error</name>
                 <type>gain</type>
                 <gain>1</gain>
-                <output>/instrumentation/pfd[<xsl:value-of select="$index"/>]/ils/heading-error</output>
+                <output>instrumentation/pfd[<xsl:value-of select="$index"/>]/ils/heading-error</output>
                 <period>
                     <min>-180</min>
                     <max>180</max>
@@ -1494,7 +1494,7 @@ re-run build.sh.
                 <input>
                     <expression>
                         <difference>
-                            <property>/instrumentation/pfd[<xsl:value-of select="$index"/>]/ils/heading</property>
+                            <property>instrumentation/pfd[<xsl:value-of select="$index"/>]/ils/heading</property>
                             <property>orientation/heading-deg</property>
                         </difference>
                     </expression>
@@ -1502,44 +1502,44 @@ re-run build.sh.
             </filter>
             <logic>
                 <name>ILS LOC In Range</name>
-                <output>/instrumentation/pfd[<xsl:value-of select="$index"/>]/ils/loc-in-range</output>
+                <output>instrumentation/pfd[<xsl:value-of select="$index"/>]/ils/loc-in-range</output>
                 <input>
                     <or>
                         <and>
                             <equals>
-                                <property>/instrumentation/pfd[<xsl:value-of select="$index"/>]/ils/source</property>
+                                <property>instrumentation/pfd[<xsl:value-of select="$index"/>]/ils/source</property>
                                 <value>1</value>
                             </equals>
-                            <property>/instrumentation/nav[0]/in-range</property>
+                            <property>instrumentation/nav[0]/in-range</property>
                         </and>
                         <and>
                             <equals>
-                                <property>/instrumentation/pfd[<xsl:value-of select="$index"/>]/ils/source</property>
+                                <property>instrumentation/pfd[<xsl:value-of select="$index"/>]/ils/source</property>
                                 <value>2</value>
                             </equals>
-                            <property>/instrumentation/nav[1]/in-range</property>
+                            <property>instrumentation/nav[1]/in-range</property>
                         </and>
                     </or>
                 </input>
             </logic>
             <logic>
                 <name>ILS Has LOC</name>
-                <output>/instrumentation/pfd[<xsl:value-of select="$index"/>]/ils/has-loc</output>
+                <output>instrumentation/pfd[<xsl:value-of select="$index"/>]/ils/has-loc</output>
                 <input>
                     <or>
                         <and>
                             <equals>
-                                <property>/instrumentation/pfd[<xsl:value-of select="$index"/>]/ils/source</property>
+                                <property>instrumentation/pfd[<xsl:value-of select="$index"/>]/ils/source</property>
                                 <value>1</value>
                             </equals>
-                            <property>/instrumentation/nav[0]/nav-loc</property>
+                            <property>instrumentation/nav[0]/nav-loc</property>
                         </and>
                         <and>
                             <equals>
-                                <property>/instrumentation/pfd[<xsl:value-of select="$index"/>]/ils/source</property>
+                                <property>instrumentation/pfd[<xsl:value-of select="$index"/>]/ils/source</property>
                                 <value>2</value>
                             </equals>
-                            <property>/instrumentation/nav[1]/nav-loc</property>
+                            <property>instrumentation/nav[1]/nav-loc</property>
                         </and>
                     </or>
                 </input>
@@ -1550,24 +1550,24 @@ re-run build.sh.
                 <name>ILS crosstrack</name>
                 <type>gain</type>
                 <gain>1</gain>
-                <output>/instrumentation/pfd[<xsl:value-of select="$index"/>]/ils/crosstrack-error-m</output>
+                <output>instrumentation/pfd[<xsl:value-of select="$index"/>]/ils/crosstrack-error-m</output>
                 <input>
                     <condition>
                         <equals>
-                            <property>/instrumentation/pfd[<xsl:value-of select="$index"/>]/ils/source</property>
+                            <property>instrumentation/pfd[<xsl:value-of select="$index"/>]/ils/source</property>
                             <value>1</value>
                         </equals>
                     </condition>
-                    <property>/instrumentation/nav[0]/crosstrack-error-m</property>
+                    <property>instrumentation/nav[0]/crosstrack-error-m</property>
                 </input>
                 <input>
                     <condition>
                         <equals>
-                            <property>/instrumentation/pfd[<xsl:value-of select="$index"/>]/ils/source</property>
+                            <property>instrumentation/pfd[<xsl:value-of select="$index"/>]/ils/source</property>
                             <value>1</value>
                         </equals>
                     </condition>
-                    <property>/instrumentation/nav[1]/crosstrack-error-m</property>
+                    <property>instrumentation/nav[1]/crosstrack-error-m</property>
                 </input>
             </filter>
             <filter>
@@ -1575,24 +1575,24 @@ re-run build.sh.
                 <name>ILS GS distance</name>
                 <type>gain</type>
                 <gain>1</gain>
-                <output>/instrumentation/pfd[<xsl:value-of select="$index"/>]/ils/gs-distance</output>
+                <output>instrumentation/pfd[<xsl:value-of select="$index"/>]/ils/gs-distance</output>
                 <input>
                     <condition>
                         <equals>
-                            <property>/instrumentation/pfd[<xsl:value-of select="$index"/>]/ils/source</property>
+                            <property>instrumentation/pfd[<xsl:value-of select="$index"/>]/ils/source</property>
                             <value>1</value>
                         </equals>
                     </condition>
-                    <property>/instrumentation/nav[0]/gs-distance</property>
+                    <property>instrumentation/nav[0]/gs-distance</property>
                 </input>
                 <input>
                     <condition>
                         <equals>
-                            <property>/instrumentation/pfd[<xsl:value-of select="$index"/>]/ils/source</property>
+                            <property>instrumentation/pfd[<xsl:value-of select="$index"/>]/ils/source</property>
                             <value>1</value>
                         </equals>
                     </condition>
-                    <property>/instrumentation/nav[1]/gs-distance</property>
+                    <property>instrumentation/nav[1]/gs-distance</property>
                 </input>
             </filter>
             <filter>
@@ -1600,12 +1600,12 @@ re-run build.sh.
                 <name>ILS crosstrack heading error</name>
                 <type>gain</type>
                 <gain>57.29577951308232</gain>
-                <output>/instrumentation/pfd[<xsl:value-of select="$index"/>]/ils/crosstrack-heading-error-deg</output>
+                <output>instrumentation/pfd[<xsl:value-of select="$index"/>]/ils/crosstrack-heading-error-deg</output>
                 <input>
                     <expression>
                         <atan2>
-                            <property>/instrumentation/pfd[<xsl:value-of select="$index"/>]/ils/crosstrack-error-m</property>
-                            <property>/instrumentation/pfd[<xsl:value-of select="$index"/>]/ils/gs-distance</property>
+                            <property>instrumentation/pfd[<xsl:value-of select="$index"/>]/ils/crosstrack-error-m</property>
+                            <property>instrumentation/pfd[<xsl:value-of select="$index"/>]/ils/gs-distance</property>
                         </atan2>
                     </expression>
                 </input>
@@ -1615,12 +1615,12 @@ re-run build.sh.
                 <name>ILS runway width view angle</name>
                 <type>gain</type>
                 <gain>57.29577951308232</gain>
-                <output>/instrumentation/pfd[<xsl:value-of select="$index"/>]/ils/runway-width-deg</output>
+                <output>instrumentation/pfd[<xsl:value-of select="$index"/>]/ils/runway-width-deg</output>
                 <input>
                     <expression>
                         <atan2>
-                            <property>/fms/approach-conditions/runway-width-m</property>
-                            <property>/instrumentation/pfd[<xsl:value-of select="$index"/>]/ils/gs-distance</property>
+                            <property>fms/approach-conditions/runway-width-m</property>
+                            <property>instrumentation/pfd[<xsl:value-of select="$index"/>]/ils/gs-distance</property>
                         </atan2>
                     </expression>
                 </input>
@@ -1630,24 +1630,24 @@ re-run build.sh.
                 <name>ILS GS direct deg</name>
                 <type>gain</type>
                 <gain>1</gain>
-                <output>/instrumentation/pfd[<xsl:value-of select="$index"/>]/ils/gs-direct-deg</output>
+                <output>instrumentation/pfd[<xsl:value-of select="$index"/>]/ils/gs-direct-deg</output>
                 <input>
                     <condition>
                         <equals>
-                            <property>/instrumentation/pfd[<xsl:value-of select="$index"/>]/ils/source</property>
+                            <property>instrumentation/pfd[<xsl:value-of select="$index"/>]/ils/source</property>
                             <value>1</value>
                         </equals>
                     </condition>
-                    <property>/instrumentation/nav[0]/gs-direct-deg</property>
+                    <property>instrumentation/nav[0]/gs-direct-deg</property>
                 </input>
                 <input>
                     <condition>
                         <equals>
-                            <property>/instrumentation/pfd[<xsl:value-of select="$index"/>]/ils/source</property>
+                            <property>instrumentation/pfd[<xsl:value-of select="$index"/>]/ils/source</property>
                             <value>1</value>
                         </equals>
                     </condition>
-                    <property>/instrumentation/nav[1]/gs-direct-deg</property>
+                    <property>instrumentation/nav[1]/gs-direct-deg</property>
                 </input>
             </filter>
             <!-- WAYPOINTS -->
@@ -1655,7 +1655,7 @@ re-run build.sh.
                 <update-interval-secs type="double">0.1</update-interval-secs>
                 <name>Waypoint Dist</name>
                 <type>gain</type>
-                <output>/instrumentation/pfd[<xsl:value-of select="$index"/>]/waypoint/dist10</output>
+                <output>instrumentation/pfd[<xsl:value-of select="$index"/>]/waypoint/dist10</output>
                 <input>
                     <expression>
                         <floor>
@@ -1671,7 +1671,7 @@ re-run build.sh.
                 <update-interval-secs type="double">0.1</update-interval-secs>
                 <name>Waypoint ETE unit</name>
                 <type>gain</type>
-                <output>/instrumentation/pfd[<xsl:value-of select="$index"/>]/waypoint/ete-unit</output>
+                <output>instrumentation/pfd[<xsl:value-of select="$index"/>]/waypoint/ete-unit</output>
                 <input>
                     <condition>
                         <less-than>
@@ -1689,10 +1689,10 @@ re-run build.sh.
                 <update-interval-secs type="double">0.1</update-interval-secs>
                 <name>Waypoint ETE</name>
                 <type>gain</type>
-                <output>/instrumentation/pfd[<xsl:value-of select="$index"/>]/waypoint/ete</output>
+                <output>instrumentation/pfd[<xsl:value-of select="$index"/>]/waypoint/ete</output>
                 <input>
                     <condition>
-                        <property>/instrumentation/pfd[<xsl:value-of select="$index"/>]/waypoint/ete-unit</property>
+                        <property>instrumentation/pfd[<xsl:value-of select="$index"/>]/waypoint/ete-unit</property>
                     </condition>
                     <expression>
                         <floor>
@@ -1717,11 +1717,11 @@ re-run build.sh.
                 <update-interval-secs type="double">0.1</update-interval-secs>
                 <name>VSI Needle</name>
                 <type>gain</type>
-                <output>/instrumentation/pfd[<xsl:value-of select="$index"/>]/vsi-needle-deg</output>
+                <output>instrumentation/pfd[<xsl:value-of select="$index"/>]/vsi-needle-deg</output>
                 <input>
                     <expression>
                         <table>
-                            <property>/instrumentation/vertical-speed-indicator/indicated-speed-fpm</property>
+                            <property>instrumentation/vertical-speed-indicator/indicated-speed-fpm</property>
                             <entry><ind>-5000</ind><dep>-60</dep></entry>
                             <entry><ind>-3000</ind><dep>-45</dep></entry>
                             <entry><ind>-1000</ind><dep>-30</dep></entry>
@@ -1739,11 +1739,11 @@ re-run build.sh.
                 <update-interval-secs type="double">0.1</update-interval-secs>
                 <name>VSI Needle Target</name>
                 <type>gain</type>
-                <output>/instrumentation/pfd[<xsl:value-of select="$index"/>]/vsi-target-deg</output>
+                <output>instrumentation/pfd[<xsl:value-of select="$index"/>]/vsi-target-deg</output>
                 <input>
                     <expression>
                         <table>
-                            <property>/it-autoflight/input/vs</property>
+                            <property>it-autoflight/input/vs</property>
                             <entry><ind>-5000</ind><dep>-60</dep></entry>
                             <entry><ind>-3000</ind><dep>-45</dep></entry>
                             <entry><ind>-1000</ind><dep>-30</dep></entry>
@@ -1763,20 +1763,20 @@ re-run build.sh.
                 <update-interval-secs type="double">0.1</update-interval-secs>
                 <name>FD Visible</name>
                 <input>
-                    <property>/it-autoflight/input/fd<xsl:value-of select="$index + 1"/></property>
+                    <property>it-autoflight/input/fd<xsl:value-of select="$index + 1"/></property>
                 </input>
-                <output>/instrumentation/pfd[<xsl:value-of select="$index"/>]/fd/visible</output>
+                <output>instrumentation/pfd[<xsl:value-of select="$index"/>]/fd/visible</output>
             </logic>
             <filter>
                 <update-interval-secs type="double">0.1</update-interval-secs>
                 <type>gain</type>
                 <gain>1</gain>
-                <output>/instrumentation/pfd[<xsl:value-of select="$index"/>]/fd/lat-offset-deg</output>
+                <output>instrumentation/pfd[<xsl:value-of select="$index"/>]/fd/lat-offset-deg</output>
                 <input>
                     <expression>
                         <div>
-                            <property>/it-autoflight/fd/roll-bar</property>
-                            <property>/it-autoflight/config/cmd/roll-kp</property>
+                            <property>it-autoflight/fd/roll-bar</property>
+                            <property>it-autoflight/config/cmd/roll-kp</property>
                         </div>
                     </expression>
                 </input>
@@ -1785,9 +1785,9 @@ re-run build.sh.
                 <update-interval-secs type="double">0.1</update-interval-secs>
                 <type>gain</type>
                 <gain>1</gain>
-                <output>/instrumentation/pfd[<xsl:value-of select="$index"/>]/fd/vert-offset-deg</output>
+                <output>instrumentation/pfd[<xsl:value-of select="$index"/>]/fd/vert-offset-deg</output>
                 <input>
-                    <property>/it-autoflight/fd/pitch-bar</property>
+                    <property>it-autoflight/fd/pitch-bar</property>
                 </input>
             </filter>
 
@@ -1798,43 +1798,43 @@ re-run build.sh.
                 <input>
                     <or>
                         <!-- GS armed -->
-                        <property>/it-autoflight/output/appr-armed</property>
+                        <property>it-autoflight/output/appr-armed</property>
                         <!-- GS captured -->
                         <equals>
-                            <property>/it-autoflight/output/vert</property>
+                            <property>it-autoflight/output/vert</property>
                             <value>2</value>
                         </equals>
                         <!-- FPA mode -->
                         <equals>
-                            <property>/it-autoflight/output/vert</property>
+                            <property>it-autoflight/output/vert</property>
                             <value>5</value>
                         </equals>
                     </or>
                 </input>
-                <output>/instrumentation/pfd[<xsl:value-of select="$index"/>]/fpa/visible</output>
+                <output>instrumentation/pfd[<xsl:value-of select="$index"/>]/fpa/visible</output>
             </logic>
             <filter>
                 <update-interval-secs type="double">0.1</update-interval-secs>
                 <name>FPA target</name>
                 <type>gain</type>
                 <gain>1</gain>
-                <output>/instrumentation/pfd[<xsl:value-of select="$index"/>]/fpa/target</output>
+                <output>instrumentation/pfd[<xsl:value-of select="$index"/>]/fpa/target</output>
                 <input>
                     <!-- FPA mode -->
                     <condition>
                         <equals>
-                            <property>/it-autoflight/output/vert</property>
+                            <property>it-autoflight/output/vert</property>
                             <value>5</value>
                         </equals>
                     </condition>
-                    <property>/it-autoflight/input/fpa</property>
+                    <property>it-autoflight/input/fpa</property>
                 </input>
                 <input>
                     <condition>
                         <or>
-                            <property>/it-autoflight/output/appr-armed</property>
+                            <property>it-autoflight/output/appr-armed</property>
                             <equals>
-                                <property>/it-autoflight/output/vert</property>
+                                <property>it-autoflight/output/vert</property>
                                 <value>2</value>
                             </equals>
                         </or>
