@@ -822,6 +822,67 @@ pedestal, above the engine controls.
 The currently selected law for the rudder and elevator channels can also be
 monitored on the MFD's "Flight Controls" page.
 
+## Navigation Systems
+
+### IRS (Inertial Reference System)
+
+The E-Jet is equipped with an Inertial Reference System, consisting of two
+Inertial Reference Units (IRUs). These provide position, speed, and attitude
+information to various instruments and systems. Before they can be used, they
+must be aligned; this process starts automatically when the following
+conditions are met:
+
+- The IRU's are powered (power can be supplied to IRU 1 by the GPU, either
+  battery, the APU generator, or either of the IDG's; IRU 2 will not power up
+  on battery though, as only IRU 1 is hooked up to a DC ESS bus).
+- A reference position has been loaded in the MCDU POS INIT page.
+
+The alignment process can take up to 17 minutes, depending on latitude; the
+aircraft must remain stationary during this process. If the aircraft is moved,
+the FMS will detect this, and restart the alignment process. Loading a
+different alignment reference position will also restart the alignment process.
+Alignment and reference position are lost when the aircraft is power-cycled, so
+the entire alignment process must be repeated after a shutdown.
+
+The alignment process can be monitored via the IRU 1 and IRU 2 sub-pages of the
+MCDU POS SENSORS page.
+
+The EICAS will also display a number of cautionary and advisory messages
+reflecting the state of the IRS.
+
+#### The POS INIT page
+
+The POS INIT page is accessible via the NAV INDEX menu on the MCDU, or from the
+NAV INIT and POS SENSORS pages. It usually shows a selection of 3 position
+references:
+
+- "LAST": the last recorded position of the aircraft. This position is
+  persisted between FlightGear sessions, but if you respawn in a different
+  position, or after the aircraft has been towed while not powered or with the
+  IRU's not aligned, the "last position" will be wrong.
+- "REF WPT": a pilot-selectable reference point. This can either be an airport,
+  or an airport plus parking position (notated as ICAO.PARKING, e.g. EHAM.D22
+  is gate D22 at Amsterdam Schiphol Airport). The FMS automatically fills in
+  the nearest airport and parking based on GPS coordinates upon starting up;
+  you can override this by entering an airport and parking in the same format
+  and inserting it into LSK L2.
+- "GPS": align the IRUs on the GPS system. (Since FlightGear's GPS simulation
+  does not simulate GPS errors, this will always be completely accurate).
+
+#### IRS Configuration Options
+
+The configuration dialog offers 3 options for configuring the IRS:
+
+- **IRU alignment speed**: "normal" = realistic, up to 17 minutes; "fast" = 60x
+  faster than IRL, up to 17 seconds; "instant" = ~1 second.
+- **Auto-align IRU**: if selected, the IRU will not wait for a valid POS INIT,
+  but instead automatically start aligning perfectly upon startup. Combined
+  with the "instant" option, this will give you a working IRS within 1 second
+  after powering the aircraft up.
+- **Align now**: pressing this button will bypass the alignment logic and
+  immediately align both IRUs on the currently selected reference, or on GPS if
+  no reference has been selected.
+
 ## SimBrief Import Feature
 
 The SimBrief import feature has been removed, as the SimBrief import add-on
