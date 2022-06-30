@@ -76,10 +76,21 @@
             <live type="bool">true</live>
         </checkbox>
     </group>
+
+    <group>
+        <layout>hbox</layout>
+        
+        <empty><stretch>1</stretch></empty>
+        <text>
+            <label>Systems</label>
+        </text>
+        <empty><stretch>1</stretch></empty>
+    </group>
+
     <group>
         <layout>hbox</layout>
         <text>
-            <label>IRU alignment</label>
+            <label>IRU alignment speed</label>
         </text>
         <combo>
             <property>options/instrumentation/iru-alignment-mode</property>
@@ -91,7 +102,23 @@
             </binding>
             <live type="bool">true</live>
         </combo>
+        <button>
+            <legend>Align now</legend>
+            <binding>
+                <command>nasal</command>
+                <script><![CDATA[
+                    for (var i = 0; i < 2; i += 1) {
+                        if (iru.irus[i].props.latitudeReferenceDeg.getValue() == nil or
+                            iru.irus[i].props.longitudeReferenceDeg.getValue() == nil) {
+                            setprop('/fms/radio/position-loaded[2]', 1);
+                        }
+                        iru.irus[i].finishAlignment();
+                    }
+                ]]></script>
+            </binding>
+        </button>
     </group>
+
     <group>
         <layout>hbox</layout>
         
