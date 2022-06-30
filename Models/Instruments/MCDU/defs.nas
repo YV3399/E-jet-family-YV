@@ -181,9 +181,15 @@ var keyProps = {
     "GPSLON": "/instrumentation/gps/indicated-longitude-deg",
     "RAWLAT": "/position/latitude-deg",
     "RAWLON": "/position/longitude-deg",
-    "POSLOADED1": "/fms/radio/position-loaded[0]",
-    "POSLOADED2": "/fms/radio/position-loaded[1]",
-    "POSLOADED3": "/fms/radio/position-loaded[2]",
+    "LASTLAT": "/fms/navigation/last-position/latitude-deg",
+    "LASTLON": "/fms/navigation/last-position/longitude-deg",
+    "LASTVALID": "/fms/navigation/last-position/valid",
+    "REFLAT": "/fms/navigation/reference-position/latitude-deg",
+    "REFLON": "/fms/navigation/reference-position/longitude-deg",
+    "REFID": "/fms/navigation/reference-position/id",
+    "REFVALID": "/fms/navigation/reference-position/valid",
+    "POSLOADED": "/fms/navigation/position-loaded",
+    "POSSELECTED": "/fms/navigation/position-selected",
 
     # IRU's
     "IRU1-REFLAT": "/instrumentation/iru[0]/reference/latitude-deg",

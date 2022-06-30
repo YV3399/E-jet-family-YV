@@ -88,6 +88,7 @@
             <path>/sim/http/local-ip</path>
             <path>/cpdlc/driver</path>
             <path>/acars/config</path>
+            <path>/fms/navigation/last-position</path>
         </aircraft-data>
 
         <http>
@@ -1119,10 +1120,24 @@
                 -->
                 <mode>4</mode>
             </tcas-xpdr>
-            <position-loaded type="bool">false</position-loaded>
-            <position-loaded type="bool">false</position-loaded>
-            <position-loaded type="bool">false</position-loaded>
         </radio>
+
+        <navigation>
+            <position-selected type="int">-1</position-selected>
+            <position-loaded type="int">-1</position-loaded>
+
+            <last-position>
+                <valid type="bool">false</valid>
+                <latitude-deg />
+                <longitude-deg />
+            </last-position>
+            <reference-position>
+                <valid type="bool">false</valid>
+                <id />
+                <latitude-deg />
+                <longitude-deg />
+            </reference-position>
+        </navigation>
 
         <takeoff-conditions>
             <flaps type="double">0.250</flaps>

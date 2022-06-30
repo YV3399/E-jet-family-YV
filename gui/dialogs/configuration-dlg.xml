@@ -110,7 +110,7 @@
                     for (var i = 0; i < 2; i += 1) {
                         if (iru.irus[i].props.latitudeReferenceDeg.getValue() == nil or
                             iru.irus[i].props.longitudeReferenceDeg.getValue() == nil) {
-                            setprop('/fms/radio/position-loaded[2]', 1);
+                            setprop('/fms/navigation/position-selected', 2);
                         }
                         iru.irus[i].finishAlignment();
                     }

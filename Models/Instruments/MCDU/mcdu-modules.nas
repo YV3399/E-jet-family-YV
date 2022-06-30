@@ -2147,33 +2147,44 @@ var PosInitModule = {
 
     loadPageItems: func (n) {
         if (n == 0) {
-            me.views = [
-                StaticView.new(1,  1, "LAST POS",              mcdu_white),
-                GeoView.new(0,  2, mcdu_large | mcdu_green, "RAWLAT",  "LAT"),
-                GeoView.new(9,  2, mcdu_large | mcdu_green, "RAWLON",  "LON"),
-                ToggleView.new(15, 1, mcdu_white, "POSLOADED1", "(LOADED)"),
-                StaticView.new(       19,  2, "LOAD" ~ right_triangle, mcdu_large | mcdu_white),
+            me.views = [];
+            append(me.views,
+                StaticView.new(1,  1, "LAST POS", mcdu_green),
+                GeoView.new(0,  2, mcdu_large | mcdu_green, "LASTLAT",  "LAT"),
+                GeoView.new(9,  2, mcdu_large | mcdu_green, "LASTLON",  "LON"),
+                ToggleView.new(15, 1, mcdu_white, "POSLOADED", "(LOADED)", 0),
+                ToggleView.new(19, 2, mcdu_large | mcdu_white, "LASTVALID", "LOAD" ~ right_triangle));
 
-                StaticView.new(        1,  5, "GPS1 POS",              mcdu_white),
+            append(me.views,
+                FormatView.new(1,  3, mcdu_green, "REFID", 14),
+                GeoView.new(0,  4, mcdu_large | mcdu_green, "REFLAT",  "LAT"),
+                GeoView.new(9,  4, mcdu_large | mcdu_green, "REFLON",  "LON"),
+                ToggleView.new(15, 3, mcdu_white, "POSLOADED", "(LOADED)", 1),
+                ToggleView.new(19, 4, mcdu_large | mcdu_white, "REFVALID", "LOAD" ~ right_triangle));
+
+            append(me.views,
+                StaticView.new(        1,  5, "GPS1 POS",              mcdu_green),
                 GeoView.new(0,  6, mcdu_large | mcdu_green, "GPSLAT",  "LAT"),
                 GeoView.new(9,  6, mcdu_large | mcdu_green, "GPSLON",  "LON"),
-                ToggleView.new(15, 5, mcdu_white, "POSLOADED3", "(LOADED)"),
-                StaticView.new(       19,  6, "LOAD" ~ right_triangle, mcdu_large | mcdu_white),
-                StaticView.new(        0, 12, left_triangle ~ "POS SENSORS", mcdu_large | mcdu_white),
-            ];
+                ToggleView.new(15, 5, mcdu_white, "POSLOADED", "(LOADED)", 2),
+                StaticView.new(       19,  6, "LOAD" ~ right_triangle, mcdu_large | mcdu_white));
+
             me.controllers = {
-                "R1": TriggerController.new("POSLOADED1"),
-                "R3": TriggerController.new("POSLOADED3"),
+                "R1": SelectController.new("POSSELECTED", 0, 0),
+                "R2": SelectController.new("POSSELECTED", 1, 0),
+                "R3": SelectController.new("POSSELECTED", 2, 0),
             };
-            if (me.ptitle != nil) {
-                me.controllers["R6"] = SubmodeController.new("ret");
+
+            if (me.ptitle != "POS SENSORS") {
+                me.controllers["R6"] = SubmodeController.new("POS-SENSORS");
                 append(me.views,
-                     StaticView.new(23 - size(me.ptitle), 12, me.ptitle ~ right_triangle, mcdu_large));
+                     StaticView.new(23 - size("POS SENSORS"), 12, "POS SENSORS" ~ right_triangle, mcdu_large));
             }
-            else {
+
+            if (me.ptitle != nil) {
+                me.controllers["L6"] = SubmodeController.new("ret");
                 append(me.views,
-                    StaticView.new(       20, 12, "RTE" ~ right_triangle, mcdu_large | mcdu_white));
-                me.controllers["R6"] = SubmodeController.new("RTE");
+                    StaticView.new(        0, 12, left_triangle ~ me.ptitle, mcdu_large | mcdu_white));
             }
         }
     },
@@ -2198,10 +2209,9 @@ var IRSStatusModule = {
                 StaticView.new(6,  2, "IAS POSITION", mcdu_large | mcdu_white),
                 GeoView.new(2,  3, mcdu_large | mcdu_green, "IRU" ~ me.index ~ "-REFLAT",  "LAT"),
                 GeoView.new(13,  3, mcdu_large | mcdu_green, "IRU" ~ me.index ~ "-REFLON",  "LON"),
-                # TODO: make this disappear when page updates and alignment has finished
                 FormatView.new(3, 5, mcdu_large | mcdu_green, "IRU" ~ me.index ~ "-TIME-TO-NAV", 24, "TIME TO NAV %4.1fMIN",
                     func (secs) { return (secs or 0.0) / 60.0; },
-                    func (secs) { return (secs != nil and secs > 0.0); }),
+                    func (secs) { return (secs != nil and secs > 0.0) ? 1 : -1; }),
             ];
             me.controllers = {
             };

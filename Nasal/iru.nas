@@ -6,7 +6,9 @@ var STATUS_READY = 1;
 var STATUS_ALIGNING = 2;
 var STATUS_NO_REFERENCE = 3;
 
-var alignmentTimerDelta = 10.0;
+# Interval at which the alignment loop updates.
+# Includes some random jitter to avoid lining up with other loops.
+var alignmentTimerDelta = 1.1723278;
 
 var calcAlignmentTime = func (latDeg) {
     latDeg = math.abs(latDeg);
@@ -68,6 +70,10 @@ var IRU = {
                 groundSpeedReal: props.globals.getNode('velocities/groundspeed-kt'),
                 latitudeDegReal: props.globals.getNode('position/latitude-deg'),
                 longitudeDegReal: props.globals.getNode('position/longitude-deg'),
+
+                latitudeDegLast: props.globals.getNode('fms/navigation/last-position/latitude-deg'),
+                longitudeDegLast: props.globals.getNode('fms/navigation/last-position/longitude-deg'),
+                validLast: props.globals.getNode('fms/navigation/last-position/valid'),
             },
             listeners: [],
             timers: [],
@@ -100,20 +106,48 @@ var IRU = {
         append(me.listeners, setlistener(me.props.alignmentStatus, func (node) {
                 self.props.signalsAligning.setBoolValue(node.getValue() == STATUS_ALIGNING);
             }, 1, 0));
-        append(me.listeners, setlistener('/fms/radio/position-loaded[0]', func (node) {
-                if (node.getBoolValue()) {
-                    self.setReference(
-                        "/position/latitude-deg",
-                        "/position/longitude-deg");
-                }
-            }, 1, 0));
-        append(me.listeners, setlistener('/fms/radio/position-loaded[2]', func (node) {
-                if (node.getBoolValue()) {
-                    self.setReference(
-                        "/instrumentation/gps/indicated-latitude-deg",
-                        "/instrumentation/gps/indicated-longitude-deg");
-                }
-            }, 1, 0));
+        append(me.listeners, setlistener('/fms/navigation/position-selected', func (node) {
+            var which = node.getValue();
+            if (which == nil) {
+                return;
+            }
+            elsif (which == 0) {
+                # Last position
+                self.setReference(
+                    "/fms/navigation/last-position/latitude-deg",
+                    "/fms/navigation/last-position/longitude-deg",
+                    "/fms/navigation/last-position/valid");
+            }
+            elsif (which == 1) {
+                # Waypoint reference
+                self.setReference(
+                    "/fms/navigation/reference-position/latitude-deg",
+                    "/fms/navigation/reference-position/longitude-deg",
+                    "/fms/navigation/reference-position/valid");
+            }
+            elsif (which == 2) {
+                # GPS
+                self.setReference(
+                    "/instrumentation/gps/indicated-latitude-deg",
+                    "/instrumentation/gps/indicated-longitude-deg");
+            }
+            elsif (which == 3) {
+                # Not selectable via MCDU: the actual position, magically known
+                # to the FMS without any errors whatsoever.
+                self.setReference(
+                    "/position/latitude-deg",
+                    "/position/longitude-deg");
+            }
+            else {
+                self.unsetReference();
+            }
+            if (self.props.referenceValid.getBoolValue()) {
+                setprop('/fms/navigation/position-loaded', which);
+            }
+            else {
+                setprop('/fms/navigation/position-loaded', -1);
+            }
+        }, 1, 0));
     },
 
     teardown: func {
@@ -165,18 +199,29 @@ var IRU = {
             }
         }
         elsif (status == STATUS_READY) {
-            if (!powered) {
+            if (powered) {
+                me.props.latitudeDegLast.setValue(
+                    me.props.latitudeDeg.getValue());
+                me.props.longitudeDegLast.setValue(
+                    me.props.longitudeDeg.getValue());
+                me.props.validLast.setBoolValue(1);
+            }
+            else {
                 me.resetAlignment();
                 me.props.signalsExcessiveMotion.setBoolValue(0);
             }
         }
     },
 
-    setReference: func (latprop, lonprop) {
+    unsetReference: func () {
+        me.props.referenceValid.setBoolValue(0);
+    },
+
+    setReference: func (latprop, lonprop, validprop=nil) {
         var powered = me.props.powered.getBoolValue();
         var lat = getprop(latprop);
         var lon = getprop(lonprop);
-        if (lat == nil or lon == nil) {
+        if (lat == nil or lon == nil or (validprop != nil and !getprop(validprop))) {
             me.props.referenceValid.setBoolValue(0);
         }
         else {
