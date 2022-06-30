@@ -47,16 +47,33 @@ var BaseView = {
 };
 
 var StaticView = {
-    new: func (x, y, txt, flags) {
+    new: func (x, y, txt, flags, visible=1) {
         var m = BaseView.new(x, y, flags);
         m.parents = prepended(StaticView, m.parents);
         m.w = size(txt or '');
         m.txt = txt or '';
+        m.visible = visible;
         return m;
     },
 
     drawAuto: func (mcdu) {
-        mcdu.print(me.x, me.y, me.txt, me.flags);
+        var visibility = 1;
+        if (typeof(me.visible) == "func") {
+            visibility = me.visible(val);
+        }
+        elsif (typeof(me.visible) == "scalar") {
+            visibility = me.visible;
+        }
+        if (!visibility) {
+            return;
+        }
+        elsif (visibility < 0) {
+            # erase
+            mcdu.print(me.x, me.y, sprintf('%' ~ me.w ~ 's', ''), me.flags);
+        }
+        else {
+            mcdu.print(me.x, me.y, me.txt, me.flags);
+        }
     },
 
     draw: func (mcdu, ignored) {
@@ -107,12 +124,13 @@ var ModelView = {
 };
 
 var ToggleView = {
-    new: func (x, y, flags, model, txt) {
+    new: func (x, y, flags, model, txt, condition=nil) {
         var m = ModelView.new(x, y, flags, model);
         m.parents = prepended(ToggleView, m.parents);
         m.w = size(txt);
         m.txt = txt;
         m.clear = "";
+        m.condition = condition;
         while (size(m.clear) < size(txt)) {
             m.clear ~= " ";
         }
@@ -120,7 +138,17 @@ var ToggleView = {
     },
 
     draw: func (mcdu, val) {
-        mcdu.print(me.x, me.y, val ? me.txt : me.clear, me.flags);
+        var cond = 1;
+        if (me.condition == nil) {
+            cond = val;
+        }
+        elsif (typeof(me.condition) == 'func') {
+            cond = me.condition(val);
+        }
+        elsif (typeof(me.condition) == 'scalar') {
+            cond = (val == me.condition);
+        }
+        mcdu.print(me.x, me.y, cond ? me.txt : me.clear, me.flags);
     },
 };
 
@@ -155,28 +183,38 @@ var FormatView = {
     },
 
     draw: func (mcdu, val) {
-        var visibility = 1;
         var format = me.getFormat(val);
         var flags = me.getFlags(val);
+        var visibility = 1;
         if (typeof(me.visible) == "func") {
             visibility = me.visible(val);
         }
         elsif (typeof(me.visible) == "scalar") {
             visibility = me.visible;
         }
-        if (!visibility) return;
-        if (me.mapping != nil) {
-            if (typeof(me.mapping) == "func") {
-                val = me.mapping(val);
-            }
-            else {
-                val = me.mapping[val];
-            }
+        if (!visibility) {
+            # don't render anything
+            return;
+        }
+        elsif (visibility < 0) {
+            # erase
+            mcdu.print(me.x, me.y, sprintf('%' ~ me.w ~ 's', ''), flags);
         }
         else {
-            if (val == nil) val = '';
+            # render normally
+            if (me.mapping != nil) {
+                if (typeof(me.mapping) == "func") {
+                    val = me.mapping(val);
+                }
+                else {
+                    val = me.mapping[val];
+                }
+            }
+            else {
+                if (val == nil) val = '';
+            }
+            mcdu.print(me.x, me.y, sprintf(format, val), flags);
         }
-        mcdu.print(me.x, me.y, sprintf(format, val), flags);
     },
 };
 
@@ -220,8 +258,8 @@ var GeoView = {
     },
 
     draw: func (mcdu, val) {
-        if (val == nil) {
-            mcdu.print(me.x, me.y,me.invalidFmt, me.flags);
+        if (val == nil or val == '') {
+            mcdu.print(me.x, me.y, me.invalidFmt, me.flags);
         }
         else {
             var dir = (val < 0) ? (me.dirs[0]) : (me.dirs[1]);

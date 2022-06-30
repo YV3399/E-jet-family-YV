@@ -1233,6 +1233,15 @@ var IndexModule = {
                 if (size(item) > 2) {
                     conditionModel = item[2];
                 }
+                if (item[0] == 'ret') {
+                    if (me.ptitle != nil and me.ptitle != '')
+                        # we have something to return to, so let's just use
+                        # that
+                        item[1] = me.ptitle;
+                    else
+                        # there is no parent module, so don't render anything
+                        return;
+                }
                 if (typeof(item[1]) == 'scalar') {
                     var title = item[1];
                     var x = 0;

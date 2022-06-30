@@ -200,7 +200,7 @@ var FuncController = {
 };
 
 var SelectController = {
-    new: func (model, value) {
+    new: func (model, value, ret=1) {
         var m = BaseController.new();
         m.parents = prepended(SelectController, m.parents);
         if (typeof(model) == "scalar") {
@@ -210,12 +210,13 @@ var SelectController = {
             m.model = model;
         }
         m.value = value;
+        m.ret = ret;
         return m;
     },
 
     select: func (owner, boxed) {
         me.model.set(me.value);
-        owner.ret();
+        if (me.ret) owner.ret();
     },
 };
 

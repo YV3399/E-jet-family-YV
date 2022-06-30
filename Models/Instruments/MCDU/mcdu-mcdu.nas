@@ -308,7 +308,7 @@ var MCDU = {
                           , nil
                           , [ nil, "GPS 1" ]
                           , [ nil, "GPS 2" ]
-                          , nil
+                          , [ "ret", "NAV INDEX" ]
 
                           , nil
                           , nil
