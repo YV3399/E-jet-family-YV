@@ -175,4 +175,4 @@ var dumpKeyBindings = func {
     }
 };
 
-dumpKeyBindings();
+# dumpKeyBindings();

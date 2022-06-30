@@ -30,7 +30,7 @@ var updateTakeoffRunway = func () {
         print("NO FLIGHT PLAN");
         return;
     }
-    debug.dump(fp.departure_runway);
+    # debug.dump(fp.departure_runway);
     if (fp.departure_runway != nil) {
         print("Set runway heading: %03.0f", fp.departure_runway.heading);
         setprop("/fms/takeoff-conditions/runway-heading", fp.departure_runway.heading);
@@ -56,7 +56,7 @@ var updateLandingRunway = func () {
         print("NO FLIGHT PLAN");
         return;
     }
-    debug.dump(fp.destination_runway);
+    # debug.dump(fp.destination_runway);
     if (fp.destination_runway != nil) {
         setprop("/fms/approach-conditions/runway-length-m", fp.destination_runway.length);
         setprop("/fms/approach-conditions/runway-width-m", fp.destination_runway.width);
@@ -231,7 +231,7 @@ var setWaypointRef = func (lat, lon, name) {
 };
 
 var initWaypointRef = func (apt) {
-    debug.dump(apt, apt.lat, apt.lon);
+    # debug.dump(apt, apt.lat, apt.lon);
     if (apt == nil or apt.lat == nil or apt.lon == nil) {
         unsetWaypointRef();
     }
