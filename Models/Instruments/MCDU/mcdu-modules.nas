@@ -2156,7 +2156,7 @@ var PosInitModule = {
                 ToggleView.new(19, 2, mcdu_large | mcdu_white, "LASTVALID", "LOAD" ~ right_triangle));
 
             append(me.views,
-                FormatView.new(1,  3, mcdu_green, "REFID", 14),
+                FormatView.new(1,  3, mcdu_green, "REFID", 14, "%s REF WPT"),
                 GeoView.new(0,  4, mcdu_large | mcdu_green, "REFLAT",  "LAT"),
                 GeoView.new(9,  4, mcdu_large | mcdu_green, "REFLON",  "LON"),
                 ToggleView.new(15, 3, mcdu_white, "POSLOADED", "(LOADED)", 1),
@@ -2170,6 +2170,14 @@ var PosInitModule = {
                 StaticView.new(       19,  6, "LOAD" ~ right_triangle, mcdu_large | mcdu_white));
 
             me.controllers = {
+                "L2": FuncController.new(func (mcdu, str) {
+                            if (fms.findWaypointRef(str)) {
+                                return 1;
+                            }
+                            else {
+                                return nil;
+                            }
+                        }),
                 "R1": SelectController.new("POSSELECTED", 0, 0),
                 "R2": SelectController.new("POSSELECTED", 1, 0),
                 "R3": SelectController.new("POSSELECTED", 2, 0),

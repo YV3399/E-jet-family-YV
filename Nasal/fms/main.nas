@@ -184,12 +184,10 @@ var getVisibleRoute = func () {
     return getActiveRoute();
 };
 
-var initDeparture = func () {
+var initDeparture = func (apt=nil) {
     var fp = flightplan();
-    var apts = findAirportsWithinRange(4.0);
-    if (size(apts) > 0) {
-        fp.departure = apts[0];
-    }
+    if (apt != nil)
+        fp.departure = apt;
 };
 
 var updateOrigFuel = func (engineChanged, otherEngine) {
@@ -208,16 +206,115 @@ setlistener("/autopilot/route-manager/destination/runway", func () { updateLandi
 setlistener("/engines/engine[0]/running", func (node) { if (node.getBoolValue()) { updateOrigFuel(0, 1); } }, 1, 0);
 setlistener("/engines/engine[1]/running", func (node) { if (node.getBoolValue()) { updateOrigFuel(1, 0); } }, 1, 0);
 
+var initialized = 0;
+
+var tfast = maketimer(0.1, func () { fast_update(); });
+tfast.simulatedTime = 1;
+tfast.singleShot = 0;
+
+var tslow = maketimer(1, func () { slow_update(); });
+tslow.simulatedTime = 1;
+tslow.singleShot = 0;
+
+var unsetWaypointRef = func {
+    setprop('/fms/navigation/reference-position/latitude-deg', nil);
+    setprop('/fms/navigation/reference-position/longitude-deg', nil);
+    setprop('/fms/navigation/reference-position/id', '');
+    setprop('/fms/navigation/reference-position/valid', 0);
+};
+
+var setWaypointRef = func (lat, lon, name) {
+    setprop('/fms/navigation/reference-position/latitude-deg', lat);
+    setprop('/fms/navigation/reference-position/longitude-deg', lon);
+    setprop('/fms/navigation/reference-position/id', name);
+    setprop('/fms/navigation/reference-position/valid', 1);
+};
+
+var initWaypointRef = func (apt) {
+    debug.dump(apt, apt.lat, apt.lon);
+    if (apt == nil or apt.lat == nil or apt.lon == nil) {
+        unsetWaypointRef();
+    }
+    else {
+        var parkings = apt.parking();
+        var acpos = geo.aircraft_position();
+        var targetpos = geo.Coord.new();
+        targetpos.set_latlon(apt.lat, apt.lon);
+        var dist = acpos.distance_to(targetpos);
+
+        var bestID = apt.id;
+        var bestDist = dist;
+        var bestLat = apt.lat;
+        var bestLon = apt.lon;
+        foreach (var parking; parkings) {
+            targetpos.set_latlon(parking.lat, parking.lon);
+            dist = acpos.distance_to(targetpos);
+            if (dist < bestDist) {
+                bestID = apt.id ~ '.' ~ parking.name;
+                bestDist = dist;
+                bestLat = parking.lat;
+                bestLon = parking.lon;
+            }
+        }
+        setWaypointRef(bestLat, bestLon, bestID);
+    }
+};
+
+var findWaypointRef = func (wpid) {
+    var parts = [];
+    if (string.match(wpid, '*.*'))
+        parts = split('.', wpid);
+    else
+        parts = [wpid];
+    var apts = findAirportsByICAO(parts[0]);
+    if (size(apts) > 0) {
+        var apt = apts[0];
+        if (size(parts) > 1) {
+            var parkings = apt.parking();
+            foreach (var parking; parkings) {
+                if (parking != nil and parking.name == parts[1]) {
+                    setWaypointRef(parking.lat, parking.lon, apt.id ~ '.' ~ parking.name);
+                    return 1;
+                }
+            }
+        }
+        setWaypointRef(apt.lat, apt.lon, apt.id);
+        return 1;
+    }
+    unsetWaypointRef();
+    return 0;
+};
+
+var initAirport = func {
+    var apts = findAirportsWithinRange(4.0);
+    var apt = nil;
+    if (size(apts) > 0) {
+        apt = apts[0];
+    }
+    initDeparture(apt);
+    initWaypointRef(apt);
+};
+
+var powerOn = func {
+    print("FMS POWER ON");
+    initAirport();
+    tfast.start();
+    tslow.start();
+};
+
+var powerOff = func {
+    print("FMS POWER OFF");
+    tfast.stop();
+    tslow.stop();
+};
+
 setlistener("sim/signals/fdm-initialized", func {
-    initDeparture();
-
-	var tfast = maketimer(0.1, func () { fast_update(); });
-    tfast.simulatedTime = 1;
-    tfast.singleShot = 0;
-	tfast.start();
-
-	var tslow = maketimer(1, func () { slow_update(); });
-    tslow.simulatedTime = 1;
-    tslow.singleShot = 0;
-	tslow.start();
+    if (initialized) return;
+    initialized = 1;
+    setlistener('/fms/powered', func (node) {
+        if (node.getBoolValue())
+            powerOn();
+        else
+            powerOff();
+    }, 1, 0);
 });

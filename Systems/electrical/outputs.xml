@@ -6,6 +6,13 @@
     <!-- COCKPIT CHART LIGHTS -->
     <!-- DIGITAL AUDIO CONTROL PANEL 3 -->
     <!-- EFB 1 and 2 -->
+    <filter>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>/systems/electrical/buses/dc[1]/volts</input>
+        <output>/systems/electrical/outputs/efb[0]</output>
+        <output>/systems/electrical/outputs/efb[1]</output>
+    </filter>
     <!-- ENGINE 1 THRUST QUADRAND -->
     <!-- ENGINE 1 THRUST REV LEVER SW -->
     <!-- ENGINE 1 NACELLE ANTI-ICE VALVE -->
@@ -26,6 +33,14 @@
     <!-- MAU 1 FCM 1 PWR B -->
     <!-- MAU 1 FCM 2 PWR B -->
     <!-- MAU 1 PWR SUPPLY 3 -->
+    <filter>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>/systems/electrical/buses/dc[1]/volts</input>
+        <output>/systems/electrical/outputs/mau[0]/fcm[0]/b</output>
+        <output>/systems/electrical/outputs/mau[0]/fcm[1]/b</output>
+        <output>/systems/electrical/outputs/mau[0]/pwr[2]</output>
+    </filter>
     <!-- MICRO IRU 2 (PWR 2) -->
     <filter>
         <type>gain</type>
@@ -290,6 +305,18 @@
     </filter>
 
     <!-- DC BUS 2 OUTPUTS -->
+    <!-- MAU 2/3 -->
+    <filter>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>/systems/electrical/buses/dc[2]/volts</input>
+        <output>/systems/electrical/outputs/mau[1]/pwr[0]</output>
+        <output>/systems/electrical/outputs/mau[1]/pwr[1]</output>
+
+        <output>/systems/electrical/outputs/mau[2]/fcm[0]/b</output>
+        <output>/systems/electrical/outputs/mau[2]/fcm[1]/b</output>
+        <output>/systems/electrical/outputs/mau[2]/pwr[1]</output>
+    </filter>
     <!-- MICRO IRU 2 (PWR 1) -->
     <filter>
         <type>gain</type>
@@ -402,6 +429,17 @@
     </filter>
 
     <!-- DC ESS BUS 1 OUTPUTS -->
+    <!-- MAU -->
+    <filter>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>/systems/electrical/buses/dc[3]/volts</input>
+        <output>/systems/electrical/outputs/mau[0]/fcm[0]/a</output>
+        <output>/systems/electrical/outputs/mau[0]/fcm[1]/a</output>
+
+        <output>/systems/electrical/outputs/mau[0]/pwr[0]</output>
+        <output>/systems/electrical/outputs/mau[0]/pwr[1]</output>
+    </filter>
     <!-- unswitched outputs -->
     <filter>
         <type>gain</type>
@@ -474,6 +512,17 @@
     </filter>
 
     <!-- DC ESS BUS 2 OUTPUTS -->
+    <!-- MAU -->
+    <filter>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>/systems/electrical/buses/dc[4]/volts</input>
+        <output>/systems/electrical/outputs/mau[2]/fcm[2]/a</output>
+        <output>/systems/electrical/outputs/mau[2]/fcm[3]/a</output>
+
+        <output>/systems/electrical/outputs/mau[1]/pwr[1]</output>
+        <output>/systems/electrical/outputs/mau[2]/pwr[0]</output>
+    </filter>
     <!-- unswitched outputs -->
     <filter>
         <type>gain</type>

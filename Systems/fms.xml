@@ -3,6 +3,40 @@
 <!-- Embraer 190 AOM page 1894 -->
 
 <PropertyList>
+    <logic>
+        <name>FMS powered</name>
+        <!-- We only model a single FMS for now, so we'll just accept power
+             on any of the 3 MAUs -->
+        <input>
+            <or>
+                <greater-than>
+                    <property>/systems/electrical/outputs/mau[0]/pwr[0]</property>
+                    <value>18</value>
+                </greater-than>
+                <greater-than>
+                    <property>/systems/electrical/outputs/mau[0]/pwr[1]</property>
+                    <value>18</value>
+                </greater-than>
+                <greater-than>
+                    <property>/systems/electrical/outputs/mau[1]/pwr[0]</property>
+                    <value>18</value>
+                </greater-than>
+                <greater-than>
+                    <property>/systems/electrical/outputs/mau[1]/pwr[1]</property>
+                    <value>18</value>
+                </greater-than>
+                <greater-than>
+                    <property>/systems/electrical/outputs/mau[2]/pwr[0]</property>
+                    <value>18</value>
+                </greater-than>
+                <greater-than>
+                    <property>/systems/electrical/outputs/mau[2]/pwr[1]</property>
+                    <value>18</value>
+                </greater-than>
+            </or>
+        </input>
+        <output>/fms/powered</output>
+    </logic>
 
     <filter>
         <name>Zero-fuel weight</name>
