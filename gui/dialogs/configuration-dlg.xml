@@ -102,6 +102,16 @@
             </binding>
             <live type="bool">true</live>
         </combo>
+        <checkbox>
+            <label>Auto-align IRU</label>
+            <property>options/instrumentation/iru-auto-align</property>
+            <binding>
+                <command>property-toggle</command>
+                <property>options/instrumentation/iru-auto-align</property>
+            </binding>
+            <halign>left</halign>
+            <live type="bool">true</live>
+        </checkbox>
         <button>
             <legend>Align now</legend>
             <binding>

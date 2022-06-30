@@ -739,6 +739,7 @@
         </controls>
         <instrumentation>
             <iru-alignment-mode type="string">normal</iru-alignment-mode>
+            <iru-auto-align type="bool">false</iru-auto-align>
         </instrumentation>
     </options>
 

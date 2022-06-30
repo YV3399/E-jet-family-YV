@@ -39,6 +39,19 @@
     </logic>
 
     <filter>
+        <type>gain</type>
+        <name>IRU Auto-Align</name>
+        <gain>1</gain>
+        <enable>
+            <condition>
+                <property>/options/instrumentation/iru-auto-align</property>
+            </condition>
+        </enable>
+        <input><value>3</value></input>
+        <output>/fms/navigation/position-selected</output>
+    </filter>
+
+    <filter>
         <name>Zero-fuel weight</name>
         <type>gain</type>
         <gain>1</gain>
