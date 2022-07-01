@@ -162,6 +162,7 @@ var PFDCanvas = {
         m.props["/instrumentation/altimeter/setting-hpa"] = props.globals.getNode("/instrumentation/altimeter[" ~ index ~ "]/setting-hpa");
         m.props["/instrumentation/altimeter/setting-inhg"] = props.globals.getNode("/instrumentation/altimeter[" ~ index ~ "]/setting-inhg");
         m.props["/instrumentation/chrono/elapsed_time/total"] = props.globals.getNode("/instrumentation/chrono/elapsed_time/total");
+        m.props["/instrumentation/chrono/chrono/total"] = props.globals.getNode("/instrumentation/chrono/chrono/total");
         m.props["/instrumentation/comm[0]/frequencies/selected-mhz"] = props.globals.getNode("/instrumentation/comm[0]/frequencies/selected-mhz");
         m.props["/instrumentation/comm[0]/frequencies/standby-mhz"] = props.globals.getNode("/instrumentation/comm[0]/frequencies/standby-mhz");
         m.props["/instrumentation/dme[0]/frequencies/selected-mhz"] = props.globals.getNode("/instrumentation/dme[0]/frequencies/selected-mhz");
@@ -1160,7 +1161,7 @@ var PFDCanvas = {
 
     updateSlow: func() {
         # CHR
-        var t = me.props["/instrumentation/chrono/elapsed_time/total"].getValue() or 0;
+        var t = me.props["/instrumentation/chrono/chrono/total"].getValue() or 0;
         me["chrono.digital"].setText(sprintf("%02d:%02d", math.floor(t / 60), math.mod(t, 60)));
     },
 
