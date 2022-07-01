@@ -169,17 +169,17 @@
      borderopacity="1.0"
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.45418595"
-     inkscape:cx="146.62215"
-     inkscape:cy="743.13296"
+     inkscape:zoom="0.40854176"
+     inkscape:cx="402.33713"
+     inkscape:cy="255.04142"
      inkscape:document-units="px"
-     inkscape:current-layer="layer1"
+     inkscape:current-layer="layer2"
      showgrid="false"
      units="px"
-     inkscape:window-width="1438"
-     inkscape:window-height="884"
-     inkscape:window-x="0"
-     inkscape:window-y="14"
+     inkscape:window-width="1918"
+     inkscape:window-height="1078"
+     inkscape:window-x="1440"
+     inkscape:window-y="0"
      inkscape:window-maximized="1"
      showguides="true"
      inkscape:guide-bbox="true"
@@ -226,8 +226,7 @@
      inkscape:groupmode="layer"
      id="layer2"
      inkscape:label="horizon"
-     style="display:inline"
-     sodipodi:insensitive="true">
+     style="display:inline">
     <rect
        style="display:inline;opacity:0.99;fill:#0000c0;fill-opacity:1;stroke:none;stroke-width:2.0038;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        id="rect5901"
@@ -236,7 +235,9 @@
        x="-540.77002"
        y="-1152" />
     <g
-       id="horizon">
+       id="horizon"
+       inkscape:transform-center-x="13.5"
+       inkscape:transform-center-y="449">
       <rect
          y="445.32001"
          x="-540.77002"
@@ -974,7 +975,8 @@
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
      id="layer1"
-     style="display:inline">
+     style="display:inline"
+     sodipodi:insensitive="true">
     <rect
        y="708.85999"
        x="23.570999"
