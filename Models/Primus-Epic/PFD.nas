@@ -1190,11 +1190,15 @@ var PFDCanvas = {
             # be extremely unreliable.
             me["wind.pointer"].setRotation((me.props["/environment/wind-from-heading-deg"].getValue() or 0) * D2R);
             me["wind.pointer.wrapper"].setRotation(heading * -D2R);
+            me["wind.pointer.wrapper"].show();
             me["compass"].setRotation(heading * -D2R);
             me["heading.digital"].setText(sprintf("%03d", heading));
             # groundspeed
             me["groundspeed"].setText(
                 sprintf("%3d", me.props["/instrumentation/pfd/groundspeed-kt"].getValue() or 0));
+        }
+        else {
+            me["wind.pointer.wrapper"].hide();
         }
 
         # FPV

@@ -181,6 +181,8 @@ var MFD = {
                 'altitude-selected': props.globals.getNode('/controls/flight/selected-alt'),
                 'altitude-target': props.globals.getNode('/it-autoflight/input/alt'),
                 'heading': props.globals.getNode('/orientation/heading-deg'),
+                'valid-att': props.globals.getNode("/instrumentation/iru[" ~ index ~ "]/outputs/valid-att"),
+                'valid-nav': props.globals.getNode("/instrumentation/iru[" ~ index ~ "]/outputs/valid"),
                 'heading-mag': props.globals.getNode('/orientation/heading-magnetic-deg'),
                 'track': props.globals.getNode('/orientation/track-deg'),
                 'track-mag': props.globals.getNode('/orientation/track-magnetic-deg'),
@@ -396,6 +398,7 @@ var MFD = {
         var mapkeys = [
                 'arc',
                 'arc.compass',
+                'arc.compass.ring',
                 'arc.heading-bug',
                 'arc.heading-bug.arrow-left',
                 'arc.heading-bug.arrow-right',
@@ -860,6 +863,26 @@ var MFD = {
         me.selectUnderlay(nil);
         me.setWxMode(nil);
 
+        append(me.listeners, setlistener(me.props['valid-nav'], func (node) {
+            if (node.getBoolValue()) {
+                self.elems['arc.compass'].show();
+                self.elems['arc.track'].show();
+                self.elems['heading.digital'].setColor(0, 1, 0);
+                self.elems['wind.arrow'].show();
+                self.elems['wind.digital'].show();
+            }
+            else {
+                self.elems['arc.compass'].hide();
+                self.elems['arc.heading-bug'].hide();
+                self.elems['arc.heading-bug.arrow-left'].hide();
+                self.elems['arc.heading-bug.arrow-right'].hide();
+                self.elems['arc.track'].hide();
+                self.elems['wind.arrow'].hide();
+                self.elems['wind.digital'].hide();
+                self.elems['heading.digital'].setColor(1, 0.5, 0);
+                self.elems['heading.digital'].setText('---');
+            }
+        }, 1, 0));
         append(me.listeners, setlistener(me.props['wx-gain'], func (node) {
             self.elems['weatherMenu.gain'].setText(sprintf("%3.0f", node.getValue() or 0));
         }, 1, 0));
@@ -2316,31 +2339,33 @@ var MFD = {
         var headingT = me.props['heading'].getValue();
         var headingBug = me.props['heading-bug'].getValue();
         var headingDiff = geo.normdeg180(headingBug - heading);
-        if (headingDiff < -90) {
-            me.elems['arc.heading-bug'].hide();
-            me.elems['arc.heading-bug.arrow-left'].show();
-            me.elems['arc.heading-bug.arrow-right'].hide();
+        if (me.props['valid-nav'].getBoolValue()) {
+            if (headingDiff < -90) {
+                me.elems['arc.heading-bug'].hide();
+                me.elems['arc.heading-bug.arrow-left'].show();
+                me.elems['arc.heading-bug.arrow-right'].hide();
+            }
+            else if (headingDiff > 90) {
+                me.elems['arc.heading-bug'].hide();
+                me.elems['arc.heading-bug.arrow-left'].hide();
+                me.elems['arc.heading-bug.arrow-right'].show();
+            }
+            else {
+                me.elems['arc.heading-bug'].show();
+                me.elems['arc.heading-bug.arrow-left'].hide();
+                me.elems['arc.heading-bug.arrow-right'].hide();
+            }
+            me.elems['arc'].setRotation(heading * -DC);
+            me.terrainViz.setRotation(heading * -DC);
+            me.elems['heading.digital'].setText(sprintf("%03.0f", heading));
+            var windDir = me.props['wind-dir'].getValue();
+            if (me.props['page'].getValue() != 1) {
+                # if not in Plan view, show wind dir relative to current heading
+                windDir -= me.props['heading-mag'].getValue();
+            }
+            me.elems['wind.arrow'].setRotation(windDir * DC);
+            me.elems['wind.digital'].setText(sprintf("%2.0f", me.props['wind-speed'].getValue()));
         }
-        else if (headingDiff > 90) {
-            me.elems['arc.heading-bug'].hide();
-            me.elems['arc.heading-bug.arrow-left'].hide();
-            me.elems['arc.heading-bug.arrow-right'].show();
-        }
-        else {
-            me.elems['arc.heading-bug'].show();
-            me.elems['arc.heading-bug.arrow-left'].hide();
-            me.elems['arc.heading-bug.arrow-right'].hide();
-        }
-        me.elems['arc'].setRotation(heading * -DC);
-        me.terrainViz.setRotation(heading * -DC);
-        me.elems['heading.digital'].setText(sprintf("%03.0f", heading));
-        var windDir = me.props['wind-dir'].getValue();
-        if (me.props['page'].getValue() != 1) {
-            # if not in Plan view, show wind dir relative to current heading
-            windDir -= me.props['heading-mag'].getValue();
-        }
-        me.elems['wind.arrow'].setRotation(windDir * DC);
-        me.elems['wind.digital'].setText(sprintf("%2.0f", me.props['wind-speed'].getValue()));
         me.elems['tat.digital'].setText(sprintf("%3.0f", me.props['tat'].getValue()));
         me.elems['sat.digital'].setText(sprintf("%3.0f", me.props['sat'].getValue()));
         me.elems['tas.digital'].setText(sprintf("%3.0f", me.props['tas'].getValue()));

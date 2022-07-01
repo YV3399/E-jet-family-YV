@@ -147,6 +147,8 @@ var canvas_ED_only = {
         m.props["/instrumentation/dme[1]/in-range"] = props.globals.getNode("/instrumentation/dme[1]/in-range");
         m.props["/instrumentation/gps/cdi-deflection"] = props.globals.getNode("/instrumentation/gps/cdi-deflection");
         m.props["/instrumentation/gps/desired-course-deg"] = props.globals.getNode("/instrumentation/gps/desired-course-deg");
+        m.props["/instrumentation/iru/outputs/valid-att"] = props.globals.getNode("/instrumentation/iru[" ~ index ~ "]/outputs/valid-att");
+        m.props["/instrumentation/iru/outputs/valid"] = props.globals.getNode("/instrumentation/iru[" ~ index ~ "]/outputs/valid");
         m.props["/instrumentation/nav[0]/frequencies/selected-mhz"] = props.globals.getNode("/instrumentation/nav[0]/frequencies/selected-mhz");
         m.props["/instrumentation/nav[0]/frequencies/standby-mhz"] = props.globals.getNode("/instrumentation/nav[0]/frequencies/standby-mhz");
         m.props["/instrumentation/nav[0]/from-flag"] = props.globals.getNode("/instrumentation/nav[0]/from-flag");
@@ -752,6 +754,27 @@ var canvas_ED_only = {
                 self["fma.apprarmed"].setText(value);
             }, 1, 0));
 
+        append(me.listeners, setlistener(me.props["/instrumentation/iru/outputs/valid-att"], func (node) {
+                if (node.getBoolValue()) {
+                    self["horizon"].show();
+                }
+                else {
+                    self["horizon"].hide();
+                }
+            }, 1, 0));
+        append(me.listeners, setlistener(me.props["/instrumentation/iru/outputs/valid"], func (node) {
+                if (node.getBoolValue()) {
+                    self["compass"].show();
+                    self["selectedheading.pointer"].show();
+                }
+                else {
+                    self["compass"].hide();
+                    self["selectedheading.pointer"].hide();
+                    self["heading.digital"].setText('---');
+                    self["groundspeed"].setText('---');
+                }
+            }, 1, 0));
+
         # var updateSelectedVSpeed = func {
         #     var vertMode = self.props["/it-autoflight/mode/vert"].getValue();
         #     if (vertMode == "V/S") {
@@ -875,18 +898,25 @@ var canvas_ED_only = {
                 (fpa + fdPitch) * -43)
             .setRotation(roll * D2R);
 
-        # current heading
+        # Heading
         var heading = me.props["/orientation/heading-magnetic-deg"].getValue() or 0;
-        me["wind.pointer.wrapper"].setRotation(heading * -D2R);
-        me["compass"].setRotation(heading * -D2R);
-        me["heading.digital"].setText(sprintf("%03d", heading));
-        me["heading-scale"].setTranslation(geo.normdeg180(heading) * -43, 0);
-
-
-        # wind direction
-        # For some reason, if we attempt to do this in a listener, it will
-        # be extremely unreliable.
-        me["wind.pointer"].setRotation((me.props["/environment/wind-from-heading-deg"].getValue() or 0) * D2R);
+        if (me.props["/instrumentation/iru/outputs/valid"].getBoolValue()) {
+            # wind direction
+            # For some reason, if we attempt to do this in a listener, it will
+            # be extremely unreliable.
+            me["wind.pointer"].setRotation((me.props["/environment/wind-from-heading-deg"].getValue() or 0) * D2R);
+            me["wind.pointer.wrapper"].setRotation(heading * -D2R);
+            me["wind.pointer.wrapper"].show();
+            me["compass"].setRotation(heading * -D2R);
+            me["heading.digital"].setText(sprintf("%03d", heading));
+            # groundspeed
+            me["groundspeed"].setText(
+                sprintf("%3d", me.props["/instrumentation/pfd/groundspeed-kt"].getValue() or 0));
+            me["heading-scale"].setTranslation(geo.normdeg180(heading) * -43, 0);
+        }
+        else {
+            me["wind.pointer.wrapper"].hide();
+        }
 
         # # FD
         # var pitchBar = me.props["/it-autoflight/fd/pitch-bar"].getValue() or 0;
