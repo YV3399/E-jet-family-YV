@@ -430,6 +430,7 @@ var MFD = {
                 'tas.digital',
                 'tat.digital',
                 'terrain.master',
+                'terrain.status',
                 'tcas.master',
                 'tcas.altmode',
                 'tcas.mode',
@@ -870,6 +871,8 @@ var MFD = {
                 self.elems['heading.digital'].setColor(0, 1, 0);
                 self.elems['wind.arrow'].show();
                 self.elems['wind.digital'].show();
+                self.elems['terrain.status'].setColor(0, 1, 0);
+                self.elems['terrain.status'].setText('TERRAIN');
             }
             else {
                 self.elems['arc.compass'].hide();
@@ -881,6 +884,8 @@ var MFD = {
                 self.elems['wind.digital'].hide();
                 self.elems['heading.digital'].setColor(1, 0.5, 0);
                 self.elems['heading.digital'].setText('---');
+                self.elems['terrain.status'].setColor(1, 0.5, 0);
+                self.elems['terrain.status'].setText('TERR N/A');
             }
         }, 1, 0));
         append(me.listeners, setlistener(me.props['wx-gain'], func (node) {
@@ -1229,105 +1234,111 @@ var MFD = {
 
     updateTerrainViz: func() {
         if (!me.terrainViz.getVisible()) return;
-        var acPos = geo.aircraft_position();
-        var acAlt = me.props['altitude-amsl'].getValue();
-        var x = 0;
-        var y = 0;
-        var resolution = me.props['resolution'].getValue();
-        var step = math.max(1, math.pow(2, 8 - resolution));
-        var numScanlines = me.props['scan-rate'].getValue();
-        var color = nil;
-        var density = 1;
-        var range = me.mapCamera.range;
-        for (var i = 0; i < numScanlines; i += 1) {
-            for (y = 0; y < 256; y += step) {
-                var x = me.txRadarScanX;
-                var xRel = x - 128;
-                var yRel = y - 128;
-                var bearingRelRad = math.atan2(xRel, yRel);
-                var bearingAbs = geo.normdeg(bearingRelRad * R2D);
-                var dist = math.sqrt(yRel * yRel + xRel * xRel);
-                var elev = nil;
-                var isWater = 0;
+        if (me.props['valid-nav'].getBoolValue()) {
+            var acPos = geo.aircraft_position();
+            var acAlt = me.props['altitude-amsl'].getValue();
+            var x = 0;
+            var y = 0;
+            var resolution = me.props['resolution'].getValue();
+            var step = math.max(1, math.pow(2, 8 - resolution));
+            var numScanlines = me.props['scan-rate'].getValue();
+            var color = nil;
+            var density = 1;
+            var range = me.mapCamera.range;
+            for (var i = 0; i < numScanlines; i += 1) {
+                for (y = 0; y < 256; y += step) {
+                    var x = me.txRadarScanX;
+                    var xRel = x - 128;
+                    var yRel = y - 128;
+                    var bearingRelRad = math.atan2(xRel, yRel);
+                    var bearingAbs = geo.normdeg(bearingRelRad * R2D);
+                    var dist = math.sqrt(yRel * yRel + xRel * xRel);
+                    var elev = nil;
+                    var isWater = 0;
 
-                if (dist <= 128) {
-                    var coord = geo.Coord.new(acPos);
-                    coord.apply_course_distance(bearingAbs, dist * (range / 10) * 10.675 * NM2M / 128);
-                    var start = geo.Coord.new(coord);
-                    var end = geo.Coord.new(coord);
-                    start.set_alt(10000);
-                    end.set_alt(0);
-                    var xyz = { "x": start.x(), "y": start.y(), "z": start.z() };
-                    var dir = { "x": end.x() - start.x(), "y": end.y() - start.y(), "z": end.z() - start.z() };
-                    var result = get_cart_ground_intersection(xyz, dir);
-                    elev = (result == nil) ? nil : result.elevation;
-                    isWater = 0;
+                    if (dist <= 128) {
+                        var coord = geo.Coord.new(acPos);
+                        coord.apply_course_distance(bearingAbs, dist * (range / 10) * 10.675 * NM2M / 128);
+                        var start = geo.Coord.new(coord);
+                        var end = geo.Coord.new(coord);
+                        start.set_alt(10000);
+                        end.set_alt(0);
+                        var xyz = { "x": start.x(), "y": start.y(), "z": start.z() };
+                        var dir = { "x": end.x() - start.x(), "y": end.y() - start.y(), "z": end.z() - start.z() };
+                        var result = get_cart_ground_intersection(xyz, dir);
+                        elev = (result == nil) ? nil : result.elevation;
+                        isWater = 0;
 
-                    if (elev != nil and elev < 100) {
-                        var info = geodinfo(start.lat(), start.lon(), 1000);
-                        if (info != nil and info[1] != nil and info[1].solid == 0) {
-                            isWater = 1;
+                        if (elev != nil and elev < 100) {
+                            var info = geodinfo(start.lat(), start.lon(), 1000);
+                            if (info != nil and info[1] != nil and info[1].solid == 0) {
+                                isWater = 1;
+                            }
+                        }
+                    }
+                    if (elev == nil) {
+                        color = '#000000';
+                        density = 1;
+                    }
+                    else {
+                        var terrainAlt = elev * M2FT;
+                        var relAlt = terrainAlt - acAlt;
+
+                        if (isWater) {
+                            # color = [0, 0.5, 1, 1];
+                            # density = 0;
+                            color = [0, 0.25, 0.5, 1];
+                        }
+                        elsif (relAlt > 2000) {
+                            color = [1, 0, 0, 1];
+                            density = 1;
+                        }
+                        else if (relAlt > 1000) {
+                            color = [1, 1, 0, 1];
+                            density = 1;
+                        }
+                        else if (relAlt > -250) {
+                            # color = [1, 1, 0, 1];
+                            # density = 0;
+                            color = [0.5, 0.5, 0, 1];
+                        }
+                        else if (relAlt > -1000) {
+                            color = [0, 0.5, 0, 1];
+                            density = 1;
+                        }
+                        else if (relAlt > -2000) {
+                            # color = [0, 0.5, 0, 1];
+                            # density = 0;
+                            color = [0, 0.25, 0, 1];
+                        }
+                        else {
+                            color = [0, 0, 0, 1];
+                            density = 1;
+                        }
+                    }
+                    # if (density)
+                    #     me.terrainViz.fillRect([x, y, 2, 2], color);
+                    # else
+                    #     me.terrainViz.fillRect([x, y, 2, 2], '#000000');
+                    var dither = 0;
+                    for (var yy = y; yy < y + step; yy += 1) {
+                        for (var xx = x; xx < x + step; xx += 1) {
+                            dither = ((xx & 2) != (yy & 2)) or density;
+                            me.terrainViz.setPixel(xx, yy, dither ? color : [0,0,0,1]);
                         }
                     }
                 }
-                if (elev == nil) {
-                    color = '#000000';
-                    density = 1;
-                }
-                else {
-                    var terrainAlt = elev * M2FT;
-                    var relAlt = terrainAlt - acAlt;
-
-                    if (isWater) {
-                        # color = [0, 0.5, 1, 1];
-                        # density = 0;
-                        color = [0, 0.25, 0.5, 1];
-                    }
-                    elsif (relAlt > 2000) {
-                        color = [1, 0, 0, 1];
-                        density = 1;
-                    }
-                    else if (relAlt > 1000) {
-                        color = [1, 1, 0, 1];
-                        density = 1;
-                    }
-                    else if (relAlt > -250) {
-                        # color = [1, 1, 0, 1];
-                        # density = 0;
-                        color = [0.5, 0.5, 0, 1];
-                    }
-                    else if (relAlt > -1000) {
-                        color = [0, 0.5, 0, 1];
-                        density = 1;
-                    }
-                    else if (relAlt > -2000) {
-                        # color = [0, 0.5, 0, 1];
-                        # density = 0;
-                        color = [0, 0.25, 0, 1];
-                    }
-                    else {
-                        color = [0, 0, 0, 1];
-                        density = 1;
-                    }
-                }
-                # if (density)
-                #     me.terrainViz.fillRect([x, y, 2, 2], color);
-                # else
-                #     me.terrainViz.fillRect([x, y, 2, 2], '#000000');
-                var dither = 0;
-                for (var yy = y; yy < y + step; yy += 1) {
-                    for (var xx = x; xx < x + step; xx += 1) {
-                        dither = ((xx & 2) != (yy & 2)) or density;
-                        me.terrainViz.setPixel(xx, yy, dither ? color : [0,0,0,1]);
-                    }
+                me.txRadarScanX += step;
+                if (me.txRadarScanX >= 256) {
+                    me.txRadarScanX = 0;
                 }
             }
-            me.txRadarScanX += step;
-            if (me.txRadarScanX >= 256) {
-                me.txRadarScanX = 0;
-            }
+            me.terrainViz.dirtyPixels();
         }
-        me.terrainViz.dirtyPixels();
+        else {
+            me.terrainViz.fillRect([0, 0, 256, 256], [0, 0, 0, 1]);
+            me.terrainViz.dirtyPixels();
+        }
     },
 
     updateRadarScale: func (range=nil) {
