@@ -45,6 +45,7 @@ var IRU = {
                 latitudeDeg: rootProp.getNode('outputs/latitude-deg', 1),
                 longitudeDeg: rootProp.getNode('outputs/longitude-deg', 1),
                 outputsValid: rootProp.getNode('outputs/valid', 1),
+                outputsValidAtt: rootProp.getNode('outputs/valid-att', 1),
 
                 referenceValid: rootProp.getNode('reference/valid', 1),
                 latitudeReferenceDeg: rootProp.getNode('reference/latitude-deg', 1),

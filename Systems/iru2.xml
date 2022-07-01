@@ -17,15 +17,33 @@ re-run build.sh.
     </input>
     <output>/instrumentation/iru[1]/outputs/valid</output>
   </logic>
+  <logic>
+    <input>
+      <or>
+        <equals>
+          <property>/instrumentation/iru[1]/alignment/status</property>
+          <value>1</value>
+        </equals>
+        <and>
+          <equals>
+            <property>/instrumentation/iru[1]/alignment/status</property>
+            <value>2</value>
+          </equals>
+          <greater-than>
+            <property>/instrumentation/iru[1]/alignment/counter</property>
+            <value>90</value>
+          </greater-than>
+        </and>
+      </or>
+    </input>
+    <output>/instrumentation/iru[1]/outputs/valid-att</output>
+  </logic>
   <filter>
     <type>gain</type>
     <gain>1</gain>
     <enable>
       <condition>
-        <equals>
-          <property>/instrumentation/iru[1]/alignment/status</property>
-          <value>1</value>
-        </equals>
+        <property>/instrumentation/iru[1]/outputs/valid-att</property>
       </condition>
     </enable>
     <input>
@@ -43,10 +61,7 @@ re-run build.sh.
     <gain>1</gain>
     <enable>
       <condition>
-        <equals>
-          <property>/instrumentation/iru[1]/alignment/status</property>
-          <value>1</value>
-        </equals>
+        <property>/instrumentation/iru[1]/outputs/valid-att</property>
       </condition>
     </enable>
     <input>

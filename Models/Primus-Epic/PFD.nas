@@ -178,6 +178,7 @@ var PFDCanvas = {
         m.props["/instrumentation/eicas/master/warning"] = props.globals.getNode("/instrumentation/eicas/master/warning");
         m.props["/instrumentation/gps/cdi-deflection"] = props.globals.getNode("/instrumentation/gps/cdi-deflection");
         m.props["/instrumentation/gps/desired-course-deg"] = props.globals.getNode("/instrumentation/gps/desired-course-deg");
+        m.props["/instrumentation/iru/outputs/valid-att"] = props.globals.getNode("/instrumentation/iru[" ~ index ~ "]/outputs/valid-att");
         m.props["/instrumentation/iru/outputs/valid"] = props.globals.getNode("/instrumentation/iru[" ~ index ~ "]/outputs/valid");
         m.props["/instrumentation/marker-beacon/inner"] = props.globals.getNode("/instrumentation/marker-beacon/inner");
         m.props["/instrumentation/marker-beacon/middle"] = props.globals.getNode("/instrumentation/marker-beacon/middle");
@@ -938,26 +939,32 @@ var PFDCanvas = {
                 }
             }, 1, 0));
 
+        append(me.listeners, setlistener(me.props["/instrumentation/iru/outputs/valid-att"], func (node) {
+                if (node.getBoolValue()) {
+                    self["horizon"].show();
+                    self["failure.att"].hide();
+                }
+                else {
+                    self["horizon"].hide();
+                    self["failure.att"].show();
+                }
+            }, 1, 0));
         append(me.listeners, setlistener(me.props["/instrumentation/iru/outputs/valid"], func (node) {
                 if (node.getBoolValue()) {
                     self["compass.numbers"].show();
-                    self["horizon"].show();
                     self["selectedheading.pointer"].show();
                     self["heading.digital"].setColor(0, 1, 0);
                     self["groundspeed"].setColor(0, 1, 0);
                     self["failure.hdg"].hide();
-                    self["failure.att"].hide();
                 }
                 else {
                     self["compass.numbers"].hide();
-                    self["horizon"].hide();
                     self["selectedheading.pointer"].hide();
                     self["heading.digital"].setColor(1, 0.5, 0);
                     self["heading.digital"].setText('---');
                     self["groundspeed"].setColor(1, 0.5, 0);
                     self["groundspeed"].setText('---');
                     self["failure.hdg"].show();
-                    self["failure.att"].show();
                 }
             }, 1, 0));
 

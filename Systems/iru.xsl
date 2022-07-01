@@ -30,15 +30,34 @@ re-run build.sh.
                 </input>
                 <output>/instrumentation/iru[<xsl:value-of select="$index"/>]/outputs/valid</output>
             </logic>
+            <logic>
+                <!-- attitude indications are valid within 90 seconds of aligning -->
+                <input>
+                    <or>
+                        <equals>
+                            <property>/instrumentation/iru[<xsl:value-of select="$index"/>]/alignment/status</property>
+                            <value>1</value>
+                        </equals>
+                        <and>
+                            <equals>
+                                <property>/instrumentation/iru[<xsl:value-of select="$index"/>]/alignment/status</property>
+                                <value>2</value>
+                            </equals>
+                            <greater-than>
+                                <property>/instrumentation/iru[<xsl:value-of select="$index"/>]/alignment/counter</property>
+                                <value>90</value>
+                            </greater-than>
+                        </and>
+                    </or>
+                </input>
+                <output>/instrumentation/iru[<xsl:value-of select="$index"/>]/outputs/valid-att</output>
+            </logic>
             <filter>
                 <type>gain</type>
                 <gain>1</gain>
                 <enable>
                     <condition>
-                        <equals>
-                            <property>/instrumentation/iru[<xsl:value-of select="$index"/>]/alignment/status</property>
-                            <value>1</value>
-                        </equals>
+                        <property>/instrumentation/iru[<xsl:value-of select="$index"/>]/outputs/valid-att</property>
                     </condition>
                 </enable>
                 <input>
@@ -56,10 +75,7 @@ re-run build.sh.
                 <gain>1</gain>
                 <enable>
                     <condition>
-                        <equals>
-                            <property>/instrumentation/iru[<xsl:value-of select="$index"/>]/alignment/status</property>
-                            <value>1</value>
-                        </equals>
+                        <property>/instrumentation/iru[<xsl:value-of select="$index"/>]/outputs/valid-att</property>
                     </condition>
                 </enable>
                 <input>
