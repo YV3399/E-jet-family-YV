@@ -116,9 +116,9 @@ var Chronometer = {
     powerOn: func {
         var self = me;
         me.props.powered.setBoolValue(1);
-        append(me.listeners, setlistener(me.props.chrono.start, func (node) { if (!node.getBoolValue()) self.toggleChrono(); }, 1, 0));
-        append(me.listeners, setlistener(me.props.chrono.reset, func (node) { if (!node.getBoolValue()) self.resetChrono(); }, 1, 0));
-        append(me.listeners, setlistener(me.props.et.reset, func { if (!self.props.et.running.getBoolValue()) self.resetET(); }, 1, 0));
+        append(me.listeners, setlistener(me.props.chrono.start, func (node) { if (!node.getBoolValue()) self.toggleChrono(); }, 0, 0));
+        append(me.listeners, setlistener(me.props.chrono.reset, func (node) { if (!node.getBoolValue()) self.resetChrono(); }, 0, 0));
+        append(me.listeners, setlistener(me.props.et.reset, func { if (!self.props.et.running.getBoolValue()) self.resetET(); }, 0, 0));
         append(me.listeners, setlistener('gear/gear[1]/wow', func (node) {
             if (node.getBoolValue())
                 self.stopET();
