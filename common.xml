@@ -1886,12 +1886,16 @@
             <on-fire type="bool">false</on-fire>
             <reverser-pos-norm type="double">0</reverser-pos-norm>
             <running type="bool">false</running>
+            <n1 type="double">0</n1>
+            <n2 type="double">0</n2>
         </engine>
 
         <engine n="1">
             <on-fire type="bool">false</on-fire>
             <reverser-pos-norm type="double">0</reverser-pos-norm>
             <running type="bool">false</running>
+            <n1 type="double">0</n1>
+            <n2 type="double">0</n2>
         </engine>
     </engines>
 

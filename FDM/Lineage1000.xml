@@ -339,7 +339,7 @@
     <!-- 2 x General Electric CF34-8E Engines -->
     <propulsion>
 
-        <engine file="GE_CF34-10E">
+        <engine file="GE_CF34-10E-L">
             <location unit="IN">
                 <x> -95.44  </x>
                 <y> -157.6 </y>
@@ -366,7 +366,7 @@
             </thruster>
         </engine>
 
-        <engine file="GE_CF34-10E">
+        <engine file="GE_CF34-10E-R">
             <location unit="IN">
                 <x> -95.44  </x>
                 <y> 157.6 </y>
