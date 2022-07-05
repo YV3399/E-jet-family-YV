@@ -1,0 +1,128 @@
+# Class things:
+var parents = [Map.Controller];
+var __self__ = caller(0)[0];
+Map.Controller.add("Aircraft position EJ", __self__);
+#Map.df_controller = __self__;
+
+##
+#  encapsulate type of aircraft (main, ai, mp or ai+mp)
+#  This is so that we can use reuse the aircraft controller also 
+#  for AI and/or MP traffic, which may use different properties
+#  and to fix up hard-coded property references in layers like TFC
+var SOURCES = {};
+SOURCES["iru0"] = {
+	getPosition: func [
+                getprop('/instrumentation/iru[0]/outputs/latitude-deg') or 0,
+                getprop('/instrumentation/iru[0]/outputs/longitude-deg') or 0
+            ],
+	getAltitude: func getprop('/position/altitude-ft'),
+	getHeading:  func { getprop('/instrumentation/iru[0]/outputs/heading-deg') or 0 },
+};
+SOURCES["iru1"] = {
+	getPosition: func [
+                getprop('/instrumentation/iru[1]/outputs/latitude-deg') or 0,
+                getprop('/instrumentation/iru[1]/outputs/longitude-deg') or 0
+            ],
+	getAltitude: func getprop('/position/altitude-ft'),
+	getHeading:  func { getprop('/instrumentation/iru[1]/outputs/heading-deg') or 0 },
+};
+
+# Layers which get updated every frame
+var update_instant = [
+	"APS",
+];
+# Update at a slightly lower rate, but still
+# unconditionally
+var update_quickly = [
+	"TFC", "FLT",
+];
+
+var new = func(map, source='iru0') {
+	if (!contains(SOURCES, source))
+		__die("AI/MP traffic not yet supported (WIP)!");
+
+	var m = {
+		parents: [__self__],
+		map: map,
+		source: SOURCES[source], # main, ai, mp or ai+mp
+		_pos: nil, _time: nil, _range: nil,
+	};
+	m.timer1 = maketimer(0, m, update_pos);
+	m.timer2 = maketimer(0.4, m, update_layers);
+	m.start();
+	m.update_pos();
+	return m;
+};
+var start = func() {
+	me.timer1.start();
+	me.timer2.start();
+};
+var stop = func() {
+	me.timer1.stop();
+	me.timer2.stop();
+};
+var del = func(map) {
+	if (map != me.map) die();
+	me.stop();
+};
+
+# Controller methods
+var update_pos = func {
+	var (lat,lon) = me.source.getPosition();
+	me.map.setPos(lat:lat, lon:lon,
+	              hdg:me.source.getHeading(),
+	              alt:me.source.getAltitude());
+	foreach (var t; update_instant)
+		if ((var l=me.map.getLayer(t)) != nil)
+			l.update();
+};
+var update_layers = func {
+	var do_all = 1;
+	var pos = me.map.getPosCoord();
+	var time = systime();
+	var range = me.map.getRange();
+	if (me._pos == nil)
+		me._pos = geo.Coord.new(pos);
+	# Always update if range changed
+	# FIXME: FIX doesn't update unless range is changed?
+	elsif (range == me._range) {
+		var dist_m = me._pos.direct_distance_to(pos);
+		# 2 NM until we update again
+		if (dist_m < 2 * NM2M) do_all = 0;
+		# Update at most every 4 seconds to avoid excessive stutter:
+		elsif (time - me._time < 4) do_all = 0;
+	}
+	if (!do_all) {
+		foreach (var t; update_quickly)
+			if ((var l=me.map.getLayer(t)) != nil)
+				l.update();
+		return;
+	} else
+	logprint(_MP_dbg_lvl, "update aircraft position");
+	var (x,y,z) = pos.xyz();
+	me._pos.set_xyz(x,y,z);
+	me._time = time;
+	me._range = range;
+	me.map.update();
+};
+
+# predicate for the draw controller
+var is_tuned = func(freq) {
+	var nav1=getprop("instrumentation/nav[0]/frequencies/selected-mhz");
+	var nav2=getprop("instrumentation/nav[1]/frequencies/selected-mhz");
+	if (freq == nav1 or freq == nav2) return 1;
+	return 0;
+}
+var get_tuned_course = func(freq) {
+	if (freq == getprop("instrumentation/nav[0]/frequencies/selected-mhz"))
+		return getprop("instrumentation/nav[0]/radials/selected-deg");
+	else
+		return getprop("instrumentation/nav[1]/radials/selected-deg");
+}
+var get_position = func {
+	delete(caller(0)[0], "me"); # remove local me, inherit outer one
+	return [
+		me.aircraft_source.get_lat(), me.aircraft_source.get_lon()
+	];
+}
+

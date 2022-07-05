@@ -25,6 +25,11 @@ var submodeNames = [
     'FltCtl',
 ];
 
+var currentFile = os.path.new(caller(0)[2]);
+canvas.MapStructure.loadFile(
+    currentFile.dir ~ '/MFD/aircraftpos-ejet.controller',
+    'aircraftpos-ejet');
+
 var toggleBoolProp = func(node) {
     if (node != nil) { node.toggleBoolValue(); }
 };
@@ -344,7 +349,7 @@ var MFD = {
         me.map.set("clip", "rect(0px, 1024px, 740px, 0px)");
         me.map.set("clip-frame", canvas.Element.PARENT);
         me.map.setTranslation(512, 540);
-        me.map.setController("Aircraft position");
+        me.map.setController("Aircraft position EJ", 'iru' ~ index);
         me.map.setRange(25);
         me.map.setScreenRange(416);
         # me.map.addLayer(factory: canvas.SymbolLayer, type_arg: "TFC-Ejet", visible: 1, priority: 9,
