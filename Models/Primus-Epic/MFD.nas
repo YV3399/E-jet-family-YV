@@ -200,6 +200,8 @@ var MFD = {
                 'wind-speed': props.globals.getNode("/environment/wind-speed-kt"),
                 'groundspeed': props.globals.getNode("/velocities/groundspeed-kt"),
                 'vs': props.globals.getNode("/instrumentation/vertical-speed-indicator/indicated-speed-fpm"),
+                'latitude': props.globals.getNode("/instrumentation/iru[" ~ index ~ "]/outputs/latitude-deg"),
+                'longitude': props.globals.getNode("/instrumentation/iru[" ~ index ~ "]/outputs/longitude-deg"),
                 'nav-src': props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/nav-src"),
                 'nav-id': [
                     props.globals.getNode("/instrumentation/nav[0]/nav-id"),
@@ -1240,8 +1242,12 @@ var MFD = {
     updateTerrainViz: func() {
         if (!me.terrainViz.getVisible()) return;
         if (me.props['valid-nav'].getBoolValue()) {
-            var acPos = geo.aircraft_position();
             var acAlt = me.props['altitude-amsl'].getValue();
+            var acPos = geo.Coord.new();
+            acPos.set_latlon(
+                me.props['latitude'].getValue() or 0,
+                me.props['longitude'].getValue() or 0,
+                acAlt);
             var x = 0;
             var y = 0;
             var resolution = me.props['resolution'].getValue();
