@@ -28,7 +28,7 @@ var FPLN = {
 	R: 0,
 	radius: 0,
 	turnDist: 0,
-	wp0Dist: props.globals.getNode("/autopilot/route-manager/wp/dist", 1),
+	wp0Dist: props.globals.getNode("/fms/lnav/next-wp/distance-nm", 1),
 	wpFlyFrom: 0,
 	wpFlyTo: 0,
 };

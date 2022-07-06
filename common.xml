@@ -1105,6 +1105,12 @@
             <distance-to-toc type="double">9999</distance-to-toc>
             <time-to-toc type="double">864000</time-to-toc>
         </vnav>
+        <lnav>
+            <next-wp>
+                <true-bearing-deg type="double">0.0</true-bearing-deg>
+                <distance-nm type="double">10000.0</distance-nm>
+            </next-wp>
+        </lnav>
         <radio>
             <destination-ils-mhz type="double">0</destination-ils-mhz>
             <nav-auto type="bool">false</nav-auto>
@@ -2779,6 +2785,7 @@
             <file>Aircraft/E-jet-family/Nasal/fms/vspeeds.nas</file>
             <file>Aircraft/E-jet-family/Nasal/fms/speed.nas</file>
             <file>Aircraft/E-jet-family/Nasal/fms/vnav.nas</file>
+            <file>Aircraft/E-jet-family/Nasal/fms/lnav.nas</file>
             <file>Aircraft/E-jet-family/Nasal/fms/radios.nas</file>
             <file>Aircraft/E-jet-family/Nasal/fms/route.nas</file>
             <file>Aircraft/E-jet-family/Nasal/fms/main.nas</file>
