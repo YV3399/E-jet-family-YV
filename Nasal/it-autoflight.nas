@@ -471,8 +471,8 @@ var ITAF = {
 					FPLN.distCoeff = 1;
 				}
 				FPLN.turnDist = math.cos(FPLN.deltaAngleRad) * FPLN.R * FPLN.distCoeff / 1852;
-				if (Gear.wow0.getBoolValue() and FPLN.turnDist < 1) {
-					FPLN.turnDist = 1;
+				if (Gear.wow0.getBoolValue() and FPLN.turnDist < 0.1) {
+					FPLN.turnDist = 0.1;
 				}
 				Internal.lnavAdvanceNm.setValue(FPLN.turnDist);
 				
