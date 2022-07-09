@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+
+<PropertyList>
+<sim>
+    <model>
+        <livery>
+            <name type="string">SAS Link</name>
+            <texture>/../Models/Liveries/E195/SVS.png</texture>
+        </livery>
+        <tail-number>SE-RSK</tail-number>
+    </model>
+</sim>
+</PropertyList>

@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+
+<PropertyList>
+<sim>
+    <model>
+        <livery>
+            <name type="string">American Airlines</name>
+            <texture>/../Models/Liveries/E190/AAL.png</texture>
+        </livery>
+        <tail-number>N944UW</tail-number>
+    </model>
+</sim>
+</PropertyList>
