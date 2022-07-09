@@ -202,9 +202,9 @@ var IRU = {
         elsif (status == STATUS_READY) {
             if (powered) {
                 me.props.latitudeDegLast.setValue(
-                    me.props.latitudeDeg.getValue());
+                    me.props.latitudeDeg.getValue() or 0);
                 me.props.longitudeDegLast.setValue(
-                    me.props.longitudeDeg.getValue());
+                    me.props.longitudeDeg.getValue() or 0);
                 me.props.validLast.setBoolValue(1);
             }
             else {

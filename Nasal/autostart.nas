@@ -230,6 +230,16 @@ var startEngine = func (n, then = nil) {
         });
 };
 
+var alignAllIRUs = func () {
+    for (var i = 0; i < 2; i += 1) {
+        if (iru.irus[i].props.latitudeReferenceDeg.getValue() == nil or
+                iru.irus[i].props.longitudeReferenceDeg.getValue() == nil) {
+            setprop('/fms/navigation/position-selected', 2);
+        }
+        iru.irus[i].finishAlignment();
+    }
+};
+
 # From cold and dark to ready to taxi
 # Methods:
 # 0 = APU
@@ -251,6 +261,7 @@ var readyToTaxi = func (method) {
     if (method == 0) {
         cancelOngoing();
         startAPU(func {
+            alignAllIRUs();
             setprop("/controls/lighting/beacon", 1);
             setprop("/controls/lighting/nav-lights-switch", 1);
             setprop("/controls/fuel/tank[0]/boost-pump[0]", 1);
@@ -268,6 +279,7 @@ var readyToTaxi = func (method) {
     else if (method == 1) {
         say("Enable GPU");
         groundPowered();
+        alignAllIRUs();
         setprop("/controls/lighting/beacon", 1);
         setprop("/controls/lighting/nav-lights-switch", 1);
         setprop("/controls/fuel/tank[0]/boost-pump[0]", 1);
