@@ -26,6 +26,7 @@ cp -R \
     Systems \
     Thanks.txt \
     thumbnail.jpg \
+    WebPanel \
     ./release/E-jet-family/
 cd release
 zip -r E-jet-family.zip E-jet-family

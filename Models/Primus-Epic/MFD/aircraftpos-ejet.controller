@@ -16,7 +16,7 @@ SOURCES["iru0"] = {
                 getprop('/instrumentation/iru[0]/outputs/longitude-deg') or 0
             ],
 	getAltitude: func getprop('/position/altitude-ft'),
-	getHeading:  func { getprop('/instrumentation/iru[0]/outputs/heading-deg') or 0 },
+	getHeading:  func { getprop('/instrumentation/iru[0]/outputs/true-heading-deg') or 0 },
 };
 SOURCES["iru1"] = {
 	getPosition: func [
@@ -24,7 +24,7 @@ SOURCES["iru1"] = {
                 getprop('/instrumentation/iru[1]/outputs/longitude-deg') or 0
             ],
 	getAltitude: func getprop('/position/altitude-ft'),
-	getHeading:  func { getprop('/instrumentation/iru[1]/outputs/heading-deg') or 0 },
+	getHeading:  func { getprop('/instrumentation/iru[1]/outputs/true-heading-deg') or 0 },
 };
 
 # Layers which get updated every frame
