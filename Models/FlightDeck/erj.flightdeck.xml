@@ -521,6 +521,25 @@
     </animation>
     
     <animation>
+        <type>material</type>
+        <object-name>MasterWarningBtn.left</object-name>
+        <object-name>MasterCautionBtn.left</object-name>
+        <object-name>MasterWarningBtn.right</object-name>
+        <object-name>MasterCautionBtn.right</object-name>
+        
+        <ambient>
+            <red>0.2</red>
+            <green>0.2</green>
+            <blue>0.2</blue>
+        </ambient>
+        <diffuse>
+            <red>0.2</red>
+            <green>0.2</green>
+            <blue>0.2</blue>
+        </diffuse>
+    </animation>
+
+    <animation>
         <type>pick</type>
         <object-name>MasterWarningBtn.left</object-name>
         <object-name>MasterWarningBtn.right</object-name>
