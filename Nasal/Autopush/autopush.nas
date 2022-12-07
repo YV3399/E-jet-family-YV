@@ -2,7 +2,6 @@
 # Basic pushback logic class.
 #
 # Copyright (c) 2018 Autopush authors:
-#  Michael Danilov <mike.d.ft402 -eh- gmail.com>
 #  Joshua Davidson http://github.com/Octal450
 #  Merspieler http://gitlab.com/merspieler
 # Distribute under the terms of GPLv2.

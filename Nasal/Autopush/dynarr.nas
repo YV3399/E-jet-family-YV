@@ -1,7 +1,6 @@
 # Class for dynamic arrays
 #
 # Copyright (c) 2018 dynamic arrays authors:
-#  Michael Danilov <mike.d.ft402 -eh- gmail.com>
 #  Merspieler http://gitlab.com/merspieler
 # Distribute under the terms of GPLv2.
 

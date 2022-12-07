@@ -21,7 +21,6 @@ ITAF autoflight system:
 
 Auto-pushback:
 
-- Michael Danilov <mike.d.ft402 -eh- gmail.com>
 - Joshua Davidson https://github.com/Octal450
 - Merspieler https://gitlab.com/merspieler
  
