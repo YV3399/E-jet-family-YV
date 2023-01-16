@@ -336,7 +336,7 @@ var MCDU = {
                         , nil
                         , [ nil, "FLT SUM" ]
                         , nil
-                        , [ nil, "HOLD" ]
+                        , [ "PATTERN-HOLD", "HOLD" ]
                         , [ "ARRIVAL", "ARRIVAL" ]
 
                           # PAGE 2
