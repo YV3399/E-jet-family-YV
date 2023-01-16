@@ -48,6 +48,8 @@ var BaseView = {
 
 var StaticView = {
     new: func (x, y, txt, flags, visible=1) {
+        if (x < 0)
+            x = cells_x - utf8.size(txt) + x + 1;
         var m = BaseView.new(x, y, flags);
         m.parents = prepended(StaticView, m.parents);
         m.w = size(txt or '');

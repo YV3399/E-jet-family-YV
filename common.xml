@@ -2811,13 +2811,8 @@
         </autostart>
 
         <mcdu>
-            <file>Aircraft/E-jet-family/Models/Instruments/MCDU/util.nas</file>
             <file>Aircraft/E-jet-family/Models/Instruments/MCDU/defs.nas</file>
-            <file>Aircraft/E-jet-family/Models/Instruments/MCDU/mcdu-models.nas</file>
-            <file>Aircraft/E-jet-family/Models/Instruments/MCDU/mcdu-views.nas</file>
-            <file>Aircraft/E-jet-family/Models/Instruments/MCDU/mcdu-controllers.nas</file>
-            <file>Aircraft/E-jet-family/Models/Instruments/MCDU/mcdu-modules.nas</file>
-            <file>Aircraft/E-jet-family/Models/Instruments/MCDU/mcdu-mcdu.nas</file>
+            <file>Aircraft/E-jet-family/Models/Instruments/MCDU/util.nas</file>
             <file>Aircraft/E-jet-family/Models/Instruments/MCDU/mcdu-main.nas</file>
         </mcdu>
 

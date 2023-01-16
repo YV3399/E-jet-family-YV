@@ -605,7 +605,7 @@ var FlightPlanModule = {
                                 math.max(6, size(wp.wp_name)), y + 1,
                                 "F", color | mcdu_large | mcdu_reverse));
                     }
-                    else if (wp.fly_type == 'hold') {
+                    else if (wp.fly_type == 'Hold') {
                         append(me.views,
                             StaticView.new(
                                 math.max(6, size(wp.wp_name)), y + 1,

@@ -18,27 +18,31 @@ var MCDU = {
             activeModule: nil,
             moduleStack: [],
             powered: 0,
+            listeners: [],
             g: nil
         };
         m.initCanvas();
-        setlistener("/instrumentation/mcdu[" ~ n ~ "]/command", func () {
-            m.handleCommand();
-        });
-        setlistener("/controls/keyboard/grabbed", func (node) {
-            var have = (node.getValue() == n);
-            if (have) {
-                m.handleKeyboardGrab();
-            }
-            else {
-                m.handleKeyboardRelease();
-            }
-        }, 1, 0);
         var unreadProp = props.globals.getNode('/cpdlc/incoming', 1);
-        setlistener(unreadProp, func(node) {
-            if (node.getBoolValue()) {
-                m.setScratchpadMsg('ATC UPLINK', mcdu_yellow);
-            }
-        }, 1, 1);
+        append(m.listeners,
+            setlistener(unreadProp, func(node) {
+                if (node.getBoolValue()) {
+                    m.setScratchpadMsg('ATC UPLINK', mcdu_yellow);
+                }
+            }, 1, 1));
+        append(m.listeners,
+            setlistener("/instrumentation/mcdu[" ~ n ~ "]/command", func () {
+                m.handleCommand();
+            }));
+        append(m.listeners,
+            setlistener("/controls/keyboard/grabbed", func (node) {
+                var have = (node.getValue() == n);
+                if (have) {
+                    m.handleKeyboardGrab();
+                }
+                else {
+                    m.handleKeyboardRelease();
+                }
+            }, 1, 0));
         return m;
     },
 
@@ -738,6 +742,20 @@ var MCDU = {
         me.focusBoxElem.setColor(1,1,1);
         me.focusBoxElem.setStrokeLineWidth(2);
         me.focusBoxElem.hide();
+    },
+
+    teardown: func {
+        if (me.activeModule != nil) {
+            me.activeModule.deactivate();
+        }
+        foreach (var l; me.listeners) {
+            removelistener(l);
+        }
+        me.listeners = [];
+        if (me.display != nil) {
+            me.display.del();
+            me.display = nil;
+        }
     },
 
     setFocusBox: func (x, y, w) {
