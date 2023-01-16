@@ -219,7 +219,7 @@ var uplink_messages = {
     "ADVU-15": { txt: "SQUAWK IDENT", args: [], r_opts: ["w","u"] }, 
     "ADVU-16": { txt: "ACTIVATE ADS-C", args: [], r_opts: ["w","u"] }, 
     "ADVU-17": { txt: "ADS-C OUT OF SERVICE REVERT TO VOICE POSITION REPORTS", args: [], r_opts: ["w","u"] }, 
-    "ADVU-18": { txt: "RELAY TO $1", args: [], r_opts: ["w","u"] }, 
+    "ADVU-18": { txt: "RELAY TO $1", args: [ARG_CALLSIGN], r_opts: ["w","u"] },
     "ADVU-19": { txt: "$1 DEVIATION DETECTED. VERIFY AND ADVISE", args: [ARG_DEVIATION_TYPE], r_opts: ["w","u"] }, 
 
     "COMU-1":  { txt: "CONTACT $1 $2", args: [ARG_CALLSIGN, ARG_FREQ], r_opts: ["w","u"] },
