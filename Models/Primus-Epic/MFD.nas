@@ -160,128 +160,129 @@ var RouteDriver = {
 };
 
 var MFD = {
-    new: func(canvas_group, file, index = 0) {
-        var m = { parents: [MFD] };
-        m.init(canvas_group, file, index);
+    new: func(side = 0) {
+        var m = canvas_base.BaseScreen.new(side, 1);
+        m.parents = [MFD] ~ m.parents;
         return m;
     },
 
-    init: func(canvas_group, file, index) {
-        var font_mapper = func(family, weight) {
-            return "LiberationFonts/LiberationSans-Regular.ttf";
-        };
-
-        var self = me; # for listeners
-
-        me.index = index;
+    preRegisterListeners: func () {
+        call(canvas_base.BaseScreen.preRegisterListeners, [], me);
         me.txRadarScanX = 0;
-        me.systemsListeners = [];
-        me.listeners = [];
-        me.elems = {};
-        me.props = {
-                'page': props.globals.getNode('/instrumentation/mfd[' ~ index ~ ']/page'),
-                'submode': props.globals.getNode('/instrumentation/mfd[' ~ index ~ ']/submode'),
-                'altitude-amsl': props.globals.getNode('/position/altitude-ft'),
-                'altitude': props.globals.getNode('/instrumentation/altimeter/indicated-altitude-ft'),
-                'altitude-selected': props.globals.getNode('/controls/flight/selected-alt'),
-                'altitude-target': props.globals.getNode('/it-autoflight/input/alt'),
-                'heading': props.globals.getNode('/orientation/heading-deg'),
-                'valid-att': props.globals.getNode("/instrumentation/iru[" ~ index ~ "]/outputs/valid-att"),
-                'valid-nav': props.globals.getNode("/instrumentation/iru[" ~ index ~ "]/outputs/valid"),
-                'heading-mag': props.globals.getNode('/orientation/heading-magnetic-deg'),
-                'track': props.globals.getNode('/orientation/track-deg'),
-                'track-mag': props.globals.getNode('/orientation/track-magnetic-deg'),
-                'heading-bug': props.globals.getNode('/it-autoflight/input/hdg'),
-                'tas': props.globals.getNode('/instrumentation/airspeed-indicator/true-speed-kt'),
-                'ias': props.globals.getNode('/instrumentation/airspeed-indicator/indicated-speed-kt'),
-                'sat': props.globals.getNode('/environment/temperature-degc'),
-                'tat': props.globals.getNode('/fdm/jsbsim/propulsion/tat-c'),
-                'wind-dir': props.globals.getNode("/environment/wind-from-heading-deg"),
-                'wind-speed': props.globals.getNode("/environment/wind-speed-kt"),
-                'groundspeed': props.globals.getNode("/velocities/groundspeed-kt"),
-                'vs': props.globals.getNode("/instrumentation/vertical-speed-indicator/indicated-speed-fpm"),
-                'latitude': props.globals.getNode("/instrumentation/iru[" ~ index ~ "]/outputs/latitude-deg"),
-                'longitude': props.globals.getNode("/instrumentation/iru[" ~ index ~ "]/outputs/longitude-deg"),
-                'nav-src': props.globals.getNode("/instrumentation/pfd[" ~ index ~ "]/nav-src"),
-                'nav-id': [
-                    props.globals.getNode("/instrumentation/nav[0]/nav-id"),
-                    props.globals.getNode("/instrumentation/nav[1]/nav-id"),
-                ],
-                'nav-loc': [
-                    props.globals.getNode("/instrumentation/nav[0]/nav-loc"),
-                    props.globals.getNode("/instrumentation/nav[1]/nav-loc"),
-                ],
-                'route-active': props.globals.getNode("/autopilot/route-manager/active"),
-                'wp-dist': props.globals.getNode("/autopilot/route-manager/wp/dist"),
-                'wp-ete': props.globals.getNode("/autopilot/route-manager/wp/eta-seconds"),
-                'wp-id': props.globals.getNode("/autopilot/route-manager/wp/id"),
-                'wp-next-dist': props.globals.getNode("/autopilot/route-manager/wp[1]/dist"),
-                'wp-next-ete': props.globals.getNode("/autopilot/route-manager/wp[1]/eta-seconds"),
-                'wp-next-id': props.globals.getNode("/autopilot/route-manager/wp[1]/id"),
-                'dest-dist': props.globals.getNode("/autopilot/route-manager/distance-remaining-nm"),
-                'dest-ete': props.globals.getNode("/autopilot/route-manager/ete"),
-                'dest-id': props.globals.getNode("/autopilot/route-manager/destination/airport"),
-                'zulutime': props.globals.getNode("/instrumentation/clock/indicated-sec"),
-                'zulu-hour': props.globals.getNode("/sim/time/utc/hour"),
-                'zulu-minute': props.globals.getNode("/sim/time/utc/minute"),
-                'cursor': props.globals.getNode("/instrumentation/mfd[" ~ index ~ "]/cursor"),
-                'cursor.x': props.globals.getNode("/instrumentation/mfd[" ~ index ~ "]/cursor/x"),
-                'cursor.y': props.globals.getNode("/instrumentation/mfd[" ~ index ~ "]/cursor/y"),
-                'range': props.globals.getNode("/instrumentation/mfd[" ~ index ~ "]/lateral-range"),
-                'tcas-mode': props.globals.getNode("/instrumentation/tcas/inputs/mode"),
-                'wx-sweep-angle': props.globals.getNode("/instrumentation/wxr/sweep-pos-deg"),
-                'wx-sweep-index': props.globals.getNode("/instrumentation/wxr/scan-pos"),
-                'wx-range': props.globals.getNode("/instrumentation/wxr/range-nm"),
-                'wx-mode': props.globals.getNode("/instrumentation/wxr/mode"),
-                'wx-mode-sel': props.globals.getNode("/instrumentation/mfd[" ~ index ~ "]/wx-mode"),
-                'wx-mode-indicated': props.globals.getNode("/instrumentation/mfd[" ~ index ~ "]/wx-mode-indicated"),
-                'wx-gain': props.globals.getNode("/instrumentation/wxr/gain"),
-                'wx-tilt': props.globals.getNode("/instrumentation/wxr/tilt-angle-deg"),
-                'wx-sect': props.globals.getNode("/instrumentation/wxr/sector-scan"),
-                'wx-turb': props.globals.getNode("/instrumentation/wxr/turb"),
-                'wx-lx': props.globals.getNode("/instrumentation/wxr/lx"),
-                'wx-act': props.globals.getNode("/instrumentation/wxr/act"),
-                'wx-rct': props.globals.getNode("/instrumentation/wxr/rct"),
-                'wx-tgt': props.globals.getNode("/instrumentation/wxr/tgt"),
-                'wx-fsby-ovrd': props.globals.getNode("/instrumentation/wxr/fstby-ovrd"),
-                'green-arc-dist': props.globals.getNode("/fms/dist-to-alt-target-nm"),
-                'route-progress': props.globals.getNode("/fms/vnav/route-progress"),
-                'flight-id': props.globals.getNode("/sim/multiplay/callsign"), # TODO: separate property for this
-                'gross-weight': props.globals.getNode("/fms/fuel/gw-kg"),
-                'brake-temp-0': props.globals.getNode("/gear/gear[1]/brakes/brake[0]/temperature-c"),
-                'brake-temp-1': props.globals.getNode("/gear/gear[1]/brakes/brake[1]/temperature-c"),
-                'brake-temp-2': props.globals.getNode("/gear/gear[2]/brakes/brake[0]/temperature-c"),
-                'brake-temp-3': props.globals.getNode("/gear/gear[2]/brakes/brake[1]/temperature-c"),
-                'resolution': props.globals.getNode("instrumentation/mfd[" ~ index ~ "]/resolution"),
-                'scan-rate': props.globals.getNode("instrumentation/mfd[" ~ index ~ "]/scan-rate"),
+        me.lastRadarSweepAngle = -60;
+        me.showFMSTarget = 1;
+        me.selectUnderlay(nil);
+        me.setWxMode(nil);
+    },
 
-                'elevator-law': props.globals.getNode("fbw/elevator/law"),
-                'rudder-law': props.globals.getNode("fbw/rudder/law"),
-                'spoilers-law': props.globals.getNode("fbw/spoilers/law"),
-                'aileron-left': props.globals.getNode("surface-positions/left-aileron-pos-norm"),
-                'aileron-right': props.globals.getNode("surface-positions/right-aileron-pos-norm"),
-                'rudder': props.globals.getNode("surface-positions/rudder-pos-norm"),
-                'elevator': props.globals.getNode("surface-positions/elevator-pos-norm"),
-                'mfs1':  props.globals.getNode("fdm/jsbsim/fcs/mfs1-pos-norm"),
-                'mfs2':  props.globals.getNode("fdm/jsbsim/fcs/mfs2-pos-norm"),
-                'mfs3':  props.globals.getNode("fdm/jsbsim/fcs/mfs3-pos-norm"),
-                'mfs4':  props.globals.getNode("fdm/jsbsim/fcs/mfs4-pos-norm"),
-                'mfs5':  props.globals.getNode("fdm/jsbsim/fcs/mfs5-pos-norm"),
-                'mfs6':  props.globals.getNode("fdm/jsbsim/fcs/mfs6-pos-norm"),
-                'mfs7':  props.globals.getNode("fdm/jsbsim/fcs/mfs7-pos-norm"),
-                'mfs8':  props.globals.getNode("fdm/jsbsim/fcs/mfs8-pos-norm"),
-                'mfs9':  props.globals.getNode("fdm/jsbsim/fcs/mfs9-pos-norm"),
-                'mfs10': props.globals.getNode("fdm/jsbsim/fcs/mfs10-pos-norm"),
-            };
+    registerProps: func () {
+        call(canvas_base.BaseScreen.registerProps, [], me);
+        me.registerProp('page', '/instrumentation/mfd[' ~ me.side ~ ']/page');
+        me.registerProp('submode', '/instrumentation/mfd[' ~ me.side ~ ']/submode');
+        me.registerProp('altitude-amsl', '/position/altitude-ft');
+        me.registerProp('altitude', '/instrumentation/altimeter/indicated-altitude-ft');
+        me.registerProp('altitude-selected', '/controls/flight/selected-alt');
+        me.registerProp('altitude-target', '/it-autoflight/input/alt');
+        me.registerProp('heading', '/orientation/heading-deg');
+        me.registerProp('valid-att', "/instrumentation/iru[" ~ me.side ~ "]/outputs/valid-att");
+        me.registerProp('valid-nav', "/instrumentation/iru[" ~ me.side ~ "]/outputs/valid");
+        me.registerProp('heading-mag', '/orientation/heading-magnetic-deg');
+        me.registerProp('track', '/orientation/track-deg');
+        me.registerProp('track-mag', '/orientation/track-magnetic-deg');
+        me.registerProp('heading-bug', '/it-autoflight/input/hdg');
+        me.registerProp('tas', '/instrumentation/airspeed-indicator/true-speed-kt');
+        me.registerProp('ias', '/instrumentation/airspeed-indicator/indicated-speed-kt');
+        me.registerProp('sat', '/environment/temperature-degc');
+        me.registerProp('tat', '/fdm/jsbsim/propulsion/tat-c');
+        me.registerProp('wind-dir', "/environment/wind-from-heading-deg");
+        me.registerProp('wind-speed', "/environment/wind-speed-kt");
+        me.registerProp('groundspeed', "/velocities/groundspeed-kt");
+        me.registerProp('vs', "/instrumentation/vertical-speed-indicator/indicated-speed-fpm");
+        me.registerProp('latitude', "/instrumentation/iru[" ~ me.side ~ "]/outputs/latitude-deg");
+        me.registerProp('longitude', "/instrumentation/iru[" ~ me.side ~ "]/outputs/longitude-deg");
+        me.registerProp('nav-src', "/instrumentation/pfd[" ~ me.side ~ "]/nav-src");
+        me.registerProp('nav-id', ['/instrumentation/nav[0]/nav-id', '/instrumentation/nav[1]/nav-id']);
+        me.registerProp('nav-loc', ['/instrumentation/nav[0]/nav-loc', '/instrumentation/nav[1]/nav-loc']);
+        me.registerProp('route-active', "/autopilot/route-manager/active");
+        me.registerProp('wp-dist', "/autopilot/route-manager/wp/dist");
+        me.registerProp('wp-ete', "/autopilot/route-manager/wp/eta-seconds");
+        me.registerProp('wp-id', "/autopilot/route-manager/wp/id");
+        me.registerProp('wp-next-dist', "/autopilot/route-manager/wp[1]/dist");
+        me.registerProp('wp-next-ete', "/autopilot/route-manager/wp[1]/eta-seconds");
+        me.registerProp('wp-next-id', "/autopilot/route-manager/wp[1]/id");
+        me.registerProp('dest-dist', "/autopilot/route-manager/distance-remaining-nm");
+        me.registerProp('dest-ete', "/autopilot/route-manager/ete");
+        me.registerProp('dest-id', "/autopilot/route-manager/destination/airport");
+        me.registerProp('zulutime', "/instrumentation/clock/indicated-sec");
+        me.registerProp('zulu-hour', "/sim/time/utc/hour");
+        me.registerProp('zulu-minute', "/sim/time/utc/minute");
+        me.registerProp('cursor', "/instrumentation/mfd[" ~ me.side ~ "]/cursor");
+        me.registerProp('cursor.x', "/instrumentation/mfd[" ~ me.side ~ "]/cursor/x");
+        me.registerProp('cursor.y', "/instrumentation/mfd[" ~ me.side ~ "]/cursor/y");
+        me.registerProp('cursor.visible', "/instrumentation/mfd[" ~ me.side ~ "]/cursor/visible");
+        me.registerProp('range', "/instrumentation/mfd[" ~ me.side ~ "]/lateral-range");
+        me.registerProp('tcas-mode', "/instrumentation/tcas/inputs/mode");
+        me.registerProp('wx-sweep-angle', "/instrumentation/wxr/sweep-pos-deg");
+        me.registerProp('wx-sweep-me.side', "/instrumentation/wxr/scan-pos");
+        me.registerProp('wx-range', "/instrumentation/wxr/range-nm");
+        me.registerProp('wx-mode', "/instrumentation/wxr/mode");
+        me.registerProp('wx-mode-sel', "/instrumentation/mfd[" ~ me.side ~ "]/wx-mode");
+        me.registerProp('wx-mode-indicated', "/instrumentation/mfd[" ~ me.side ~ "]/wx-mode-indicated");
+        me.registerProp('wx-gain', "/instrumentation/wxr/gain");
+        me.registerProp('wx-tilt', "/instrumentation/wxr/tilt-angle-deg");
+        me.registerProp('wx-sect', "/instrumentation/wxr/sector-scan");
+        me.registerProp('wx-turb', "/instrumentation/wxr/turb");
+        me.registerProp('wx-lx', "/instrumentation/wxr/lx");
+        me.registerProp('wx-act', "/instrumentation/wxr/act");
+        me.registerProp('wx-rct', "/instrumentation/wxr/rct");
+        me.registerProp('wx-tgt', "/instrumentation/wxr/tgt");
+        me.registerProp('wx-fsby-ovrd', "/instrumentation/wxr/fstby-ovrd");
+        me.registerProp('green-arc-dist', "/fms/dist-to-alt-target-nm");
+        me.registerProp('route-progress', "/fms/vnav/route-progress");
 
-        var masterProp = props.globals.getNode("/instrumentation/mfd[" ~ index ~ "]");
+        # TODO: separate property for this
+        me.registerProp('flight-id', "/sim/multiplay/callsign");
+        me.registerProp('gross-weight', "/fms/fuel/gw-kg");
+        me.registerProp('brake-temp-0', "/gear/gear[1]/brakes/brake[0]/temperature-c");
+        me.registerProp('brake-temp-1', "/gear/gear[1]/brakes/brake[1]/temperature-c");
+        me.registerProp('brake-temp-2', "/gear/gear[2]/brakes/brake[0]/temperature-c");
+        me.registerProp('brake-temp-3', "/gear/gear[2]/brakes/brake[1]/temperature-c");
+        me.registerProp('resolution', "instrumentation/mfd[" ~ me.side ~ "]/resolution");
+        me.registerProp('scan-rate', "instrumentation/mfd[" ~ me.side ~ "]/scan-rate");
+
+        me.registerProp('elevator-law', "fbw/elevator/law");
+        me.registerProp('rudder-law', "fbw/rudder/law");
+        me.registerProp('spoilers-law', "fbw/spoilers/law");
+        me.registerProp('aileron-left', "surface-positions/left-aileron-pos-norm");
+        me.registerProp('aileron-right', "surface-positions/right-aileron-pos-norm");
+        me.registerProp('rudder', "surface-positions/rudder-pos-norm");
+        me.registerProp('elevator', "surface-positions/elevator-pos-norm");
+        me.registerProp('mfs1',  "fdm/jsbsim/fcs/mfs1-pos-norm");
+        me.registerProp('mfs2',  "fdm/jsbsim/fcs/mfs2-pos-norm");
+        me.registerProp('mfs3',  "fdm/jsbsim/fcs/mfs3-pos-norm");
+        me.registerProp('mfs4',  "fdm/jsbsim/fcs/mfs4-pos-norm");
+        me.registerProp('mfs5',  "fdm/jsbsim/fcs/mfs5-pos-norm");
+        me.registerProp('mfs6',  "fdm/jsbsim/fcs/mfs6-pos-norm");
+        me.registerProp('mfs7',  "fdm/jsbsim/fcs/mfs7-pos-norm");
+        me.registerProp('mfs8',  "fdm/jsbsim/fcs/mfs8-pos-norm");
+        me.registerProp('mfs9',  "fdm/jsbsim/fcs/mfs9-pos-norm");
+        me.registerProp('mfs10', "fdm/jsbsim/fcs/mfs10-pos-norm");
+
+        var masterProp = props.globals.getNode("/instrumentation/mfd[" ~ me.side ~ "]");
         foreach (var key; ['show-navaids', 'show-airports', 'show-wpt', 'show-progress', 'show-missed', 'show-tcas']) {
             var node = masterProp.addChild(key);
             node.setBoolValue(0);
-            me.props[key] = node;
+            me.registerProp(key, node);
         }
+    },
 
-        me.master = canvas_group;
+    # makeMasterGroup: func (group) {
+    #     call(canvas_base.BaseScreen.makeMasterGroup, [group], me);
+    #     canvas.parsesvg(group, "Aircraft/E-jet-family/Models/Primus-Epic/MFD.svg", { 'font-mapper': me.font_mapper });
+    # },
+
+    makeGroups: func () {
+        var self = me;
 
         # Upper area (lateral/systems): 1024x768
         me.upperArea = me.master.createChild("group");
@@ -295,48 +296,34 @@ var MFD = {
         me.lowerArea.set("clip-frame", canvas.Element.PARENT);
         me.lowerArea.setTranslation(0, 0);
 
-        me.guiOverlay = me.master.createChild("group");
-        canvas.parsesvg(me.guiOverlay, "Aircraft/E-jet-family/Models/Primus-Epic/MFD-gui.svg", {'font-mapper': font_mapper});
-
         # Set up MAP/PLAN page
         me.dualRouteDriver = RouteDriver.new();
         me.plannedRouteDriver = RouteDriver.new(0);
 
         me.vnav = me.lowerArea.createChild("group");
-        canvas.parsesvg(me.vnav, "Aircraft/E-jet-family/Models/Primus-Epic/MFD-vnav.svg", {'font-mapper': font_mapper});
+        canvas.parsesvg(me.vnav, "Aircraft/E-jet-family/Models/Primus-Epic/MFD-vnav.svg", {'font-mapper': me.font_mapper});
 
         me.pageContainer = me.upperArea.createChild("group");
 
         me.systemsContainer = me.pageContainer.createChild("group");
         me.systemsPages = {};
         me.systemsPages.status = me.systemsContainer.createChild("group");
-        canvas.parsesvg(me.systemsPages.status, "Aircraft/E-jet-family/Models/Primus-Epic/MFD-systems-status.svg", {'font-mapper': font_mapper});
+        canvas.parsesvg(me.systemsPages.status, "Aircraft/E-jet-family/Models/Primus-Epic/MFD-systems-status.svg", {'font-mapper': me.font_mapper});
         me.systemsPages.electrical = me.systemsContainer.createChild("group");
-        canvas.parsesvg(me.systemsPages.electrical, "Aircraft/E-jet-family/Models/Primus-Epic/MFD-systems-electrical.svg", {'font-mapper': font_mapper});
+        canvas.parsesvg(me.systemsPages.electrical, "Aircraft/E-jet-family/Models/Primus-Epic/MFD-systems-electrical.svg", {'font-mapper': me.font_mapper});
         me.systemsPages.fuel = me.systemsContainer.createChild("group");
-        canvas.parsesvg(me.systemsPages.fuel, "Aircraft/E-jet-family/Models/Primus-Epic/MFD-systems-fuel.svg", {'font-mapper': font_mapper});
+        canvas.parsesvg(me.systemsPages.fuel, "Aircraft/E-jet-family/Models/Primus-Epic/MFD-systems-fuel.svg", {'font-mapper': me.font_mapper});
         me.systemsPages.flightControls = me.systemsContainer.createChild("group");
-        canvas.parsesvg(me.systemsPages.flightControls, "Aircraft/E-jet-family/Models/Primus-Epic/MFD-systems-flight-controls.svg", {'font-mapper': font_mapper});
+        canvas.parsesvg(me.systemsPages.flightControls, "Aircraft/E-jet-family/Models/Primus-Epic/MFD-systems-flight-controls.svg", {'font-mapper': me.font_mapper});
 
         me.underlay = me.pageContainer.createChild("group");
         me.terrainViz = me.underlay.createChild("image");
-        me.terrainViz.set("src", resolvepath("Aircraft/E-jet-family/Models/Primus-Epic/MFD/terrain" ~ index ~ ".png"));
+        me.terrainViz.set("src", resolvepath("Aircraft/E-jet-family/Models/Primus-Epic/MFD/terrain" ~ me.side ~ ".png"));
         me.terrainViz.setCenter(128, 128);
-        me.terrainTimer = maketimer(0.1, func { self.updateTerrainViz(); });
-        me.terrainTimer.simulatedTime = 1;
         me.radarViz = me.underlay.createChild("image");
-        me.radarViz.set("src", resolvepath("Aircraft/E-jet-family/Models/Primus-Epic/MFD/radar" ~ index ~ ".png"));
+        me.radarViz.set("src", resolvepath("Aircraft/E-jet-family/Models/Primus-Epic/MFD/radar" ~ me.side ~ ".png"));
         me.radarViz.setCenter(128, 128);
-        me.lastRadarSweepAngle = -60;
-        append(me.listeners, setlistener("/instrumentation/wxr/sweep-pos-deg", func (node) {
-            self.updateRadarViz(node.getValue());
-        }));
-        append(me.listeners, setlistener(me.props['wx-range'], func () {
-            self.updateRadarScale();
-        }));
-
         canvas.parsesvg(me.underlay, "Aircraft/E-jet-family/Models/Primus-Epic/MFD-radar-mask.svg");
-        me.terrainTimer.start();
 
         me.mapCamera = mfdmap.Camera.new({
             range: 25,
@@ -351,7 +338,7 @@ var MFD = {
         me.map.set("clip", "rect(0px, 1024px, 740px, 0px)");
         me.map.set("clip-frame", canvas.Element.PARENT);
         me.map.setTranslation(512, 540);
-        me.map.setController("Aircraft position EJ", 'iru' ~ index);
+        me.map.setController("Aircraft position EJ", 'iru' ~ me.side);
         me.map.setRange(25);
         me.map.setScreenRange(416);
         # me.map.addLayer(factory: canvas.SymbolLayer, type_arg: "TFC-Ejet", visible: 1, priority: 9,
@@ -400,8 +387,234 @@ var MFD = {
         me.planIndex = 0;
 
         me.mapOverlay = me.pageContainer.createChild("group");
-        canvas.parsesvg(me.mapOverlay, "Aircraft/E-jet-family/Models/Primus-Epic/MFD-map.svg", {'font-mapper': font_mapper});
+        canvas.parsesvg(me.mapOverlay, "Aircraft/E-jet-family/Models/Primus-Epic/MFD-map.svg", {'font-mapper': me.font_mapper});
 
+        call(canvas_base.BaseScreen.makeGroups, [], me);
+
+        canvas.parsesvg(me.guiOverlay, "Aircraft/E-jet-family/Models/Primus-Epic/MFD-gui.svg", {'font-mapper': me.font_mapper});
+    },
+
+    registerListeners: func () {
+        call(canvas_base.BaseScreen.registerListeners, [], me);
+
+        var self = me;
+
+        me.addListener('main', "/instrumentation/wxr/sweep-pos-deg", func (node) {
+            self.updateRadarViz(node.getValue());
+        });
+        me.addListener('main', '@wx-range', func () {
+            self.updateRadarScale();
+        });
+
+        me.addListener('main', me.props['valid-nav'], func (node) {
+            if (node.getBoolValue()) {
+                self.elems['arc.compass'].show();
+                self.elems['arc.track'].show();
+                self.elems['heading.digital'].setColor(0, 1, 0);
+                self.elems['wind.arrow'].show();
+                self.elems['wind.digital'].show();
+                self.elems['terrain.status'].setColor(0, 1, 0);
+                self.elems['terrain.status'].setText('TERRAIN');
+            }
+            else {
+                self.elems['arc.compass'].hide();
+                self.elems['arc.heading-bug'].hide();
+                self.elems['arc.heading-bug.arrow-left'].hide();
+                self.elems['arc.heading-bug.arrow-right'].hide();
+                self.elems['arc.track'].hide();
+                self.elems['wind.arrow'].hide();
+                self.elems['wind.digital'].hide();
+                self.elems['heading.digital'].setColor(1, 0.5, 0);
+                self.elems['heading.digital'].setText('---');
+                self.elems['terrain.status'].setColor(1, 0.5, 0);
+                self.elems['terrain.status'].setText('TERR N/A');
+            }
+        }, 1, 0);
+        me.addListener('main', me.props['wx-gain'], func (node) {
+            self.elems['weatherMenu.gain'].setText(sprintf("%3.0f", node.getValue() or 0));
+        }, 1, 0);
+        me.addListener('main', me.props['wx-tilt'], func (node) {
+            self.elems['weather.tilt'].setText(sprintf("%-2.0f", node.getValue() or 0));
+        }, 1, 0);
+        me.addListener('main', me.props['wx-mode-indicated'], func(node) {
+            var modeIndex = node.getValue();
+            if (modeIndex == 3) {
+                self.elems['weather.mode']
+                    .setText("GMAP")
+                    .setColor([0, 1, 0, 1]);
+            }
+            else if (modeIndex == 2) {
+                self.elems['weather.mode']
+                    .setText("WX")
+                    .setColor([0, 1, 0, 1]);
+            }
+            else if (modeIndex == 1) {
+                self.elems['weather.mode']
+                    .setText("STBY")
+                    .setColor([1, 1, 1, 1]);
+            }
+            else if (modeIndex == 0) {
+                self.elems['weather.mode']
+                    .setText("WX OFF")
+                    .setColor([1, 1, 1, 1]);
+            }
+            else if (modeIndex == -1) {
+                self.elems['weather.mode']
+                    .setText("FSBY")
+                    .setColor([0, 1, 0, 1]);
+            }
+            else if (modeIndex == -2) {
+                self.elems['weather.mode']
+                    .setText("WAIT")
+                    .setColor([1, 1, 1, 1]);
+            }
+            else {
+                self.elems['weather.mode']
+                    .setText("FAIL")
+                    .setColor([1, 0.5, 0, 1]);
+            }
+        }, 1, 0);
+        me.addListener('main', me.props['green-arc-dist'], func (node) {
+            self.updateGreenArc(node.getValue());
+        }, 1, 0);
+        me.addListener('main', me.props['wx-sect'], func (node) {
+            self.elems['weatherMenu.checkSect'].setVisible(node.getBoolValue());
+        }, 1, 0);
+        me.addListener('main', '/fms/vnav/available', func () {
+            self.updateVnavFlightplan();
+        }, 1, 0);
+        me.addListener('main', me.props['wx-fsby-ovrd'], func (node) {
+            self.elems['weatherMenu.checkFsbyOvrd'].setVisible(node.getBoolValue());
+        }, 1, 0);
+        me.addListener('main', "/instrumentation/mfd[" ~ me.side ~ "]/lateral-range", func (node) {
+            self.setRange(node.getValue());
+        }, 1, 0);
+        me.addListener('main', me.props['heading-bug'], func (node) {
+            self.elems['arc.heading-bug'].setRotation(node.getValue() * DC);
+        }, 1, 0);
+        me.addListener('main', me.props['track-mag'], func (node) {
+            self.elems['arc.track'].setRotation(node.getValue() * DC);
+        }, 1, 0);
+        me.addListener('main', me.props['nav-src'], func (node) {
+            self.updateNavSrc();
+        }, 1, 0);
+        me.addListener('main', me.props['wp-id'], func (node) {
+            self.updateNavSrc();
+        }, 0, 0);
+        me.addListener('main', "/autopilot/route-manager/active", func {
+            self.updatePlanWPT();
+            self.updateVnavFlightplan();
+        }, 1, 0);
+        me.addListener('main',  "/autopilot/route-manager/cruise/altitude-ft", func {
+            self.updateVnavFlightplan();
+        }, 1, 0);
+        me.addListener('main', me.props['page'], func (node) {
+            self.updatePage();
+        }, 1, 0);
+        me.addListener('main', me.props['submode'], func (node) {
+            var submode = node.getValue();
+            self.elems['btnSystems.mode.label'].setText(submodeNames[submode]);
+            self.updateSystemsSubmode(submode);
+            self.updatePage();
+        }, 1, 0);
+        me.addListener('main', me.props['cursor.x'], func (node) {
+            self.cursor.setTranslation(
+                self.props['cursor.x'].getValue(),
+                self.props['cursor.y'].getValue()
+            );
+        }, 1, 0);
+        me.addListener('main', me.props['cursor.y'], func (node) {
+            self.cursor.setTranslation(
+                self.props['cursor.x'].getValue(),
+                self.props['cursor.y'].getValue()
+            );
+        }, 1, 0);
+        me.addListener('main', me.props['cursor.visible'], func (node) {
+            self.cursor.setVisible(node.getBoolValue());
+        }, 1, 0);
+        me.addListener('main', me.props['show-navaids'], func (node) {
+            var viz = node.getBoolValue();
+            self.elems['checkNavaids'].setVisible(viz);
+            self.map.layers['NDB'].setVisible(viz);
+            self.map.layers['VOR'].setVisible(viz);
+        }, 1, 0);
+        me.addListener('main', me.props['show-airports'], func (node) {
+            var viz = node.getBoolValue();
+            var range = me.map.getRange();
+            self.elems['checkAirports'].setVisible(viz);
+            self.map.layers["RWY"].setVisible(range < 9.5 and viz);
+            self.map.layers["APT"].setVisible(range >= 9.5 and range < 99.5 and viz);
+        }, 1, 0);
+        me.addListener('main', me.props['show-wpt'], func (node) {
+            var viz = node.getBoolValue();
+            self.elems['checkWptIdent'].setVisible(viz);
+            self.map.layers['WPT'].setVisible(viz);
+        }, 1, 0);
+        me.addListener('main', me.props['show-progress'], func (node) {
+            var viz = node.getBoolValue();
+            self.elems['checkProgress'].setVisible(viz);
+            self.elems['progress.master'].setVisible(viz);
+        }, 1, 0);
+        me.addListener('main', me.props['show-missed'], func (node) {
+            var viz = node.getBoolValue();
+            self.elems['checkMissedAppr'].setVisible(viz);
+            # TODO: toggle missed approach display
+        }, 1, 0);
+        me.addListener('main', me.props['show-tcas'], func (node) {
+            var viz = node.getBoolValue();
+            self.elems['checkTCAS'].setVisible(viz);
+            self.elems['tcas.master'].setVisible(viz);
+            self.trafficGroup.setVisible(viz);
+            if (viz)
+                self.trafficLayer.start();
+            else
+                self.trafficLayer.stop();
+            # self.map.layers['TFC-Ejet'].setVisible(viz);
+        }, 1, 0);
+        me.addListener('main', me.props['tcas-mode'], func (node) {
+            var mode = node.getValue();
+            if (mode == 3) {
+                # TA/RA
+                self.elems['tcas.mode'].setColor(0, 1, 0);
+                self.elems['tcas.mode'].setText('TCAS TA/RA');
+            }
+            else if (mode == 2) {
+                # TA ONLY
+                self.elems['tcas.mode'].setColor(0, 1, 0);
+                self.elems['tcas.mode'].setText('TA ONLY');
+            }
+            else {
+                # TCAS OFF
+                self.elems['tcas.mode'].setColor(1, 0.75, 0);
+                self.elems['tcas.mode'].setText('TCAS OFF');
+            }
+        }, 1, 0);
+        me.addListener('main', me.props['altitude-selected'], func (node) {
+            var alt = node.getValue();
+            var offset = -alt * 0.04;
+            self.elems['vnav.selectedalt'].setTranslation(0, offset);
+        }, 1, 0);
+
+    },
+
+    postRegisterListeners: func () {
+        var self = me;
+
+        me.terrainTimer = maketimer(0.1, func { self.updateTerrainViz(); });
+        me.terrainTimer.simulatedTime = 1;
+
+        me.terrainTimer.start();
+
+        # Hide extra stuff when not Lineage 1000
+        if (getprop('/sim/aircraft') == 'EmbraerLineage1000') {
+        }
+        else {
+            me.elems['fuel.tank3.group'].hide();
+        }
+    },
+
+    registerElems: func () {
+        call(canvas_base.BaseScreen.registerElems, [], me);
         var mapkeys = [
                 'arc',
                 'arc.compass',
@@ -761,30 +974,11 @@ var MFD = {
                 'fctl.mfs10.dashedbox',
                 'fctl.mfs10.stripes',
         ];
-        foreach (var key; mapkeys) {
-            me.elems[key] = me.mapOverlay.getElementById(key);
-            if (me.elems[key] == nil) {
-                debug.warn("Element does not exist: " ~ key);
-            }
-        }
-        foreach (var key; guikeys) {
-            me.elems[key] = me.guiOverlay.getElementById(key);
-            if (me.elems[key] == nil) {
-                debug.warn("Element does not exist: " ~ key);
-            }
-        }
-        foreach (var key; vnavkeys) {
-            me.elems[key] = me.vnav.getElementById(key);
-            if (me.elems[key] == nil) {
-                debug.warn("Element does not exist: " ~ key);
-            }
-        }
-        foreach (var key; systemskeys) {
-            me.elems[key] = me.systemsContainer.getElementById(key);
-            if (me.elems[key] == nil) {
-                debug.warn("Element does not exist: " ~ key);
-            }
-        }
+
+        me.registerElemsFrom(mapkeys, me.mapOverlay);
+        me.registerElemsFrom(guikeys, me.guiOverlay);
+        me.registerElemsFrom(vnavkeys, me.vnav);
+        me.registerElemsFrom(systemskeys, me.systemsContainer);
 
         me.elems['vnav-flightplan'] = me.elems['vnav.lateral'].createChild("group");
         me.elems['vnav-flightplan.path'] = me.elems['vnav-flightplan'].createChild("path");
@@ -808,273 +1002,52 @@ var MFD = {
         me.elems['greenarc'] = me.elems['arc.master'].createChild("path");
         me.elems['greenarc'].setStrokeLineWidth(3);
         me.elems['greenarc'].setColor(0, 1, 0, 1);
-
-        me.widgets = [
-            { key: 'btnMap', ontouch: func { self.touchMap(); } },
-            { key: 'btnPlan', ontouch: func { self.touchPlan(); } },
-            { key: 'btnSystems.mode', ontouch: func { self.touchSystemsSubmode(); } },
-            { key: 'btnSystems', ontouch: func { self.touchSystems(); } },
-            { key: 'btnTCAS', ontouch: func { debug.dump("TCAS"); } },
-            { key: 'btnWeather', ontouch: func { self.elems['weatherMenu'].toggleVisibility(); } },
-            { key: 'checkNavaids', active: func { self.elems['mapMenu'].getVisible() }, ontouch: func { self.toggleMapCheckbox('navaids'); } },
-            { key: 'checkAirports', active: func { self.elems['mapMenu'].getVisible() }, ontouch: func { self.toggleMapCheckbox('airports'); } },
-            { key: 'checkWptIdent', active: func { self.elems['mapMenu'].getVisible() }, ontouch: func { self.toggleMapCheckbox('wpt'); } },
-            { key: 'checkProgress', active: func { self.elems['mapMenu'].getVisible() }, ontouch: func { self.toggleMapCheckbox('progress'); } },
-            { key: 'checkMissedAppr', active: func { self.elems['mapMenu'].getVisible() }, ontouch: func { self.toggleMapCheckbox('missed'); } },
-            { key: 'checkTCAS', active: func { self.elems['mapMenu'].getVisible() }, ontouch: func { self.toggleMapCheckbox('tcas'); } },
-            { key: 'radioWeather', active: func { self.elems['mapMenu'].getVisible() }, ontouch: func { self.selectUnderlay('WX'); } },
-            { key: 'radioTerrain', active: func { self.elems['mapMenu'].getVisible() }, ontouch: func { self.selectUnderlay('TERRAIN'); } },
-            { key: 'radioOff', active: func { self.elems['mapMenu'].getVisible() }, ontouch: func { self.selectUnderlay(nil); } },
-
-            { key: 'submodeStatus', active: func { self.elems['submodeMenu'].getVisible() }, ontouch: func { self.selectSystemsSubmode(SUBMODE_STATUS); } },
-            { key: 'submodeElectrical', active: func { self.elems['submodeMenu'].getVisible() }, ontouch: func { self.selectSystemsSubmode(SUBMODE_ELECTRICAL); } },
-            { key: 'submodeFuel', active: func { self.elems['submodeMenu'].getVisible() }, ontouch: func { self.selectSystemsSubmode(SUBMODE_FUEL); } },
-            { key: 'submodeFlightControls', active: func { self.elems['submodeMenu'].getVisible() }, ontouch: func { self.selectSystemsSubmode(SUBMODE_FLIGHT_CONTROLS); } },
-
-            { key: 'weatherMenu.radioOff', active: func { self.elems['weatherMenu'].getVisible() }, ontouch: func { self.setWxMode(0); } },
-            { key: 'weatherMenu.radioSTBY', active: func { self.elems['weatherMenu'].getVisible() }, ontouch: func { self.setWxMode(1); } },
-            { key: 'weatherMenu.radioWX', active: func { self.elems['weatherMenu'].getVisible() }, ontouch: func { self.setWxMode(2); } },
-            { key: 'weatherMenu.radioGMAP', active: func { self.elems['weatherMenu'].getVisible() }, ontouch: func { self.setWxMode(3); } },
-            { key: 'weatherMenu.checkSect', active: func { self.elems['weatherMenu'].getVisible() }, ontouch: func { self.toggleWeatherCheckbox('wx-sect'); } },
-            { key: 'weatherMenu.checkStabOff', active: func { self.elems['weatherMenu'].getVisible() }, ontouch: func { self.toggleWeatherCheckbox('wx-stab-off'); } },
-            { key: 'weatherMenu.checkVarGain', active: func { self.elems['weatherMenu'].getVisible() }, ontouch: func { self.toggleWeatherCheckbox('wx-var-gain'); } },
-            { key: 'weatherMenu.checkTGT', active: func { self.elems['weatherMenu'].getVisible() }, ontouch: func { self.toggleWeatherCheckbox('wx-tgt'); } },
-            { key: 'weatherMenu.checkRCT', active: func { self.elems['weatherMenu'].getVisible() }, ontouch: func { self.toggleWeatherCheckbox('wx-rct'); } },
-            { key: 'weatherMenu.checkACT', active: func { self.elems['weatherMenu'].getVisible() }, ontouch: func { self.toggleWeatherCheckbox('wx-act'); } },
-            { key: 'weatherMenu.checkTurb', active: func { self.elems['weatherMenu'].getVisible() }, ontouch: func { self.toggleWeatherCheckbox('wx-turb'); } },
-            { key: 'weatherMenu.checkLX', active: func { self.elems['weatherMenu'].getVisible() }, ontouch: func { self.toggleWeatherCheckbox('wx-lx'); } },
-            { key: 'weatherMenu.checkClrTst', active: func { self.elems['weatherMenu'].getVisible() }, ontouch: func { self.toggleWeatherCheckbox('wx-clr-tst'); } },
-            { key: 'weatherMenu.checkFsbyOvrd', active: func { self.elems['weatherMenu'].getVisible() }, ontouch: func { self.toggleWeatherCheckbox('wx-fsby-ovrd'); } },
-        ];
-
-        forindex (var i; me.widgets) {
-            var elem = me.guiOverlay.getElementById(me.widgets[i].key);
-            var boxElem = me.guiOverlay.getElementById(me.widgets[i].key ~ ".clickbox");
-            if (boxElem == nil) {
-                me.widgets[i].box = elem.getTransformedBounds();
-            }
-            else {
-                me.widgets[i].box = boxElem.getTransformedBounds();
-            }
-            me.widgets[i].elem = elem;
-            if (me.widgets[i]['visible'] != nil and me.widgets[i].visible == 0) {
-                elem.hide();
-            }
-        }
-
-
-        me.cursor = me.guiOverlay.createChild("group");
-        canvas.parsesvg(me.cursor, "Aircraft/E-jet-family/Models/Primus-Epic/cursor.svg", {'font-mapper': font_mapper});
-
-        me.showFMSTarget = 1;
-
-        me.selectUnderlay(nil);
-        me.setWxMode(nil);
-
-        append(me.listeners, setlistener(me.props['valid-nav'], func (node) {
-            if (node.getBoolValue()) {
-                self.elems['arc.compass'].show();
-                self.elems['arc.track'].show();
-                self.elems['heading.digital'].setColor(0, 1, 0);
-                self.elems['wind.arrow'].show();
-                self.elems['wind.digital'].show();
-                self.elems['terrain.status'].setColor(0, 1, 0);
-                self.elems['terrain.status'].setText('TERRAIN');
-            }
-            else {
-                self.elems['arc.compass'].hide();
-                self.elems['arc.heading-bug'].hide();
-                self.elems['arc.heading-bug.arrow-left'].hide();
-                self.elems['arc.heading-bug.arrow-right'].hide();
-                self.elems['arc.track'].hide();
-                self.elems['wind.arrow'].hide();
-                self.elems['wind.digital'].hide();
-                self.elems['heading.digital'].setColor(1, 0.5, 0);
-                self.elems['heading.digital'].setText('---');
-                self.elems['terrain.status'].setColor(1, 0.5, 0);
-                self.elems['terrain.status'].setText('TERR N/A');
-            }
-        }, 1, 0));
-        append(me.listeners, setlistener(me.props['wx-gain'], func (node) {
-            self.elems['weatherMenu.gain'].setText(sprintf("%3.0f", node.getValue() or 0));
-        }, 1, 0));
-        append(me.listeners, setlistener(me.props['wx-tilt'], func (node) {
-            self.elems['weather.tilt'].setText(sprintf("%-2.0f", node.getValue() or 0));
-        }, 1, 0));
-        append(me.listeners, setlistener(me.props['wx-mode-indicated'], func(node) {
-            var modeIndex = node.getValue();
-            if (modeIndex == 3) {
-                self.elems['weather.mode']
-                    .setText("GMAP")
-                    .setColor([0, 1, 0, 1]);
-            }
-            else if (modeIndex == 2) {
-                self.elems['weather.mode']
-                    .setText("WX")
-                    .setColor([0, 1, 0, 1]);
-            }
-            else if (modeIndex == 1) {
-                self.elems['weather.mode']
-                    .setText("STBY")
-                    .setColor([1, 1, 1, 1]);
-            }
-            else if (modeIndex == 0) {
-                self.elems['weather.mode']
-                    .setText("WX OFF")
-                    .setColor([1, 1, 1, 1]);
-            }
-            else if (modeIndex == -1) {
-                self.elems['weather.mode']
-                    .setText("FSBY")
-                    .setColor([0, 1, 0, 1]);
-            }
-            else if (modeIndex == -2) {
-                self.elems['weather.mode']
-                    .setText("WAIT")
-                    .setColor([1, 1, 1, 1]);
-            }
-            else {
-                self.elems['weather.mode']
-                    .setText("FAIL")
-                    .setColor([1, 0.5, 0, 1]);
-            }
-        }, 1, 0));
-        append(me.listeners, setlistener(me.props['green-arc-dist'], func (node) {
-            self.updateGreenArc(node.getValue());
-        }, 1, 0));
-        append(me.listeners, setlistener(me.props['wx-sect'], func (node) {
-            self.elems['weatherMenu.checkSect'].setVisible(node.getBoolValue());
-        }, 1, 0));
-        append(me.listeners, setlistener('/fms/vnav/available', func () {
-            self.updateVnavFlightplan();
-        }, 1, 0));
-        append(me.listeners, setlistener(me.props['wx-fsby-ovrd'], func (node) {
-            self.elems['weatherMenu.checkFsbyOvrd'].setVisible(node.getBoolValue());
-        }, 1, 0));
-        append(me.listeners, setlistener("/instrumentation/mfd[" ~ index ~ "]/lateral-range", func (node) {
-            self.setRange(node.getValue());
-        }, 1, 0));
-        append(me.listeners, setlistener(me.props['heading-bug'], func (node) {
-            self.elems['arc.heading-bug'].setRotation(node.getValue() * DC);
-        }, 1, 0));
-        append(me.listeners, setlistener(me.props['track-mag'], func (node) {
-            self.elems['arc.track'].setRotation(node.getValue() * DC);
-        }, 1, 0));
-        append(me.listeners, setlistener(me.props['nav-src'], func (node) {
-            self.updateNavSrc();
-        }, 1, 0));
-        append(me.listeners, setlistener(me.props['wp-id'], func (node) {
-            self.updateNavSrc();
-        }, 0, 0));
-        append(me.listeners, setlistener("/autopilot/route-manager/active", func {
-            self.updatePlanWPT();
-            self.updateVnavFlightplan();
-        }, 1, 0));
-        append(me.listeners, setlistener( "/autopilot/route-manager/cruise/altitude-ft", func {
-            self.updateVnavFlightplan();
-        }, 1, 0));
-        append(me.listeners, setlistener(me.props['page'], func (node) {
-            self.updatePage();
-        }, 1, 0));
-        append(me.listeners, setlistener(me.props['submode'], func (node) {
-            var submode = node.getValue();
-            self.elems['btnSystems.mode.label'].setText(submodeNames[submode]);
-            self.updateSystemsSubmode(submode);
-            self.updatePage();
-        }, 1, 0));
-        append(me.listeners, setlistener(me.props['cursor'], func (node) {
-            self.cursor.setTranslation(
-                self.props['cursor.x'].getValue(),
-                self.props['cursor.y'].getValue()
-            );
-        }, 1, 2));
-        append(me.listeners, setlistener(me.props['show-navaids'], func (node) {
-            var viz = node.getBoolValue();
-            self.elems['checkNavaids'].setVisible(viz);
-            self.map.layers['NDB'].setVisible(viz);
-            self.map.layers['VOR'].setVisible(viz);
-        }, 1, 0));
-        append(me.listeners, setlistener(me.props['show-airports'], func (node) {
-            var viz = node.getBoolValue();
-            var range = me.map.getRange();
-            self.elems['checkAirports'].setVisible(viz);
-            self.map.layers["RWY"].setVisible(range < 9.5 and viz);
-            self.map.layers["APT"].setVisible(range >= 9.5 and range < 99.5 and viz);
-        }, 1, 0));
-        append(me.listeners, setlistener(me.props['show-wpt'], func (node) {
-            var viz = node.getBoolValue();
-            self.elems['checkWptIdent'].setVisible(viz);
-            self.map.layers['WPT'].setVisible(viz);
-        }, 1, 0));
-        append(me.listeners, setlistener(me.props['show-progress'], func (node) {
-            var viz = node.getBoolValue();
-            self.elems['checkProgress'].setVisible(viz);
-            self.elems['progress.master'].setVisible(viz);
-        }, 1, 0));
-        append(me.listeners, setlistener(me.props['show-missed'], func (node) {
-            var viz = node.getBoolValue();
-            self.elems['checkMissedAppr'].setVisible(viz);
-            # TODO: toggle missed approach display
-        }, 1, 0));
-        append(me.listeners, setlistener(me.props['show-tcas'], func (node) {
-            var viz = node.getBoolValue();
-            self.elems['checkTCAS'].setVisible(viz);
-            self.elems['tcas.master'].setVisible(viz);
-            self.trafficGroup.setVisible(viz);
-            if (viz)
-                self.trafficLayer.start();
-            else
-                self.trafficLayer.stop();
-            # self.map.layers['TFC-Ejet'].setVisible(viz);
-        }, 1, 0));
-        append(me.listeners, setlistener(me.props['tcas-mode'], func (node) {
-            var mode = node.getValue();
-            if (mode == 3) {
-                # TA/RA
-                self.elems['tcas.mode'].setColor(0, 1, 0);
-                self.elems['tcas.mode'].setText('TCAS TA/RA');
-            }
-            else if (mode == 2) {
-                # TA ONLY
-                self.elems['tcas.mode'].setColor(0, 1, 0);
-                self.elems['tcas.mode'].setText('TA ONLY');
-            }
-            else {
-                # TCAS OFF
-                self.elems['tcas.mode'].setColor(1, 0.75, 0);
-                self.elems['tcas.mode'].setText('TCAS OFF');
-            }
-        }, 1, 0));
-        append(me.listeners, setlistener(me.props['altitude-selected'], func (node) {
-            var alt = node.getValue();
-            var offset = -alt * 0.04;
-            self.elems['vnav.selectedalt'].setTranslation(0, offset);
-        }, 1, 0));
-
-
-
-        # Hide extra stuff when not Lineage 1000
-        if (getprop('/sim/aircraft') == 'EmbraerLineage1000') {
-        }
-        else {
-            me.elems['fuel.tank3.group'].hide();
-        }
-
-        return me;
     },
 
-    deinit: func {
+    makeWidgets: func () {
+        call(canvas_base.BaseScreen.makeWidgets, [], me);
+
+        var self = me;
+
+        me.addWidget('btnMap', { onclick: func { self.touchMap(); } });
+        me.addWidget('btnPlan', { onclick: func { self.touchPlan(); } });
+        me.addWidget('btnSystems.mode', { onclick: func { self.touchSystemsSubmode(); } });
+        me.addWidget('btnSystems', { onclick: func { self.touchSystems(); } });
+        me.addWidget('btnTCAS', { onclick: func { debug.dump("MFD TCAS menu not implemented yet"); } });
+        me.addWidget('btnWeather', { onclick: func { self.elems['weatherMenu'].toggleVisibility(); } });
+        me.addWidget('checkNavaids', { active: func { self.elems['mapMenu'].getVisible() }, onclick: func { self.toggleMapCheckbox('navaids'); } });
+        me.addWidget('checkAirports', { active: func { self.elems['mapMenu'].getVisible() }, onclick: func { self.toggleMapCheckbox('airports'); } });
+        me.addWidget('checkWptIdent', { active: func { self.elems['mapMenu'].getVisible() }, onclick: func { self.toggleMapCheckbox('wpt'); } });
+        me.addWidget('checkProgress', { active: func { self.elems['mapMenu'].getVisible() }, onclick: func { self.toggleMapCheckbox('progress'); } });
+        me.addWidget('checkMissedAppr', { active: func { self.elems['mapMenu'].getVisible() }, onclick: func { self.toggleMapCheckbox('missed'); } });
+        me.addWidget('checkTCAS', { active: func { self.elems['mapMenu'].getVisible() }, onclick: func { self.toggleMapCheckbox('tcas'); } });
+        me.addWidget('radioWeather', { active: func { self.elems['mapMenu'].getVisible() }, onclick: func { self.selectUnderlay('WX'); } });
+        me.addWidget('radioTerrain', { active: func { self.elems['mapMenu'].getVisible() }, onclick: func { self.selectUnderlay('TERRAIN'); } });
+        me.addWidget('radioOff', { active: func { self.elems['mapMenu'].getVisible() }, onclick: func { self.selectUnderlay(nil); } });
+        me.addWidget('submodeStatus', { active: func { self.elems['submodeMenu'].getVisible() }, onclick: func { self.selectSystemsSubmode(SUBMODE_STATUS); } });
+        me.addWidget('submodeElectrical', { active: func { self.elems['submodeMenu'].getVisible() }, onclick: func { self.selectSystemsSubmode(SUBMODE_ELECTRICAL); } });
+        me.addWidget('submodeFuel', { active: func { self.elems['submodeMenu'].getVisible() }, onclick: func { self.selectSystemsSubmode(SUBMODE_FUEL); } });
+        me.addWidget('submodeFlightControls', { active: func { self.elems['submodeMenu'].getVisible() }, onclick: func { self.selectSystemsSubmode(SUBMODE_FLIGHT_CONTROLS); } });
+        me.addWidget('weatherMenu.radioOff', { active: func { self.elems['weatherMenu'].getVisible() }, onclick: func { self.setWxMode(0); } });
+        me.addWidget('weatherMenu.radioSTBY', { active: func { self.elems['weatherMenu'].getVisible() }, onclick: func { self.setWxMode(1); } });
+        me.addWidget('weatherMenu.radioWX', { active: func { self.elems['weatherMenu'].getVisible() }, onclick: func { self.setWxMode(2); } });
+        me.addWidget('weatherMenu.radioGMAP', { active: func { self.elems['weatherMenu'].getVisible() }, onclick: func { self.setWxMode(3); } });
+        me.addWidget('weatherMenu.checkSect', { active: func { self.elems['weatherMenu'].getVisible() }, onclick: func { self.toggleWeatherCheckbox('wx-sect'); } });
+        me.addWidget('weatherMenu.checkStabOff', { active: func { self.elems['weatherMenu'].getVisible() }, onclick: func { self.toggleWeatherCheckbox('wx-stab-off'); } });
+        me.addWidget('weatherMenu.checkVarGain', { active: func { self.elems['weatherMenu'].getVisible() }, onclick: func { self.toggleWeatherCheckbox('wx-var-gain'); } });
+        me.addWidget('weatherMenu.checkTGT', { active: func { self.elems['weatherMenu'].getVisible() }, onclick: func { self.toggleWeatherCheckbox('wx-tgt'); } });
+        me.addWidget('weatherMenu.checkRCT', { active: func { self.elems['weatherMenu'].getVisible() }, onclick: func { self.toggleWeatherCheckbox('wx-rct'); } });
+        me.addWidget('weatherMenu.checkACT', { active: func { self.elems['weatherMenu'].getVisible() }, onclick: func { self.toggleWeatherCheckbox('wx-act'); } });
+        me.addWidget('weatherMenu.checkTurb', { active: func { self.elems['weatherMenu'].getVisible() }, onclick: func { self.toggleWeatherCheckbox('wx-turb'); } });
+        me.addWidget('weatherMenu.checkLX', { active: func { self.elems['weatherMenu'].getVisible() }, onclick: func { self.toggleWeatherCheckbox('wx-lx'); } });
+        me.addWidget('weatherMenu.checkClrTst', { active: func { self.elems['weatherMenu'].getVisible() }, onclick: func { self.toggleWeatherCheckbox('wx-clr-tst'); } });
+        me.addWidget('weatherMenu.checkFsbyOvrd', { active: func { self.elems['weatherMenu'].getVisible() }, onclick: func { self.toggleWeatherCheckbox('wx-fsby-ovrd'); } });
+    },
+
+    preDeinit: func {
         if (me.terrainTimer != nil) {
             me.terrainTimer.stop();
         }
-        foreach (var l; me.systemsListeners) {
-            removelistener(l);
-        }
-        me.systemsListeners = [];
-        foreach (var l; me.listeners) {
-            removelistener(l);
-        }
-        me.listeners = [];
     },
 
     updateACshared: func () {
@@ -1148,10 +1121,9 @@ var MFD = {
         var self = me;
         clipTo(me.elems[baseName ~ '.cover'], me.elems[baseName ~ '.dashedbox']);
         clipTo(me.elems[baseName ~ '.stripes'], me.elems[baseName ~ '.dashedbox']);
-        append(me.systemsListeners,
-            setlistener(prop, func (node) {
+        me.addListener('systems', prop, func (node) {
                 self.updateFlightControl(baseName, dx, dy, node.getValue() * factor);
-            }));
+            });
     },
 
 
@@ -1485,34 +1457,6 @@ var MFD = {
         me.elems['vnav.vertical'].setTranslation(0, vertical * 0.04);
     },
 
-    touch: func(args) {
-        var x = args.x * 1024;
-        var y = 1560 - args.y * 1560;
-
-        me.props['cursor.x'].setValue(x);
-        me.props['cursor.y'].setValue(y);
-
-        var activeCond = nil;
-        forindex(var i; me.widgets) {
-            if (me.widgets[i]['visible'] == 0) {
-                continue;
-            }
-            activeCond = me.widgets[i]['active'];
-            if (isfunc(activeCond) and !activeCond()) {
-                continue;
-            }
-            var box = me.widgets[i].box;
-            if (x >= box[0] and x <= box[2] and
-                y >= box[1] and y <= box[3]) {
-                var f = me.widgets[i].ontouch;
-                if (f != nil) {
-                    f();
-                    break;
-                }
-            }
-        }
-    },
-
     adjustProp: func (key, delta, min, max) {
         var prop = me.props[key];
         prop.setValue(math.min(max, math.max(min, prop.getValue() + delta)));
@@ -1520,7 +1464,7 @@ var MFD = {
 
     # direction: -1 = decrease, 1 = increase
     # knob: 0 = outer ring, 1 = inner ring
-    scroll: func(direction, knob=0) {
+    masterScroll: func(direction, knob=0) {
         var page = me.props['page'].getValue();
         if (page == 0) {
             # map mode
@@ -1666,7 +1610,7 @@ var MFD = {
         var navSrc = me.props['nav-src'].getValue();
         if (navSrc == 0) {
             var id = me.props['wp-id'].getValue();
-            me.elems['nav.src'].setText('FMS' ~ (me.index + 1));
+            me.elems['nav.src'].setText('FMS' ~ (me.side + 1));
             me.elems['nav.src'].setColor(1, 0, 1);
             me.elems['nav.target.name'].setText(id);
             me.elems['nav.target.name'].setColor(1, 0, 1);
@@ -1756,48 +1700,38 @@ var MFD = {
         me.systemsPages.electrical.setVisible(submode == SUBMODE_ELECTRICAL);
         me.systemsPages.fuel.setVisible(submode == SUBMODE_FUEL);
         me.systemsPages.flightControls.setVisible(submode == SUBMODE_FLIGHT_CONTROLS);
-        foreach (var l; me.systemsListeners) {
-            removelistener(l);
-        }
-        me.systemsListeners = [];
+        me.clearListeners('systems');
         if (submode == SUBMODE_STATUS) {
-            append(me.systemsListeners,
-                setlistener(me.props['flight-id'], func (node) {
+            me.addListener('systems', me.props['flight-id'], func (node) {
                     self.elems['status.flightid'].setText(node.getValue());
-                }, 1, 0));
-            append(me.systemsListeners,
-                setlistener(me.props['zulu-hour'], func (node) {
+                }, 1, 0);
+            me.addListener('systems', me.props['zulu-hour'], func (node) {
                     self.elems['status.clock.hours'].setText(sprintf("%02.0f", node.getValue()));
-                }, 1, 0));
-            append(me.systemsListeners,
-                setlistener(me.props['zulu-minute'], func (node) {
+                }, 1, 0);
+            me.addListener('systems', me.props['zulu-minute'], func (node) {
                     self.elems['status.clock.minutes'].setText(sprintf("%02.0f", node.getValue()));
-                }, 1, 0));
-            append(me.systemsListeners,
-                setlistener(me.props['gross-weight'], func (node) {
+                }, 1, 0);
+            me.addListener('systems', me.props['gross-weight'], func (node) {
                     self.elems['status.grossweight.digital'].setText(sprintf("%5.0f", node.getValue()));
-                }, 1, 0));
-            append(me.systemsListeners,
-                setlistener('/systems/electrical/sources/battery[0]/volts-avail', func (node) {
+                }, 1, 0);
+            me.addListener('systems', '/systems/electrical/sources/battery[0]/volts-avail', func (node) {
                     self.elems['status.battery1.voltage.digital'].setText(sprintf("%03.1f", node.getValue()));
-                }, 1, 0));
-            append(me.systemsListeners,
-                setlistener('/systems/electrical/sources/battery[1]/volts-avail', func (node) {
+                }, 1, 0);
+            me.addListener('systems', '/systems/electrical/sources/battery[1]/volts-avail', func (node) {
                     self.elems['status.battery2.voltage.digital'].setText(sprintf("%03.1f", node.getValue()));
-                }, 1, 0));
+                }, 1, 0);
 
             var doornames = ['l1', 'r1', 'l2', 'r2', 'cargo1', 'cargo2', 'fuel-panel', 'avionics-front', 'avionics-mid'];
             foreach (var doorname; doornames) {
                 (func (doorname) {
-                    append(self.systemsListeners,
-                    setlistener('/sim/model/door-positions/' ~ doorname ~ '/closed', func(node) {
+                    me.addListener('systems', '/sim/model/door-positions/' ~ doorname ~ '/closed', func(node) {
                         if (node.getBoolValue()) {
                             self.elems['status.doors.' ~ doorname].setColorFill(0, 1, 0);
                         }
                         else {
                             self.elems['status.doors.' ~ doorname].setColorFill(1, 0, 0);
                         }
-                    }, 1, 0));
+                    }, 1, 0);
                 })(doorname);
             }
             var brakenames = [
@@ -1809,8 +1743,7 @@ var MFD = {
             for (var i = 0; i < 4; i += 1) {
                 (func () {
                     var brakename = brakenames[i];
-                    append(self.systemsListeners,
-                    setlistener(self.props['brake-temp-' ~ i], func(node) {
+                    me.addListener('systems', self.props['brake-temp-' ~ i], func(node) {
                         var temp = node.getValue();
                         var offset = math.max(0, math.min(136, (136 - 42) * temp / noTakeoffBrakeTemp));
                         self.elems[brakename ~ '.pointer'].setTranslation(0, -offset);
@@ -1825,252 +1758,202 @@ var MFD = {
                             self.elems[brakename ~ '.pointer'].setColorFill(0, 0, 0);
                             self.elems[brakename ~ '.digital'].setColorFill(0, 1, 0);
                         }
-                    }, 1, 0));
+                    }, 1, 0);
                 })();
             }
 
         }
         elsif (submode == SUBMODE_ELECTRICAL) {
             # External power
-            append(me.systemsListeners,
-                setlistener('/controls/electric/external-power-connected', func (node) {
+            me.addListener('systems', '/controls/electric/external-power-connected', func (node) {
                     var connected = node.getBoolValue();
                     me.elems['elec.acgpu.group'].setVisible(connected);
                     me.elems['elec.dcgpu.group'].setVisible(connected);
-                }, 1, 0));
+                }, 1, 0);
 
             # Elec. sources
-            append(me.systemsListeners,
-                setlistener('/systems/electrical/sources/generator[0]/visible', func (node) {
+            me.addListener('systems', '/systems/electrical/sources/generator[0]/visible', func (node) {
                     me.elems['elec.apu.group'].setVisible(node.getBoolValue());
-                }, 1, 0));
-            append(me.systemsListeners,
-                setlistener('/systems/electrical/sources/generator[0]/volts', func (node) {
+                }, 1, 0);
+            me.addListener('systems', '/systems/electrical/sources/generator[0]/volts', func (node) {
                     me.elems['elec.apu.volts.digital'].setText(sprintf("%3.0f", node.getValue()));
-                }, 1, 0));
-            append(me.systemsListeners,
-                setlistener('/systems/electrical/sources/generator[0]/status', func (node) {
+                }, 1, 0);
+            me.addListener('systems', '/systems/electrical/sources/generator[0]/status', func (node) {
                     fillColorByStatus(me.elems['elec.apu.symbol'], node.getValue());
-                }, 1, 0));
-            append(me.systemsListeners,
-                setlistener('/systems/electrical/sources/generator[1]/volts', func (node) {
+                }, 1, 0);
+            me.addListener('systems', '/systems/electrical/sources/generator[1]/volts', func (node) {
                     me.elems['elec.idg1.volts.digital'].setText(sprintf("%3.0f", node.getValue()));
-                }, 1, 0));
-            append(me.systemsListeners,
-                setlistener('/systems/electrical/sources/generator[1]/status', func (node) {
+                }, 1, 0);
+            me.addListener('systems', '/systems/electrical/sources/generator[1]/status', func (node) {
                     fillColorByStatus(me.elems['elec.idg1.symbol'], node.getValue());
-                }, 1, 0));
-            append(me.systemsListeners,
-                setlistener('/systems/electrical/sources/generator[2]/volts', func (node) {
+                }, 1, 0);
+            me.addListener('systems', '/systems/electrical/sources/generator[2]/volts', func (node) {
                     me.elems['elec.idg2.volts.digital'].setText(sprintf("%3.0f", node.getValue()));
-                }, 1, 0));
-            append(me.systemsListeners,
-                setlistener('/systems/electrical/sources/generator[2]/status', func (node) {
+                }, 1, 0);
+            me.addListener('systems', '/systems/electrical/sources/generator[2]/status', func (node) {
                     fillColorByStatus(me.elems['elec.idg2.symbol'], node.getValue());
-                }, 1, 0));
+                }, 1, 0);
 
-            append(me.systemsListeners,
-                setlistener('/controls/electric/ram-air-turbine', func (node) {
+            me.addListener('systems', '/controls/electric/ram-air-turbine', func (node) {
                     me.elems['elec.rat.group'].setVisible(node.getBoolValue());
-                }, 1, 0));
-            append(me.systemsListeners,
-                setlistener('/systems/electrical/sources/generator[3]/volts', func (node) {
+                }, 1, 0);
+            me.addListener('systems', '/systems/electrical/sources/generator[3]/volts', func (node) {
                     me.elems['elec.rat.volts.digital'].setText(sprintf("%3.0f", node.getValue()));
-                }, 1, 0));
-            append(me.systemsListeners,
-                setlistener('/systems/electrical/sources/generator[3]/status', func (node) {
+                }, 1, 0);
+            me.addListener('systems', '/systems/electrical/sources/generator[3]/status', func (node) {
                     fillColorByStatus(me.elems['elec.rat.symbol'], node.getValue());
-                }, 1, 0));
+                }, 1, 0);
 
-            append(me.systemsListeners,
-                setlistener('/systems/electrical/sources/ac-gpu/volts', func (node) {
+            me.addListener('systems', '/systems/electrical/sources/ac-gpu/volts', func (node) {
                     me.elems['elec.acgpu.volts.digital'].setText(sprintf("%3.0f", node.getValue()));
-                }, 1, 0));
-            append(me.systemsListeners,
-                setlistener('/systems/electrical/sources/ac-gpu/status', func (node) {
+                }, 1, 0);
+            me.addListener('systems', '/systems/electrical/sources/ac-gpu/status', func (node) {
                     fillColorByStatus(me.elems['elec.acgpu.symbol'], node.getValue());
-                }, 1, 0));
+                }, 1, 0);
 
-            append(me.systemsListeners,
-                setlistener('/systems/electrical/sources/dc-gpu/status', func (node) {
+            me.addListener('systems', '/systems/electrical/sources/dc-gpu/status', func (node) {
                     fillColorByStatus(me.elems['elec.dcgpu.symbol'], node.getValue());
-                }, 1, 0));
+                }, 1, 0);
 
-            append(me.systemsListeners,
-                setlistener('/systems/electrical/sources/battery[0]/volts-avail', func (node) {
+            me.addListener('systems', '/systems/electrical/sources/battery[0]/volts-avail', func (node) {
                     me.elems['elec.battery1.volts.digital'].setText(sprintf("%4.1f", node.getValue()));
-                }, 1, 0));
-            append(me.systemsListeners,
-                setlistener('/systems/electrical/sources/battery[0]/status', func (node) {
+                }, 1, 0);
+            me.addListener('systems', '/systems/electrical/sources/battery[0]/status', func (node) {
                     fillColorByStatus(me.elems['elec.battery1.symbol'], node.getValue());
-                }, 1, 0));
-            append(me.systemsListeners,
-                setlistener('/systems/electrical/sources/battery[1]/volts-avail', func (node) {
+                }, 1, 0);
+            me.addListener('systems', '/systems/electrical/sources/battery[1]/volts-avail', func (node) {
                     me.elems['elec.battery2.volts.digital'].setText(sprintf("%4.1f", node.getValue()));
-                }, 1, 0));
-            append(me.systemsListeners,
-                setlistener('/systems/electrical/sources/battery[1]/status', func (node) {
+                }, 1, 0);
+            me.addListener('systems', '/systems/electrical/sources/battery[1]/status', func (node) {
                     fillColorByStatus(me.elems['elec.battery2.symbol'], node.getValue());
-                }, 1, 0));
+                }, 1, 0);
 
-            append(me.systemsListeners,
-                setlistener('/systems/electrical/sources/tru[0]/volts', func (node) {
+            me.addListener('systems', '/systems/electrical/sources/tru[0]/volts', func (node) {
                     me.elems['elec.truess.volts.digital'].setText(sprintf("%4.1f", node.getValue()));
-                }, 1, 0));
-            append(me.systemsListeners,
-                setlistener('/systems/electrical/sources/tru[0]/status', func (node) {
+                }, 1, 0);
+            me.addListener('systems', '/systems/electrical/sources/tru[0]/status', func (node) {
                     fillColorByStatus(me.elems['elec.truess.symbol'], node.getValue());
-                }, 1, 0));
-            append(me.systemsListeners,
-                setlistener('/systems/electrical/sources/tru[1]/volts', func (node) {
+                }, 1, 0);
+            me.addListener('systems', '/systems/electrical/sources/tru[1]/volts', func (node) {
                     me.elems['elec.tru1.volts.digital'].setText(sprintf("%4.1f", node.getValue()));
-                }, 1, 0));
-            append(me.systemsListeners,
-                setlistener('/systems/electrical/sources/tru[1]/status', func (node) {
+                }, 1, 0);
+            me.addListener('systems', '/systems/electrical/sources/tru[1]/status', func (node) {
                     fillColorByStatus(me.elems['elec.tru1.symbol'], node.getValue());
-                }, 1, 0));
-            append(me.systemsListeners,
-                setlistener('/systems/electrical/sources/tru[2]/volts', func (node) {
+                }, 1, 0);
+            me.addListener('systems', '/systems/electrical/sources/tru[2]/volts', func (node) {
                     me.elems['elec.tru2.volts.digital'].setText(sprintf("%4.1f", node.getValue()));
-                }, 1, 0));
-            append(me.systemsListeners,
-                setlistener('/systems/electrical/sources/tru[2]/status', func (node) {
+                }, 1, 0);
+            me.addListener('systems', '/systems/electrical/sources/tru[2]/status', func (node) {
                     fillColorByStatus(me.elems['elec.tru2.symbol'], node.getValue());
-                }, 1, 0));
+                }, 1, 0);
 
             # Elec. buses
-            append(me.systemsListeners,
-                setlistener('/systems/electrical/buses/ac[1]/powered', func (node) {
+            me.addListener('systems', '/systems/electrical/buses/ac[1]/powered', func (node) {
                     fillColorByStatus(me.elems['elec.ac1.symbol'], node.getValue());
-                }, 1, 0));
-            append(me.systemsListeners,
-                setlistener('/systems/electrical/buses/ac[2]/powered', func (node) {
+                }, 1, 0);
+            me.addListener('systems', '/systems/electrical/buses/ac[2]/powered', func (node) {
                     fillColorByStatus(me.elems['elec.ac2.symbol'], node.getValue());
-                }, 1, 0));
-            append(me.systemsListeners,
-                setlistener('/systems/electrical/buses/ac[3]/powered', func (node) {
+                }, 1, 0);
+            me.addListener('systems', '/systems/electrical/buses/ac[3]/powered', func (node) {
                     fillColorByStatus(me.elems['elec.acess.symbol'], node.getValue());
-                }, 1, 0));
-            append(me.systemsListeners,
-                setlistener('/systems/electrical/buses/ac[4]/powered', func (node) {
+                }, 1, 0);
+            me.addListener('systems', '/systems/electrical/buses/ac[4]/powered', func (node) {
                     fillColorByStatus(me.elems['elec.acstby.symbol'], node.getValue());
-                }, 1, 0));
+                }, 1, 0);
 
-            append(me.systemsListeners,
-                setlistener('/systems/electrical/buses/dc[1]/powered', func (node) {
+            me.addListener('systems', '/systems/electrical/buses/dc[1]/powered', func (node) {
                     fillColorByStatus(me.elems['elec.dc1.symbol'], node.getValue());
-                }, 1, 0));
-            append(me.systemsListeners,
-                setlistener('/systems/electrical/buses/dc[2]/powered', func (node) {
+                }, 1, 0);
+            me.addListener('systems', '/systems/electrical/buses/dc[2]/powered', func (node) {
                     fillColorByStatus(me.elems['elec.dc2.symbol'], node.getValue());
-                }, 1, 0));
-            append(me.systemsListeners,
-                setlistener('/systems/electrical/buses/dc[3]/powered', func (node) {
+                }, 1, 0);
+            me.addListener('systems', '/systems/electrical/buses/dc[3]/powered', func (node) {
                     fillColorByStatus(me.elems['elec.dcess1.symbol'], node.getValue());
-                }, 1, 0));
-            append(me.systemsListeners,
-                setlistener('/systems/electrical/buses/dc[4]/powered', func (node) {
+                }, 1, 0);
+            me.addListener('systems', '/systems/electrical/buses/dc[4]/powered', func (node) {
                     fillColorByStatus(me.elems['elec.dcess2.symbol'], node.getValue());
-                }, 1, 0));
-            append(me.systemsListeners,
-                setlistener('/systems/electrical/buses/dc[5]/powered', func (node) {
+                }, 1, 0);
+            me.addListener('systems', '/systems/electrical/buses/dc[5]/powered', func (node) {
                     fillColorByStatus(me.elems['elec.dcess3.symbol'], node.getValue());
-                }, 1, 0));
-            append(me.systemsListeners,
-                setlistener('/systems/electrical/buses/dc[6]/powered', func (node) {
+                }, 1, 0);
+            me.addListener('systems', '/systems/electrical/buses/dc[6]/powered', func (node) {
                     fillColorByStatus(me.elems['elec.apustart.symbol'], node.getValue());
-                }, 1, 0));
+                }, 1, 0);
 
-            append(me.systemsListeners,
-                setlistener('/systems/electrical/buses/ac[0]/powered', func (node) {
+            me.addListener('systems', '/systems/electrical/buses/ac[0]/powered', func (node) {
                     me.updateACshared();
-                }, 1, 0));
-            append(me.systemsListeners,
-                setlistener('/systems/electrical/buses/ac[0]/feed', func (node) {
+                }, 1, 0);
+            me.addListener('systems', '/systems/electrical/buses/ac[0]/feed', func (node) {
                     var feed = node.getValue();
                     fillIfConnected(me.elems['elec.feed.ac12-apu'], feed == 1);
                     fillIfConnected(me.elems['elec.feed.ac12-acgpu'], feed == 2);
                     me.updateACshared();
-                }, 1, 0));
-            append(me.systemsListeners,
-                setlistener('/systems/electrical/buses/ac[1]/feed', func (node) {
+                }, 1, 0);
+            me.addListener('systems', '/systems/electrical/buses/ac[1]/feed', func (node) {
                     var feed = node.getValue();
                     fillIfConnected(me.elems['elec.feed.ac1-idg1'], feed == 1);
                     me.updateACshared();
-                }, 1, 0));
-            append(me.systemsListeners,
-                setlistener('/systems/electrical/buses/ac[2]/feed', func (node) {
+                }, 1, 0);
+            me.addListener('systems', '/systems/electrical/buses/ac[2]/feed', func (node) {
                     var feed = node.getValue();
                     fillIfConnected(me.elems['elec.feed.ac2-idg2'], feed == 1);
                     me.updateACshared();
-                }, 1, 0));
-            append(me.systemsListeners,
-                setlistener('/systems/electrical/buses/ac[3]/feed', func (node) {
+                }, 1, 0);
+            me.addListener('systems', '/systems/electrical/buses/ac[3]/feed', func (node) {
                     var feed = node.getValue();
                     fillIfConnected(me.elems['elec.feed.acess-ac2'], feed == 1);
                     fillIfConnected(me.elems['elec.feed.acess-ac1'], feed == 2);
                     fillIfConnected(me.elems['elec.feed.acess-rat'], feed == 3);
-                }, 1, 0));
-            append(me.systemsListeners,
-                setlistener('/systems/electrical/buses/ac[4]/feed', func (node) {
+                }, 1, 0);
+            me.addListener('systems', '/systems/electrical/buses/ac[4]/feed', func (node) {
                     var feed = node.getValue();
                     fillIfConnected(me.elems['elec.feed.acstby-acess'], feed == 1);
-                }, 1, 0));
+                }, 1, 0);
 
-            append(me.systemsListeners,
-                setlistener('/systems/electrical/sources/tru[0]/status', func (node) {
+            me.addListener('systems', '/systems/electrical/sources/tru[0]/status', func (node) {
                     var status = node.getValue();
                     fillIfConnected(me.elems['elec.feed.truess-acess'], status == 1);
-                }, 1, 0));
-            append(me.systemsListeners,
-                setlistener('/systems/electrical/sources/tru[1]/status', func (node) {
+                }, 1, 0);
+            me.addListener('systems', '/systems/electrical/sources/tru[1]/status', func (node) {
                     var status = node.getValue();
                     fillIfConnected(me.elems['elec.feed.tru1-ac1'], status == 1);
-                }, 1, 0));
-            append(me.systemsListeners,
-                setlistener('/systems/electrical/sources/tru[2]/status', func (node) {
+                }, 1, 0);
+            me.addListener('systems', '/systems/electrical/sources/tru[2]/status', func (node) {
                     var status = node.getValue();
                     fillIfConnected(me.elems['elec.feed.tru2-ac2'], status == 1);
-                }, 1, 0));
+                }, 1, 0);
 
-            append(me.systemsListeners,
-                setlistener('/systems/electrical/buses/dc[1]/feed', func self.updateDCshared, 1, 0));
-            append(me.systemsListeners,
-                setlistener('/systems/electrical/buses/dc[2]/feed', func self.updateDCshared, 1, 0));
-            append(me.systemsListeners,
-                setlistener('/systems/electrical/buses/dc[3]/feed', func (node) {
+            me.addListener('systems', '/systems/electrical/buses/dc[1]/feed', func self.updateDCshared, 1, 0);
+            me.addListener('systems', '/systems/electrical/buses/dc[2]/feed', func self.updateDCshared, 1, 0);
+            me.addListener('systems', '/systems/electrical/buses/dc[3]/feed', func (node) {
                     var feed = node.getValue();
                     fillIfConnected(me.elems['elec.feed.dcess1-dc1'], feed == 1);
                     fillIfConnected(me.elems['elec.feed.dcess1-batt1'], feed == 3);
                     self.updateDCESS1();
-                }, 1, 0));
-            append(me.systemsListeners,
-                setlistener('/systems/electrical/buses/dc[4]/feed', func (node) {
+                }, 1, 0);
+            me.addListener('systems', '/systems/electrical/buses/dc[4]/feed', func (node) {
                     var feed = node.getValue();
                     fillIfConnected(me.elems['elec.feed.dcess2-dc2'], feed == 1);
                     fillIfConnected(me.elems['elec.feed.dcess2-batt2'], feed == 3);
                     self.updateDCESS2();
-                }, 1, 0));
-            append(me.systemsListeners,
-                setlistener('/systems/electrical/buses/dc[5]/feed', func (node) {
+                }, 1, 0);
+            me.addListener('systems', '/systems/electrical/buses/dc[5]/feed', func (node) {
                     var feed = node.getValue();
                     fillIfConnected(me.elems['elec.feed.dcess3-truess'], feed == 1);
                     self.updateDCESS1();
                     self.updateDCESS2();
-                }, 1, 0));
+                }, 1, 0);
 
-            append(me.systemsListeners,
-                setlistener('/systems/electrical/buses/dc[6]/feed', func (node) {
+            me.addListener('systems', '/systems/electrical/buses/dc[6]/feed', func (node) {
                     var feed = node.getValue();
                     fillIfConnected(me.elems['elec.feed.apustart-dcgpu'], feed == 1);
                     fillIfConnected(me.elems['elec.feed.apustart-batt2'], feed == 2);
                     me.elems['elec.dcgpu.inuse'].setVisible(feed == 1);
                     fillColorByStatus(me.elems['elec.dcgpu.symbol'], feed == 1);
-                }, 1, 0));
+                }, 1, 0);
         }
         elsif (submode == SUBMODE_FUEL) {
-            append(me.systemsListeners,
-                setlistener('/controls/fuel/crossfeed', func (node) {
+            me.addListener('systems', '/controls/fuel/crossfeed', func (node) {
                     var state = node.getValue();
                     var c = (state == 0) ? [1,1,1] : [0,1,0];
                     self.elems['fuel.valve.crossfeed']
@@ -2080,166 +1963,136 @@ var MFD = {
                         .setText((state == 1) ? "LOW 2" : "LOW 1")
                         .setVisible(state != 0);
 
-                }, 1, 0));
-            append(me.systemsListeners,
-                setlistener('/engines/engine[0]/cutoff', func (node) {
+                }, 1, 0);
+            me.addListener('systems', '/engines/engine[0]/cutoff', func (node) {
                     var c = node.getBoolValue() ? [1,1,1] : [0,1,0];
                     self.elems['fuel.valve.cutoffL']
                         .setRotation(node.getValue() * math.pi * 0.5)
                         .setColorFill(c[0], c[1], c[2]);
-                }, 1, 0));
-            append(me.systemsListeners,
-                setlistener('/engines/engine[1]/cutoff', func (node) {
+                }, 1, 0);
+            me.addListener('systems', '/engines/engine[1]/cutoff', func (node) {
                     var c = node.getBoolValue() ? [1,1,1] : [0,1,0];
                     self.elems['fuel.valve.cutoffR']
                         .setRotation(node.getValue() * math.pi * 0.5)
                         .setColorFill(c[0], c[1], c[2]);
-                }, 1, 0));
-            append(me.systemsListeners,
-                setlistener('/engines/apu/cutoff', func (node) {
+                }, 1, 0);
+            me.addListener('systems', '/engines/apu/cutoff', func (node) {
                     var c = node.getBoolValue() ? [1,1,1] : [0,1,0];
                     self.elems['fuel.valve.apu']
                         .setRotation(node.getValue() * math.pi * 0.5)
                         .setColorFill(c[0], c[1], c[2]);
-                }, 1, 0));
-            append(me.systemsListeners,
-                setlistener('/engines/engine[0]/running', func (node) {
+                }, 1, 0);
+            me.addListener('systems', '/engines/engine[0]/running', func (node) {
                     var c = node.getBoolValue() ? [0,1,0] : [0.5, 0.5, 0.5];
                     self.elems['fuel.pump.e1']
                         .setColorFill(c[0], c[1], c[2]);
-                }, 1, 0));
-            append(me.systemsListeners,
-                setlistener('/engines/engine[1]/running', func (node) {
+                }, 1, 0);
+            me.addListener('systems', '/engines/engine[1]/running', func (node) {
                     var c = node.getBoolValue() ? [0,1,0] : [0.5, 0.5, 0.5];
                     self.elems['fuel.pump.e2']
                         .setColorFill(c[0], c[1], c[2]);
-                }, 1, 0));
-            append(me.systemsListeners,
-                setlistener('/systems/fuel/fuel-pump[0]/running', func (node) {
+                }, 1, 0);
+            me.addListener('systems', '/systems/fuel/fuel-pump[0]/running', func (node) {
                     var c = node.getBoolValue() ? [0,1,0] : [1, 1, 1];
                     self.elems['fuel.pump.ac1']
                         .setColorFill(c[0], c[1], c[2]);
-                }, 1, 0));
-            append(me.systemsListeners,
-                setlistener('/systems/fuel/fuel-pump[1]/running', func (node) {
+                }, 1, 0);
+            me.addListener('systems', '/systems/fuel/fuel-pump[1]/running', func (node) {
                     var c = node.getBoolValue() ? [0,1,0] : [1, 1, 1];
                     self.elems['fuel.pump.ac2']
                         .setColorFill(c[0], c[1], c[2]);
-                }, 1, 0));
-            append(me.systemsListeners,
-                setlistener('/systems/fuel/fuel-pump[2]/running', func (node) {
+                }, 1, 0);
+            me.addListener('systems', '/systems/fuel/fuel-pump[2]/running', func (node) {
                     var c = node.getBoolValue() ? [0,1,0] : [1, 1, 1];
                     self.elems['fuel.pump.ac3']
                         .setColorFill(c[0], c[1], c[2]);
-                }, 1, 0));
-            append(me.systemsListeners,
-                setlistener('/systems/fuel/fuel-pump[3]/running', func (node) {
+                }, 1, 0);
+            me.addListener('systems', '/systems/fuel/fuel-pump[3]/running', func (node) {
                     var c = node.getBoolValue() ? [0,1,0] : [1, 1, 1];
                     self.elems['fuel.pump.dc']
                         .setColorFill(c[0], c[1], c[2]);
-                }, 1, 0));
+                }, 1, 0);
 
-            append(me.systemsListeners,
-                setlistener('/systems/fuel/pressure/pump[0]', func (node) {
+            me.addListener('systems', '/systems/fuel/pressure/pump[0]', func (node) {
                     var c = node.getBoolValue() ? [0,1,0] : [1, 1, 1];
                     self.elems['fuel.line.acpump1'].setColorFill(c[0], c[1], c[2]);
-                }, 1, 0));
-            append(me.systemsListeners,
-                setlistener('/systems/fuel/pressure/pump[1]', func (node) {
+                }, 1, 0);
+            me.addListener('systems', '/systems/fuel/pressure/pump[1]', func (node) {
                     var c = node.getBoolValue() ? [0,1,0] : [1, 1, 1];
                     self.elems['fuel.line.acpump2'].setColorFill(c[0], c[1], c[2]);
-                }, 1, 0));
-            append(me.systemsListeners,
-                setlistener('/systems/fuel/pressure/pump[2]', func (node) {
+                }, 1, 0);
+            me.addListener('systems', '/systems/fuel/pressure/pump[2]', func (node) {
                     var c = node.getBoolValue() ? [0,1,0] : [1, 1, 1];
                     self.elems['fuel.line.acpump3'].setColorFill(c[0], c[1], c[2]);
-                }, 1, 0));
-            append(me.systemsListeners,
-                setlistener('/systems/fuel/pressure/pump[3]', func (node) {
+                }, 1, 0);
+            me.addListener('systems', '/systems/fuel/pressure/pump[3]', func (node) {
                     var c = node.getBoolValue() ? [0,1,0] : [1, 1, 1];
                     self.elems['fuel.line.dcpump'].setColorFill(c[0], c[1], c[2]);
-                }, 1, 0));
-            append(me.systemsListeners,
-                setlistener('/systems/fuel/pressure/pump[4]', func (node) {
+                }, 1, 0);
+            me.addListener('systems', '/systems/fuel/pressure/pump[4]', func (node) {
                     var c = node.getBoolValue() ? [0,1,0] : [1, 1, 1];
                     self.elems['fuel.line.epump1'].setColorFill(c[0], c[1], c[2]);
-                }, 1, 0));
-            append(me.systemsListeners,
-                setlistener('/systems/fuel/pressure/pump[5]', func (node) {
+                }, 1, 0);
+            me.addListener('systems', '/systems/fuel/pressure/pump[5]', func (node) {
                     var c = node.getBoolValue() ? [0,1,0] : [1, 1, 1];
                     self.elems['fuel.line.epump2'].setColorFill(c[0], c[1], c[2]);
-                }, 1, 0));
+                }, 1, 0);
 
-            append(me.systemsListeners,
-                setlistener('/systems/fuel/pressure/tank[0]', func (node) {
+            me.addListener('systems', '/systems/fuel/pressure/tank[0]', func (node) {
                     var c = node.getBoolValue() ? [0,1,0] : [1, 1, 1];
                     self.elems['fuel.line.tankL'].setColorFill(c[0], c[1], c[2]);
-                }, 1, 0));
-            append(me.systemsListeners,
-                setlistener('/systems/fuel/pressure/tank[1]', func (node) {
+                }, 1, 0);
+            me.addListener('systems', '/systems/fuel/pressure/tank[1]', func (node) {
                     var c = node.getBoolValue() ? [0,1,0] : [1, 1, 1];
                     self.elems['fuel.line.tankR'].setColorFill(c[0], c[1], c[2]);
-                }, 1, 0));
-            append(me.systemsListeners,
-                setlistener('/systems/fuel/pressure/engine[0]', func (node) {
+                }, 1, 0);
+            me.addListener('systems', '/systems/fuel/pressure/engine[0]', func (node) {
                     var c = node.getBoolValue() ? [0,1,0] : [1, 1, 1];
                     self.elems['fuel.line.engineL'].setColorFill(c[0], c[1], c[2]);
-                }, 1, 0));
-            append(me.systemsListeners,
-                setlistener('/systems/fuel/pressure/engine[1]', func (node) {
+                }, 1, 0);
+            me.addListener('systems', '/systems/fuel/pressure/engine[1]', func (node) {
                     var c = node.getBoolValue() ? [0,1,0] : [1, 1, 1];
                     self.elems['fuel.line.engineR'].setColorFill(c[0], c[1], c[2]);
-                }, 1, 0));
-            append(me.systemsListeners,
-                setlistener('/systems/fuel/pressure/apu', func (node) {
+                }, 1, 0);
+            me.addListener('systems', '/systems/fuel/pressure/apu', func (node) {
                     var c = node.getBoolValue() ? [0,1,0] : [1, 1, 1];
                     self.elems['fuel.line.apu'].setColorFill(c[0], c[1], c[2]);
-                }, 1, 0));
+                }, 1, 0);
 
-            append(me.systemsListeners,
-                setlistener('/fms/fuel/current', func (node) {
+            me.addListener('systems', '/fms/fuel/current', func (node) {
                     self.elems['fuel.total.digital'].setText(sprintf("%5.0f", node.getValue()));
-                }, 1, 0));
-            append(me.systemsListeners,
-                setlistener('/fms/fuel/used', func (node) {
+                }, 1, 0);
+            me.addListener('systems', '/fms/fuel/used', func (node) {
                     self.elems['fuel.used.digital'].setText(sprintf("%5.0f", node.getValue()));
-                }, 1, 0));
-            append(me.systemsListeners,
-                setlistener('/fms/fuel/gauge[0]/pointer', func (node) {
+                }, 1, 0);
+            me.addListener('systems', '/fms/fuel/gauge[0]/pointer', func (node) {
                     self.elems['fuel.quantityL.pointer'].setTranslation(0, node.getValue());
-                }, 1, 0));
-            append(me.systemsListeners,
-                setlistener('/fms/fuel/gauge[1]/pointer', func (node) {
+                }, 1, 0);
+            me.addListener('systems', '/fms/fuel/gauge[1]/pointer', func (node) {
                     self.elems['fuel.quantityR.pointer'].setTranslation(0, node.getValue());
-                }, 1, 0));
-            append(me.systemsListeners,
-                setlistener('/fms/fuel/gauge[2]/pointer', func (node) {
+                }, 1, 0);
+            me.addListener('systems', '/fms/fuel/gauge[2]/pointer', func (node) {
                     self.elems['fuel.quantityC.pointer'].setTranslation(0, node.getValue());
-                }, 1, 0));
-            append(me.systemsListeners,
-                setlistener('/fms/fuel/gauge[0]/indicated', func (node) {
+                }, 1, 0);
+            me.addListener('systems', '/fms/fuel/gauge[0]/indicated', func (node) {
                     self.elems['fuel.quantityL.digital'].setText(sprintf("%5.0f", node.getValue()));
-                }, 1, 0));
-            append(me.systemsListeners,
-                setlistener('/fms/fuel/gauge[1]/indicated', func (node) {
+                }, 1, 0);
+            me.addListener('systems', '/fms/fuel/gauge[1]/indicated', func (node) {
                     self.elems['fuel.quantityR.digital'].setText(sprintf("%5.0f", node.getValue()));
-                }, 1, 0));
-            append(me.systemsListeners,
-                setlistener('/fms/fuel/gauge[2]/indicated', func (node) {
+                }, 1, 0);
+            me.addListener('systems', '/fms/fuel/gauge[2]/indicated', func (node) {
                     self.elems['fuel.quantityC.digital'].setText(sprintf("%5.0f", node.getValue()));
-                }, 1, 0));
-            append(me.systemsListeners,
-                setlistener('/instrumentation/eicas/messages/fuel-low-left', func (node) {
+                }, 1, 0);
+            me.addListener('systems', '/instrumentation/eicas/messages/fuel-low-left', func (node) {
                     var c = node.getBoolValue() ? [1,0,0] : [0,1,0];
                     self.elems['fuel.quantityL.digital'].setColor(c[0], c[1], c[2]);
                     self.elems['fuel.quantityL.pointer'].setColorFill(c[0], c[1], c[2]);
-                }, 1, 0));
-            append(me.systemsListeners,
-                setlistener('/instrumentation/eicas/messages/fuel-low-right', func (node) {
+                }, 1, 0);
+            me.addListener('systems', '/instrumentation/eicas/messages/fuel-low-right', func (node) {
                     var c = node.getBoolValue() ? [1,0,0] : [0,1,0];
                     self.elems['fuel.quantityR.digital'].setColor(c[0], c[1], c[2]);
                     self.elems['fuel.quantityR.pointer'].setColorFill(c[0], c[1], c[2]);
-                }, 1, 0));
+                }, 1, 0);
         }
         elsif (submode == SUBMODE_FLIGHT_CONTROLS) {
             me.initFlightControl('fctl.aileron-lh-up', self.props['aileron-left'], 0, -75, -1);
@@ -2263,8 +2116,7 @@ var MFD = {
             me.initFlightControl('fctl.mfs9', self.props['mfs9'], 0, -34, 1);
             me.initFlightControl('fctl.mfs10', self.props['mfs10'], 0, -34, 1);
 
-            append(me.systemsListeners,
-                setlistener(me.props['elevator-law'], func (node) {
+            me.addListener('systems', me.props['elevator-law'], func (node) {
                     var law = node.getValue();
 
                     if (law == 1) {
@@ -2279,10 +2131,9 @@ var MFD = {
                         self.elems['fctl.mode.elev-lh.frame'].show();
                         self.elems['fctl.mode.elev-rh.frame'].show();
                     }
-                }, 1, 0));
+                }, 1, 0);
 
-            append(me.systemsListeners,
-                setlistener(me.props['rudder-law'], func (node) {
+            me.addListener('systems', me.props['rudder-law'], func (node) {
                     var law = node.getValue();
 
                     if (law == 1) {
@@ -2293,11 +2144,12 @@ var MFD = {
                         self.elems['fctl.mode.rudder.text'].setText('DIRECT').setColor(0, 0, 0);
                         self.elems['fctl.mode.rudder.frame'].show();
                     }
-                }, 1, 0));
+                }, 1, 0);
         }
     },
 
     updateSlow: func () {
+        call(canvas_base.BaseScreen.updateSlow, [], me);
         var salt = me.props['altitude-selected'].getValue();
         var range = me.props['range'].getValue();
         var latZoom = 720.0 / range;
@@ -2357,6 +2209,7 @@ var MFD = {
     },
 
     update: func () {
+        call(canvas_base.BaseScreen.update, [], me);
         var heading = me.props['heading-mag'].getValue();
         var headingT = me.props['heading'].getValue();
         var headingBug = me.props['heading-bug'].getValue();
@@ -2508,11 +2361,7 @@ var initialize = func {
         });
         mfd_display[i].addPlacement({"node": "MFD" ~ i});
         mfd_master[i] = mfd_display[i].createGroup();
-        mfd[i] =
-            MFD.new(
-                mfd_master[i],
-                "Aircraft/E-jet-family/Models/Primus-Epic/MFD.svg",
-                i);
+        mfd[i] = MFD.new(i).init(mfd_master[i]);
         (func (j) {
             outputProp = props.globals.getNode("systems/electrical/outputs/mfd[" ~ j ~ "]");
             enabledProp = props.globals.getNode("instrumentation/mfd[" ~ j ~ "]/enabled");

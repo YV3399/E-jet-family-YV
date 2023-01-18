@@ -116,6 +116,30 @@ button</li>
 <li>Shift + scroll wheel: twist inner ring of CCD data entry knob.</li>
 </ul>
 
+<p>There are also properties that can be used to map physical input devices to the
+simulated CCD's, under <code>/controls/ccd[0]</code> (Captain side) and <code>/controls/ccd[1]</code>
+(FO side). You can map inputs to the following properties below each of them:</p>
+
+<ul>
+<li><code>rel-x</code> and <code>rel-y</code>: relative cursor movement on the X and Y axes, as emitted
+by a mouse, trackball, or trackpad.</li>
+<li><code>click</code>: CCD "enter" button.</li>
+<li><code>rel-inner</code> and <code>rel-outer</code>: the inner and outer rings of the CCD data entry
+knob.</li>
+<li><code>selected-screen</code>: set this to move the CCD between screens (only MFD is
+currently supported):
+<ul>
+<li>0 = PFD</li>
+<li>1 = MFD</li>
+<li>2 = EICAS</li>
+</ul></li>
+</ul>
+
+<p>Mapping a second mouse or similar input device, while keeping your primary
+mouse working normally is possible; <a href="https://wiki.flightgear.org/Input_device#Multiple_mice_on_Linux">this
+page</a> on the
+FlightGear wiki explains how.</p>
+
 <h2>Startup Procedure</h2>
 
 <p>The E-Jet has a largely automatic engine start procedure, driven by the FADEC

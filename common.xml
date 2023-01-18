@@ -1867,6 +1867,23 @@
             <wiper-left type="int">0</wiper-left>
             <wiper-right type="int">0</wiper-right>
         </switches>
+
+        <ccd n="0">
+            <rel-x type="double">0</rel-x>
+            <rel-y type="double">0</rel-y>
+            <rel-inner type="double">0</rel-inner>
+            <rel-outer type="double">0</rel-outer>
+            <screen-select type="int">0</screen-select>
+            <click type="bool">0</click>
+        </ccd>
+        <ccd n="1">
+            <rel-x type="double">0</rel-x>
+            <rel-y type="double">0</rel-y>
+            <rel-inner type="double">0</rel-inner>
+            <rel-outer type="double">0</rel-outer>
+            <screen-select type="int">0</screen-select>
+            <click type="bool">0</click>
+        </ccd>
     </controls>
 
     <services>
@@ -2288,6 +2305,7 @@
             <cursor>
                 <x>32</x>
                 <y>32</y>
+                <visible type="bool">false</visible>
             </cursor>
             <wx-mode type="int">0</wx-mode>
             <wx-mode-indicated type="int">0</wx-mode-indicated>
@@ -2305,6 +2323,7 @@
             <cursor>
                 <x>32</x>
                 <y>32</y>
+                <visible type="bool">false</visible>
             </cursor>
             <wx-mode type="int">0</wx-mode>
             <wx-mode-indicated type="int">0</wx-mode-indicated>
@@ -2730,6 +2749,9 @@
             <file>Aircraft/E-jet-family/Nasal/wxr.nas</file>
         </wxr>
 
+        <canvas_base>
+            <file>Aircraft/E-jet-family/Models/Primus-Epic/BaseScreen.nas</file>
+        </canvas_base>
         <canvas_chrono>
             <file>Aircraft/E-jet-family/Models/Instruments/Chrono/chronometer.nas</file>
         </canvas_chrono>
