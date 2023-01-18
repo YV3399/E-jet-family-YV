@@ -166,17 +166,13 @@ var MFD = {
         return m;
     },
 
-    preRegisterListeners: func () {
-        call(canvas_base.BaseScreen.preRegisterListeners, [], me);
-        me.txRadarScanX = 0;
-        me.lastRadarSweepAngle = -60;
-        me.showFMSTarget = 1;
-        me.selectUnderlay(nil);
-        me.setWxMode(nil);
-    },
-
     registerProps: func () {
         call(canvas_base.BaseScreen.registerProps, [], me);
+        me.registerProp('cursor', "/instrumentation/mfd[" ~ me.side ~ "]/cursor");
+        me.registerProp('cursor.x', "/instrumentation/mfd[" ~ me.side ~ "]/cursor/x");
+        me.registerProp('cursor.y', "/instrumentation/mfd[" ~ me.side ~ "]/cursor/y");
+        me.registerProp('cursor.visible', "/instrumentation/mfd[" ~ me.side ~ "]/cursor/visible");
+
         me.registerProp('page', '/instrumentation/mfd[' ~ me.side ~ ']/page');
         me.registerProp('submode', '/instrumentation/mfd[' ~ me.side ~ ']/submode');
         me.registerProp('altitude-amsl', '/position/altitude-ft');
@@ -216,10 +212,6 @@ var MFD = {
         me.registerProp('zulutime', "/instrumentation/clock/indicated-sec");
         me.registerProp('zulu-hour', "/sim/time/utc/hour");
         me.registerProp('zulu-minute', "/sim/time/utc/minute");
-        me.registerProp('cursor', "/instrumentation/mfd[" ~ me.side ~ "]/cursor");
-        me.registerProp('cursor.x', "/instrumentation/mfd[" ~ me.side ~ "]/cursor/x");
-        me.registerProp('cursor.y', "/instrumentation/mfd[" ~ me.side ~ "]/cursor/y");
-        me.registerProp('cursor.visible', "/instrumentation/mfd[" ~ me.side ~ "]/cursor/visible");
         me.registerProp('range', "/instrumentation/mfd[" ~ me.side ~ "]/lateral-range");
         me.registerProp('tcas-mode', "/instrumentation/tcas/inputs/mode");
         me.registerProp('wx-sweep-angle', "/instrumentation/wxr/sweep-pos-deg");
@@ -517,21 +509,6 @@ var MFD = {
             self.updateSystemsSubmode(submode);
             self.updatePage();
         }, 1, 0);
-        me.addListener('main', me.props['cursor.x'], func (node) {
-            self.cursor.setTranslation(
-                self.props['cursor.x'].getValue(),
-                self.props['cursor.y'].getValue()
-            );
-        }, 1, 0);
-        me.addListener('main', me.props['cursor.y'], func (node) {
-            self.cursor.setTranslation(
-                self.props['cursor.x'].getValue(),
-                self.props['cursor.y'].getValue()
-            );
-        }, 1, 0);
-        me.addListener('main', me.props['cursor.visible'], func (node) {
-            self.cursor.setVisible(node.getBoolValue());
-        }, 1, 0);
         me.addListener('main', me.props['show-navaids'], func (node) {
             var viz = node.getBoolValue();
             self.elems['checkNavaids'].setVisible(viz);
@@ -597,13 +574,12 @@ var MFD = {
 
     },
 
-    postRegisterListeners: func () {
+    postInit: func () {
         var self = me;
-
+        me.timerFast = maketimer(0.1, func() { self.update(); });
+        me.timerSlow = maketimer(1.0, func() { self.update(); });
         me.terrainTimer = maketimer(0.1, func { self.updateTerrainViz(); });
         me.terrainTimer.simulatedTime = 1;
-
-        me.terrainTimer.start();
 
         # Hide extra stuff when not Lineage 1000
         if (getprop('/sim/aircraft') == 'EmbraerLineage1000') {
@@ -611,6 +587,28 @@ var MFD = {
         else {
             me.elems['fuel.tank3.group'].hide();
         }
+    },
+
+    preActivate: func () {
+        me.txRadarScanX = 0;
+        me.lastRadarSweepAngle = -60;
+        me.showFMSTarget = 1;
+        me.selectUnderlay(nil);
+        me.setWxMode(nil);
+    },
+
+    postActivate: func () {
+        var self = me;
+
+        me.timerFast.start();
+        me.timerSlow.start();
+        me.terrainTimer.start();
+    },
+
+    preDeactivate: func {
+        me.terrainTimer.stop();
+        me.timerFast.stop();
+        me.timerSlow.stop();
     },
 
     registerElems: func () {
@@ -1042,12 +1040,6 @@ var MFD = {
         me.addWidget('weatherMenu.checkLX', { active: func { self.elems['weatherMenu'].getVisible() }, onclick: func { self.toggleWeatherCheckbox('wx-lx'); } });
         me.addWidget('weatherMenu.checkClrTst', { active: func { self.elems['weatherMenu'].getVisible() }, onclick: func { self.toggleWeatherCheckbox('wx-clr-tst'); } });
         me.addWidget('weatherMenu.checkFsbyOvrd', { active: func { self.elems['weatherMenu'].getVisible() }, onclick: func { self.toggleWeatherCheckbox('wx-fsby-ovrd'); } });
-    },
-
-    preDeinit: func {
-        if (me.terrainTimer != nil) {
-            me.terrainTimer.stop();
-        }
     },
 
     updateACshared: func () {
@@ -2329,7 +2321,6 @@ var MFD = {
 var path = resolvepath('Aircraft/E-jet-family/Models/Primus-Epic/MFD');
 
 var listeners = [];
-var timers = [];
 
 var teardown = func {
     initialized = 0;
@@ -2337,10 +2328,6 @@ var teardown = func {
         removelistener(l);
     }
     listeners = [];
-    foreach (var t; timers) {
-        t.stop();
-    }
-    timers = [];
     for (var i = 0; i <= 1; i += 1) {
         mfd[i].deinit();
         mfd[i] = nil;
@@ -2365,20 +2352,14 @@ var initialize = func {
         (func (j) {
             outputProp = props.globals.getNode("systems/electrical/outputs/mfd[" ~ j ~ "]");
             enabledProp = props.globals.getNode("instrumentation/mfd[" ~ j ~ "]/enabled");
-            var timer = maketimer(0.1, func() { mfd[j].update(); });
-            var timerSlow = maketimer(1.0, func() { mfd[j].updateSlow(); });
-            append(timers, timer);
-            append(timers, timerSlow);
             var check = func {
                 var visible = ((outputProp.getValue() or 0) >= 15) and enabledProp.getBoolValue();
                 mfd_master[j].setVisible(visible);
                 if (visible) {
-                    timer.start();
-                    timerSlow.start();
+                    mfd[j].activate();
                 }
                 else {
-                    timer.stop();
-                    timerSlow.stop();
+                    mfd[j].deactivate();
                 }
             };
             append(listeners, setlistener(outputProp, check, 1, 0));

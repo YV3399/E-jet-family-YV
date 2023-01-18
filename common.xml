@@ -2128,6 +2128,11 @@
             <enabled type="bool">true</enabled>
             <!-- 0 = slow, 1 = default, 2 = fast -->
             <update-rate type="int">1</update-rate>
+            <cursor>
+                <x>32</x>
+                <y>32</y>
+                <visible type="bool">false</visible>
+            </cursor>
             <!-- 0 = FMS, 1,2 = VOR1/LOC1, VOR2,LOC2 -->
             <nav-src type="int">1</nav-src>
             <preview type="int">0</preview>
@@ -2213,6 +2218,11 @@
         <pfd>
             <enabled type="bool">true</enabled>
             <update-rate type="int">0</update-rate>
+            <cursor>
+                <x>32</x>
+                <y>32</y>
+                <visible type="bool">false</visible>
+            </cursor>
             <!-- 0 = FMS, 1,2 = VOR1/LOC1, VOR2,LOC2 -->
             <nav-src type="int">2</nav-src>
             <preview type="int">0</preview>
@@ -2709,6 +2719,9 @@
         <json>
             <file>Aircraft/E-jet-family/Nasal/json.nas</file>
         </json>
+        <frequencies>
+            <file>Aircraft/E-jet-family/Nasal/frequencies.nas</file>
+        </frequencies>
         <printer>
             <file>Aircraft/E-jet-family/Nasal/printer.nas</file>
         </printer>

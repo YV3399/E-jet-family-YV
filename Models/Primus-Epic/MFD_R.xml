@@ -1,8 +1,8 @@
 <?xml version = '1.0' encoding = 'UTF-8' ?>
 <PropertyList>
-    
+
     <path>../../Models/Primus-Epic/primus_epic_mfd1.ac</path>
-    
+
     <!-- Power on/off -->
     <animation>
         <name>Power on/off</name>
@@ -15,7 +15,7 @@
             </less-than>
         </condition>
     </animation>
-    
+
     <animation>
         <type>touch</type>
         <object-name>MFD1</object-name>
@@ -33,7 +33,7 @@
             </binding>
         </action>
     </animation>
-    
+
     <animation>
         <type>knob</type>
         <object-name>MFD1_frame</object-name>
@@ -82,5 +82,5 @@
             </binding>
         </shift-increase>
     </animation>
-    
+
 </PropertyList>

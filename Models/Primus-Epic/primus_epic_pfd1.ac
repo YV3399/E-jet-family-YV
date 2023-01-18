@@ -6,7 +6,7 @@ OBJECT world
 name "Blender_export__primus_epic_pfd.ac"
 kids 3
 OBJECT poly
-name "box"
+name "PFD1_frame"
 loc 0.0462568 -0.0061163 -0.0000001
 crease 45.0
 texture "cockpit-panel.png"

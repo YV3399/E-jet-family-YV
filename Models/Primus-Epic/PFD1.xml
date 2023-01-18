@@ -1,26 +1,93 @@
 <?xml version = '1.0' encoding = 'UTF-8' ?>
 <PropertyList>
-  
+    
     <path>../../Models/Primus-Epic/primus_epic_pfd1.ac</path>
-
+    
     <params>
         <index>0</index>
     </params>
-
+    
     <path>mcdu-td.ac</path>
-
-	<!-- Power on/off -->
-	<animation>
-		<name>Power on/off</name>
-		<type>select</type>
-		<object-name>off</object-name>
-		<condition>
-			<less-than>
-				<property>systems/electrical/outputs/pfd[1]</property>
-				<value>15</value>
-			</less-than>
-		</condition>
-	</animation>
-
+    
+    <!-- Power on/off -->
+    <animation>
+        <name>Power on/off</name>
+        <type>select</type>
+        <object-name>off</object-name>
+        <condition>
+            <less-than>
+                <property>systems/electrical/outputs/pfd[1]</property>
+                <value>15</value>
+            </less-than>
+        </condition>
+    </animation>
+    
+    <animation>
+        <type>touch</type>
+        <object-name>PFD1</object-name>
+        <action>
+            <touch>0</touch>
+            <repeatable>false</repeatable>
+            <binding>
+                <command>nasal</command>
+                <script><![CDATA[
+                    var pfd = canvas_pfd.pfd[1];
+                    if (pfd != nil) {
+                        pfd.touch(cmdarg().getValues());
+                    }
+                ]]></script>
+            </binding>
+        </action>
+    </animation>
+    
+    <animation>
+        <type>knob</type>
+        <object-name>PFD1_frame</object-name>
+        <decrease>
+            <binding>
+                <command>nasal</command>
+                <script><![CDATA[
+                    var pfd = canvas_pfd.pfd[1];
+                    if (pfd != nil) {
+                        pfd.scroll(-1, 0);
+                    }
+                ]]></script>
+            </binding>
+        </decrease>
+        <increase>
+            <binding>
+                <command>nasal</command>
+                <script><![CDATA[
+                    var pfd = canvas_pfd.pfd[1];
+                    if (pfd != nil) {
+                        pfd.scroll(1, 0);
+                    }
+                ]]></script>
+            </binding>
+        </increase>
+        <shift-decrease>
+            <binding>
+                <command>nasal</command>
+                <script><![CDATA[
+                    var pfd = canvas_pfd.pfd[1];
+                    if (pfd != nil) {
+                        pfd.scroll(-1, 1);
+                    }
+                ]]></script>
+            </binding>
+        </shift-decrease>
+        <shift-increase>
+            <binding>
+                <command>nasal</command>
+                <script><![CDATA[
+                    var pfd = canvas_pfd.pfd[1];
+                    if (pfd != nil) {
+                        pfd.scroll(1, 1);
+                    }
+                ]]></script>
+            </binding>
+        </shift-increase>
+    </animation>
+</PropertyList>
 
 </PropertyList>

@@ -171,15 +171,15 @@
      inkscape:pageshadow="2"
      inkscape:zoom="0.40854176"
      inkscape:cx="402.33713"
-     inkscape:cy="255.04142"
+     inkscape:cy="352.95063"
      inkscape:document-units="px"
-     inkscape:current-layer="layer2"
+     inkscape:current-layer="layer1"
      showgrid="false"
      units="px"
-     inkscape:window-width="1918"
-     inkscape:window-height="1078"
-     inkscape:window-x="1440"
-     inkscape:window-y="0"
+     inkscape:window-width="1438"
+     inkscape:window-height="884"
+     inkscape:window-x="0"
+     inkscape:window-y="14"
      inkscape:window-maximized="1"
      showguides="true"
      inkscape:guide-bbox="true"
@@ -218,7 +218,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title />
+        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -226,7 +226,8 @@
      inkscape:groupmode="layer"
      id="layer2"
      inkscape:label="horizon"
-     style="display:inline">
+     style="display:inline"
+     sodipodi:insensitive="true">
     <rect
        style="display:inline;opacity:0.99;fill:#0000c0;fill-opacity:1;stroke:none;stroke-width:2.0038;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        id="rect5901"
@@ -975,8 +976,7 @@
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
      id="layer1"
-     style="display:inline"
-     sodipodi:insensitive="true">
+     style="display:inline">
     <rect
        y="708.85999"
        x="23.570999"
@@ -1405,13 +1405,13 @@
     <path
        style="fill:none;fill-rule:evenodd;stroke:#9f9f9f;stroke-width:9;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        d="m 23.929,1208.6 v 123.9 H 194.29 v -124.6 z"
-       id="path5576"
+       id="vhf1.clickbox"
        inkscape:connector-curvature="0" />
     <text
        style="font-style:normal;font-weight:normal;font-size:12.0002px;line-height:0%;font-family:E190;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1.00002px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
        x="75.787003"
        y="1243.5"
-       id="text5578"><tspan
+       id="vhf1.label"><tspan
          sodipodi:role="line"
          id="tspan5580"
          x="75.787003"
@@ -1419,33 +1419,33 @@
          style="font-size:27.733px;line-height:1.25;stroke-width:1.00002px">VHF1</tspan></text>
     <text
        style="font-style:normal;font-weight:normal;line-height:0%;font-family:E190;letter-spacing:0px;word-spacing:0px;fill:#00ff00;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       x="52.952"
+       x="40.952"
        y="1279.2"
        id="vhf1.act"
        inkscape:label="#text5582"><tspan
          sodipodi:role="line"
          id="tspan5584"
-         x="52.952"
+         x="40.952"
          y="1279.2"
-         style="font-size:29.7311px;line-height:1.25">000.00</tspan></text>
+         style="font-size:29.7311px;line-height:1.25">000.000</tspan></text>
     <text
        id="vhf1.sby"
        y="1311.5"
-       x="52.952"
+       x="40.952"
        style="font-style:normal;font-weight:normal;line-height:0%;font-family:E190;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
        inkscape:label="#text5586"><tspan
          y="1311.5"
-         x="52.952"
+         x="40.952"
          id="tspan5588"
          sodipodi:role="line"
-         style="font-size:29.7311px;line-height:1.25">000.00</tspan></text>
+         style="font-size:29.7311px;line-height:1.25">000.000</tspan></text>
     <path
        inkscape:connector-curvature="0"
-       id="path5590"
+       id="nav1.clickbox"
        d="m 855.71,1208.2 v 124.6 h 143.58 v -125.3 z"
        style="fill:none;fill-rule:evenodd;stroke:#9f9f9f;stroke-width:9;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
     <text
-       id="text5592"
+       id="nav1.label"
        y="1243.5"
        x="894.09998"
        style="font-style:normal;font-weight:normal;font-size:12.0002px;line-height:0%;font-family:E190;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1.00002px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"><tspan
@@ -1457,23 +1457,23 @@
     <text
        id="nav1.act"
        y="1279.2"
-       x="877.59998"
+       x="869.59998"
        style="font-style:normal;font-weight:normal;line-height:0%;font-family:E190;letter-spacing:0px;word-spacing:0px;fill:#00ff00;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
        inkscape:label="#text5596"><tspan
          y="1279.2"
-         x="877.59998"
+         x="869.59998"
          id="tspan5598"
          sodipodi:role="line"
          style="font-size:29.7311px;line-height:1.25">000.00</tspan></text>
     <text
        style="font-style:normal;font-weight:normal;line-height:0%;font-family:E190;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       x="877.59998"
+       x="869.59998"
        y="1311.5"
        id="nav1.sby"
        inkscape:label="#text5600"><tspan
          sodipodi:role="line"
          id="tspan5602"
-         x="877.59998"
+         x="869.59998"
          y="1311.5"
          style="font-size:29.7311px;line-height:1.25">000.00</tspan></text>
     <text
@@ -5415,6 +5415,6 @@
      inkscape:groupmode="layer"
      id="layer5"
      inkscape:label="Layer 2"
-     style="display:inline"
+     style="display:none"
      sodipodi:insensitive="true" />
 </svg>
