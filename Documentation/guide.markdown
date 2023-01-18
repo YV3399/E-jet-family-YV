@@ -90,10 +90,10 @@ doors can be monitored on the Systems page on the MFD.
   that use of flaps 6 is not authorized for CAT-II landings.
 - **Parking Brake** functions as usual.
 
-## MFD's and CCD's
+## EFIS screens and CCD's
 
 The real E-Jet uses a device known as the CCD (Cursor Control Device) to
-provide a point-and-click style GUI on the EFIS screens, particularly the MFD.
+provide a point-and-click style GUI on the EFIS screens, (MFD, PFD, EICAS).
 The CCD consists of a trackpad, an "enter" button, three screen selector
 buttons, and a two-ring twist knob for data entry. The pilot can use the screen
 selector to move a cursor between PFD, MFD and EICAS screens; the touchpad
@@ -101,14 +101,15 @@ moves the cursor within the selected screen; the "enter" button selects
 on-screen GUI elements; and the twist knob serves as a dynamic dial for various
 inputs, such as map range etc.
 
-Because we cannot provide a physical CCD in flightgear, the FlightGear E-Jet
-emulates this functionality by allowing you to click directly onto the MFD, and
-using the mouse scroll wheel to emulate the twist knob. Specifically, the
-mapping works as follows:
+Because most home simulator setups do not feature a physical CCD, the
+FlightGear E-Jet can emulate this functionality by allowing you to click
+directly onto the MFD, and using the mouse scroll wheel to emulate the twist
+knob.  Specifically, the mapping works as follows:
 
-- Mouse click: position CCD cursor on clicked screen (currently only MFD is
-  supported), at the position of the click, and then click the CCD "enter"
-  button
+- Mouse click: emulates moving the CCD focus to the clicked screen, moving the
+  cursor to the clicked position, and clicking the CCD Enter button.
+- Shift + click: emulates moving the CCD focus to the clicked screen, moving
+  the cursor to the clicked position, but does not generate a CCD Enter click.
 - Scroll wheel: twist outer ring of CCD data entry knob.
 - Shift + scroll wheel: twist inner ring of CCD data entry knob.
 
@@ -121,16 +122,38 @@ simulated CCD's, under `/controls/ccd[0]` (Captain side) and `/controls/ccd[1]`
 - `click`: CCD "enter" button.
 - `rel-inner` and `rel-outer`: the inner and outer rings of the CCD data entry
   knob.
-- `selected-screen`: set this to move the CCD between screens (only MFD is
-  currently supported):
+- `selected-screen`: set this to move the CCD between screens:
     - 0 = PFD
     - 1 = MFD
-    - 2 = EICAS
+    - 2 = EICAS (currently not implemented)
 
 Mapping a second mouse or similar input device, while keeping your primary
 mouse working normally is possible; [this
 page](https://wiki.flightgear.org/Input_device#Multiple_mice_on_Linux) on the
 FlightGear wiki explains how.
+
+The following functionality is available through the CCD-driven GUI:
+
+### PFD
+
+- Frequency boxes (bottom left for COMM, bottom right for NAV):
+  - click to swap frequencies
+  - data entry to change standby frequency
+
+### MFD
+
+- Menu bars on upper and lower screen edge - click to open. The "Systems" menu
+  has a smaller inset for selecting different systems pages. The "Map" button
+  switches to Map view on first click, and opens the Map menu on second click.
+- Outer data entry ring sets map range
+- Inner data entry knob changes WX radar tilt when in Map mode
+- Inner data entry knob scrolls through waypoints when in Plan mode
+- Inner data entry knob changes WX radar gain when Weather menu is open
+- The TCAS and Checklist modes/menus haven't been implemented yet
+
+### EFIS
+
+No functionality implemented yet.
 
 ## Startup Procedure
 

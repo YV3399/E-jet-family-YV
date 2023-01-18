@@ -60,7 +60,7 @@
         <halign>left</halign>
         <valign>top</valign>
         <checkbox>
-            <label>CCD emulation (click on EFIS screens)</label>
+            <label>CCD emulation (mouse click/scroll on EFIS screens = cursor control device)</label>
             <property>/options/controls/ccd-emulation</property>
             <halign>left</halign>
             <binding>
