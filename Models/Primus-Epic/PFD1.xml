@@ -29,6 +29,9 @@
             <touch>0</touch>
             <repeatable>false</repeatable>
             <binding>
+                <condition>
+                    <property>/options/controls/ccd-emulation</property>
+                </condition>
                 <command>nasal</command>
                 <script><![CDATA[
                     var pfd = canvas_pfd.pfd[1];
@@ -45,6 +48,9 @@
         <object-name>PFD1_frame</object-name>
         <decrease>
             <binding>
+                <condition>
+                    <property>/options/controls/ccd-emulation</property>
+                </condition>
                 <command>nasal</command>
                 <script><![CDATA[
                     var pfd = canvas_pfd.pfd[1];
@@ -56,6 +62,9 @@
         </decrease>
         <increase>
             <binding>
+                <condition>
+                    <property>/options/controls/ccd-emulation</property>
+                </condition>
                 <command>nasal</command>
                 <script><![CDATA[
                     var pfd = canvas_pfd.pfd[1];
@@ -67,6 +76,9 @@
         </increase>
         <shift-decrease>
             <binding>
+                <condition>
+                    <property>/options/controls/ccd-emulation</property>
+                </condition>
                 <command>nasal</command>
                 <script><![CDATA[
                     var pfd = canvas_pfd.pfd[1];
@@ -78,6 +90,9 @@
         </shift-decrease>
         <shift-increase>
             <binding>
+                <condition>
+                    <property>/options/controls/ccd-emulation</property>
+                </condition>
                 <command>nasal</command>
                 <script><![CDATA[
                     var pfd = canvas_pfd.pfd[1];

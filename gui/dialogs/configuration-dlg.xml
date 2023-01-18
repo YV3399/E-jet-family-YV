@@ -57,6 +57,19 @@
     </group>
     <group>
         <layout>hbox</layout>
+        <halign>left</halign>
+        <valign>top</valign>
+        <checkbox>
+            <label>CCD emulation (click on EFIS screens)</label>
+            <property>/options/controls/ccd-emulation</property>
+            <halign>left</halign>
+            <binding>
+                <command>dialog-apply</command>
+            </binding>
+        </checkbox>
+    </group>
+    <group>
+        <layout>hbox</layout>
         <checkbox>
             <label>Separate tiller steering</label>
             <property>controls/gear/enable-tiller</property>

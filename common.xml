@@ -736,6 +736,7 @@
         </system>
         <controls>
             <realistic-nose-wheel-steering type="bool">0</realistic-nose-wheel-steering>
+            <ccd-emulation type="bool">1</ccd-emulation>
         </controls>
         <instrumentation>
             <iru-alignment-mode type="string">normal</iru-alignment-mode>
