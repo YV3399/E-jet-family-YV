@@ -1200,13 +1200,15 @@ var PFDCanvas = {
         me.props["/instrumentation/pfd/blink-state"].toggleBoolValue();
     },
 
-    updateSlow: func() {
+    updateSlow: func(dt) {
+        call(canvas_base.BaseScreen.updateSlow, [dt], me);
         # CHR
         var t = me.props["/instrumentation/chrono/chrono/total"].getValue() or 0;
         me.elems["chrono.digital"].setText(sprintf("%02d:%02d", math.floor(t / 60), math.mod(t, 60)));
     },
 
-    update: func() {
+    update: func(dt) {
+        call(canvas_base.BaseScreen.update, [dt], me);
         var pitch = (me.props["/instrumentation/pfd/pitch-scale"].getValue() or 0);
         var roll =  me.props["/orientation/roll-deg"].getValue() or 0;
         var slip = me.props["/instrumentation/slip-skid-ball/indicated-slip-skid"].getValue() or 0;
@@ -1509,21 +1511,24 @@ initialize = func {
         PFD_master[i] = PFD_display[i].createGroup();
         pfd[i] = PFDCanvas.new(i).init(PFD_master[i]);
         (func (j) {
-            outputProp = props.globals.getNode("systems/electrical/outputs/pfd[" ~ j ~ "]");
-            enabledProp = props.globals.getNode("instrumentation/pfd[" ~ j ~ "]/enabled");
-            rateProp = props.globals.getNode("instrumentation/pfd[" ~ j ~ "]/update-rate");
-            append(timer, maketimer(0.04, func() { pfd[j].update(); }));
-            append(timerSlow, maketimer(1.0, func() { pfd[j].updateSlow(); }));
-            append(blinkTimer, maketimer(0.25, func () { pfd[j].toggleBlink(); }));
+            var outputProp = props.globals.getNode("systems/electrical/outputs/pfd[" ~ j ~ "]");
+            var enabledProp = props.globals.getNode("instrumentation/pfd[" ~ j ~ "]/enabled");
+            var rateProp = props.globals.getNode("instrumentation/pfd[" ~ j ~ "]/update-rate");
+            var fastRate = 0.04;
+            var slowRate = 1.0;
+            var blinkRate = 0.25;
+            append(timer, maketimer(fastRate, func() { pfd[j].update(fastRate); }));
+            append(timerSlow, maketimer(slowRate, func() { pfd[j].updateSlow(slowRate); }));
+            append(blinkTimer, maketimer(blinkRate, func () { pfd[j].toggleBlink(); }));
             blinkTimer[j].simulatedTime = 1;
             var check = func {
                 var visible = ((outputProp.getValue() or 0) >= 15) and enabledProp.getBoolValue();
                 PFD_master[j].setVisible(visible);
                 if (visible) {
                     var rate = rateProp.getValue();
-                    var interval = 1.0 / (10.0 + 10.0 * rate);
+                    fastRate = 1.0 / (10.0 + 10.0 * rate);
                     pfd[j].activate();
-                    timer[j].restart(interval);
+                    timer[j].restart(fastRate);
                     timerSlow[j].start();
                     blinkTimer[j].start();
                 }

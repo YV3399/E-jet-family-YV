@@ -576,8 +576,8 @@ var MFD = {
 
     postInit: func () {
         var self = me;
-        me.timerFast = maketimer(0.1, func() { self.update(); });
-        me.timerSlow = maketimer(1.0, func() { self.update(); });
+        me.timerFast = maketimer(0.1, func() { self.update(0.1); });
+        me.timerSlow = maketimer(1.0, func() { self.updateSlow(1.0); });
         me.terrainTimer = maketimer(0.1, func { self.updateTerrainViz(); });
         me.terrainTimer.simulatedTime = 1;
 
@@ -2140,8 +2140,8 @@ var MFD = {
         }
     },
 
-    updateSlow: func () {
-        call(canvas_base.BaseScreen.updateSlow, [], me);
+    updateSlow: func (dt) {
+        call(canvas_base.BaseScreen.updateSlow, [dt], me);
         var salt = me.props['altitude-selected'].getValue();
         var range = me.props['range'].getValue();
         var latZoom = 720.0 / range;
@@ -2200,8 +2200,8 @@ var MFD = {
         }
     },
 
-    update: func () {
-        call(canvas_base.BaseScreen.update, [], me);
+    update: func (dt) {
+        call(canvas_base.BaseScreen.update, [dt], me);
         var heading = me.props['heading-mag'].getValue();
         var headingT = me.props['heading'].getValue();
         var headingBug = me.props['heading-bug'].getValue();

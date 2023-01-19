@@ -12,6 +12,7 @@ var BaseScreen = {
                 parents: [BaseScreen],
                 side: side,
                 ccdIndex: ccdIndex,
+                ccdCursorTimeout: 0,
                 active: 0,
             };
         return m;
@@ -66,15 +67,18 @@ var BaseScreen = {
                     var delta = node.getDoubleValue();
                     var p = self.props['cursor.x'];
                     p.setValue(math.min(1024, math.max(0, p.getValue() + delta)));
+                    self.wakeupCursor();
                 });
                 self.addListener('ccd', '@ccd.rel-y', func (node) {
                     var delta = node.getDoubleValue();
                     var p = self.props['cursor.y'];
                     p.setValue(math.min(1366, math.max(0, p.getValue() + delta)));
+                    self.wakeupCursor();
                 });
                 self.addListener('ccd', '@ccd.click', func(node) {
                     if (node.getBoolValue()) {
                         self.click();
+                        self.wakeupCursor();
                     }
                 });
                 self.addListener('ccd', '@ccd.rel-outer', func(node) {
@@ -83,12 +87,17 @@ var BaseScreen = {
                 self.addListener('ccd', '@ccd.rel-inner', func(node) {
                     self.scroll(node.getValue(), 1);
                 });
+                # Place cursor at center of screen
+                self.props["cursor.x"].setValue(512);
+                self.props["cursor.y"].setValue(683);
                 self.props["cursor.visible"].setBoolValue(1);
+                self.wakeupCursor();
             }
             else {
                 # Lose CCD focus
                 self.clearListeners('ccd');
                 self.props["cursor.visible"].setBoolValue(0);
+                self.ccdCursorTimeout = 0.0;
             }
         }, 1, 0);
         me.addListener('main', '@cursor.x', func (node) {
@@ -116,10 +125,18 @@ var BaseScreen = {
     ############### Update hooks ############### 
 
     # Low-frequency updates (on the order of 1 Hz)
-    updateSlow: func () {},
+    updateSlow: func (dt) {
+    },
 
     # High-frequency updates (at frame rate or similar)
-    update: func () {},
+    update: func (dt) {
+        if (me.ccdCursorTimeout > 0) {
+            me.ccdCursorTimeout -= dt;
+            if (!(me.ccdCursorTimeout > 0.0)) {
+                me.props['cursor.visible'].setBoolValue(0);
+            }
+        }
+    },
 
     ############### Lifecycle hooks ############### 
     postInit: func () {},
@@ -246,9 +263,11 @@ var BaseScreen = {
         var x = args.x * 1024;
         var y = 1560 - args.y * 1560;
 
+        me.props['ccd.screen-select'].setValue(me.ccdIndex);
+        me.props['cursor.x'].setValue(x);
         me.props['cursor.x'].setValue(x);
         me.props['cursor.y'].setValue(y);
-        me.props['ccd.screen-select'].setValue(me.ccdIndex);
+        me.props['cursor.y'].setValue(y);
 
         if (me.props['keyboard.shift'].getBoolValue()) {
             # only touch, no click
@@ -308,6 +327,11 @@ var BaseScreen = {
         }
         # No widget wants this event; process as master scroll.
         me.masterScroll(direction, knob);
+    },
+
+    wakeupCursor: func () {
+        me.ccdCursorTimeout = 10.0;
+        me.props['cursor.visible'].setValue(1);
     },
 
 
