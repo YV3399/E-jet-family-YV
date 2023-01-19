@@ -1,3 +1,5 @@
+# AOP p2165+
+
 var MSG_WARNING = 4;
 var MSG_CAUTION = 3;
 var MSG_ADVISORY = 2;
@@ -8,6 +10,7 @@ var signalProp = props.globals.getNode('/instrumentation/eicas/signals/messages-
 var blinkProp = props.globals.getNode('/instrumentation/eicas/blink-state');
 var masterCautionProp = props.globals.getNode('/instrumentation/eicas/master/caution');
 var masterWarningProp = props.globals.getNode('/instrumentation/eicas/master/warning');
+var simTimeProp = props.globals.getNode('/sim/time/elapsed-sec');
 
 var raiseSignal = func () { signalProp.setValue(1); }
 
@@ -21,16 +24,17 @@ var compare = func (a, b) {
 };
 
 var compareMessages = func (a, b) {
-    if (a.level != b.level) return compare(b.level, a.level);
-    if (a.priority != b.priority) return compare(b.priority, a.priority);
-    return cmp(a.text, b.text);
+    return compare(b.level, a.level)
+        or compare(b.priority, a.priority)
+        or compare(a.timestamp, a.timestamp)
+        or cmp(a.text, b.text);
 };
 
 var sortMessages = func () {
     messages = sort(messages, compareMessages);
 };
 
-var setMessage = func (level, text, priority) {
+var setMessage = func (level, text, priority, rootEicas=0) {
     var blink = 0;
     if (level == MSG_ADVISORY) {
         blink = 11; # blink for ~5 seconds
@@ -44,7 +48,14 @@ var setMessage = func (level, text, priority) {
     if (level == MSG_CAUTION) {
         masterCautionProp.setBoolValue(1);
     }
-    var msg = { level: level, text: text, priority: priority, blink: blink };
+    var msg = {
+            level: level,
+            text: text,
+            priority: priority,
+            blink: blink,
+            timestamp: simTimeProp.getValue() or 0,
+            rootEicas: rootEicas,
+        };
     append(messages, msg);
     sortMessages();
     raiseSignal();
@@ -61,12 +72,12 @@ var clearMessage = func (level, text, priority) {
             }
         }
     }
-    # if (!blinking[MSG_WARNING]) {
-    #     masterWarningProp.setBoolValue(0);
-    # }
-    # if (!blinking[MSG_CAUTION]) {
-    #     masterCautionProp.setBoolValue(0);
-    # }
+    if (!blinking[MSG_WARNING]) {
+        masterWarningProp.setBoolValue(0);
+    }
+    if (!blinking[MSG_CAUTION]) {
+        masterCautionProp.setBoolValue(0);
+    }
     messages = newMessages;
     raiseSignal();
 };
@@ -105,10 +116,10 @@ setlistener("sim/signals/fdm-initialized", func {
         }
     });
 
-    var listenOnProp = func (prop, cond, level, text, priority) {
+    var listenOnProp = func (prop, cond, level, text, priority, rootEicas=0) {
         setlistener(prop, func(node) {
             if (cond(node.getValue())) {
-                setMessage(level, text, priority);
+                setMessage(level, text, priority, rootEicas);
             }
             else {
                 clearMessage(level, text, priority);
@@ -132,7 +143,7 @@ setlistener("sim/signals/fdm-initialized", func {
     listenOnProp("/instrumentation/eicas/messages/doors/l2/open", yes, MSG_WARNING, 'DOOR PAX AFT OPEN', 0);
     listenOnProp("/instrumentation/eicas/messages/doors/r1/open", yes, MSG_WARNING, 'DOOR SERV FWD OPEN', 0);
     listenOnProp("/instrumentation/eicas/messages/doors/r2/open", yes, MSG_WARNING, 'DOOR SERV AFT OPEN', 0);
-    listenOnProp("/instrumentation/eicas/messages/electrical/emergency", yes, MSG_WARNING, 'ELEC EMERGENCY', 0);
+    listenOnProp("/instrumentation/eicas/messages/electrical/emergency", yes, MSG_WARNING, 'ELEC EMERGENCY', 0, 1);
     listenOnProp("/instrumentation/eicas/messages/electrical/batteries-off", yes, MSG_WARNING, 'BATT 1-2 OFF', 0);
     listenOnProp("/instrumentation/eicas/messages/iru-excessive-motion", yes, MSG_CAUTION, 'IRS EXCESSIVE MOTION', 0);
     listenOnProp("/systems/electrical/sources/battery[0]/status", no, MSG_CAUTION, 'BATT 1 OFF', 0);
@@ -140,15 +151,15 @@ setlistener("sim/signals/fdm-initialized", func {
     listenOnProp("/instrumentation/eicas/messages/electrical/external-power-connected", yes, MSG_CAUTION, 'GPU CONNECTED', 0);
     listenOnProp("/instrumentation/eicas/messages/electrical/idg1", yes, MSG_CAUTION, 'IDG 1 OFF', 0);
     listenOnProp("/instrumentation/eicas/messages/electrical/idg2", yes, MSG_CAUTION, 'IDG 2 OFF', 0);
-    listenOnProp("/systems/electrical/buses/ac[1]/powered", no, MSG_CAUTION, 'AC BUS 1 OFF', 0);
-    listenOnProp("/systems/electrical/buses/ac[2]/powered", no, MSG_CAUTION, 'AC BUS 2 OFF', 0);
-    listenOnProp("/systems/electrical/buses/ac[3]/powered", no, MSG_CAUTION, 'AC ESS BUS OFF', 0);
+    listenOnProp("/systems/electrical/buses/ac[1]/powered", no, MSG_CAUTION, 'AC BUS 1 OFF', 0, 1);
+    listenOnProp("/systems/electrical/buses/ac[2]/powered", no, MSG_CAUTION, 'AC BUS 2 OFF', 0, 1);
+    listenOnProp("/systems/electrical/buses/ac[3]/powered", no, MSG_CAUTION, 'AC ESS BUS OFF', 0, 1);
     listenOnProp("/systems/electrical/buses/ac[4]/powered", no, MSG_CAUTION, 'AC STBY BUS OFF', 0);
-    listenOnProp("/systems/electrical/buses/dc[1]/powered", no, MSG_CAUTION, 'DC BUS 1 OFF', 0);
-    listenOnProp("/systems/electrical/buses/dc[2]/powered", no, MSG_CAUTION, 'DC BUS 2 OFF', 0);
-    listenOnProp("/systems/electrical/buses/dc[3]/powered", no, MSG_CAUTION, 'DC ESS BUS 1 OFF', 0);
-    listenOnProp("/systems/electrical/buses/dc[4]/powered", no, MSG_CAUTION, 'DC ESS BUS 2 OFF', 0);
-    listenOnProp("/systems/electrical/buses/dc[5]/powered", no, MSG_CAUTION, 'DC ESS BUS 3 OFF', 0);
+    listenOnProp("/systems/electrical/buses/dc[1]/powered", no, MSG_CAUTION, 'DC BUS 1 OFF', 0, 1);
+    listenOnProp("/systems/electrical/buses/dc[2]/powered", no, MSG_CAUTION, 'DC BUS 2 OFF', 0, 1);
+    listenOnProp("/systems/electrical/buses/dc[3]/powered", no, MSG_CAUTION, 'DC ESS BUS 1 OFF', 0, 1);
+    listenOnProp("/systems/electrical/buses/dc[4]/powered", no, MSG_CAUTION, 'DC ESS BUS 2 OFF', 0, 1);
+    listenOnProp("/systems/electrical/buses/dc[5]/powered", no, MSG_CAUTION, 'DC ESS BUS 3 OFF', 0, 1);
     listenOnProp("/instrumentation/iru[0]/outputs/valid-att", no, MSG_CAUTION, 'IRS 1 FAIL', 1);
     listenOnProp("/instrumentation/iru[1]/outputs/valid-att", no, MSG_CAUTION, 'IRS 2 FAIL', 1);
     listenOnProp("/instrumentation/iru[0]/outputs/valid", no, MSG_ADVISORY, 'IRS 1 NAV MODE FAIL', 1);

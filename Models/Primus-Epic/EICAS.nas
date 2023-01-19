@@ -178,7 +178,6 @@ var EICAS = {
             "msg.12",
             "msg.13",
             "msg.14",
-            "msg.15",
             "flaps-spoilers.section",
             "vib.section",
             "oil.section",
@@ -263,11 +262,14 @@ var EICAS = {
         foreach (var msg; messages.messages) {
             elem = me.elems['msg.' ~ i];
             if (elem != nil) {
-                elem.setText(msg.text);
+                if (msg.rootEicas)
+                    elem.setText(">" ~ msg.text);
+                else
+                    elem.setText("  " ~ msg.text);
             }
             i += 1;
         }
-        while (i < 16) {
+        while (i < 15) {
             elem = me.elems['msg.' ~ i];
             if (elem != nil) {
                 elem.setText("");
