@@ -3,10 +3,6 @@
 # AOM references:
 # - TCAS mode: p. 2157
 
-var initialized = 0;
-var mfd_display = [nil, nil];
-var mfd_master = [nil, nil];
-var mfd = [nil, nil];
 var DC = 0.01744;
 var sin30 = math.sin(30 * D2R);
 var cos30 = math.cos(30 * D2R);
@@ -2318,7 +2314,10 @@ var MFD = {
     },
 };
 
-var path = resolvepath('Aircraft/E-jet-family/Models/Primus-Epic/MFD');
+var initialized = 0;
+var mfd_display = [nil, nil];
+var mfd_master = [nil, nil];
+var mfd = [nil, nil];
 
 var listeners = [];
 

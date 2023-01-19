@@ -184,7 +184,8 @@ var BaseScreen = {
     # - a string, representing a property path
     # - a Node
     # - a vector, where each element is either a string or a Node.
-    registerProp: func (key, pathOrNode, create=0) {
+    registerProp: func (key, pathOrNode=nil, create=0) {
+        if (pathOrNode == nil) pathOrNode = key;
         if (typeof(pathOrNode) == 'vector') {
             items = [];
             foreach (var k; pathOrNode) {
@@ -255,6 +256,21 @@ var BaseScreen = {
                 me.elems[key].set("clip-frame", canvas.Element.PARENT);
             }
         }
+    },
+
+    registerElem: func (key, elem, group=nil) {
+        if (group == nil) group = me.master;
+        if (typeof(elem) == 'func')
+            elem = elem(group);
+        if (typeof(elem) == 'scalar')
+            elem = group.getElementById(key);
+        if (elem == nil) {
+            debug.warn("Element does not exist: " ~ key);
+        }
+        else {
+            me.elems[key] = elem;
+        }
+        return elem;
     },
 
     ############### Input handling. Do not override. ############### 

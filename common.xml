@@ -2000,6 +2000,11 @@
 
         <eicas>
             <enabled type="bool">true</enabled>
+            <cursor>
+                <x>32</x>
+                <y>32</y>
+                <visible type="bool">false</visible>
+            </cursor>
             <signals>
                 <messages-changed type="bool">false</messages-changed>
             </signals>
