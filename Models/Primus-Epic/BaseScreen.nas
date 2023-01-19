@@ -122,6 +122,9 @@ var BaseScreen = {
     # Override to handle scroll events that weren't accepted by any widgets.
     masterScroll: func (direction, knob=0) {},
 
+    # Override to handle click events that weren't accepted by any widgets.
+    masterClick: func (x, y) {},
+
     ############### Update hooks ############### 
 
     # Low-frequency updates (on the order of 1 Hz)
@@ -215,7 +218,7 @@ var BaseScreen = {
         if (contains(options, 'onclick')) widget.onclick = options.onclick;
         if (contains(options, 'onscroll')) widget.onscroll = options.onscroll;
 
-        var elem = group.getElementById(widget.key);
+        var elem = group.getElementById(widget.key) or me.elems[widget.key];
         var boxElem = group.getElementById(widget.key ~ ".clickbox");
         if (boxElem == nil) {
             widget.box = elem.getTransformedBounds();
@@ -315,6 +318,7 @@ var BaseScreen = {
                 }
             }
         }
+        me.masterClick(x, y);
     },
 
     # direction: -1 = decrease, 1 = increase

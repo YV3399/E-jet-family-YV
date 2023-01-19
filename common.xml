@@ -2005,6 +2005,18 @@
                 <y>32</y>
                 <visible type="bool">false</visible>
             </cursor>
+            <message-list>
+                <selected type="bool">false</selected>
+                <scroll-pos type="int">0</scroll-pos>
+                <min-scroll type="int">0</min-scroll>
+                <max-scroll type="int">0</max-scroll>
+                <counts>
+                    <caution type="int">0</caution>
+                    <warning type="int">0</warning>
+                    <advisory type="int">0</advisory>
+                    <status type="int">0</status>
+                </counts>
+            </message-list>
             <signals>
                 <messages-changed type="bool">false</messages-changed>
             </signals>
@@ -2029,6 +2041,7 @@
                     <emergency type="bool">false</emergency>
                     <external-power-connected type="bool">false</external-power-connected>
                 </electrical>
+                <debug type="bool">false</debug>
             </messages>
             <declutter>
                 <active type="bool">false</active>

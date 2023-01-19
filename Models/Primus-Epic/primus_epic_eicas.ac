@@ -6,7 +6,7 @@ OBJECT world
 name "Blender_export__primus_epic_eicas.ac"
 kids 3
 OBJECT poly
-name "box"
+name "EICAS_frame"
 loc 0.0522682 -0.0064205 -0.0000001
 crease 45.0
 texture "cockpit-panel.png"
@@ -206,7 +206,7 @@ refs 3
 19 0.357263 0.399637
 kids 0
 OBJECT poly
-name "EICAS.face"
+name "EICAS"
 loc -0.0007446 -0.0114323 -0.2489280
 crease 30.0
 texture "eicas.png"

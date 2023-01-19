@@ -16,4 +16,85 @@
 		</condition>
 	</animation>
 
+    <animation>
+        <type>touch</type>
+        <object-name>EICAS</object-name>
+        <action>
+            <touch>0</touch>
+            <repeatable>false</repeatable>
+            <binding>
+                <condition>
+                    <property>/options/controls/ccd-emulation</property>
+                </condition>
+                <command>nasal</command>
+                <script><![CDATA[
+                    var eicas = canvas_eicas.eicas;
+                    if (eicas != nil) {
+                        eicas.touch(cmdarg().getValues());
+                    }
+                ]]></script>
+            </binding>
+        </action>
+    </animation>
+
+    <animation>
+        <type>knob</type>
+        <object-name>EICAS_frame</object-name>
+        <decrease>
+            <binding>
+                <condition>
+                    <property>/options/controls/ccd-emulation</property>
+                </condition>
+                <command>nasal</command>
+                <script><![CDATA[
+                    var eicas = canvas_eicas.eicas;
+                    if (eicas != nil) {
+                        eicas.scroll(-1, 0);
+                    }
+                ]]></script>
+            </binding>
+        </decrease>
+        <increase>
+            <binding>
+                <condition>
+                    <property>/options/controls/ccd-emulation</property>
+                </condition>
+                <command>nasal</command>
+                <script><![CDATA[
+                    var eicas = canvas_eicas.eicas;
+                    if (eicas != nil) {
+                        eicas.scroll(1, 0);
+                    }
+                ]]></script>
+            </binding>
+        </increase>
+        <shift-decrease>
+            <binding>
+                <condition>
+                    <property>/options/controls/ccd-emulation</property>
+                </condition>
+                <command>nasal</command>
+                <script><![CDATA[
+                    var eicas = canvas_eicas.eicas;
+                    if (eicas != nil) {
+                        eicas.scroll(-1, 1);
+                    }
+                ]]></script>
+            </binding>
+        </shift-decrease>
+        <shift-increase>
+            <binding>
+                <condition>
+                    <property>/options/controls/ccd-emulation</property>
+                </condition>
+                <command>nasal</command>
+                <script><![CDATA[
+                    var eicas = canvas_eicas.eicas;
+                    if (eicas != nil) {
+                        eicas.scroll(1, 1);
+                    }
+                ]]></script>
+            </binding>
+        </shift-increase>
+    </animation>
 </PropertyList>

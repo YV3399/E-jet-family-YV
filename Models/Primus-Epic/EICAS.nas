@@ -27,6 +27,7 @@ var EICAS = {
         var m = canvas_base.BaseScreen.new(0, 2);
         m.parents = [EICAS] ~ m.parents;
         m.timer = nil;
+        m.messageMap = [];
         return m;
     },
 
@@ -49,6 +50,14 @@ var EICAS = {
         me.registerProp('cursor.x', "/instrumentation/eicas/cursor/x");
         me.registerProp('cursor.y', "/instrumentation/eicas/cursor/y");
         me.registerProp('cursor.visible', "/instrumentation/eicas/cursor/visible");
+        me.registerProp('message-list.selected', "/instrumentation/eicas/message-list/selected");
+        me.registerProp('message-list.scroll-pos', "/instrumentation/eicas/message-list/scroll-pos");
+        me.registerProp('message-list.min-scroll', "/instrumentation/eicas/message-list/min-scroll");
+        me.registerProp('message-list.max-scroll', "/instrumentation/eicas/message-list/max-scroll");
+        me.registerProp('message-list.counts.caution', "/instrumentation/eicas/message-list/counts/caution");
+        me.registerProp('message-list.counts.warning', "/instrumentation/eicas/message-list/counts/warning");
+        me.registerProp('message-list.counts.advisory', "/instrumentation/eicas/message-list/counts/advisory");
+        me.registerProp('message-list.counts.status', "/instrumentation/eicas/message-list/counts/status");
         me.registerProp("N1L", "engines/engine[0]/n1");
         me.registerProp("N1R", "engines/engine[1]/n1");
         me.registerProp("N1L.target", "fadec/target[0]");
@@ -153,7 +162,6 @@ var EICAS = {
             "N1R.rated-max",
             "N1L.lever",
             "N1R.lever",
-            "parkbrake",
             "engL.off",
             "engR.off",
             "pitchtrim.digital",
@@ -178,6 +186,21 @@ var EICAS = {
             "msg.12",
             "msg.13",
             "msg.14",
+            "msg.highlight",
+            "msg.status",
+            "msg.status.highlight",
+            "msg.count-above.caution",
+            "msg.count-above.caution.text",
+            "msg.count-above.advisory",
+            "msg.count-above.advisory.text",
+            "msg.count-above.status",
+            "msg.count-above.status.text",
+            "msg.count-below.caution",
+            "msg.count-below.caution.text",
+            "msg.count-below.advisory",
+            "msg.count-below.advisory.text",
+            "msg.count-below.status",
+            "msg.count-below.status.text",
             "flaps-spoilers.section",
             "vib.section",
             "oil.section",
@@ -221,6 +244,41 @@ var EICAS = {
         me.addListener('main', '@blink', func { self.updateBlinks(); });
         me.addListener('main', '@messages-changed', func { self.updateMessages(); });
         me.addListener('main', '@declutter', func (node) { self.updateDeclutter(node.getBoolValue()); });
+        me.addListener('main', '@message-list.selected', func (node) {
+            var visible = node.getBoolValue();
+            me.elems['msg.highlight'].setVisible(visible);
+            me.elems['msg.status.highlight'].setVisible(visible);
+        }, 1, 0);
+    },
+
+    makeWidgets: func () {
+        call(canvas_base.BaseScreen.makeWidgets, [], me);
+        var self = me;
+
+        me.addWidget('msg.highlight', { onclick: func { self.clickMessages(); } });
+    },
+
+    clickMessages: func () {
+        me.props['message-list.selected'].setBoolValue(1);
+    },
+
+    masterClick: func (x, y) {
+        me.props['message-list.selected'].setBoolValue(0);
+    },
+
+    masterScroll: func (amount, which) {
+        if (me.props['message-list.selected'].getBoolValue()) {
+            me.scrollMessages(amount);
+        }
+    },
+
+    scrollMessages: func (amount) {
+        var minScroll = me.props['message-list.min-scroll'].getValue() or 0;
+        var maxScroll = me.props['message-list.max-scroll'].getValue() or 0;
+        var scrollPos = me.props['message-list.scroll-pos'].getValue() or 0;
+        scrollPos = math.min(maxScroll, math.max(minScroll, scrollPos + amount));
+        me.props['message-list.scroll-pos'].setValue(scrollPos);
+        me.updateMessages();
     },
 
     updateDeclutter: func (active) {
@@ -236,19 +294,26 @@ var EICAS = {
         var i = 0;
         var elem = nil;
         var blink = me.props['blink'].getBoolValue();
-        foreach (var msg; messages.messages) {
-            (r, g, b) = msgColors[msg.level];
+        foreach (var msg; me.messageMap) {
             elem = me.elems['msg.' ~ i];
-            if (elem != nil) {
-                if (blink and (msg.blink != 0)) {
-                    elem.setColorFill(r, g, b, 1);
+            if (elem != nil and msg != nil) {
+                if (msg == nil) {
+                    elem.setColorFill(1, 1, 0, 1);
                     elem.setColor(0, 0, 0);
                     elem.setDrawMode(canvas.Text.TEXT + canvas.Text.FILLEDBOUNDINGBOX);
                 }
                 else {
-                    elem.setColorFill(0, 0, 0, 1);
-                    elem.setColor(r, g, b);
-                    elem.setDrawMode(canvas.Text.TEXT);
+                    (r, g, b) = msgColors[msg.level];
+                    if (blink and (msg.blink != 0)) {
+                        elem.setColorFill(r, g, b, 1);
+                        elem.setColor(0, 0, 0);
+                        elem.setDrawMode(canvas.Text.TEXT + canvas.Text.FILLEDBOUNDINGBOX);
+                    }
+                    else {
+                        elem.setColorFill(0, 0, 0, 1);
+                        elem.setColor(r, g, b);
+                        elem.setDrawMode(canvas.Text.TEXT + canvas.Text.FILLEDBOUNDINGBOX);
+                    }
                 }
             }
             i += 1;
@@ -256,26 +321,111 @@ var EICAS = {
     },
 
     updateMessages: func () {
-        me.updateBlinks();
+        var scrollPos = me.props['message-list.scroll-pos'].getValue() or 0;
+        var maxScroll = me.props['message-list.max-scroll'].getValue() or 0;
+
         var i = 0;
+        var m = 0;
+        var level = messages.MSG_WARNING;
+        var msg = nil;
+        var counts = {
+                warning: 0,
+                caution: 0,
+                advisory: 0,
+                status: 0,
+            };
+
+        me.messageMap = [];
+
+        foreach (msg; messages.messages) {
+            if (msg.level == messages.MSG_WARNING)
+                counts.warning += 1;
+            elsif (msg.level == messages.MSG_CAUTION)
+                counts.caution += 1;
+            elsif (msg.level == messages.MSG_ADVISORY)
+                counts.advisory += 1;
+            elsif (msg.level == messages.MSG_STATUS)
+                counts.status += 1;
+        }
+
+        me.props['message-list.counts.warning'].setValue(counts.warning);
+        me.props['message-list.counts.caution'].setValue(counts.caution);
+        me.props['message-list.counts.advisory'].setValue(counts.advisory);
+        me.props['message-list.counts.status'].setValue(counts.status);
+
+        for (i = 0; i < 15; i += 1) {
+            if (m >= size(messages.messages)) {
+                msg = nil;
+            }
+            else {
+                msg = messages.messages[m];
+                if (level == messages.MSG_WARNING and msg.level != messages.MSG_WARNING) {
+                    maxScroll = math.max(size(messages.messages) - 15, 0);
+                    scrollPos = math.min(maxScroll, scrollPos);
+                    me.props['message-list.scroll-pos'].setValue(scrollPos);
+                    me.props['message-list.max-scroll'].setValue(maxScroll);
+                    m += scrollPos;
+                    if (m >= size(messages.messages)) {
+                        msg = nil;
+                    }
+                    else {
+                        msg = messages.messages[m];
+                    }
+                }
+            }
+            if (msg != nil) {
+                level = msg.level;
+            }
+            append(me.messageMap, msg);
+
+            m += 1;
+        }
+
         var elem = nil;
-        foreach (var msg; messages.messages) {
+
+        i = 0;
+        foreach (msg; me.messageMap) {
             elem = me.elems['msg.' ~ i];
             if (elem != nil) {
-                if (msg.rootEicas)
-                    elem.setText(">" ~ msg.text);
-                else
-                    elem.setText("  " ~ msg.text);
+                if (msg == nil) {
+                    elem.setText("");
+                }
+                elsif (msg.rootEicas) {
+                    elem.setText(">" ~ msg.text ~ "  ");
+                }
+                else {
+                    elem.setText("  " ~ msg.text ~ "  ");
+                }
             }
             i += 1;
         }
-        while (i < 15) {
-            elem = me.elems['msg.' ~ i];
-            if (elem != nil) {
-                elem.setText("");
-            }
-            i += 1;
+
+        if (maxScroll > 0) {
+            var cautionAbove = math.min(counts.caution, scrollPos);
+            var cautionBelow = math.max(0, math.min(counts.caution, counts.caution - scrollPos - 15 + counts.warning));
+            var advisoryAbove = math.max(0, math.min(counts.advisory, scrollPos - counts.caution));
+            var advisoryBelow = math.max(0, math.min(counts.advisory, counts.advisory - scrollPos - 15 + counts.warning + counts.caution));
+            var statusAbove = math.max(0, math.min(counts.status, scrollPos - counts.caution - counts.advisory));
+            var statusBelow = math.max(0, math.min(counts.status, counts.status - scrollPos - 15 + counts.warning + counts.caution + counts.advisory));
+            me.elems['msg.count-above.caution.text'].setText(sprintf("%2i", cautionAbove));
+            me.elems['msg.count-above.caution'].setVisible(cautionAbove > 0);
+            me.elems['msg.count-below.caution.text'].setText(sprintf("%2i", cautionBelow));
+            me.elems['msg.count-below.caution'].setVisible(cautionBelow > 0);
+            me.elems['msg.count-above.advisory.text'].setText(sprintf("%2i", advisoryAbove));
+            me.elems['msg.count-above.advisory'].setVisible(advisoryAbove > 0);
+            me.elems['msg.count-below.advisory.text'].setText(sprintf("%2i", advisoryBelow));
+            me.elems['msg.count-below.advisory'].setVisible(advisoryBelow > 0);
+            me.elems['msg.count-above.status.text'].setText(sprintf("%2i", statusAbove));
+            me.elems['msg.count-above.status'].setVisible(statusAbove > 0);
+            me.elems['msg.count-below.status.text'].setText(sprintf("%2i", statusBelow));
+            me.elems['msg.count-below.status'].setVisible(statusBelow > 0);
+            me.elems['msg.status'].show();
         }
+        else {
+            me.elems['msg.status'].hide();
+        }
+
+        me.updateBlinks();
     },
 
 	update: func() {
@@ -642,7 +792,7 @@ var initialize = func {
         "view": [1024, 1404],
         "mipmapping": 1
     });
-    eicas_display.addPlacement({"node": "EICAS.face"});
+    eicas_display.addPlacement({"node": "EICAS"});
     eicas_master = eicas_display.createGroup();
     eicas = EICAS.new().init(eicas_master);
     outputProp = props.globals.getNode("systems/electrical/outputs/eicas");
