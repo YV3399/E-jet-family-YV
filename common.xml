@@ -2017,8 +2017,17 @@
                     <status type="int">0</status>
                 </counts>
             </message-list>
+
             <signals>
                 <messages-changed type="bool">false</messages-changed>
+                <takeoff-power type="bool">false</takeoff-power>
+                <above80knots type="bool">false</above80knots>
+                <elec-power type="bool">false</elec-power>
+                <below200ft type="bool">false</below200ft>
+                <above400ft type="bool">false</above400ft>
+                <below30kt type="bool">false</below30kt>
+                <landed-30sec type="double">1</landed-30sec>
+                <landed type="bool">false</landed>
             </signals>
             <blink-state type="bool">false</blink-state>
             <master>
@@ -2026,6 +2035,7 @@
                 <warning type="bool">false</warning>
                 <cpdlc-incoming type="bool">false</cpdlc-incoming>
             </master>
+            <k-code type="int">0</k-code>
             <messages>
                 <fuel-low-left type="bool">false</fuel-low-left>
                 <fuel-low-right type="bool">false</fuel-low-right>

@@ -542,7 +542,7 @@ var PFDCanvas = {
 
     clickNav: func () {
         if (me.focus == FOCUS_NAV) {
-            me.swapCommFreqs();
+            me.swapNavFreqs();
         }
         else {
             me.focus = FOCUS_NAV;

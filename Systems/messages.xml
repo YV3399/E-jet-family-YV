@@ -224,11 +224,112 @@
         <output>/instrumentation/eicas/messages/iru-excessive-motion</output>
     </logic>
 
+    <logic>
+        <input>
+            <greater-than>
+                <property>systems/electrical/outputs/eicas</property>
+                <value>21</value>
+            </greater-than>
+        </input>
+        <output>/instrumentation/eicas/signals/elec-power</output>
+    </logic>
+
+    <logic>
+        <input>
+            <or>
+                <greater-than>
+                    <property>controls/engines/engine[0]/throttle</property>
+                    <property>fadec/configuration/throttle-toga-norm</property>
+                </greater-than>
+                <greater-than>
+                    <property>controls/engines/engine[1]/throttle</property>
+                    <property>fadec/configuration/throttle-toga-norm</property>
+                </greater-than>
+            </or>
+        </input>
+        <output>/instrumentation/eicas/signals/takeoff-power</output>
+    </logic>
+
+    <logic>
+        <input>
+            <or>
+                <property>/engines/engine[0]/running</property>
+                <property>/engines/engine[1]/running</property>
+            </or>
+        </input>
+        <output>/instrumentation/eicas/signals/engines-running</output>
+    </logic>
+
+    <logic>
+        <input>
+            <greater-than>
+                <property>/velocities/groundspeed-kt</property>
+                <value>80</value>
+            </greater-than>
+        </input>
+        <output>/instrumentation/eicas/signals/above80knots</output>
+    </logic>
+
+    <logic>
+        <input>
+            <less-than>
+                <property>position/gear-agl-ft</property>
+                <value>200</value>
+            </less-than>
+        </input>
+        <output>/instrumentation/eicas/signals/below200ft</output>
+    </logic>
+
+    <logic>
+        <input>
+            <greater-than>
+                <property>position/gear-agl-ft</property>
+                <value>400</value>
+            </greater-than>
+        </input>
+        <output>/instrumentation/eicas/signals/above400ft</output>
+    </logic>
+
+    <logic>
+        <input>
+            <less-than>
+                <property>gear/unit[0]/wheel-speed-fps</property>
+                <!-- 30 knots ~= 50.6 fps -->
+                <value>50.6</value>
+            </less-than>
+        </input>
+        <output>/instrumentation/eicas/signals/below30kt</output>
+    </logic>
+
+    <filter>
+                <greater-than>
+                    <property>controls/engines/engine[1]/target</property>
+                    <property>fadec/configuration/throttle-toga-norm</property>
+                </greater-than>
+        <type>noise-spike</type>
+        <input>/gear/gear[1]/wow</input>
+        <max-rate-of-change>0.0333333</max-rate-of-change>
+        <output>/instrumentation/eicas/signals/landed-30sec</output>
+    </filter>
+
+    <logic>
+        <input>
+            <and>
+                <greater-than>
+                    <property>/instrumentation/eicas/signals/landed-30sec</property>
+                    <value>0.99999</value>
+                </greater-than>
+                <property>/instrumentation/eicas/signals/below30kt</property>
+            </and>
+        </input>
+        <output>/instrumentation/eicas/signals/landed</output>
+    </logic>
+
     <flipflop>
         <type>monostable</type>
         <S><property>/cpdlc/incoming</property></S>
         <time>1.0</time>
         <output>/instrumentation/eicas/master/cpdlc-incoming</output>
     </flipflop>
-    
+
 </PropertyList>
