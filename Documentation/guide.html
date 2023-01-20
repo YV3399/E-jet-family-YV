@@ -96,12 +96,12 @@ that use of flaps 6 is not authorized for CAT-II landings.</li>
 
 <p>The real E-Jet uses a device known as the CCD (Cursor Control Device) to
 provide a point-and-click style GUI on the EFIS screens, (MFD, PFD, EICAS).
-The CCD consists of a trackpad, an "enter" button, three screen selector
-buttons, and a two-ring twist knob for data entry. The pilot can use the screen
-selector to move a cursor between PFD, MFD and EICAS screens; the touchpad
-moves the cursor within the selected screen; the "enter" button selects
-on-screen GUI elements; and the twist knob serves as a dynamic dial for various
-inputs, such as map range etc.</p>
+The CCD consists of a trackpad, "enter" button on either side, three screen
+selector buttons, and a two-ring twist knob for data entry. The pilot can use
+the screen selector to move a cursor between PFD, MFD and EICAS screens; the
+touchpad moves the cursor within the selected screen; the "enter" buttons
+select on-screen GUI elements; and the twist knob serves as a dynamic dial for
+various inputs, such as map range etc.</p>
 
 <p>Because most home simulator setups do not feature a physical CCD, the
 FlightGear E-Jet can emulate this functionality by allowing you to click
@@ -131,7 +131,7 @@ knob.</li>
 <ul>
 <li>0 = PFD</li>
 <li>1 = MFD</li>
-<li>2 = EICAS (currently not implemented)</li>
+<li>2 = EICAS</li>
 </ul></li>
 </ul>
 
@@ -165,9 +165,19 @@ switches to Map view on first click, and opens the Map menu on second click.</li
 <li>The TCAS and Checklist modes/menus haven't been implemented yet</li>
 </ul>
 
-<h3>EFIS</h3>
+<h3>EICAS</h3>
 
-<p>No functionality implemented yet.</p>
+<ul>
+<li>CAS message list
+<ul>
+<li>Click message list to select (selection is indicated with a cyan border).</li>
+<li>If number of messages exceeds 15, either data entry knob will scroll the
+message list, and counters below the message list show the number of
+messages of each type above and below the visible list (yellow = caution,
+cyan = advisory, white = status; red warning messages are never scrolled
+out of view).</li>
+</ul></li>
+</ul>
 
 <h2>Startup Procedure</h2>
 

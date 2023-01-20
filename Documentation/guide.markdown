@@ -94,12 +94,12 @@ doors can be monitored on the Systems page on the MFD.
 
 The real E-Jet uses a device known as the CCD (Cursor Control Device) to
 provide a point-and-click style GUI on the EFIS screens, (MFD, PFD, EICAS).
-The CCD consists of a trackpad, an "enter" button, three screen selector
-buttons, and a two-ring twist knob for data entry. The pilot can use the screen
-selector to move a cursor between PFD, MFD and EICAS screens; the touchpad
-moves the cursor within the selected screen; the "enter" button selects
-on-screen GUI elements; and the twist knob serves as a dynamic dial for various
-inputs, such as map range etc.
+The CCD consists of a trackpad, "enter" button on either side, three screen
+selector buttons, and a two-ring twist knob for data entry. The pilot can use
+the screen selector to move a cursor between PFD, MFD and EICAS screens; the
+touchpad moves the cursor within the selected screen; the "enter" buttons
+select on-screen GUI elements; and the twist knob serves as a dynamic dial for
+various inputs, such as map range etc.
 
 Because most home simulator setups do not feature a physical CCD, the
 FlightGear E-Jet can emulate this functionality by allowing you to click
@@ -125,7 +125,7 @@ simulated CCD's, under `/controls/ccd[0]` (Captain side) and `/controls/ccd[1]`
 - `selected-screen`: set this to move the CCD between screens:
     - 0 = PFD
     - 1 = MFD
-    - 2 = EICAS (currently not implemented)
+    - 2 = EICAS
 
 Mapping a second mouse or similar input device, while keeping your primary
 mouse working normally is possible; [this
@@ -151,9 +151,15 @@ The following functionality is available through the CCD-driven GUI:
 - Inner data entry knob changes WX radar gain when Weather menu is open
 - The TCAS and Checklist modes/menus haven't been implemented yet
 
-### EFIS
+### EICAS
 
-No functionality implemented yet.
+- CAS message list
+  - Click message list to select (selection is indicated with a cyan border).
+  - If number of messages exceeds 15, either data entry knob will scroll the
+    message list, and counters below the message list show the number of
+    messages of each type above and below the visible list (yellow = caution,
+    cyan = advisory, white = status; red warning messages are never scrolled
+    out of view).
 
 ## Startup Procedure
 
