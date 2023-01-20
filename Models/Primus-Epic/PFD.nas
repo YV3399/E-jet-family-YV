@@ -118,10 +118,15 @@ var odoDigit = func(v, p) {
     return o[0] + o[1];
 };
 
+var FOCUS_NONE = 0;
+var FOCUS_COM = 1;
+var FOCUS_NAV = 2;
+
 var PFDCanvas = {
     new: func(side=0) {
         var m = canvas_base.BaseScreen.new(side, 0);
         m.parents = [PFDCanvas] ~ m.parents;
+        m.focus = FOCUS_NONE;
         return m;
     },
 
@@ -525,6 +530,82 @@ var PFDCanvas = {
         sby.setValue(buf);
     },
 
+    clickComm: func () {
+        if (me.focus == FOCUS_COM) {
+            me.swapCommFreqs();
+        }
+        else {
+            me.focus = FOCUS_COM;
+            me.updateFocus();
+        }
+    },
+
+    clickNav: func () {
+        if (me.focus == FOCUS_NAV) {
+            me.swapCommFreqs();
+        }
+        else {
+            me.focus = FOCUS_NAV;
+            me.updateFocus();
+        }
+    },
+
+    scrollComm: func (amount, which) {
+        if (me.focus == FOCUS_COM) {
+            var p = me.props['/instrumentation/comm[0]/frequencies/standby-mhz'];
+            if (which == 0) {
+                # outer ring
+                var val = p.getValue() + amount;
+                p.setValue(val);
+            }
+            else {
+                # inner ring
+                var mode = me.props['/instrumentation/comm[0]/spacing'].getValue();
+                var val = p.getValue();
+                if (amount > 0)
+                    val = frequencies.nextComChannel(val, mode);
+                else
+                    val = frequencies.prevComChannel(val, mode);
+                p.setValue(val);
+            }
+        }
+    },
+
+    scrollNav: func (amount, which) {
+        if (me.focus == FOCUS_NAV) {
+            var p = me.props['/instrumentation/nav[0]/frequencies/standby-mhz'];
+            if (which == 0) {
+                # outer ring
+                var val = p.getValue() + amount;
+                p.setValue(val);
+            }
+            else {
+                # inner ring
+                if (amount > 0)
+                    val = p.getValue() + 0.05;
+                else
+                    val = p.getValue() - 0.05;
+                p.setValue(val);
+            }
+        }
+    },
+
+    updateFocus: func () {
+        if (me.focus == FOCUS_COM)
+            me.elems['vhf1.clickbox'].setColor(0, 1, 1);
+        else
+            me.elems['vhf1.clickbox'].setColor(0.5, 0.5, 0.5);
+        if (me.focus == FOCUS_NAV)
+            me.elems['nav1.clickbox'].setColor(0, 1, 1);
+        else
+            me.elems['nav1.clickbox'].setColor(0.5, 0.5, 0.5);
+    },
+
+    masterClick: func () {
+        me.focus = FOCUS_NONE;
+        me.updateFocus();
+    },
+
     makeWidgets: func () {
         var self = me;
 
@@ -532,45 +613,13 @@ var PFDCanvas = {
 
         me.addWidget('vhf1.clickbox',
             {
-                onclick: func () { self.swapCommFreqs(); },
-                onscroll: func (amount, which) {
-                    var p = self.props['/instrumentation/comm[0]/frequencies/standby-mhz'];
-                    if (which == 0) {
-                        # outer ring
-                        var val = p.getValue() + amount;
-                        p.setValue(val);
-                    }
-                    else {
-                        # inner ring
-                        var mode = self.props['/instrumentation/comm[0]/spacing'].getValue();
-                        var val = p.getValue();
-                        if (amount > 0)
-                            val = frequencies.nextComChannel(val, mode);
-                        else
-                            val = frequencies.prevComChannel(val, mode);
-                        p.setValue(val);
-                    }
-                },
+                onclick: func () { self.clickComm(); },
+                onscroll: func (amount, which) { self.scrollComm(amount, which); },
             }, me.master);
         me.addWidget('nav1.clickbox',
             {
-                onclick: func () { self.swapNavFreqs(); },
-                onscroll: func (amount, which) {
-                    var p = self.props['/instrumentation/nav[0]/frequencies/standby-mhz'];
-                    if (which == 0) {
-                        # outer ring
-                        var val = p.getValue() + amount;
-                        p.setValue(val);
-                    }
-                    else {
-                        # inner ring
-                        if (amount > 0)
-                            val = p.getValue() + 0.05;
-                        else
-                            val = p.getValue() - 0.05;
-                        p.setValue(val);
-                    }
-                },
+                onclick: func () { self.clickNav(); },
+                onscroll: func (amount, which) { self.scrollNav(amount, which); },
             }, me.master);
     },
 
