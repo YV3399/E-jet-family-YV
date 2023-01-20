@@ -651,12 +651,12 @@ var PFDCanvas = {
         me.addListener('main', "@/environment/wind-speed-kt", func (node) {
             var windSpeed = node.getValue() or 0;
             if (windSpeed > 1) {
-                me.elems["wind.pointer"].show();
+                self.elems["wind.pointer"].show();
             }
             else {
-                me.elems["wind.pointer"].hide();
+                self.elems["wind.pointer"].hide();
             }
-            me.elems["wind.kt"].setText(sprintf("%u", windSpeed));
+            self.elems["wind.kt"].setText(sprintf("%u", windSpeed));
         }, 1, 0);
 
         # selected altitude
@@ -794,12 +794,12 @@ var PFDCanvas = {
                 if (node.getValue() == 0) {
                     courseColor = [0, 0.75, 1];
                     hsiColor = [1, 0, 1];
-                    me.elems["ils.fmsloc"].show();
-                    me.elems["ils.fmsvert"].show();
+                    self.elems["ils.fmsloc"].show();
+                    self.elems["ils.fmsvert"].show();
                 }
                 else {
-                    me.elems["ils.fmsloc"].hide();
-                    me.elems["ils.fmsvert"].hide();
+                    self.elems["ils.fmsloc"].hide();
+                    self.elems["ils.fmsvert"].hide();
                 }
                 self.elems["selectedcourse.digital"].setColorFill(courseColor[0], courseColor[1], courseColor[2]);
                 self.elems["hsi.nav1"].setColor(hsiColor[0], hsiColor[1], hsiColor[2]);
@@ -823,7 +823,7 @@ var PFDCanvas = {
         # DME
         me.addListener('main', "@/instrumentation/pfd/nav/dme-source", func (node) {
             var dmesrc = node.getValue();
-            me.clearListeners('dme');
+            self.clearListeners('dme');
             if (dmesrc > 0) {
                 self.elems["dme"].show();
                 self.elems["dme.selection"].setText("DME" ~ dmesrc);

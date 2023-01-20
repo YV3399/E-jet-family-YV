@@ -68,25 +68,25 @@ var BaseScreen = {
                     var p = self.props['cursor.x'];
                     p.setValue(math.min(1024, math.max(0, p.getValue() + delta)));
                     self.wakeupCursor();
-                });
+                }, 0, 1, 1);
                 self.addListener('ccd', '@ccd.rel-y', func (node) {
                     var delta = node.getDoubleValue();
                     var p = self.props['cursor.y'];
                     p.setValue(math.min(1366, math.max(0, p.getValue() + delta)));
                     self.wakeupCursor();
-                });
+                }, 0, 1, 1);
                 self.addListener('ccd', '@ccd.click', func(node) {
                     if (node.getBoolValue()) {
                         self.click();
                         self.wakeupCursor();
                     }
-                });
+                }, 0, 1, 1);
                 self.addListener('ccd', '@ccd.rel-outer', func(node) {
                     self.scroll(node.getValue(), 0);
-                });
+                }, 0, 1, 1);
                 self.addListener('ccd', '@ccd.rel-inner', func(node) {
                     self.scroll(node.getValue(), 1);
-                });
+                }, 0, 1, 1);
                 # Place cursor at center of screen
                 self.props["cursor.x"].setValue(512);
                 self.props["cursor.y"].setValue(683);
@@ -99,19 +99,19 @@ var BaseScreen = {
                 self.props["cursor.visible"].setBoolValue(0);
                 self.ccdCursorTimeout = 0.0;
             }
-        }, 1, 0);
+        }, 1, 0, 1);
         me.addListener('main', '@cursor.x', func (node) {
             self.cursor.setTranslation(
                 self.props['cursor.x'].getValue(),
                 self.props['cursor.y'].getValue()
             );
-        }, 1, 0);
+        }, 1, 0, 1);
         me.addListener('main', '@cursor.y', func (node) {
             self.cursor.setTranslation(
                 self.props['cursor.x'].getValue(),
                 self.props['cursor.y'].getValue()
             );
-        }, 1, 0);
+        }, 1, 0, 1);
         me.addListener('main', '@cursor.visible', func (node) {
             self.cursor.setVisible(node.getBoolValue());
         }, 1, 0);
@@ -139,6 +139,7 @@ var BaseScreen = {
                 me.props['cursor.visible'].setBoolValue(0);
             }
         }
+        me.runListeners();
     },
 
     ############### Lifecycle hooks ############### 
@@ -165,19 +166,50 @@ var BaseScreen = {
         else {
             if (contains(me.listeners, group)) {
                 foreach (var l; me.listeners[group]) {
-                    removelistener(l);
+                    removelistener(l.lid);
                 }
                 me.listeners[group] = [];
             }
         }
     },
 
-    addListener: func (group, prop, fn, init=0, type=1) {
+    addListener: func (group, prop, fn, init=0, type=1, immediate=0) {
         me.addListenerGroup(group);
-        if (typeof(prop) == 'scalar' and substr(prop, 0, 1) == '@') {
-            prop = me.props[substr(prop, 1)];
+        if (typeof(prop) == 'scalar') {
+            if (substr(prop, 0, 1) == '@') {
+                prop = me.props[substr(prop, 1)];
+            }
+            else {
+                prop = props.globals.getNode(prop);
+            }
         }
-        append(me.listeners[group], setlistener(prop, fn, init, type));
+        var listener = {
+            value: nil,
+            node: prop,
+            dirty: 0,
+            fn: fn,
+            immediate: immediate,
+        };
+        var deferFn = func (node) { listener.dirty = 1; };
+        listener.lid = setlistener(prop, immediate ? fn : deferFn, init, type);
+        append(me.listeners[group], listener);
+    },
+
+    runListeners: func (group=nil) {
+        if (group == nil) {
+            foreach (var name; keys(me.listeners))
+                me.runListeners(name);
+        }
+        else {
+            if (contains(me.listeners, group)) {
+                foreach (var l; me.listeners[group]) {
+                    if (l.dirty) {
+                        l.fn(l.node);
+                        l.dirty = 0;
+                    }
+                }
+            }
+        }
     },
 
     ############### Registered properties. Do not override. ############### 

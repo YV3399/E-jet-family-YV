@@ -513,7 +513,7 @@ var MFD = {
         }, 1, 0);
         me.addListener('main', me.props['show-airports'], func (node) {
             var viz = node.getBoolValue();
-            var range = me.map.getRange();
+            var range = self.map.getRange();
             self.elems['checkAirports'].setVisible(viz);
             self.map.layers["RWY"].setVisible(range < 9.5 and viz);
             self.map.layers["APT"].setVisible(range >= 9.5 and range < 99.5 and viz);
@@ -1755,117 +1755,117 @@ var MFD = {
             # External power
             me.addListener('systems', '/controls/electric/external-power-connected', func (node) {
                     var connected = node.getBoolValue();
-                    me.elems['elec.acgpu.group'].setVisible(connected);
-                    me.elems['elec.dcgpu.group'].setVisible(connected);
+                    self.elems['elec.acgpu.group'].setVisible(connected);
+                    self.elems['elec.dcgpu.group'].setVisible(connected);
                 }, 1, 0);
 
             # Elec. sources
             me.addListener('systems', '/systems/electrical/sources/generator[0]/visible', func (node) {
-                    me.elems['elec.apu.group'].setVisible(node.getBoolValue());
+                    self.elems['elec.apu.group'].setVisible(node.getBoolValue());
                 }, 1, 0);
             me.addListener('systems', '/systems/electrical/sources/generator[0]/volts', func (node) {
-                    me.elems['elec.apu.volts.digital'].setText(sprintf("%3.0f", node.getValue()));
+                    self.elems['elec.apu.volts.digital'].setText(sprintf("%3.0f", node.getValue()));
                 }, 1, 0);
             me.addListener('systems', '/systems/electrical/sources/generator[0]/status', func (node) {
-                    fillColorByStatus(me.elems['elec.apu.symbol'], node.getValue());
+                    fillColorByStatus(self.elems['elec.apu.symbol'], node.getValue());
                 }, 1, 0);
             me.addListener('systems', '/systems/electrical/sources/generator[1]/volts', func (node) {
-                    me.elems['elec.idg1.volts.digital'].setText(sprintf("%3.0f", node.getValue()));
+                    self.elems['elec.idg1.volts.digital'].setText(sprintf("%3.0f", node.getValue()));
                 }, 1, 0);
             me.addListener('systems', '/systems/electrical/sources/generator[1]/status', func (node) {
-                    fillColorByStatus(me.elems['elec.idg1.symbol'], node.getValue());
+                    fillColorByStatus(self.elems['elec.idg1.symbol'], node.getValue());
                 }, 1, 0);
             me.addListener('systems', '/systems/electrical/sources/generator[2]/volts', func (node) {
-                    me.elems['elec.idg2.volts.digital'].setText(sprintf("%3.0f", node.getValue()));
+                    self.elems['elec.idg2.volts.digital'].setText(sprintf("%3.0f", node.getValue()));
                 }, 1, 0);
             me.addListener('systems', '/systems/electrical/sources/generator[2]/status', func (node) {
-                    fillColorByStatus(me.elems['elec.idg2.symbol'], node.getValue());
+                    fillColorByStatus(self.elems['elec.idg2.symbol'], node.getValue());
                 }, 1, 0);
 
             me.addListener('systems', '/controls/electric/ram-air-turbine', func (node) {
-                    me.elems['elec.rat.group'].setVisible(node.getBoolValue());
+                    self.elems['elec.rat.group'].setVisible(node.getBoolValue());
                 }, 1, 0);
             me.addListener('systems', '/systems/electrical/sources/generator[3]/volts', func (node) {
-                    me.elems['elec.rat.volts.digital'].setText(sprintf("%3.0f", node.getValue()));
+                    self.elems['elec.rat.volts.digital'].setText(sprintf("%3.0f", node.getValue()));
                 }, 1, 0);
             me.addListener('systems', '/systems/electrical/sources/generator[3]/status', func (node) {
-                    fillColorByStatus(me.elems['elec.rat.symbol'], node.getValue());
+                    fillColorByStatus(self.elems['elec.rat.symbol'], node.getValue());
                 }, 1, 0);
 
             me.addListener('systems', '/systems/electrical/sources/ac-gpu/volts', func (node) {
-                    me.elems['elec.acgpu.volts.digital'].setText(sprintf("%3.0f", node.getValue()));
+                    self.elems['elec.acgpu.volts.digital'].setText(sprintf("%3.0f", node.getValue()));
                 }, 1, 0);
             me.addListener('systems', '/systems/electrical/sources/ac-gpu/status', func (node) {
-                    fillColorByStatus(me.elems['elec.acgpu.symbol'], node.getValue());
+                    fillColorByStatus(self.elems['elec.acgpu.symbol'], node.getValue());
                 }, 1, 0);
 
             me.addListener('systems', '/systems/electrical/sources/dc-gpu/status', func (node) {
-                    fillColorByStatus(me.elems['elec.dcgpu.symbol'], node.getValue());
+                    fillColorByStatus(self.elems['elec.dcgpu.symbol'], node.getValue());
                 }, 1, 0);
 
             me.addListener('systems', '/systems/electrical/sources/battery[0]/volts-avail', func (node) {
-                    me.elems['elec.battery1.volts.digital'].setText(sprintf("%4.1f", node.getValue()));
+                    self.elems['elec.battery1.volts.digital'].setText(sprintf("%4.1f", node.getValue()));
                 }, 1, 0);
             me.addListener('systems', '/systems/electrical/sources/battery[0]/status', func (node) {
-                    fillColorByStatus(me.elems['elec.battery1.symbol'], node.getValue());
+                    fillColorByStatus(self.elems['elec.battery1.symbol'], node.getValue());
                 }, 1, 0);
             me.addListener('systems', '/systems/electrical/sources/battery[1]/volts-avail', func (node) {
-                    me.elems['elec.battery2.volts.digital'].setText(sprintf("%4.1f", node.getValue()));
+                    self.elems['elec.battery2.volts.digital'].setText(sprintf("%4.1f", node.getValue()));
                 }, 1, 0);
             me.addListener('systems', '/systems/electrical/sources/battery[1]/status', func (node) {
-                    fillColorByStatus(me.elems['elec.battery2.symbol'], node.getValue());
+                    fillColorByStatus(self.elems['elec.battery2.symbol'], node.getValue());
                 }, 1, 0);
 
             me.addListener('systems', '/systems/electrical/sources/tru[0]/volts', func (node) {
-                    me.elems['elec.truess.volts.digital'].setText(sprintf("%4.1f", node.getValue()));
+                    self.elems['elec.truess.volts.digital'].setText(sprintf("%4.1f", node.getValue()));
                 }, 1, 0);
             me.addListener('systems', '/systems/electrical/sources/tru[0]/status', func (node) {
-                    fillColorByStatus(me.elems['elec.truess.symbol'], node.getValue());
+                    fillColorByStatus(self.elems['elec.truess.symbol'], node.getValue());
                 }, 1, 0);
             me.addListener('systems', '/systems/electrical/sources/tru[1]/volts', func (node) {
-                    me.elems['elec.tru1.volts.digital'].setText(sprintf("%4.1f", node.getValue()));
+                    self.elems['elec.tru1.volts.digital'].setText(sprintf("%4.1f", node.getValue()));
                 }, 1, 0);
             me.addListener('systems', '/systems/electrical/sources/tru[1]/status', func (node) {
-                    fillColorByStatus(me.elems['elec.tru1.symbol'], node.getValue());
+                    fillColorByStatus(self.elems['elec.tru1.symbol'], node.getValue());
                 }, 1, 0);
             me.addListener('systems', '/systems/electrical/sources/tru[2]/volts', func (node) {
-                    me.elems['elec.tru2.volts.digital'].setText(sprintf("%4.1f", node.getValue()));
+                    self.elems['elec.tru2.volts.digital'].setText(sprintf("%4.1f", node.getValue()));
                 }, 1, 0);
             me.addListener('systems', '/systems/electrical/sources/tru[2]/status', func (node) {
-                    fillColorByStatus(me.elems['elec.tru2.symbol'], node.getValue());
+                    fillColorByStatus(self.elems['elec.tru2.symbol'], node.getValue());
                 }, 1, 0);
 
             # Elec. buses
             me.addListener('systems', '/systems/electrical/buses/ac[1]/powered', func (node) {
-                    fillColorByStatus(me.elems['elec.ac1.symbol'], node.getValue());
+                    fillColorByStatus(self.elems['elec.ac1.symbol'], node.getValue());
                 }, 1, 0);
             me.addListener('systems', '/systems/electrical/buses/ac[2]/powered', func (node) {
-                    fillColorByStatus(me.elems['elec.ac2.symbol'], node.getValue());
+                    fillColorByStatus(self.elems['elec.ac2.symbol'], node.getValue());
                 }, 1, 0);
             me.addListener('systems', '/systems/electrical/buses/ac[3]/powered', func (node) {
-                    fillColorByStatus(me.elems['elec.acess.symbol'], node.getValue());
+                    fillColorByStatus(self.elems['elec.acess.symbol'], node.getValue());
                 }, 1, 0);
             me.addListener('systems', '/systems/electrical/buses/ac[4]/powered', func (node) {
-                    fillColorByStatus(me.elems['elec.acstby.symbol'], node.getValue());
+                    fillColorByStatus(self.elems['elec.acstby.symbol'], node.getValue());
                 }, 1, 0);
 
             me.addListener('systems', '/systems/electrical/buses/dc[1]/powered', func (node) {
-                    fillColorByStatus(me.elems['elec.dc1.symbol'], node.getValue());
+                    fillColorByStatus(self.elems['elec.dc1.symbol'], node.getValue());
                 }, 1, 0);
             me.addListener('systems', '/systems/electrical/buses/dc[2]/powered', func (node) {
-                    fillColorByStatus(me.elems['elec.dc2.symbol'], node.getValue());
+                    fillColorByStatus(self.elems['elec.dc2.symbol'], node.getValue());
                 }, 1, 0);
             me.addListener('systems', '/systems/electrical/buses/dc[3]/powered', func (node) {
-                    fillColorByStatus(me.elems['elec.dcess1.symbol'], node.getValue());
+                    fillColorByStatus(self.elems['elec.dcess1.symbol'], node.getValue());
                 }, 1, 0);
             me.addListener('systems', '/systems/electrical/buses/dc[4]/powered', func (node) {
-                    fillColorByStatus(me.elems['elec.dcess2.symbol'], node.getValue());
+                    fillColorByStatus(self.elems['elec.dcess2.symbol'], node.getValue());
                 }, 1, 0);
             me.addListener('systems', '/systems/electrical/buses/dc[5]/powered', func (node) {
-                    fillColorByStatus(me.elems['elec.dcess3.symbol'], node.getValue());
+                    fillColorByStatus(self.elems['elec.dcess3.symbol'], node.getValue());
                 }, 1, 0);
             me.addListener('systems', '/systems/electrical/buses/dc[6]/powered', func (node) {
-                    fillColorByStatus(me.elems['elec.apustart.symbol'], node.getValue());
+                    fillColorByStatus(self.elems['elec.apustart.symbol'], node.getValue());
                 }, 1, 0);
 
             me.addListener('systems', '/systems/electrical/buses/ac[0]/powered', func (node) {
@@ -1873,71 +1873,71 @@ var MFD = {
                 }, 1, 0);
             me.addListener('systems', '/systems/electrical/buses/ac[0]/feed', func (node) {
                     var feed = node.getValue();
-                    fillIfConnected(me.elems['elec.feed.ac12-apu'], feed == 1);
-                    fillIfConnected(me.elems['elec.feed.ac12-acgpu'], feed == 2);
+                    fillIfConnected(self.elems['elec.feed.ac12-apu'], feed == 1);
+                    fillIfConnected(self.elems['elec.feed.ac12-acgpu'], feed == 2);
                     me.updateACshared();
                 }, 1, 0);
             me.addListener('systems', '/systems/electrical/buses/ac[1]/feed', func (node) {
                     var feed = node.getValue();
-                    fillIfConnected(me.elems['elec.feed.ac1-idg1'], feed == 1);
+                    fillIfConnected(self.elems['elec.feed.ac1-idg1'], feed == 1);
                     me.updateACshared();
                 }, 1, 0);
             me.addListener('systems', '/systems/electrical/buses/ac[2]/feed', func (node) {
                     var feed = node.getValue();
-                    fillIfConnected(me.elems['elec.feed.ac2-idg2'], feed == 1);
+                    fillIfConnected(self.elems['elec.feed.ac2-idg2'], feed == 1);
                     me.updateACshared();
                 }, 1, 0);
             me.addListener('systems', '/systems/electrical/buses/ac[3]/feed', func (node) {
                     var feed = node.getValue();
-                    fillIfConnected(me.elems['elec.feed.acess-ac2'], feed == 1);
-                    fillIfConnected(me.elems['elec.feed.acess-ac1'], feed == 2);
-                    fillIfConnected(me.elems['elec.feed.acess-rat'], feed == 3);
+                    fillIfConnected(self.elems['elec.feed.acess-ac2'], feed == 1);
+                    fillIfConnected(self.elems['elec.feed.acess-ac1'], feed == 2);
+                    fillIfConnected(self.elems['elec.feed.acess-rat'], feed == 3);
                 }, 1, 0);
             me.addListener('systems', '/systems/electrical/buses/ac[4]/feed', func (node) {
                     var feed = node.getValue();
-                    fillIfConnected(me.elems['elec.feed.acstby-acess'], feed == 1);
+                    fillIfConnected(self.elems['elec.feed.acstby-acess'], feed == 1);
                 }, 1, 0);
 
             me.addListener('systems', '/systems/electrical/sources/tru[0]/status', func (node) {
                     var status = node.getValue();
-                    fillIfConnected(me.elems['elec.feed.truess-acess'], status == 1);
+                    fillIfConnected(self.elems['elec.feed.truess-acess'], status == 1);
                 }, 1, 0);
             me.addListener('systems', '/systems/electrical/sources/tru[1]/status', func (node) {
                     var status = node.getValue();
-                    fillIfConnected(me.elems['elec.feed.tru1-ac1'], status == 1);
+                    fillIfConnected(self.elems['elec.feed.tru1-ac1'], status == 1);
                 }, 1, 0);
             me.addListener('systems', '/systems/electrical/sources/tru[2]/status', func (node) {
                     var status = node.getValue();
-                    fillIfConnected(me.elems['elec.feed.tru2-ac2'], status == 1);
+                    fillIfConnected(self.elems['elec.feed.tru2-ac2'], status == 1);
                 }, 1, 0);
 
             me.addListener('systems', '/systems/electrical/buses/dc[1]/feed', func self.updateDCshared, 1, 0);
             me.addListener('systems', '/systems/electrical/buses/dc[2]/feed', func self.updateDCshared, 1, 0);
             me.addListener('systems', '/systems/electrical/buses/dc[3]/feed', func (node) {
                     var feed = node.getValue();
-                    fillIfConnected(me.elems['elec.feed.dcess1-dc1'], feed == 1);
-                    fillIfConnected(me.elems['elec.feed.dcess1-batt1'], feed == 3);
+                    fillIfConnected(self.elems['elec.feed.dcess1-dc1'], feed == 1);
+                    fillIfConnected(self.elems['elec.feed.dcess1-batt1'], feed == 3);
                     self.updateDCESS1();
                 }, 1, 0);
             me.addListener('systems', '/systems/electrical/buses/dc[4]/feed', func (node) {
                     var feed = node.getValue();
-                    fillIfConnected(me.elems['elec.feed.dcess2-dc2'], feed == 1);
-                    fillIfConnected(me.elems['elec.feed.dcess2-batt2'], feed == 3);
+                    fillIfConnected(self.elems['elec.feed.dcess2-dc2'], feed == 1);
+                    fillIfConnected(self.elems['elec.feed.dcess2-batt2'], feed == 3);
                     self.updateDCESS2();
                 }, 1, 0);
             me.addListener('systems', '/systems/electrical/buses/dc[5]/feed', func (node) {
                     var feed = node.getValue();
-                    fillIfConnected(me.elems['elec.feed.dcess3-truess'], feed == 1);
+                    fillIfConnected(self.elems['elec.feed.dcess3-truess'], feed == 1);
                     self.updateDCESS1();
                     self.updateDCESS2();
                 }, 1, 0);
 
             me.addListener('systems', '/systems/electrical/buses/dc[6]/feed', func (node) {
                     var feed = node.getValue();
-                    fillIfConnected(me.elems['elec.feed.apustart-dcgpu'], feed == 1);
-                    fillIfConnected(me.elems['elec.feed.apustart-batt2'], feed == 2);
-                    me.elems['elec.dcgpu.inuse'].setVisible(feed == 1);
-                    fillColorByStatus(me.elems['elec.dcgpu.symbol'], feed == 1);
+                    fillIfConnected(self.elems['elec.feed.apustart-dcgpu'], feed == 1);
+                    fillIfConnected(self.elems['elec.feed.apustart-batt2'], feed == 2);
+                    self.elems['elec.dcgpu.inuse'].setVisible(feed == 1);
+                    fillColorByStatus(self.elems['elec.dcgpu.symbol'], feed == 1);
                 }, 1, 0);
         }
         elsif (submode == SUBMODE_FUEL) {

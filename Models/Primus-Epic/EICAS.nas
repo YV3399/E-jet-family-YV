@@ -246,8 +246,8 @@ var EICAS = {
         me.addListener('main', '@declutter', func (node) { self.updateDeclutter(node.getBoolValue()); });
         me.addListener('main', '@message-list.selected', func (node) {
             var visible = node.getBoolValue();
-            me.elems['msg.highlight'].setVisible(visible);
-            me.elems['msg.status.highlight'].setVisible(visible);
+            self.elems['msg.highlight'].setVisible(visible);
+            self.elems['msg.status.highlight'].setVisible(visible);
         }, 1, 0);
     },
 
@@ -428,7 +428,8 @@ var EICAS = {
         me.updateBlinks();
     },
 
-	update: func() {
+	update: func (dt) {
+        call(canvas_base.BaseScreen.update, [dt], me);
 		var flap_pos = me.props["/fdm/jsbsim/fcs/flap-pos-deg"].getValue() or 0;
 		var flap_cmd = me.props["/fdm/jsbsim/fcs/flap-cmd-int-deg"].getValue() or 0;
 		
