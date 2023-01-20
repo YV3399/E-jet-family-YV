@@ -1477,7 +1477,7 @@ var PFDCanvas = {
         # Speed ref bugs
         foreach (var spdref; ["v1", "vr", "v2", "vfs"]) {
             var prop = me.props["/fms/vspeeds-effective/departure/" ~ spdref];
-            var elem = me["speedref." ~ spdref];
+            var elem = me.elems["speedref." ~ spdref];
             if (elem == nil) continue;
             if (prop == nil) {
                 elem.hide();
@@ -1497,7 +1497,7 @@ var PFDCanvas = {
         }
         foreach (var spdref; ["vref", "vappr", "vap", "vac"]) {
             var prop = me.props["/fms/vspeeds-effective/approach/" ~ spdref];
-            var elem = me["speedref." ~ spdref];
+            var elem = me.elems["speedref." ~ spdref];
             if (elem == nil) continue;
             if (prop == nil) {
                 elem.hide();
