@@ -123,17 +123,17 @@
      borderopacity="1.0"
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.8530843"
-     inkscape:cx="520.72578"
-     inkscape:cy="484.88237"
+     inkscape:zoom="1.2057928"
+     inkscape:cx="755.56711"
+     inkscape:cy="719.99313"
      inkscape:document-units="px"
-     inkscape:current-layer="msg.status"
+     inkscape:current-layer="layer1"
      showgrid="false"
      units="px"
-     inkscape:window-width="1920"
-     inkscape:window-height="1080"
-     inkscape:window-x="1440"
-     inkscape:window-y="0"
+     inkscape:window-width="1438"
+     inkscape:window-height="884"
+     inkscape:window-x="0"
+     inkscape:window-y="14"
      inkscape:window-maximized="1"
      inkscape:snap-global="false"
      showguides="true"
@@ -1756,6 +1756,111 @@
          sodipodi:role="line">99.9</tspan></text>
     <g
        id="g1497">
+      <rect
+         style="fill:#00ffff;stroke:none;stroke-width:2;stroke-linejoin:round"
+         id="msg.0.bg"
+         width="424.00003"
+         height="40"
+         x="593"
+         y="17" />
+      <rect
+         style="fill:#00ffff;stroke:none;stroke-width:2;stroke-linejoin:round"
+         id="msg.1.bg"
+         width="424.00003"
+         height="40"
+         x="593"
+         y="57" />
+      <rect
+         style="fill:#00ffff;stroke:none;stroke-width:2;stroke-linejoin:round"
+         id="msg.2.bg"
+         width="424.00003"
+         height="40"
+         x="593"
+         y="97" />
+      <rect
+         style="fill:#00ffff;stroke:none;stroke-width:2;stroke-linejoin:round"
+         id="msg.3.bg"
+         width="424.00003"
+         height="40"
+         x="593"
+         y="137" />
+      <rect
+         style="fill:#00ffff;stroke:none;stroke-width:2;stroke-linejoin:round"
+         id="msg.4.bg"
+         width="424.00003"
+         height="40"
+         x="593"
+         y="177" />
+      <rect
+         style="fill:#00ffff;stroke:none;stroke-width:2;stroke-linejoin:round"
+         id="msg.5.bg"
+         width="424.00003"
+         height="40"
+         x="593"
+         y="217" />
+      <rect
+         style="fill:#00ffff;stroke:none;stroke-width:2;stroke-linejoin:round"
+         id="msg.6.bg"
+         width="424.00003"
+         height="40"
+         x="593"
+         y="257" />
+      <rect
+         style="fill:#00ffff;stroke:none;stroke-width:2;stroke-linejoin:round"
+         id="msg.7.bg"
+         width="424.00003"
+         height="40"
+         x="593"
+         y="297" />
+      <rect
+         style="fill:#00ffff;stroke:none;stroke-width:2;stroke-linejoin:round"
+         id="msg.8.bg"
+         width="424.00003"
+         height="40"
+         x="593"
+         y="337" />
+      <rect
+         style="fill:#00ffff;stroke:none;stroke-width:2;stroke-linejoin:round"
+         id="msg.9.bg"
+         width="424.00003"
+         height="40"
+         x="593"
+         y="377" />
+      <rect
+         style="fill:#00ffff;stroke:none;stroke-width:2;stroke-linejoin:round"
+         id="msg.10.bg"
+         width="424.00003"
+         height="40"
+         x="593"
+         y="417" />
+      <rect
+         style="fill:#00ffff;stroke:none;stroke-width:2;stroke-linejoin:round"
+         id="msg.11.bg"
+         width="424.00003"
+         height="40"
+         x="593"
+         y="457" />
+      <rect
+         style="fill:#00ffff;stroke:none;stroke-width:2;stroke-linejoin:round"
+         id="msg.12.bg"
+         width="424.00003"
+         height="40"
+         x="593"
+         y="497" />
+      <rect
+         style="fill:#00ffff;stroke:none;stroke-width:2;stroke-linejoin:round"
+         id="msg.13.bg"
+         width="424.00003"
+         height="40"
+         x="593"
+         y="537" />
+      <rect
+         style="fill:#00ffff;stroke:none;stroke-width:2;stroke-linejoin:round"
+         id="msg.14.bg"
+         width="424.00003"
+         height="40"
+         x="593"
+         y="577" />
       <text
          inkscape:label="#text5159"
          id="msg.0"
@@ -1767,7 +1872,7 @@
            y="47.700001"
            x="601.62"
            id="tspan5161"
-           sodipodi:role="line">PARKING BRAKE</tspan></text>
+           sodipodi:role="line">MESSAGE 0</tspan></text>
       <text
          xml:space="preserve"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:32px;line-height:0%;font-family:'Liberation Mono';-inkscape-font-specification:'Liberation Mono';letter-spacing:0px;word-spacing:0px;fill:#ff0000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
@@ -1779,7 +1884,7 @@
            id="tspan1405"
            x="601.62"
            y="87.699997"
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:32px;line-height:1.25;font-family:'Liberation Mono';-inkscape-font-specification:'Liberation Mono'">PARKING BRAKE</tspan></text>
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:32px;line-height:1.25;font-family:'Liberation Mono';-inkscape-font-specification:'Liberation Mono'">MESSAGE 1</tspan></text>
       <text
          inkscape:label="#text5159"
          id="msg.2"
@@ -1791,7 +1896,7 @@
            y="127.7"
            x="601.62"
            id="tspan1409"
-           sodipodi:role="line">PARKING BRAKE</tspan></text>
+           sodipodi:role="line">MESSAGE 2</tspan></text>
       <text
          xml:space="preserve"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:32px;line-height:0%;font-family:'Liberation Mono';-inkscape-font-specification:'Liberation Mono';letter-spacing:0px;word-spacing:0px;fill:#ff0000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
@@ -1800,10 +1905,10 @@
          id="msg.3"
          inkscape:label="#text5159"><tspan
            sodipodi:role="line"
-           id="tspan1413"
            x="601.62"
            y="167.7"
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:32px;line-height:1.25;font-family:'Liberation Mono';-inkscape-font-specification:'Liberation Mono'">PARKING BRAKE</tspan></text>
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:32px;line-height:1.25;font-family:'Liberation Mono';-inkscape-font-specification:'Liberation Mono'"
+           id="tspan1287">MESSAGE 3</tspan></text>
       <text
          inkscape:label="#text5159"
          id="msg.4"
@@ -1815,7 +1920,7 @@
            y="207.7"
            x="601.62"
            id="tspan1417"
-           sodipodi:role="line">PARKING BRAKE</tspan></text>
+           sodipodi:role="line">MESSAGE 4</tspan></text>
       <text
          xml:space="preserve"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:32px;line-height:0%;font-family:'Liberation Mono';-inkscape-font-specification:'Liberation Mono';letter-spacing:0px;word-spacing:0px;fill:#ff0000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
@@ -1827,7 +1932,7 @@
            id="tspan1421"
            x="601.62"
            y="247.7"
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:32px;line-height:1.25;font-family:'Liberation Mono';-inkscape-font-specification:'Liberation Mono'">PARKING BRAKE</tspan></text>
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:32px;line-height:1.25;font-family:'Liberation Mono';-inkscape-font-specification:'Liberation Mono'">MESSAGE 5</tspan></text>
       <text
          inkscape:label="#text5159"
          id="msg.6"
@@ -1839,7 +1944,7 @@
            y="287.70001"
            x="601.62"
            id="tspan1425"
-           sodipodi:role="line">PARKING BRAKE</tspan></text>
+           sodipodi:role="line">MESSAGE 6</tspan></text>
       <text
          xml:space="preserve"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:32px;line-height:0%;font-family:'Liberation Mono';-inkscape-font-specification:'Liberation Mono';letter-spacing:0px;word-spacing:0px;fill:#ff0000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
@@ -1851,7 +1956,7 @@
            id="tspan1429"
            x="601.62"
            y="327.70001"
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:32px;line-height:1.25;font-family:'Liberation Mono';-inkscape-font-specification:'Liberation Mono'">PARKING BRAKE</tspan></text>
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:32px;line-height:1.25;font-family:'Liberation Mono';-inkscape-font-specification:'Liberation Mono'">MESSAGE 7</tspan></text>
       <text
          inkscape:label="#text5159"
          id="msg.8"
@@ -1863,7 +1968,7 @@
            y="367.70001"
            x="601.62"
            id="tspan1433"
-           sodipodi:role="line">PARKING BRAKE</tspan></text>
+           sodipodi:role="line">MESSAGE 8</tspan></text>
       <text
          xml:space="preserve"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:32px;line-height:0%;font-family:'Liberation Mono';-inkscape-font-specification:'Liberation Mono';letter-spacing:0px;word-spacing:0px;fill:#ff0000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
@@ -1875,7 +1980,7 @@
            id="tspan1437"
            x="601.62"
            y="407.70001"
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:32px;line-height:1.25;font-family:'Liberation Mono';-inkscape-font-specification:'Liberation Mono'">PARKING BRAKE</tspan></text>
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:32px;line-height:1.25;font-family:'Liberation Mono';-inkscape-font-specification:'Liberation Mono'">MESSAGE 9</tspan></text>
       <text
          inkscape:label="#text5159"
          id="msg.10"
@@ -1887,7 +1992,7 @@
            y="447.70001"
            x="601.62"
            id="tspan1441"
-           sodipodi:role="line">PARKING BRAKE</tspan></text>
+           sodipodi:role="line">MESSAGE 10</tspan></text>
       <text
          xml:space="preserve"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:32px;line-height:0%;font-family:'Liberation Mono';-inkscape-font-specification:'Liberation Mono';letter-spacing:0px;word-spacing:0px;fill:#ff0000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
@@ -1899,7 +2004,7 @@
            id="tspan1445"
            x="601.62"
            y="487.70001"
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:32px;line-height:1.25;font-family:'Liberation Mono';-inkscape-font-specification:'Liberation Mono'">PARKING BRAKE</tspan></text>
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:32px;line-height:1.25;font-family:'Liberation Mono';-inkscape-font-specification:'Liberation Mono'">MESSAGE 11</tspan></text>
       <text
          inkscape:label="#text5159"
          id="msg.12"
@@ -1911,7 +2016,7 @@
            y="527.70001"
            x="601.62"
            id="tspan1449"
-           sodipodi:role="line">PARKING BRAKE</tspan></text>
+           sodipodi:role="line">MESSAGE 12</tspan></text>
       <text
          xml:space="preserve"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:32px;line-height:0%;font-family:'Liberation Mono';-inkscape-font-specification:'Liberation Mono';letter-spacing:0px;word-spacing:0px;fill:#ff0000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
@@ -1923,7 +2028,7 @@
            id="tspan1453"
            x="601.62"
            y="567.70001"
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:32px;line-height:1.25;font-family:'Liberation Mono';-inkscape-font-specification:'Liberation Mono'">PARKING BRAKE</tspan></text>
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:32px;line-height:1.25;font-family:'Liberation Mono';-inkscape-font-specification:'Liberation Mono'">MESSAGE 13</tspan></text>
       <text
          inkscape:label="#text5159"
          id="msg.14"
@@ -1935,7 +2040,7 @@
            y="607.70001"
            x="601.62"
            id="tspan1457"
-           sodipodi:role="line">PARKING BRAKE</tspan></text>
+           sodipodi:role="line">MESSAGE 14</tspan></text>
     </g>
     <rect
        style="fill:none;stroke:#00ffff;stroke-width:3;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none"
@@ -1947,7 +2052,15 @@
     <g
        id="msg.status">
       <g
-         id="msg.count-above.caution">
+         id="msg.count-above.caution"
+         transform="translate(5)">
+        <rect
+           style="fill:#cccccc;stroke:none;stroke-width:2;stroke-linejoin:round"
+           id="msg.count-above.caution.bg"
+           width="60"
+           height="46"
+           x="635"
+           y="623" />
         <text
            xml:space="preserve"
            style="font-size:26px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:sans-serif;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle"
@@ -1960,13 +2073,21 @@
              y="655.29767"
              style="font-size:26.6667px;fill:#ffff00">03</tspan></text>
         <path
-           id="rect1501"
+           id="msg.count-above.caution.ptr"
            style="fill:#ffff00;stroke:none;stroke-width:3;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none"
            d="m 683.04565,636.93353 8,10 h -16 z"
            sodipodi:nodetypes="cccc" />
       </g>
       <g
-         id="msg.count-above.advisory">
+         id="msg.count-above.advisory"
+         transform="translate(5)">
+        <rect
+           style="fill:#cccccc;stroke:none;stroke-width:2;stroke-linejoin:round"
+           id="msg.count-above.advisory.bg"
+           width="60"
+           height="46"
+           x="695"
+           y="623" />
         <text
            xml:space="preserve"
            style="font-size:26px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:sans-serif;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#00ffff"
@@ -1979,13 +2100,21 @@
              y="655.29767"
              style="font-size:26.6667px;fill:#00ffff">03</tspan></text>
         <path
-           id="path1508"
+           id="msg.count-above.advisory.ptr"
            style="fill:#00ffff;stroke:none;stroke-width:3;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none"
            d="m 743.04565,636.93353 8,10 h -16 z"
            sodipodi:nodetypes="cccc" />
       </g>
       <g
-         id="msg.count-above.status">
+         id="msg.count-above.status"
+         transform="translate(5)">
+        <rect
+           style="fill:#cccccc;stroke:none;stroke-width:2;stroke-linejoin:round"
+           id="msg.count-above.status.bg"
+           width="60"
+           height="46"
+           x="755"
+           y="623" />
         <text
            xml:space="preserve"
            style="font-size:26px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:sans-serif;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#ffffff"
@@ -1998,13 +2127,21 @@
              y="655.29767"
              style="font-size:26.6667px;fill:#ffffff">03</tspan></text>
         <path
-           id="path1514"
+           id="msg.count-above.status.ptr"
            style="fill:#ffffff;stroke:none;stroke-width:3;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none"
            d="m 803.04565,636.93353 8,10 h -16 z"
            sodipodi:nodetypes="cccc" />
       </g>
       <g
-         id="msg.count-below.caution">
+         id="msg.count-below.caution"
+         transform="translate(8)">
+        <rect
+           style="fill:#cccccc;stroke:none;stroke-width:2;stroke-linejoin:round"
+           id="msg.count-below.caution.bg"
+           width="60"
+           height="46"
+           x="835"
+           y="623" />
         <text
            xml:space="preserve"
            style="font-size:26px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:sans-serif;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle"
@@ -2017,13 +2154,21 @@
              y="655.29767"
              style="font-size:26.6667px;fill:#ffff00">03</tspan></text>
         <path
-           id="path1520"
+           id="msg.count-below.caution.ptr"
            style="fill:#ffff00;stroke:none;stroke-width:3;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none"
            d="m 883.04565,652.93353 8,-10 h -16 z"
            sodipodi:nodetypes="cccc" />
       </g>
       <g
-         id="msg.count-below.advisory">
+         id="msg.count-below.advisory"
+         transform="translate(8)">
+        <rect
+           style="fill:#cccccc;stroke:none;stroke-width:2;stroke-linejoin:round"
+           id="msg.count-below.advisory.bg"
+           width="60"
+           height="46"
+           x="895"
+           y="623" />
         <text
            xml:space="preserve"
            style="font-size:26px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:sans-serif;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#00ffff"
@@ -2036,13 +2181,21 @@
              y="655.29767"
              style="font-size:26.6667px;fill:#00ffff">03</tspan></text>
         <path
-           id="path1526"
+           id="msg.count-below.advisory.ptr"
            style="fill:#00ffff;stroke:none;stroke-width:3;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none"
            d="m 943.04565,652.93353 8,-10 h -16 z"
            sodipodi:nodetypes="cccc" />
       </g>
       <g
-         id="msg.count-below.status">
+         id="msg.count-below.status"
+         transform="translate(8)">
+        <rect
+           style="fill:#cccccc;stroke:none;stroke-width:2;stroke-linejoin:round"
+           id="msg.count-below.status.bg"
+           width="60"
+           height="46"
+           x="955"
+           y="623" />
         <text
            xml:space="preserve"
            style="font-size:26px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:sans-serif;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#ffffff"
@@ -2055,7 +2208,7 @@
              y="655.29767"
              style="font-size:26.6667px;fill:#ffffff">03</tspan></text>
         <path
-           id="path1532"
+           id="msg.count-below.status.ptr"
            style="fill:#ffffff;stroke:none;stroke-width:3;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none"
            d="m 1003.0457,652.93353 8,-10 h -16.00005 z"
            sodipodi:nodetypes="cccc" />
@@ -2072,7 +2225,7 @@
         <g
            id="g1655"
            style="display:inline"
-           transform="translate(612.49997,646.49775)">
+           transform="translate(614.49997,646.49775)">
           <circle
              style="fill:none;stroke:#00ffff;stroke-width:2;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none"
              id="path1171"

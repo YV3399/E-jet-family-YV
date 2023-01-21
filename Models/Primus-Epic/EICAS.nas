@@ -21,6 +21,14 @@ var msgColors = [
     [1, 0, 0], # WARNING: RED
 ];
 
+var msgKeys = [
+    'maintenance',
+    'status',
+    'advisory',
+    'caution',
+    'warning',
+];
+
 var EICAS = {
     new: func () {
         # TODO: make EICAS available from both sides.
@@ -28,6 +36,14 @@ var EICAS = {
         m.parents = [EICAS] ~ m.parents;
         m.timer = nil;
         m.messageMap = [];
+        m.messageCounts = {
+            cautionAbove: 0,
+            cautionBelow: 0,
+            advisoryAbove: 0,
+            advisoryBelow: 0,
+            statusAbove: 0,
+            statusBelow: 0,
+        };
         return m;
     },
 
@@ -186,21 +202,48 @@ var EICAS = {
             "msg.12",
             "msg.13",
             "msg.14",
+            "msg.0.bg",
+            "msg.1.bg",
+            "msg.2.bg",
+            "msg.3.bg",
+            "msg.4.bg",
+            "msg.5.bg",
+            "msg.6.bg",
+            "msg.7.bg",
+            "msg.8.bg",
+            "msg.9.bg",
+            "msg.10.bg",
+            "msg.11.bg",
+            "msg.12.bg",
+            "msg.13.bg",
+            "msg.14.bg",
             "msg.highlight",
             "msg.status",
             "msg.status.highlight",
             "msg.count-above.caution",
             "msg.count-above.caution.text",
+            "msg.count-above.caution.bg",
+            "msg.count-above.caution.ptr",
             "msg.count-above.advisory",
             "msg.count-above.advisory.text",
+            "msg.count-above.advisory.bg",
+            "msg.count-above.advisory.ptr",
             "msg.count-above.status",
             "msg.count-above.status.text",
+            "msg.count-above.status.bg",
+            "msg.count-above.status.ptr",
             "msg.count-below.caution",
             "msg.count-below.caution.text",
+            "msg.count-below.caution.bg",
+            "msg.count-below.caution.ptr",
             "msg.count-below.advisory",
             "msg.count-below.advisory.text",
+            "msg.count-below.advisory.bg",
+            "msg.count-below.advisory.ptr",
             "msg.count-below.status",
             "msg.count-below.status.text",
+            "msg.count-below.status.bg",
+            "msg.count-below.status.ptr",
             "flaps-spoilers.section",
             "vib.section",
             "oil.section",
@@ -294,29 +337,68 @@ var EICAS = {
         var i = 0;
         var elem = nil;
         var blink = me.props['blink'].getBoolValue();
+        var scrollPos = me.props['message-list.scroll-pos'].getValue();
         foreach (var msg; me.messageMap) {
-            elem = me.elems['msg.' ~ i];
-            if (elem != nil and msg != nil) {
-                if (msg == nil) {
-                    elem.setColorFill(1, 1, 0, 1);
-                    elem.setColor(0, 0, 0);
-                    elem.setDrawMode(canvas.Text.TEXT + canvas.Text.FILLEDBOUNDINGBOX);
+            txt = me.elems['msg.' ~ i];
+            bg = me.elems['msg.' ~ i ~ '.bg'];
+            if (msg == nil) {
+                bg.setColorFill(0, 0, 0, 1);
+                txt.setColor(0, 0, 0);
+            }
+            else {
+                (r, g, b) = msgColors[msg.level];
+                if (blink and (msg.blink != 0)) {
+                    bg.setColorFill(r, g, b, 1);
+                    txt.setColor(0, 0, 0);
                 }
                 else {
-                    (r, g, b) = msgColors[msg.level];
-                    if (blink and (msg.blink != 0)) {
-                        elem.setColorFill(r, g, b, 1);
-                        elem.setColor(0, 0, 0);
-                        elem.setDrawMode(canvas.Text.TEXT + canvas.Text.FILLEDBOUNDINGBOX);
-                    }
-                    else {
-                        elem.setColorFill(0, 0, 0, 1);
-                        elem.setColor(r, g, b);
-                        elem.setDrawMode(canvas.Text.TEXT + canvas.Text.FILLEDBOUNDINGBOX);
-                    }
+                    bg.setColorFill(0, 0, 0, 1);
+                    txt.setColor(r, g, b);
                 }
             }
             i += 1;
+        }
+        var counts = {
+            'caution': { 'above': 0, 'below': 0 },
+            'advisory': { 'above': 0, 'below': 0 },
+            'status': { 'above': 0, 'below': 0 },
+        };
+        
+        var firstScrolled = messages.messageCounts[messages.MSG_WARNING] + scrollPos;
+        var firstBelow = scrollPos + 15;
+        var blinkingCounts = {
+            above: [0,0,0,0,0],
+            below: [0,0,0,0,0],
+        };
+
+        for (i = 0; i < firstScrolled; i += 1) {
+            var msg = messages.messages[i];
+            if (msg == nil) break;
+            if (msg.blink != 0)
+                blinkingCounts.above[msg.level] = 1;
+        }
+        for (i = firstBelow; i < size(messages.messages); i += 1) {
+            var msg = messages.messages[i];
+            if (msg == nil) break;
+            if (msg.blink != 0)
+                blinkingCounts.below[msg.level] = 1;
+        }
+
+        foreach (var level; [messages.MSG_CAUTION, messages.MSG_ADVISORY, messages.MSG_STATUS]) {
+            (r, g, b) = msgColors[level];
+            foreach (var where; ['above', 'below']) {
+                var key = 'msg.count-' ~ where ~ '.' ~ msgKeys[level];
+                if (blinkingCounts[where][level] and blink) {
+                    me.elems[key ~ '.text'].setColor(0, 0, 0);
+                    me.elems[key ~ '.ptr'].setColorFill(0, 0, 0, 1);
+                    me.elems[key ~ '.bg'].setColorFill(r, g, b, 1);
+                }
+                else {
+                    me.elems[key ~ '.text'].setColor(r, g, b);
+                    me.elems[key ~ '.ptr'].setColorFill(r, g, b, 1);
+                    me.elems[key ~ '.bg'].setColorFill(0, 0, 0, 1);
+                }
+            }
         }
     },
 
@@ -353,6 +435,9 @@ var EICAS = {
         me.props['message-list.counts.advisory'].setValue(counts.advisory);
         me.props['message-list.counts.status'].setValue(counts.status);
 
+        var firstVisibleOf = [0, 0, 0, 0, 0];
+        var lastVisibleOf = [0, 0, 0, 0, 0];
+
         for (i = 0; i < 15; i += 1) {
             if (m >= size(messages.messages)) {
                 msg = nil;
@@ -374,7 +459,10 @@ var EICAS = {
                 }
             }
             if (msg != nil) {
+                if (level != msg.level)
+                    firstVisibleOf[msg.level] = m;
                 level = msg.level;
+                lastVisibleOf[level] = m;
             }
             append(me.messageMap, msg);
 
@@ -386,6 +474,7 @@ var EICAS = {
         i = 0;
         foreach (msg; me.messageMap) {
             elem = me.elems['msg.' ~ i];
+            bg = me.elems['msg.' ~ i];
             if (elem != nil) {
                 if (msg == nil) {
                     elem.setText("");
@@ -401,24 +490,24 @@ var EICAS = {
         }
 
         if (maxScroll > 0) {
-            var cautionAbove = math.min(counts.caution, scrollPos);
-            var cautionBelow = math.max(0, math.min(counts.caution, counts.caution - scrollPos - 15 + counts.warning));
-            var advisoryAbove = math.max(0, math.min(counts.advisory, scrollPos - counts.caution));
-            var advisoryBelow = math.max(0, math.min(counts.advisory, counts.advisory - scrollPos - 15 + counts.warning + counts.caution));
-            var statusAbove = math.max(0, math.min(counts.status, scrollPos - counts.caution - counts.advisory));
-            var statusBelow = math.max(0, math.min(counts.status, counts.status - scrollPos - 15 + counts.warning + counts.caution + counts.advisory));
-            me.elems['msg.count-above.caution.text'].setText(sprintf("%2i", cautionAbove));
-            me.elems['msg.count-above.caution'].setVisible(cautionAbove > 0);
-            me.elems['msg.count-below.caution.text'].setText(sprintf("%2i", cautionBelow));
-            me.elems['msg.count-below.caution'].setVisible(cautionBelow > 0);
-            me.elems['msg.count-above.advisory.text'].setText(sprintf("%2i", advisoryAbove));
-            me.elems['msg.count-above.advisory'].setVisible(advisoryAbove > 0);
-            me.elems['msg.count-below.advisory.text'].setText(sprintf("%2i", advisoryBelow));
-            me.elems['msg.count-below.advisory'].setVisible(advisoryBelow > 0);
-            me.elems['msg.count-above.status.text'].setText(sprintf("%2i", statusAbove));
-            me.elems['msg.count-above.status'].setVisible(statusAbove > 0);
-            me.elems['msg.count-below.status.text'].setText(sprintf("%2i", statusBelow));
-            me.elems['msg.count-below.status'].setVisible(statusBelow > 0);
+            me.messageCounts.cautionAbove = math.min(counts.caution, scrollPos);
+            me.messageCounts.cautionBelow = math.max(0, math.min(counts.caution, counts.caution - scrollPos - 15 + counts.warning));
+            me.messageCounts.advisoryAbove = math.max(0, math.min(counts.advisory, scrollPos - counts.caution));
+            me.messageCounts.advisoryBelow = math.max(0, math.min(counts.advisory, counts.advisory - scrollPos - 15 + counts.warning + counts.caution));
+            me.messageCounts.statusAbove = math.max(0, math.min(counts.status, scrollPos - counts.caution - counts.advisory));
+            me.messageCounts.statusBelow = math.max(0, math.min(counts.status, counts.status - scrollPos - 15 + counts.warning + counts.caution + counts.advisory));
+            me.elems['msg.count-above.caution.text'].setText(sprintf("%2i", me.messageCounts.cautionAbove));
+            me.elems['msg.count-above.caution'].setVisible(me.messageCounts.cautionAbove > 0);
+            me.elems['msg.count-below.caution.text'].setText(sprintf("%2i", me.messageCounts.cautionBelow));
+            me.elems['msg.count-below.caution'].setVisible(me.messageCounts.cautionBelow > 0);
+            me.elems['msg.count-above.advisory.text'].setText(sprintf("%2i", me.messageCounts.advisoryAbove));
+            me.elems['msg.count-above.advisory'].setVisible(me.messageCounts.advisoryAbove > 0);
+            me.elems['msg.count-below.advisory.text'].setText(sprintf("%2i", me.messageCounts.advisoryBelow));
+            me.elems['msg.count-below.advisory'].setVisible(me.messageCounts.advisoryBelow > 0);
+            me.elems['msg.count-above.status.text'].setText(sprintf("%2i", me.messageCounts.statusAbove));
+            me.elems['msg.count-above.status'].setVisible(me.messageCounts.statusAbove > 0);
+            me.elems['msg.count-below.status.text'].setText(sprintf("%2i", me.messageCounts.statusBelow));
+            me.elems['msg.count-below.status'].setVisible(me.messageCounts.statusBelow > 0);
             me.elems['msg.status'].show();
         }
         else {

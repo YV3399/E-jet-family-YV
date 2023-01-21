@@ -6,6 +6,8 @@ var MSG_ADVISORY = 2;
 var MSG_STATUS = 1;
 var MSG_MAINTENANCE = 0;
 
+var messageCounts = [ 0, 0, 0, 0, 0 ];
+
 # K-codes: these represent flight phases, used for CAS message inhibition.
 # KNone is not a real K-code, it just exists so that we have a placeholder
 # value to use when the inhibition system hasn't been initialized yet.
@@ -143,6 +145,7 @@ var setMessage = func (level, text, priority, rootEicas=0) {
             rootEicas: rootEicas,
         };
     append(messages, msg);
+    messageCounts[msg.level] += 1;
     sortMessages();
     raiseSignal();
 };
@@ -150,9 +153,11 @@ var setMessage = func (level, text, priority, rootEicas=0) {
 var clearMessage = func (level, text, priority) {
     var newMessages = [];
     var blinking = { MSG_WARNING: 0, MSG_CAUTION: 0 };
+    messageCounts = [0, 0, 0, 0, 0];
     foreach (var msg; messages) {
         if (msg.text != text or msg.level != level) {
             append(newMessages, msg);
+            messageCounts[msg.level] += 1;
             if (msg.blink) {
                 blinking[msg.level] = 1;
             }
