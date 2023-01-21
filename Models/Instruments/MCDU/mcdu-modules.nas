@@ -2801,7 +2801,7 @@ var ATCLogonModule = {
                                     # some controllers on VATSIM will not send the
                                     # CURRENT ATC UNIT message, which leaves the
                                     # CPDLC system in an "ACCEPTED" state.
-                                    globals.cpdlc.setCurrentStation(getprop('/cpdlc/logon-station'))
+                                    globals.cpdlc.system.setCurrentStation(getprop('/cpdlc/logon-station'))
                                 }
                                 else {
                                     globals.cpdlc.system.connect();
