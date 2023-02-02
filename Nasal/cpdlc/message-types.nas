@@ -54,6 +54,10 @@ var ARG_ALTIMETER = 24;
 var ARG_DATA_AUTHORITY = 25;
 var ARG_VSPEED = 26;
 var ARG_MINUTES = 27;
+var ARG_LATENCY = 28;
+
+var ARG_TYPE_MASK = 63;
+var ARG_OPTIONAL = 64;
 
 
 #keys according to tables in ICAO doc 4444
@@ -90,7 +94,7 @@ var uplink_messages = {
     "SYSU-3": { txt: "MESSAGE NOT SUPPORTED BY THIS ATC UNIT", args: [], r_opts: [] },
     "SYSU-4": { txt: "LOGICAL ACKNOWLEDGEMENT", args: [], r_opts: [] },
     "SYSU-5": { txt: "USE OF LOGICAL ACKNOWLEDGEMENT PROHIBITED", args: [], r_opts: [] },
-    "SYSU-6": { txt: "LATENCY TIME VALUE $1", args: [ARG_TEXT], r_opts: [] }, # should have its own type, but we're not handling this
+    "SYSU-6": { txt: "LATENCY TIME VALUE $1", args: [ARG_LATENCY], r_opts: [] },
     "SYSU-7": { txt: "MESSAGE RECEIVED TOO LATE, RESEND MESSAGE OR CONTACT BY VOICE", args: [], r_opts: [] },
 
     "RTEU-1": { txt: "$1", args: [ARG_TEXT], r_opts: ["w","u"] },
@@ -222,15 +226,15 @@ var uplink_messages = {
     "ADVU-18": { txt: "RELAY TO $1", args: [ARG_CALLSIGN], r_opts: ["w","u"] },
     "ADVU-19": { txt: "$1 DEVIATION DETECTED. VERIFY AND ADVISE", args: [ARG_DEVIATION_TYPE], r_opts: ["w","u"] }, 
 
-    "COMU-1":  { txt: "CONTACT $1 $2", args: [ARG_CALLSIGN, ARG_FREQ], r_opts: ["w","u"] },
-    "COMU-2":  { txt: "AT $1 CONTACT $2 $3", args: [ARG_NAVPOS, ARG_CALLSIGN, ARG_FREQ], r_opts: ["w","u"] },
+    "COMU-1":  { txt: "CONTACT $1 $2 $3", args: [ARG_CALLSIGN | ARG_OPTIONAL, ARG_FREQ, ARG_CALLSIGN | ARG_OPTIONAL], r_opts: ["w","u"] },
+    "COMU-2":  { txt: "AT $1 CONTACT $2 $3 $4", args: [ARG_NAVPOS, ARG_CALLSIGN | ARG_OPTIONAL, ARG_FREQ, ARG_CALLSIGN | ARG_OPTIONAL], r_opts: ["w","u"] },
     "COMU-3":  { txt: "AT TIME $1 CONTACT $2 $3", args: [ARG_TIME, ARG_CALLSIGN, ARG_FREQ], r_opts: ["w","u"] },
     "COMU-4":  { txt: "SECONDARY FREQUENCY $1", args: [ARG_FREQ], r_opts: ["r"] },
     "COMU-5":  { txt: "MONITOR $1 $2", args: [ARG_CALLSIGN, ARG_FREQ], r_opts: ["w","u"] },
     "COMU-6":  { txt: "AT $1 MONITOR $2 $3", args: [ARG_NAVPOS, ARG_CALLSIGN, ARG_FREQ], r_opts: ["w","u"] },
     "COMU-7":  { txt: "AT TIME $1 MONITOR $2 $3", args: [ARG_TIME, ARG_CALLSIGN, ARG_FREQ], r_opts: ["w","u"] },
     "COMU-8":  { txt: "CHECK STUCK MICROPHONE $1", args: [ARG_FREQ], r_opts: [] },
-    "COMU-9":  { txt: "CURRENT ATC UNIT $1", args: [ARG_CALLSIGN], r_opts: [] },
+    "COMU-9":  { txt: "CURRENT ATC UNIT $1", args: [ARG_TEXT], r_opts: [] },
 
     "EMGU-1": { txt: "REPORT ENDURANCE AND PERSONS ON BOARD", args: [], r_opts: ["y"], replies: [{type:"EMGD-3"}] }, 
     "EMGU-2": { txt: "IMMEDIATELY", args: [], r_opts: ["y"] },
