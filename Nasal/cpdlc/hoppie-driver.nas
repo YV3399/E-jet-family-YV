@@ -416,7 +416,7 @@ var HoppieDriver = {
 
     _pack: func (min, mrn, ra, message) {
         if (typeof(message) == 'vector') {
-            message = string.join('/', message);
+            message = string.join(' ', message);
         }
         if (ra == '')
             ra = 'N';
