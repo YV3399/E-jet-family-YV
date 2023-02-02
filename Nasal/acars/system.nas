@@ -108,7 +108,7 @@ var System = {
             me.listeners[k] = nil;
         }
         if (errors != [])
-            debug.dump(errors);
+            debug.printerror(errors);
     },
 
     isAvailable: func {
@@ -312,7 +312,7 @@ var System = {
                     if (r.status == 200) {
                         var data = call(json.parse, [r.response], nil, errors);
                         if (size(errors) != 0) {
-                            debug.dump(errors);
+                            debug.printerror(errors);
                             self.injectSystemMessage('DATIS', 'DATALINK ERROR');
                         }
                         elsif (typeof(data) == 'vector') {
@@ -335,12 +335,12 @@ var System = {
                 })
                 .fail(func (r) {
                     # TODO
-                    debug.dump(r);
+                    logprint(2, "HTTP error", debug.string(r));
                     self.injectSystemMessage('DATIS', 'DATALINK ERROR');
                 });
         }, [url], me, {}, errors);
         if (size(errors) > 0) {
-            debug.dump(errors);
+            debug.printerror(errors);
             return 0;
         }
         return 1;
@@ -378,12 +378,12 @@ var System = {
                 })
                 .fail(func (r) {
                     # TODO
-                    debug.dump(r);
+                    logprint(2, "HTTP error", debug.string(r));
                     self.injectSystemMessage('DATIS', 'DATALINK ERROR');
                 });
         }, [url], me, {}, errors);
         if (size(errors) > 0) {
-            debug.dump(errors);
+            debug.printerror(errors);
             return 0;
         }
         return 1;

@@ -517,8 +517,7 @@ var MCDU = {
 
     setScratchpad: func (str) {
         if (typeof(str) != 'scalar') {
-            print("Warning: trying to fill scratchpad with non-scalar");
-            debug.dump(str);
+            logprint(4, "Warning: trying to fill scratchpad with non-scalar", debug.string(str));
             str = '';
         }
         me.scratchpad = str ~ '';

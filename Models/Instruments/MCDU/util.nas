@@ -287,7 +287,7 @@ var parseWaypoint = func (ident, ref=nil) {
 
     # not a lat/lon pair, so the first part must be a named waypoint.
     var refPoints = findWaypointsByID(parts[0], ref);
-    debug.dump(refPoints);
+    # debug.dump(refPoints);
     if (size(parts) == 1) {
         # this is the only part, so just use the waypoint as-is
         return map(createWPFrom, refPoints);

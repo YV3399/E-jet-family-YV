@@ -87,7 +87,7 @@ var updateClipboard = func {
     clipTextGroup.removeAllChildren();
     if (sheet != nil) {
         var lines = sheet.getValues()['line'];
-        debug.dump(lines);
+        logprint(1, 'CLIPBOARD:', debug.string(lines));
         if (lines != nil) {
             if (typeof(lines) == 'scalar') {
                 lines = [lines];

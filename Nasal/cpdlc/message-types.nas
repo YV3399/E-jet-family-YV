@@ -375,7 +375,7 @@ var formatMessagePartFancy = func (type, args) {
             contains(downlink_messages, type) ? downlink_messages[type] :
             nil;
     if (messageType == nil) {
-        debug.dump('INVALID MESSAGE', type, args);
+        logprint(4, 'INVALID MESSAGE', type, debug.string(args));
         return [];
     }
     var words = split(' ', messageType.txt);

@@ -404,7 +404,7 @@ var FlightbagApp = {
     loadChart: func (path, title, page, pushHistory = 1) {
         var self = me;
         var url = getprop('/instrumentation/efb/flightbag-companion-uri') ~ urlencode(path) ~ "?p=" ~ page;
-        debug.dump(url);
+        logprint(1, 'EFB loadChart:', url);
         me.showLoadingScreen(url);
         me.contentGroup.removeAllChildren();
         if (pushHistory) append(me.history, [me.currentPath, me.currentTitle, me.currentPage]);
@@ -483,7 +483,7 @@ var FlightbagApp = {
         me.currentPage = page;
         var filename = getprop('/sim/fg-home') ~ "/Export/efb_listing.xml";
         var onFailure = func (r) {
-            debug.dump(r);
+            logprint(4, 'EFB: HTTP error:', debug.string(r));
             if (r.status < 100) {
                 self.showErrorScreen(
                     [ "Download failed"

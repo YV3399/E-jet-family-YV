@@ -839,7 +839,7 @@ var HoldModule = {
             }
         }
         m.setHoldSpeed(m.holdParams.speed_cstr);
-        debug.dump(m.holdFix);
+        # debug.dump(m.holdFix);
         return m;
     },
 
@@ -4067,7 +4067,8 @@ var ACARSMessageModule = {
     printMessage: func {
         if (me.msgNode == nil) return;
         var msgTxt = me.msgNode.getValue('text');
-        debug.dump(msgTxt, lineWrap(msgTxt, printer.paperWidth, '...'));
+        var wrapped = lineWrap(msgTxt, printer.paperWidth, '...');
+        logprint(1, 'PRINT MESSAGE:', debug.string(msgTxt) ~ ' -> ' ~ debug.string(wrapped));
         var lines =
                 [ "--- ACARS BEGIN ---"
                 , sprintf("%s %s %s",
@@ -4076,7 +4077,7 @@ var ACARSMessageModule = {
                     me.msgNode.getValue('to') or getprop('/sim/multiplay/callsign'))
                 , ''
                 ] ~
-                lineWrap(msgTxt, printer.paperWidth, '...') ~
+                wrapped ~
                 [ "--- ACARS END ---"
                 , ''
                 ];

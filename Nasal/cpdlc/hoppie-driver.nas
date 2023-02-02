@@ -452,11 +452,11 @@ var parseCPDLC = func (str) {
     # /data2/654/3/NE/LOGON ACCEPTED
     var result = split('/', string.uc(str));
     if (result[0] != '') {
-        debug.dump('CPDLC PARSER ERROR 10: expected leading slash in ' ~ str);
+        logprint(4, 'CPDLC PARSER ERROR 10: expected leading slash in ' ~ str);
         return nil;
     }
     if (result[1] != 'DATA2') {
-        debug.dump('CPDLC PARSER ERROR 11: expected `data2` in ' ~ str);
+        logprint(4, 'CPDLC PARSER ERROR 11: expected `data2` in ' ~ str);
         return nil;
     }
     var min = result[2];
