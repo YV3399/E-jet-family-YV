@@ -250,7 +250,9 @@ var BaseScreen = {
         if (contains(options, 'onclick')) widget.onclick = options.onclick;
         if (contains(options, 'onscroll')) widget.onscroll = options.onscroll;
 
-        var elem = group.getElementById(widget.key) or me.elems[widget.key];
+        var elem = group.getElementById(widget.key);
+        if (elem == nil)
+            elem = me.elems[widget.key];
         var boxElem = group.getElementById(widget.key ~ ".clickbox");
         if (boxElem == nil) {
             widget.box = elem.getTransformedBounds();
