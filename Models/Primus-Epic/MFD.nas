@@ -1869,23 +1869,23 @@ var MFD = {
                 }, 1, 0);
 
             me.addListener('systems', '/systems/electrical/buses/ac[0]/powered', func (node) {
-                    me.updateACshared();
+                    self.updateACshared();
                 }, 1, 0);
             me.addListener('systems', '/systems/electrical/buses/ac[0]/feed', func (node) {
                     var feed = node.getValue();
                     fillIfConnected(self.elems['elec.feed.ac12-apu'], feed == 1);
                     fillIfConnected(self.elems['elec.feed.ac12-acgpu'], feed == 2);
-                    me.updateACshared();
+                    self.updateACshared();
                 }, 1, 0);
             me.addListener('systems', '/systems/electrical/buses/ac[1]/feed', func (node) {
                     var feed = node.getValue();
                     fillIfConnected(self.elems['elec.feed.ac1-idg1'], feed == 1);
-                    me.updateACshared();
+                    self.updateACshared();
                 }, 1, 0);
             me.addListener('systems', '/systems/electrical/buses/ac[2]/feed', func (node) {
                     var feed = node.getValue();
                     fillIfConnected(self.elems['elec.feed.ac2-idg2'], feed == 1);
-                    me.updateACshared();
+                    self.updateACshared();
                 }, 1, 0);
             me.addListener('systems', '/systems/electrical/buses/ac[3]/feed', func (node) {
                     var feed = node.getValue();
