@@ -9,7 +9,7 @@ var system = System.new();
 system.registerDriver(BaseDriver.new(system));
 system.registerDriver(IRCDriver.new(system));
 system.registerDriver(HoppieDriver.new(system));
-logprint(3, "CPDLC DRIVERS:")
+logprint(3, "CPDLC DRIVERS:");
 foreach (var driver; system.listDrivers()) {
     logprint(3, driver);
 }
