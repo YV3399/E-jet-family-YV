@@ -15,11 +15,14 @@ var MapsApp = {
             numTiles: [5, 5],
             tileSize: 256,
             lastTile: [ nil, nil ],
-            makeURL: string.compileTemplate('https://maps.wikimedia.org/osm-intl/{z}/{x}/{y}.png'),
-            makePath: string.compileTemplate(mapsBase ~ '/osm-intl/{z}/{x}/{y}.png'),
+            # makeURL: string.compileTemplate('https://maps.wikimedia.org/osm-intl/{z}/{x}/{y}.png'),
+            # makePath: string.compileTemplate(mapsBase ~ '/osm-intl/{z}/{x}/{y}.png'),
+            makeURL: string.compileTemplate('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'),
+            makePath: string.compileTemplate(mapsBase ~ '/osm-tile/{z}/{x}/{y}.png'),
         };
         return m;
     },
+    # https://a.tile.openstreetmap.org/12/2093/1352.png
 
     touch: func (x, y) {
         foreach (var clickSpot; me.clickSpots) {
@@ -34,6 +37,10 @@ var MapsApp = {
     },
 
     handleBack: func () {
+    },
+
+    background: func () {
+        me.updateTimer.stop();
     },
 
     initializeTiles: func {
@@ -91,8 +98,10 @@ var MapsApp = {
         var overlay = me.masterGroup.createChild('group');
         canvas.parsesvg(overlay, "Aircraft/E-jet-family/Models/EFB/zoom-scroll-overlay.svg", {'font-mapper': font_mapper});
         var zoomDigital = overlay.getElementById('zoomPercent.digital');
+        var zoomUnit = overlay.getElementById('zoomPercent.unit');
         var update = func () {
-            zoomDigital.setText(sprintf("%1.0f", math.pow(2, self.zoom) / 655.36));
+            zoomDigital.setText('LVL');
+            zoomUnit.setText(sprintf("%1.0f", self.zoom));
             self.updateMap();
         };
         var zoomIn = func () { self.zoom = self.zoom + 1; update(); };
@@ -186,6 +195,7 @@ var MapsApp = {
                          z: me.zoom,
                          x: int(tileIndex[0] + x),
                          y: int(tileIndex[1] + y),
+                         s: (rand() >= 0.5) ? 'a' : 'b',
                          tms_y: ymax - int(tileIndex[1] + y) - 1,
                     };
 
