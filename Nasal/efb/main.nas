@@ -3,6 +3,7 @@ var efb = nil;
 
 include('util.nas');
 include('apps/flightbag.nas');
+include('apps/maps.nas');
 
 var EFB = {
     new: func (master) {
@@ -19,6 +20,12 @@ var EFB = {
                     icon: 'Aircraft/E-jet-family/Models/EFB/icons/flightbag.png',
                     label: 'FlightBag',
                     loader: func (g) { return FlightbagApp.new(g); },
+                    masterGroup: nil,
+                },
+                {
+                    icon: 'Aircraft/E-jet-family/Models/EFB/icons/maps.png',
+                    label: 'Maps',
+                    loader: func (g) { return MapsApp.new(g); },
                     masterGroup: nil,
                 },
             ];
@@ -167,16 +174,20 @@ var EFB = {
 };
 
 var initMaster = func {
-    if (contains(globals.efb, 'efbDisplay') and globals.efb.efbDisplay != nil)
-        globals.efb.efbDisplay.del();
-    globals.efb.efbDisplay = canvas.new({
-        "name": "EFB",
-        "size": [1024, 1536],
-        "view": [512, 768],
-        "mipmapping": 1
-    });
-    globals.efb.efbDisplay.addPlacement({"node": "EFBScreen"});
-    efbMaster = globals.efb.efbDisplay.createGroup();
+    if (!contains(globals.efb, 'efbDisplay') or globals.efb.efbDisplay == nil) {
+        globals.efb.efbDisplay = canvas.new({
+            "name": "EFB",
+            "size": [1024, 1536],
+            "view": [512, 768],
+            "mipmapping": 1
+        });
+        globals.efb.efbDisplay.addPlacement({"node": "EFBScreen"});
+    }
+    if (!contains(globals.efb, 'efbMaster') or globals.efb.efbMaster == nil) {
+        globals.efb.efbMaster = globals.efb.efbDisplay.createGroup();
+    }
+    efbMaster = globals.efb.efbMaster;
+    efbMaster.removeAllChildren();
     efb = EFB.new(efbMaster);
 };
 

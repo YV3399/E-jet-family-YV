@@ -35,16 +35,30 @@ var init = func {
     globals.efb.initialized = 1;
 };
 
+var timers = [];
+var maketimer = func () {
+    var args = arg;
+    var timer = call(globals.maketimer, args);
+    append(timers, timer);
+    return timer;
+};
+
+
 setlistener("sim/signals/fdm-initialized", func {
     init();
 });
 
 var reload = func {
-    # clean up first
+    # clean up listeners and timers
     foreach (var l; listeners) {
         globals.removelistener(l);
     }
     listeners = [];
+    foreach (var t; timers) {
+        t.stop();
+    }
+    timers = [];
+
     includes = {}; # force re-loading includes
     globals.efb.initialized = 0;
     init();

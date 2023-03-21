@@ -54,6 +54,10 @@ var FlightbagApp = {
         me.loadListing("", "Flight Bag", 0, 0);
     },
 
+    background: func () {
+        me.updateTimer.stop();
+    },
+
     showLoadingScreen: func (url=nil) {
         me.clickSpots = [];
         me.contentGroup.removeAllChildren();
