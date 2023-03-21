@@ -2745,6 +2745,9 @@
         <polyfill>
             <file>Aircraft/E-jet-family/Nasal/polyfill.nas</file>
         </polyfill>
+        <fastercanvas>
+            <file>Aircraft/E-jet-family/Nasal/fastercanvas.nas</file>
+        </fastercanvas>
         <json>
             <file>Aircraft/E-jet-family/Nasal/json.nas</file>
         </json>
@@ -2757,9 +2760,6 @@
         <datetime>
             <file>Aircraft/E-jet-family/Nasal/datetime.nas</file>
         </datetime>
-        <fastercanvas>
-            <file>Aircraft/E-jet-family/Nasal/fastercanvas.nas</file>
-        </fastercanvas>
         <ELT>
             <file>Aircraft/E-jet-family/Nasal/ELTmessage.nas</file>
         </ELT>
