@@ -10,19 +10,24 @@ var MapsApp = {
             currentTitle: "Maps",
             clickSpots: [],
             zoom: 12,
+            minZoom: 2,
+            maxZoom: 18,
             center: [ 0, 0 ],
             centerOnAircraft: 1,
-            numTiles: [5, 5],
+            numTiles: [9, 9],
             tileSize: 256,
             lastTile: [ nil, nil ],
-            # makeURL: string.compileTemplate('https://maps.wikimedia.org/osm-intl/{z}/{x}/{y}.png'),
-            # makePath: string.compileTemplate(mapsBase ~ '/osm-intl/{z}/{x}/{y}.png'),
+
             makeURL: string.compileTemplate('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'),
             makePath: string.compileTemplate(mapsBase ~ '/osm-tile/{z}/{x}/{y}.png'),
+
+            # These are used to track in-flight requests, so that we can cancel
+            # them later in case they are no longer needed.
+            requests: {},
+            nextRequestID: 0,
         };
         return m;
     },
-    # https://a.tile.openstreetmap.org/12/2093/1352.png
 
     touch: func (x, y) {
         foreach (var clickSpot; me.clickSpots) {
@@ -54,8 +59,13 @@ var MapsApp = {
             me.tiles[x] = setsize([], me.numTiles[1]);
             for(var y = 0; y < me.numTiles[1]; y += 1) {
                 me.tiles[x][y] = me.tileContainer.createChild("image", "map-tile");
+                me.tiles[x][y].setTranslation(
+                    int((x - me.centerTileOffset[0]) * me.tileSize + 0.5),
+                    int((y - me.centerTileOffset[1]) * me.tileSize + 0.5)
+                );
             }
         }
+
         me.aircraftMarker = me.contentGroup.createChild('path')
                                            .moveTo(0, -10)
                                            .lineTo(8, 10)
@@ -93,6 +103,13 @@ var MapsApp = {
         });
     },
 
+    cancelAllRequests: func {
+        foreach (var k; keys(me.requests)) {
+            me.requests[k].abort();
+        }
+        me.requests = {};
+    },
+
     makeZoomScrollOverlay: func () {
         var self = me;
         var overlay = me.masterGroup.createChild('group');
@@ -104,10 +121,18 @@ var MapsApp = {
             zoomUnit.setText(sprintf("%1.0f", self.zoom));
             self.updateMap();
         };
-        var zoomIn = func () { self.zoom = self.zoom + 1; update(); };
-        var zoomOut = func () { self.zoom = self.zoom - 1; update(); };
+        var zoomIn = func () {
+            self.zoom = math.min(self.maxZoom, self.zoom + 1);
+            self.cancelAllRequests();
+            update();
+        };
+        var zoomOut = func () {
+            self.zoom = math.max(self.minZoom, self.zoom - 1);
+            self.cancelAllRequests();
+            update();
+        };
         var scroll = func (dx, dy) {
-            self.center[0] = self.center[0] - dy * math.pow(0.5, self.zoom) * 50;
+            self.center[0] = math.min(77.5, math.max(-77.5, self.center[0] - dy * math.pow(0.5, self.zoom) * 50));
             self.center[1] = self.center[1] + dx * math.pow(0.5, self.zoom) * 50;
             self.centerOnAircraft = 0;
             update();
@@ -140,15 +165,6 @@ var MapsApp = {
         var lat = me.center[0];
         var lon = me.center[1];
 
-        for (var x = 0; x < me.numTiles[0]; x += 1) {
-            for (var y = 0; y < me.numTiles[1]; y += 1) {
-                me.tiles[x][y].setTranslation(
-                    int((x - me.centerTileOffset[0]) * me.tileSize + 0.5),
-                    int((y - me.centerTileOffset[1]) * me.tileSize + 0.5)
-                );
-            }
-        }
-
         var ymax = math.pow(2, me.zoom);
 
         #  Slippy map location of center point
@@ -165,7 +181,6 @@ var MapsApp = {
             256 - math.mod(math.floor(slippyCenterFloat[0] * me.tileSize + 0.5), me.tileSize),
             384 - math.mod(math.floor(slippyCenterFloat[1] * me.tileSize + 0.5), me.tileSize),
         ];
-        me.tileContainer.setTranslation(shift[0], shift[1]);
 
         var acCenterFloat = [
             ymax * ((acpos.lon() + 180.0) / 360.0),
@@ -185,43 +200,88 @@ var MapsApp = {
             slippyCenter[1] - me.centerTileOffset[1]
         ];
 
-        var tileIndex = [math.floor(offset[0]), math.floor(offset[1])];
+        me.tileIndex = [math.floor(offset[0]), math.floor(offset[1])];
 
-        if (tileIndex[0] != me.lastTile[0] or
-            tileIndex[1] != me.lastTile[1]) {
+        if (me.tileIndex[0] != me.lastTile[0] or
+            me.tileIndex[1] != me.lastTile[1]) {
             for(var x = 0; x < me.numTiles[0]; x += 1) {
                 for(var y = 0; y < me.numTiles[1]; y += 1) {
                     var pos = {
-                         z: me.zoom,
-                         x: int(tileIndex[0] + x),
-                         y: int(tileIndex[1] + y),
-                         s: (rand() >= 0.5) ? 'a' : 'b',
-                         tms_y: ymax - int(tileIndex[1] + y) - 1,
+                        z: me.zoom,
+                        x: int(me.tileIndex[0] + x),
+                        y: int(me.tileIndex[1] + y),
+                        s: (rand() >= 0.5) ? 'a' : 'b',
+                        tms_y: ymax - int(me.tileIndex[1] + y) - 1,
                     };
+                    while (pos.x < 0)
+                        pos.x = pos.x + ymax;
+                    while (pos.x >= ymax)
+                        pos.x = pos.x - ymax;
 
-                    (func {
-                         var imgPath = me.makePath(pos);
-                         var tile = me.tiles[x][y];
+                    (func (requestedZoom, requestedTileIndex) {
+                        var imgPath = me.makePath(pos);
+                        var tile = me.tiles[x][y];
 
-                         if (io.stat(imgPath) == nil) {
-                             # image not found, save in $FG_HOME
-                             var imgURL = me.makeURL(pos);
-                             #print('requesting ' ~ imgURL);
-                             http.save(imgURL, imgPath)
-                                 .done(func { tile.set("src", imgPath);})
-                                 .fail(func (r) print('Failed to get image ' ~ imgPath ~ ' ' ~ r.status ~ ': ' ~ r.reason));
-                         }
-                         else {
-                             # Re-use cached image
-                             #print('loading ' ~ imgPath);
-                             tile.set("src", imgPath)
-                         }
-                    })();
+                        if (pos.y < 0 or pos.y >= ymax) {
+                            tile.hide();
+                        }
+                        elsif (io.stat(imgPath) == nil) {
+                            tile.hide();
+                            var imgURL = me.makeURL(pos);
+                            var self = me;
+                            var requestID = me.nextRequestID;
+                            me.nextRequestID += 1;
+
+                            # Download to a temporary filename, then move it
+                            # into place.
+                            # This is necessary because the HTTP request may
+                            # get cancelled with the file half-written, which
+                            # leads to incomplete files being loaded from the
+                            # cache later.
+                            var tmpPath = imgPath ~ '~' ~ requestID;
+                            var request = http.save(imgURL, tmpPath);
+                            me.requests[requestID] = request;
+                            request
+                                .done(func {
+                                    delete(me.requests, requestID);
+                                    # We may not need this file anymore, but
+                                    # since we've already downloaded it,
+                                    # there's no harm in keeping it.
+                                    os.path.new(tmpPath).rename(imgPath);
+
+                                    # If the zoom or scroll positions have
+                                    # changed, then we should not set the tile;
+                                    # some other request will do it instead.
+                                    if (self.zoom == requestedZoom and
+                                        self.tileIndex[0] == requestedTileIndex[0] and
+                                        self.tileIndex[1] == requestedTileIndex[1]) {
+                                        tile.set("src", imgPath);
+                                        tile.show();
+                                    }
+                                })
+                                .fail(func (r) {
+                                    delete(me.requests, requestID);
+                                    if (r.status != -1)
+                                        print('Failed to get image ' ~ imgPath ~ ': ' ~ r.status ~ ': ' ~ r.reason);
+                                    # Request aborted or failed, remove
+                                    # temporary file - if it exists, it will be
+                                    # incomplete, and thus useless.
+                                    os.path.new(tmpPath).remove();
+                                });
+                        }
+                        else {
+                            # Re-use cached image
+                            #print('loading ' ~ imgPath);
+                            tile.set("src", imgPath);
+                            tile.show();
+                        }
+                    })(me.zoom, subvec(me.tileIndex, 0, 2));
                 }
             }
 
-            me.lastTile = tileIndex;
-       }
+            me.lastTile = subvec(me.tileIndex, 0, 2);
+        }
+        me.tileContainer.setTranslation(shift[0], shift[1]);
     },
 
 };
