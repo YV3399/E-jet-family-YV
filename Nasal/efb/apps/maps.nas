@@ -48,6 +48,10 @@ var MapsApp = {
         me.updateTimer.stop();
     },
 
+    foreground: func () {
+        me.updateTimer.start();
+    },
+
     initializeTiles: func {
         me.tileContainer = me.contentGroup.createChild('group');
 		me.tiles = setsize([], me.numTiles[0]);
