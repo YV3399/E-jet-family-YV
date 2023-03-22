@@ -322,6 +322,8 @@ var FlightbagApp = {
     makeZoomScrollOverlay: func (img) {
         var overlay = me.contentGroup.createChild('group');
         canvas.parsesvg(overlay, "Aircraft/E-jet-family/Models/EFB/zoom-scroll-overlay.svg", {'font-mapper': font_mapper});
+        # We will not use the auto-center marker
+        overlay.getElementById('autoCenterMarker').hide();
         var zoomDigital = overlay.getElementById('zoomPercent.digital');
         var zoom = 1.0;
         var sx = 0.0;

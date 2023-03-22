@@ -16,6 +16,7 @@ var MapsApp = {
             centerOnAircraft: 1,
             numTiles: [9, 9],
             tileSize: 256,
+            tileScale: 1,
             lastTile: [ nil, nil ],
 
             makeURL: string.compileTemplate('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'),
@@ -31,12 +32,18 @@ var MapsApp = {
 
     touch: func (x, y) {
         foreach (var clickSpot; me.clickSpots) {
-            if ((x >= clickSpot.where[0]) and
-                (x < clickSpot.where[2]) and
-                (y >= clickSpot.where[1]) and
-                (y < clickSpot.where[3])) {
-                clickSpot.what();
-                break;
+            var where = clickSpot.where;
+            var xy = [x, y];
+            if (typeof(where) == 'hash' and contains(where, 'parents')) {
+                xy = where.canvasToLocal(xy);
+                where = where.getTightBoundingBox();
+            }
+            if ((xy[0] >= where[0]) and
+                (xy[0] < where[2]) and
+                (xy[1] >= where[1]) and
+                (xy[1] < where[3])) {
+                    clickSpot.what();
+                    break;
             }
         }
     },
@@ -64,9 +71,10 @@ var MapsApp = {
             for(var y = 0; y < me.numTiles[1]; y += 1) {
                 me.tiles[x][y] = me.tileContainer.createChild("image", "map-tile");
                 me.tiles[x][y].setTranslation(
-                    int((x - me.centerTileOffset[0]) * me.tileSize + 0.5),
-                    int((y - me.centerTileOffset[1]) * me.tileSize + 0.5)
-                );
+                    int((x - me.centerTileOffset[0]) * me.tileSize * me.tileScale + 0.5),
+                    int((y - me.centerTileOffset[1]) * me.tileSize * me.tileScale + 0.5)
+                )
+                .setScale(me.tileScale, me.tileScale);
             }
         }
 
@@ -87,7 +95,7 @@ var MapsApp = {
         me.contentGroup = me.masterGroup.createChild('group');
         me.initializeTiles();
         me.makeZoomScrollOverlay();
-        me.updateTimer = maketimer(0.25, func {
+        me.updateTimer = maketimer(0.1, func {
             self.updateMap();
         });
         me.updateTimer.start();
@@ -95,7 +103,7 @@ var MapsApp = {
 
     makeClickable: func (elem, what) {
         append(me.clickSpots, {
-            where: elem.getTransformedBounds(),
+            where: elem,
             what: what,
         });
     },
@@ -116,10 +124,11 @@ var MapsApp = {
 
     makeZoomScrollOverlay: func () {
         var self = me;
-        var overlay = me.masterGroup.createChild('group');
-        canvas.parsesvg(overlay, "Aircraft/E-jet-family/Models/EFB/zoom-scroll-overlay.svg", {'font-mapper': font_mapper});
-        var zoomDigital = overlay.getElementById('zoomPercent.digital');
-        var zoomUnit = overlay.getElementById('zoomPercent.unit');
+        me.overlay = me.masterGroup.createChild('group');
+        canvas.parsesvg(me.overlay, "Aircraft/E-jet-family/Models/EFB/zoom-scroll-overlay.svg", {'font-mapper': font_mapper});
+        var zoomDigital = me.overlay.getElementById('zoomPercent.digital');
+        var zoomUnit = me.overlay.getElementById('zoomPercent.unit');
+        var autoCenterMarker = me.overlay.getElementById('autoCenterMarker');
         var update = func () {
             zoomDigital.setText('LVL');
             zoomUnit.setText(sprintf("%1.0f", self.zoom));
@@ -139,6 +148,7 @@ var MapsApp = {
             self.center[0] = math.min(77.5, math.max(-77.5, self.center[0] - dy * math.pow(0.5, self.zoom) * 50));
             self.center[1] = self.center[1] + dx * math.pow(0.5, self.zoom) * 50;
             self.centerOnAircraft = 0;
+            autoCenterMarker.hide();
             update();
         };
         var resetScroll = func () {
@@ -146,15 +156,16 @@ var MapsApp = {
             self.center[0] = pos.lat();
             self.center[1] = pos.lon();
             self.centerOnAircraft = 1;
+            autoCenterMarker.show();
             update();
         };
-        me.makeClickable(overlay.getElementById('btnZoomIn'), zoomIn);
-        me.makeClickable(overlay.getElementById('btnZoomOut'), zoomOut);
-        me.makeClickable(overlay.getElementById('btnScrollN'), func { scroll(0, -1); });
-        me.makeClickable(overlay.getElementById('btnScrollS'), func { scroll(0, 1); });
-        me.makeClickable(overlay.getElementById('btnScrollE'), func { scroll(1, 0); });
-        me.makeClickable(overlay.getElementById('btnScrollW'), func { scroll(-1, 0); });
-        me.makeClickable(overlay.getElementById('btnScrollReset'), resetScroll);
+        me.makeClickable(me.overlay.getElementById('btnZoomIn'), zoomIn);
+        me.makeClickable(me.overlay.getElementById('btnZoomOut'), zoomOut);
+        me.makeClickable(me.overlay.getElementById('btnScrollN'), func { scroll(0, -1); });
+        me.makeClickable(me.overlay.getElementById('btnScrollS'), func { scroll(0, 1); });
+        me.makeClickable(me.overlay.getElementById('btnScrollE'), func { scroll(1, 0); });
+        me.makeClickable(me.overlay.getElementById('btnScrollW'), func { scroll(-1, 0); });
+        me.makeClickable(me.overlay.getElementById('btnScrollReset'), resetScroll);
         update();
     },
 
@@ -182,8 +193,8 @@ var MapsApp = {
         ];
         # This is the sub-tile correction we need to apply
         var shift = [
-            256 - math.mod(math.floor(slippyCenterFloat[0] * me.tileSize + 0.5), me.tileSize),
-            384 - math.mod(math.floor(slippyCenterFloat[1] * me.tileSize + 0.5), me.tileSize),
+            256 - math.mod(math.floor(slippyCenterFloat[0] * me.tileSize * me.tileScale + 0.5), me.tileSize * me.tileScale),
+            384 - math.mod(math.floor(slippyCenterFloat[1] * me.tileSize * me.tileScale + 0.5), me.tileSize * me.tileScale),
         ];
 
         var acCenterFloat = [
@@ -191,8 +202,8 @@ var MapsApp = {
             (1 - math.ln(math.tan(acpos.lat() * math.pi/180.0) + 1 / math.cos(acpos.lat() * math.pi/180.0)) / math.pi) / 2.0 * ymax
         ];
         var acOffset = [
-            256 + (acCenterFloat[0] - slippyCenterFloat[0]) * me.tileSize + 0.5,
-            384 + (acCenterFloat[1] - slippyCenterFloat[1]) * me.tileSize + 0.5,
+            256 + (acCenterFloat[0] - slippyCenterFloat[0]) * me.tileSize * me.tileScale + 0.5,
+            384 + (acCenterFloat[1] - slippyCenterFloat[1]) * me.tileSize * me.tileScale + 0.5,
         ];
 
         me.aircraftMarker.setRotation(getprop('/orientation/true-heading-deg') * D2R);
@@ -205,6 +216,8 @@ var MapsApp = {
         ];
 
         me.tileIndex = [math.floor(offset[0]), math.floor(offset[1])];
+        me.contentGroup.setCenter(256, 384).setRotation(getprop('/instrumentation/efb/orientation-norm') * math.pi * -0.5);
+        me.overlay.setCenter(360, 360).setRotation(getprop('/instrumentation/efb/orientation-norm') * math.pi * -0.5);
 
         if (me.tileIndex[0] != me.lastTile[0] or
             me.tileIndex[1] != me.lastTile[1]) {
