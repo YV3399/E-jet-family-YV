@@ -3,7 +3,12 @@ var urlencode = func (raw) {
 };
 
 var font_mapper = func(family, weight) {
-    return "LiberationFonts/LiberationSans-Regular.ttf";
+    if (family == 'mono') {
+        return "LiberationFonts/LiberationMono-Regular.ttf";
+    }
+    else {
+        return "LiberationFonts/LiberationSans-Regular.ttf";
+    }
 };
 
 var lineSplitStr = func (str, maxLineLen) {

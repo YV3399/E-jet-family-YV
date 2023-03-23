@@ -3,6 +3,7 @@ var BaseApp = {
         return {
             parents: [BaseApp],
             masterGroup: masterGroup,
+            currentPage: 0,
             clickSpots: [],
         }
     },
@@ -40,6 +41,43 @@ var BaseApp = {
             what: what,
         });
     },
+
+    makePager: func (numPages, what, parentGroup = nil) {
+        if (parentGroup == nil)
+            parentGroup = me.masterGroup;
+        if (numPages != nil and numPages < 2) return;
+        var pager = parentGroup.createChild('group');
+        canvas.parsesvg(pager, "Aircraft/E-jet-family/Models/EFB/pager-overlay.svg", {'font-mapper': font_mapper});
+        var btnPgUp = pager.getElementById('btnPgUp');
+        var btnPgDn = pager.getElementById('btnPgDn');
+        var self = me;
+        var currentPageIndicator = pager.getElementById('pager.digital');
+        var updatePageIndicator = func () {
+                currentPageIndicator
+                        .setText(
+                            (numPages == nil)
+                                ? sprintf("%i", self.currentPage + 1)
+                                : sprintf("%i/%i", self.currentPage + 1, numPages)
+                         );
+        };
+        updatePageIndicator();
+        me.makeClickable(btnPgUp, func () {
+            if (self.currentPage > 0) {
+                self.currentPage = self.currentPage - 1;
+                updatePageIndicator();
+                what();
+            }
+        });
+        me.makeClickable(btnPgDn, func () {
+            if (numPages == nil or self.currentPage < numPages - 1) {
+                self.currentPage = self.currentPage + 1;
+                updatePageIndicator();
+                what();
+            }
+        });
+        return pager;
+    },
+
 
     handleBack: func () {},
     handleMenu: func () {},

@@ -234,7 +234,7 @@ var ChartsApp = {
             }
         }
         self.makeReloadIcon(func () { self.reloadListing(); }, 'Refresh');
-        self.makePager(numPages, func () { self.showListing(); });
+        self.makePager(numPages, func () { self.showListing(); }, me.contentGroup);
     },
 
     makeReloadIcon: func (what) {
@@ -268,28 +268,6 @@ var ChartsApp = {
             };
         }
         me.makeClickableArea([512 - 32, 32, 512, 64], what);
-    },
-
-    makePager: func (numPages, what) {
-        if (numPages != nil and numPages < 2) return;
-        var pager = me.contentGroup.createChild('group');
-        canvas.parsesvg(pager, "Aircraft/E-jet-family/Models/EFB/pager-overlay.svg", {'font-mapper': font_mapper});
-        var btnPgUp = pager.getElementById('btnPgUp');
-        var btnPgDn = pager.getElementById('btnPgDn');
-        var self = me;
-        if (me.currentPage > 0) {
-            me.makeClickable(btnPgUp, func () { self.currentPage = self.currentPage - 1; what(); });
-        }
-        var currentPageIndicator = pager.getElementById('pager.digital');
-        currentPageIndicator
-                .setText(
-                    (numPages == nil)
-                        ? sprintf("%i", me.currentPage + 1)
-                        : sprintf("%i/%i", me.currentPage + 1, numPages)
-                 );
-        if (numPages == nil or me.currentPage < numPages - 1) {
-            me.makeClickable(btnPgDn, func () { self.currentPage = self.currentPage + 1; what(); });
-        }
     },
 
     makeZoomScrollOverlay: func (img) {
@@ -341,7 +319,7 @@ var ChartsApp = {
             384 - 384);
         me.makePager(nil, func () {
             self.loadChart(self.currentPath, self.currentTitle, self.currentPage, 0);
-        });
+        }, me.contentGroup);
         me.makeFavoriteIcon('pdf', me.currentPath, me.currentTitle);
         me.makeZoomScrollOverlay(img);
     },
