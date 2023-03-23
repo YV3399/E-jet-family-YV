@@ -12,6 +12,9 @@ var BaseApp = {
     touch: func (x, y) {
         foreach (var clickSpot; me.clickSpots) {
             var where = clickSpot.where;
+            if (contains(clickSpot, 'page') and clickSpot.page != nil and clickSpot.page != me.currentPage) {
+                continue;
+            }
             var xy = [x, y];
             if (typeof(where) == 'hash' and contains(where, 'parents')) {
                 # This is probably a canvas element, or so we hope...
@@ -28,17 +31,29 @@ var BaseApp = {
         }
     },
 
-    makeClickable: func (elem, what) {
+    # Make an element clickable. The clickable area will automatically move
+    # with the element.
+    # Arguments:
+    # - elem: clickable element
+    # - what: click handler (func ())
+    # - page: if integer, the page number on which the clickspot is active.
+    makeClickable: func (elem, what, page=nil) {
         append(me.clickSpots, {
             where: elem,
             what: what,
+            page: page,
         });
     },
 
-    makeClickableArea: func (area, what) {
+    # Make a clickable area. Arguments:
+    # - area: clickable area ([left, top, right, bottom])
+    # - what: click handler (func ())
+    # - page: if integer, the page number on which the clickspot is active.
+    makeClickableArea: func (area, what, page=nil) {
         append(me.clickSpots, {
             where: area,
             what: what,
+            page: page,
         });
     },
 
