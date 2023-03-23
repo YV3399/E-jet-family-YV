@@ -303,3 +303,5 @@ var MapsApp = {
 
 };
 
+registerApp('maps', 'Maps', 'maps.png', MapsApp);
+

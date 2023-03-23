@@ -1,9 +1,23 @@
 var efbMaster = nil;
 var efb = nil;
 
+globals.efb.availableApps = {};
+globals.efb.registerApp = func(key, label, iconName, class) {
+    globals.efb.availableApps[key] = {
+        icon: acdir ~ '/Models/EFB/icons/' ~ iconName,
+        label: label,
+        loader: func (g) { return class.new(g); },
+    };
+};
+
 include('util.nas');
-include('apps/flightbag.nas');
-include('apps/maps.nas');
+
+var appFiles = directory(acdir ~ '/Nasal/efb/apps');
+foreach (var f; appFiles) {
+    if (substr(f, 0, 1) != '.' and substr(f, -4) == '.nas') {
+        include('apps/' ~ f);
+    }
+}
 
 var EFB = {
     new: func (master) {
@@ -14,21 +28,15 @@ var EFB = {
         m.currentApp = nil;
         m.shellPage = 0;
         m.shellNumPages = 1;
-        m.appInfos =
-            [
-                {
-                    icon: 'Aircraft/E-jet-family/Models/EFB/icons/flightbag.png',
-                    label: 'FlightBag',
-                    loader: func (g) { return FlightbagApp.new(g); },
-                    masterGroup: nil,
-                },
-                {
-                    icon: 'Aircraft/E-jet-family/Models/EFB/icons/maps.png',
-                    label: 'Maps',
-                    loader: func (g) { return MapsApp.new(g); },
-                    masterGroup: nil,
-                },
-            ];
+        m.apps = [];
+        foreach (var k; keys(availableApps)) {
+            var app = availableApps[k];
+            append(m.apps,
+                { icon: app.icon,
+                , label: app.label,
+                , loader: app.loader,
+                });
+        }
         m.initialize();
         return m;
     },
@@ -43,7 +51,7 @@ var EFB = {
 
         me.overlay = canvas.parsesvg(me.master, "Aircraft/E-jet-family/Models/EFB/overlay.svg", {'font-mapper': font_mapper});
         me.clockElem = me.master.getElementById('clock.digital');
-        me.shellNumPages = math.ceil(size(me.appInfos) / 20);
+        me.shellNumPages = math.ceil(size(me.apps) / 20);
         for (var i = 0; i < me.shellNumPages; i += 1) {
             var pageGroup = me.shellGroup.createChild('group');
             append(me.shellPages, pageGroup);
@@ -51,7 +59,7 @@ var EFB = {
         var row = 0;
         var col = 0;
         var page = 0;
-        foreach (var app; me.appInfos) {
+        foreach (var app; me.apps) {
             app.row = row;
             app.col = col;
             app.page = page;
@@ -105,7 +113,7 @@ var EFB = {
         else {
             # Shell: find icon
             if (me.currentApp == nil) {
-                foreach (var appInfo; me.appInfos) {
+                foreach (var appInfo; me.apps) {
                     if ((appInfo.page == me.shellPage) and
                         (x >= appInfo.box[0]) and
                         (y >= appInfo.box[1]) and

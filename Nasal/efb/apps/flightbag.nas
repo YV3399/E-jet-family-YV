@@ -486,3 +486,5 @@ var FlightbagApp = {
             });
         },
 };
+
+registerApp('flightbag', 'FlightBag', 'flightbag.png', FlightbagApp);
