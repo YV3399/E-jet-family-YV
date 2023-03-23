@@ -4,48 +4,27 @@ var mapsBase = getprop("/sim/fg-home") ~ '/cache/maps';
 
 var MapsApp = {
     new: func(masterGroup) {
-        var m = {
-            parents: [MapsApp, BaseApp],
-            masterGroup: masterGroup,
-            currentTitle: "Maps",
-            clickSpots: [],
-            zoom: 12,
-            minZoom: 2,
-            maxZoom: 18,
-            center: [ 0, 0 ],
-            centerOnAircraft: 1,
-            numTiles: [9, 9],
-            tileSize: 256,
-            tileScale: 1,
-            lastTile: [ nil, nil ],
+        var m = BaseApp.new(masterGroup);
+        m.parents = [me] ~ m.parents;
 
-            makeURL: string.compileTemplate('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'),
-            makePath: string.compileTemplate(mapsBase ~ '/osm-tile/{z}/{x}/{y}.png'),
+        m.zoom = 12;
+        m.minZoom = 2;
+        m.maxZoom = 18;
+        m.center = [ 0, 0 ];
+        m.centerOnAircraft = 1;
+        m.numTiles = [9, 9];
+        m.tileSize = 256;
+        m.tileScale = 1;
+        m.lastTile = [ nil, nil ];
 
-            # These are used to track in-flight requests, so that we can cancel
-            # them later in case they are no longer needed.
-            requests: {},
-            nextRequestID: 0,
-        };
+        m.makeURL = string.compileTemplate('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png');
+        m.makePath = string.compileTemplate(mapsBase ~ '/osm-tile/{z}/{x}/{y}.png');
+
+        # These are used to track in-flight requests, so that we can cancel
+        # them later in case they are no longer needed.
+        m.requests = {};
+        m.nextRequestID = 0;
         return m;
-    },
-
-    touch: func (x, y) {
-        foreach (var clickSpot; me.clickSpots) {
-            var where = clickSpot.where;
-            var xy = [x, y];
-            if (typeof(where) == 'hash' and contains(where, 'parents')) {
-                xy = where.canvasToLocal(xy);
-                where = where.getTightBoundingBox();
-            }
-            if ((xy[0] >= where[0]) and
-                (xy[0] < where[2]) and
-                (xy[1] >= where[1]) and
-                (xy[1] < where[3])) {
-                    clickSpot.what();
-                    break;
-            }
-        }
     },
 
     handleBack: func () {
@@ -99,20 +78,6 @@ var MapsApp = {
             self.updateMap();
         });
         me.updateTimer.start();
-    },
-
-    makeClickable: func (elem, what) {
-        append(me.clickSpots, {
-            where: elem,
-            what: what,
-        });
-    },
-
-    makeClickableArea: func (area, what) {
-        append(me.clickSpots, {
-            where: area,
-            what: what,
-        });
     },
 
     cancelAllRequests: func {

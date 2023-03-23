@@ -2,32 +2,18 @@ include('apps/base.nas');
 
 var ChartsApp = {
     new: func(masterGroup) {
-        var m = {
-            parents: [ChartsApp, BaseApp],
-            masterGroup: masterGroup,
-            contentGroup: nil,
-            currentListing: nil,
-            currentPage: 0,
-            currentPath: "",
-            currentTitle: "Flight Bag",
-            history: [],
-            favorites: [],
-            clickSpots: [],
-            xhr: nil,
-        };
+        var m = BaseApp.new(masterGroup);
+        m.parents = [me] ~ m.parents;
+        m.contentGroup = nil;
+        m.currentListing = nil;
+        m.currentPage = 0;
+        m.currentPath = "";
+        m.currentTitle = "Charts";
+        m.history = [];
+        m.favorites = [];
+        m.xhr = nil;
+        m.baseURL = 'http://localhost:7675/';
         return m;
-    },
-
-    touch: func (x, y) {
-        foreach (var clickSpot; me.clickSpots) {
-            if ((x >= clickSpot.where[0]) and
-                (x < clickSpot.where[2]) and
-                (y >= clickSpot.where[1]) and
-                (y < clickSpot.where[3])) {
-                clickSpot.what();
-                break;
-            }
-        }
     },
 
     handleBack: func () {
@@ -41,17 +27,18 @@ var ChartsApp = {
     },
 
     initialize: func () {
+        me.baseURL = getprop('/instrumentation/efb/flightbag-companion-uri') or 'http://localhost:7675/';
         me.bgfill = me.masterGroup.createChild('path')
                         .rect(0, 0, 512, 768)
                         .setColorFill(128, 128, 128);
         me.bglogo = me.masterGroup.createChild('image')
-                        .set('src', 'Aircraft/E-jet-family/Models/EFB/icons/charts-large.png')
+                        .set('src', 'Aircraft/E-jet-family/Models/EFB/icons/flightbag-large.png')
                         .setTranslation(256 - 128, 384 - 128);
         me.bgfog = me.masterGroup.createChild('path')
                         .rect(0, 0, 512, 768)
                         .setColorFill(255, 255, 255, 0.8);
         me.contentGroup = me.masterGroup.createChild('group');
-        me.loadListing("", "Flight Bag", 0, 0);
+        me.loadListing("", "Charts", 0, 0);
     },
 
     showLoadingScreen: func (url=nil) {
@@ -250,20 +237,6 @@ var ChartsApp = {
         self.makePager(numPages, func () { self.showListing(); });
     },
 
-    makeClickable: func (elem, what) {
-        append(me.clickSpots, {
-            where: elem.getTransformedBounds(),
-            what: what,
-        });
-    },
-
-    makeClickableArea: func (area, what) {
-        append(me.clickSpots, {
-            where: area,
-            what: what,
-        });
-    },
-
     makeReloadIcon: func (what) {
         var refreshIcon = me.contentGroup.createChild('image')
                 .set('src', 'Aircraft/E-jet-family/Models/EFB/icons/reload.png')
@@ -351,7 +324,7 @@ var ChartsApp = {
 
     loadChart: func (path, title, page, pushHistory = 1) {
         var self = me;
-        var url = getprop('/instrumentation/efb/charts-companion-uri') ~ urlencode(path) ~ "?p=" ~ page;
+        var url = me.baseURL ~ urlencode(path) ~ "?p=" ~ page;
         logprint(1, 'EFB loadChart:', url);
         me.showLoadingScreen(url);
         me.contentGroup.removeAllChildren();
@@ -423,7 +396,7 @@ var ChartsApp = {
 
     loadListing: func (path, title, page, pushHistory = 1) {
         var self = me;
-        var url = getprop('/instrumentation/efb/charts-companion-uri') ~ urlencode(path);
+        var url = me.baseURL ~ urlencode(path);
         me.showLoadingScreen(url);
         if (pushHistory and path != me.currentPath) append(me.history, [me.currentPath, me.currentTitle, me.currentPage]);
         me.currentPath = path;
