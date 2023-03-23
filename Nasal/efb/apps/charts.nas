@@ -1,9 +1,9 @@
 include('apps/base.nas');
 
-var FlightbagApp = {
+var ChartsApp = {
     new: func(masterGroup) {
         var m = {
-            parents: [FlightbagApp, BaseApp],
+            parents: [ChartsApp, BaseApp],
             masterGroup: masterGroup,
             contentGroup: nil,
             currentListing: nil,
@@ -45,7 +45,7 @@ var FlightbagApp = {
                         .rect(0, 0, 512, 768)
                         .setColorFill(128, 128, 128);
         me.bglogo = me.masterGroup.createChild('image')
-                        .set('src', 'Aircraft/E-jet-family/Models/EFB/icons/flightbag-large.png')
+                        .set('src', 'Aircraft/E-jet-family/Models/EFB/icons/charts-large.png')
                         .setTranslation(256 - 128, 384 - 128);
         me.bgfog = me.masterGroup.createChild('path')
                         .rect(0, 0, 512, 768)
@@ -351,7 +351,7 @@ var FlightbagApp = {
 
     loadChart: func (path, title, page, pushHistory = 1) {
         var self = me;
-        var url = getprop('/instrumentation/efb/flightbag-companion-uri') ~ urlencode(path) ~ "?p=" ~ page;
+        var url = getprop('/instrumentation/efb/charts-companion-uri') ~ urlencode(path) ~ "?p=" ~ page;
         logprint(1, 'EFB loadChart:', url);
         me.showLoadingScreen(url);
         me.contentGroup.removeAllChildren();
@@ -423,7 +423,7 @@ var FlightbagApp = {
 
     loadListing: func (path, title, page, pushHistory = 1) {
         var self = me;
-        var url = getprop('/instrumentation/efb/flightbag-companion-uri') ~ urlencode(path);
+        var url = getprop('/instrumentation/efb/charts-companion-uri') ~ urlencode(path);
         me.showLoadingScreen(url);
         if (pushHistory and path != me.currentPath) append(me.history, [me.currentPath, me.currentTitle, me.currentPage]);
         me.currentPath = path;
@@ -439,7 +439,7 @@ var FlightbagApp = {
                     , sprintf("Error code: %s", r.status)
                     , "Is the companion app running"
                     , "on the following URL?"
-                    , getprop('/instrumentation/efb/flightbag-companion-uri')
+                    , getprop('/instrumentation/efb/charts-companion-uri')
                     ]);
                 self.makeReloadIcon(func () { self.reloadListing(); }, 'Retry');
             }
@@ -487,4 +487,4 @@ var FlightbagApp = {
         },
 };
 
-registerApp('flightbag', 'FlightBag', 'flightbag.png', FlightbagApp);
+registerApp('charts', 'Charts', 'flightbag.png', ChartsApp);
