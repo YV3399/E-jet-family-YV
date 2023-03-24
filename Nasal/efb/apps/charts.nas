@@ -42,7 +42,7 @@ var ChartsApp = {
     },
 
     showLoadingScreen: func (url=nil) {
-        me.clickSpots = [];
+        me.rootWidget.removeAllChildren();
         me.contentGroup.removeAllChildren();
         me.contentGroup.createChild('text')
             .setText('Loading...')
@@ -63,7 +63,7 @@ var ChartsApp = {
     },
 
     showInfoScreen: func (msgs) {
-        me.clickSpots = [];
+        me.rootWidget.removeAllChildren();
         me.contentGroup.removeAllChildren();
         var y = 64;
         foreach (var msg; msgs) {
@@ -79,7 +79,7 @@ var ChartsApp = {
     },
 
     showErrorScreen: func (errs) {
-        me.clickSpots = [];
+        me.rootWidget.removeAllChildren();
         me.contentGroup.removeAllChildren();
         var y = 64;
         me.contentGroup.createChild('text')
@@ -131,7 +131,7 @@ var ChartsApp = {
         var actualEntries = subvec(me.currentListing, me.currentPage * perPage, perPage);
         var numPages = math.ceil(size(me.currentListing) / perPage);
         me.contentGroup.removeAllChildren();
-        me.clickSpots = [];
+        me.rootWidget.removeAllChildren();
         var x = 0;
         var y = 32;
         var title = me.currentTitle;
@@ -222,10 +222,7 @@ var ChartsApp = {
                 else {
                     what = func () { self.loadChart(entry.path, entry.name, 0, 1); };
                 }
-                append(me.clickSpots, {
-                    where: [ x, y, x + hSpacing, y + lineHeight ],
-                    what: what,
-                });
+                me.makeClickable([ x, y, x + hSpacing, y + lineHeight ], what);
             })(entry);
             x += hSpacing;
             if (x > 512 - hSpacing) {
@@ -242,7 +239,7 @@ var ChartsApp = {
                 .set('src', 'Aircraft/E-jet-family/Models/EFB/icons/reload.png')
                 .setScale(0.5, 0.5)
                 .setTranslation(512 - 32, 32);
-        me.makeClickableArea([512 - 32, 32, 512, 64], what);
+        me.makeClickable([512 - 32, 32, 512, 64], what);
     },
 
     makeFavoriteIcon: func (type, path, title) {
@@ -267,7 +264,7 @@ var ChartsApp = {
                 img.set('src', starOnIcon);
             };
         }
-        me.makeClickableArea([512 - 32, 32, 512, 64], what);
+        me.makeClickable([512 - 32, 32, 512, 64], what);
     },
 
     makeZoomScrollOverlay: func (img) {

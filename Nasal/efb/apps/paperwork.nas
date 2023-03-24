@@ -6,6 +6,9 @@ var PaperworkApp = {
         m.parents = [me] ~ m.parents;
         m.ofp = nil;
         m.pages = [];
+        m.tocVisible = 0;
+        m.tocAnimState = 0;
+        m.animTimer = nil;
         return m;
     },
 
@@ -13,6 +16,7 @@ var PaperworkApp = {
     },
 
     initialize: func () {
+        var self = me;
         me.metrics = {
             pageWidth: 414,
             pageHeight: 670,
@@ -22,19 +26,111 @@ var PaperworkApp = {
             headerHeight: 22,
             rows: 61,
             columns: 68,
+            tocPaneWidth: 250,
+            tocPaneTop: 32,
+            tocPaneHeight: 768 - 64,
+            tocPadding: 10,
+            tocFontSize: 14,
+            tocLineHeight: 20,
         };
         me.metrics.marginLeft = (512 - me.metrics.pageWidth) / 2;
         me.metrics.marginTop = (738 - me.metrics.pageHeight) / 2;
         me.metrics.paddingTop = (me.metrics.pageHeight - me.metrics.headerHeight - me.metrics.lineHeight * me.metrics.rows) / 2;
         me.metrics.paddingLeft = (me.metrics.pageWidth - me.metrics.charWidth * me.metrics.columns) / 2;
 
+        me.mainWidget = Widget.new();
+        me.rootWidget.appendChild(me.mainWidget);
+
+        me.tocWidget = Widget.new();
+        me.rootWidget.appendChild(me.tocWidget);
+
+        me.tocContentsWidget = Widget.new();
+        me.tocWidget.appendChild(me.tocContentsWidget);
+
         me.simbriefUsernameProp = props.globals.getNode('/sim/simbrief/username');
         me.bgfill = me.masterGroup.createChild('path')
                         .rect(0, 0, 512, 768)
                         .setColorFill(0.8, 0.9, 1.0);
         me.contentGroup = me.masterGroup.createChild('group');
+
+        me.tocPaneGroup = me.masterGroup.createChild('group');
+        me.tocPaneGroup.createChild('path')
+                .rect(0, me.metrics.tocPaneTop, me.metrics.tocPaneWidth, me.metrics.tocPaneHeight)
+                .setColor(0.5, 0.5, 0.5)
+                .setColorFill(1, 1, 1);
+        me.tocPaneButton = me.tocPaneGroup.createChild('group');
+        me.tocPaneButton.createChild('path')
+                .moveTo(me.metrics.tocPaneWidth - 1, me.metrics.tocPaneTop + me.metrics.tocPaneHeight / 2 - 32)
+                .arcLargeCW(32, 32, 0, 0, 64)
+                .setColor(0.5, 0.5, 0.5)
+                .setColorFill(1, 1, 1);
+        me.tocPaneButtonArrow = me.tocPaneButton.createChild('path')
+                .setTranslation(me.metrics.tocPaneWidth + 12, me.metrics.tocPaneTop + me.metrics.tocPaneHeight / 2)
+                .moveTo(-16, 0)
+                .line(16, -12)
+                .line(0, 8)
+                .line(12, 0)
+                .line(0, 8)
+                .line(-12, 0)
+                .line(0, 8)
+                .line(-16, -12)
+                .setColorFill(0.3, 0.3, 0.3);
+        me.tocContentsGroup = me.tocPaneGroup.createChild('group').setTranslation(0, me.metrics.tocPaneTop);
+        me.makeClickable(me.tocPaneButton, func {
+            self.toggleTOC();
+        }, me.tocWidget);
+        me.updateTocViz();
+        me.animTimer = maketimer(0.05, func {
+            if (self.tocAnimState < self.tocVisible) {
+                self.tocAnimState += 0.1;
+                self.tocAnimState = math.min(self.tocAnimState, self.tocVisible);
+                self.updateTocViz();
+            }
+            elsif (self.tocAnimState > self.tocVisible) {
+                self.tocAnimState -= 0.1;
+                self.tocAnimState = math.max(self.tocAnimState, self.tocVisible);
+                self.updateTocViz();
+            }
+        });
+        me.animTimer.start();
+
         me.loadSimbriefOFP();
         me.renderOFP();
+    },
+
+    foreground: func {
+        me.animTimer.start();
+    },
+
+    background: func {
+        me.animTimer.stop();
+    },
+
+    hideTOC: func () {
+        me.setTocViz(0);
+    },
+
+    showTOC: func () {
+        me.setTocViz(1);
+    },
+
+    toggleTOC: func () {
+        me.setTocViz(!me.tocVisible);
+    },
+
+    setTocViz: func (viz) {
+        me.tocVisible = viz;
+        me.updateTocViz();
+    },
+
+    updateTocViz: func {
+        if (me.tocVisible) {
+            me.tocPaneButtonArrow.setScale(1, 1);
+        }
+        else {
+            me.tocPaneButtonArrow.setScale(-1, 1);
+        }
+        me.tocPaneGroup.setTranslation((-1 + me.tocAnimState) * me.metrics.tocPaneWidth, 0);
     },
 
     loadSimbriefOFP: func () {
@@ -595,7 +691,19 @@ var PaperworkApp = {
                 if (self.currentPage < size(self.pages)) {
                     self.pages[self.currentPage].show();
                 }
-            }, me.contentGroup);
+            }, me.contentGroup, me.mainWidget);
+        }
+        me.tocContentsWidget.removeAllChildren();
+        var y = me.metrics.tocPadding + me.metrics.tocFontSize;
+        foreach (var tocEntry; toc) {
+            var elem = me.tocContentsGroup.createChild('text')
+                         .setFont(font_mapper('sans', 'normal'))
+                         .setFontSize(me.metrics.tocFontSize, 1)
+                         .setAlignment('left-baseline')
+                         .setColor(0, 0, 0.8)
+                         .setText(tocEntry.title)
+                         .setTranslation(me.metrics.tocPadding, y);
+            y += me.metrics.tocLineHeight;
         }
     },
 };
