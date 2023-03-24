@@ -79,14 +79,22 @@ var unixToDateTime = func (s) {
 
 var monthNames3 = [ 'XXX', 'JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC' ];
 
-var formatPM = func(numDigits, numFrac=0) {
+var formatPM = func(numDigits, numFrac=0, spacing=0) {
     var formatStr = (numFrac == 0)
                         ? ('%0' ~ numDigits ~ 'i')
                         : ('%0' ~ (numDigits + numFrac + 1) ~ '.' ~ numFrac ~ 'f');
     return func(val) {
         var prefix = (val < 0) ? 'M' : 'P';
         var digits = sprintf(formatStr, math.abs(val));
-        return prefix ~ digits;
+        return prefix ~ substr('                          ', 0, spacing) ~ digits;
+    }
+};
+
+var formatSeconds0202PM = func (spacing=0) {
+    return func (secondsRaw) {
+        var prefix = (secondsRaw < 0) ? 'M' : 'P';
+        var digits = formatSeconds0202(math.abs(secondsRaw));
+        return prefix ~ substr('                          ', 0, spacing) ~ digits;
     }
 };
 

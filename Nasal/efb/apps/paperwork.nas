@@ -145,7 +145,7 @@ var PaperworkApp = {
         return me.ofp.getValue('OFP/' ~ path);
     },
 
-    getOFPValues: func(path, subkey=nil) {
+    getOFPValues: func(path, subkey=nil, forceVector=1) {
         var node = me.ofp.getNode('OFP/' ~ path);
         if (node == nil)
             return nil;
@@ -158,7 +158,7 @@ var PaperworkApp = {
             else
                 val = val[subkey];
         }
-        if (typeof(val) == 'scalar')
+        if (typeof(val) != 'vector' and forceVector)
             val = [val];
         return val;
     },
@@ -193,7 +193,12 @@ var PaperworkApp = {
         var multi = func (subItems) {
             append(items, { type: 'multi', items: subItems });
         };
-        var subText = func (x, w, text) {
+        var subText = func (x, w, text, centerW=0) {
+            if (centerW > 0) {
+                var paddingSize = math.floor((centerW - size(text)) / 2);
+                var padding = substr('                                                                    ', 0, paddingSize);
+                text = padding ~ text;
+            }
             return {
                 x: x,
                 w: w,
@@ -507,6 +512,111 @@ var PaperworkApp = {
         pageBreak();
 
         # Page 2
+        toc('Routing and Impacts');
+        multi([
+            subText(0, 30, 'ALTERNATE ROUTE TO:'),
+            subText(55, 6, 'FINRES'),
+            subFmt(62, 6, '%6i', ['OFP:fuel/reserve']),
+        ]);
+        multi([
+            subText(0, 8, 'APT'),
+            subText(9, 3, 'TRK'),
+            subText(13, 3, 'DST'),
+            subText(18, 28, 'VIA', 28),
+            subText(50, 3, ' FL'),
+            subText(54, 4, 'WC', 4),
+            subText(59, 4, 'TIME'),
+            subText(64, 4, 'FUEL'),
+        ]);
+        separator();
+        var alternates = me.getOFPValues('/', 'alternate');
+        foreach (var alternate; alternates) {
+            var route = lineSplitStr(alternate.route, 28);
+            debug.dump(route);
+            var first = 1;
+            foreach (var routeStr; route) {
+                if (first)
+                    multi([
+                        subFmt(0, 8, '%4s/%-3s', [alternate.icao_code, alternate.plan_rwy]),
+                        subFmt(9, 3, '%03i', [alternate.track_true]),
+                        subFmt(13, 3, '%3i', [alternate.distance]),
+                        subText(18, 28, routeStr),
+                        subText(50, 3, sprintf('%3i', alternate.cruise_altitude / 100 + 0.5)),
+                        subFmt(54, 4, '%s', [alternate.avg_wind_comp]),
+                        subFmt(59, 4, formatSeconds0202, [alternate.ete]),
+                        subFmt(64, 4, '%4i', [alternate.burn]),
+                    ]);
+                else
+                    multi([
+                        subText(18, 28, routeStr),
+                    ]);
+                first = 0;
+            }
+        }
+        separator();
+        plain('MEL/CDL ITEMS DESCRIPTION');
+        plain('------------- -----------');
+        newline();
+        separator();
+        newline();
+        plain('ROUTING:');
+        newline();
+        plain('ROUTE ID: DEFRTE');
+        newline();
+        var route =
+                me.getOFPValue('origin/icao_code') ~ '/' ~ me.getOFPValue('origin/plan_rwy') ~ ' ' ~
+                me.getOFPValue('general/route') ~
+                me.getOFPValue('destination/icao_code') ~ '/' ~ me.getOFPValue('destination/plan_rwy');
+        routeLines = lineSplitStr(route, 68);
+        foreach (var routeLine; routeLines) {
+            plain(routeLine);
+        }
+        newline();
+        separator();
+        plain('DEPARTURE ATC CLEARANCE:');
+        plain('.');
+        plain('.');
+        plain('.');
+        separator();
+        plain('OPERATIONAL IMPACTS', 68);
+        plain('-------------------', 68);
+        var impactTypes = [
+            [ 'WEIGHT CHANGE UP 1.0', 'impacts/zfw_plus_1000', 0 ],
+            [ 'WEIGHT CHANGE DN 1.0', 'impacts/zfw_minus_1000', 0 ],
+            [ 'FL CHANGE     UP FL2', 'impacts/plus_4000ft', 1 ],
+            [ 'FL CHANGE     UP FL1', 'impacts/plus_2000ft', 0 ],
+            [ 'FL CHANGE     DN FL1', 'impacts/minus_2000ft', 0 ],
+            [ 'FL CHANGE     DN FL2', 'impacts/minus_4000ft', 1 ],
+            [ 'SPD CHANGE    CI ' ~ me.getOFPValue('impacts/lower_ci/cost_index'), 'impacts/lower_ci', 1 ],
+            [ 'SPD CHANGE    CI ' ~ me.getOFPValue('impacts/higher_ci/cost_index'), 'impacts/higher_ci', 1 ],
+        ];
+        var impact = nil;
+        foreach (var impactType; impactTypes) {
+            impact = me.getOFPValues(impactType[1], nil, 0);
+            debug.dump(impact);
+            if (impact == nil) {
+                if (impactType[2]) {
+                    # skippable
+                    continue;
+                }
+                multi([
+                    subText(0, 20, impactType[0]),
+                    subText(37, 17, 'NOT AVAILABLE', 17)
+                ]);
+            }
+            else {
+                multi([
+                    subText(0, 20, impactType[0]),
+                    subText(31, 4, 'TRIP'),
+                    subFmt(37, 6, formatPM(4, 0, 1), [impact.burn_difference]),
+                    subText(44, 4, 'KGS'),
+                    subText(50, 4, 'TIME'),
+                    subFmt(55, 6, formatSeconds0202PM(1), [impact.time_difference]),
+                ]);
+            }
+        }
+        separator();
+        pageBreak();
 
         return items;
     },
