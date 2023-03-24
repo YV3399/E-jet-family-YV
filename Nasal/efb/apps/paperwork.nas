@@ -254,10 +254,12 @@ var PaperworkApp = {
         var schedIn = unixToDateTime(me.getOFPValue('times/sched_in'));
         var estOn = unixToDateTime(me.getOFPValue('times/est_on'));
         var estIn = unixToDateTime(me.getOFPValue('times/est_in'));
-        # var schedOutLocal = unixToDateTime(me.getOFPValue('times/sched_out') + math.floor(me.getOFPValue('times/orig_timezone') * 3600));
-        # var schedOffLocal = unixToDateTime(me.getOFPValue('times/sched_off') + math.floor(me.getOFPValue('times/orig_timezone') * 3600));
-        # var schedOnLocal = unixToDateTime(me.getOFPValue('times/sched_on') + math.floor(me.getOFPValue('times/dest_timezone') * 3600));
-        # var schedInLocal = unixToDateTime(me.getOFPValue('times/sched_in') + math.floor(me.getOFPValue('times/dest_timezone') * 3600));
+        var schedOutLocal = unixToDateTime(me.getOFPValue('times/sched_out') + math.floor(me.getOFPValue('times/orig_timezone') * 3600));
+        var schedOffLocal = unixToDateTime(me.getOFPValue('times/sched_off') + math.floor(me.getOFPValue('times/orig_timezone') * 3600));
+        var schedOnLocal = unixToDateTime(me.getOFPValue('times/sched_on') + math.floor(me.getOFPValue('times/dest_timezone') * 3600));
+        var schedInLocal = unixToDateTime(me.getOFPValue('times/sched_in') + math.floor(me.getOFPValue('times/dest_timezone') * 3600));
+        var estOnLocal = unixToDateTime(me.getOFPValue('times/est_on') + math.floor(me.getOFPValue('times/dest_timezone') * 3600));
+        var estInLocal = unixToDateTime(me.getOFPValue('times/est_in') + math.floor(me.getOFPValue('times/dest_timezone') * 3600));
         var isEtops = me.getOFPValue('general/is_etops');
 
         # Page 1
@@ -629,6 +631,83 @@ var PaperworkApp = {
         }
         separator();
         pageBreak();
+
+        # Page 3
+        toc('Times and Weights');
+        separator();
+        plain('ATIS:');
+        plain('.');
+        plain('.');
+        plain('--------- ---------- ------------ ----- ------------ ------ --------');
+        plain('RVSM: ALT SYS  LEFT:              STBY:              RIGHT:');
+        newline();
+        plain('--------- ---------- ------------ ----- ------------ ------ --------');
+        separator();
+        plain('TIMES', 68);
+        plain('-----', 68);
+        newline();
+        multi([
+            subText(16, 11, 'ESTIMATED'),
+            subText(34, 11, 'SKED'),
+            subText(52, 11, 'ACTUAL'),
+        ]);
+        newline();
+        multi([
+            subText(0, 11, 'OUT'),
+            subFmt(16, 11, '%02i%02iZ/%02i%02iL',
+                [schedOut.hour, schedOut.minute, 
+                schedOutLocal.hour, schedOutLocal.minute]),
+            subFmt(34, 11, '%02i%02iZ/%02i%02iL',
+                [schedOut.hour, schedOut.minute, 
+                schedOutLocal.hour, schedOutLocal.minute]),
+            subEntry(52, 6, 'OFP:times/actual_out'),
+            subText(58, 1, 'Z'),
+        ]);
+        newline();
+        multi([
+            subText(0, 11, 'OFF'),
+            subFmt(16, 11, '%02i%02iZ/%02i%02iL',
+                [schedOff.hour, schedOff.minute, 
+                schedOffLocal.hour, schedOffLocal.minute]),
+            subFmt(34, 11, '%02i%02iZ/%02i%02iL',
+                [schedOff.hour, schedOff.minute, 
+                schedOffLocal.hour, schedOffLocal.minute]),
+            subEntry(52, 6, 'OFP:times/actual_off'),
+            subText(58, 1, 'Z'),
+        ]);
+        newline();
+        multi([
+            subText(0, 11, 'ON'),
+            subFmt(16, 11, '%02i%02iZ/%02i%02iL',
+                [estOn.hour, estOn.minute, 
+                estOnLocal.hour, estOnLocal.minute]),
+            subFmt(34, 11, '%02i%02iZ/%02i%02iL',
+                [schedOn.hour, schedOn.minute, 
+                schedOnLocal.hour, schedOnLocal.minute]),
+            subEntry(52, 6, 'OFP:times/actual_on'),
+            subText(58, 1, 'Z'),
+        ]);
+        newline();
+        multi([
+            subText(0, 11, 'IN'),
+            subFmt(16, 11, '%02i%02iZ/%02i%02iL',
+                [estIn.hour, estIn.minute, 
+                estInLocal.hour, estInLocal.minute]),
+            subFmt(34, 11, '%02i%02iZ/%02i%02iL',
+                [schedIn.hour, schedIn.minute, 
+                schedInLocal.hour, schedInLocal.minute]),
+            subEntry(52, 6, 'OFP:times/actual_in'),
+            subText(58, 1, 'Z'),
+        ]);
+        newline();
+        multi([
+            subText(0, 11, 'BLOCK TIME'),
+            subFmt(16, 11, formatSeconds0202, ['OFP:times/est_block']),
+            subFmt(34, 11, formatSeconds0202, ['OFP:times/sched_block']),
+            subEntry(52, 6, 'OFP:times/actual_block'),
+        ]);
+        newline();
+        separator();
 
         return items;
     },
