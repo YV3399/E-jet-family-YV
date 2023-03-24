@@ -1,4 +1,5 @@
 include('apps/base.nas');
+include('apps/base.nas');
 
 var ChartsApp = {
     new: func(masterGroup) {
@@ -7,6 +8,7 @@ var ChartsApp = {
         m.contentGroup = nil;
         m.currentListing = nil;
         m.currentPage = 0;
+        m.numPages = nil;
         m.currentPath = "";
         m.currentTitle = "Charts";
         m.history = [];
@@ -38,6 +40,7 @@ var ChartsApp = {
                         .rect(0, 0, 512, 768)
                         .setColorFill(255, 255, 255, 0.8);
         me.contentGroup = me.masterGroup.createChild('group');
+
         me.loadListing("", "Charts", 0, 0);
     },
 
@@ -129,9 +132,17 @@ var ChartsApp = {
         var perColumn = math.floor((768 - 192) / lineHeight);
         var perPage = perRow * (perColumn - 1);
         var actualEntries = subvec(me.currentListing, me.currentPage * perPage, perPage);
-        var numPages = math.ceil(size(me.currentListing) / perPage);
+        me.numPages = math.ceil(size(me.currentListing) / perPage);
         me.contentGroup.removeAllChildren();
         me.rootWidget.removeAllChildren();
+        me.pager = Pager.new(me.contentGroup);
+        me.rootWidget.appendChild(me.pager);
+        me.pager.setCurrentPage(me.currentPage);
+        me.pager.setNumPages(me.numPages);
+        me.pager.registerOnPage(func (page) {
+            self.currentPage = page;
+            self.showListing(); # this deletes and recreates the pager
+        });
         var x = 0;
         var y = 32;
         var title = me.currentTitle;
@@ -230,8 +241,7 @@ var ChartsApp = {
                 y += lineHeight;
             }
         }
-        self.makeReloadIcon(func () { self.reloadListing(); }, 'Refresh');
-        self.makePager(numPages, func () { self.showListing(); }, me.contentGroup);
+        me.makeReloadIcon(func () { self.reloadListing(); }, 'Refresh');
     },
 
     makeReloadIcon: func (what) {
@@ -303,10 +313,13 @@ var ChartsApp = {
         logprint(1, 'EFB loadChart:', url);
         me.showLoadingScreen(url);
         me.contentGroup.removeAllChildren();
-        if (pushHistory) append(me.history, [me.currentPath, me.currentTitle, me.currentPage]);
+        if (pushHistory)
+            append(me.history, [me.currentPath, me.currentTitle, me.currentPage]);
         me.currentPath = path;
         me.currentTitle = title;
         me.currentPage = page;
+        me.numPages = nil; # unknown
+
         var img = me.contentGroup.createChild('image')
             .set('size[0]', 768)
             .set('size[1]', 768)
@@ -314,11 +327,17 @@ var ChartsApp = {
         img.setTranslation(
             256 - 384,
             384 - 384);
-        me.makePager(nil, func () {
-            self.loadChart(self.currentPath, self.currentTitle, self.currentPage, 0);
-        }, me.contentGroup);
         me.makeFavoriteIcon('pdf', me.currentPath, me.currentTitle);
         me.makeZoomScrollOverlay(img);
+
+        me.pager = Pager.new(me.contentGroup);
+        me.rootWidget.appendChild(me.pager);
+        me.pager.setCurrentPage(me.currentPage);
+        me.pager.setNumPages(nil);
+        me.pager.registerOnPage(func (page) {
+            self.currentPage = page;
+            self.loadChart(self.currentPath, self.currentTitle, page, 0); # this will remove the pager
+        });
     },
 
     goHome: func () {
@@ -365,6 +384,7 @@ var ChartsApp = {
         me.currentPath = path;
         me.currentTitle = 'Favorites';
         me.currentPage = page;
+        me.pager.setCurrentPage(page);
         me.currentListing = me.favorites;
         me.showListing();
     },
@@ -377,6 +397,7 @@ var ChartsApp = {
         me.currentPath = path;
         me.currentTitle = title;
         me.currentPage = page;
+
         var filename = getprop('/sim/fg-home') ~ "/Export/efb_listing.xml";
         var onFailure = func (r) {
             logprint(4, 'EFB: HTTP error:', debug.string(r.status));

@@ -1,4 +1,5 @@
 include('apps/base.nas');
+include('pager.nas');
 
 var PaperworkApp = {
     new: func(masterGroup) {
@@ -52,6 +53,19 @@ var PaperworkApp = {
                         .rect(0, 0, 512, 768)
                         .setColorFill(0.8, 0.9, 1.0);
         me.contentGroup = me.masterGroup.createChild('group');
+
+        me.pagerGroup = me.masterGroup.createChild('group');
+
+        me.pager = Pager.new(me.pagerGroup);
+        me.rootWidget.appendChild(me.pager);
+        me.pager.registerOnPage(func (page) {
+            foreach (var p; self.pages) {
+                p.hide();
+            }
+            if (page < size(self.pages)) {
+                self.pages[page].show();
+            }
+        });
 
         me.tocPaneGroup = me.masterGroup.createChild('group');
         me.tocPaneGroup.createChild('path')
@@ -789,20 +803,8 @@ var PaperworkApp = {
             append(me.pages, pageGroup);
             pageNumber += 1;
         }
-        if (me.currentPage >= size(me.pages)) {
-            me.currentPage = 0;
-        }
-        if (size(me.pages) > 0) {
-            me.pages[me.currentPage].show();
-            me.makePager(size(me.pages), func() {
-                foreach (var p; self.pages) {
-                    p.hide();
-                }
-                if (self.currentPage < size(self.pages)) {
-                    self.pages[self.currentPage].show();
-                }
-            }, me.contentGroup, me.mainWidget);
-        }
+        me.pager.setNumPages(size(me.pages));
+        me.pager.setCurrentPage(0);
         me.tocContentsWidget.removeAllChildren();
         var y = me.metrics.tocPadding + me.metrics.tocFontSize;
         foreach (var tocEntry; toc) {
