@@ -15,16 +15,18 @@ var PaperworkApp = {
     initialize: func () {
         me.metrics = {
             pageWidth: 414,
-            pageHeight: 660,
+            pageHeight: 670,
             fontSize: 10,
             charWidth: 5.935,
             lineHeight: 10.5,
             headerHeight: 22,
+            rows: 61,
+            columns: 68,
         };
         me.metrics.marginLeft = (512 - me.metrics.pageWidth) / 2;
-        me.metrics.marginTop = (768 - me.metrics.pageHeight) / 2;
-        me.metrics.paddingTop = (me.metrics.pageHeight - me.metrics.headerHeight - me.metrics.lineHeight * 60) / 2;
-        me.metrics.paddingLeft = (me.metrics.pageWidth - me.metrics.charWidth * 68) / 2;
+        me.metrics.marginTop = (738 - me.metrics.pageHeight) / 2;
+        me.metrics.paddingTop = (me.metrics.pageHeight - me.metrics.headerHeight - me.metrics.lineHeight * me.metrics.rows) / 2;
+        me.metrics.paddingLeft = (me.metrics.pageWidth - me.metrics.charWidth * me.metrics.columns) / 2;
 
         me.simbriefUsernameProp = props.globals.getNode('/sim/simbrief/username');
         me.bgfill = me.masterGroup.createChild('path')
@@ -41,13 +43,28 @@ var PaperworkApp = {
         if (me.ofp == nil) {
             me.ofp = props.Node.new();
         }
-        me.renderOFP();
     },
 
     getOFPValue: func(path) {
+        return me.ofp.getValue('OFP/' ~ path);
+    },
+
+    getOFPValues: func(path, subkey=nil) {
         var node = me.ofp.getNode('OFP/' ~ path);
-        if (node == nil) return nil;
-        return node.getValue();
+        if (node == nil)
+            return nil;
+        var val = node.getValues();
+        if (val == nil)
+            return nil;
+        if (subkey != nil) {
+            if (!contains(val, subkey))
+                val = nil;
+            else
+                val = val[subkey];
+        }
+        if (typeof(val) == 'scalar')
+            val = [val];
+        return val;
     },
 
     collectOFPItems: func () {
@@ -55,17 +72,27 @@ var PaperworkApp = {
         var newline = func () {
             append(items, { type: 'blank' });
         };
-        var plain = func (text) {
+        var plain = func (text, centerW=0) {
+            if (centerW > 0) {
+                var paddingSize = math.floor((centerW - size(text)) / 2);
+                var padding = substr('                                                                    ', 0, paddingSize);
+                text = padding ~ text;
+            }
             append(items, { type: 'text', text: text });
         };
         var pageBreak = func () {
             append(items, { type: 'page-break' });
         };
-        var separator = func (length=68) {
+        var separator = func (length=nil) {
+            if (length == nil)
+                length = me.metrics.columns;
             append(items, { type: 'separator', length: length });
         };
         var format = func (fmt, args) {
             append(items, { type: 'formatted', format: fmt, args: args });
+        };
+        var toc = func (title) {
+            append(items, { type: 'toc-entry', title: title });
         };
         var multi = func (subItems) {
             append(items, { type: 'multi', items: subItems });
@@ -97,9 +124,8 @@ var PaperworkApp = {
             };
         };
 
-        # separator();
-        # for (var i = 1; i < 60; i += 1) {
-        #     plain('--- TEST LINE ' ~ i ~ ' ---');
+        # for (var i = 1; i <= me.metrics.rows; i += 1) {
+        #     plain(sprintf('--- TEST LINE %2i ---', i), me.metrics.columns);
         # }
         # pageBreak();
 
@@ -117,9 +143,11 @@ var PaperworkApp = {
         # var schedOffLocal = unixToDateTime(me.getOFPValue('times/sched_off') + math.floor(me.getOFPValue('times/orig_timezone') * 3600));
         # var schedOnLocal = unixToDateTime(me.getOFPValue('times/sched_on') + math.floor(me.getOFPValue('times/dest_timezone') * 3600));
         # var schedInLocal = unixToDateTime(me.getOFPValue('times/sched_in') + math.floor(me.getOFPValue('times/dest_timezone') * 3600));
+        var isEtops = me.getOFPValue('general/is_etops');
 
         # Page 1
 
+        toc('Summary and Fuel');
         format('%-3s%-6s %02i%3s%04i    %-4s-%-4s   %-4s %-7s RELEASE %02i%02i %02i%3s%02i',
             [ 'OFP:general/icao_airline'
             , 'OFP:general/flight_number'
@@ -202,11 +230,26 @@ var PaperworkApp = {
             subFmt(10, 60, func(str) { str ~ '/'; }, ['OFP:general/stepclimb_string']),
         ]);
         separator();
-        plain('DISP RKMS   NIL');
+        if (isEtops) {
+            plain('*** ETOPS/ETP FLIGHT ***', me.metrics.columns);
+            separator();
+        }
+        var remarks = (me.getOFPValues('general', 'dx_rmk') or []) ~
+                      (me.getOFPValues('general', 'sys_rmk') or []);
+        if (size(remarks) == 0)
+            remarks = ['NIL'];
+        var first = 1;
+        foreach (var rmk; remarks) {
+            multi([
+                subText(0, 12, first ? 'DISP RMKS' : ''),
+                subText(13, 56, rmk)
+            ]);
+            first = 0;
+        }
         newline();
         separator();
 
-        plain('          PLANNED FUEL          ');
+        plain('PLANNED FUEL', 31);
         separator(31);
         multi([
             subText(0, 15, 'FUEL'),
@@ -237,6 +280,13 @@ var PaperworkApp = {
             subFmt(19, 5, '%5s', ['OFP:fuel/reserve']),
             subFmt(27, 4, formatSeconds0202, ['OFP:times/reserve_time']),
         ]);
+        if (isEtops) {
+            multi([
+                subText(0, 15, 'ETOPS/ETP'),
+                subFmt(19, 5, '%5s', ['OFP:fuel/etops']),
+                subFmt(27, 4, formatSeconds0202, ['OFP:times/etopsfuel_time']),
+            ]);
+        }
         separator(31);
         multi([
             subText(0, 18, 'MINIMUM T/OFF FUEL'),
@@ -365,23 +415,36 @@ var PaperworkApp = {
         return items;
     },
 
-    paginate: func (items, pageSize = 60) {
+    paginate: func (items, pageSize=nil) {
+        if (pageSize == nil)
+            pageSize = me.metrics.rows;
         var pages = [];
         var page = [];
         var pushPage = func {
             append(pages, page);
             page = [];
         };
+        var toc = [];
         foreach (var item; items) {
-            if (item.type == 'page-break' or size(page) >= pageSize) {
+            if (item.type == 'page-break') {
+                pushPage();
+                continue;
+            }
+            if (size(page) >= pageSize) {
                 pushPage();
             }
-            append(page, item);
+            if (item.type == 'toc-entry') {
+                append(toc, { title: item.title, page: size(pages) });
+            }
+            else {
+                append(page, item);
+            }
         }
         if (size(page) > 0) {
             pushPage();
         }
-        return pages;
+        debug.dump(toc);
+        return [pages, toc];
     },
 
     renderSubItem: func (pageGroup, y, item) {
@@ -458,7 +521,7 @@ var PaperworkApp = {
         }
     },
 
-    renderPage: func(pageGroup, pageData) {
+    renderPage: func(pageGroup, pageNumber, pageData) {
         var y = me.metrics.headerHeight + me.metrics.paddingTop + me.metrics.lineHeight;
         var schedOut = unixToDateTime(me.getOFPValue('times/sched_out'));
         var pageHeading =
@@ -483,8 +546,16 @@ var PaperworkApp = {
                  .setFontSize(16, 1)
                  .setColor(0, 0, 0)
                  .setColorFill(1, 1, 0)
-                 .setDrawMode(canvas.Text.TEXT + canvas.Text.FILLEDBOUNDINGBOX)
-                 .setTranslation(me.metrics.pageWidth / 2, (me.metrics.headerHeight - 16) / 2);
+                 .setTranslation(me.metrics.pageWidth / 2, (me.metrics.headerHeight - 13) / 2);
+        pageGroup.createChild('text')
+                 .setAlignment('right-top')
+                 .setMaxWidth(me.metrics.pageWidth)
+                 .setText(sprintf('Page %i', pageNumber))
+                 .setFont(font_mapper('sans', 'normal'))
+                 .setFontSize(12, 1)
+                 .setColor(0, 0, 0)
+                 .setColorFill(1, 1, 0)
+                 .setTranslation(me.metrics.pageWidth - me.metrics.paddingLeft, (me.metrics.headerHeight - 10) / 2);
         foreach (var item; pageData) {
             me.renderItem(pageGroup, y, item);
             y += me.metrics.lineHeight;
@@ -499,14 +570,18 @@ var PaperworkApp = {
                        .setColor(0.2, 0.2, 0.2)
                        .setColorFill(1.0, 1.0, 1.0);
         me.pages = [];
-        var pagesData = me.paginate(me.collectOFPItems());
+        var pagesData = [];
+        var toc = [];
+        (pagesData, toc) = me.paginate(me.collectOFPItems());
+        var pageNumber = 1;
         foreach (var pageData; pagesData) {
             var pageGroup = me.contentGroup
                                 .createChild('group')
                                 .setTranslation(me.metrics.marginLeft, me.metrics.marginTop);
-            me.renderPage(pageGroup, pageData);
+            me.renderPage(pageGroup, pageNumber, pageData);
             pageGroup.hide();
             append(me.pages, pageGroup);
+            pageNumber += 1;
         }
         if (me.currentPage >= size(me.pages)) {
             me.currentPage = 0;
