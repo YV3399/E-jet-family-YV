@@ -546,7 +546,6 @@ var PaperworkApp = {
         var alternates = me.getOFPValues('/', 'alternate');
         foreach (var alternate; alternates) {
             var route = lineSplitStr(alternate.route, 28);
-            debug.dump(route);
             var first = 1;
             foreach (var routeStr; route) {
                 if (first)
@@ -607,7 +606,6 @@ var PaperworkApp = {
         var impact = nil;
         foreach (var impactType; impactTypes) {
             impact = me.getOFPValues(impactType[1], nil, 0);
-            debug.dump(impact);
             if (impact == nil) {
                 if (impactType[2]) {
                     # skippable
@@ -663,7 +661,6 @@ var PaperworkApp = {
         if (size(page) > 0) {
             pushPage();
         }
-        debug.dump(toc);
         return [pages, toc];
     },
 
@@ -806,15 +803,23 @@ var PaperworkApp = {
         me.pager.setNumPages(size(me.pages));
         me.pager.setCurrentPage(0);
         me.tocContentsWidget.removeAllChildren();
-        var y = me.metrics.tocPadding + me.metrics.tocFontSize;
+        var y = me.metrics.tocPadding;
         foreach (var tocEntry; toc) {
-            var elem = me.tocContentsGroup.createChild('text')
+            var elem = me.tocContentsGroup.createChild('path')
+                         .rect(0, y, me.metrics.tocPaneWidth, me.metrics.tocLineHeight);
+            var textElem = me.tocContentsGroup.createChild('text')
                          .setFont(font_mapper('sans', 'normal'))
                          .setFontSize(me.metrics.tocFontSize, 1)
-                         .setAlignment('left-baseline')
+                         .setAlignment('left-top')
                          .setColor(0, 0, 0.8)
                          .setText(tocEntry.title)
-                         .setTranslation(me.metrics.tocPadding, y);
+                         .setTranslation(me.metrics.tocPadding, y + (me.metrics.tocLineHeight - me.metrics.tocFontSize) / 2);
+            (func (page, elem) {
+                self.makeClickable(elem, func {
+                    self.pager.setCurrentPage(page);
+                    self.hideTOC();
+                }, self.tocContentsWidget);
+            })(tocEntry.page, elem);
             y += me.metrics.tocLineHeight;
         }
     },
