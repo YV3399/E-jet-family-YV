@@ -58,12 +58,12 @@ var PaperworkApp = {
 
         me.pager = Pager.new(me.pagerGroup);
         me.rootWidget.appendChild(me.pager);
-        me.pager.registerOnPage(func (page) {
+        me.pager.pageChanged.addListener(func (data) {
             foreach (var p; self.pages) {
                 p.hide();
             }
-            if (page < size(self.pages)) {
-                self.pages[page].show();
+            if (data.page < size(self.pages)) {
+                self.pages[data.page].show();
             }
         });
 

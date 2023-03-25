@@ -139,8 +139,8 @@ var ChartsApp = {
         me.rootWidget.appendChild(me.pager);
         me.pager.setCurrentPage(me.currentPage);
         me.pager.setNumPages(me.numPages);
-        me.pager.registerOnPage(func (page) {
-            self.currentPage = page;
+        me.pager.pageChanged.addListener(func (data) {
+            self.currentPage = data.page;
             self.showListing(); # this deletes and recreates the pager
         });
         var x = 0;
@@ -334,8 +334,8 @@ var ChartsApp = {
         me.rootWidget.appendChild(me.pager);
         me.pager.setCurrentPage(me.currentPage);
         me.pager.setNumPages(nil);
-        me.pager.registerOnPage(func (page) {
-            self.currentPage = page;
+        me.pager.pageChanged.addListener(func (data) {
+            self.currentPage = data.page;
             self.loadChart(self.currentPath, self.currentTitle, page, 0); # this will remove the pager
         });
     },

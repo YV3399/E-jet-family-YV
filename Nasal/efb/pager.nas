@@ -1,5 +1,6 @@
 include('widget.nas');
 include('util.nas');
+include('eventSource.nas');
 
 var Pager = {
     new: func (parentGroup) {
@@ -7,7 +8,7 @@ var Pager = {
         m.parents = [me] ~ m.parents;
         m.numPages = nil;
         m.currentPage = 0;
-        m.onPageChanged = nil;
+        m.pageChanged = EventSource.new();
         m.initialize(parentGroup);
         return m;
     },
@@ -41,14 +42,6 @@ var Pager = {
            );
     },
 
-    unregisterOnPage: func {
-        me.onPageChanged = nil;
-    },
-
-    registerOnPage: func (handler) {
-        me.onPageChanged = handler;
-    },
-
     setNumPages: func (numPages) {
         me.numPages = numPages;
         me.updatePageIndicator();
@@ -62,9 +55,7 @@ var Pager = {
         }
         me.currentPage = math.max(0, me.currentPage);
         me.updatePageIndicator();
-        if (me.onPageChanged != nil) {
-            me.onPageChanged(me.currentPage, oldPage, me.numPages);
-        }
+        me.pageChanged.raise({page: me.currentPage, previousPage: oldPage, numPages: me.numPages});
     },
 
     nextPage: func () {
