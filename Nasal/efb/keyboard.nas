@@ -23,17 +23,17 @@ var Keyboard = {
 
     initialize: func (parentGroup) {
         var self = me;
-        me.masterGroup = parentGroup.createChild('group');
+        me.masterGroup = parentGroup.createChild('group').set('z-index', 1000);
         me.masterGroup.setTranslation(0, 768 - me.metrics.height);
         me.layers = [
         ];
         for (var i = me.LAYER_LOWER; i < me.NUM_LAYERS; i += 1) {
             var layerGroup = me.masterGroup.createChild('group');
-            var layerWidget = Widget.new();
-            me.appendChild(layerWidget);
-            layerGroup.createChild('path')
+            var frame = layerGroup.createChild('path')
                       .rect(0, 0, me.metrics.width, me.metrics.height)
                       .setColorFill(0.7, 0.7, 0.7);
+            var layerWidget = Widget.new(frame).setHandler(func 0);
+            me.appendChild(layerWidget);
             var layer = me.layerDefs[i];
             # We will assume that the first row has the most keys, and thus
             # determines default key size.
@@ -44,7 +44,6 @@ var Keyboard = {
             var y = me.metrics.keyMargin;
             for (var j = 0; j < numRows; j += 1) {
                 var row = layer[j];
-                debug.dump(j, row);
                 var rowWidth = 0;
                 var hasSpace = 0;
                 var spaceWidth = keyWidth;

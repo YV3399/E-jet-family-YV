@@ -28,5 +28,11 @@ var EventSource = {
 
     removeListener: func (listenerID) {
         me.listeners[listenerID] = nil;
+        append(me.availableListeners, listenerID);
+    },
+
+    removeAllListeners: func () {
+        me.listeners = [];
+        me.availableListeners = [];
     },
 };

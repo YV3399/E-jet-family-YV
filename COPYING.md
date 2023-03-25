@@ -13,3 +13,4 @@ Additional licensing terms apply to the following files:
 - `Models/EFB/icons/flightbag.png`, based on an SVG image found at
   https://upload.wikimedia.org/wikipedia/commons/c/ce/Suitcasewith_wings_21.svg,
   released under CC0
+- The SteveHand font, released under GPL 2.0 (but not "or later").

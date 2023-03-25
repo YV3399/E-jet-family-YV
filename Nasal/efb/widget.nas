@@ -29,7 +29,9 @@ var Widget = {
     },
 
     appendChild: func (child) {
-        append(me.children, child);
+        # We actually *prepend* the child node, so that it is inspected earlier
+        # in the event handling sequence.
+        me.children = [child] ~ me.children;
         return me;
     },
 

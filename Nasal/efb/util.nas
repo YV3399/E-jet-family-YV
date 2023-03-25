@@ -6,6 +6,9 @@ var font_mapper = func(family, weight='normal') {
     if (family == 'mono') {
         return "LiberationFonts/LiberationMono-Regular.ttf";
     }
+    elsif (family == 'script') {
+        return "SteveHand/SteveHand.ttf";
+    }
     else {
         if (weight == 'normal') {
             return "LiberationFonts/LiberationSans-Regular.ttf";

@@ -11,6 +11,7 @@ var PaperworkApp = {
         m.tocVisible = 0;
         m.tocAnimState = 0;
         m.animTimer = nil;
+        m.entryMode = nil;
         return m;
     },
 
@@ -34,6 +35,7 @@ var PaperworkApp = {
             tocPadding: 10,
             tocFontSize: 14,
             tocLineHeight: 20,
+            inputPadding: 1,
         };
         me.metrics.marginLeft = (512 - me.metrics.pageWidth) / 2;
         me.metrics.marginTop = (738 - me.metrics.pageHeight) / 2;
@@ -42,6 +44,7 @@ var PaperworkApp = {
 
         me.mainWidget = Widget.new();
         me.rootWidget.appendChild(me.mainWidget);
+        me.pageWidgets = [];
 
         me.tocWidget = Widget.new();
         me.rootWidget.appendChild(me.tocWidget);
@@ -68,7 +71,12 @@ var PaperworkApp = {
             }
         });
 
-        me.rootWidget.appendChild(Keyboard.new(me.masterGroup));
+        me.keyboardGroup = me.masterGroup.createChild('group');
+        me.keyboard = Keyboard.new(me.keyboardGroup);
+        me.keyboard.keyPressed.addListener(func (key) {
+            self.handleKey(key);
+        });
+        me.rootWidget.appendChild(me.keyboard);
 
         me.tocPaneGroup = me.masterGroup.createChild('group');
         me.tocPaneGroup.createChild('path')
@@ -109,10 +117,112 @@ var PaperworkApp = {
                 self.updateTocViz();
             }
         });
+        me.hideKeyboard();
         me.animTimer.start();
 
         me.loadSimbriefOFP();
         me.renderOFP();
+    },
+
+    scrollIntoView: func(elem) {
+        var pos = elem.getTransformedBounds();
+        var bottom = pos[3];
+        var idealDY = 460 - bottom;
+        var dy = math.min(0, idealDY);
+        me.contentGroup.setTranslation(0, dy);
+    },
+
+    resetScroll: func() {
+        me.contentGroup.setTranslation(0, 0);
+    },
+
+    showKeyboard: func (mode=nil) {
+        if (mode == nil)
+            mode = Keyboard.LAYER_UPPER;
+        me.keyboard.setActive(1);
+        me.keyboard.selectLayer(mode);
+        me.keyboardGroup.show();
+    },
+
+    hideKeyboard: func () {
+        me.keyboard.setActive(0);
+        me.keyboardGroup.hide();
+    },
+
+    startEntry: func (ident, elem, node, exitFunc, numeric=0) {
+        me.showKeyboard(numeric ? Keyboard.LAYER_SYM2 : Keyboard.LAYER_UPPER);
+        me.scrollIntoView(elem);
+        if (typeof(node) == 'scalar') {
+            var nodePath = node;
+            node = me.ofp.getNode(nodePath, 1);
+        }
+        var value = node.getValue();
+        if (typeof(value) == 'scalar')
+            value = value ~ '';
+        else
+            value = '';
+        me.entryMode = {
+            ident: ident,
+            elem: elem,
+            node: node,
+            value: value,
+            exit: exitFunc
+        };
+    },
+
+    confirmEntry: func () {
+        me.resetScroll();
+        me.hideKeyboard();
+        if (me.entryMode == nil) {
+            return;
+        }
+        me.entryMode.node.setValue(me.entryMode.value);
+        me.entryMode.elem.setText(me.entryMode.value);
+        me.entryMode.exit();
+        me.entryMode = nil;
+    },
+
+    cancelEntry: func () {
+        me.resetScroll();
+        me.hideKeyboard();
+        if (me.entryMode == nil) {
+            return;
+        }
+        var value = me.entryMode.node.getValue();
+        if (typeof(value) == 'scalar')
+            value = value ~ '';
+        else
+            value = '';
+        me.entryMode.elem.setText(value);
+        me.entryMode.exit();
+        me.entryMode = nil;
+    },
+
+    updateEntry: func () {
+        me.entryMode.elem.setText(me.entryMode.value);
+    },
+
+    handleKey: func (key) {
+        if (me.entryMode == nil) {
+            # Keyboard shouldn't even be visible!
+            me.hideKeyboard();
+            return 1;
+        }
+        if (key == 'enter') {
+            me.confirmEntry();
+        }
+        elsif (key == 'backspace') {
+            me.entryMode.value = substr(me.entryMode.value, 0, size(me.entryMode.value) - 1);
+            me.updateEntry();
+        }
+        elsif (key == 'space') {
+            me.entryMode.value = me.entryMode.value ~ ' ';
+            me.updateEntry();
+        }
+        else {
+            me.entryMode.value = me.entryMode.value ~ key;
+            me.updateEntry();
+        }
     },
 
     foreground: func {
@@ -156,6 +266,10 @@ var PaperworkApp = {
         if (me.ofp == nil) {
             me.ofp = props.Node.new();
         }
+    },
+
+    getOFPNode: func(path) {
+        return me.ofp.getNode(path, 1);
     },
 
     getOFPValue: func(path) {
@@ -746,7 +860,8 @@ var PaperworkApp = {
         return [pages, toc];
     },
 
-    renderSubItem: func (pageGroup, y, item) {
+    renderSubItem: func (pageGroup, y, item, pageWidget) {
+        var self = me;
         var renderText = func (text) {
             pageGroup
                 .createChild('text')
@@ -754,7 +869,48 @@ var PaperworkApp = {
                 .setFontSize(me.metrics.fontSize, 1)
                 .setFont(font_mapper('mono'))
                 .setColor(0, 0, 0)
+                .setColorFill(0, 0, 0, 0)
+                .setDrawMode(canvas.Text.TEXT)
                 .setTranslation(me.metrics.paddingLeft + item.x * me.metrics.charWidth, y);
+        };
+        var renderEntryText = func (path) {
+            var node = me.getFormatNode(path);
+            var val = node.getValue() or '';
+            var box = pageGroup.createChild('path')
+                        .rect(
+                            me.metrics.paddingLeft + item.x * me.metrics.charWidth - me.metrics.inputPadding,
+                            y - me.metrics.lineHeight,
+                            item.w * me.metrics.charWidth + 2 * me.metrics.inputPadding,
+                            me.metrics.lineHeight)
+                        .setColorFill(0.0, 0.0, 0.0, 0.1);
+            var frame = pageGroup.createChild('path')
+                        .rect(
+                            me.metrics.paddingLeft + item.x * me.metrics.charWidth - me.metrics.inputPadding - 1,
+                            y - me.metrics.lineHeight - 1,
+                            item.w * me.metrics.charWidth + 2 * me.metrics.inputPadding + 2,
+                            me.metrics.lineHeight + 2)
+                        .setColor(0.1, 0.1, 0.5)
+                        .hide();
+            var text = pageGroup
+                .createChild('text')
+                .setText(substr(val, 0, item.w))
+                .setFontSize(me.metrics.fontSize, 1)
+                .setFont(font_mapper('script'))
+                .setColor(0, 0, 1)
+                .setTranslation(me.metrics.paddingLeft + item.x * me.metrics.charWidth, y - 1);
+            var ident = rand();
+            me.makeClickable(box, func {
+                if (self.entryMode == nil or self.entryMode.ident != ident) {
+                    frame.show();
+                    self.cancelEntry();
+                    self.startEntry(ident, text, node, func {
+                        frame.hide();
+                    });
+                }
+                else if (self.entryMode != nil and self.entryMode.ident == ident) {
+                    self.cancelEntry();
+                }
+            }, pageWidget);
         };
         if (item.type == 'text') {
             renderText(item.text);
@@ -770,11 +926,8 @@ var PaperworkApp = {
                 renderText(call(sprintf, [item.format] ~ args));
         }
         elsif (item.type == 'entry') {
-            var val = nil; # me.getFormatArg(item.path);
-            if (val == nil)
-                renderText('.................................');
-            else
-                renderText(val);
+            renderText('.................................');
+            renderEntryText(item.path);
         }
     },
 
@@ -787,7 +940,18 @@ var PaperworkApp = {
         }
     },
 
-    renderItem: func (pageGroup, y, item) {
+    getFormatNode: func(argSpec) {
+        if (typeof(argSpec) == 'scalar' and substr(argSpec ~ '', 0, 4) == 'OFP:') {
+            return me.getOFPNode(substr(argSpec, 4));
+        }
+        else {
+            # Dummy, just so we have a node
+            return props.Node.new().setValue(argSpec);
+        }
+    },
+
+
+    renderItem: func (pageGroup, y, item, pageWidget) {
         var renderText = func (text) {
             pageGroup
                 .createChild('text')
@@ -815,12 +979,12 @@ var PaperworkApp = {
         }
         elsif (item.type == 'multi') {
             foreach (var subItem; item.items) {
-                me.renderSubItem(pageGroup, y, subItem);
+                me.renderSubItem(pageGroup, y, subItem, pageWidget);
             }
         }
     },
 
-    renderPage: func(pageGroup, pageNumber, pageData) {
+    renderPage: func(pageGroup, pageNumber, pageData, pageWidget) {
         var y = me.metrics.headerHeight + me.metrics.paddingTop + me.metrics.lineHeight;
         var schedOut = unixToDateTime(me.getOFPValue('times/sched_out'));
         var pageHeading =
@@ -844,7 +1008,6 @@ var PaperworkApp = {
                  .setFont(font_mapper('sans', 'bold'))
                  .setFontSize(16, 1)
                  .setColor(0, 0, 0)
-                 .setColorFill(1, 1, 0)
                  .setTranslation(me.metrics.pageWidth / 2, (me.metrics.headerHeight - 13) / 2);
         pageGroup.createChild('text')
                  .setAlignment('right-top')
@@ -853,16 +1016,18 @@ var PaperworkApp = {
                  .setFont(font_mapper('sans', 'normal'))
                  .setFontSize(12, 1)
                  .setColor(0, 0, 0)
-                 .setColorFill(1, 1, 0)
                  .setTranslation(me.metrics.pageWidth - me.metrics.paddingLeft, (me.metrics.headerHeight - 10) / 2);
         foreach (var item; pageData) {
-            me.renderItem(pageGroup, y, item);
+            me.renderItem(pageGroup, y, item, pageWidget);
             y += me.metrics.lineHeight;
         }
     },
 
     renderOFP: func () {
         var self = me;
+        me.mainWidget.removeAllChildren();
+        me.pageWidgets = [];
+
         me.contentGroup.removeAllChildren();
         me.contentGroup.createChild('path')
                        .rect(me.metrics.marginLeft, me.metrics.marginTop, me.metrics.pageWidth, me.metrics.pageHeight)
@@ -877,7 +1042,10 @@ var PaperworkApp = {
             var pageGroup = me.contentGroup
                                 .createChild('group')
                                 .setTranslation(me.metrics.marginLeft, me.metrics.marginTop);
-            me.renderPage(pageGroup, pageNumber, pageData);
+            var pageWidget = Widget.new();
+            append(me.pageWidgets, pageWidget);
+            me.mainWidget.appendChild(pageWidget);
+            me.renderPage(pageGroup, pageNumber, pageData, pageWidget);
             pageGroup.hide();
             append(me.pages, pageGroup);
             pageNumber += 1;
