@@ -35,5 +35,6 @@ var BaseApp = {
     handleMenu: func () {},
     foreground: func () {},
     background: func () {},
+
     initialize: func () {},
 };

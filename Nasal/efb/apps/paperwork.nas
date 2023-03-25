@@ -1,5 +1,6 @@
 include('apps/base.nas');
 include('pager.nas');
+include('keyboard.nas');
 
 var PaperworkApp = {
     new: func(masterGroup) {
@@ -66,6 +67,8 @@ var PaperworkApp = {
                 self.pages[data.page].show();
             }
         });
+
+        me.rootWidget.appendChild(Keyboard.new(me.masterGroup));
 
         me.tocPaneGroup = me.masterGroup.createChild('group');
         me.tocPaneGroup.createChild('path')
