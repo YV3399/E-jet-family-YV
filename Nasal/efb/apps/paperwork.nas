@@ -105,7 +105,7 @@ var PaperworkApp = {
             self.toggleTOC();
         }, me.tocWidget);
         me.updateTocViz();
-        me.animTimer = maketimer(0.05, func {
+        me.animTimer = maketimer(1/30, func {
             if (self.tocAnimState < self.tocVisible) {
                 self.tocAnimState += 0.1;
                 self.tocAnimState = math.min(self.tocAnimState, self.tocVisible);
@@ -117,6 +117,7 @@ var PaperworkApp = {
                 self.updateTocViz();
             }
         });
+        me.animTimer.simulatedTime = 1;
         me.hideKeyboard();
         me.animTimer.start();
 
