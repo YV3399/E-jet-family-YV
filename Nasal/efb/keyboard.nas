@@ -4,7 +4,7 @@ include('eventSource.nas');
 
 
 var Keyboard = {
-    new: func (parentGroup) {
+    new: func (parentGroup, active) {
         var m = Widget.new();
         m.parents = [me] ~ m.parents;
         m.keyPressed = EventSource.new();
@@ -17,16 +17,89 @@ var Keyboard = {
             paddingBottom: 32,
             cornerRadius: 6,
         };
+        m.slideState = 1;
+        m.slideRate = 4;
+        m.active = active;
+        m.keyGlows = [];
+        m.keyGlowRate = 10;
         m.initialize(parentGroup);
         return m;
     },
 
+    updateKeyGlows: func (dt) {
+        foreach (var keyGlow; me.keyGlows) {
+            keyGlow.counter -= dt * me.keyGlowRate;
+            var f = math.min(1, math.max(0, 1 - keyGlow.counter));
+            keyGlow.elem.setColorFill(
+                keyGlow.color.r * f,
+                keyGlow.color.g * f,
+                keyGlow.color.b * f
+            );
+        }
+        while (size(me.keyGlows) > 0 and me.keyGlows[0].counter <= 0)
+            me.keyGlows = subvec(me.keyGlows, 1);
+        if (size(me.keyGlows) == 0)
+            me.keyGlowTimer.stop();
+    },
+
+    startKeyGlow: func (elem, r, g, b) {
+        append(me.keyGlows, {
+            elem: elem,
+            color: {
+                r: r,
+                g: g,
+                b: b,
+            },
+            counter: 1,
+        });
+        me.keyGlowTimer.start();
+    },
+
+    updateSlide: func (dt) {
+        if (me.active) {
+            if (me.slideState < 1) {
+                me.slideState += dt * me.slideRate;
+                me.slideState = math.min(1, me.slideState);
+                me.masterGroup.setTranslation(0, 768 - me.metrics.height * me.slideState);
+            }
+            else {
+                me.slideTimer.stop();
+            }
+        }
+        else {
+            if (me.slideState > 0) {
+                me.slideState -= dt * me.slideRate;
+                me.slideState = math.max(0, me.slideState);
+                me.masterGroup.setTranslation(0, 768 - me.metrics.height * me.slideState);
+            }
+            else {
+                me.slideTimer.stop();
+            }
+        }
+    },
+
+    setActive: func (active) {
+        call(Widget.setActive, [active], me);
+        me.slideTimer.start();
+        return me;
+    },
+
     initialize: func (parentGroup) {
         var self = me;
+        var animationDT = 0.025;
         me.masterGroup = parentGroup.createChild('group').set('z-index', 1000);
-        me.masterGroup.setTranslation(0, 768 - me.metrics.height);
+        me.slideState = me.active;
+        if (me.active) {
+            me.masterGroup.setTranslation(0, 768 - me.metrics.height);
+        }
+        else {
+            me.masterGroup.setTranslation(0, 768);
+        }
         me.layers = [
         ];
+        me.keyGlowTimer = maketimer(animationDT, func {
+            self.updateKeyGlows(animationDT);
+        });
         for (var i = me.LAYER_LOWER; i < me.NUM_LAYERS; i += 1) {
             var layerGroup = me.masterGroup.createChild('group');
             var frame = layerGroup.createChild('path')
@@ -83,6 +156,12 @@ var Keyboard = {
                     var b = math.ceil(y + keyHeight);
                     var radius = me.metrics.cornerRadius;
 
+                    var keyColor = [0.9, 0.9, 0.9];
+
+                    if (key == 'enter') {
+                        keyColor = [0.3, 0.85, 0.3];
+                    }
+
                     var keyElem = layerGroup.createChild('path')
                                             .moveTo(l + radius, t)
                                             .lineTo(r - radius, t)
@@ -93,21 +172,21 @@ var Keyboard = {
                                             .arcSmallCWTo(radius, radius, 0, l, b - radius)
                                             .lineTo(l, t + radius)
                                             .arcSmallCWTo(radius, radius, 0, l + radius, t)
-                                            .setColorFill(0.9, 0.9, 0.9)
+                                            .setColorFill(keyColor[0], keyColor[1], keyColor[2])
                                             .setColor(0.3, 0.3, 0.3);
                     var capElem = me.keycap(layerGroup, key, x + width / 2, y + keyHeight / 2);
                     capElem.setColor(0.1, 0.1, 0.1);
                     if (key == 'enter') {
-                        keyElem.setColorFill(0.3, 0.85, 0.3);
                         capElem.setColorFill(0.9, 0.9, 0.9);
                     }
-                    (func (key) {
+                    (func (key, keyElem, keyColor) {
                         layerWidget.appendChild(
                             Widget.new(keyElem)
                                 .setHandler(func () {
+                                    self.startKeyGlow(keyElem, keyColor[0], keyColor[1], keyColor[2]);
                                     self.handleKey(key);
                                 }));
-                    })(key);
+                    })(key, keyElem, keyColor);
                     x += me.metrics.keyMargin + width;
                 }
                 y += me.metrics.keyMargin + keyHeight;
@@ -118,6 +197,9 @@ var Keyboard = {
             });
         }
         me.selectLayer(me.currentLayer);
+        me.slideTimer = maketimer(animationDT, func {
+            self.updateSlide(animationDT);
+        });
     },
 
     selectLayer: func (l) {

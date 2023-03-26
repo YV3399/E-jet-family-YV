@@ -72,7 +72,7 @@ var PaperworkApp = {
         });
 
         me.keyboardGroup = me.masterGroup.createChild('group');
-        me.keyboard = Keyboard.new(me.keyboardGroup);
+        me.keyboard = Keyboard.new(me.keyboardGroup, 0);
         me.keyboard.keyPressed.addListener(func (key) {
             self.handleKey(key);
         });
@@ -140,14 +140,12 @@ var PaperworkApp = {
     showKeyboard: func (mode=nil) {
         if (mode == nil)
             mode = Keyboard.LAYER_UPPER;
-        me.keyboard.setActive(1);
         me.keyboard.selectLayer(mode);
-        me.keyboardGroup.show();
+        me.keyboard.setActive(1);
     },
 
     hideKeyboard: func () {
         me.keyboard.setActive(0);
-        me.keyboardGroup.hide();
     },
 
     startEntry: func (ident, elem, node, exitFunc, numeric=0) {
