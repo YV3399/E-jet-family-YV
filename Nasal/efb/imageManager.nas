@@ -22,7 +22,7 @@ var ImageManager = {
                 http.save(me.url, me.path)
                     .done(func {
                         # Request succeeded
-                        printf("HTTP OK %s", me.url);
+                        logprint(2, sprintf("HTTP OK %s", me.url));
 
                         # Move temporary file into final location.
                         os.path.new(me.tmpPath).rename(me.path);
@@ -32,7 +32,7 @@ var ImageManager = {
                     })
                     .fail(func (r) {
                         # Request aborted or failed
-                        printf("HTTP %i %s (%s)", r.status, me.url, r.reason);
+                        logprint(3, sprintf("HTTP %i %s (%s)", r.status, me.url, r.reason));
 
                         # Remove temporary file - if it exists, it will be
                         # incomplete, and thus useless.
@@ -48,7 +48,7 @@ var ImageManager = {
         },
 
         cancel: func (hard=1) {
-            printf("CANCEL %s (%s)", me.url, hard ? "hard" : "soft");
+            logprint(2, sprintf("CANCEL %s (%s)", me.url, hard ? "hard" : "soft"));
             if (me.status == 'finished' or me.status == 'failed') {
                 # Already done, can't cancel anymore
                 return;
@@ -117,11 +117,11 @@ var ImageManager = {
             }
         }
         elsif (io.stat(path) != nil) {
-            printf("CACHE GET %s", url);
+            logprint(2, printf("CACHE GET %s", url));
             onSuccess(path);
         }
         else {
-            printf("HTTP GET %s", url);
+            logprint(2, sprintf("HTTP GET %s", url));
             me.jobs[url] = me.Job.new(url, path);
             me.jobs[url].onSuccess.addListener(onSuccess);
             me.jobs[url].onFailure.addListener(onFailure);

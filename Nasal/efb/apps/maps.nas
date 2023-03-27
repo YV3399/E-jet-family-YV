@@ -38,7 +38,6 @@ var MapsApp = {
 
     cancelAllRequests: func () {
         foreach (var url; keys(me.requestedURLs)) {
-            printf("MAPS: cancel %s", url);
             imageManager.cancel(url, 0);
         }
         me.requestedURLs = {};
@@ -238,7 +237,7 @@ var MapsApp = {
                                 },
                                 func (r) {
                                     delete(self.requestedURLs, imgURL);
-                                    print('Failed to get image ' ~ imgURL ~ ': ' ~ r.status ~ ': ' ~ r.reason);
+                                    logprint(4, 'Failed to get image ' ~ imgURL ~ ': ' ~ r.status ~ ': ' ~ r.reason);
                                     tile.hide();
                                 },
                                 1 # replace previous subscribers
