@@ -123,3 +123,27 @@ var formatFuelTime0202 = func (fuelFlow, fuel) {
     var minutesRaw = fuelToMinutes(fuelFlow, fuel);
     return formatTime0202(minutesRaw);
 };
+
+formatGeoCoord = func (coord, dim) {
+    var markers = [ '+', '-' ];
+    var format1 = '%i';
+    if (dim == 'lat') {
+        markers = ['N', 'S'];
+        format1 = '%02i';
+    }
+    elsif (dim == 'lon') {
+        markers = ['E', 'W'];
+        format1 = '%03i';
+    }
+    var sign = (coord < 0) ? markers[0] : markers[1];
+    var degreesRaw = math.abs(coord);
+    var degrees = math.floor(degreesRaw);
+    var minutes = math.fmod(degreesRaw * 60, 60);
+    var seconds = math.fmod(degreesRaw * 3600, 60);
+    var format = format1 ~ '°%02i\'%05.2f"%s';
+    return sprintf(format, degrees, minutes, seconds, sign);
+};
+
+formatLatLon = func (lat, lon) {
+    return formatGeoCoord(lat, 'lat') ~ ' ' ~ formatGeoCoord(lon, 'lon');
+};
