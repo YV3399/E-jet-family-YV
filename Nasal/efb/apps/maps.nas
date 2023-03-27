@@ -20,7 +20,7 @@ var MapsApp = {
         m.lastTile = [ nil, nil ];
 
         m.makeURL = string.compileTemplate('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png');
-        m.makePath = string.compileTemplate(mapsBase ~ '/osm-tile/{z}/{x}/{y}.png');
+        m.makePath = string.compileTemplate('maps/osm-tile/{z}/{x}/{y}.png');
 
         m.requestedURLs = {};
 
@@ -234,7 +234,7 @@ var MapsApp = {
                             imageManager.get(imgURL, imgPath,
                                 func (path) {
                                     delete(self.requestedURLs, imgURL);
-                                    tile.set("src", imgPath);
+                                    tile.set("src", path);
                                     tile.show();
                                 },
                                 func (r) {

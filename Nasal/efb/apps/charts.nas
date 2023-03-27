@@ -11,6 +11,8 @@ var ChartsApp = {
         m.numPages = nil;
         m.currentPath = "";
         m.currentTitle = "Charts";
+        m.currentPageURL = nil;
+        m.currentPageMetaURL = nil;
         m.history = [];
         m.favorites = [];
         m.xhr = nil;
@@ -81,9 +83,11 @@ var ChartsApp = {
         }
     },
 
-    showErrorScreen: func (errs) {
-        me.rootWidget.removeAllChildren();
-        me.contentGroup.removeAllChildren();
+    showErrorScreen: func (errs, clearExisting=1) {
+        if (clearExisting) {
+            me.rootWidget.removeAllChildren();
+            me.contentGroup.removeAllChildren();
+        }
         var y = 64;
         me.contentGroup.createChild('text')
             .setText('Error')
@@ -118,6 +122,11 @@ var ChartsApp = {
             else {
                 var typeNode = n.getChild('type');
                 entry.type = typeNode.getValue();
+                var metaNode = n.getChild('meta');
+                if (metaNode == nil)
+                    entry.meta = nil;
+                else
+                    entry.meta = metaNode.getValue();
             }
             append(currentListing, entry);
         }
@@ -231,7 +240,7 @@ var ChartsApp = {
                     what = func () { self.loadListing(entry.path, entry.name, 0, 1); };
                 }
                 else {
-                    what = func () { self.loadChart(entry.path, entry.name, 0, 1); };
+                    what = func () { self.loadChart(entry.path, entry['meta'], entry.name, 0, 1); };
                 }
                 me.makeClickable([ x, y, x + hSpacing, y + lineHeight ], what);
             })(entry);
@@ -307,37 +316,74 @@ var ChartsApp = {
         update();
     },
 
-    loadChart: func (path, title, page, pushHistory = 1) {
+    loadChart: func (path, metaPath, title, page, pushHistory = 1) {
+        var self = me;
+        if (metaPath == nil) {
+            me.numPages = nil;
+            me.loadChartRaw(path, title, page, pushHistory);
+        }
+        else {
+            me.loadMeta(metaPath, page, func (numPages) {
+                self.numPages = numPages;
+                self.loadChartRaw(path, title, page, pushHistory);
+            });
+        }
+    },
+
+    loadChartRaw: func (path, title, page, pushHistory = 1) {
         var self = me;
         var url = me.baseURL ~ urlencode(path) ~ "?p=" ~ page;
         logprint(1, 'EFB loadChart:', url);
-        me.showLoadingScreen(url);
+
+        # In case we're already downloading a page: cancel the download.
+        if (me.currentPageURL != nil) {
+            imageManager.cancel(me.currentPageURL);
+        }
+        me.currentPageURL = url;
+
         me.contentGroup.removeAllChildren();
+        me.showLoadingScreen(url);
         if (pushHistory)
             append(me.history, [me.currentPath, me.currentTitle, me.currentPage]);
         me.currentPath = path;
         me.currentTitle = title;
         me.currentPage = page;
-        me.numPages = nil; # unknown
 
-        var img = me.contentGroup.createChild('image')
-            .set('size[0]', 768)
-            .set('size[1]', 768)
-            .set('src', url);
-        img.setTranslation(
-            256 - 384,
-            384 - 384);
-        me.makeFavoriteIcon('pdf', me.currentPath, me.currentTitle);
-        me.makeZoomScrollOverlay(img);
+        var imageGroup = me.contentGroup.createChild('group');
 
-        me.pager = Pager.new(me.contentGroup);
-        me.rootWidget.appendChild(me.pager);
-        me.pager.setCurrentPage(me.currentPage);
-        me.pager.setNumPages(nil);
-        me.pager.pageChanged.addListener(func (data) {
-            self.currentPage = data.page;
-            self.loadChart(self.currentPath, self.currentTitle, page, 0); # this will remove the pager
-        });
+        var makePager = func {
+            self.pager = Pager.new(self.contentGroup);
+            self.rootWidget.appendChild(self.pager);
+            self.pager.setCurrentPage(self.currentPage);
+            self.pager.setNumPages(self.numPages);
+            self.pager.pageChanged.addListener(func (data) {
+                self.currentPage = data.page;
+                self.loadChartRaw(self.currentPath, self.currentTitle, data.page, 0); # this will remove the pager
+            });
+        };
+
+        makePager();
+
+        imageManager.get(url, '/efb-charts/' ~ md5(path ~ '$' ~ page) ~ '.jpg',
+            func (path) {
+                var img = imageGroup.createChild('image')
+                    .set('size[0]', 768)
+                    .set('size[1]', 768)
+                    .set('src', path);
+                img.setTranslation(
+                    256 - 384,
+                    384 - 384);
+                me.makeFavoriteIcon('pdf', me.currentPath, me.currentTitle);
+                me.makeZoomScrollOverlay(img);
+            },
+            func (r) {
+                self.showErrorScreen([
+                    sprintf('Failed to load PDF page %i', page + 1),
+                    r.reason
+                ]);
+                makePager();
+            }
+        );
     },
 
     goHome: func () {
@@ -387,6 +433,46 @@ var ChartsApp = {
         me.pager.setCurrentPage(page);
         me.currentListing = me.favorites;
         me.showListing();
+    },
+
+    loadMeta: func (metaPath, page, then) {
+        var self = me;
+        var url = me.baseURL ~ urlencode(metaPath);
+
+        # In case we're already downloading page metadata: cancel the download.
+        if (me.currentPageMetaURL != nil) {
+            imageManager.cancel(me.currentPageMetaURL);
+        }
+        me.currentPageMetaURL = url;
+
+        var metaKey = md5(metaPath);
+        imageManager.get(url, '/efb-charts/' ~ metaKey ~ '.xml',
+            func (xmlFilename) {
+                var err = [];
+                var xmlDocument = call(io.readxml, [xmlFilename], io, {}, err);
+                if (size(err)) {
+                    debug.printerror(err);
+                    then(nil);
+                }
+                else {
+                    var properties = {};
+                    foreach (var propNode; xmlDocument.getNode('/meta').getChildren('property')) {
+                        var key = propNode.getValue('___name');
+                        var val = propNode.getValue('___value');
+                        properties[key] = val;
+                    }
+                    var numPages = properties['Pages'];
+                    then(numPages);
+                }
+            },
+            func (r) {
+                if (r.status >= 300) {
+                    # Not-found, client error, or server error: carry on
+                    # without page count. Most likely this means the companion
+                    # server doesn't serve metadata yet.
+                    then(nil);
+                }
+            });
     },
 
     loadListing: func (path, title, page, pushHistory = 1) {

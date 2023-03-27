@@ -55,7 +55,8 @@ var ImageManager = {
             }
             me.onSuccess.removeAllListeners();
             if (hard) {
-                me.request.abort();
+                if (me.request != nil)
+                    me.request.abort();
                 me.status = 'aborted';
                 me.request = nil;
             }
@@ -90,13 +91,15 @@ var ImageManager = {
     },
 
     get: func (url, path, onSuccess, onFailure, replace=0) {
+        var actualPath = me.cacheBase ~ path;
+        logprint(2, sprintf("GET %s -> %s; actual: %s", url, path, actualPath));
         if (contains(me.jobs, url) and me.jobs[url] != nil) {
             var job = me.jobs[url];
             # debug.dump(job);
             if (job.status == 'finished') {
                 # Already finished: no need to add listener, just trigger
                 # success handler directly.
-                onSuccess(job.path);
+                onSuccess(actualPath);
             }
             elsif (job.status == 'running') {
                 if (replace) {
@@ -116,13 +119,13 @@ var ImageManager = {
                 job.send();
             }
         }
-        elsif (io.stat(path) != nil) {
+        elsif (io.stat(me.cacheBase ~ path) != nil) {
             logprint(2, printf("CACHE GET %s", url));
-            onSuccess(path);
+            onSuccess(actualPath);
         }
         else {
             logprint(2, sprintf("HTTP GET %s", url));
-            me.jobs[url] = me.Job.new(url, path);
+            me.jobs[url] = me.Job.new(url, actualPath);
             me.jobs[url].onSuccess.addListener(onSuccess);
             me.jobs[url].onFailure.addListener(onFailure);
             me.jobs[url].send();
