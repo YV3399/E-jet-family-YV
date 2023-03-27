@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="256"
+   height="256"
+   viewBox="0 0 256 256.00001"
+   version="1.1"
+   id="svg8"
+   inkscape:version="1.0.2 (e86c870879, 2021-01-15)"
+   sodipodi:docname="hourglass-tile.svg">
+  <defs
+     id="defs2" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="2.03168"
+     inkscape:cx="178.91514"
+     inkscape:cy="139.62529"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     inkscape:document-rotation="0"
+     showgrid="false"
+     units="px"
+     inkscape:window-width="1918"
+     inkscape:window-height="1078"
+     inkscape:window-x="1440"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1" />
+  <metadata
+     id="metadata5">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <path
+       id="path833"
+       style="fill:#f9f9f9;stroke:#999999;stroke-linecap:round;stroke-linejoin:round;stroke-width:3;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="M 96 60 L 96 92 A 32 32 0 0 0 112 119.71289 A 32 32 0 0 0 120.43164 123.0918 C 121.13954 123.58657 121.75084 124.22677 122.19727 125 C 123.26907 126.85641 123.26907 129.14359 122.19727 131 C 121.75084 131.77323 121.13977 132.41343 120.43164 132.9082 A 32 32 0 0 0 112 136.28711 A 32 32 0 0 0 96 164 L 96 196 L 160 196 L 160 164 A 32 32 0 0 0 144 136.28711 A 32 32 0 0 0 135.56836 132.9082 C 134.86023 132.41343 134.24916 131.77323 133.80273 131 C 132.73093 129.14359 132.73093 126.85641 133.80273 125 C 134.24916 124.22677 134.86046 123.58657 135.56836 123.0918 A 32 32 0 0 0 144 119.71289 A 32 32 0 0 0 160 92 L 160 60 L 96 60 z " />
+    <path
+       id="rect856"
+       style="fill:#cccccc;stroke:none;stroke-width:1;stroke-linecap:round;stroke-linejoin:round"
+       d="M 98 84 L 98 92 C 98.000104 102.71786 103.71806 112.62154 113 117.98047 C 116.06688 119.75113 119.37018 120.92287 122.75195 121.52344 C 125.67469 123.1093 125.85313 125.54978 126 128 L 124.42773 166.52148 C 118.96818 169.41159 98 174 98 174 L 98 194 L 158 194 L 158 174 C 150.02116 171.63979 141.27128 172.01954 134.06445 166.91992 L 130 128 C 130.1433 125.51818 130.72617 123.20018 133.08984 121.54883 C 136.52674 120.9574 139.88539 119.77869 143 117.98047 C 152.28194 112.62154 157.9999 102.71786 158 92 L 158 84 C 146.92055 84 135.26198 90.131067 128 90 C 120.73802 89.868933 109.08259 84 98 84 z " />
+    <rect
+       style="fill:#b3b3b3;stroke:#999999;stroke-linecap:round;stroke-linejoin:round;stroke-width:3;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="rect864"
+       width="88"
+       height="16"
+       x="84"
+       y="50"
+       rx="6"
+       ry="6" />
+    <rect
+       style="fill:#b3b3b3;stroke:#999999;stroke-linecap:round;stroke-linejoin:round;stroke-width:3;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="rect866"
+       width="88"
+       height="16"
+       x="84"
+       y="190"
+       rx="6"
+       ry="6" />
+  </g>
+</svg>

@@ -2,6 +2,8 @@ include('apps/base.nas');
 
 var mapsBase = getprop("/sim/fg-home") ~ '/cache/maps';
 
+var errorTilePath = acdir ~ '/Models/EFB/error-tile.png';
+
 var MapsApp = {
     new: func(masterGroup) {
         var m = BaseApp.new(masterGroup);
@@ -238,7 +240,8 @@ var MapsApp = {
                                 func (r) {
                                     delete(self.requestedURLs, imgURL);
                                     logprint(4, 'Failed to get image ' ~ imgURL ~ ': ' ~ r.status ~ ': ' ~ r.reason);
-                                    tile.hide();
+                                    tile.set("src", errorTilePath);
+                                    tile.show();
                                 },
                                 1 # replace previous subscribers
                             );
