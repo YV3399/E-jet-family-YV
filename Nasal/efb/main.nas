@@ -11,16 +11,16 @@ globals.efb.registerApp = func(key, label, iconName, class) {
 };
 
 include('util.nas');
-include('imageManager.nas');
+include('downloadManager.nas');
 
-if (contains(globals.efb, 'imageManager')) {
+if (contains(globals.efb, 'downloadManager')) {
     var err = [];
-    call(globals.efb.imageManager.cancelAll, [], globals.efb.imageManager, {}, err);
+    call(globals.efb.downloadManager.cancelAll, [], globals.efb.downloadManager, {}, err);
     if (size(err)) {
         debug.printerror(err);
     }
 }
-globals.efb.imageManager = ImageManager.new();
+globals.efb.downloadManager = DownloadManager.new();
 
 var appFiles = directory(acdir ~ '/Nasal/efb/apps');
 foreach (var f; appFiles) {

@@ -1,6 +1,6 @@
 include('eventSource.nas');
 
-var ImageManager = {
+var DownloadManager = {
     Job: {
         new: func (url, path) {
             return {

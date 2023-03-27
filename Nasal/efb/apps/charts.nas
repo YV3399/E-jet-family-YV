@@ -337,7 +337,7 @@ var ChartsApp = {
 
         # In case we're already downloading a page: cancel the download.
         if (me.currentPageURL != nil) {
-            imageManager.cancel(me.currentPageURL);
+            downloadManager.cancel(me.currentPageURL);
         }
         me.currentPageURL = url;
 
@@ -364,7 +364,7 @@ var ChartsApp = {
 
         makePager();
 
-        imageManager.get(url, '/efb-charts/' ~ md5(path ~ '$' ~ page) ~ '.jpg',
+        downloadManager.get(url, '/efb-charts/' ~ md5(path ~ '$' ~ page) ~ '.jpg',
             func (path) {
                 var img = imageGroup.createChild('image')
                     .set('size[0]', 768)
@@ -441,12 +441,12 @@ var ChartsApp = {
 
         # In case we're already downloading page metadata: cancel the download.
         if (me.currentPageMetaURL != nil) {
-            imageManager.cancel(me.currentPageMetaURL);
+            downloadManager.cancel(me.currentPageMetaURL);
         }
         me.currentPageMetaURL = url;
 
         var metaKey = md5(metaPath);
-        imageManager.get(url, '/efb-charts/' ~ metaKey ~ '.xml',
+        downloadManager.get(url, '/efb-charts/' ~ metaKey ~ '.xml',
             func (xmlFilename) {
                 var err = [];
                 var xmlDocument = call(io.readxml, [xmlFilename], io, {}, err);

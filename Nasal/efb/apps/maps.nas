@@ -40,7 +40,7 @@ var MapsApp = {
 
     cancelAllRequests: func () {
         foreach (var url; keys(me.requestedURLs)) {
-            imageManager.cancel(url, 0);
+            downloadManager.cancel(url, 0);
         }
         me.requestedURLs = {};
     },
@@ -233,7 +233,7 @@ var MapsApp = {
                         else {
                             self.requestedURLs[imgURL] = 1;
                             tile.hide();
-                            imageManager.get(imgURL, imgPath,
+                            downloadManager.get(imgURL, imgPath,
                                 func (path) {
                                     delete(self.requestedURLs, imgURL);
                                     tile.set("src", path);
