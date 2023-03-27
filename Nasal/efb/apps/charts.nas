@@ -1,5 +1,5 @@
 include('apps/base.nas');
-include('apps/base.nas');
+include('gui/pager.nas');
 
 var ChartsApp = {
     new: func(masterGroup) {

@@ -1,4 +1,4 @@
-include('widget.nas');
+include('gui/widget.nas');
 
 var BaseApp = {
     new: func (masterGroup) {

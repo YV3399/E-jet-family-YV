@@ -1,6 +1,6 @@
 include('apps/base.nas');
-include('pager.nas');
-include('keyboard.nas');
+include('gui/pager.nas');
+include('gui/keyboard.nas');
 
 var PaperworkApp = {
     new: func(masterGroup) {

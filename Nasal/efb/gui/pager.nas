@@ -1,4 +1,4 @@
-include('widget.nas');
+include('gui/widget.nas');
 include('util.nas');
 include('eventSource.nas');
 

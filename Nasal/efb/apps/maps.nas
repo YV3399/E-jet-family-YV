@@ -212,9 +212,11 @@ var MapsApp = {
                         z: me.zoom,
                         x: int(me.tileIndex[0] + x),
                         y: int(me.tileIndex[1] + y),
-                        s: (rand() >= 0.5) ? 'a' : 'b',
                         tms_y: ymax - int(me.tileIndex[1] + y) - 1,
                     };
+                    # We're so poor we can't even afford a real hashing
+                    # function.
+                    pos.s = ((pos.x + pos.y + pos.z) & 1) ? 'a' : 'b';
                     while (pos.x < 0)
                         pos.x = pos.x + ymax;
                     while (pos.x >= ymax)

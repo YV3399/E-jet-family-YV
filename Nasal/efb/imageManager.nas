@@ -120,7 +120,7 @@ var ImageManager = {
             }
         }
         elsif (io.stat(me.cacheBase ~ path) != nil) {
-            logprint(2, printf("CACHE GET %s", url));
+            logprint(2, sprintf("CACHE GET %s", url));
             onSuccess(actualPath);
         }
         else {
