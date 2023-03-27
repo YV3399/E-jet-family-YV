@@ -128,7 +128,7 @@ formatGeoCoord = func (coord, dim) {
     var markers = [ '+', '-' ];
     var format1 = '%i';
     if (dim == 'lat') {
-        markers = ['N', 'S'];
+        markers = ['S', 'N'];
         format1 = '%02i';
     }
     elsif (dim == 'lon') {
