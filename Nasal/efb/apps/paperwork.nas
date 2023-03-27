@@ -36,6 +36,9 @@ var PaperworkApp = {
             tocFontSize: 14,
             tocLineHeight: 20,
             inputPadding: 1,
+            menuFontSize: 16,
+            menuLineHeight: 32,
+            menuItemPadding: 4,
         };
         me.metrics.marginLeft = (512 - me.metrics.pageWidth) / 2;
         me.metrics.marginTop = (738 - me.metrics.pageHeight) / 2;
@@ -121,8 +124,7 @@ var PaperworkApp = {
         me.hideKeyboard();
         me.animTimer.start();
 
-        me.loadSimbriefOFP();
-        me.renderOFP();
+        me.showStartMenu();
     },
 
     scrollIntoView: func(elem) {
@@ -146,6 +148,25 @@ var PaperworkApp = {
 
     hideKeyboard: func () {
         me.keyboard.setActive(0);
+    },
+
+    showPager: func {
+        me.pager.setActive(1);
+        me.pagerGroup.show();
+    },
+
+    hidePager: func {
+        me.pager.setActive(0);
+        me.pagerGroup.hide();
+    },
+
+    enableTOC: func {
+        me.tocPaneGroup.show();
+    },
+
+    disableTOC: func {
+        me.tocPaneGroup.hide();
+        me.hideTOC();
     },
 
     startEntry: func (ident, elem, node, exitFunc, numeric=0) {
@@ -261,18 +282,18 @@ var PaperworkApp = {
 
     loadSimbriefOFP: func () {
         var filename = getprop('/sim/fg-home') ~ "/Export/simbrief.xml";
-        me.ofp = io.readxml(filename);
-        if (me.ofp == nil) {
-            me.ofp = props.Node.new();
-        }
+        debug.dump(filename);
+        var err = [];
+        me.ofp = call(io.readxml, [filename], io, {}, err);
+        return me.ofp != nil;
     },
 
     getOFPNode: func(path) {
         return me.ofp.getNode(path, 1);
     },
 
-    getOFPValue: func(path) {
-        return me.ofp.getValue('OFP/' ~ path);
+    getOFPValue: func(path, default='') {
+        return me.ofp.getValue('OFP/' ~ path) or default;
     },
 
     getOFPValues: func(path, subkey=nil, forceVector=1) {
@@ -983,18 +1004,21 @@ var PaperworkApp = {
         }
     },
 
+    pageHeading: func (ofp) {
+        var schedOut = unixToDateTime(ofp.getValue('OFP/times/sched_out'));
+        return sprintf(
+            '%s %i/%02i %s/%s-%s',
+            ofp.getValue('OFP/general/icao_airline'),
+            ofp.getValue('OFP/general/flight_number'),
+            schedOut.day,
+            monthNames3[schedOut.month],
+            ofp.getValue('OFP/origin/iata_code'),
+            ofp.getValue('OFP/destination/iata_code'));
+    },
+
     renderPage: func(pageGroup, pageNumber, pageData, pageWidget) {
         var y = me.metrics.headerHeight + me.metrics.paddingTop + me.metrics.lineHeight;
-        var schedOut = unixToDateTime(me.getOFPValue('times/sched_out'));
-        var pageHeading =
-                sprintf(
-                    '%s %i/%02i %s/%s-%s',
-                    me.getOFPValue('general/icao_airline'),
-                    me.getOFPValue('general/flight_number'),
-                    schedOut.day,
-                    monthNames3[schedOut.month],
-                    me.getOFPValue('origin/iata_code'),
-                    me.getOFPValue('destination/iata_code'));
+        var pageHeading = me.pageHeading(me.ofp);
 
         pageGroup.createChild('path')
                  .rect(0, 0, me.metrics.pageWidth, me.metrics.headerHeight)
@@ -1051,6 +1075,7 @@ var PaperworkApp = {
         }
         me.pager.setNumPages(size(me.pages));
         me.pager.setCurrentPage(0);
+        me.showPager();
         me.tocContentsWidget.removeAllChildren();
         var y = me.metrics.tocPadding;
         foreach (var tocEntry; toc) {
@@ -1071,7 +1096,195 @@ var PaperworkApp = {
             })(tocEntry.page, elem);
             y += me.metrics.tocLineHeight;
         }
+        me.enableTOC();
     },
+
+    showSimbriefHelp: func () {
+        var self = me;
+        var args = arg;
+        me.hideKeyboard();
+        me.hidePager();
+        me.disableTOC();
+        me.mainWidget.removeAllChildren();
+
+        var y = me.metrics.marginTop + me.metrics.paddingTop;
+        var helpLines = [
+            'Failed to load SimBrief OFP.',
+            'The SimBrief OFP should be saved in the following location:',
+            getprop('/sim/fg-home') ~ "/Export/simbrief.xml",
+        ];
+        if (globals['simbrief']) {
+            append(helpLines,
+                '',
+                'It looks like you have the SimBrief importer plugin installed.',
+                'Select "Equipment" > "SimBrief Import" from the main menu',
+                'to download your SimBrief flightplan into the correct',
+                'location, and try again.'
+            );
+        }
+        else {
+            append(helpLines,
+                '',
+                'It looks like you do not have the SimBrief importer plugin',
+                'installed. You can find it here:',
+                'https://github.com/tdammers/fg-simbrief-addon',
+                '',
+                'You can also manually download your OFP from this URL:',
+                'https://www.simbrief.com/api/xml.fetcher.php?username={username}',
+                '(replace {username} with your SimBrief username)'
+            );
+        }
+        me.contentGroup.removeAllChildren();
+        me.contentGroup.createChild('text')
+                       .setColor(1, 0, 0)
+                       .setFont(font_mapper('sans', 'bold'))
+                       .setFontSize(me.metrics.menuFontSize * 1.5, 1)
+                       .setText('SimBrief OFP Not Found')
+                       .setAlignment('center-top')
+                       .setTranslation(256, y);
+
+        y += me.metrics.menuFontSize * 2.5 + me.metrics.menuItemPadding;
+        foreach (var h; helpLines) {
+            if (substr(h, 0, 6) == 'https:') {
+                var box = me.contentGroup.createChild('path')
+                        .rect(2, y, 508, me.metrics.menuLineHeight)
+                        .setColorFill(1, 1, 1, 0.5);
+                me.contentGroup.createChild('text')
+                               .setColor(0, 0, 1)
+                               .setFont(font_mapper('sans', 'normal'))
+                               .setFontSize(me.metrics.menuFontSize, 1)
+                               .setText(h)
+                               .setAlignment('center-top')
+                               .setTranslation(256, y + (me.metrics.menuLineHeight - me.metrics.menuFontSize) * 0.5);
+                (func (url) {
+                    me.makeClickable(box, func { fgcommand('open-browser', props.Node.new({url: url})); },
+                        me.mainWidget);
+                })(h);
+            }
+            else {
+                me.contentGroup.createChild('text')
+                               .setColor(0, 0, 0)
+                               .setFont(font_mapper('sans', 'normal'))
+                               .setFontSize(me.metrics.menuFontSize, 1)
+                               .setText(h)
+                               .setAlignment('center-top')
+                               .setTranslation(256, y + (me.metrics.menuLineHeight - me.metrics.menuFontSize) * 0.5);
+            }
+            y += me.metrics.menuLineHeight + me.metrics.menuItemPadding;
+        }
+    },
+
+    showError: func () {
+        var self = me;
+        var args = arg;
+        me.hideKeyboard();
+        me.hidePager();
+        me.disableTOC();
+        me.mainWidget.removeAllChildren();
+
+        var y = me.metrics.marginTop + me.metrics.paddingTop;
+
+        me.contentGroup.removeAllChildren();
+        me.contentGroup.createChild('text')
+                       .setColor(1, 0, 0)
+                       .setFont(font_mapper('sans', 'bold'))
+                       .setFontSize(me.metrics.menuFontSize * 1.5, 1)
+                       .setText('ERROR')
+                       .setAlignment('center-top')
+                       .setTranslation(256, y);
+        y += me.metrics.menuFontSize * 1.5 + me.metrics.menuItemPadding;
+        foreach (var msg; args) {
+            me.contentGroup.createChild('text')
+                           .setColor(1, 0, 0)
+                           .setFont(font_mapper('sans', 'bold'))
+                           .setFontSize(me.metrics.menuFontSize, 1)
+                           .setText(msg)
+                           .setAlignment('center-top')
+                           .setTranslation(256, y);
+            y += me.metrics.menuFontSize + me.metrics.menuItemPadding;
+        }
+    },
+
+    showStartMenu: func {
+        var self = me;
+        me.hideKeyboard();
+        me.hidePager();
+        me.disableTOC();
+        me.mainWidget.removeAllChildren();
+
+        me.contentGroup.removeAllChildren();
+
+        var y = me.metrics.marginTop + me.metrics.paddingTop;
+
+        var makeMenuItem = func (label, what) {
+            var box = me.contentGroup.createChild('path')
+                    .rect(me.metrics.marginLeft, y, me.metrics.pageWidth, me.metrics.menuLineHeight)
+                    .setColorFill(1, 1, 1, 0.5);
+            me.contentGroup.createChild('text')
+                    .setColor(0, 0, 1)
+                    .setText(label)
+                    .setFont(font_mapper('sans', 'bold'))
+                    .setFontSize(me.metrics.menuFontSize, 1)
+                    .setAlignment('center-top')
+                    .setTranslation(
+                        me.metrics.marginLeft + me.metrics.pageWidth / 2,
+                        y + (me.metrics.menuLineHeight - me.metrics.menuFontSize) / 2);
+            me.makeClickable(box, what, me.mainWidget);
+
+            y += me.metrics.menuLineHeight + me.metrics.menuItemPadding;
+        };
+
+        var makeMenuHeading = func (label) {
+            me.contentGroup.createChild('text')
+                    .setColor(0, 0, 0)
+                    .setText(label)
+                    .setFont(font_mapper('sans', 'bold'))
+                    .setFontSize(me.metrics.menuFontSize, 1)
+                    .setAlignment('center-top')
+                    .setTranslation(
+                        me.metrics.marginLeft + me.metrics.pageWidth / 2,
+                        y + (me.metrics.menuLineHeight - me.metrics.menuFontSize) / 2);
+
+            y += me.metrics.menuLineHeight + me.metrics.menuItemPadding;
+        }
+
+        var makeMenuStatic = func (label) {
+            me.contentGroup.createChild('text')
+                    .setColor(0, 0, 0)
+                    .setText(label)
+                    .setFont(font_mapper('sans', 'normal'))
+                    .setFontSize(me.metrics.menuFontSize, 1)
+                    .setAlignment('center-top')
+                    .setTranslation(
+                        me.metrics.marginLeft + me.metrics.pageWidth / 2,
+                        y + (me.metrics.menuLineHeight - me.metrics.menuFontSize) / 2);
+
+            y += me.metrics.menuLineHeight + me.metrics.menuItemPadding;
+        }
+
+        makeMenuHeading("Current OFP");
+        if (me.ofp == nil) {
+            makeMenuStatic('No OFP loaded');
+        }
+        else {
+            var name = me.pageHeading(me.ofp);
+            makeMenuItem(name, func { self.renderOFP(); });
+        }
+        makeMenuHeading("Available OFP");
+        makeMenuItem("Load from SimBrief", func {
+            if (self.loadSimbriefOFP()) {
+                self.showStartMenu();
+            }
+            else {
+                self.showSimbriefHelp();
+            }
+        });
+    },
+
+    handleBack: func {
+        me.showStartMenu();
+    },
+
 };
 
 registerApp('paperwork', 'Paperwork', 'paperwork.png', PaperworkApp);
