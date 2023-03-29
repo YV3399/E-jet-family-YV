@@ -1,19 +1,27 @@
 include('util.nas');
 include('dom.nas');
 
-var makeDefaultRenderContext = func (group, fontMapper) {
+var makeDefaultRenderContext = func (group, fontMapper, left, top, width, height) {
     return {
         group: group,
         fontMapper: fontMapper,
         dpi: 96,
         debugLayout: 0,
+        viewport: {
+            left: left,
+            top: top,
+            width: width,
+            height: height,
+            right: left + width,
+            bottom: top + height,
+        },
     };
 };
 
-var makeDefaultMetrics = func (width, height) {
+var makeDefaultMetrics = func (left, top, width, height) {
     return {
-        left: 0,
-        top: 0,
+        left: left,
+        top: top,
         width: width,
         height: height,
         'line-height': 1.25,
@@ -110,6 +118,12 @@ var resolveUnit = func (renderContext, parentMetrics, valueKey, value, unit) {
     elsif (unit == 'pt') {
         return value * renderContext.dpi / 72;
     }
+    elsif (unit == 'vw') {
+        return value * renderContext.viewport.width / 100;
+    }
+    elsif (unit == 'vh') {
+        return value * renderContext.viewport.height / 100;
+    }
     else {
         return value;
     }
@@ -184,13 +198,13 @@ var Node = {
                   me.metrics['border-box-top'],
                   me.metrics['border-box-width'],
                   me.metrics['border-box-height'])
-            .setColorFill([0.5, 0, 1, 0.5]);
+            .setColor([0.5, 0, 1, 1]);
         renderContext.group.createChild('path')
             .rect(me.metrics['left'],
                   me.metrics['top'],
                   me.metrics['width'],
                   me.metrics['height'])
-            .setColorFill([0.5, 1, 1, 0.5]);
+            .setColor([0.5, 1, 1, 1]);
     },
 
     renderBorderAndBackground: func (renderContext) {
@@ -322,9 +336,10 @@ var InlineText = {
         me.metrics['border-box-height'] = me.metrics['padding-box-height'] +  me.metrics['border-width'];
     },
 
-    layout: func(x, y) {
+    layout: func(x, y, previousX) {
         me.metrics.x = x;
         me.metrics.y = y;
+        me.metrics['previous-x'] = previousX;
 
         me.metrics.left = x;
         me.metrics.right = x + me.metrics.width;
@@ -361,8 +376,8 @@ var InlineText = {
 
         if (me.metrics['text-decoration'] == 'underline') {
         renderContext.group.createChild('path')
-            .moveTo(me.metrics.x, me.metrics.top + me.metrics.aboveBaseline + 1)
-            .line(me.metrics.width, 0)
+            .moveTo(me.metrics['previous-x'], me.metrics.top + me.metrics.aboveBaseline + 1)
+            .line(me.metrics.width - me.metrics['previous-x'] + me.metrics.x, 0)
             .setColor(me.metrics['color']);
         }
         var textElem =
@@ -517,6 +532,11 @@ var Block = {
 
         var firstLine = 1;
 
+        # We need to track this so that the child knows whether it belongs to
+        # the same DOM node as the previous one; we use this to draw underlines
+        # across individual inlines.
+        var previousDOMNodeID = nil;
+
         var pushLine = func (lastLine) {
             var remainingWidth = me.metrics.width - currentLineWidth;
             var x = me.metrics.left;
@@ -538,13 +558,19 @@ var Block = {
                 # 'fill' or 'left': start on the left.
             }
             var baseline = y + baselineOffset;
+            var firstInLine = 1;
+            var previousX = 0;
             foreach (var child; currentLine) {
-                child.layout(x, baseline);
+                var currentDOMNodeID = id(child.domNode);
+                child.layout(x, baseline, (currentDOMNodeID == previousDOMNodeID) ? previousX : x);
                 x += child.metrics.width;
+                previousX = x;
                 if (me.metrics['text-align'] == 'fill' and numSpaces and !lastLine) {
                     x += remainingWidth / numSpaces;
                 }
                 x += child.metrics.minSpacing;
+                firstInLine = 0;
+                previousDOMNodeID = currentDOMNodeID;
             }
             spacing = 0;
             baselineOffset = 0;
@@ -628,12 +654,12 @@ var domNodeToRenderNode = func (node, path=nil, style=nil) {
 };
 
 var showDOM = func (dom, group, fontMapper, x, y, w, h) {
-    var renderContext = makeDefaultRenderContext(group, fontMapper);
+    var renderContext = makeDefaultRenderContext(group, fontMapper, x, y, w, h);
     group.removeAllChildren();
     group.hide();
     var doc = domNodeToRenderNode(dom);
     doc = doc.wordSplit()[0];
-    doc.calcMetrics(renderContext, makeDefaultMetrics(w, h));
+    doc.calcMetrics(renderContext, makeDefaultMetrics(x, y, w, h));
     doc.layout(x, y);
     group.removeAllChildren();
     doc.render(renderContext);
