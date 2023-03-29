@@ -6,7 +6,7 @@ var include = func (basename) {
     var namespace = 'html';
     var path = acdir ~ '/Nasal/html/' ~ basename;
     if (!contains(includes, basename)) {
-        printf("--- loading " ~ path ~ " ---");
+        logprint(1, sprintf("--- loading " ~ path ~ " ---"));
         io.load_nasal(path, namespace);
         includes[basename] = 1;
     }

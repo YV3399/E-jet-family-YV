@@ -87,7 +87,9 @@ var verbatimStyleKeys = [
 
     'vertical-align',
     'text-align',
+];
 
+var colorStyleKeys = [
     'color',
     'border-color',
     'background-color',
@@ -126,6 +128,58 @@ var resolveUnit = func (renderContext, parentMetrics, valueKey, value, unit) {
     }
     else {
         return value;
+    }
+};
+
+var defaultColors = {
+    'background-color': [255, 255, 255, 0],
+};
+
+var namedColors = {
+    'transparent': [0,0,0,0],
+    'none':        [0,0,0,0],
+    'black':   [0,0,0],
+    'silver':  [192,192,192],
+    'gray':    [128,128,128],
+    'white':   [255,255,255],
+    'maroon':  [128,0,0],
+    'red':     [255,0,0],
+    'purple':  [128,0,128],
+    'fuchsia': [255,0,255],
+    'green':   [0,128,0],
+    'lime':    [0,255,0],
+    'olive':   [128,128,0],
+    'yellow':  [255,255,0],
+    'navy':    [0,0,128],
+    'blue':    [0,0,255],
+    'teal':    [0,128,128],
+    'aqua':    [0,255,255],
+};
+
+var resolveColor = func (key, color) {
+    if (color == 'none' or color == nil) {
+        return 'none';
+    }
+    var default = defaultColors[key] or [0,0,0,1];
+
+    if (typeof(color) == 'scalar') {
+        color = namedColors[color] or default;
+    }
+    if (color == nil) {
+        color = default;
+    }
+
+    if (typeof(color) == 'vector') {
+        color = subvec(color, 0, 4);
+        return
+            [ size(color) > 0 ? (color[0] / 255) : 0
+            , size(color) > 1 ? (color[1] / 255) : 0
+            , size(color) > 2 ? (color[2] / 255) : 0
+            , size(color) > 3 ? color[3] : default[3]
+            ]
+    }
+    else {
+        return [0,0,0,0];
     }
 };
 
@@ -177,6 +231,14 @@ var Node = {
             }
             else {
                 me.metrics[k] = me.style[k];
+            }
+        }
+        foreach (var k; colorStyleKeys) {
+            if (me.style[k] == nil or me.style[k] == 'inherit') {
+                me.metrics[k] = parentMetrics[k];
+            }
+            else {
+                me.metrics[k] = resolveColor(k, me.style[k]);
             }
         }
     },
@@ -374,12 +436,6 @@ var InlineText = {
             alignment = 'left-center';
         }
 
-        if (me.metrics['text-decoration'] == 'underline') {
-        renderContext.group.createChild('path')
-            .moveTo(me.metrics['previous-x'], me.metrics.top + me.metrics.aboveBaseline + 1)
-            .line(me.metrics.width - me.metrics['previous-x'] + me.metrics.x, 0)
-            .setColor(me.metrics['color']);
-        }
         var textElem =
                 renderContext.group.createChild('text')
                             .setFont(renderContext.fontMapper(fontFamily, fontWeight))
@@ -389,6 +445,12 @@ var InlineText = {
                             .setColor(me.metrics['color'])
                             .setText(me.text);
         
+        if (me.metrics['text-decoration'] == 'underline') {
+            renderContext.group.createChild('path')
+                .moveTo(me.metrics['previous-x'], me.metrics.top + me.metrics.aboveBaseline + 1)
+                .line(me.metrics.width - me.metrics['previous-x'] + me.metrics.x, 0)
+                .setColor(me.metrics['color']);
+        }
     },
 
 

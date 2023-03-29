@@ -1,4 +1,5 @@
 globals.efb = {};
+globals.html = {};
 
 var includes = {};
 
@@ -13,7 +14,7 @@ var include = func (basename) {
     }
 
     if (!contains(includes, basename)) {
-        printf("--- loading " ~ path ~ " ---");
+        logprint(3, sprintf("--- loading " ~ path ~ " ---"));
         io.load_nasal(path, namespace);
         includes[basename] = 1;
     }

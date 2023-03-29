@@ -1,4 +1,3 @@
-var efbMaster = nil;
 var efb = nil;
 
 globals.efb.availableApps = {};
@@ -80,7 +79,7 @@ var EFB = {
                         'deserunt mollit anim id est laborum.'
                         ),
                     H.h2('Align Right'),
-                    H.p({'style': 'text-align: right'},
+                    H.p({'class': 'ralign'},
                         H.b(H.a('Lorem ipsum'), 'dolor sit amet'),
                         'consectetur adipiscing',
                         'elit, sed do eiusmod tempor incididunt ut labore et',
@@ -106,6 +105,8 @@ var EFB = {
                         'deserunt mollit anim id est laborum.'
                         )
                 );
+        var stylesheet = html.CSS.parseStylesheet('.ralign { text-align: right; }');
+        stylesheet.apply(testDoc);
         html.showDOM(testDoc, me.richtextTestGroup, font_mapper, 10, 180, 492, 600);
 
         me.clientGroup = me.master.createChild('group');

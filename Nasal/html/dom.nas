@@ -10,7 +10,12 @@ var DOM = (func {
                 parents: [me],
                 parentNode: nil,
                 siblingIndex: 0,
+                cssStyle: {},
             };
+        },
+
+        applyCSSStyle: func (style) {
+            me.cssStyle = mergeDicts(me.cssStyle, style);
         },
 
         cloneRaw: func {
@@ -19,6 +24,7 @@ var DOM = (func {
 
         clone: func (parentNode, siblingIndex) {
             var cloned = me.cloneRaw();
+            cloned.cssStyle = copyDict(me.cssStyle);
             cloned.parentNode = parentNode;
             cloned.siblingIndex = siblingIndex;
             return cloned;
@@ -30,7 +36,7 @@ var DOM = (func {
         getNodeName: func nil,
         getNodeType: func nil,
         getTextContent: func '',
-        getStyle: func nil,
+        getStyle: func me.cssStyle,
         getParentNode: func me.parentNode,
         getAncestry: func {
             var result = [];
@@ -119,10 +125,11 @@ var DOM = (func {
 
         # TODO: parse attribs for style properties
         getStyle: func {
-            var style = baseStyles[me.elemName] or { 'display': 'block' };
-            var styleAttrib = me.attribs['style'] or {};
-            style = mergeDicts(style, parseStyleAttrib(styleAttrib));
-
+            var styleAttrib = me.attribs['style'] or '';
+            var elemStyle = CSS.parseStyleAttrib(styleAttrib);
+            var baseStyle = baseStyles[me.elemName] or {'display': 'inline'};
+            var style = mergeDicts(baseStyle, me.cssStyle);
+            style = mergeDicts(style, elemStyle);
             return style;
         },
     };
@@ -137,43 +144,16 @@ var DOM = (func {
         'h5': { 'display': 'block', 'margin-top': '0.5em', 'margin-bottom': '0.5em', 'text-align': 'center', 'font-size': '105%', 'font-weight': 'bold' },
         'h6': { 'display': 'block', 'margin-top': '0.5em', 'margin-bottom': '0.5em', 'text-align': 'center', 'font-size': '100%', 'font-weight': 'bold' },
 
-        'a': { 'display': 'inline', 'color': [0,0,1], 'text-decoration': 'underline' },
+        'a': { 'display': 'inline', 'color': 'blue', 'text-decoration': 'underline' },
         'b': { 'display': 'inline', 'font-weight': 'bold' },
         'strong': { 'display': 'inline', 'font-weight': 'bold' },
         'i': { 'display': 'inline', 'font-style': 'italic' },
         'em': { 'display': 'inline', 'font-style': 'italic' },
     };
 
-    var parseStyleAttrib = func (str) {
-        var style = {};
-        if (typeof(str) != 'scalar')
-            return style;
-        var rules = split(';', str);
-        foreach (var rule; rules) {
-            rule = string.trim(rule);
-            var parts = split(':', rule);
-            if (size(parts) < 2) {
-                logprint(2, 'Invalid CSS style rule: ' ~ rule);
-                continue;
-            }
-            var key = string.trim(parts[0]);
-            var val = string.trim(string.join(':', subvec(parts, 1)));
-            style[key] = val;
-        }
-        return style;
-    };
-
     module.Node = Node;
     module.Element = Element;
     module.Text = Text;
-
-    # var selector = CSS.Selector.new('foo bar');
-    # selector.dump();
-    # var dom = Element.new('foo', {}, [
-    #             Element.new('bar', {}, []),
-    #             Element.new('baz', {}, [])
-    #           ]);
-    # debug.dump(selector.test(dom.getChild(0)));
 
     return module;
 })();
