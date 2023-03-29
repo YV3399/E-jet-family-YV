@@ -3,13 +3,18 @@ globals.efb = {};
 var includes = {};
 
 var acdir = getprop('/sim/aircraft-dir');
+
 var include = func (basename) {
-    if (contains(includes, basename))
-        return includes[basename];
-    var path = acdir ~ '/Nasal/efb/' ~ basename;
-    printf("--- loading " ~ path ~ " ---");
-    io.load_nasal(path, 'efb');
-    includes[basename] = 1;
+    var namespace = 'efb';
+
+    if (!contains(includes, basename)) {
+        var path = acdir ~ '/Nasal/efb/' ~ basename;
+        printf("--- loading " ~ path ~ " ---");
+        io.load_nasal(path, namespace);
+        includes[namespace] = 1;
+    }
+
+    return globals[namespace];
 }
 
 var listeners = [];

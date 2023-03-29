@@ -12,6 +12,7 @@ globals.efb.registerApp = func(key, label, iconName, class) {
 
 include('util.nas');
 include('downloadManager.nas');
+include('richtext.nas');
 
 if (contains(globals.efb, 'downloadManager')) {
     var err = [];
@@ -54,8 +55,57 @@ var EFB = {
     initialize: func() {
         me.shellGroup = me.master.createChild('group');
         me.shellPages = [];
-        me.background = me.shellGroup.createChild('image');
-        me.background.set('src', "Aircraft/E-jet-family/Models/EFB/efb.png");
+        me.background = me.shellGroup.createChild('path')
+                            .rect(0, 0, 512, 768)
+                            .setColorFill(1, 1, 1);
+        # me.background = me.shellGroup.createChild('image');
+        # me.background.set('src', "Aircraft/E-jet-family/Models/EFB/efb.png");
+
+        me.richtextTestGroup = me.shellGroup.createChild('group');
+        var testDoc =
+                H.div(
+                    H.h1('Hello, world!'),
+                    H.h2('Align Left'),
+                    H.p(
+                        H.b(H.a('Lorem ipsum'), 'dolor sit amet'),
+                        'consectetur adipiscing',
+                        'elit, sed do eiusmod tempor incididunt ut labore et',
+                        'dolore magna aliqua. Ut enim ad minim veniam, quis',
+                        'nostrud exercitation ullamco laboris nisi ut aliquip ex',
+                        'ea commodo consequat.  Duis aute irure dolor in',
+                        'reprehenderit in voluptate velit esse cillum dolore eu',
+                        'fugiat nulla pariatur. Excepteur sint occaecat',
+                        'cupidatat non proident, sunt in culpa qui officia',
+                        'deserunt mollit anim id est laborum.'
+                        ),
+                    H.h2('Align Right'),
+                    H.p({'style': 'text-align: right'},
+                        H.b(H.a('Lorem ipsum'), 'dolor sit amet'),
+                        'consectetur adipiscing',
+                        'elit, sed do eiusmod tempor incididunt ut labore et',
+                        'dolore magna aliqua. Ut enim ad minim veniam, quis',
+                        'nostrud exercitation ullamco laboris nisi ut aliquip ex',
+                        'ea commodo consequat.  Duis aute irure dolor in',
+                        'reprehenderit in voluptate velit esse cillum dolore eu',
+                        'fugiat nulla pariatur. Excepteur sint occaecat',
+                        'cupidatat non proident, sunt in culpa qui officia',
+                        'deserunt mollit anim id est laborum.'
+                        ),
+                    H.h2('Align Fill'),
+                    H.p({'style': 'text-align: fill'},
+                        H.b(H.a('Lorem ipsum'), 'dolor sit amet'),
+                        'consectetur adipiscing',
+                        'elit, sed do eiusmod tempor incididunt ut labore et',
+                        'dolore magna aliqua. Ut enim ad minim veniam, quis',
+                        'nostrud exercitation ullamco laboris nisi ut aliquip ex',
+                        'ea commodo consequat.  Duis aute irure dolor in',
+                        'reprehenderit in voluptate velit esse cillum dolore eu',
+                        'fugiat nulla pariatur. Excepteur sint occaecat',
+                        'cupidatat non proident, sunt in culpa qui officia',
+                        'deserunt mollit anim id est laborum.'
+                        )
+                );
+        showDOM(testDoc, me.richtextTestGroup, font_mapper, 10, 180, 492, 600);
 
         me.clientGroup = me.master.createChild('group');
 

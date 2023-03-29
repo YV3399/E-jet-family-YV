@@ -1162,7 +1162,7 @@ var PaperworkApp = {
                 })(h);
             }
             else {
-                me.contentGroup.createChild('text')
+                var text = me.contentGroup.createChild('text')
                                .setColor(0, 0, 0)
                                .setFont(font_mapper('sans', 'normal'))
                                .setFontSize(me.metrics.menuFontSize, 1)
@@ -1218,10 +1218,10 @@ var PaperworkApp = {
 
         var makeMenuItem = func (label, what) {
             var box = me.contentGroup.createChild('path')
-                    .rect(me.metrics.marginLeft, y, me.metrics.pageWidth, me.metrics.menuLineHeight)
-                    .setColorFill(1, 1, 1, 0.5);
+                    .rect(me.metrics.marginLeft, y, me.metrics.pageWidth, me.metrics.menuLineHeight, {'border-radius': 6})
+                    .setColorFill(0.2, 0.4, 0.8, 1);
             me.contentGroup.createChild('text')
-                    .setColor(0, 0, 1)
+                    .setColor(0.9, 0.9, 1)
                     .setText(label)
                     .setFont(font_mapper('sans', 'bold'))
                     .setFontSize(me.metrics.menuFontSize, 1)
@@ -1239,7 +1239,7 @@ var PaperworkApp = {
                     .setColor(0, 0, 0)
                     .setText(label)
                     .setFont(font_mapper('sans', 'bold'))
-                    .setFontSize(me.metrics.menuFontSize, 1)
+                    .setFontSize(me.metrics.menuFontSize * 1.25, 1)
                     .setAlignment('center-top')
                     .setTranslation(
                         me.metrics.marginLeft + me.metrics.pageWidth / 2,
@@ -1279,6 +1279,16 @@ var PaperworkApp = {
                 self.showSimbriefHelp();
             }
         });
+        var ofpDir = getprop("/sim/fg-home") ~ '/Export/OFP/';
+        var ofpList = directory(ofpDir);
+        foreach (var ofpCandidate; ofpList) {
+            if (substr(ofpCandidate, -4) == '.xml') {
+                # var ofpMaybe = call(io.readxml, [ofpDir ~ ofpCandidate], io);
+                # if (ofpMaybe == nil)
+                #     continue;
+                makeMenuItem(ofpCandidate, func { print(ofpCandidate); });
+            }
+        }
     },
 
     handleBack: func {

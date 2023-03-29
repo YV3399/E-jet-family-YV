@@ -124,7 +124,7 @@ var formatFuelTime0202 = func (fuelFlow, fuel) {
     return formatTime0202(minutesRaw);
 };
 
-formatGeoCoord = func (coord, dim) {
+var formatGeoCoord = func (coord, dim) {
     var markers = [ '+', '-' ];
     var format1 = '%i';
     if (dim == 'lat') {
@@ -144,6 +144,35 @@ formatGeoCoord = func (coord, dim) {
     return sprintf(format, degrees, minutes, seconds, sign);
 };
 
-formatLatLon = func (lat, lon) {
+var formatLatLon = func (lat, lon) {
     return formatGeoCoord(lat, 'lat') ~ ' ' ~ formatGeoCoord(lon, 'lon');
+};
+
+var mergeDicts = func (lhs, rhs) {
+    var result = {};
+    if (lhs == nil)
+        return copyDict(rhs);
+    if (rhs == nil)
+        return copyDict(lhs);
+    foreach (var k; keys(lhs) ~ keys(rhs)) {
+        if (lhs[k] == nil)
+            result[k] = rhs[k];
+        elsif (rhs[k] == nil)
+            result[k] = lhs[k];
+        elsif (typeof(lhs[k]) == 'hash')
+            result[k] = mergeDicts(lhs[k], rhs[k]);
+        else
+            result[k] = rhs[k];
+    }
+    return result;
+};
+
+var copyDict = func (lhs) {
+    if (lhs == nil)
+        return {};
+    var result = {};
+    foreach (var k; keys(lhs)) {
+        result[k] = lhs[k];
+    }
+    return result;
 };
