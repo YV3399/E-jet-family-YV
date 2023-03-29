@@ -6,15 +6,17 @@ var acdir = getprop('/sim/aircraft-dir');
 
 var include = func (basename) {
     var namespace = 'efb';
-
-    if (!contains(includes, basename)) {
-        var path = acdir ~ '/Nasal/efb/' ~ basename;
-        printf("--- loading " ~ path ~ " ---");
-        io.load_nasal(path, namespace);
-        includes[namespace] = 1;
+    var path = acdir ~ '/Nasal/efb/' ~ basename;
+    if (substr(basename, 0, 1) == '/') {
+        namespace = split('/', basename)[1];
+        path = acdir ~ '/Nasal' ~ basename;
     }
 
-    return globals[namespace];
+    if (!contains(includes, basename)) {
+        printf("--- loading " ~ path ~ " ---");
+        io.load_nasal(path, namespace);
+        includes[basename] = 1;
+    }
 }
 
 var listeners = [];

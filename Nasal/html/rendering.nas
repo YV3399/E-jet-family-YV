@@ -1,5 +1,5 @@
 include('util.nas');
-include('richtext/dom.nas');
+include('dom.nas');
 
 var makeDefaultRenderContext = func (group, fontMapper) {
     return {

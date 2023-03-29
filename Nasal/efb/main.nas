@@ -12,7 +12,8 @@ globals.efb.registerApp = func(key, label, iconName, class) {
 
 include('util.nas');
 include('downloadManager.nas');
-include('richtext.nas');
+include('/html/main.nas');
+var H = html.H;
 
 if (contains(globals.efb, 'downloadManager')) {
     var err = [];
@@ -105,7 +106,7 @@ var EFB = {
                         'deserunt mollit anim id est laborum.'
                         )
                 );
-        showDOM(testDoc, me.richtextTestGroup, font_mapper, 10, 180, 492, 600);
+        html.showDOM(testDoc, me.richtextTestGroup, font_mapper, 10, 180, 492, 600);
 
         me.clientGroup = me.master.createChild('group');
 

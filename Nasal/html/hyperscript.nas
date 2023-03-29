@@ -1,7 +1,7 @@
 ## Hyperscript-style helpers
 
 include('util.nas');
-include('richtext/dom.nas');
+include('dom.nas');
 
 var H = (func {
     var makeElem = func (tag) {
