@@ -6,67 +6,48 @@ var makeDefaultRenderContext = func (group, fontMapper, left, top, width, height
         group: group,
         fontMapper: fontMapper,
         dpi: 96,
-        debugLayout: 1,
-        viewport: {
-            left: left,
-            top: top,
-            width: width,
-            height: height,
-            right: left + width,
-            bottom: top + height,
-        },
+        debugLayout: 0,
+        viewport: Box.new(left, top, width, height),
     };
 };
 
-var makeDefaultMetrics = func (left, top, width, height) {
-    return {
-        left: left,
-        top: top,
-        width: width,
-        height: height,
-        'line-height': 1.25,
-        'font-size': 12,
-        'font-size-base': 12,
-        'padding-left': 0,
-        'padding-right': 0,
-        'padding-top': 0,
-        'padding-bottom': 0,
-    };
+var cascadeStyle = func (parentStyle, childStyle) {
+    if (parentStyle == nil) {
+        return childStyle;
+    }
+    var combinedStyle = {};
+    foreach (var k; keys(parentStyle)) {
+        if (childStyle[k] == nil or childStyle[k] == 'inherit') {
+            combinedStyle[k] = parentStyle[k];
+        }
+    }
+    return mergeDicts(childStyle, combinedStyle);
 };
 
-var defaultStyle = {
+var rootStyle = mergeDicts(DOM.defaultStyle, {
     'font-size': '10pt',
-    'font-size-base': '10pt',
-    'border-width': 0,
-
-    'padding-left': 0,
-    'padding-right': 0,
-    'padding-top': 0,
-    'padding-bottom': 0,
-
-    'margin-left': 0,
-    'margin-right': 0,
-    'margin-top': 0,
-    'margin-bottom': 0,
-
     'font-family': 'sans',
     'font-weight': 'normal',
     'text-style': 'normal',
     'text-decoration': 'none',
+    'line-height': 1.25,
+    'color': 'black',
 
-    'vertical-align': 'baseline',
-    'text-align': 'left',
+    'padding-left': '1rem',
+    'padding-top': '1rem',
+    'padding-right': '1rem',
+    'padding-bottom': '1rem',
 
-    'color': [0, 0, 0],
-    'border-color': 'none',
-    'border-width': 0,
     'background-color': 'none',
-};
+});
 
 var dimensionalStyleKeys = [
     'font-size',
-    'font-size-base',
-    'border-width',
+
+    'border-left-width',
+    'border-right-width',
+    'border-top-width',
+    'border-bottom-width',
 
     'padding-left',
     'padding-right',
@@ -77,6 +58,14 @@ var dimensionalStyleKeys = [
     'margin-right',
     'margin-top',
     'margin-bottom',
+
+    'min-width',
+    'max-width',
+    'width',
+
+    'min-height',
+    'max-height',
+    'height',
 ];
 
 var verbatimStyleKeys = [
@@ -94,6 +83,10 @@ var colorStyleKeys = [
     'color',
     'border-color',
     'background-color',
+    'border-left-color',
+    'border-right-color',
+    'border-top-color',
+    'border-bottom-color',
 ];
 
 var resolveUnit = func (renderContext, parentMetrics, valueKey, value, unit) {
@@ -122,10 +115,10 @@ var resolveUnit = func (renderContext, parentMetrics, valueKey, value, unit) {
         return value * renderContext.dpi / 72;
     }
     elsif (unit == 'vw') {
-        return value * renderContext.viewport.width / 100;
+        return value * renderContext.viewport.width() / 100;
     }
     elsif (unit == 'vh') {
-        return value * renderContext.viewport.height / 100;
+        return value * renderContext.viewport.height() / 100;
     }
     else {
         return value;
@@ -171,12 +164,11 @@ var resolveColor = func (key, color) {
     }
 
     if (typeof(color) == 'vector') {
-        color = subvec(color, 0, 4);
         return
             [ size(color) > 0 ? (color[0] / 255) : 0
             , size(color) > 1 ? (color[1] / 255) : 0
             , size(color) > 2 ? (color[2] / 255) : 0
-            , size(color) > 3 ? color[3] : default[3]
+            , size(color) > 3 ? color[3] : 1
             ]
     }
     else {
@@ -189,12 +181,91 @@ var splitDimensional = func (str) {
         return [0, ''];
     var result = [];
     var i = 0;
-    while (i < size(str) and (string.isdigit(str[i]) or str[i] == '-' or str[i] == '.')) {
+    while (i < size(str) and (string.isdigit(str[i]) or str[i] == '-'[0] or str[i] == '.'[0])) {
         i += 1;
     }
     var value = substr(str, 0, i);
     var unit = substr(str, i);
     return [value, unit];
+};
+
+var Box = {
+    new: func(l, t, w=0, h=0) {
+        return {
+            parents: [me],
+            l: l,
+            t: t,
+            w: w,
+            h: h
+        };
+    },
+
+    clone: func {
+        return Box.new(me.l, me.t, me.w, me.h);
+    },
+
+    left: func me.l,
+    right: func me.l + me.w,
+    top: func me.t,
+    bottom: func me.t + me.h,
+    width: func me.w,
+    height: func me.h,
+
+    rect: func { return [ me.l, me.t, me.w, me.h ]; },
+
+    draw: func (group) {
+        return group.createChild('path')
+                    .rect(me.l, me.t, me.w, me.h);
+    },
+
+    setLeft: func (v) { me.l = v; return me; },
+    setRight: func (v) { me.w = v - me.l; return me; },
+    setTop: func (v) { me.t = v; return me; },
+    setBottom: func (v) { me.h = v - me.t; return me; },
+    setWidth: func (v) { me.w = v; return me; },
+    setHeight: func (v) { me.h = v; return me; },
+
+    move: func (dx, dy) { me.l += dx; me.t += dy; return me; },
+
+    resizeCentered: func (w, h) {
+        me.l += (me.w - w) * 0.5;
+        me.r += (me.h - h) * 0.5;
+        me.w = w;
+        me.h = h;
+        return me;
+    },
+
+    resizeTopLeft: func (w, h) {
+        me.w = w;
+        me.h = h;
+        return me;
+    },
+
+    resizeBottomRight: func (w, h) {
+        me.l += me.w - w;
+        me.r += me.h - h;
+        me.w = w;
+        me.h = h;
+        return me;
+    },
+
+    growCentered: func (dw, dh) {
+        dw = math.max(-me.w, dw);
+        dh = math.max(-me.h, dh);
+        me.l -= dw * 0.5;
+        me.t -= dh * 0.5;
+        me.w += dw;
+        me.h += dh;
+        return me;
+    },
+
+    extend: func (dl, dt, dr, db) {
+        me.l -= dl;
+        me.t -= dt;
+        me.w += dl + dr;
+        me.h += dt + db;
+        return me;
+    },
 };
 
 var Node = {
@@ -209,16 +280,65 @@ var Node = {
 
     wordSplit: func [],
 
+    # Calculate the layout-agnostic base metrics. These are:
+    # - style metrics: font properties, margins, paddings, borders, colors,
+    #   alignment, and anything else that directly reflects CSS properties.
+    # - size metrics (used for inline flow calculations):
+    #   - inline-width (minimum width in an inline context, including padding)
+    #   - above-baseline (size of minimum box above the baseline)
+    #   - below-baseline (size of minimum box below the baseline)
+    #   - min-spacing (minimum spacing between this and adjacent elements)
+    # - child metrics: recurse into children, if any.
+    # All other metrics, and particularly positions and actual box sizes, are
+    # calculated as part of the layout step.
+    # The reason for having a separate step here is so that we can pass the
+    # render context in, which is needed so we can probe elements for their
+    # actual rendered sizes.
     calcMetrics: func (renderContext, parentMetrics) {
         me.calcStyleMetrics(renderContext, parentMetrics);
-        me.calcSizeMetrics(renderContext, parentMetrics);
         me.calcChildMetrics(renderContext);
+        me.calcSizeMetrics(renderContext, parentMetrics);
     },
 
     calcStyleMetrics: func (renderContext, parentMetrics) {
+        # The general idea here is:
+        # - if the node's CSS style doesn't have a property, or if it is set to
+        #   'inherit', then use the parent metric
+        # - otherwise, calculate the effective metric from the node's CSS
+        #   style, using the parent metric to resolve relative sizes.
+        # We need to distinguish between "dimensional" style properties, which
+        # specify lengths with units (and thus also support relative sizes);
+        # "verbatim" style properties, which can only be inherited or
+        # overridden wholesale; and "color" style properties, which, while only
+        # inherited verbatim, need to be mapped from CSS colors (0..255 RGB) to
+        # Canvas colors (0.0..1.0 RGB).
+
+        # `font-size-base` is special though; this is not a real CSS property,
+        # but we use it to thread 'rem' units throughout the document. The
+        # rules are simple:
+        # - if the parentMetrics defines this property, then we will use it
+        #   unconditionally: this means we are not the root element, and should
+        #   just use whatever the parent uses.
+        # - if the parentMetrics does *not* define it, then this means we are
+        #   the top-level element, and we will set it to our own font size.
+
+        if (parentMetrics['font-size-base'] == nil) {
+            var fontSizeCSS = me.style['font-size'] or '10pt';
+            var (value, unit) = splitDimensional(fontSizeCSS);
+            var pixelValue = resolveUnit(renderContext, parentMetrics, 'font-size-base', value, unit);
+            me.metrics['font-size-base'] = pixelValue;
+            parentMetrics['font-size-base'] = pixelValue;
+        }
+        else {
+            me.metrics['font-size-base'] = parentMetrics['font-size-base'];
+        }
+
         foreach (var k; dimensionalStyleKeys) {
             if (me.style[k] == nil or me.style[k] == 'inherit') {
                 me.metrics[k] = parentMetrics[k];
+            }
+            elsif (me.style[k] == 'auto') {
+                me.metrics[k] = 'auto';
             }
             else {
                 var (value, unit) = splitDimensional(me.style[k] or nil);
@@ -247,6 +367,90 @@ var Node = {
     calcSizeMetrics: func (renderContext, parentMetrics) { },
     calcChildMetrics: func (renderContext) { },
 
+    # The layout functions should populate the following metrics:
+    # - 'content-box'
+    # - 'padding-box'
+    # - 'border-box'
+    # - 'margin-box'
+    # - 'baseline' (used for placing text inside the content-box)
+
+    # Layout the element in an inline context. It is assumed that the parent
+    # has calculated a suitable placement, so only the following parameters
+    # are given:
+    # - x: the left edge of the content box
+    # - y: the reference line for the parent line box
+    # - prevX: the right edge of the preceding node's sibling, if that node is
+    #          part of the same DOM element. We need this to make underlines
+    #          extend across whitespace within DOM elements.
+    layoutInline: func (x, y, prevX) {
+        me.metrics['content-box'] =
+            Box.new(x, y - metrics['above-baseline'],
+                me.metrics['inline-width'],
+                me.metrics['above-baseline'] + me.metrics['below-baseline']);
+        me.metrics['baseline'] = me.metrics['above-baseline'];
+        me.metrics['previous-x'] = prevX;
+        me.boxesFromContentBox();
+    },
+
+    # Layout the element in a block context.
+    # The default implementation will fill the entire available space, which
+    # is almost certainly not what you want.
+    layoutBlock: func(parentBox) {
+        me.metrics['margin-box'] = parentBox.clone();
+        me.boxesFromMarginBox();
+    },
+
+    # Calculate all other boxes from the content-box
+    boxesFromContentBox: func {
+        me.metrics['padding-box'] =
+            me.metrics['content-box'].clone()
+              .extend(
+                me.metrics['padding-left'],
+                me.metrics['padding-top'],
+                me.metrics['padding-right'],
+                me.metrics['padding-bottom']);
+        me.metrics['border-box'] =
+            me.metrics['padding-box'].clone()
+              .extend(
+                me.metrics['border-left-width'],
+                me.metrics['border-top-width'],
+                me.metrics['border-right-width'],
+                me.metrics['border-bottom-width']);
+        me.metrics['margin-box'] =
+            me.metrics['padding-box'].clone()
+              .extend(
+                me.metrics['margin-left'],
+                me.metrics['margin-top'],
+                me.metrics['margin-right'],
+                me.metrics['margin-bottom']);
+    },
+
+    # Calculate all other boxes from the margin-box
+    boxesFromMarginBox: func {
+        me.metrics['border-box'] =
+            me.metrics['margin-box'].clone()
+              .extend(
+                -me.metrics['margin-left'],
+                -me.metrics['margin-top'],
+                -me.metrics['margin-right'],
+                -me.metrics['margin-bottom']);
+        me.metrics['padding-box'] =
+            me.metrics['border-box'].clone()
+              .extend(
+                -me.metrics['border-left-width'],
+                -me.metrics['border-top-width'],
+                -me.metrics['border-right-width'],
+                -me.metrics['border-bottom-width']);
+        me.metrics['content-box'] =
+            me.metrics['padding-box'].clone()
+              .extend(
+                -me.metrics['padding-left'],
+                -me.metrics['padding-top'],
+                -me.metrics['padding-right'],
+                -me.metrics['padding-bottom']);
+    },
+
+
     render: func (renderContext) {
         me.renderBorderAndBackground(renderContext);
         if (renderContext['debugLayout']) {
@@ -256,44 +460,99 @@ var Node = {
     },
 
     renderDebugLayout: func (renderContext) {
-        if (me.metrics['display'] == 'block') {
+        me.metrics['margin-box']
+            .draw(renderContext.group)
+            .setColor([1, 1, 0])
+            .setColorFill([1, 1, 0, 0.3]);
+        me.metrics['padding-box']
+            .draw(renderContext.group)
+            .setColor([0, 0, 0.5])
+            .setColorFill([0, 0, 0.5, 0.3]);
+        me.metrics['content-box']
+            .draw(renderContext.group)
+            .setColor([0.5, 1, 1])
+            .setColorFill([0.5, 1, 1, 0.3]);
+        if (!me.isBlock()) {
             renderContext.group.createChild('path')
-                .rect(me.metrics['border-box-left'] - me.metrics['margin-left'],
-                      me.metrics['border-box-top'] - me.metrics['margin-top'],
-                      me.metrics['border-box-width'] + me.metrics['margin-left'] + me.metrics['margin-right'],
-                      me.metrics['border-box-height'] + me.metrics['margin-top'] + me.metrics['margin-bottom'])
-                .setColor([1, 1, 0, 1]);
+                .setColor(1, 0, 0)
+                .moveTo(
+                    me.metrics['content-box'].left(),
+                    me.metrics['content-box'].top() + me.metrics['above-baseline'])
+                .line(me.metrics['inline-width'], 0);
         }
-        renderContext.group.createChild('path')
-            .rect(me.metrics['border-box-left'],
-                  me.metrics['border-box-top'],
-                  me.metrics['border-box-width'],
-                  me.metrics['border-box-height'])
-            .setColor([0.5, 0, 1, 1]);
-        renderContext.group.createChild('path')
-            .rect(me.metrics['left'],
-                  me.metrics['top'],
-                  me.metrics['width'],
-                  me.metrics['height'])
-            .setColor([0.5, 1, 1, 1]);
     },
 
     renderBorderAndBackground: func (renderContext) {
         if (me.metrics['background-color'] != 'none') {
-            var backgroundBox =
-                    renderContext.group.createChild('path')
-                        .rect(me.metrics.left,
-                              me.metrics.top,
-                              me.metrics.right - me.metrics.left,
-                              me.metrics.bottom - me.metrics.top)
-                        .setColorFill(me.metrics['background-color']);
-            if (me.metrics['border-width'] != 'none' and me.metrics['border-width'] > 0) {
-                var borderColor = me.metrics['border-color'];
-                if (borderColor == 'auto')
-                    borderColor = me.metrics['color'];
-                backgroundBox.setColor(borderColor).setStrokeLineWidth(me.metrics['border-width']);
+            var box = me.metrics['padding-box'].clone();
+            if (me.metrics['previous-x']) {
+                box.extend(me.metrics['content-box'].left() - me.metrics['previous-x'], 0, 0, 0);
             }
+            box.draw(renderContext.group)
+                .set('z-index', -1)
+                .setStrokeLineWidth(1)
+                .setColorFill(me.metrics['background-color']);
         }
+
+        var getBorderWidth = func (direction) {
+            var w = me.metrics['border-' ~ direction ~ '-width'];
+            if (w == nil or w == 'none' or w <= 0 or
+                (direction == 'left' and me.metrics['first-of-element']) or
+                (direction == 'right' and me.metrics['last-of-element']))
+                return 0;
+            else
+                return w;
+        };
+
+        var getBorderColor = func (direction) {
+            var c = me.metrics['border-' ~ direction ~ '-color'];
+            if (c == 'auto')
+                c = me.metrics['color'];
+            if (c == 'none')
+                c = [0,0,0,0];
+            return c;
+        };
+
+        var drawBorderSide = func (direction) {
+            var borderWidth = getBorderWidth(direction);
+            if (borderWidth <= 0) {
+                return;
+            }
+            var borderColor = getBorderColor(direction);
+
+            var path = renderContext.group.createChild('path')
+                            .setColor(borderColor)
+                            .setStrokeLineWidth(borderWidth);
+
+            if (direction == 'left') {
+                path.moveTo(
+                    me.metrics['border-box'].left() + borderWidth * 0.5,
+                    me.metrics['border-box'].top());
+                path.line(0, me.metrics['border-box'].height());
+            }
+            elsif (direction == 'right') {
+                path.moveTo(
+                    me.metrics['border-box'].right() - borderWidth * 0.5,
+                    me.metrics['border-box'].top());
+                path.line(0, me.metrics['border-box'].height());
+            }
+            elsif (direction == 'top') {
+                path.moveTo(
+                    me.metrics['border-box'].left(),
+                    me.metrics['border-box'].top() + borderWidth * 0.5);
+                path.line(me.metrics['border-box'].width(), 0);
+            }
+            elsif (direction == 'bottom') {
+                path.moveTo(
+                    me.metrics['border-box'].left(),
+                    me.metrics['border-box'].bottom() - borderWidth * 0.5);
+                path.line(me.metrics['border-box'].width(), 0);
+            }
+        };
+        drawBorderSide('left');
+        drawBorderSide('right');
+        drawBorderSide('top');
+        drawBorderSide('bottom');
     },
 };
 
@@ -310,6 +569,10 @@ var InlineContainer = {
         foreach (var child; me.children) {
             result = result ~ child.wordSplit();
         }
+        if (me.domNode.getNodeType() == 'element' and result != []) {
+            result[0].metrics['first-of-element'] = 1;
+            result[size(result) - 1].metrics['last-of-element'] = 1;
+        }
         return result;
     },
 
@@ -319,7 +582,11 @@ var InlineContainer = {
         }
     },
 
-    layout: func (x, y) {
+    layoutInline: func (x, y, previousX) {
+        die('Cannot layout InlineContainers directly; wordSplit them first.');
+    },
+
+    layoutBlock: func (parentBox) {
         die('Cannot layout InlineContainers directly; wordSplit them first.');
     },
 
@@ -355,6 +622,21 @@ var InlineText = {
         var fontSize = me.metrics['font-size'];
         var fontFamily = me.metrics['font-family'] or 'sans';
         var fontWeight = me.metrics['font-weight'] or 'regular';
+
+        # Chop off borders, padding, and margin if this text node is the result
+        # of splitting an element
+        if (!me.metrics['first-of-element']) {
+            me.metrics['border-left-width'] = 0;
+            me.metrics['border-left-color'] = 'none';
+            me.metrics['padding-left'] = 0;
+            me.metrics['margin-left'] = 0;
+        }
+        if (!me.metrics['last-of-element']) {
+            me.metrics['border-right-width'] = 0;
+            me.metrics['border-right-color'] = 'none';
+            me.metrics['padding-right'] = 0;
+            me.metrics['margin-right'] = 0;
+        }
 
         # Measure the text itself
         var textElem =
@@ -394,38 +676,29 @@ var InlineText = {
             above = fontSize * 0.7;
             below = fontSize * 0.3;
         }
-        me.metrics.width = width;
-        me.metrics.height = fontSize;
 
-        me.metrics.minSpacing = minSpacing;
-        me.metrics.aboveBaseline = above;
-        me.metrics.belowBaseline = below;
-
-        me.metrics['padding-box-width'] = width + me.metrics['padding-left'] + me.metrics['padding-right'];
-        me.metrics['padding-box-height'] = me.metrics.height + me.metrics['padding-top'] + me.metrics['padding-bottom'];
-        me.metrics['border-box-width'] = me.metrics['padding-box-width'] +  me.metrics['border-width'];
-        me.metrics['border-box-height'] = me.metrics['padding-box-height'] +  me.metrics['border-width'];
+        me.metrics['inline-width'] = width;
+        me.metrics['min-spacing'] = minSpacing;
+        me.metrics['above-baseline'] = above;
+        me.metrics['below-baseline'] = below;
     },
 
-    layout: func(x, y, previousX) {
-        me.metrics.x = x;
-        me.metrics.y = y;
-        me.metrics['previous-x'] = previousX;
+    layoutInline: func(x, y, prevX) {
+        # We need this to determine how far to the left the underline needs to
+        # extend
+        me.metrics['previous-x'] = prevX;
 
-        me.metrics.left = x;
-        me.metrics.right = x + me.metrics.width;
-        me.metrics.top = y - me.metrics.aboveBaseline;
-        me.metrics.bottom = y + me.metrics.belowBaseline;
+        me.metrics['content-box'] =
+            Box.new(
+                x,
+                y - me.metrics['above-baseline'],
+                me.metrics['inline-width'],
+                me.metrics['above-baseline'] + me.metrics['below-baseline']);
+        me.boxesFromContentBox();
+    },
 
-        me.metrics['padding-box-left'] = me.metrics.left - me.metrics['padding-left'];
-        me.metrics['padding-box-right'] = me.metrics.right + me.metrics['padding-right'];
-        me.metrics['padding-box-top'] = me.metrics.top - me.metrics['padding-top'];
-        me.metrics['padding-box-bottom'] = me.metrics.bottom + me.metrics['padding-bottom'];
-
-        me.metrics['border-box-left'] = me.metrics['padding-box-left'] - me.metrics['border-width'] * 0.5;
-        me.metrics['border-box-right'] = me.metrics['padding-box-right'] - me.metrics['border-width'] * 0.5;
-        me.metrics['border-box-top'] = me.metrics['padding-box-top'] - me.metrics['border-width'] * 0.5;
-        me.metrics['border-box-bottom'] = me.metrics['padding-box-bottom'] - me.metrics['border-width'] * 0.5;
+    layoutBlock: func (parentBox) {
+        die("InlineText elements cannot be used in a block context");
     },
 
     renderContent: func (renderContext) {
@@ -450,14 +723,16 @@ var InlineText = {
                             .setFont(renderContext.fontMapper(fontFamily, fontWeight))
                             .setFontSize(fontSize)
                             .setAlignment(alignment)
-                            .setTranslation(me.metrics.x, me.metrics.y)
+                            .setTranslation(
+                                me.metrics['content-box'].left(),
+                                me.metrics['content-box'].top() + me.metrics['above-baseline'])
                             .setColor(me.metrics['color'])
                             .setText(me.text);
         
         if (me.metrics['text-decoration'] == 'underline') {
             renderContext.group.createChild('path')
-                .moveTo(me.metrics['previous-x'], me.metrics.top + me.metrics.aboveBaseline + 1)
-                .line(me.metrics.width - me.metrics['previous-x'] + me.metrics.x, 0)
+                .moveTo(me.metrics['previous-x'], me.metrics['content-box'].top() + me.metrics['above-baseline'] + 1)
+                .line(me.metrics['inline-width'] - me.metrics['previous-x'] + me.metrics['content-box'].left(), 0)
                 .setColor(me.metrics['color']);
         }
     },
@@ -509,17 +784,52 @@ var Block = {
     },
 
     calcSizeMetrics: func (renderContext, parentMetrics) {
-        # Pre-fill with defaults - `layout()` will override some of these.
-        me.metrics.width = parentMetrics.width - me.metrics['padding-left'] - me.metrics['padding-right'] - me.metrics['border-width'];
-        me.metrics.height = 0;
-        me.metrics.minSpacing = 0;
-        me.metrics.aboveBaseline = 0;
-        me.metrics.belowBaseline = 0;
+        # We have to cater for the block being laid out in as inline-block.
 
-        me.metrics['padding-box-width'] = me.metrics.width + me.metrics['padding-left'] + me.metrics['padding-right'];
-        me.metrics['padding-box-height'] = me.metrics['padding-top'] + me.metrics['padding-bottom'];
-        me.metrics['border-box-width'] = me.metrics['padding-box-width'] +  me.metrics['border-width'];
-        me.metrics['border-box-height'] = me.metrics['padding-box-height'] +  me.metrics['border-width'];
+        var boxSizing = me.metrics['box-sizing'] or 'content-box';
+        var paddingX = me.metrics['padding-left'] + me.metrics['padding-right'];
+        var marginX = me.metrics['margin-left'] + me.metrics['margin-right'];
+        var borderX = me.metrics['border-left-width'] + me.metrics['border-right-width'];
+
+        var desiredContentWidth = 0;
+
+        if (me.metrics['width'] == 'auto' or me.metrics['width'] == nil) {
+            # Calculate desired width from children.
+            var previousMargin = 0;
+            foreach (var child; me.children) {
+                var collapsedMargin = math.max(
+                        math.max(previousMargin, child.metrics['margin-left']),
+                        child.metrics['min-spacing']);
+                desiredContentWidth += collapsedMargin - previousMargin;
+                desiredContentWidth += child.metrics['inline-width'];
+                previousMargin = child.metrics['margin-right'];
+                desiredContentWidth += previousMargin;
+            }
+        }
+        else {
+            if (boxSizing == 'content-box') {
+                desiredContentWidth = me.metrics['width'];
+            }
+            elsif (boxSizing == 'padding-box') {
+                desiredContentWidth = me.metrics['width'] - paddingX;
+            }
+            elsif (boxSizing == 'border-box') {
+                desiredContentWidth = me.metrics['width'] - paddingX - borderX;
+            }
+        }
+
+        # Inline width for block-level elements is only used for inline-block
+        # layout, where it must include padding and border.
+        me.metrics['inline-width'] =
+            desiredContentWidth + paddingX + borderX;
+
+        # Spacing does not apply to inline-block elements.
+        me.metrics['min-spacing'] = 0;
+
+        # We can't fully determine baseline yet; this will have to wait until
+        # the layout phase.
+        me.metrics['above-baseline'] = 0;
+        me.metrics['below-baseline'] = 0;
     },
 
     calcChildMetrics: func (renderContext) {
@@ -528,68 +838,85 @@ var Block = {
         }
     },
 
-    layout: func (x, y) {
-        # Set defaults from parent rect
-        me.metrics.left = x + me.metrics['padding-left'] + me.metrics['border-width'] * 0.5;
-        me.metrics.right = me.metrics.left + me.metrics.width;
-        me.metrics.top = y + me.metrics['padding-top'] + me.metrics['border-width'] + 0.5;
-        me.metrics.bottom = me.metrics.top + me.metrics['padding-bottom'] + me.metrics['border-width'];
+    layoutInline: func (x, y, prevX) {
+        # Preliminary calculation of border box; we will amend the height
+        # while laying out child elements.
+        me.metrics['content-box'] = Box.new(
+            x + me.metrics['border-left-width'] + me.metrics['padding-left'],
+            y + me.metrics['border-top-width'] + me.metrics['padding-top'],
+            me.metrics['inline-width']
+                - me.metrics['border-left-width']
+                - me.metrics['border-right-width']
+                - me.metrics['padding-left']
+                - me.metrics['padding-right'],
+            0);
 
         if (size(me.children) == 0) {
         }
         elsif (me.children[0].isBlock()) {
-            me.layoutBlocks();
+            me.layoutChildBlocks();
         }
         else {
-            me.layoutInlines();
+            me.layoutChildInlines();
         }
 
-        me.metrics['padding-box-left'] = me.metrics.left - me.metrics['padding-left'];
-        me.metrics['padding-box-right'] = me.metrics.right + me.metrics['padding-right'];
-        me.metrics['padding-box-top'] = me.metrics.top - me.metrics['padding-top'];
-        me.metrics['padding-box-bottom'] = me.metrics.bottom + me.metrics['padding-bottom'];
-        me.metrics['padding-box-width'] = me.metrics['padding-box-right'] - me.metrics['padding-box-left'];
-        me.metrics['padding-box-height'] = me.metrics['padding-box-bottom'] - me.metrics['padding-box-top'];
-
-        me.metrics['border-box-left'] = me.metrics['padding-box-left'] - me.metrics['border-width'] * 0.5;
-        me.metrics['border-box-right'] = me.metrics['padding-box-right'] - me.metrics['border-width'] * 0.5;
-        me.metrics['border-box-top'] = me.metrics['padding-box-top'] - me.metrics['border-width'] * 0.5;
-        me.metrics['border-box-bottom'] = me.metrics['padding-box-bottom'] - me.metrics['border-width'] * 0.5;
-        me.metrics['border-box-width'] = me.metrics['border-box-right'] - me.metrics['border-box-left'];
-        me.metrics['border-box-height'] = me.metrics['border-box-bottom'] - me.metrics['border-box-top'];
+        me.boxesFromContentBox();
     },
 
-    layoutBlocks: func () {
+    layoutBlock: func (parentBox) {
+        # Preliminary calculation of border box; we will amend the height
+        # while laying out child elements.
+        me.metrics['margin-box'] = parentBox.clone();
+        me.boxesFromMarginBox();
+        me.metrics['content-box'].setHeight(0);
+        if (size(me.children) == 0) {
+        }
+        elsif (me.children[0].isBlock()) {
+            me.layoutChildBlocks();
+        }
+        else {
+            me.layoutChildInlines();
+        }
+        me.boxesFromContentBox();
+    },
+
+    layoutChildBlocks: func () {
+        # TODO: collapse margins
         var firstChild = 1;
-        var margin = 0;
-        var x = me.metrics.left;
-        var y = me.metrics.top;
+        var runningBox = me.metrics['content-box'].clone();
+        var prevMargin = 0;
+        var extendHeight = func (dy) {
+            runningBox.move(0, dy);
+            me.metrics['content-box'].extend(0, 0, 0, dy);
+        };
         foreach (var child; me.children) {
-            if (!firstChild) {
-                margin = math.max(child.metrics['margin-top'], margin);
-                y += margin;
-                me.metrics.height += margin;
-                me.metrics.bottom += margin;
+            # Collapse adjacent siblings' margins
+            extendHeight(-(math.min(prevMargin, child.metrics['margin-top'])));
+
+            child.layoutBlock(runningBox);
+
+            # Collapse child's own margins if it has no height
+            if (child.metrics['border-box'].height() == 0) {
+                extendHeight(-(math.min(child.metrics['margin-bottom'], child.metrics['margin-top'])));
             }
-            margin = child.metrics['margin-bottom'];
 
-            child.layout(x, y);
+            extendHeight(child.metrics['margin-top']);
+            extendHeight(child.metrics['border-box'].height());
+            extendHeight(child.metrics['margin-bottom']);
+            prevMargin = child.metrics['margin-bottom'];
 
-            y += child.metrics['border-box-height'];
-            me.metrics.height += child.metrics['border-box-height'];
-            me.metrics.bottom += child.metrics['border-box-height'];
             if (firstChild) {
-                me.metrics.aboveBaseline = child.metrics.aboveBaseline;
+                me.metrics['above-baseline'] = child.metrics['above-baseline'];
             }
             firstChild = 0;
             # We only care for the last one, but it's easier to just overwrite
             # each time than to figure out whether the current child is the
             # last.
-            me.metrics.belowBaseline = child.metrics.belowBaseline;
+            me.metrics['below-baseline'] = child.metrics['below-baseline'];
         }
     },
 
-    layoutInlines: func() {
+    layoutChildInlines: func() {
         var currentLine = [];
         var currentLineWidth = 0;
 
@@ -599,7 +926,7 @@ var Block = {
         var baselineOffset = 0;
         var below = 0;
 
-        var y = me.metrics.top;
+        var y = me.metrics['content-box'].top();
 
         var firstLine = 1;
 
@@ -609,14 +936,14 @@ var Block = {
         var previousDOMNodeID = nil;
 
         var pushLine = func (lastLine) {
-            var remainingWidth = me.metrics.width - currentLineWidth;
-            var x = me.metrics.left;
+            var remainingWidth = me.metrics['content-box'].width() - currentLineWidth;
+            var x = me.metrics['content-box'].left();
             var numSpaces = math.max(0, size(currentLine) - 1);
             if (firstLine) {
-                me.metrics.aboveBaseline = baselineOffset;
+                me.metrics['above-baseline'] = baselineOffset;
             }
             if (lastLine) {
-                me.metrics.belowBaseline = below;
+                me.metrics['below-baseline'] = below;
             }
 
             if (me.metrics['text-align'] == 'right') {
@@ -633,13 +960,13 @@ var Block = {
             var previousX = 0;
             foreach (var child; currentLine) {
                 var currentDOMNodeID = id(child.domNode);
-                child.layout(x, baseline, (currentDOMNodeID == previousDOMNodeID) ? previousX : x);
-                x += child.metrics.width;
+                child.layoutInline(x, baseline, (currentDOMNodeID == previousDOMNodeID) ? previousX : x);
+                x += child.metrics['inline-width'];
                 previousX = x;
                 if (me.metrics['text-align'] == 'fill' and numSpaces and !lastLine) {
                     x += remainingWidth / numSpaces;
                 }
-                x += child.metrics.minSpacing;
+                x += child.metrics['min-spacing'];
                 firstInLine = 0;
                 previousDOMNodeID = currentDOMNodeID;
             }
@@ -652,21 +979,22 @@ var Block = {
             currentLineWidth = 0;
             firstLine = 0;
         }
+
         foreach (var child; me.children) {
             # Check if we would exceed the maximum width if we appended the
             # next inline; however, if the current line is still empty, then
             # this would lead to an infinite loop, so we accept defeat and
             # carry on, accepting the resulting overflow.
-            if (size(currentLine) and currentLineWidth + child.metrics.width + spacing > me.metrics.width) {
+            if (size(currentLine) and currentLineWidth + child.metrics['inline-width'] + spacing > me.metrics['content-box'].width()) {
                 # This will reset currentLine, currentLineWidth, spacing,
                 # maxFontSize, and baselineOffset.
                 pushLine(0);
             }
 
-            currentLineWidth += child.metrics.width + spacing;
+            currentLineWidth += child.metrics['inline-width'] + spacing;
             # Remember spacing for next inline on the same line, since we
             # apply the spacing based on the inline left of the gap.
-            spacing = child.metrics.minSpacing;
+            spacing = child.metrics['min-spacing'];
 
             # We need to track font size to calculate effective line
             # height, based on the largest font size found on this line.
@@ -676,17 +1004,17 @@ var Block = {
             # line. We find the inline with the largest ascenders, and
             # shift everything down from there so that the topmost
             # ascenders are at the Y position.
-            baselineOffset = math.max(baselineOffset, child.metrics.aboveBaseline);
+            baselineOffset = math.max(baselineOffset, child.metrics['above-baseline']);
 
             # Track descenders; this is needed to calculate the height of the
             # block element.
-            below = math.max(below, child.metrics.belowBaseline);
+            below = math.max(below, child.metrics['below-baseline']);
 
             append(currentLine, child);
         }
         pushLine(1);
-        me.metrics.bottom = y;
-        me.metrics.height = me.metrics.bottom - me.metrics.top;
+        me.metrics['content-box'].setBottom(y);
+        me.boxesFromContentBox();
     },
 
     renderContent: func (renderContext) {
@@ -698,29 +1026,27 @@ var Block = {
     isBlock: func 1,
 };
 
-var domNodeToRenderNode = func (node, path=nil, style=nil) {
+var domNodeToRenderNode = func (node, path=nil) {
     if (path == nil)
         path = [];
-    if (style == nil)
-        style = defaultStyle;
+
     if (isa(node, DOM.Element)) {
         var children = [];
-        var style = mergeDicts(defaultStyle, node.getStyle());
         foreach (var domChild; node.getChildren()) {
-            append(children, domNodeToRenderNode(domChild, path ~ [node], style));
+            append(children, domNodeToRenderNode(domChild, path ~ [node]));
         }
-        if (style['display'] == 'inline') {
-            return InlineContainer.new(node, children, style);
+        if (node.effectiveStyle['display'] == 'inline') {
+            return InlineContainer.new(node, children, node.effectiveStyle);
         }
         else {
-            return Block.new(node, children, style);
+            return Block.new(node, children, node.effectiveStyle);
         }
     }
     elsif (isa(node, DOM.Text)) {
-        return InlineText.new(node, node.getTextContent(), style);
+        return InlineText.new(node, node.getTextContent(), node.effectiveStyle);
     }
     elsif (typeof(node) == 'scalar') {
-        return InlineText.new(DOM.Text.new(node), node, style);
+        return InlineText.new(DOM.Text.new(node), node, node.effectiveStyle);
     }
 };
 
@@ -728,10 +1054,11 @@ var showDOM = func (dom, group, fontMapper, x, y, w, h) {
     var renderContext = makeDefaultRenderContext(group, fontMapper, x, y, w, h);
     group.removeAllChildren();
     group.hide();
+    dom.calcEffectiveStyle(rootStyle);
     var doc = domNodeToRenderNode(dom);
     doc = doc.wordSplit()[0];
-    doc.calcMetrics(renderContext, makeDefaultMetrics(x, y, w, h));
-    doc.layout(x, y);
+    doc.calcMetrics(renderContext, {});
+    doc.layoutBlock(Box.new(x, y, w, h));
     group.removeAllChildren();
     doc.render(renderContext);
     group.show();

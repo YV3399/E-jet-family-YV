@@ -43,6 +43,39 @@ var CSS = (func {
                    (c >= 'A'[0] and c <= 'Z'[0]));
     };
 
+    var expandShorthand = func (key, vals) {
+        if (key == 'padding' or key == 'margin') {
+            var top = nth(vals, 0);
+            var right = nth(vals, 1, top);
+            var bottom = nth(vals, 2, top);
+            var left = nth(vals, 3, right);
+            return [
+                [ key ~ '-top', top ],
+                [ key ~ '-right', right ],
+                [ key ~ '-bottom', bottom ],
+                [ key ~ '-left', left ],
+            ];
+        }
+        elsif (key == 'border-width' or key == 'border-color') {
+            var parts = split('-', key);
+            var prefix = nth(parts, 0);
+            var suffix = nth(parts, 1);
+            var top = nth(vals, 0);
+            var right = nth(vals, 1, top);
+            var bottom = nth(vals, 2, top);
+            var left = nth(vals, 3, right);
+            debug.dump(suffix, vals, left, right, top, bottom);
+            return [
+                [ prefix ~ '-top-' ~ suffix, top ],
+                [ prefix ~ '-right-' ~ suffix, right ],
+                [ prefix ~ '-bottom-' ~ suffix, bottom ],
+                [ prefix ~ '-left-' ~ suffix, left ],
+            ];
+        }
+        else {
+            return [ [key, nth(vals, 0) ] ];
+        }
+    };
 
     var pAlternatives = func (s) {
         var alternatives = [];
@@ -256,13 +289,13 @@ var CSS = (func {
 
     var pFloat = try(func (s) {
         var sign = s.matchStr('-') or '';
-        var intpart = s.takeWhileP(string.isdigit) or '';
+        var intpart = s.takeWhileP(string.isdigit);
         var decimalSign = s.matchStr('.') or '';
         var fracpart = '';
         if (decimalSign == '.') {
-            fracpart = s.takeWhileP(string.isdigit) or '';
+            fracpart = s.takeWhileP(string.isdigit);
         }
-        if (intpart == '' and fracpart == '')
+        if (intpart == nil and fracpart == nil)
             s.unexpected('numeric value');
         return sign ~ intpart ~ decimalSign ~ fracpart;
     });
@@ -298,37 +331,41 @@ var CSS = (func {
             s.unexpected('property name', debug.string(key));
         skipSpaces(s);
         s.matchStr(':') or s.unexpected(':');
-        skipSpaces(s);
         var val = nil;
-        if (s.lookahead() == '"'[0]) {
-            s.consume();
-            val = s.takeWhileP(func (c) { return c != '"'[0]; });
-            s.matchStr('"') or s.unexpected('"');
-        }
-        elsif (s.lookahead() == "'"[0]) {
-            s.consume();
-            val = s.takeWhileP(func (c) { return c !="'"[0]; });
-            s.matchStr("'") or s.unexpected("'");
-        }
-        elsif (s.lookahead() == '#'[0]) {
-            val = pHexColor(s);
-            if (val == '' or val == nil) {
-                s.unexpected("hexadecimal color");
-            }
-        }
-        elsif (string.isdigit(s.lookahead()) or s.lookahead() == '-'[0]) {
-            val = pDimensionedPropertyValue(s);
-            if (val == '' or val == nil) {
-                s.unexpected("property value");
-            }
-        }
-        else {
-            val = pUnquotedPropertyValue(s);
-            if (val == '' or val == nil) {
-                s.unexpected("property value");
-            }
-        }
         skipSpaces(s);
+        while (!s.eof() and s.lookahead() != ';'[0] and s.lookahead != '}'[0]) {
+            var v = nil;
+            if (s.lookahead() == '"'[0]) {
+                s.consume();
+                v = s.takeWhileP(func (c) { return c != '"'[0]; });
+                s.matchStr('"') or s.unexpected('"');
+            }
+            elsif (s.lookahead() == "'"[0]) {
+                s.consume();
+                v = s.takeWhileP(func (c) { return c !="'"[0]; });
+                s.matchStr("'") or s.unexpected("'");
+            }
+            elsif (s.lookahead() == '#'[0]) {
+                v = pHexColor(s);
+                if (v == '' or v == nil) {
+                    s.unexpected("hexadecimal color");
+                }
+            }
+            elsif (string.isdigit(s.lookahead()) or s.lookahead() == '-'[0]) {
+                v = pDimensionedPropertyValue(s);
+            }
+            else {
+                v = pUnquotedPropertyValue(s);
+            }
+            if (v == '' or v == nil) {
+                s.unexpected("property value");
+            }
+            skipSpaces(s);
+            if (val == nil)
+                val = [v];
+            else
+                append(val, v);
+        }
         if (s.lookahead() == ';'[0]) {
             s.consume();
             skipSpaces(s);
@@ -336,18 +373,18 @@ var CSS = (func {
         elsif (!s.eof() and s.lookahead() != '}'[0]) {
             s.unexpected('semicolon or end of input');
         }
-        return [key, val];
+        return expandShorthand(key, val);
     };
 
     var pStyleRules = func (s) {
         var style = {};
         while (!s.eof() and s.lookahead() != '}'[0]) {
             var result = pStyleRule(s);
-            if (result == nil or size(result) < 2) {
+            if (result == nil) {
                 break;
             }
-            else {
-                (key, value) = result;
+            foreach (var kv; result) {
+                (key, value) = kv;
                 style[key] = value;
             }
         }

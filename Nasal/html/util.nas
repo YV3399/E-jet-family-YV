@@ -1,18 +1,19 @@
-var mergeDicts = func (lhs, rhs) {
+var mergeDicts = func () {
+    var dicts = arg;
     var result = {};
-    if (lhs == nil)
-        return copyDict(rhs);
-    if (rhs == nil)
-        return copyDict(lhs);
-    foreach (var k; keys(lhs) ~ keys(rhs)) {
-        if (lhs[k] == nil)
-            result[k] = rhs[k];
-        elsif (rhs[k] == nil)
-            result[k] = lhs[k];
-        elsif (typeof(lhs[k]) == 'hash')
-            result[k] = mergeDicts(lhs[k], rhs[k]);
-        else
-            result[k] = rhs[k];
+    foreach (var dict; dicts) {
+        if (dict == nil)
+            continue;
+        foreach (var k; keys(result) ~ keys(dict)) {
+            if (result[k] == nil)
+                result[k] = dict[k];
+            elsif (dict[k] == nil)
+                result[k] = result[k];
+            elsif (typeof(result[k]) == 'hash')
+                result[k] = mergeDicts(result[k], dict[k]);
+            else
+                result[k] = dict[k];
+        }
     }
     return result;
 };
@@ -27,3 +28,9 @@ var copyDict = func (lhs) {
     return result;
 };
 
+var nth = func(vector, n, def=nil) {
+    if (n < 0 or n >= size(vector))
+        return def;
+    else
+        return vector[n];
+};

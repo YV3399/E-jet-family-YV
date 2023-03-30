@@ -36,7 +36,7 @@ var HTMLTestApp = {
                         'cupidatat non proident, sunt in culpa qui officia',
                         'deserunt mollit anim id est laborum.'
                         ),
-                    H.p(
+                    H.p({'style': 'text-align: right; width: 10rem;'},
                         H.b(H.a('Lorem ipsum'), 'dolor sit amet'),
                         'consectetur adipiscing',
                         'elit, sed do eiusmod tempor incididunt ut labore et',

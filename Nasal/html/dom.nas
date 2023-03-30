@@ -4,6 +4,58 @@ include('css.nas');
 var DOM = (func {
     var module = {};
 
+    var defaultStyle = {
+        'font-size': 'inherit',
+        'border-width': 0,
+
+        'padding-left': 0,
+        'padding-right': 0,
+        'padding-top': 0,
+        'padding-bottom': 0,
+
+        'margin-left': 0,
+        'margin-right': 0,
+        'margin-top': 0,
+        'margin-bottom': 0,
+
+        'border-left-width': 0,
+        'border-right-width': 0,
+        'border-top-width': 0,
+        'border-bottom-width': 0,
+
+        'font-family': 'inherit',
+        'font-weight': 'inherit',
+        'text-style': 'inherit',
+        'text-decoration': 'inherit',
+
+        'vertical-align': 'baseline',
+        'text-align': 'left',
+        'width': 'auto',
+
+        'line-height': 'inherit',
+
+        'color': 'inherit',
+        'border-left-color': 'none',
+        'border-right-color': 'none',
+        'border-top-color': 'none',
+        'border-bottom-color': 'none',
+        'background-color': 'inherit',
+    };
+
+
+    var cascadeStyle = func (parentStyle, childStyle) {
+        if (parentStyle == nil) {
+            return childStyle;
+        }
+        var combinedStyle = {};
+        foreach (var k; keys(parentStyle)) {
+            if (childStyle[k] == nil or childStyle[k] == 'inherit') {
+                combinedStyle[k] = parentStyle[k];
+            }
+        }
+        return mergeDicts(childStyle, combinedStyle);
+    };
+
     var Node = {
         new: func () {
             return {
@@ -11,6 +63,7 @@ var DOM = (func {
                 parentNode: nil,
                 siblingIndex: 0,
                 cssStyle: {},
+                effectiveStyle: {},
             };
         },
 
@@ -28,6 +81,13 @@ var DOM = (func {
             cloned.parentNode = parentNode;
             cloned.siblingIndex = siblingIndex;
             return cloned;
+        },
+
+        dump: func (indent='') {
+            printf("%s%s %s", indent, me.getNodeName(), debug.string(me.effectiveStyle));
+            foreach (var child; me.getChildren()) {
+                child.dump(indent ~ '  ');
+            }
         },
 
         getChildren: func [],
@@ -83,6 +143,11 @@ var DOM = (func {
         getNodeName: func '$Text',
         getNodeType: func 'text',
         getTextContent: func me.text,
+        calcEffectiveStyle: func (parentStyle) {
+            var baseStyle = {'display': 'inline'};
+            var ownStyle = mergeDicts(defaultStyle, baseStyle, me.cssStyle);
+            me.effectiveStyle = cascadeStyle(parentStyle, ownStyle);
+        },
     };
 
     var Element = {
@@ -124,13 +189,15 @@ var DOM = (func {
         },
 
         # TODO: parse attribs for style properties
-        getStyle: func {
+        calcEffectiveStyle: func (parentStyle) {
             var styleAttrib = me.attribs['style'] or '';
             var elemStyle = CSS.parseStyleAttrib(styleAttrib);
             var baseStyle = baseStyles[me.elemName] or {'display': 'inline'};
-            var style = mergeDicts(baseStyle, me.cssStyle);
-            style = mergeDicts(style, elemStyle);
-            return style;
+            var ownStyle = mergeDicts(defaultStyle, baseStyle, me.cssStyle, elemStyle);
+            me.effectiveStyle = cascadeStyle(parentStyle, ownStyle);
+            foreach (var child; me.children) {
+                child.calcEffectiveStyle(me.effectiveStyle);
+            }
         },
     };
 
@@ -235,6 +302,7 @@ var DOM = (func {
     module.Node = Node;
     module.Element = Element;
     module.Text = Text;
+    module.defaultStyle = defaultStyle;
 
     return module;
 })();
