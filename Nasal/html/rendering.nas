@@ -6,7 +6,7 @@ var makeDefaultRenderContext = func (group, fontMapper, left, top, width, height
         group: group,
         fontMapper: fontMapper,
         dpi: 96,
-        debugLayout: 0,
+        debugLayout: 1,
         viewport: {
             left: left,
             top: top,
@@ -59,6 +59,7 @@ var defaultStyle = {
 
     'color': [0, 0, 0],
     'border-color': 'none',
+    'border-width': 0,
     'background-color': 'none',
 };
 
@@ -255,6 +256,14 @@ var Node = {
     },
 
     renderDebugLayout: func (renderContext) {
+        if (me.metrics['display'] == 'block') {
+            renderContext.group.createChild('path')
+                .rect(me.metrics['border-box-left'] - me.metrics['margin-left'],
+                      me.metrics['border-box-top'] - me.metrics['margin-top'],
+                      me.metrics['border-box-width'] + me.metrics['margin-left'] + me.metrics['margin-right'],
+                      me.metrics['border-box-height'] + me.metrics['margin-top'] + me.metrics['margin-bottom'])
+                .setColor([1, 1, 0, 1]);
+        }
         renderContext.group.createChild('path')
             .rect(me.metrics['border-box-left'],
                   me.metrics['border-box-top'],
@@ -529,10 +538,10 @@ var Block = {
         if (size(me.children) == 0) {
         }
         elsif (me.children[0].isBlock()) {
-            me.layoutBlocks(x, y);
+            me.layoutBlocks();
         }
         else {
-            me.layoutInlines(x, y);
+            me.layoutInlines();
         }
 
         me.metrics['padding-box-left'] = me.metrics.left - me.metrics['padding-left'];
@@ -696,7 +705,7 @@ var domNodeToRenderNode = func (node, path=nil, style=nil) {
         style = defaultStyle;
     if (isa(node, DOM.Element)) {
         var children = [];
-        var style = mergeDicts(style, node.getStyle());
+        var style = mergeDicts(defaultStyle, node.getStyle());
         foreach (var domChild; node.getChildren()) {
             append(children, domNodeToRenderNode(domChild, path ~ [node], style));
         }

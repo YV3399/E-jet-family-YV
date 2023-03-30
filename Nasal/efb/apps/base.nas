@@ -5,8 +5,13 @@ var BaseApp = {
         return {
             parents: [BaseApp],
             masterGroup: masterGroup,
-            rootWidget: Widget.new()
+            rootWidget: Widget.new(),
+            assetDir: nil,
         }
+    },
+
+    setAssetDir: func (assetDir) {
+        me.assetDir = assetDir;
     },
 
     # Handles touch events.

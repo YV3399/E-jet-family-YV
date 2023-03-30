@@ -31,21 +31,71 @@ var H = (func {
         };
     };
 
-    var module = {};
-    module.p = makeElem('p');
-    module.div = makeElem('div');
-    module.h1 = makeElem('h1');
-    module.h2 = makeElem('h2');
-    module.h3 = makeElem('h3');
-    module.h4 = makeElem('h4');
-    module.h5 = makeElem('h5');
-    module.h6 = makeElem('h6');
+    var elementNames = [
+        'html',
 
-    module.a = makeElem('a');
-    module.b = makeElem('b');
-    module.i = makeElem('i');
-    module.strong = makeElem('strong');
-    module.em = makeElem('em');
+        # Metadata
+        'base',
+        'head',
+        'link',
+        'meta',
+        'style',
+        'title',
+
+        # Content root
+        'body',
+
+        # Sectioning
+        'address',
+        'article',
+        'aside',
+        'footer',
+        'header',
+        'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'h1', 'h6',
+        'hgroup',
+        'main',
+        'nav',
+        'section',
+
+        # Text content
+        'blockquote', 'cite', 'dd', 'div', 'dl', 'dt', 'figcaption', 'figure',
+        'hr', 'li', 'menu', 'ol', 'p', 'pre', 'ul',
+
+        # Inline text
+        'a', 'abbr', 'b', 'bdi', 'bdo', 'br', 'cite', 'code', 'data', 'dfn',
+        'em', 'i', 'kbd', 'mark', 'q', 'rp', 'rt', 'ruby', 's', 'samp',
+        'small', 'span', 'strong', 'sub', 'sup', 'time', 'u', 'var', 'wbr',
+
+        # Images and Multimedia
+        'area', 'audio', 'img', 'map', 'track', 'video',
+
+        # Embedded content
+        'embed', 'iframe', 'object', 'picture', 'portal', 'source',
+
+        # SVG and MathML
+        'svg', 'math',
+
+        # Scripting
+        'canvas', 'noscript', 'script',
+
+        # Edits
+        'del', 'ins',
+
+        # Table Content
+        'caption', 'col', 'colgroup', 'table', 'tbody', 'td', 'tfoot', 'th',
+        'thead', 'tr',
+
+        # Forms
+        'button', 'datalist', 'fieldset', 'form', 'input', 'label', 'legend',
+        'meter', 'optgroup', 'option', 'output', 'progress', 'select',
+        'textarea',
+    ];
+
+    var module = {};
+
+    foreach (var n; elementNames) {
+        module[n] = makeElem(n);
+    }
 
     return module;
 })();

@@ -1,8 +1,11 @@
 var efb = nil;
 
+var appBasedir = acdir ~ '/Nasal/efb/apps';
+
 globals.efb.availableApps = {};
 globals.efb.registerApp = func(key, label, iconName, class) {
     globals.efb.availableApps[key] = {
+        key: key,
         icon: acdir ~ '/Models/EFB/icons/' ~ iconName,
         label: label,
         loader: func (g) { return class.new(g); },
@@ -11,8 +14,6 @@ globals.efb.registerApp = func(key, label, iconName, class) {
 
 include('util.nas');
 include('downloadManager.nas');
-include('/html/main.nas');
-var H = html.H;
 
 if (contains(globals.efb, 'downloadManager')) {
     var err = [];
@@ -23,7 +24,7 @@ if (contains(globals.efb, 'downloadManager')) {
 }
 globals.efb.downloadManager = DownloadManager.new();
 
-var appFiles = directory(acdir ~ '/Nasal/efb/apps');
+var appFiles = directory(appBasedir);
 foreach (var f; appFiles) {
     if (substr(f, 0, 1) != '.' and substr(f, -4) == '.nas') {
         include('apps/' ~ f);
@@ -46,6 +47,7 @@ var EFB = {
                 { icon: app.icon,
                 , label: app.label,
                 , loader: app.loader,
+                , key: app.key,
                 });
         }
         m.initialize();
@@ -58,56 +60,8 @@ var EFB = {
         me.background = me.shellGroup.createChild('path')
                             .rect(0, 0, 512, 768)
                             .setColorFill(1, 1, 1);
-        # me.background = me.shellGroup.createChild('image');
-        # me.background.set('src', "Aircraft/E-jet-family/Models/EFB/efb.png");
-
-        me.richtextTestGroup = me.shellGroup.createChild('group');
-        var testDoc =
-                H.div(
-                    H.h1('Hello, world!'),
-                    H.h2('Align Left'),
-                    H.p(
-                        H.b(H.a('Lorem ipsum'), 'dolor sit amet'),
-                        'consectetur adipiscing',
-                        'elit, sed do eiusmod tempor incididunt ut labore et',
-                        'dolore magna aliqua. Ut enim ad minim veniam, quis',
-                        'nostrud exercitation ullamco laboris nisi ut aliquip ex',
-                        'ea commodo consequat.  Duis aute irure dolor in',
-                        'reprehenderit in voluptate velit esse cillum dolore eu',
-                        'fugiat nulla pariatur. Excepteur sint occaecat',
-                        'cupidatat non proident, sunt in culpa qui officia',
-                        'deserunt mollit anim id est laborum.'
-                        ),
-                    H.h2('Align Right'),
-                    H.p({'class': 'ralign'},
-                        H.b(H.a('Lorem ipsum'), 'dolor sit amet'),
-                        'consectetur adipiscing',
-                        'elit, sed do eiusmod tempor incididunt ut labore et',
-                        'dolore magna aliqua. Ut enim ad minim veniam, quis',
-                        'nostrud exercitation ullamco laboris nisi ut aliquip ex',
-                        'ea commodo consequat.  Duis aute irure dolor in',
-                        'reprehenderit in voluptate velit esse cillum dolore eu',
-                        'fugiat nulla pariatur. Excepteur sint occaecat',
-                        'cupidatat non proident, sunt in culpa qui officia',
-                        'deserunt mollit anim id est laborum.'
-                        ),
-                    H.h2('Align Fill'),
-                    H.p({'style': 'text-align: fill'},
-                        H.b(H.a('Lorem ipsum'), 'dolor sit amet'),
-                        'consectetur adipiscing',
-                        'elit, sed do eiusmod tempor incididunt ut labore et',
-                        'dolore magna aliqua. Ut enim ad minim veniam, quis',
-                        'nostrud exercitation ullamco laboris nisi ut aliquip ex',
-                        'ea commodo consequat.  Duis aute irure dolor in',
-                        'reprehenderit in voluptate velit esse cillum dolore eu',
-                        'fugiat nulla pariatur. Excepteur sint occaecat',
-                        'cupidatat non proident, sunt in culpa qui officia',
-                        'deserunt mollit anim id est laborum.'
-                        )
-                );
-        var stylesheet = html.CSS.parseStylesheet('.ralign { text-align: right; }');
-        stylesheet.apply(testDoc);
-        html.showDOM(testDoc, me.richtextTestGroup, font_mapper, 10, 180, 492, 600);
+        me.background = me.shellGroup.createChild('image');
+        me.background.set('src', "Aircraft/E-jet-family/Models/EFB/efb.png");
 
         me.clientGroup = me.master.createChild('group');
 
@@ -135,6 +89,9 @@ var EFB = {
                     page = page + 1;
                 }
             }
+
+            # App icon grid:
+            # Each app gets a 128x141 square.
             app.shellIcon = me.shellPages[page].createChild('group');
             app.shellIcon.setTranslation(app.col * 128, app.row * 141 + 64);
             app.box = [
@@ -143,14 +100,16 @@ var EFB = {
             ];
             var img = app.shellIcon.createChild('image');
             img.set('src', app.icon);
-            img.setTranslation((170 - 64) / 2, 0);
+            var bbox = img.getBoundingBox();
+            var imgW = bbox[2];
+            img.setTranslation((64 - imgW) / 2, 0);
             var txt = app.shellIcon.createChild('text');
             txt.setText(app.label);
             txt.setColor(0, 0, 0);
             txt.setAlignment('center-top');
-            txt.setTranslation(85, 70);
+            txt.setTranslation(64, 70);
             txt.setFont("LiberationFonts/LiberationSans-Regular.ttf");
-            txt.setFontSize(24);
+            txt.setFontSize(20);
         }
         var self = me;
         setlistener('/instrumentation/clock/local-short-string', func(node) {
@@ -211,6 +170,7 @@ var EFB = {
         if (appInfo.app == nil) {
             var masterGroup = me.clientGroup.createChild('group');
             appInfo.app = appInfo.loader(masterGroup);
+            appInfo.app.setAssetDir(appBasedir ~ '/' ~ appInfo.key ~ '/');
             appInfo.app.initialize();
         }
         me.currentApp = appInfo.app;

@@ -135,20 +135,101 @@ var DOM = (func {
     };
 
     var baseStyles = {
-        'div': { 'display': 'block' },
-        'p': { 'display': 'block', 'margin-bottom': '1em' },
-        'h1': { 'display': 'block', 'margin-top': '0.5em', 'margin-bottom': '0.5em', 'text-align': 'center', 'font-size': '150%', 'font-weight': 'bold' },
-        'h2': { 'display': 'block', 'margin-top': '0.5em', 'margin-bottom': '0.5em', 'text-align': 'center', 'font-size': '130%', 'font-weight': 'bold' },
-        'h3': { 'display': 'block', 'margin-top': '0.5em', 'margin-bottom': '0.5em', 'text-align': 'center', 'font-size': '120%', 'font-weight': 'bold' },
-        'h4': { 'display': 'block', 'margin-top': '0.5em', 'margin-bottom': '0.5em', 'text-align': 'center', 'font-size': '110%', 'font-weight': 'bold' },
-        'h5': { 'display': 'block', 'margin-top': '0.5em', 'margin-bottom': '0.5em', 'text-align': 'center', 'font-size': '105%', 'font-weight': 'bold' },
-        'h6': { 'display': 'block', 'margin-top': '0.5em', 'margin-bottom': '0.5em', 'text-align': 'center', 'font-size': '100%', 'font-weight': 'bold' },
+        'p': { 'margin-bottom': '1em' },
+        'h1': { 'margin-top': '0.5em', 'margin-bottom': '0.5em', 'text-align': 'center', 'font-size': '150%', 'font-weight': 'bold' },
+        'h2': { 'margin-top': '0.5em', 'margin-bottom': '0.5em', 'text-align': 'center', 'font-size': '130%', 'font-weight': 'bold' },
+        'h3': { 'margin-top': '0.5em', 'margin-bottom': '0.5em', 'text-align': 'center', 'font-size': '120%', 'font-weight': 'bold' },
+        'h4': { 'margin-top': '0.5em', 'margin-bottom': '0.5em', 'text-align': 'center', 'font-size': '110%', 'font-weight': 'bold' },
+        'h5': { 'margin-top': '0.5em', 'margin-bottom': '0.5em', 'text-align': 'center', 'font-size': '105%', 'font-weight': 'bold' },
+        'h6': { 'margin-top': '0.5em', 'margin-bottom': '0.5em', 'text-align': 'center', 'font-size': '100%', 'font-weight': 'bold' },
 
-        'a': { 'display': 'inline', 'color': 'blue', 'text-decoration': 'underline' },
-        'b': { 'display': 'inline', 'font-weight': 'bold' },
-        'strong': { 'display': 'inline', 'font-weight': 'bold' },
-        'i': { 'display': 'inline', 'font-style': 'italic' },
-        'em': { 'display': 'inline', 'font-style': 'italic' },
+        'a': { 'color': 'blue', 'text-decoration': 'underline' },
+        'b': { 'font-weight': 'bold' },
+        'strong': { 'font-weight': 'bold' },
+        'i': { 'font-style': 'italic' },
+        'em': { 'font-style': 'italic' },
+    };
+
+    var blockElements = [
+        'html',
+
+        # Metadata
+        'base',
+        'head',
+        'link',
+        'meta',
+        'style',
+        'title',
+
+        # Content root
+        'body',
+
+        # Sectioning
+        'address',
+        'article',
+        'aside',
+        'footer',
+        'header',
+        'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'h1', 'h6',
+        'hgroup',
+        'main',
+        'nav',
+        'section',
+
+        # Text content
+        'blockquote', 'cite', 'dd', 'div', 'dl', 'dt', 'figcaption', 'figure',
+        'hr', 'li', 'menu', 'ol', 'p', 'pre', 'ul',
+
+        # Table Content
+        'caption', 'col', 'colgroup', 'table', 'tbody', 'td', 'tfoot', 'th',
+        'thead', 'tr',
+
+        # Images and Multimedia
+        'area', 'audio', 'img', 'map', 'track', 'video',
+
+        # Embedded content
+        'embed', 'iframe', 'object', 'picture', 'portal', 'source',
+
+        # SVG and MathML
+        'svg', 'math',
+
+        # Scripting
+        'canvas', 'noscript', 'script',
+
+        # Forms
+        'datalist',
+        'fieldset',
+        'form',
+        'optgroup',
+        'textarea',
+    ];
+
+    var inlineElements = [
+        # Inline text
+        'a', 'abbr', 'b', 'bdi', 'bdo', 'br', 'cite', 'code', 'data', 'dfn',
+        'em', 'i', 'kbd', 'mark', 'q', 'rp', 'rt', 'ruby', 's', 'samp',
+        'small', 'span', 'strong', 'sub', 'sup', 'time', 'u', 'var', 'wbr',
+
+        # Edits
+        'del', 'ins',
+
+        # Forms
+        'button',
+        'input',
+        'label',
+        'legend',
+        'meter',
+        'option',
+        'output',
+        'progress',
+        'select',
+    ];
+
+    foreach (var e; inlineElements) {
+        baseStyles[e] = mergeDicts(baseStyles[e], { 'display': 'inline' });
+    };
+    foreach (var e; blockElements) {
+        baseStyles[e] = mergeDicts(baseStyles[e], { 'display': 'block' });
     };
 
     module.Node = Node;

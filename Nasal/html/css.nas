@@ -6,9 +6,14 @@ var CSS = (func {
 
     var try = Parser.try;
     var choice = Parser.choice;
+    var many = Parser.many;
+
+    var isWhitespace = func (c) {
+        return c <= 32;
+    };
 
     var skipSpaces = func (s) {
-        return s.takeWhileP(string.isblank);
+        return s.takeWhileP(isWhitespace);
     };
 
     # Parsing stuff
@@ -259,7 +264,7 @@ var CSS = (func {
         }
         if (intpart == '' and fracpart == '')
             s.unexpected('numeric value');
-        return sign ~ intpart ~ decimalSign ~ fracpart ~ unit;
+        return sign ~ intpart ~ decimalSign ~ fracpart;
     });
 
     var pDimensionedPropertyValue = func (s) {
@@ -270,27 +275,27 @@ var CSS = (func {
         skipSpaces(s);
         var unit = choice([
             # relative units
-            s.matchStr('%'),
-            s.matchStr('rem'),
-            s.matchStr('em'),
-            s.matchStr('vw'),
-            s.matchStr('vh'),
+            func (s) s.matchStr('%'),
+            func (s) s.matchStr('rem'),
+            func (s) s.matchStr('em'),
+            func (s) s.matchStr('vw'),
+            func (s) s.matchStr('vh'),
 
             # absolute units
-            s.matchStr('px'),
-            s.matchStr('pt'),
-            s.matchStr('mm'),
-            s.matchStr('cm'),
-            s.matchStr('in'),
-        ]) or '';
+            func (s) s.matchStr('px'),
+            func (s) s.matchStr('pt'),
+            func (s) s.matchStr('mm'),
+            func (s) s.matchStr('cm'),
+            func (s) s.matchStr('in'),
+        ])(s) or '';
         skipSpaces(s);
-        return numpart ~ unit;
+        return (numpart ~ unit);
     };
 
     var pStyleRule = func (s) {
         var key = s.takeWhileP(isStyleKeyChar);
         if (key == '' or key == nil)
-            s.unexpected('property name');
+            s.unexpected('property name', debug.string(key));
         skipSpaces(s);
         s.matchStr(':') or s.unexpected(':');
         skipSpaces(s);

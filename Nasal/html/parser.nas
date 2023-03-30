@@ -12,15 +12,29 @@ var Parser = (func {
 
         eof: func { return me.pos >= size(me.data); },
 
-        lookahead: func {
-            if (me.eof()) return nil;
-            return me.data[me.pos];
+        lookahead: func (trace=0) {
+            if (me.eof()) {
+                if (trace)
+                    printf("lookahead @%i: EOF", me.pos);
+                return nil;
+            }
+            var c = me.data[me.pos];
+            if (trace)
+                printf("lookahead @%i: %i '%s'", me.pos, c, chr(c));
+            return c;
         },
 
-        consume: func () {
-            if (me.eof()) return nil;
+        consume: func (trace=0) {
+            if (me.eof()) {
+                if (trace)
+                    printf("consume @%i: EOF", me.pos);
+                return nil;
+            }
+            var c = me.data[me.pos];
+            if (trace)
+                printf("consume @%i: %i '%s'", me.pos, c, chr(c));
             me.pos += 1;
-            return me.data[me.pos - 1];
+            return c;
         },
 
         save: func {
@@ -31,12 +45,14 @@ var Parser = (func {
             me.pos = math.min(pos, size(me.data));
         },
 
-        takeWhileP: func (cond) {
+        takeWhileP: func (cond, trace=0) {
             var start = me.save();
-            while (!me.eof() and cond(me.lookahead())) {
-                me.consume();
+            while (!me.eof() and cond(me.lookahead(trace))) {
+                me.consume(trace);
             }
             var end = me.save();
+            if (trace)
+                printf("takeWhileP: %i to %i", start, end);
             if (start == end) {
                 # Condition didn't match
                 return nil;
@@ -57,11 +73,13 @@ var Parser = (func {
             }
         },
 
-        unexpected: func (expected) {
-            if (me.eof())
-                found = '<<end of input>>';
-            else
-                found = substr(me.data, me.pos, 16);
+        unexpected: func (expected, found=nil) {
+            if (found == nil) {
+                if (me.eof())
+                    found = '<<end of input>>';
+                else
+                    found = substr(me.data, me.pos, 16);
+            }
             die(
                 sprintf(
                     "Parser error at position %i: expected %s, but found %s",
@@ -92,6 +110,20 @@ var Parser = (func {
             }
             return nil;
         }
+    };
+
+    module.many = func (f) {
+        return func(s) {
+            var result = [];
+            while (!s.eof()) {
+                var r = try(f)(s);
+                if (r == nil)
+                    return result;
+                else
+                    append(result, r);
+            }
+            return result;
+        };
     };
 
     module.run = func (pfunc, input) {
