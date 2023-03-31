@@ -106,51 +106,62 @@ var MapsApp = {
         me.updateTimer.start();
     },
 
+    updateZoomScroll: func () {
+        me.zoomDigital.setText('LVL');
+        me.zoomUnit.setText(sprintf("%1.0f", me.zoom));
+        me.updateMap();
+    },
+    zoomIn: func () {
+        me.zoom = math.min(me.maxZoom, me.zoom + 1);
+        me.cancelAllRequests();
+        me.updateZoomScroll();
+    },
+    zoomOut: func () {
+        me.zoom = math.max(me.minZoom, me.zoom - 1);
+        me.cancelAllRequests();
+        me.updateZoomScroll();
+    },
+    scroll: func (dx, dy) {
+        me.center[0] = math.min(77.5, math.max(-77.5, me.center[0] - dy * math.pow(0.5, me.zoom) * 50));
+        me.center[1] = me.center[1] + dx * math.pow(0.5, me.zoom) * 50;
+        me.centerOnAircraft = 0;
+        me.autoCenterMarker.hide();
+        me.updateZoomScroll();
+    },
+    resetScroll: func () {
+        var pos = geo.aircraft_position();
+        me.center[0] = pos.lat();
+        me.center[1] = pos.lon();
+        me.centerOnAircraft = 1;
+        me.autoCenterMarker.show();
+        me.updateZoomScroll();
+    },
+
     makeZoomScrollOverlay: func () {
         var self = me;
         me.overlay = me.masterGroup.createChild('group');
         canvas.parsesvg(me.overlay, "Aircraft/E-jet-family/Models/EFB/zoom-scroll-overlay.svg", {'font-mapper': font_mapper});
-        var zoomDigital = me.overlay.getElementById('zoomPercent.digital');
-        var zoomUnit = me.overlay.getElementById('zoomPercent.unit');
-        var autoCenterMarker = me.overlay.getElementById('autoCenterMarker');
-        var update = func () {
-            zoomDigital.setText('LVL');
-            zoomUnit.setText(sprintf("%1.0f", self.zoom));
-            self.updateMap();
-        };
-        var zoomIn = func () {
-            self.zoom = math.min(self.maxZoom, self.zoom + 1);
-            self.cancelAllRequests();
-            update();
-        };
-        var zoomOut = func () {
-            self.zoom = math.max(self.minZoom, self.zoom - 1);
-            self.cancelAllRequests();
-            update();
-        };
-        var scroll = func (dx, dy) {
-            self.center[0] = math.min(77.5, math.max(-77.5, self.center[0] - dy * math.pow(0.5, self.zoom) * 50));
-            self.center[1] = self.center[1] + dx * math.pow(0.5, self.zoom) * 50;
-            self.centerOnAircraft = 0;
-            autoCenterMarker.hide();
-            update();
-        };
-        var resetScroll = func () {
-            var pos = geo.aircraft_position();
-            self.center[0] = pos.lat();
-            self.center[1] = pos.lon();
-            self.centerOnAircraft = 1;
-            autoCenterMarker.show();
-            update();
-        };
-        me.makeClickable(me.overlay.getElementById('btnZoomIn'), zoomIn);
-        me.makeClickable(me.overlay.getElementById('btnZoomOut'), zoomOut);
-        me.makeClickable(me.overlay.getElementById('btnScrollN'), func { scroll(0, -1); });
-        me.makeClickable(me.overlay.getElementById('btnScrollS'), func { scroll(0, 1); });
-        me.makeClickable(me.overlay.getElementById('btnScrollE'), func { scroll(1, 0); });
-        me.makeClickable(me.overlay.getElementById('btnScrollW'), func { scroll(-1, 0); });
-        me.makeClickable(me.overlay.getElementById('btnScrollReset'), resetScroll);
-        update();
+        me.zoomDigital = me.overlay.getElementById('zoomPercent.digital');
+        me.zoomUnit = me.overlay.getElementById('zoomPercent.unit');
+        me.autoCenterMarker = me.overlay.getElementById('autoCenterMarker');
+
+        me.makeClickable(me.overlay.getElementById('btnZoomIn'), func { self.zoomIn(); });
+        me.makeClickable(me.overlay.getElementById('btnZoomOut'), func { self.zoomOut(); } );
+        me.makeClickable(me.overlay.getElementById('btnScrollN'), func { self.scroll(0, -1); });
+        me.makeClickable(me.overlay.getElementById('btnScrollS'), func { self.scroll(0, 1); });
+        me.makeClickable(me.overlay.getElementById('btnScrollE'), func { self.scroll(1, 0); });
+        me.makeClickable(me.overlay.getElementById('btnScrollW'), func { self.scroll(-1, 0); });
+        me.makeClickable(me.overlay.getElementById('btnScrollReset'), func { self.resetScroll(); });
+        me.updateZoomScroll();
+    },
+
+    wheel: func (axis, amount) {
+        if (axis == 0) {
+            if (amount > 0)
+                me.zoomOut();
+            elsif (amount < 0)
+                me.zoomIn();
+        }
     },
 
     updateMap: func () {

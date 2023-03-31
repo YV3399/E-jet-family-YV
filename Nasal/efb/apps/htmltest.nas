@@ -12,6 +12,9 @@ var HTMLTestApp = {
             debugLayout: 0,
             applyStylesheet: 1,
         };
+        m.renderInfo = nil;
+        m.scroll = { x: 0, y : 0 };
+        m.maxScroll = { x: 0, y : 0 };
         return m;
     },
 
@@ -28,7 +31,24 @@ var HTMLTestApp = {
                         me.contentBox.left, me.contentBox.top,
                         me.contentBox.width, me.contentBox.height),
                     me.renderOptions);
-        html.showDOM(me.document, renderContext);
+        me.renderInfo = html.showDOM(me.document, renderContext);
+        me.maxScroll.x = math.max(0, me.renderInfo.docPaddingBox.width() - me.contentBox.width);
+        me.scroll.x = math.min(me.maxScroll.x, math.max(0, me.scroll.x));
+        me.maxScroll.y = math.max(0, me.renderInfo.docPaddingBox.height() - me.contentBox.height);
+        me.scroll.y = math.min(me.maxScroll.y, math.max(0, me.scroll.y));
+        me.updateScroll();
+    },
+
+    updateScroll: func {
+        me.htmlGroup.setTranslation(-me.scroll.x, -me.scroll.y);
+    },
+
+    wheel: func (axis, amount) {
+        if (axis == 0) {
+            me.scroll.y += amount * 20;
+            me.scroll.y = math.min(me.maxScroll.y, math.max(0, me.scroll.y));
+            me.updateScroll();
+        }
     },
 
     initialize: func () {

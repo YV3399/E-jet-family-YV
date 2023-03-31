@@ -19,6 +19,10 @@ var BaseApp = {
         me.rootWidget.touch(x, y);
     },
 
+    # Handles wheel events.
+    wheel: func (axis, amount) {
+    },
+
     # Make an element or area clickable.
     # If given an element, the clickable area will automatically move
     # with the element.

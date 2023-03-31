@@ -1,5 +1,7 @@
 var efb = nil;
 
+logprint(3, "EFB main module start");
+
 var appBasedir = acdir ~ '/Nasal/efb/apps';
 
 globals.efb.availableApps = {};
@@ -148,6 +150,15 @@ var EFB = {
             else {
                 me.currentApp.touch(x, y);
             }
+        }
+    },
+
+    wheel: func (axis, amount) {
+        if (me.currentApp == nil) {
+            # Once we get multiple screens, we might handle the event here.
+        }
+        else {
+            me.currentApp.wheel(axis, amount);
         }
     },
 

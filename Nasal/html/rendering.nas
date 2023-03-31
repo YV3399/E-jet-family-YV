@@ -1110,6 +1110,9 @@ var showDOM = func (dom, renderContext) {
     renderContext.group.removeAllChildren();
     doc.render(renderContext);
     renderContext.group.show();
+    return {
+        docPaddingBox: doc.metrics['padding-box'],
+    };
 };
 
 

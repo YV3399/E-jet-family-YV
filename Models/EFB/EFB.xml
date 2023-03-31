@@ -34,6 +34,35 @@
     </animation>
 
     <animation>
+        <type>pick</type>
+        <object-name>EFBScreen.Pane</object-name>
+        <action>
+            <button>3</button>
+            <binding>
+                <command>nasal</command>
+                <script><![CDATA[
+                    var efb = efb.efb;
+                    if (efb != nil) {
+                        efb.wheel(0, -1);
+                    }
+                ]]></script>
+            </binding>
+        </action>
+        <action>
+            <button>4</button>
+            <binding>
+                <command>nasal</command>
+                <script><![CDATA[
+                    var efb = efb.efb;
+                    if (efb != nil) {
+                        efb.wheel(0, 1);
+                    }
+                ]]></script>
+            </binding>
+        </action>
+    </animation>
+
+    <animation>
         <type>select</type>
         <condition>
             <property>/instrumentation/efb/available</property>
@@ -66,8 +95,12 @@
         <action>
             <button>1</button>
             <binding>
-                <command>property-toggle</command>
-                <property>/instrumentation/efb/power</property>
+                <command>nasal</command>
+                <script><![CDATA[
+                    printf("EFB reload...");
+                    efb.reload();
+                    printf("EFB reload done.");
+                ]]></script>
             </binding>
         </action>
         <action>
