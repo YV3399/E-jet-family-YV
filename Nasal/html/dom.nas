@@ -29,10 +29,12 @@ var DOM = (func {
         'text-decoration': 'inherit',
 
         'vertical-align': 'baseline',
-        'text-align': 'left',
+        'text-align': 'inherit',
         'width': 'auto',
 
         'line-height': 'inherit',
+        'list-style-type': 'inherit',
+        'list-style-position': 'outside',
 
         'color': 'inherit',
         'border-left-color': 'none',
@@ -41,29 +43,6 @@ var DOM = (func {
         'border-bottom-color': 'none',
         'background-color': 'inherit',
     };
-
-    var defaultTextStyle = mergeDicts(defaultStyle, {
-        'padding-left': 'inherit',
-        'padding-right': 'inherit',
-        'padding-top': 'inherit',
-        'padding-bottom': 'inherit',
-
-        'margin-left': 'inherit',
-        'margin-right': 'inherit',
-        'margin-top': 'inherit',
-        'margin-bottom': 'inherit',
-
-        'border-left-width': 'inherit',
-        'border-right-width': 'inherit',
-        'border-top-width': 'inherit',
-        'border-bottom-width': 'inherit',
-
-        'border-left-color': 'inherit',
-        'border-right-color': 'inherit',
-        'border-top-color': 'inherit',
-        'border-bottom-color': 'inherit',
-    });
-
 
     var cascadeStyle = func (parentStyle, childStyle) {
         if (parentStyle == nil) {
@@ -255,6 +234,9 @@ var DOM = (func {
         'strong': { 'font-weight': 'bold' },
         'i': { 'font-style': 'italic' },
         'em': { 'font-style': 'italic' },
+
+        'ul': { 'list-style-type': 'disc' },
+        'ol': { 'list-style-type': 'decimal' },
     };
 
     var blockElements = [
@@ -285,7 +267,7 @@ var DOM = (func {
 
         # Text content
         'blockquote', 'cite', 'dd', 'div', 'dl', 'dt', 'figcaption', 'figure',
-        'hr', 'li', 'menu', 'ol', 'p', 'pre', 'ul',
+        'hr', 'menu', 'ol', 'p', 'pre', 'ul',
 
         # Table Content
         'caption', 'col', 'colgroup', 'table', 'tbody', 'td', 'tfoot', 'th',
@@ -309,6 +291,10 @@ var DOM = (func {
         'form',
         'optgroup',
         'textarea',
+    ];
+
+    var listItemElements = [
+        'li',
     ];
 
     var inlineElements = [
@@ -337,6 +323,9 @@ var DOM = (func {
     };
     foreach (var e; blockElements) {
         baseStyles[e] = mergeDicts(baseStyles[e], { 'display': 'block' });
+    };
+    foreach (var e; listItemElements) {
+        baseStyles[e] = mergeDicts(baseStyles[e], { 'display': 'list-item' });
     };
 
     module.Node = Node;

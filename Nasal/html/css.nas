@@ -105,6 +105,29 @@ var CSS = (func {
                 [ prefix ~ '-left-' ~ suffix, left ],
             ];
         }
+        elsif (key == 'list-style') {
+            var result = [];
+            var position = nil;
+            var type = nil;
+            var image = nil; # not supported yet
+            foreach (var val; vals) {
+                if (val == 'inside' or val == 'outside') {
+                    position = val;
+                }
+                elsif (substr(val, 0, 4) == 'url') {
+                    image = val;
+                }
+                else {
+                    type = val;
+                }
+            }
+            if (position != nil)
+                append(result, ['list-style-position', position]);
+            if (type != nil)
+                append(result, ['list-style-type', type]);
+            if (image != nil)
+                append(result, ['list-style-image', image]);
+        }
         else {
             return [ [key, nth(vals, 0) ] ];
         }
@@ -330,6 +353,10 @@ var CSS = (func {
         }
         if (intpart == nil and fracpart == nil)
             s.unexpected('numeric value');
+        if (intpart == nil)
+            intpart = '';
+        if (fracpart == nil)
+            fracpart = '';
         return sign ~ intpart ~ decimalSign ~ fracpart;
     });
 

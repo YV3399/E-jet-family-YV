@@ -1,0 +1,48 @@
+html {
+    font-size: 14pt;
+}
+
+h1 { font-size: 150%; }
+h2 { font-size: 130%; }
+h3 { font-size: 120%; }
+h4 { font-size: 110%; }
+h5 { font-size: 105%; }
+h6 { font-size: 100%; }
+
+.error h1 {
+    color: #C00;
+}
+
+.error h5 {
+    border-bottom: solid 2px #800;
+    background-color: #FEE;
+    padding: 0;
+    margin: 0.5rem 0 0.5em;
+    vertical-align: baseline;
+}
+
+.error-details {
+    text-align: left;
+    background-color: #FCC;
+    border: solid 2px #F00;
+    color: #100;
+    margin: 0 2rem;
+    padding: 1rem;
+}
+
+.error-details p {
+    margin: 0;
+}
+
+.error-details p+p {
+    margin-top: 0.5em;
+}
+
+ul, ol {
+    margin-top: 0.5em;
+}
+
+li {
+    padding-left: 1em;
+    margin-bottom: 0.5em;
+}

@@ -15,18 +15,24 @@ var H = (func {
                 attribs = {};
             }
             var children = [];
-            foreach(var a; args) {
-                if (isa(a, DOM.Node)) {
-                    append(children, a);
+            var addChildren = func (args) {
+                foreach(var a; args) {
+                    if (typeof(a) == 'vector') {
+                        addChildren(a);
+                    }
+                    elsif (isa(a, DOM.Node)) {
+                        append(children, a);
+                    }
+                    elsif (typeof(a) == 'scalar') {
+                        append(children, DOM.Text.new(a));
+                    }
+                    else {
+                        logprint(3, 'Invalid DOM child node');
+                        debug.dump(a);
+                    }
                 }
-                elsif (typeof(a) == 'scalar') {
-                    append(children, DOM.Text.new(a));
-                }
-                else {
-                    logprint(3, 'Invalid DOM child node');
-                    debug.dump(a);
-                }
-            }
+            };
+            addChildren(args);
             return DOM.Element.new(tag, attribs, children);
         };
     };

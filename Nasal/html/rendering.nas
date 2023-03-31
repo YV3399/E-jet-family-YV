@@ -30,6 +30,7 @@ var rootStyle = mergeDicts(DOM.defaultStyle, {
     'font-weight': 'normal',
     'text-style': 'normal',
     'text-decoration': 'none',
+    'text-align': 'left',
     'line-height': 1.25,
     'color': 'black',
 
@@ -459,6 +460,7 @@ var Node = {
         if (renderContext['debugLayout']) {
             me.renderDebugLayout(renderContext);
         }
+        me.renderListMarker(renderContext);
         me.renderContent(renderContext);
     },
 
@@ -556,6 +558,57 @@ var Node = {
         drawBorderSide('right');
         drawBorderSide('top');
         drawBorderSide('bottom');
+    },
+
+    renderListMarker: func (renderContext) {
+        if (me.style['display'] == 'list-item') {
+            var type = me.style['list-style-type'];
+            if (type != nil and type != 'none') {
+                var fontSize = me.metrics['font-size'];
+                var fontFamily = me.metrics['font-family'] or 'sans';
+                var fontWeight = me.metrics['font-weight'] or 'regular';
+                var x = me.metrics['content-box'].left() - fontSize * 0.5;
+                var r = me.metrics['content-box'].left();
+                var y = me.metrics['content-box'].top() + me.metrics['above-baseline'] * 0.5;
+                var bl = me.metrics['content-box'].top() + me.metrics['above-baseline'];
+                var h = fontSize * 0.3;
+                var alignment = 'right-baseline';
+                if (me.metrics['vertical-align'] == 'top') {
+                    alignment = 'right-top';
+                }
+                elsif (me.metrics['vertical-align'] == 'bottom') {
+                    alignment = 'right-bottom';
+                }
+                elsif (me.metrics['vertical-align'] == 'middle') {
+                    alignment = 'right-center';
+                }
+
+                if (type == 'disc') {
+                    renderContext.group.createChild('path')
+                        .circle(h * 0.5, x, y)
+                        .setColorFill(me.metrics['color']);
+                }
+                elsif (type == 'circle') {
+                    renderContext.group.createChild('path')
+                        .circle(h * 0.5, x, y)
+                        .setColor(me.metrics['color']);
+                }
+                elsif (type == 'square') {
+                    renderContext.group.createChild('path')
+                        .rect(x - h * 0.5, y - h * 0.5, h, h)
+                        .setColorFill(me.metrics['color']);
+                }
+                elsif (type == 'decimal') {
+                    renderContext.group.createChild('text')
+                        .setFont(renderContext.fontMapper(fontFamily, fontWeight))
+                        .setFontSize(fontSize, 1)
+                        .setAlignment(alignment)
+                        .setTranslation(r, bl)
+                        .setColor(me.metrics['color'])
+                        .setText(sprintf('%i. ', me.domNode.siblingIndex + 1));
+                }
+            }
+        }
     },
 };
 
@@ -988,6 +1041,10 @@ var Block = {
             var remainingWidth = me.metrics['content-box'].width() - currentLineWidth;
             var x = me.metrics['content-box'].left();
             var numSpaces = math.max(0, size(currentLine) - 1);
+            var lineFeed = me.metrics['line-height'] * maxFontSize;
+            if (baselineOffset + below < lineFeed) {
+                baselineOffset = lineFeed - below;
+            }
             if (firstLine) {
                 me.metrics['above-baseline'] = baselineOffset;
             }

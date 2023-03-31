@@ -1,5 +1,6 @@
 include('apps/base.nas');
 include('gui/pager.nas');
+include('/html/main.nas');
 
 var ChartsApp = {
     new: func(masterGroup) {
@@ -31,6 +32,7 @@ var ChartsApp = {
     },
 
     initialize: func () {
+        me.stylesheet = html.CSS.loadStylesheet(me.assetDir ~ 'style.css');
         me.baseURL = getprop('/instrumentation/efb/flightbag-companion-uri') or 'http://localhost:7675/';
         me.bgfill = me.masterGroup.createChild('path')
                         .rect(0, 0, 512, 768)
@@ -88,25 +90,36 @@ var ChartsApp = {
             me.rootWidget.removeAllChildren();
             me.contentGroup.removeAllChildren();
         }
-        var y = 64;
-        me.contentGroup.createChild('text')
-            .setText('Error')
-            .setColor(128, 0, 0)
-            .setAlignment('center-center')
-            .setTranslation(256, y)
-            .setFont("LiberationFonts/LiberationSans-Regular.ttf")
-            .setFontSize(48);
-        y += 64;
+        var renderContext =
+                html.makeDefaultRenderContext(
+                    me.contentGroup,
+                    font_mapper,
+                    0, 64, 512, 704);
+        var errorItems = [];
         foreach (var err; errs) {
-            me.contentGroup.createChild('text')
-                .setText(err)
-                .setColor(128, 0, 0)
-                .setAlignment('center-center')
-                .setTranslation(256, y)
-                .setFont("LiberationFonts/LiberationSans-Regular.ttf")
-                .setFontSize(24);
-            y += 32;
+            if (typeof(err) == 'scalar') {
+                if (substr(err, 0, 7) == 'http://' or
+                    substr(err, 0, 8) == 'https://') {
+                    append(errorItems, H.p(H.a({'href': err}, err)));
+                }
+                else {
+                    append(errorItems, H.p(err));
+                }
+            }
+            elsif (isa(err, html.DOM.Node)) {
+                append(errorItems, err);
+            }
+            else {
+                debug.dump(err);
+            }
         }
+        var doc = H.html(
+                    H.body({class: 'error'},
+                        H.h1('Error'),
+                        H.div({class: 'error-details'},
+                            errorItems)));
+        me.stylesheet.apply(doc);
+        html.showDOM(doc, renderContext);
     },
 
     parseListing: func (listingNode) {
@@ -487,21 +500,31 @@ var ChartsApp = {
         var filename = getprop('/sim/fg-home') ~ "/Export/efb_listing.xml";
         var onFailure = func (r) {
             logprint(4, 'EFB: HTTP error:', debug.string(r.status));
+            var companionURL = getprop('/instrumentation/efb/flightbag-companion-uri');
+            var companionDownloadURL = 'https://github.com/tdammers/fg-efb-server/';
             if (r.status < 100) {
                 self.showErrorScreen(
-                    [ "Download failed"
-                    , url
+                    [ "Download from " ~ url ~ " failed"
                     , sprintf("Error code: %s", r.status)
-                    , "Is the companion app running"
-                    , "on the following URL?"
-                    , getprop('/instrumentation/efb/charts-companion-uri')
+                    , "Please check the following:"
+                    , H.ul(
+                        H.li(
+                            "Have you installed the ",
+                            H.b("fg-efb-server companion app?"),
+                        ),
+                        H.li(
+                            "Is the companion app running on ",
+                            H.a({href: companionURL}, companionURL)))
+                    , H.h5("Note:")
+                    , H.p(
+                        "The companion app can be downloaded from here:",
+                        H.a({href: companionDownloadURL}, companionDownloadURL))
                     ]);
                 self.makeReloadIcon(func () { self.reloadListing(); }, 'Retry');
             }
             else if (r.status > 399) {
                 self.showErrorScreen(
-                    [ "Download failed"
-                    , url
+                    [ "Download from " ~ url ~ "failed"
                     , sprintf("HTTP status: %s", r.status)
                     ]);
                 self.makeReloadIcon(func () { self.reloadListing(); }, 'Retry');
@@ -512,7 +535,7 @@ var ChartsApp = {
             if (listingNode == nil) {
                 print("Error loading listing");
                 self.showErrorScreen(
-                    [ "Invalid listing"
+                    [ "Invalid listing:"
                     , "Malformed XML"
                     ]);
             }
