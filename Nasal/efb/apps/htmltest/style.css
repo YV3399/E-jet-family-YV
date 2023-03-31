@@ -4,11 +4,24 @@ html {
 
 body {
     padding: 1rem;
+    margin: 1rem;
 }
 
-p {
+p, blockquote {
     margin: 0.5rem;
 }
 
+blockquote {
+    color: #333;
+    padding: 1rem;
+    margin-left: 1rem;
+    margin-right: 1rem;
+    border: 1px #888;
+    border-left-width: 0.5rem;
+    background-color: #EEE;
+}
+
 a {
+    background-color: yellow;
+    padding: 0.1rem;
 }

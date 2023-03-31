@@ -56,7 +56,41 @@ var CSS = (func {
                 [ key ~ '-left', left ],
             ];
         }
-        elsif (key == 'border-width' or key == 'border-color') {
+        elsif (key == 'border' or key == 'border-left' or key == 'border-right' or key == 'border-top' or key == 'border-bottom') {
+            var borderWidth = '1px'; # should be 'medium'
+            var borderStyle = 'none';
+            var borderColor = nil; # should be 'currentcolor'
+            foreach (var val; vals) {
+                if (typeof(val) == 'vector' or contains(namedColors, val)) {
+                    # it's a color
+                    borderColor = val;
+                }
+                elsif (val == 'solid' or val == 'dotted' or val == 'dashed' or
+                       val == 'inset' or val == 'outset' or val == 'none' or
+                       val == 'hidden' or val == 'double' or val == 'ridge' or
+                       val == 'groove') {
+                    # it's a line style
+                    borderStyle = val;
+                }
+                else {
+                    borderWidth = val;
+                }
+            }
+            var directions = [];
+            if (key == 'border')
+                directions = ['left', 'right', 'top', 'bottom'];
+            else
+                directions = [substr(key, 7)];
+            var result = [];
+            foreach (var direction; directions) {
+                append(result, [ 'border-' ~ direction ~ '-width', borderWidth ]);
+                append(result, [ 'border-' ~ direction ~ '-style', borderStyle ]);
+                if (borderColor != nil)
+                    append(result, [ 'border-' ~ direction ~ '-color', borderColor ]);
+            }
+            return result;
+        }
+        elsif (key == 'border-width' or key == 'border-color' or key == 'border-style') {
             var parts = split('-', key);
             var prefix = nth(parts, 0);
             var suffix = nth(parts, 1);
@@ -64,7 +98,6 @@ var CSS = (func {
             var right = nth(vals, 1, top);
             var bottom = nth(vals, 2, top);
             var left = nth(vals, 3, right);
-            debug.dump(suffix, vals, left, right, top, bottom);
             return [
                 [ prefix ~ '-top-' ~ suffix, top ],
                 [ prefix ~ '-right-' ~ suffix, right ],

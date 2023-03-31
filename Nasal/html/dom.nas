@@ -42,6 +42,28 @@ var DOM = (func {
         'background-color': 'inherit',
     };
 
+    var defaultTextStyle = mergeDicts(defaultStyle, {
+        'padding-left': 'inherit',
+        'padding-right': 'inherit',
+        'padding-top': 'inherit',
+        'padding-bottom': 'inherit',
+
+        'margin-left': 'inherit',
+        'margin-right': 'inherit',
+        'margin-top': 'inherit',
+        'margin-bottom': 'inherit',
+
+        'border-left-width': 'inherit',
+        'border-right-width': 'inherit',
+        'border-top-width': 'inherit',
+        'border-bottom-width': 'inherit',
+
+        'border-left-color': 'inherit',
+        'border-right-color': 'inherit',
+        'border-top-color': 'inherit',
+        'border-bottom-color': 'inherit',
+    });
+
 
     var cascadeStyle = func (parentStyle, childStyle) {
         if (parentStyle == nil) {
@@ -145,8 +167,26 @@ var DOM = (func {
         getTextContent: func me.text,
         calcEffectiveStyle: func (parentStyle) {
             var baseStyle = {'display': 'inline'};
-            var ownStyle = mergeDicts(defaultStyle, baseStyle, me.cssStyle);
-            me.effectiveStyle = cascadeStyle(parentStyle, ownStyle);
+            if (parentStyle['display'] != 'inline') {
+                baseStyle['padding-left'] = 0;
+                baseStyle['padding-right'] = 0;
+                baseStyle['padding-top'] = 0;
+                baseStyle['padding-bottom'] = 0;
+                baseStyle['margin-left'] = 0;
+                baseStyle['margin-right'] = 0;
+                baseStyle['margin-top'] = 0;
+                baseStyle['margin-bottom'] = 0;
+                baseStyle['border-left-width'] = 0;
+                baseStyle['border-right-width'] = 0;
+                baseStyle['border-top-width'] = 0;
+                baseStyle['border-bottom-width'] = 0;
+                baseStyle['border-left-color'] = 'none';
+                baseStyle['border-right-color'] = 'none';
+                baseStyle['border-top-color'] = 'none';
+                baseStyle['border-bottom-color'] = 'none';
+                baseStyle['background-color'] = 'none';
+            }
+            me.effectiveStyle = mergeDicts(parentStyle, baseStyle);
         },
     };
 

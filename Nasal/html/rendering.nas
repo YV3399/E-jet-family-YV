@@ -338,7 +338,10 @@ var Node = {
                 me.metrics[k] = parentMetrics[k];
             }
             elsif (me.style[k] == 'auto') {
-                me.metrics[k] = 'auto';
+                # 'auto' needs special treatment; we will check for it in
+                # the `style` property, where it will be retained, and set it
+                # to 0 in the `metrics`.
+                me.metrics[k] = 0;
             }
             else {
                 var (value, unit) = splitDimensional(me.style[k] or nil);
@@ -784,39 +787,55 @@ var Block = {
     },
 
     calcSizeMetrics: func (renderContext, parentMetrics) {
-        # We have to cater for the block being laid out in as inline-block.
+        # NB: We have to cater for the block being laid out in as inline-block.
 
         var boxSizing = me.metrics['box-sizing'] or 'content-box';
         var paddingX = me.metrics['padding-left'] + me.metrics['padding-right'];
-        var marginX = me.metrics['margin-left'] + me.metrics['margin-right'];
         var borderX = me.metrics['border-left-width'] + me.metrics['border-right-width'];
 
+        # content box width
         var desiredContentWidth = 0;
+        # width as per box-sizing
+        var desiredWidth = 0;
+        var boxSizingCorrection = 0;
+
+        if (boxSizing == 'content-box') {
+            boxSizingCorrection = 0;
+        }
+        elsif (boxSizing == 'padding-box') {
+            boxSizingCorrection = paddingX;
+        }
+        elsif (boxSizing == 'border-box') {
+            boxSizingCorrection = paddingX + borderX;
+        }
 
         if (me.metrics['width'] == 'auto' or me.metrics['width'] == nil) {
             # Calculate desired width from children.
             var previousMargin = 0;
+            desiredWidth = boxSizingCorrection;
             foreach (var child; me.children) {
                 var collapsedMargin = math.max(
                         math.max(previousMargin, child.metrics['margin-left']),
                         child.metrics['min-spacing']);
-                desiredContentWidth += collapsedMargin - previousMargin;
-                desiredContentWidth += child.metrics['inline-width'];
+                desiredWidth += collapsedMargin - previousMargin;
+                desiredWidth += child.metrics['inline-width'];
                 previousMargin = child.metrics['margin-right'];
-                desiredContentWidth += previousMargin;
+                desiredWidth += previousMargin;
             }
         }
         else {
-            if (boxSizing == 'content-box') {
-                desiredContentWidth = me.metrics['width'];
-            }
-            elsif (boxSizing == 'padding-box') {
-                desiredContentWidth = me.metrics['width'] - paddingX;
-            }
-            elsif (boxSizing == 'border-box') {
-                desiredContentWidth = me.metrics['width'] - paddingX - borderX;
-            }
+            desiredWidth = me.metrics['width'];
         }
+
+        if (me.metrics['max-width'] != nil and me.metrics['max-width'] != 'auto') {
+            desiredWidth = math.min(me.metrics['max-width'], desiredWidth);
+            me.metrics['max-content-width'] = me.metrics['max-width'] - boxSizingCorrection;
+        }
+        if (me.metrics['min-width'] != nil and me.metrics['min-width'] != 'auto') {
+            desiredWidth = math.max(me.metrics['min-width'], desiredWidth);
+            me.metrics['min-content-width'] = me.metrics['min-width'] - boxSizingCorrection;
+        }
+        desiredContentWidth = desiredWidth - boxSizingCorrection;
 
         # Inline width for block-level elements is only used for inline-block
         # layout, where it must include padding and border.
@@ -866,9 +885,39 @@ var Block = {
     layoutBlock: func (parentBox) {
         # Preliminary calculation of border box; we will amend the height
         # while laying out child elements.
+
+        # At this point, the margin box 
+
+        var leftMarginIsAuto = me.style['margin-left'] == 'auto';
+        var rightMarginIsAuto = me.style['margin-right'] == 'auto';
+
+        # The remaining space that we need to distribute over auto margins.
+        # inline-width = desired border-box width
+        var remainingSpace = math.max(0, parentBox.width() - me.metrics['inline-width']);
+
+        # TODO: handle cases where remaining space is negative.
+        # For now: clip to 0.
+
+        if (leftMarginIsAuto and rightMarginIsAuto) {
+            # Both margins are 'auto': distribute space equally.
+            me.metrics['margin-left'] = remainingSpace * 0.5;
+            me.metrics['margin-right'] = remainingSpace * 0.5;
+        }
+        elsif (leftMarginIsAuto) {
+            remainingSpace -= me.metrics['margin-right'];
+            me.metrics['margin-left'] = remainingSpace;
+        }
+        elsif (rightMarginIsAuto) {
+            remainingSpace -= me.metrics['margin-left'];
+            me.metrics['margin-right'] = remainingSpace;
+        }
+
         me.metrics['margin-box'] = parentBox.clone();
         me.boxesFromMarginBox();
         me.metrics['content-box'].setHeight(0);
+
+        # TODO: re-check min-width and max-width.
+
         if (size(me.children) == 0) {
         }
         elsif (me.children[0].isBlock()) {
@@ -1050,18 +1099,17 @@ var domNodeToRenderNode = func (node, path=nil) {
     }
 };
 
-var showDOM = func (dom, group, fontMapper, x, y, w, h) {
-    var renderContext = makeDefaultRenderContext(group, fontMapper, x, y, w, h);
-    group.removeAllChildren();
-    group.hide();
+var showDOM = func (dom, renderContext) {
+    renderContext.group.removeAllChildren();
+    renderContext.group.hide();
     dom.calcEffectiveStyle(rootStyle);
     var doc = domNodeToRenderNode(dom);
     doc = doc.wordSplit()[0];
     doc.calcMetrics(renderContext, {});
-    doc.layoutBlock(Box.new(x, y, w, h));
-    group.removeAllChildren();
+    doc.layoutBlock(renderContext.viewport);
+    renderContext.group.removeAllChildren();
     doc.render(renderContext);
-    group.show();
+    renderContext.group.show();
 };
 
 
