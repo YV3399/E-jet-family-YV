@@ -100,7 +100,7 @@ var MapsApp = {
         me.contentGroup = me.masterGroup.createChild('group');
         me.initializeTiles();
         me.makeZoomScrollOverlay();
-        me.updateTimer = maketimer(0.5, func {
+        me.updateTimer = maketimer(0.1, func {
             self.updateMap();
         });
         me.updateTimer.start();
