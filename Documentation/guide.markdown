@@ -972,9 +972,12 @@ the EFB.
 General operation:
 
 - The screen is clickable, simulating a **touchscreen**
+- Mouse wheel on the screen simulates **zooming / scrolling** (the exact
+  function depends on the app in use).
 - LMB clicking on the case flips between portrait and landscape **orientation**
 - Mouse wheel on the case adjusts **brightness**
-- MMB clicking on the case operates the **power** button
+- MMB clicking on the case reloads the entire EFB code (think of it as a
+  "reboot").
 
 ## CPDLC / ACARS
 
