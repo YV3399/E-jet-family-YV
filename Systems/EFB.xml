@@ -5,4 +5,10 @@
         <input>/instrumentation/efb/selected-orientation-norm</input>
         <output>/instrumentation/efb/orientation-norm</output>
     </filter>
+    <filter>
+        <type>noise-spike</type>
+        <max-rate-of-change>2.0</max-rate-of-change>
+        <input>/instrumentation/efb/selected-stow-norm</input>
+        <output>/instrumentation/efb/stow-norm</output>
+    </filter>
 </PropertyList>

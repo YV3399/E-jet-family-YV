@@ -1,4 +1,4 @@
-include('apps/base.nas');
+include('baseApp.nas');
 include('gui/pager.nas');
 include('/html/main.nas');
 
@@ -38,7 +38,7 @@ var ChartsApp = {
                         .rect(0, 0, 512, 768)
                         .setColorFill(128, 128, 128);
         me.bglogo = me.masterGroup.createChild('image')
-                        .set('src', 'Aircraft/E-jet-family/Models/EFB/icons/flightbag-large.png')
+                        .set('src', me.assetDir ~ 'flightbag-large.png')
                         .setTranslation(256 - 128, 384 - 128);
         me.bgfog = me.masterGroup.createChild('path')
                         .rect(0, 0, 512, 768)
@@ -212,7 +212,7 @@ var ChartsApp = {
                 if (entry == nil) return;
                 var iconName = iconNames[entry.type];
                 var icon = me.contentGroup.createChild('image')
-                    .set('src', 'Aircraft/E-jet-family/Models/EFB/icons/' ~ iconName)
+                    .set('src', acdir ~ '/Models/EFB/icons/' ~ iconName)
                     .setTranslation(x + hSpacing / 2 - 32, y);
                 var labelLines = lineSplitStr(entry.name, 14);
                 var label1 = (size(labelLines) > 0) ? labelLines[0] : "---";
@@ -268,7 +268,7 @@ var ChartsApp = {
 
     makeReloadIcon: func (what) {
         var refreshIcon = me.contentGroup.createChild('image')
-                .set('src', 'Aircraft/E-jet-family/Models/EFB/icons/reload.png')
+                .set('src', acdir ~ '/Models/EFB/icons/reload.png')
                 .setScale(0.5, 0.5)
                 .setTranslation(512 - 32, 32);
         me.makeClickable([512 - 32, 32, 512, 64], what);
@@ -280,8 +280,8 @@ var ChartsApp = {
         var img = me.contentGroup.createChild('image')
                 .setScale(0.5, 0.5)
                 .setTranslation(512 - 32, 32);
-        var starOnIcon = 'Aircraft/E-jet-family/Models/EFB/icons/star.png';
-        var starOffIcon = 'Aircraft/E-jet-family/Models/EFB/icons/staroff.png';
+        var starOnIcon = acdir ~ '/Models/EFB/icons/star.png';
+        var starOffIcon = acdir ~ '/Models/EFB/icons/staroff.png';
         if (me.isFavorite(path)) {
             img.set('src', starOnIcon);
             what = func () {
@@ -301,7 +301,7 @@ var ChartsApp = {
 
     makeZoomScrollOverlay: func (img) {
         var overlay = me.contentGroup.createChild('group');
-        canvas.parsesvg(overlay, "Aircraft/E-jet-family/Models/EFB/zoom-scroll-overlay.svg", {'font-mapper': font_mapper});
+        canvas.parsesvg(overlay, acdir ~ "/Models/EFB/zoom-scroll-overlay.svg", {'font-mapper': font_mapper});
         # We will not use the auto-center marker
         overlay.getElementById('autoCenterMarker').hide();
         var zoomDigital = overlay.getElementById('zoomPercent.digital');

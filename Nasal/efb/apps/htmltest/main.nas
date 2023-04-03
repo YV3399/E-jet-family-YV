@@ -1,4 +1,4 @@
-include('apps/base.nas');
+include('baseApp.nas');
 include('/html/main.nas');
 
 var H = html.H;

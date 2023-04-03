@@ -1,4 +1,4 @@
-include('apps/base.nas');
+include('baseApp.nas');
 
 var mapsBase = getprop("/sim/fg-home") ~ '/cache/maps';
 
@@ -140,7 +140,7 @@ var MapsApp = {
     makeZoomScrollOverlay: func () {
         var self = me;
         me.overlay = me.masterGroup.createChild('group');
-        canvas.parsesvg(me.overlay, "Aircraft/E-jet-family/Models/EFB/zoom-scroll-overlay.svg", {'font-mapper': font_mapper});
+        canvas.parsesvg(me.overlay, acdir ~ "/Models/EFB/zoom-scroll-overlay.svg", {'font-mapper': font_mapper});
         me.zoomDigital = me.overlay.getElementById('zoomPercent.digital');
         me.zoomUnit = me.overlay.getElementById('zoomPercent.unit');
         me.autoCenterMarker = me.overlay.getElementById('autoCenterMarker');

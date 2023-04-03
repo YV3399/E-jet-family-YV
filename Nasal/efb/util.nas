@@ -87,6 +87,7 @@ var formatPM = func(numDigits, numFrac=0, spacing=0) {
                         ? ('%0' ~ numDigits ~ 'i')
                         : ('%0' ~ (numDigits + numFrac + 1) ~ '.' ~ numFrac ~ 'f');
     return func(val) {
+        if (val == nil) return '';
         var prefix = (val < 0) ? 'M' : 'P';
         var digits = sprintf(formatStr, math.abs(val));
         return prefix ~ substr('                          ', 0, spacing) ~ digits;
@@ -95,6 +96,7 @@ var formatPM = func(numDigits, numFrac=0, spacing=0) {
 
 var formatSeconds0202PM = func (spacing=0) {
     return func (secondsRaw) {
+        if (secondsRaw == nil) return '';
         var prefix = (secondsRaw < 0) ? 'M' : 'P';
         var digits = formatSeconds0202(math.abs(secondsRaw));
         return prefix ~ substr('                          ', 0, spacing) ~ digits;
@@ -102,29 +104,35 @@ var formatSeconds0202PM = func (spacing=0) {
 };
 
 var formatSeconds0202 = func (secondsRaw) {
+    if (secondsRaw == nil or secondsRaw == '') return '';
     return formatTime0202(secondsRaw / 60);
 };
 
 var formatTime0202 = func (minutesRaw) {
+    if (minutesRaw == nil) return '';
     var minutes = math.mod(minutesRaw, 60);
     var hours = math.floor(minutesRaw / 60);
     return sprintf('%02i%02i', hours, minutes);
 };
 
 var fuelToSeconds = func (fuelFlow, fuel) {
+    if (fuelFlow == nil or fuel == nil) return 0;
     return math.floor(fuel * 3600 / fuelFlow);
 };
 
 var fuelToMinutes = func (fuelFlow, fuel) {
+    if (fuelFlow == nil or fuel == nil) return 0;
     return math.floor(fuel * 60 / fuelFlow);
 };
 
 var formatFuelTime0202 = func (fuelFlow, fuel) {
+    if (fuelFlow == nil or fuel == nil) return '';
     var minutesRaw = fuelToMinutes(fuelFlow, fuel);
     return formatTime0202(minutesRaw);
 };
 
 var formatGeoCoord = func (coord, dim) {
+    if (coord == nil) return '';
     var markers = [ '+', '-' ];
     var format1 = '%i';
     if (dim == 'lat') {

@@ -2434,6 +2434,7 @@
             <orientation-norm type="double">0</orientation-norm>
             <selected-orientation-norm type="double">0</selected-orientation-norm>
             <flightbag-companion-uri type="string">http://localhost:7675/</flightbag-companion-uri>
+            <background-image>Splash/E170/939.jpg</background-image>
         </efb>
     </instrumentation>
 

@@ -1,4 +1,4 @@
-include('apps/base.nas');
+include('baseApp.nas');
 include('gui/pager.nas');
 include('gui/keyboard.nas');
 
@@ -549,9 +549,9 @@ var PaperworkApp = {
                 func (flow, enrouteFuel, contTime, alternateTime, reserveTime) {
                     return formatSeconds0202(
                         fuelToSeconds(flow, enrouteFuel) +
-                        contTime +
-                        alternateTime +
-                        reserveTime
+                        (contTime or 0) +
+                        (alternateTime or 0) +
+                        (reserveTime or 0)
                     );
                 },
                 [ 'OFP:fuel/avg_fuel_flow'
@@ -575,10 +575,10 @@ var PaperworkApp = {
                 func (flow, enrouteFuel, contTime, alternateTime, reserveTime, extraTime) {
                     return formatSeconds0202(
                         fuelToSeconds(flow, enrouteFuel) +
-                        contTime +
-                        alternateTime +
-                        reserveTime +
-                        extraTime
+                        (contTime or 0) +
+                        (alternateTime or 0) +
+                        (reserveTime or 0) +
+                        (extraTime or 0)
                     );
                 },
                 [ 'OFP:fuel/avg_fuel_flow'
@@ -603,11 +603,11 @@ var PaperworkApp = {
                 func (flow, enrouteFuel, contTime, alternateTime, reserveTime, extraTime, taxiTime) {
                     return formatSeconds0202(
                         fuelToSeconds(flow, enrouteFuel) +
-                        contTime +
-                        alternateTime +
-                        reserveTime +
-                        extraTime +
-                        taxiTime
+                        (contTime or 0) +
+                        (alternateTime or 0) +
+                        (reserveTime or 0) +
+                        (extraTime or 0) +
+                        (taxiTime or 0)
                     );
                 },
                 [ 'OFP:fuel/avg_fuel_flow'
@@ -883,6 +883,8 @@ var PaperworkApp = {
     renderSubItem: func (pageGroup, y, item, pageWidget) {
         var self = me;
         var renderText = func (text) {
+            if (text == nil)
+                text = '';
             pageGroup
                 .createChild('text')
                 .setText(substr(text, 0, item.w))
@@ -1007,8 +1009,8 @@ var PaperworkApp = {
     pageHeading: func (ofp) {
         var schedOut = unixToDateTime(ofp.getValue('OFP/times/sched_out'));
         return sprintf(
-            '%s %i/%02i %s/%s-%s',
-            ofp.getValue('OFP/general/icao_airline'),
+            '%s %s/%02i %s/%s-%s',
+            ofp.getValue('OFP/general/icao_airline') or '',
             ofp.getValue('OFP/general/flight_number'),
             schedOut.day,
             monthNames3[schedOut.month],

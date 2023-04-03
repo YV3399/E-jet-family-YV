@@ -2,17 +2,21 @@ var efb = nil;
 
 logprint(3, "EFB main module start");
 
-var appBasedir = acdir ~ '/Nasal/efb/apps';
+var systemAppBasedir = acdir ~ '/Nasal/efb/apps';
+var customAppBasedir = acdir ~ '/Nasal/efbapps';
 
 globals.efb.availableApps = {};
-globals.efb.registerApp = func(key, label, iconName, class) {
+globals.efb.registerApp_ = func(basedir, key, label, iconName, class) {
     globals.efb.availableApps[key] = {
+        basedir: basedir,
         key: key,
-        icon: acdir ~ '/Models/EFB/icons/' ~ iconName,
+        icon: basedir ~ '/' ~ iconName,
         label: label,
         loader: func (g) { return class.new(g); },
     };
 };
+
+var registerApp = nil;
 
 include('util.nas');
 include('downloadManager.nas');
@@ -26,12 +30,22 @@ if (contains(globals.efb, 'downloadManager')) {
 }
 globals.efb.downloadManager = DownloadManager.new();
 
-var appFiles = directory(appBasedir);
-foreach (var f; appFiles) {
-    if (substr(f, 0, 1) != '.' and substr(f, -4) == '.nas') {
-        include('apps/' ~ f);
+var loadAppDir = func (basedir) {
+    var appFiles = directory(basedir) or [];
+    foreach (var f; appFiles) {
+        if (substr(f, 0, 1) != '.') {
+            var dirname = basedir ~ '/' ~ f;
+            registerApp = func(key, label, iconName, class) {
+                print(dirname);
+                registerApp_(dirname, key, label, iconName, class);
+            }
+            io.load_nasal(dirname ~ '/main.nas', 'efb');
+        }
     }
-}
+};
+
+loadAppDir(systemAppBasedir);
+loadAppDir(customAppBasedir);
 
 var EFB = {
     new: func (master) {
@@ -50,10 +64,52 @@ var EFB = {
                 , label: app.label,
                 , loader: app.loader,
                 , key: app.key,
+                , basedir: app.basedir,
                 });
         }
         m.initialize();
         return m;
+    },
+
+    setupBackgroundImage: func {
+        var backgroundImagePaths = [];
+
+        var appendPathsFromNodes = func (parentNode, selector) {
+            if (typeof(parentNode) == 'scalar')
+                parentNode = props.globals.getNode(parentNode);
+            if (parentNode == nil)
+                return;
+            var nodes = parentNode.getChildren(selector);
+            foreach (var n; nodes) {
+                var path = n.getValue();
+                if (path != nil) {
+                    append(backgroundImagePaths, acdir ~ '/' ~ path);
+                }
+            }
+        }
+
+        me.backgroundImg = me.shellGroup.createChild('image');
+
+        appendPathsFromNodes('/instrumentation/efb', 'background-image');
+        if (size(backgroundImagePaths) == 0) {
+            # Nothing configured, try previews
+            appendPathsFromNodes('/sim/previews', 'preview/path');
+        }
+        if (size(backgroundImagePaths) == 0) {
+            # Nothing suitable found yet, use the default image.
+            append(backgroundImagePaths, acdir ~ '/Models/EFB/wallpaper.jpg');
+        }
+        var index = math.min(size(backgroundImagePaths) - 1, math.floor(rand() * size(backgroundImagePaths)));
+        var path = backgroundImagePaths[index];
+        me.backgroundImg.set('src', path);
+        (var w, var h) = me.backgroundImg.imageSize();
+        var minZoomX = 512 / w;
+        var minZoomY = 768 / h;
+        var zoom = math.max(minZoomX, minZoomY);
+        var dx = (512 - w * zoom) * 0.5;
+        var dy = (768 - h * zoom) * 0.5;
+        me.backgroundImg.setTranslation(dx, dy);
+        me.backgroundImg.setScale(zoom, zoom);
     },
 
     initialize: func() {
@@ -62,12 +118,11 @@ var EFB = {
         me.background = me.shellGroup.createChild('path')
                             .rect(0, 0, 512, 768)
                             .setColorFill(1, 1, 1);
-        me.background = me.shellGroup.createChild('image');
-        me.background.set('src', "Aircraft/E-jet-family/Models/EFB/efb.png");
+        me.setupBackgroundImage();
 
         me.clientGroup = me.master.createChild('group');
 
-        me.overlay = canvas.parsesvg(me.master, "Aircraft/E-jet-family/Models/EFB/overlay.svg", {'font-mapper': font_mapper});
+        me.overlay = canvas.parsesvg(me.master, acdir ~ "/Models/EFB/overlay.svg", {'font-mapper': font_mapper});
         me.clockElem = me.master.getElementById('clock.digital');
         me.shellNumPages = math.ceil(size(me.apps) / 20);
         for (var i = 0; i < me.shellNumPages; i += 1) {
@@ -181,7 +236,7 @@ var EFB = {
         if (appInfo.app == nil) {
             var masterGroup = me.clientGroup.createChild('group');
             appInfo.app = appInfo.loader(masterGroup);
-            appInfo.app.setAssetDir(appBasedir ~ '/' ~ appInfo.key ~ '/');
+            appInfo.app.setAssetDir(appInfo.basedir ~ '/');
             appInfo.app.initialize();
         }
         me.currentApp = appInfo.app;
