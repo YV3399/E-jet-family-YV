@@ -81,6 +81,7 @@
             <path>/instrumentation/efb/available</path>
             <path>/instrumentation/efb/brightness</path>
             <path>/instrumentation/efb/flightbag-companion-uri</path>
+            <path>/instrumentation/efb/allow-keyboard-grabbing</path>
             <path>/controls/gear/enable-tiller</path>
             <path>/controls/switches/hud-flip[0]</path>
             <path>/controls/switches/hud-flip[1]</path>
@@ -2435,6 +2436,11 @@
             <selected-orientation-norm type="double">0</selected-orientation-norm>
             <flightbag-companion-uri type="string">http://localhost:7675/</flightbag-companion-uri>
             <background-image>Splash/E170/939.jpg</background-image>
+            <allow-keyboard-grabbing type="bool">false</allow-keyboard-grabbing>
+            <keyboard-grabbed type="int">0</keyboard-grabbed>
+            <input>
+                <keyboard type="string" />
+            </input>
         </efb>
     </instrumentation>
 
@@ -2886,17 +2892,18 @@
             <file>Aircraft/E-jet-family/Nasal/mfdmap/traffic.nas</file>
         </mfdmap>
 
-        <efb>
-            <file>Aircraft/E-jet-family/Nasal/efb.nas</file>
-        </efb>
-
         <simbriefHooks>
             <file>Aircraft/E-jet-family/Nasal/simbrief.nas</file>
         </simbriefHooks>
 
         <keyboardFixes>
             <file>Aircraft/E-jet-family/Nasal/keyboard.nas</file>
+            <file>Aircraft/E-jet-family/Nasal/efb/keyboardHooks.nas</file>
         </keyboardFixes>
+
+        <efb>
+            <file>Aircraft/E-jet-family/Nasal/efb.nas</file>
+        </efb>
 
         <gui>
             <!-- override fuel and payload dialog -->

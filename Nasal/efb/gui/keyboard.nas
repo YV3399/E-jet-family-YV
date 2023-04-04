@@ -22,6 +22,10 @@ var Keyboard = {
         m.active = active;
         m.keyGlows = [];
         m.keyGlowRate = 10;
+        m.keyboardGrabbedProp = props.globals.getNode('instrumentation/efb/keyboard-grabbed', 1);
+        m.allowKeyboardGrabbingProp = props.globals.getNode('instrumentation/efb/allow-keyboard-grabbing', 1);
+        m.keyboardInputProp = props.globals.getNode('instrumentation/efb/input/keyboard', 1);
+        m.inputListener = nil;
         m.initialize(parentGroup);
         return m;
     },
@@ -78,9 +82,35 @@ var Keyboard = {
         }
     },
 
+    grabKeyboard: func {
+        var self = me;
+        me.inputListener = setlistener(me.keyboardInputProp, func (node) {
+            self.handleKey(node.getValue());
+        }, 0, 1);
+        me.keyboardGrabbedProp.setValue(1);
+    },
+
+    releaseKeyboard: func {
+        if (me.inputListener != nil) {
+            removelistener(me.inputListener);
+            me.inputListener = nil;
+        }
+        me.keyboardGrabbedProp.setValue(0);
+    },
+
+    updateKeyboardGrab: func {
+        if (me.active and me.allowKeyboardGrabbingProp.getBoolValue()) {
+            me.grabKeyboard();
+        }
+        else {
+            me.releaseKeyboard();
+        }
+    },
+
     setActive: func (active) {
         call(Widget.setActive, [active], me);
         me.slideTimer.start();
+        me.updateKeyboardGrab();
         return me;
     },
 
@@ -124,7 +154,7 @@ var Keyboard = {
                     if (key == 'space') {
                         hasSpace = 1;
                     }
-                    elsif (key == 'backspace' or key == 'shift' or key == 'enter' or key == 'alpha' or key == 'symbols') {
+                    elsif (key == 'backspace' or key == 'caps' or key == 'enter' or key == 'alpha' or key == 'symbols') {
                         rowWidth += keyWidth * 1.5;
                     }
                     else {
@@ -143,7 +173,7 @@ var Keyboard = {
                     if (key == 'space') {
                         width = spaceWidth;
                     }
-                    elsif (key == 'backspace' or key == 'shift' or key == 'enter' or key == 'alpha' or key == 'symbols') {
+                    elsif (key == 'backspace' or key == 'caps' or key == 'enter' or key == 'alpha' or key == 'symbols') {
                         width = keyWidth * 1.5;
                     }
                     else {
@@ -200,6 +230,7 @@ var Keyboard = {
         me.slideTimer = maketimer(animationDT, func {
             self.updateSlide(animationDT);
         });
+        me.updateKeyboardGrab();
     },
 
     selectLayer: func (l) {
@@ -212,7 +243,7 @@ var Keyboard = {
 
     keycap: func (group, key, x, y) {
         var s = me.metrics.fontSize / 2;
-        if (key == 'shift') {
+        if (key == 'caps') {
             return group.createChild('path')
              .setTranslation(x, y)
              .move(0, -s)
@@ -261,18 +292,28 @@ var Keyboard = {
         }
     },
 
-    handleKey: func (key) {
-        if (key == 'symbols') {
-            me.selectLayer(me.LAYER_SYM1);
-        }
-        elsif (key == 'alpha') {
-            me.selectLayer(me.LAYER_LOWER);
-        }
-        elsif (key == 'shift') {
-            me.selectLayer(me.currentLayer ^ 1);
+    handleKey: func (key, up=0) {
+        if (up) {
+            if (key == 'shift') {
+                me.selectLayer(me.currentLayer & 0xFE);
+            }
         }
         else {
-            me.keyPressed.raise(key);
+            if (key == 'symbols') {
+                me.selectLayer(me.LAYER_SYM1);
+            }
+            elsif (key == 'alpha') {
+                me.selectLayer(me.LAYER_LOWER);
+            }
+            elsif (key == 'caps') {
+                me.selectLayer(me.currentLayer ^ 0x01);
+            }
+            elsif (key == 'shift') {
+                me.selectLayer(me.currentLayer | 0x01);
+            }
+            else {
+                me.keyPressed.raise(key);
+            }
         }
     },
 
@@ -281,7 +322,7 @@ var Keyboard = {
             return '';
         elsif (key == 'backspace')
             return '<-';
-        elsif (key == 'shift') {
+        elsif (key == 'caps') {
             return 'SHIFT';
         }
         elsif (key == 'alpha') {
@@ -307,22 +348,22 @@ var Keyboard = {
     layerDefs: [
         [ [ 'q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p' ]
         , [ 'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l' ]
-        , [ 'shift', 'z', 'x', 'c', 'v', 'b', 'n', 'm', 'backspace' ]
+        , [ 'caps', 'z', 'x', 'c', 'v', 'b', 'n', 'm', 'backspace' ]
         , [ 'symbols', ',', 'space', '.', 'enter' ]
         ],
         [ [ 'Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P' ]
         , [ 'A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L' ]
-        , [ 'shift', 'Z', 'X', 'C', 'V', 'B', 'N', 'M', 'backspace' ]
+        , [ 'caps', 'Z', 'X', 'C', 'V', 'B', 'N', 'M', 'backspace' ]
         , [ 'symbols', ',', 'space', '.', 'enter' ]
         ],
         [ [ '1', '2', '3', '4', '5', '6', '7', '8', '9', '0' ]
         , [ '@', '#', '$', '_', '&', '-', '+', '(', ')', '/' ]
-        , [ 'shift', '*', '"', "'", ':', ';', '!', '?', 'backspace' ]
+        , [ 'caps', '*', '"', "'", ':', ';', '!', '?', 'backspace' ]
         , [ 'alpha', ',', 'space', '.', 'enter' ]
         ],
         [ [ '~', '`', '|', '·', '√', 'π', '÷', '×', '¶', 'Δ' ]
         , [ '£', '¢', '€', '¥', '^', '°', '=', '{', '}', "\\" ]
-        , [ 'shift', '%', '©', '®', '™', '✓', '[', ']', 'backspace' ]
+        , [ 'caps', '%', '©', '®', '™', '✓', '[', ']', 'backspace' ]
         , [ 'alpha', '<', 'space', '>', 'enter' ]
         ],
     ],

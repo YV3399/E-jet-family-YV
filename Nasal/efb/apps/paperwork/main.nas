@@ -239,6 +239,9 @@ var PaperworkApp = {
             me.entryMode.value = me.entryMode.value ~ ' ';
             me.updateEntry();
         }
+        elsif (key == 'esc') {
+            me.cancelEntry();
+        }
         else {
             me.entryMode.value = me.entryMode.value ~ key;
             me.updateEntry();

@@ -214,6 +214,22 @@
             <valign>top</valign>
             <group>
                 <layout>hbox</layout>
+                <checkbox>
+                    <label>Grab Keyboard</label>
+                    <property>/instrumentation/efb/allow-keyboard-grabbing</property>
+                    <halign>left</halign>
+                    <binding>
+                        <command>dialog-apply</command>
+                    </binding>
+                </checkbox>
+            </group>
+        </group>
+        <group>
+            <layout>hbox</layout>
+            <halign>left</halign>
+            <valign>top</valign>
+            <group>
+                <layout>hbox</layout>
                 <text>
                     <label>Companion URL</label>
                 </text>
