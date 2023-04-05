@@ -61,6 +61,7 @@ var EFB = {
         m.currentApp = nil;
         m.shellPage = 0;
         m.shellNumPages = 1;
+        m.reportedRotation = 0;
         m.apps = [];
         foreach (var k; sort(keys(availableApps), cmp)) {
             var app = availableApps[k];
@@ -177,7 +178,32 @@ var EFB = {
         var self = me;
         setlistener('/instrumentation/clock/local-short-string', func(node) {
             self.clockElem.setText(node.getValue());
+        }, 1, 1);
+        setlistener('/instrumentation/efb/orientation-norm', func (node) {
+            me.deviceRotation = node.getValue();
+            me.rotate(me.deviceRotation);
         }, 0, 1);
+        me.deviceRotation = getprop('/instrumentation/efb/orientation-norm') or 0;
+        me.rotate(me.deviceRotation, 1);
+    },
+
+    rotate: func (rotationNorm, hard=0) {
+        var prevRotation = me.reportedRotation;
+
+        if (rotationNorm > 0.75) {
+            me.reportedRotation = 1;
+        }
+        elsif (rotationNorm < 0.25) {
+            me.reportedRotation = 0;
+        }
+        if (prevRotation != me.reportedRotation) {
+            if (me.currentApp == nil) {
+                # TODO: implement rotation for the shell
+            }
+            else {
+                me.currentApp.rotate(me.reportedRotation, hard);
+            }
+        }
     },
 
     touch: func (args) {
@@ -246,6 +272,8 @@ var EFB = {
             appInfo.app.initialize();
         }
         me.currentApp = appInfo.app;
+        # Set current rotation, because the app may not have caught it yet
+        me.currentApp.rotate(me.reportedRotation, 1);
         me.currentApp.masterGroup.show();
         me.currentApp.foreground();
     },

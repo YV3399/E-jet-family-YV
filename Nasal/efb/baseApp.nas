@@ -23,6 +23,14 @@ var BaseApp = {
     wheel: func (axis, amount) {
     },
 
+    # Handles screen rotation events (0 = portrait, 1 = landscape)
+    # The 'hard' argument suggests a sharp flip instead of a smooth (animated)
+    # transition; 'hard' will be set when an app is first started or woken up,
+    # but unset when it is active while the device rotation is ongoing.
+    rotate: func (rotationNorm, hard=0) {
+        me.rootWidget.rotate(rotationNorm, hard);
+    },
+
     # Make an element or area clickable.
     # If given an element, the clickable area will automatically move
     # with the element.

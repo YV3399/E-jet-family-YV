@@ -10,8 +10,12 @@ var PaperworkApp = {
         m.pages = [];
         m.tocVisible = 0;
         m.tocAnimState = 0;
-        m.animTimer = nil;
+        m.tocAnimTimer = nil;
         m.entryMode = nil;
+        m.zoomScrollPane = nil;
+        m.zoom = 1;
+        m.sx = 0;
+        m.sy = 0;
         return m;
     },
 
@@ -108,7 +112,7 @@ var PaperworkApp = {
             self.toggleTOC();
         }, me.tocWidget);
         me.updateTocViz();
-        me.animTimer = maketimer(1/30, func {
+        me.tocAnimTimer = maketimer(1/30, func {
             if (self.tocAnimState < self.tocVisible) {
                 self.tocAnimState += 0.1;
                 self.tocAnimState = math.min(self.tocAnimState, self.tocVisible);
@@ -120,23 +124,39 @@ var PaperworkApp = {
                 self.updateTocViz();
             }
         });
-        me.animTimer.simulatedTime = 1;
+        me.tocAnimTimer.simulatedTime = 1;
         me.hideKeyboard();
-        me.animTimer.start();
+        me.tocAnimTimer.start();
 
         me.showStartMenu();
     },
 
     scrollIntoView: func(elem) {
-        var pos = elem.getTransformedBounds();
-        var bottom = pos[3];
-        var idealDY = 460 - bottom;
-        var dy = math.min(0, idealDY);
-        me.contentGroup.setTranslation(0, dy);
+        var pos = elem.getBoundingBox();
+
+        var left = (pos[0] + me.metrics.marginLeft) * 1.5;
+        var right = (pos[2] + me.metrics.marginLeft) * 1.5;
+        var top = (pos[1] + me.metrics.marginTop) * 1.5;
+        var bottom = (pos[3] + me.metrics.marginTop) * 1.5;
+
+        var dx = 0;
+        var dy = 0;
+
+        if (left < 0)
+            dx = -left;
+        elsif (right > 498)
+            dx = 498 - right;
+        if (top < 32)
+            dy = 32-top;
+        elsif (bottom > 498)
+            dy = 498 - bottom;
+        me.contentGroup.setTranslation(dx, dy)
+                       .setScale(1.5, 1.5);
     },
 
     resetScroll: func() {
-        me.contentGroup.setTranslation(0, 0);
+        me.contentGroup.setTranslation(0, 0)
+                       .setScale(1, 1);
     },
 
     showKeyboard: func (mode=nil) {
@@ -169,9 +189,9 @@ var PaperworkApp = {
         me.hideTOC();
     },
 
-    startEntry: func (ident, elem, node, exitFunc, numeric=0) {
+    startEntry: func (ident, elem, box, node, exitFunc, numeric=0) {
         me.showKeyboard(numeric ? Keyboard.LAYER_SYM2 : Keyboard.LAYER_UPPER);
-        me.scrollIntoView(elem);
+        me.scrollIntoView(box);
         if (typeof(node) == 'scalar') {
             var nodePath = node;
             node = me.ofp.getNode(nodePath, 1);
@@ -249,11 +269,11 @@ var PaperworkApp = {
     },
 
     foreground: func {
-        me.animTimer.start();
+        me.tocAnimTimer.start();
     },
 
     background: func {
-        me.animTimer.stop();
+        me.tocAnimTimer.stop();
     },
 
     hideTOC: func () {
@@ -285,7 +305,10 @@ var PaperworkApp = {
 
     loadSimbriefOFP: func () {
         var filename = getprop('/sim/fg-home') ~ "/Export/simbrief.xml";
-        debug.dump(filename);
+        return me.loadOFPFile(filename);
+    },
+
+    loadOFPFile: func (filename) {
         var err = [];
         me.ofp = call(io.readxml, [filename], io, {}, err);
         return me.ofp != nil;
@@ -928,7 +951,7 @@ var PaperworkApp = {
                 if (self.entryMode == nil or self.entryMode.ident != ident) {
                     frame.show();
                     self.cancelEntry();
-                    self.startEntry(ident, text, node, func {
+                    self.startEntry(ident, text, box, node, func {
                         frame.hide();
                     });
                 }
@@ -1053,12 +1076,15 @@ var PaperworkApp = {
 
     renderOFP: func () {
         var self = me;
-        me.mainWidget.removeAllChildren();
+        me.clear();
         me.pageWidgets = [];
 
-        me.contentGroup.removeAllChildren();
-        me.contentGroup.createChild('path')
-                       .rect(me.metrics.marginLeft, me.metrics.marginTop, me.metrics.pageWidth, me.metrics.pageHeight)
+        me.zoomScrollPane =
+                me.contentGroup.createChild('group')
+                    .setTranslation(256, 384)
+                    .setScale(1, 1);
+        me.zoomScrollPane.createChild('path')
+                       .rect(-me.metrics.pageWidth / 2, -me.metrics.pageHeight / 2, me.metrics.pageWidth, me.metrics.pageHeight)
                        .setColor(0.2, 0.2, 0.2)
                        .setColorFill(1.0, 1.0, 1.0);
         me.pages = [];
@@ -1067,9 +1093,9 @@ var PaperworkApp = {
         (pagesData, toc) = me.paginate(me.collectOFPItems());
         var pageNumber = 1;
         foreach (var pageData; pagesData) {
-            var pageGroup = me.contentGroup
+            var pageGroup = me.zoomScrollPane
                                 .createChild('group')
-                                .setTranslation(me.metrics.marginLeft, me.metrics.marginTop);
+                                .setTranslation(-me.metrics.pageWidth / 2, -me.metrics.pageHeight / 2);
             var pageWidget = Widget.new();
             append(me.pageWidgets, pageWidget);
             me.mainWidget.appendChild(pageWidget);
@@ -1095,6 +1121,7 @@ var PaperworkApp = {
                          .setTranslation(me.metrics.tocPadding, y + (me.metrics.tocLineHeight - me.metrics.tocFontSize) / 2);
             (func (page, elem) {
                 self.makeClickable(elem, func {
+                    self.cancelEntry();
                     self.pager.setCurrentPage(page);
                     self.hideTOC();
                 }, self.tocContentsWidget);
@@ -1104,13 +1131,20 @@ var PaperworkApp = {
         me.enableTOC();
     },
 
-    showSimbriefHelp: func () {
-        var self = me;
-        var args = arg;
+    clear: func {
         me.hideKeyboard();
         me.hidePager();
         me.disableTOC();
         me.mainWidget.removeAllChildren();
+        me.resetScroll();
+        me.contentGroup.removeAllChildren();
+        me.zoomScrollPane = nil;
+    },
+
+    showSimbriefHelp: func () {
+        var self = me;
+        var args = arg;
+        me.clear();
 
         var y = me.metrics.marginTop + me.metrics.paddingTop;
         var helpLines = [
@@ -1139,7 +1173,6 @@ var PaperworkApp = {
                 '(replace {username} with your SimBrief username)'
             );
         }
-        me.contentGroup.removeAllChildren();
         me.contentGroup.createChild('text')
                        .setColor(1, 0, 0)
                        .setFont(font_mapper('sans', 'bold'))
@@ -1182,14 +1215,10 @@ var PaperworkApp = {
     showError: func () {
         var self = me;
         var args = arg;
-        me.hideKeyboard();
-        me.hidePager();
-        me.disableTOC();
-        me.mainWidget.removeAllChildren();
+        me.clear();
 
         var y = me.metrics.marginTop + me.metrics.paddingTop;
 
-        me.contentGroup.removeAllChildren();
         me.contentGroup.createChild('text')
                        .setColor(1, 0, 0)
                        .setFont(font_mapper('sans', 'bold'))
@@ -1212,12 +1241,7 @@ var PaperworkApp = {
 
     showStartMenu: func {
         var self = me;
-        me.hideKeyboard();
-        me.hidePager();
-        me.disableTOC();
-        me.mainWidget.removeAllChildren();
-
-        me.contentGroup.removeAllChildren();
+        me.clear();
 
         var y = me.metrics.marginTop + me.metrics.paddingTop;
 
@@ -1288,10 +1312,14 @@ var PaperworkApp = {
         var ofpList = directory(ofpDir);
         foreach (var ofpCandidate; ofpList) {
             if (substr(ofpCandidate, -4) == '.xml') {
-                # var ofpMaybe = call(io.readxml, [ofpDir ~ ofpCandidate], io);
-                # if (ofpMaybe == nil)
-                #     continue;
-                makeMenuItem(ofpCandidate, func { print(ofpCandidate); });
+                makeMenuItem(ofpCandidate, func {
+                    if (self.loadOFPFile(ofpDir ~ ofpCandidate)) {
+                        self.showStartMenu();
+                    }
+                    else {
+                        self.showError('Something went wrong');
+                    }
+                });
             }
         }
     },

@@ -1,5 +1,7 @@
 include('baseApp.nas');
+include('eventSource.nas');
 include('gui/pager.nas');
+include('gui/zoomScroll.nas');
 include('/html/main.nas');
 
 var ChartsApp = {
@@ -15,8 +17,12 @@ var ChartsApp = {
         m.currentPageURL = nil;
         m.currentPageMetaURL = nil;
         m.history = [];
+        m.zoomLevel = 0;
+        m.img = nil;
+        m.zoomScroll = nil;
         m.favorites = [];
         m.xhr = nil;
+        m.rotation = 0;
         m.baseURL = 'http://localhost:7675/';
         return m;
     },
@@ -48,9 +54,18 @@ var ChartsApp = {
         me.loadListing("", "Charts", 0, 0);
     },
 
-    showLoadingScreen: func (url=nil) {
+    clear: func {
         me.rootWidget.removeAllChildren();
+        me.zoomScroll = nil;
+        me.zoomLevel = 0;
+        me.sx = 0.0;
+        me.sy = 0.0;
+        me.img = nil;
         me.contentGroup.removeAllChildren();
+    },
+
+    showLoadingScreen: func (url=nil) {
+        me.clear();
         me.contentGroup.createChild('text')
             .setText('Loading...')
             .setColor(0, 0, 0)
@@ -70,8 +85,7 @@ var ChartsApp = {
     },
 
     showInfoScreen: func (msgs) {
-        me.rootWidget.removeAllChildren();
-        me.contentGroup.removeAllChildren();
+        me.clear();
         var y = 64;
         foreach (var msg; msgs) {
             me.contentGroup.createChild('text')
@@ -85,11 +99,9 @@ var ChartsApp = {
         }
     },
 
-    showErrorScreen: func (errs, clearExisting=1) {
-        if (clearExisting) {
-            me.rootWidget.removeAllChildren();
-            me.contentGroup.removeAllChildren();
-        }
+    showErrorScreen: func (errs) {
+        me.clear();
+
         var renderContext =
                 html.makeDefaultRenderContext(
                     me.contentGroup,
@@ -98,6 +110,7 @@ var ChartsApp = {
         var errorItems = [];
         foreach (var err; errs) {
             if (typeof(err) == 'scalar') {
+                err = err ~ ''; # Make sure it's really a string
                 if (substr(err, 0, 7) == 'http://' or
                     substr(err, 0, 8) == 'https://') {
                     append(errorItems, H.p(H.a({'href': err}, err)));
@@ -157,7 +170,8 @@ var ChartsApp = {
         me.numPages = math.ceil(size(me.currentListing) / perPage);
         me.contentGroup.removeAllChildren();
         me.rootWidget.removeAllChildren();
-        me.pager = Pager.new(me.contentGroup);
+
+        me.pager = Pager.new(me.contentGroup, 1);
         me.rootWidget.appendChild(me.pager);
         me.pager.setCurrentPage(me.currentPage);
         me.pager.setNumPages(me.numPages);
@@ -165,6 +179,7 @@ var ChartsApp = {
             self.currentPage = data.page;
             self.showListing(); # this deletes and recreates the pager
         });
+
         var x = 0;
         var y = 32;
         var title = me.currentTitle;
@@ -299,34 +314,71 @@ var ChartsApp = {
         me.makeClickable([512 - 32, 32, 512, 64], what);
     },
 
-    makeZoomScrollOverlay: func (img) {
-        var overlay = me.contentGroup.createChild('group');
-        canvas.parsesvg(overlay, acdir ~ "/Models/EFB/zoom-scroll-overlay.svg", {'font-mapper': font_mapper});
-        # We will not use the auto-center marker
-        overlay.getElementById('autoCenterMarker').hide();
-        var zoomDigital = overlay.getElementById('zoomPercent.digital');
-        var zoom = 1.0;
-        var sx = 0.0;
-        var sy = 0.0;
-        var update = func () {
-            img.setScale(zoom, zoom);
-            img.setTranslation(
-                256 - (384 + sx) * zoom,
-                384 - (384 + sy) * zoom);
-            zoomDigital.setText(sprintf("%1.0f", zoom * 100));
-        };
-        var zoomIn = func () { zoom = zoom * math.sqrt(2.0); update(); };
-        var zoomOut = func () { zoom = zoom / math.sqrt(2.0); update(); };
-        var scroll = func (dx, dy) { sx = sx + dx; sy = sy + dy; update(); };
-        var resetScroll = func () { sx = 0.0; sy = 0.0; update(); };
-        me.makeClickable(overlay.getElementById('btnZoomIn'), zoomIn);
-        me.makeClickable(overlay.getElementById('btnZoomOut'), zoomOut);
-        me.makeClickable(overlay.getElementById('btnScrollN'), func { scroll(0, -16); });
-        me.makeClickable(overlay.getElementById('btnScrollS'), func { scroll(0, 16); });
-        me.makeClickable(overlay.getElementById('btnScrollE'), func { scroll(16, 0); });
-        me.makeClickable(overlay.getElementById('btnScrollW'), func { scroll(-16, 0); });
-        me.makeClickable(overlay.getElementById('btnScrollReset'), resetScroll);
-        update();
+    rotate: func (rotationNorm, hard=0) {
+        call(BaseApp.rotate, [rotationNorm, hard], me);
+        me.rotation = rotationNorm;
+    },
+
+    getZoom: func {
+        return math.pow(2.0, me.zoomLevel);
+    },
+
+    updateScroll: func () {
+        if (me.img == nil)
+            return;
+        me.img.setTranslation(
+            256 - (384 + me.sx) * me.getZoom(),
+            384 - (384 + me.sy) * me.getZoom());
+    },
+
+    updateZoom: func () {
+        var zoom = me.getZoom();
+        if (me.img != nil)
+            me.img.setScale(zoom, zoom);
+        if (me.zoomScroll != nil)
+            me.zoomScroll.setZoom(zoom);
+        me.updateScroll();
+    },
+
+
+    makeZoomScrollOverlay: func () {
+        var self = me;
+
+        me.zoomScroll = ZoomScroll.new(me.contentGroup, 1);
+        me.zoomScroll.rotate(me.rotation, 1);
+        me.zoomScroll.setZoom(me.getZoom());
+        me.zoomScroll.setZoomFormat(
+            func (zoom) {
+                return sprintf("%i", 100 * zoom);
+            },
+            func () "%"
+        );
+
+        me.zoomScroll.onScroll.addListener(func (data) {
+            if (me.rotation) {
+                self.sx -= data.y * 16;
+                self.sy += data.x * 16;
+            }
+            else {
+                self.sx += data.x * 16;
+                self.sy += data.y * 16;
+            }
+            self.updateScroll();
+        });
+        me.zoomScroll.onZoom.addListener(func (data) {
+            self.zoomLevel += data.amount * 0.25;
+            self.zoomScroll.setZoom(me.getZoom());
+            self.updateZoom();
+        });
+        me.zoomScroll.onReset.addListener(func {
+            self.sx = 0.0;
+            self.sy = 0.0;
+            self.updateScroll();
+        });
+
+        me.rootWidget.appendChild(me.zoomScroll);
+
+        me.updateZoom();
     },
 
     loadChart: func (path, metaPath, title, page, pushHistory = 1) {
@@ -365,7 +417,8 @@ var ChartsApp = {
         var imageGroup = me.contentGroup.createChild('group');
 
         var makePager = func {
-            self.pager = Pager.new(self.contentGroup);
+            self.pager = Pager.new(self.contentGroup, 1);
+            self.pager.rotate(me.rotation, 1);
             self.rootWidget.appendChild(self.pager);
             self.pager.setCurrentPage(self.currentPage);
             self.pager.setNumPages(self.numPages);
@@ -379,15 +432,15 @@ var ChartsApp = {
 
         downloadManager.get(url, '/efb-charts/' ~ md5(path ~ '$' ~ page) ~ '.jpg',
             func (path) {
-                var img = imageGroup.createChild('image')
+                me.img = imageGroup.createChild('image')
                     .set('size[0]', 768)
                     .set('size[1]', 768)
                     .set('src', path);
-                img.setTranslation(
+                me.img.setTranslation(
                     256 - 384,
                     384 - 384);
                 me.makeFavoriteIcon('pdf', me.currentPath, me.currentTitle);
-                me.makeZoomScrollOverlay(img);
+                me.makeZoomScrollOverlay();
             },
             func (r) {
                 self.showErrorScreen([

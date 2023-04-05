@@ -86,4 +86,17 @@ var Widget = {
         }
     },
 
+    handleRotate: func (rotationNorm, hard=0) {
+        # Override to implement "own" rotation behavior.
+    },
+
+    rotate: func (rotationNorm, hard=0) {
+        if (!me.active)
+            return;
+        foreach (var child; me.children) {
+            child.rotate(rotationNorm);
+        }
+        me.handleRotate(rotationNorm);
+    },
+
 };
