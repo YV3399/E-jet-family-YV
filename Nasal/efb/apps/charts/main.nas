@@ -167,7 +167,7 @@ var ChartsApp = {
         var perColumn = math.floor((768 - 192) / lineHeight);
         var perPage = perRow * (perColumn - 1);
         var actualEntries = subvec(me.currentListing, me.currentPage * perPage, perPage);
-        me.numPages = math.ceil(size(me.currentListing) / perPage);
+        me.numPages = math.max(1, math.ceil(size(me.currentListing) / perPage));
         me.contentGroup.removeAllChildren();
         me.rootWidget.removeAllChildren();
 
@@ -291,26 +291,29 @@ var ChartsApp = {
 
     makeFavoriteIcon: func (type, path, title) {
         var self = me;
-        var what = nil;
         var img = me.contentGroup.createChild('image')
                 .setScale(0.5, 0.5)
                 .setTranslation(512 - 32, 32);
         var starOnIcon = acdir ~ '/Models/EFB/icons/star.png';
         var starOffIcon = acdir ~ '/Models/EFB/icons/staroff.png';
+
         if (me.isFavorite(path)) {
             img.set('src', starOnIcon);
-            what = func () {
-                self.removeFromFavorites(path);
-                img.set('src', starOffIcon);
-            };
         }
         else {
             img.set('src', starOffIcon);
-            what = func () {
+        }
+
+        var what = func () {
+            if (self.isFavorite(path)) {
+                self.removeFromFavorites(path);
+                img.set('src', starOffIcon);
+            }
+            else {
                 self.addToFavorites(type, path, title);
                 img.set('src', starOnIcon);
-            };
-        }
+            }
+        };
         me.makeClickable([512 - 32, 32, 512, 64], what);
     },
 
@@ -492,7 +495,8 @@ var ChartsApp = {
     loadFavorites: func (page = 0, pushHistory = 1) {
         var path = "*FAVS*";
         me.showLoadingScreen('Favorites');
-        if (pushHistory and path != me.currentPath) append(me.history, [me.currentPath, me.currentTitle, me.currentPage]);
+        if (pushHistory and path != me.currentPath)
+            append(me.history, [me.currentPath, me.currentTitle, me.currentPage]);
         me.currentPath = path;
         me.currentTitle = 'Favorites';
         me.currentPage = page;
@@ -542,6 +546,9 @@ var ChartsApp = {
     },
 
     loadListing: func (path, title, page, pushHistory = 1) {
+        if (path == '*FAVS*') {
+            return me.loadFavorites(page, pushHistory);
+        }
         var self = me;
         var url = me.baseURL ~ urlencode(path);
         me.showLoadingScreen(url);
@@ -557,7 +564,9 @@ var ChartsApp = {
             var companionDownloadURL = 'https://github.com/tdammers/fg-efb-server/';
             if (r.status < 100) {
                 self.showErrorScreen(
-                    [ "Download from " ~ url ~ " failed"
+                    [ "Download from"
+                    , url
+                    , "failed"
                     , sprintf("Error code: %s", r.status)
                     , "Please check the following:"
                     , H.ul(
