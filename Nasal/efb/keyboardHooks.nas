@@ -4,7 +4,7 @@ var setupEFBKeys = func () {
     props.globals.getNode('/instrumentation/efb/keyboard-grabbed', 1).setValue(0);
     props.globals.getNode('/instrumentation/efb/input/keyboard', 1).setValue('');
 
-    var registerKey = func (key, cmd) {
+    var registerKey = func (key, cmd, includeShift=0) {
         # First, establish a <key> node with the right key number.
         var keyNode = props.globals.getNode('/input/keyboard/key[' ~ key ~ ']');
         if (keyNode == nil) {
@@ -34,6 +34,17 @@ var setupEFBKeys = func () {
         var equalsNode = bindingNode.addChild('condition').addChild('equals');
         equalsNode.setValue('property', '/instrumentation/efb/keyboard-grabbed');
         equalsNode.setValue('value', 1);
+
+        if (includeShift) {
+            var modShiftNode = keyNode.addChild('mod-shift');
+            var bindingNode = modShiftNode.addChild('binding');
+            bindingNode.setValue('command', 'property-assign');
+            bindingNode.setValue('property', '/instrumentation/efb/input/keyboard');
+            bindingNode.setValue('value', cmd);
+            var equalsNode = bindingNode.addChild('condition').addChild('equals');
+            equalsNode.setValue('property', '/instrumentation/efb/keyboard-grabbed');
+            equalsNode.setValue('value', 1);
+        }
     };
 
     var normalKeys = [
@@ -53,12 +64,12 @@ var setupEFBKeys = func () {
 
     foreach (var char; normalKeys)
         registerKey(ord(char), char);
-    registerKey(ord(' '), 'space');
-    # registerKey(127, 'delete');
-    registerKey(8, 'backspace');
-    registerKey(10, 'enter');
-    registerKey(13, 'enter');
-    registerKey(27, 'esc');
+    registerKey(ord(' '), 'space', 1);
+    registerKey(127, 'delete');
+    registerKey(8, 'backspace', 1);
+    registerKey(10, 'enter', 1);
+    registerKey(13, 'enter', 1);
+    registerKey(27, 'esc', 1);
 };
 
 setupEFBKeys();

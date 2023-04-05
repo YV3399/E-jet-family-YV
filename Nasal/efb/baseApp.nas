@@ -16,7 +16,7 @@ var BaseApp = {
 
     # Handles touch events.
     touch: func (x, y) {
-        me.rootWidget.touch(x, y);
+        return me.rootWidget.touch(x, y);
     },
 
     # Handles wheel events.

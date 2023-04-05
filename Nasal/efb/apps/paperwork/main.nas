@@ -148,8 +148,8 @@ var PaperworkApp = {
             dx = 498 - right;
         if (top < 32)
             dy = 32-top;
-        elsif (bottom > 498)
-            dy = 498 - bottom;
+        elsif (bottom > 450)
+            dy = 450 - bottom;
         me.contentGroup.setTranslation(dx, dy)
                        .setScale(1.5, 1.5);
     },
@@ -162,8 +162,8 @@ var PaperworkApp = {
     showKeyboard: func (mode=nil) {
         if (mode == nil)
             mode = Keyboard.LAYER_UPPER;
-        me.keyboard.selectLayer(mode);
         me.keyboard.setActive(1);
+        me.keyboard.selectLayer(mode);
     },
 
     hideKeyboard: func () {
@@ -189,8 +189,13 @@ var PaperworkApp = {
         me.hideTOC();
     },
 
-    startEntry: func (ident, elem, box, node, exitFunc, numeric=0) {
-        me.showKeyboard(numeric ? Keyboard.LAYER_SYM2 : Keyboard.LAYER_UPPER);
+    startEntry: func (ident, elem, box, node, exitFunc, datatype=nil) {
+        var kbmode = Keyboard.LAYER_LOWER;
+        if (datatype == 'numeric')
+            kbmode = Keyboard.LAYER_SYM2;
+        elsif (datatype == 'uppercase')
+            kbmode = Keyboard.LAYER_UPPER;
+        me.showKeyboard(kbmode);
         me.scrollIntoView(box);
         if (typeof(node) == 'scalar') {
             var nodePath = node;
@@ -206,6 +211,7 @@ var PaperworkApp = {
             elem: elem,
             node: node,
             value: value,
+            datatype: datatype or 'text',
             exit: exitFunc
         };
     },
@@ -263,6 +269,13 @@ var PaperworkApp = {
             me.cancelEntry();
         }
         else {
+            if (me.entryMode.datatype == 'numeric') {
+                if (!isint(key))
+                    return;
+            }
+            elsif (me.entryMode.datatype == 'uppercase') {
+                key = string.uc(key);
+            }
             me.entryMode.value = me.entryMode.value ~ key;
             me.updateEntry();
         }
@@ -319,7 +332,10 @@ var PaperworkApp = {
     },
 
     getOFPValue: func(path, default='') {
-        return me.ofp.getValue('OFP/' ~ path) or default;
+        var value = me.ofp.getValue('OFP/' ~ path);
+        if (value == nil)
+            value = default;
+        return value;
     },
 
     getOFPValues: func(path, subkey=nil, forceVector=1) {
@@ -393,12 +409,18 @@ var PaperworkApp = {
             };
         };
         var subEntry = func (x, w, path, validate=nil) {
+            var datatype = 'text';
+            if (typeof(validate) == 'scalar') {
+                datatype = validate;
+                validate = nil;
+            }
             return {
                 x: x,
                 w: w,
                 type: 'entry',
                 path: path,
                 validate: validate,
+                datatype: datatype,
             };
         };
 
@@ -470,7 +492,7 @@ var PaperworkApp = {
         ]);
         multi([
             subText(25, 5, 'CTOT:'),
-            subEntry(30, 4, 'OFP:times/ctot'),
+            subEntry(30, 4, 'OFP:times/ctot', 'numeric'),
             subText(50, 8, 'G/C DIST'),
             subFmt(59, 9, '%9s', ['OFP:general/gc_distance']),
         ]);
@@ -503,7 +525,7 @@ var PaperworkApp = {
         multi([
             subFmt(0, 9, 'ALTN %-4s', ['OFP:alternate/icao_code']),
             subText(50, 9, 'TKOF ALTN'),
-            subEntry(61, 7, 'OFP:takeoff_altn/icao_code')
+            subEntry(61, 7, 'OFP:takeoff_altn/icao_code', 'uppercase')
         ]);
         multi([
             subText(0, 9, 'FL STEPS'),
@@ -647,11 +669,11 @@ var PaperworkApp = {
         ]);
         multi([
             subText(0, 18, 'PIC EXTRA'),
-            subEntry(19, 5, 'OFP:fuel/pic_extra'),
+            subEntry(19, 5, 'OFP:fuel/pic_extra', 'numeric'),
         ]);
         multi([
             subText(0, 18, 'TOTAL FUEL'),
-            subEntry(19, 5, 'OFP:fuel/total'),
+            subEntry(19, 5, 'OFP:fuel/total', 'numeric'),
         ]);
         multi([
             subText(0, 18, 'REASON FOR PIC EXTRA'),
@@ -823,7 +845,7 @@ var PaperworkApp = {
             subFmt(34, 11, '%02i%02iZ/%02i%02iL',
                 [schedOut.hour, schedOut.minute, 
                 schedOutLocal.hour, schedOutLocal.minute]),
-            subEntry(52, 6, 'OFP:times/actual_out'),
+            subEntry(52, 6, 'OFP:times/actual_out', 'numeric'),
             subText(58, 1, 'Z'),
         ]);
         newline();
@@ -835,7 +857,7 @@ var PaperworkApp = {
             subFmt(34, 11, '%02i%02iZ/%02i%02iL',
                 [schedOff.hour, schedOff.minute, 
                 schedOffLocal.hour, schedOffLocal.minute]),
-            subEntry(52, 6, 'OFP:times/actual_off'),
+            subEntry(52, 6, 'OFP:times/actual_off', 'numeric'),
             subText(58, 1, 'Z'),
         ]);
         newline();
@@ -847,7 +869,7 @@ var PaperworkApp = {
             subFmt(34, 11, '%02i%02iZ/%02i%02iL',
                 [schedOn.hour, schedOn.minute, 
                 schedOnLocal.hour, schedOnLocal.minute]),
-            subEntry(52, 6, 'OFP:times/actual_on'),
+            subEntry(52, 6, 'OFP:times/actual_on', 'numeric'),
             subText(58, 1, 'Z'),
         ]);
         newline();
@@ -859,7 +881,7 @@ var PaperworkApp = {
             subFmt(34, 11, '%02i%02iZ/%02i%02iL',
                 [schedIn.hour, schedIn.minute, 
                 schedInLocal.hour, schedInLocal.minute]),
-            subEntry(52, 6, 'OFP:times/actual_in'),
+            subEntry(52, 6, 'OFP:times/actual_in', 'numeric'),
             subText(58, 1, 'Z'),
         ]);
         newline();
@@ -867,10 +889,258 @@ var PaperworkApp = {
             subText(0, 11, 'BLOCK TIME'),
             subFmt(16, 11, formatSeconds0202, ['OFP:times/est_block']),
             subFmt(34, 11, formatSeconds0202, ['OFP:times/sched_block']),
-            subEntry(52, 6, 'OFP:times/actual_block'),
+            subEntry(52, 6, 'OFP:times/actual_block', 'numeric'),
         ]);
         newline();
         separator();
+
+        plain('WEIGHTS', 68);
+        plain('-------', 68);
+        newline();
+        multi([
+            subText(0, 10, ''),
+            subFmt(10, 10, '%10s', ['EST']),
+            subFmt(20, 10, '%10s', ['MAX']),
+            subFmt(35, 6, '%6s', ['ACTUAL'])
+        ]);
+        newline();
+        multi([
+            subText(0, 10, 'PAX'),
+            subFmt(10, 10, '%10i', ['#OFP:weights/pax_count']),
+            subEntry(35, 6, 'OFP:weights/pax_count_actual'),
+        ]);
+        newline();
+        multi([
+            subText(0, 10, 'CARGO'),
+            subFmt(10, 10, '%10i', ['#OFP:weights/cargo']),
+            subEntry(35, 6, 'OFP:weights/cargo_actual'),
+        ]);
+        newline();
+        multi([
+            subText(0, 10, 'PAYLOAD'),
+            subFmt(10, 10, '%10i', ['#OFP:weights/payload']),
+            subEntry(35, 6, 'OFP:weights/payload_actual'),
+        ]);
+        newline();
+        multi([
+            subText(0, 10, 'ZFW'),
+            subFmt(10, 10, '%10i', ['#OFP:weights/est_zfw']),
+            subFmt(20, 10, '%10i', ['#OFP:weights/max_zfw']),
+            subEntry(35, 6, 'OFP:weights/actual_zfw'),
+        ]);
+        var maxRampFuel = me.getOFPValue('fuel/plan_ramp', 0) +
+                          me.getOFPValue('weights/max_tow', 0) -
+                          me.getOFPValue('weights/est_tow', 0);
+        var possibleExtraFuel =
+                          me.getOFPValue('weights/max_tow', 0) -
+                          me.getOFPValue('weights/est_tow', 0);
+        newline();
+        multi([
+            subText(0, 10, 'FUEL'),
+            subFmt(10, 10, '%10i', ['#OFP:fuel/plan_ramp']),
+            subFmt(20, 10, '%10i', [maxRampFuel]),
+            subEntry(35, 6, 'OFP:fuel/actual_ramp'),
+            subFmt(43, 20, 'POSS EXTRA %i', [possibleExtraFuel]),
+        ]);
+        newline();
+        multi([
+            subText(0, 10, 'TOW'),
+            subFmt(10, 10, '%10i', ['#OFP:weights/est_tow']),
+            subFmt(20, 10, '%10i', ['#OFP:weights/max_tow']),
+            subEntry(35, 6, 'OFP:fuel/actual_tow'),
+        ]);
+        newline();
+        multi([
+            subText(0, 10, 'STAB TRIM'),
+            subEntry(35, 6, 'OFP:general/stab_trim'),
+        ]);
+        newline();
+        multi([
+            subText(0, 10, 'LAW'),
+            subFmt(10, 10, '%10i', ['#OFP:weights/est_ldw']),
+            subFmt(20, 10, '%10i', ['#OFP:weights/max_ldw']),
+            subEntry(35, 6, 'OFP:fuel/actual_ldw'),
+        ]);
+        newline();
+        separator();
+
+        plain('TERRAIN CLEARANCE CHECK', 68);
+        plain('-----------------------', 68);
+        plain('DD CHECK - TERRAIN CLEARANCE CHECK DISABLED');
+        newline();
+        plain('DP CHECK - TERRAIN CLEARANCE CHECK DISABLED');
+        separator();
+        pageBreak();
+
+        # Page 4
+        toc('Flight Log');
+        plain('FLIGHT LOG', 68);
+        plain('----------', 68);
+        newline();
+        plain('MOST CRITICAL MORA N/A');
+        separator();
+        var flightLogHeader = func {
+            multi([
+                subText(0, 12, 'AWY'),
+                subText(30, 4, ' FL '),
+                subText(35, 4, ' IMT'),
+                subText(41, 4, ' MN'),
+                subText(46, 7, '   WIND'),
+                subText(55, 3, 'OAT'),
+                subText(59, 4, 'EFOB'),
+                subText(64, 4, 'PBRN'),
+            ]);
+            multi([
+                subText(0, 12, 'POSITION'),
+                subText(12, 8, ' LAT'),
+                subText(21, 4, ' EET'),
+                subText(26, 3, 'ETO'),
+                subText(30, 4, 'MORA'),
+                subText(35, 4, ' ITT'),
+                subText(41, 4, 'TAS'),
+                subText(46, 7, '   COMP'),
+                subText(55, 3, 'TDV'),
+            ]);
+            multi([
+                subText(0, 12, 'IDENT'),
+                subText(12, 8, ' LONG'),
+                subText(21, 4, 'TTLT'),
+                subText(26, 3, 'ATO'),
+                subText(30, 4, 'DIS'),
+                subText(35, 4, 'RDIS'),
+                subText(41, 4, ' GS'),
+                subText(46, 7, '    SHR'),
+                subText(55, 3, 'TRP'),
+                subText(59, 4, 'AFOB'),
+                subText(64, 4, 'ABRN'),
+            ]);
+            multi([
+                subText(0, 12, 'FREQ'),
+            ]);
+            separator();
+        }
+
+        flightLogHeader();
+
+        var navlog = me.getOFPNode('OFP/navlog');
+        var fixes = navlog.getChildren('fix');
+        var remainingDistance = me.getOFPValue('general/route_distance');
+        var row = 10;
+
+        var reserveLines = func (n) {
+            if (row + n > me.metrics.rows) {
+                pageBreak();
+                flightLogHeader();
+                row = 4;
+            }
+            row += n;
+        };
+
+        reserveLines(4);
+        var fixName = me.getOFPValue('origin/name');
+        var fixIdent = me.getOFPValue('origin/icao_code');
+        multi([
+            subFmt(35, 4, ' %03i', [fixes[0].getValue('track_mag')]),
+            subFmt(59, 4, '%2.1f', [me.getOFPValue('fuel/plan_takeoff') / 1000]),
+            subFmt(64, 4, '%2.1f', [me.getOFPValue('fuel/taxi') / 1000]),
+        ]);
+        multi([
+            subFmt(0, 12, '%s', [fixName]),
+            subFmt(12, 8, formatGeoCoordLog, [me.getOFPValue('origin/pos_lat'), 'lat']),
+            subEntry(26, 3, 'OFP:origin/eto'),
+            subFmt(31, 3, '%3i', [fixes[0].getValue('mora') / 100]),
+            subFmt(35, 4, ' %03i', [fixes[0].getValue('track_true')]),
+            subFmt(50, 3, formatPM(3), [fixes[0].getValue('wind_component')]),
+        ]);
+        multi([
+            subFmt(0, 12, '%s', [fixIdent]),
+            subFmt(12, 8, formatGeoCoordLog, [me.getOFPValue('origin/pos_long'), 'lon']),
+            subFmt(21, 4, formatSeconds0202, [0]),
+            subEntry(26, 3, 'OFP:origin/ato'),
+            subFmt(35, 4, '%4i', [remainingDistance]),
+            subFmt(41, 4, '%3i', [fixes[0].getValue('groundspeed')]),
+            subFmt(50, 3, formatPM(3), [fixes[0].getValue('shear')]),
+            subEntry(59, 4, 'OFP:origin/fuel_actual_onboard'),
+            subEntry(64, 4, 'OFP:origin/fuel_actual_totalused'),
+        ]);
+        newline();
+
+        var i = 0;
+        foreach (var fix; fixes) {
+            i += 1;
+            var nextFix = (i < size(fixes)) ? fixes[i] : fix;
+            foreach (var fir; fix.getChild('fir_crossing').getChildren('fir')) {
+                reserveLines(4);
+                plain(fir.getValue('fir_name'));
+                multi([
+                    subFmt(0, 12, '-%4s', [fir.getValue('fir_icao')]),
+                    subFmt(12, 8, formatGeoCoordLog, [fir.getValue('pos_lat_entry'), 'lat']),
+                    # subFmt(21, 4, formatSeconds0202, [fir.getValue('time_leg')]),
+                    subEntry(26, 3, 'OFP:' ~ fir.getPath() ~ '/eto'),
+                ]);
+                multi([
+                    subFmt(12, 8, formatGeoCoordLog, [fir.getValue('pos_long_entry'), 'lon']),
+                    # subFmt(21, 4, formatSeconds0202, [fir.getValue('time_leg')]),
+                    subEntry(26, 3, 'OFP:' ~ fir.getPath() ~ '/ato'),
+                ]);
+                newline();
+            }
+
+            var freq = fix.getValue('frequency');
+            if (freq == nil)
+                reserveLines(4);
+            else
+                reserveLines(5);
+            remainingDistance -= fix.getValue('distance');
+            var fixName = fix.getValue('name');
+            if (fixName == 'TOP OF CLIMB')
+                fixName = 'T O C';
+            if (fixName == 'TOP OF DESCENT')
+                fixName = 'T O D';
+            var fixIdent = fix.getValue('ident');
+            if (fixIdent == 'TOC' or fixIdent == 'TOD')
+                fixIdent = '';
+            multi([
+                subFmt(0, 12, '%s', [fix.getValue('via_airway') or '']),
+                subFmt(30, 4, ' %03i', [fix.getValue('altitude_feet') / 100]),
+                subFmt(35, 4, ' %03i', [nextFix.getValue('track_mag')]),
+                subFmt(41, 4, '.%02i', [fix.getValue('mach') * 100]),
+                subFmt(46, 7, "%03i/%03i", [fix.getValue('wind_dir'), fix.getValue('wind_spd')]),
+                subFmt(55, 3, formatPM(2, 0, 0, 1), [fix.getValue('oat')]),
+                subFmt(59, 4, '%2.1f', [fix.getValue('fuel_plan_onboard') / 1000]),
+                subFmt(64, 4, '%2.1f', [fix.getValue('fuel_totalused') / 1000]),
+            ]);
+            multi([
+                subFmt(0, 12, '%s', [fixName]),
+                subFmt(12, 8, formatGeoCoordLog, [fix.getValue('pos_lat'), 'lat']),
+                subFmt(21, 4, formatSeconds0202, [fix.getValue('time_leg')]),
+                subEntry(26, 3, 'OFP:' ~ fix.getPath() ~ '/eto'),
+                subFmt(31, 3, '%3i', [nextFix.getValue('mora') / 100]),
+                subFmt(35, 4, ' %03i', [nextFix.getValue('track_true')]),
+                subFmt(41, 4, '%3i', [fix.getValue('true_airspeed')]),
+                subFmt(50, 3, formatPM(3), [fix.getValue('wind_component')]),
+                subFmt(55, 3, formatPM(2, 0, 0, 1), [fix.getValue('oat_isa_dev')]),
+            ]);
+            multi([
+                subFmt(0, 12, '%s', [fixIdent]),
+                subFmt(12, 8, formatGeoCoordLog, [fix.getValue('pos_long'), 'lon']),
+                subFmt(21, 4, formatSeconds0202, [fix.getValue('time_total')]),
+                subEntry(26, 3, 'OFP:' ~ fix.getPath() ~ '/ato'),
+                subFmt(30, 4, '%4i', [fix.getValue('distance')]),
+                subFmt(35, 4, '%4i', [remainingDistance]),
+                subFmt(41, 4, '%3i', [fix.getValue('groundspeed')]),
+                subFmt(50, 3, formatPM(3), [fix.getValue('shear')]),
+                subFmt(55, 3, '%3i', [fix.getValue('tropopause_feet') / 100]),
+                subEntry(59, 4, 'OFP:' ~ fix.getPath() ~ '/fuel_actual_onboard'),
+                subEntry(64, 4, 'OFP:' ~ fix.getPath() ~ '/fuel_actual_totalused'),
+            ]);
+            if (freq != nil) {
+                multi([
+                    subFmt(0, 12, '%s', [freq]),
+                ]);
+            }
+            newline();
+        }
 
         return items;
     },
@@ -921,7 +1191,7 @@ var PaperworkApp = {
                 .setDrawMode(canvas.Text.TEXT)
                 .setTranslation(me.metrics.paddingLeft + item.x * me.metrics.charWidth, y);
         };
-        var renderEntryText = func (path) {
+        var renderEntryText = func (path, datatype=nil) {
             var node = me.getFormatNode(path);
             var val = node.getValue() or '';
             var box = pageGroup.createChild('path')
@@ -975,13 +1245,18 @@ var PaperworkApp = {
         }
         elsif (item.type == 'entry') {
             renderText('.................................');
-            renderEntryText(item.path);
+            renderEntryText(item.path, item.datatype);
         }
     },
 
     getFormatArg: func(argSpec) {
+        var default = '';
+        if (typeof(argSpec) == 'scalar' and substr(argSpec ~ '', 0, 1) == '#') {
+            default = 0;
+            argSpec = substr(argSpec, 1);
+        }
         if (typeof(argSpec) == 'scalar' and substr(argSpec ~ '', 0, 4) == 'OFP:') {
-            return me.getOFPValue(substr(argSpec, 4));
+            return me.getOFPValue(substr(argSpec, 4), default);
         }
         else {
             return argSpec;

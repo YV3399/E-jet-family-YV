@@ -82,13 +82,13 @@ var unixToDateTime = func (s) {
 
 var monthNames3 = [ 'XXX', 'JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC' ];
 
-var formatPM = func(numDigits, numFrac=0, spacing=0) {
+var formatPM = func(numDigits, numFrac=0, spacing=0, showP=1) {
     var formatStr = (numFrac == 0)
                         ? ('%0' ~ numDigits ~ 'i')
                         : ('%0' ~ (numDigits + numFrac + 1) ~ '.' ~ numFrac ~ 'f');
     return func(val) {
         if (val == nil) return '';
-        var prefix = (val < 0) ? 'M' : 'P';
+        var prefix = (val < 0) ? 'M' : (showP ? 'P' : ' ');
         var digits = sprintf(formatStr, math.abs(val));
         return prefix ~ substr('                          ', 0, spacing) ~ digits;
     }
@@ -129,6 +129,25 @@ var formatFuelTime0202 = func (fuelFlow, fuel) {
     if (fuelFlow == nil or fuel == nil) return '';
     var minutesRaw = fuelToMinutes(fuelFlow, fuel);
     return formatTime0202(minutesRaw);
+};
+
+var formatGeoCoordLog = func (coord, dim) {
+    if (coord == nil) return '';
+    var markers = [ '+', '-' ];
+    var format = '%s%03i%04.1f';
+    if (dim == 'lat') {
+        markers = ['S', 'N'];
+        format = ' %s%02i%04.1f';
+    }
+    elsif (dim == 'lon') {
+        markers = ['W', 'E'];
+        format = '%s%03i%04.1f';
+    }
+    var sign = (coord < 0) ? markers[0] : markers[1];
+    var degreesRaw = math.abs(coord);
+    var degrees = math.floor(degreesRaw);
+    var minutes = math.fmod(degreesRaw * 60, 60);
+    return sprintf(format, sign, degrees, minutes);
 };
 
 var formatGeoCoord = func (coord, dim) {

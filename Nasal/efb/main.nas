@@ -129,6 +129,7 @@ var EFB = {
         me.clientGroup = me.master.createChild('group');
 
         me.overlay = canvas.parsesvg(me.master, acdir ~ "/Models/EFB/overlay.svg", {'font-mapper': font_mapper});
+        me.keyboardGrabElem = me.master.getElementById('keyboardGrabIcon');
         me.clockElem = me.master.getElementById('clock.digital');
         me.shellNumPages = math.ceil(size(me.apps) / 20);
         for (var i = 0; i < me.shellNumPages; i += 1) {
@@ -176,6 +177,9 @@ var EFB = {
                 .setFontSize(20);
         }
         var self = me;
+        setlistener('/instrumentation/efb/keyboard-grabbed', func (node) {
+            self.keyboardGrabElem.setVisible(node.getBoolValue());
+        }, 1, 1);
         setlistener('/instrumentation/clock/local-short-string', func(node) {
             self.clockElem.setText(node.getValue());
         }, 1, 1);
