@@ -81,8 +81,8 @@ var KneepadApp = {
 
         me.textElems = [];
 
-        me.rootWidget.appendChild(me.keyboard);
         me.rootWidget.appendChild(me.menu);
+        me.rootWidget.appendChild(me.keyboard);
         me.hideKeyboard();
         me.cursorBlinkTimer = maketimer(0.5, func {
             if (me.editing) {

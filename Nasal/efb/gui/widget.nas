@@ -63,6 +63,16 @@ var Widget = {
         }
     },
 
+    handleTouch: func(touchCoords) {
+        if (me.what == nil) {
+            # We don't have a handler of our own; bubble.
+            return 1;
+        }
+        else {
+            return me.what(touchCoords) or 0;
+        }
+    },
+
     touch: func (x, y) {
         if (!me.active)
             return 1; # keep going
@@ -73,13 +83,7 @@ var Widget = {
         }
         var touchCoords = me.checkTouch(x, y);
         if (touchCoords != nil) {
-            if (me.what == nil) {
-                # We don't have a handler of our own; bubble.
-                return 1;
-            }
-            else {
-                return me.what(touchCoords) or 0;
-            }
+            me.handleTouch(touchCoords);
         }
         else {
             return 1;

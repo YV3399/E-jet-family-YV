@@ -67,7 +67,7 @@ var PaperworkApp = {
 
         me.pagerGroup = me.masterGroup.createChild('group');
 
-        me.pager = Pager.new(me.pagerGroup);
+        me.pager = Pager.new(me.pagerGroup, 1);
         me.rootWidget.appendChild(me.pager);
         me.pager.pageChanged.addListener(func (data) {
             foreach (var p; self.pages) {
@@ -382,6 +382,9 @@ var PaperworkApp = {
         };
         var toc = func (title) {
             append(items, { type: 'toc-entry', title: title });
+        };
+        var image = func(path) {
+            append(items, { type: 'image', path: path });
         };
         var multi = func (subItems) {
             append(items, { type: 'multi', items: subItems });
@@ -974,6 +977,11 @@ var PaperworkApp = {
 
         # Page 4
         toc('Flight Log');
+
+        # TODO:
+        # - include ETOPS points
+        # - calculate timings for FIR crossings and ETOPS points
+
         plain('FLIGHT LOG', 68);
         plain('----------', 68);
         newline();
@@ -1142,6 +1150,123 @@ var PaperworkApp = {
             newline();
         }
 
+        pageBreak();
+
+        # TODO: ETOPS information
+
+        # Page: Wind information
+
+        toc('Wind Information');
+        separator();
+        plain('WIND INFORMATION', 68);
+        plain('----------------', 68);
+        var accum = [];
+        var pushWindInfo = func {
+            var headerLine = [];
+            var lines = [[], [], [], [], []];
+            var x = 0;
+            foreach (var fix; accum) {
+                append(headerLine, subText(x, 16, fix.getValue('ident')));
+                var availableWinds = fix.getChild('wind_data').getChildren('level');
+                var altitude = fix.getValue('altitude_feet') or 0;
+                while (size(availableWinds) > 5) {
+                    var errLo = math.abs(altitude - availableWinds[0].getValue('altitude'));
+                    var errHi = math.abs(altitude - availableWinds[size(availableWinds) - 1].getValue('altitude'));
+                    if (errLo > errHi) {
+                        availableWinds = subvec(availableWinds, 1);
+                    }
+                    else {
+                        availableWinds = subvec(availableWinds, 0, size(availableWinds) - 1);
+                    }
+                }
+                for (var i = 0; i < 5; i += 1) {
+                    var level = availableWinds[i];
+                    append(lines[i],
+                        subFmt(x,     3, '%3i', [level.getValue('altitude') / 100]),
+                        subFmt(x + 4, 7, '%03i/%03i', [level.getValue('wind_dir'), level.getValue('wind_spd')]),
+                        subFmt(x + 12, 3, '%+02i', [level.getValue('oat')]),
+                    )
+                }
+                x += 17;
+            }
+            multi(headerLine);
+            foreach (var line; lines)
+                multi(line);
+            newline();
+            accum = [];
+        };
+        foreach (var fix; fixes) {
+            if (size(accum) >= 4)
+                pushWindInfo();
+            append(accum, fix);
+        }
+        if (size(accum) > 0)
+            pushWindInfo();
+        pageBreak();
+
+        # Page: ATC Flight Plan
+        toc('ATC Flight Plan');
+        plain('[ ATC Flight Plan ]');
+        separator();
+        plain('ICAO FLIGHT PLAN', 68);
+        plain('----------------', 68);
+        newline();
+
+        var atcNode = me.getOFPNode('OFP/atc');
+        var firSet = {};
+        firSet[atcNode.getValue('fir_orig')] = 1;
+        firSet[atcNode.getValue('fir_dest')] = 1;
+        var firs = atcNode.getValues()['fir_enroute'];
+        if (typeof(firs) == 'scalar')
+            firs = [firs];
+        foreach (var fir; firs) {
+            if (fir != nil) {
+                firSet[fir] = 1;
+            }
+        }
+        var sentWords = ['FF'];
+        foreach (var fir; sort(keys(firSet), cmp)) {
+            append(sentWords, fir ~ 'ZQZX');
+        }
+        var lineWords = [];
+        var lineLength = -1;
+        foreach (var word; sentWords) {
+            if (lineLength + size(word) + 1 > me.metrics.columns) {
+                plain(string.join(' ', lineWords));
+                lineWords = [];
+                lineLength = -1;
+            }
+            append(lineWords, word);
+        }
+        if (size(lineWords) != 0) {
+            plain(string.join(' ', lineWords));
+        }
+        format('%02i%02i%02i CYULSBFP', [generated.day, generated.hour, generated.minute]);
+        var fptext = atcNode.getValue('flightplan_text');
+        foreach (var line; split("\n", fptext)) {
+            plain(line);
+        }
+        pageBreak();
+
+        # TODO: Additional Info (NAT tracks)
+
+        # TODO: Airport WX list
+
+        # TODO: NOTAMs
+
+        # TODO: Company NOTAM
+
+        # TODO: Maps
+
+        var imagesNode = me.getOFPNode('OFP/images');
+        var baseURL = imagesNode.getValue('directory');
+        foreach (var mapNode; imagesNode.getChildren('map')) {
+            var name = mapNode.getValue('name');
+            toc(name);
+            var path = mapNode.getValue('link');
+            image(baseURL ~ path);
+        }
+
         return items;
     },
 
@@ -1153,21 +1278,31 @@ var PaperworkApp = {
         var pushPage = func {
             append(pages, page);
             page = [];
+            pageRows = 0;
         };
+        var pageRows = 0;
         var toc = [];
         foreach (var item; items) {
             if (item.type == 'page-break') {
                 pushPage();
                 continue;
             }
-            if (size(page) >= pageSize) {
+            if (pageRows >= pageSize) {
                 pushPage();
             }
             if (item.type == 'toc-entry') {
                 append(toc, { title: item.title, page: size(pages) });
             }
+            elsif (item.type == 'image') {
+                if (pageRows > 1) {
+                    pushPage();
+                }
+                append(page, item);
+                pushPage();
+            }
             else {
                 append(page, item);
+                pageRows += 1;
             }
         }
         if (size(page) > 0) {
@@ -1286,12 +1421,14 @@ var PaperworkApp = {
         };
         if (item.type == 'text') {
             renderText(item.text);
+            return me.metrics.lineHeight;
         }
         elsif (item.type == 'separator') {
             renderText(
                 substr(
                     '--------------------------------------------------------------------',
                     0, item.length));
+            return me.metrics.lineHeight;
         }
         elsif (item.type == 'formatted') {
             var args = [];
@@ -1299,11 +1436,38 @@ var PaperworkApp = {
                 append(args, me.getFormatArg(argSpec));
             }
             renderText(call(sprintf, [item.format] ~ args));
+            return me.metrics.lineHeight;
         }
         elsif (item.type == 'multi') {
             foreach (var subItem; item.items) {
                 me.renderSubItem(pageGroup, y, subItem, pageWidget);
             }
+            return me.metrics.lineHeight;
+        }
+        elsif (item.type == 'image') {
+            var img = pageGroup.createChild('image')
+                               .setRotation(math.pi * -0.5);
+            downloadManager.get(item.path, md5(item.path) ~ '.gif',
+                func (path) {
+                    img.set("src", path);
+                    var width = img.get('size');
+                    var height = width * 0.8;
+                    var widthScale = (me.metrics.rows - 1) * me.metrics.lineHeight / width;
+                    var heightScale = me.metrics.pageWidth / height;
+                    var scale = math.min(heightScale, 1);
+                    var effectiveHeight = width * scale;
+                    img.setScale(scale, scale)
+                       .setTranslation(0, (me.metrics.pageHeight + effectiveHeight) * 0.5);
+                },
+                func (r) {
+                    logprint(4, 'Failed to get image ' ~ item.path ~ ': ' ~ r.status ~ ': ' ~ r.reason);
+                },
+                1 # replace previous subscribers
+            );
+            return me.metrics.pageHeight - me.metrics.lineHeight;
+        }
+        else {
+            return me.metrics.lineHeight;
         }
     },
 
@@ -1344,8 +1508,8 @@ var PaperworkApp = {
                  .setColor(0, 0, 0)
                  .setTranslation(me.metrics.pageWidth - me.metrics.paddingLeft, (me.metrics.headerHeight - 10) / 2);
         foreach (var item; pageData) {
-            me.renderItem(pageGroup, y, item, pageWidget);
-            y += me.metrics.lineHeight;
+            var h = me.renderItem(pageGroup, y, item, pageWidget);
+            y += h;
         }
     },
 

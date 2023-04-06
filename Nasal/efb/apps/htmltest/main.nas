@@ -1,5 +1,6 @@
 include('baseApp.nas');
 include('/html/main.nas');
+include('gui/checkbox.nas');
 
 var H = html.H;
 
@@ -96,23 +97,13 @@ var HTMLTestApp = {
         };
 
         var checkbox = func (x, y, what) {
-            var box = me.uiGroup.createChild('path')
-                                .rect(x+5, y+5, 20, 20)
-                                .setColorFill(1, 1, 1)
-                                .setColor(0, 0, 0);
-            var mark = me.uiGroup.createChild('text')
-                                 .setAlignment('center-center')
-                                 .setFont(font_mapper('sans', 'normal'))
-                                 .setFontSize(20)
-                                 .setColor(0, 0, 0)
-                                 .setTranslation(x + 15, y + 15)
-                                 .setText('x');
-
-            if (what != nil)
-                me.makeClickable(box, what);
-
+            var cb = 
+                Checkbox.new(me.uiGroup, x + 15, y + 15)
+                        .setAlignment('center-center')
+                        .setHandler(what);
+            me.rootWidget.appendChild(cb);
             return func(isset) {
-                mark.setVisible(isset);
+                cb.setState(isset);
             };
         };
 
