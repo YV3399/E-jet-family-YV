@@ -79,6 +79,7 @@
             <path>/options/controls/realistic-nose-wheel-steering</path>
             <path>/options/instrumentation/iru-alignment-mode</path>
             <path>/instrumentation/efb/available</path>
+            <path>/instrumentation/efb/show-debug-apps</path>
             <path>/instrumentation/efb/brightness</path>
             <path>/instrumentation/efb/flightbag-companion-uri</path>
             <path>/instrumentation/efb/allow-keyboard-grabbing</path>

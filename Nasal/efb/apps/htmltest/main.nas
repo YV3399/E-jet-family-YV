@@ -192,6 +192,5 @@ var HTMLTestApp = {
 
 };
 
-registerApp('htmltest', 'HTML Test', 'htmltest.png', HTMLTestApp);
-
-
+if (getprop('/instrumentation/efb/show-debug-apps'))
+    registerApp('htmltest', 'HTML Test', 'htmltest.png', HTMLTestApp);

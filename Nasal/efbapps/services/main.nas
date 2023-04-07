@@ -23,7 +23,7 @@ var GroundServicesApp = {
                       .rect(16, 48, 512 - 32, 768 - 96, {'border-radius': 6})
                       .setColorFill(1, 1, 1, 0.6);
         me.logoImage = me.masterGroup.createChild('image')
-                         .setTranslation(24, 48)
+                         .setTranslation(32, 40)
                          .set('src', acdir ~ '/Nasal/efbapps/services/ground-services-icon.png');
         var y = 64;
         var x = 32;
