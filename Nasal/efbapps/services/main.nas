@@ -49,12 +49,40 @@ var GroundServicesApp = {
             x = 32;
         };
 
+        var buttonPadding = 8;
+        var buttonWidth = math.floor(512 - 64 - 2 * buttonPadding) / 3;
+
+        var mkStatic = func (label) {
+            me.masterGroup.createChild('text')
+                          .setFont(font_mapper('sans', 'normal'))
+                          .setFontSize(20)
+                          .setColor(0, 0, 0)
+                          .setAlignment('left-baseline')
+                          .setText(label)
+                          .setTranslation(x, y + 24);
+            x += buttonWidth;
+            if (x >= 512 - 32) {
+                y += 40;
+                x = 32;
+            }
+            else {
+                x += buttonPadding;
+            }
+        };
+
         var mkButton = func (action, label) {
-            var button = Button.new(me.masterGroup, label, x, y, 100, 32);
+            var button = Button.new(me.masterGroup, label, x, y, buttonWidth, 32);
             button.setHandler(action);
             me.rootWidget.appendChild(button);
 
-            x += 128;
+            x += buttonWidth;
+            if (x >= 512 - 39) {
+                y += 40;
+                x = 32;
+            }
+            else {
+                x += buttonPadding;
+            }
         };
 
         var mkSlider = func (controlProp, progressProp, label, progressLabels) {
@@ -132,8 +160,18 @@ var GroundServicesApp = {
         mkSlider('/controls/electric/external-power-connected', '/controls/electric/external-power-connected', 'Ground power unit', ['disconnected', 'in progress...', 'connected']);
         mkHeading('Pushback');
         mkSlider('/sim/model/autopush/enabled', '/sim/model/autopush/enabled', 'Connect', ['disconnected', 'in progress', 'connected']);
+
         mkButton(func { autopush_driver.start(); }, 'Start');
-        mkButton(func { autopush_driver.stop(); }, 'Stop');
+        mkButton(func { autopush_driver.stop(); }, 'Pause');
+        mkButton(func { autopush_route.top_view(); }, 'View');
+
+        mkStatic('Route:');
+        mkButton(func { autopush_route.enter(); }, 'Enter');
+        mkButton(func { autopush_route.done(); }, 'Done');
+
+        mkStatic('Last Point:');
+        mkButton(func { autopush_route.toggle_sharp(); }, 'Sharp');
+        mkButton(func { autopush_route.delete_last(); }, 'Delete');
     },
 
 };
