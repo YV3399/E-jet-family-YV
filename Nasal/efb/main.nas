@@ -8,8 +8,7 @@ props.globals.getNode('/instrumentation/efb/keyboard-grabbed', 1).setValue(0);
 var systemAppBasedir = acdir ~ '/Nasal/efb/apps';
 var customAppBasedir = acdir ~ '/Nasal/efbapps';
 
-# Compatibility shims
-
+# Compatibility shim: canvasToLocal
 if (!contains(globals.canvas.Element, 'canvasToLocal')) {
     globals.canvas.Element.canvasToLocal = func (xy) {
         var tf = me._node.getChildren('tf');
@@ -34,10 +33,13 @@ if (!contains(globals.canvas.Element, 'canvasToLocal')) {
     };
 };
 
-globals.canvas.Image.imageSize = func {
-    var sizeNodes = me._node.getChildren('size');
-    return [sizeNodes[0].getValue(), sizeNodes[1].getValue()];
-};
+# Compatibility shim: imageSize
+if (!contains(globals.canvas.Element, 'imageSize')) {
+    globals.canvas.Image.imageSize = func {
+        var sizeNodes = me._node.getChildren('size');
+        return [sizeNodes[0].getValue(), sizeNodes[1].getValue()];
+    };
+}
 
 globals.efb.availableApps = {};
 globals.efb.registerApp_ = func(basedir, key, label, iconName, class) {
