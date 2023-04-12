@@ -41,7 +41,7 @@ var loadAppDir = func (basedir) {
             printf("Found app: %s", f);
             var dirname = basedir ~ '/' ~ f;
             registerApp = func(key, label, iconName, class) {
-                print(dirname);
+                # print(dirname);
                 registerApp_(dirname, key, label, iconName, class);
             }
             io.load_nasal(dirname ~ '/main.nas', 'efb');
@@ -53,6 +53,8 @@ loadAppDir(systemAppBasedir);
 loadAppDir(customAppBasedir);
 
 var EFB = {
+    clipTemplate: string.compileTemplate('rect({top}px, {right}px, {bottom}px, {left}px)'),
+
     new: func (master) {
         var m = {
             parents: [EFB],
@@ -63,6 +65,8 @@ var EFB = {
         m.shellNumPages = 1;
         m.reportedRotation = 0;
         m.apps = [];
+        m.carousel = nil;
+        m.appStack = [];
         foreach (var k; sort(keys(availableApps), cmp)) {
             var app = availableApps[k];
             append(m.apps,
@@ -73,6 +77,17 @@ var EFB = {
                 , basedir: app.basedir,
                 });
         }
+        m.metrics = {
+            screenW: 512,
+            screenH: 768,
+            buttonRowH: 32,
+            carouselScale: 0.5,
+            carouselPadding: 32,
+        };
+        m.metrics.carouselW = m.metrics.screenW * m.metrics.carouselScale;
+        m.metrics.carouselH = m.metrics.screenH * m.metrics.carouselScale;
+        m.metrics.carouselAdvance = m.metrics.carouselW + m.metrics.carouselPadding;
+
         m.initialize();
         return m;
     },
@@ -94,7 +109,7 @@ var EFB = {
             }
         }
 
-        me.backgroundImg = me.shellGroup.createChild('image');
+        me.backgroundImg = me.master.createChild('image');
 
         appendPathsFromNodes('/instrumentation/efb', 'background-image');
         if (size(backgroundImagePaths) == 0) {
@@ -109,24 +124,28 @@ var EFB = {
         var path = backgroundImagePaths[index];
         me.backgroundImg.set('src', path);
         (var w, var h) = me.backgroundImg.imageSize();
-        var minZoomX = 512 / w;
-        var minZoomY = 768 / h;
+        var minZoomX = me.metrics.screenW / w;
+        var minZoomY = me.metrics.screenH / h;
         var zoom = math.max(minZoomX, minZoomY);
-        var dx = (512 - w * zoom) * 0.5;
-        var dy = (768 - h * zoom) * 0.5;
+        var dx = (me.metrics.screenW - w * zoom) * 0.5;
+        var dy = (me.metrics.screenH - h * zoom) * 0.5;
         me.backgroundImg.setTranslation(dx, dy);
         me.backgroundImg.setScale(zoom, zoom);
+
+        me.background = me.master.createChild('path')
+                            .rect(0, 0, me.metrics.screenW, me.metrics.screenH)
+                            .setColorFill(1, 1, 1, 0.5);
     },
 
     initialize: func() {
+        me.setupBackgroundImage();
         me.shellGroup = me.master.createChild('group');
         me.shellPages = [];
-        me.setupBackgroundImage();
-        me.background = me.shellGroup.createChild('path')
-                            .rect(0, 0, 512, 768)
-                            .setColorFill(1, 1, 1, 0.5);
 
         me.clientGroup = me.master.createChild('group');
+
+        me.carouselWidget = Widget.new();
+        me.carouselGroup = me.master.createChild('group');
 
         me.overlay = canvas.parsesvg(me.master, acdir ~ "/Models/EFB/overlay.svg", {'font-mapper': font_mapper});
         me.keyboardGrabElem = me.master.getElementById('keyboardGrabIcon');
@@ -189,6 +208,11 @@ var EFB = {
         }, 0, 1);
         me.deviceRotation = getprop('/instrumentation/efb/orientation-norm') or 0;
         me.rotate(me.deviceRotation, 1);
+        var dt = 0.025;
+        me.carouselAnimationTimer = maketimer(dt, func () {
+            self.updateCarouselScroll(dt);
+        });
+        me.carouselAnimationTimer.start();
     },
 
     rotate: func (rotationNorm, hard=0) {
@@ -205,19 +229,19 @@ var EFB = {
                 # TODO: implement rotation for the shell
             }
             else {
-                me.currentApp.rotate(me.reportedRotation, hard);
+                me.currentApp.app.rotate(me.reportedRotation, hard);
             }
         }
     },
 
     touch: func (args) {
-        var x = math.floor(args.x * 512);
-        var y = math.floor(768 - args.y * 768);
-        if (y >= 736) {
-            if (x < 171) {
+        var x = math.floor(args.x * me.metrics.screenW);
+        var y = math.floor((1.0 - args.y) * me.metrics.screenH);
+        if (y >= me.metrics.screenH - me.metrics.buttonRowH) {
+            if (x < me.metrics.screenW / 3) {
                 me.handleBack();
             }
-            else if (x < 342) {
+            else if (x < me.metrics.screenW * 2 / 3) {
                 me.handleHome();
             }
             else {
@@ -225,8 +249,15 @@ var EFB = {
             }
         }
         else {
-            # Shell: find icon
-            if (me.currentApp == nil) {
+            if (me.carousel != nil) {
+                # Carousel mode: handle accordingly
+                me.carouselWidget.touch(x, y);
+            }
+            elsif (me.currentApp != nil) {
+                me.currentApp.app.touch(x, y);
+            }
+            else {
+                # Shell: find icon
                 foreach (var appInfo; me.apps) {
                     if ((appInfo.page == me.shellPage) and
                         (x >= appInfo.box[0]) and
@@ -238,25 +269,32 @@ var EFB = {
                     }
                 }
             }
-            else {
-                me.currentApp.touch(x, y);
-            }
         }
     },
 
     wheel: func (axis, amount) {
-        if (me.currentApp == nil) {
+        if (me.carousel != nil) {
+            # Carousel mode
+            if (axis == 0) {
+                me.carousel.selectedAppIndex -= amount;
+                me.carousel.selectedAppIndex =
+                    math.max(0,
+                        math.min(size(me.carousel.apps) - 1,
+                            me.carousel.selectedAppIndex));
+            }
+        }
+        elsif (me.currentApp == nil) {
             # Once we get multiple screens, we might handle the event here.
         }
         else {
-            me.currentApp.wheel(axis, amount);
+            me.currentApp.app.wheel(axis, amount);
         }
     },
 
     hideCurrentApp: func () {
         if (me.currentApp != nil) {
-            me.currentApp.background();
-            me.currentApp.masterGroup.hide();
+            me.currentApp.app.background();
+            me.currentApp.app.masterGroup.hide();
             me.currentApp = nil;
         }
     },
@@ -264,6 +302,152 @@ var EFB = {
     openShell: func () {
         me.hideCurrentApp();
         me.shellGroup.show();
+    },
+
+    openCarousel: func {
+        var self = me;
+
+        me.carousel = {
+            apps: [],
+            selectedAppIndex: 0,
+            scrollX: 0,
+        };
+        var x = 0;
+        var i = 0;
+        me.carouselWidget.removeAllChildren();
+        me.carouselGroup.removeAllChildren();
+        foreach (var appInfo; me.appStack) {
+            if (appInfo.app != nil) {
+                append(me.carousel.apps, appInfo);
+                if (me.currentApp != nil and id(appInfo.app) == id(me.currentApp.app)) {
+                    me.carousel.selectedAppIndex = i;
+                    me.currentApp.app.background();
+                    me.carousel.scrollX = i * me.metrics.carouselAdvance;
+                }
+                (func (appInfo, i) {
+                    var box = self.carouselGroup.createChild('path')
+                                .rect(i * self.metrics.carouselAdvance, 0, self.metrics.carouselW, self.metrics.carouselH)
+                                .setColor(0, 0, 0);
+                    appInfo.carouselClickbox = box;
+                    var clickWidget = Widget.new(box);
+                    clickWidget.setHandler(func {
+                        if (self.carousel.selectedAppIndex == i) {
+                            self.cancelCarousel();
+                            self.openApp(appInfo);
+                        }
+                        else {
+                            self.carousel.selectedAppIndex = i;
+                        }
+                        return 0;
+                    });
+                    self.carouselWidget.appendChild(clickWidget);
+
+                    var img = self.carouselGroup.createChild('image');
+                    img.set('src', appInfo.icon);
+                    var imgW = 64;
+                    var imgH = 64;
+                    var centerX = i * self.metrics.carouselAdvance + self.metrics.carouselW * 0.5;
+                    img.setTranslation(
+                        centerX - imgW * 0.5,
+                        -imgH * 0.66);
+                    self.carouselGroup.createChild('text')
+                        .setText(appInfo.label)
+                        .setAlignment('center-baseline')
+                        .setColor(0,0,0)
+                        .setFont(font_mapper('sans', 'normal'))
+                        .setFontSize(20, 1)
+                        .setTranslation(centerX, -imgH * 0.5 - 20);
+                })(appInfo, i);
+                appInfo.app.masterGroup.setScale(0.5, 0.5);
+                appInfo.app.masterGroup.show();
+                i += 1;
+            }
+        }
+        if (i == 0) {
+            me.carousel = nil;
+            me.openShell();
+        }
+        else {
+            me.shellGroup.hide();
+            me.updateCarouselScroll();
+        }
+    },
+
+    cancelCarousel: func {
+        if (me.carousel == nil)
+            return;
+        me.carouselWidget.removeAllChildren();
+        me.carouselGroup.removeAllChildren();
+        foreach (var appInfo; me.carousel.apps) {
+            appInfo.app.masterGroup.hide();
+            if (appInfo.carouselClickbox != nil) {
+                appInfo.carouselClickbox.hide();
+                appInfo.carouselClickbox = nil;
+            }
+        }
+        me.carousel = nil;
+        me.showCurrentApp();
+    },
+
+    updateCarouselScroll: func (dt=nil) {
+        if (me.carousel == nil)
+            return;
+        var targetScroll = me.carousel.selectedAppIndex * me.metrics.carouselAdvance;
+        var nextScroll = 0;
+        var dist = me.carousel.scrollX - targetScroll;
+        if (dt == nil) { 
+            nextScroll = targetScroll;
+        }
+        elsif (dist > 1) {
+            nextScroll =
+                math.max(targetScroll, me.carousel.scrollX - (dist + 10) * dt * 4);
+        }
+        elsif (dist < -1) {
+            nextScroll =
+                math.min(targetScroll, me.carousel.scrollX - (dist - 10) * dt * 4);
+        }
+        else {
+            nextScroll = targetScroll;
+        }
+        if (me.carousel.scrollX != nextScroll or dt == nil) {
+            me.carousel.scrollX = nextScroll;
+            var x = me.metrics.carouselW * 0.5 - me.carousel.scrollX;
+            var top = (me.metrics.screenH - me.metrics.carouselH) * 0.5;
+            var bottom = top + me.metrics.carouselH;
+            me.carouselGroup.setTranslation(x, top);
+            foreach (var appInfo; me.carousel.apps) {
+                appInfo.app.masterGroup.setTranslation(x, top);
+                appInfo.app.masterGroup.set('clip', me.clipTemplate({left: x, right: x + me.metrics.carouselW, top: top, bottom: bottom}));
+                x += me.metrics.carouselAdvance;
+            }
+        }
+    },
+
+    showCurrentApp: func () {
+        if (me.currentApp == nil) {
+            me.openShell();
+            return;
+        }
+        # Set current rotation, because the app may not have caught it yet
+        me.currentApp.app.rotate(me.reportedRotation, 1);
+        me.currentApp.app.masterGroup.setTranslation(0, 0);
+        me.currentApp.app.masterGroup.setScale(1, 1);
+        me.currentApp.app.masterGroup.set('clip', me.clipTemplate({left: 0, right: me.metrics.screenW, top: 0, bottom: me.metrics.screenH}));
+        me.currentApp.app.masterGroup.show();
+        me.currentApp.app.foreground();
+    },
+
+    pushCurrentAppToStack: func {
+        if (me.currentApp == nil)
+            return;
+        var newAppStack = [];
+        foreach (var item; me.appStack) {
+            if (id(item) != id(me.currentApp)) {
+                append(newAppStack, item);
+            }
+        }
+        newAppStack = [me.currentApp] ~ newAppStack;
+        me.appStack = newAppStack;
     },
 
     openApp: func (appInfo) {
@@ -275,16 +459,14 @@ var EFB = {
             appInfo.app.setAssetDir(appInfo.basedir ~ '/');
             appInfo.app.initialize();
         }
-        me.currentApp = appInfo.app;
-        # Set current rotation, because the app may not have caught it yet
-        me.currentApp.rotate(me.reportedRotation, 1);
-        me.currentApp.masterGroup.show();
-        me.currentApp.foreground();
+        me.currentApp = appInfo;
+        me.pushCurrentAppToStack();
+        me.showCurrentApp();
     },
 
     handleMenu: func () {
         if (me.currentApp != nil) {
-            me.currentApp.handleMenu();
+            me.currentApp.app.handleMenu();
         }
         else {
             # next shell page
@@ -292,8 +474,11 @@ var EFB = {
     },
 
     handleBack: func () {
-        if (me.currentApp != nil) {
-            me.currentApp.handleBack();
+        if (me.carousel != nil) {
+            me.cancelCarousel();
+        }
+        elsif (me.currentApp != nil) {
+            me.currentApp.app.handleBack();
         }
         else {
             # previous shell page
@@ -301,8 +486,15 @@ var EFB = {
     },
 
     handleHome: func () {
-        if (me.currentApp != nil) {
+        if (me.carousel != nil) {
+            me.cancelCarousel();
             me.openShell();
+        }
+        elsif (me.currentApp != nil) {
+            me.openShell();
+        }
+        else {
+            me.openCarousel();
         }
     },
 };
