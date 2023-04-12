@@ -1853,6 +1853,11 @@
             <type>avionics</type>
             <path>Sounds/mk-viii/100-above.wav</path>
             <condition>
+                <!-- inhibit on ground-->
+                <not><property>/gear/gear[1]/wow</property></not>
+                <not><property>/gear/gear[2]/wow</property></not>
+                <!-- needs electrical power -->
+                <property>systems/electrical/outputs/master-warn-caution[0]</property>
                 <or>
                     <!-- radio minimums set -->
                     <and>
@@ -1937,6 +1942,7 @@
             <path>Aircraft/E-jet-family/Sounds/APdisco.wav</path>
             <condition>
                 <property>/instrumentation/annun/ap-disconnect-warning</property>
+                <property>systems/electrical/outputs/master-warn-caution[0]</property>
             </condition>
             <volume>
                 <factor>1</factor>
@@ -1949,6 +1955,7 @@
             <path>Aircraft/E-jet-family/Sounds/ATdisco.wav</path>
             <condition>
                 <property>/instrumentation/annun/at-disconnect-warning</property>
+                <property>systems/electrical/outputs/master-warn-caution[0]</property>
             </condition>
             <volume>
                 <factor>1</factor>
@@ -1963,7 +1970,6 @@
             <condition>
                 <and>
                     <property>/instrumentation/callouts/eighty</property>
-                    <property>systems/electrical/outputs/master-warn-caution[0]</property>
                 </and>
             </condition>
             <volume>
