@@ -259,16 +259,16 @@ var ChartsApp = {
                     .setFontSize(16);
                 var what = nil;
                 if (entry.type == 'home') {
-                    what = func () { self.goHome(); };
+                    what = func () { self.goHome(); return 0; };
                 }
                 else if (entry.type == 'favorites') {
-                    what = func () { self.loadFavorites(); };
+                    what = func () { self.loadFavorites(); return 0; };
                 }
                 else if (entry.type == 'dir') {
-                    what = func () { self.loadListing(entry.path, entry.name, 0, 1); };
+                    what = func () { self.loadListing(entry.path, entry.name, 0, 1); return 0; };
                 }
                 else {
-                    what = func () { self.loadChart(entry.path, entry['meta'], entry.name, 0, 1); };
+                    what = func () { self.loadChart(entry.path, entry['meta'], entry.name, 0, 1); return 0; };
                 }
                 me.makeClickable([ x, y, x + hSpacing, y + lineHeight ], what);
             })(entry);
@@ -313,6 +313,7 @@ var ChartsApp = {
                 self.addToFavorites(type, path, title);
                 img.set('src', starOnIcon);
             }
+            return 0;
         };
         me.makeClickable([512 - 32, 32, 512, 64], what);
     },

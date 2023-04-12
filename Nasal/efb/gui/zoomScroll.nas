@@ -71,7 +71,7 @@ var ZoomScroll = {
 
     initialize: func (parentGroup) {
         me.group = parentGroup.createChild('group');
-        canvas.parsesvg(me.group, acdir ~ "/Models/EFB/zoom-scroll-overlay.svg", {'font-mapper': font_mapper});
+        canvas.parsesvg(me.group, acdirRel ~ "/Models/EFB/zoom-scroll-overlay.svg", {'font-mapper': font_mapper});
         me.group.setCenter(47, 36);
 
         me.updateRotation();
@@ -95,36 +95,43 @@ var ZoomScroll = {
             Widget.new(me.btnZoomIn)
                 .setHandler(func () {
                     self.onZoom.raise({amount: 1});
+                    return 0;
                 }));
         me.appendChild(
             Widget.new(me.btnZoomOut)
                 .setHandler(func () {
                     self.onZoom.raise({amount: -1});
+                    return 0;
                 }));
         me.appendChild(
             Widget.new(me.btnScrollN)
                 .setHandler(func () {
                     self.onScroll.raise({x: 0, y: -1});
+                    return 0;
                 }));
         me.appendChild(
             Widget.new(me.btnScrollS)
                 .setHandler(func () {
                     self.onScroll.raise({x: 0, y: 1});
+                    return 0;
                 }));
         me.appendChild(
             Widget.new(me.btnScrollE)
                 .setHandler(func () {
                     self.onScroll.raise({x: 1, y: 0});
+                    return 0;
                 }));
         me.appendChild(
             Widget.new(me.btnScrollW)
                 .setHandler(func () {
                     self.onScroll.raise({x: -1, y: 0});
+                    return 0;
                 }));
         me.appendChild(
             Widget.new(me.btnScrollReset)
                 .setHandler(func () {
                     self.onReset.raise({});
+                    return 0;
                 }));
 
     },

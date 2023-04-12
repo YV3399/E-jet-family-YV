@@ -69,7 +69,11 @@ var Widget = {
             return 1;
         }
         else {
-            return me.what(touchCoords) or 0;
+            var result = me.what(touchCoords);
+            if (result == nil)  
+                return 0;
+            else
+                return result;
         }
     },
 
@@ -78,7 +82,11 @@ var Widget = {
             return 1; # keep going
         foreach (var child; me.children) {
             # If child handles event, stop.
-            if (!child.touch(x, y))
+            var childResult = child.touch(x, y);
+            if (typeof(childResult) != 'scalar') {
+                return 0;
+            }
+            if (!childResult)
                 return 0;
         }
         var touchCoords = me.checkTouch(x, y);

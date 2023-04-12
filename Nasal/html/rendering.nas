@@ -155,10 +155,10 @@ var resolveColor = func (key, color) {
     if (color == 'none' or color == nil) {
         return 'none';
     }
-    var default = defaultColors[key] or [0,0,0,1];
+    var default = denull(defaultColors[key], [0,0,0,1]);
 
     if (typeof(color) == 'scalar') {
-        color = namedColors[color] or default;
+        color = denull(namedColors[color], default);
     }
     if (color == nil) {
         color = default;
@@ -178,10 +178,13 @@ var resolveColor = func (key, color) {
 };
 
 var splitDimensional = func (str) {
-    if (str == nil)
+    if (str == nil or str == '')
         return [0, ''];
     var result = [];
     var i = 0;
+    if (typeof(str) != 'scalar')
+        debug.dump(str);
+    str = str ~ '';
     while (i < size(str) and (string.isdigit(str[i]) or str[i] == '-'[0] or str[i] == '.'[0])) {
         i += 1;
     }
@@ -324,7 +327,7 @@ var Node = {
         #   the top-level element, and we will set it to our own font size.
 
         if (parentMetrics['font-size-base'] == nil) {
-            var fontSizeCSS = me.style['font-size'] or '10pt';
+            var fontSizeCSS = denull(me.style['font-size'], '10pt');
             var (value, unit) = splitDimensional(fontSizeCSS);
             var pixelValue = resolveUnit(renderContext, parentMetrics, 'font-size-base', value, unit);
             me.metrics['font-size-base'] = pixelValue;
@@ -345,7 +348,7 @@ var Node = {
                 me.metrics[k] = 0;
             }
             else {
-                var (value, unit) = splitDimensional(me.style[k] or nil);
+                var (value, unit) = splitDimensional(me.style[k]);
                 var pixelValue = resolveUnit(renderContext, parentMetrics, k, value, unit);
                 me.metrics[k] = pixelValue;
             }
@@ -565,8 +568,8 @@ var Node = {
             var type = me.style['list-style-type'];
             if (type != nil and type != 'none') {
                 var fontSize = me.metrics['font-size'];
-                var fontFamily = me.metrics['font-family'] or 'sans';
-                var fontWeight = me.metrics['font-weight'] or 'regular';
+                var fontFamily = denull(me.metrics['font-family'], 'sans');
+                var fontWeight = denull(me.metrics['font-weight'], 'regular');
                 var x = me.metrics['content-box'].left() - fontSize * 0.5;
                 var r = me.metrics['content-box'].left();
                 var y = me.metrics['content-box'].top() + me.metrics['above-baseline'] * 0.5;
@@ -676,8 +679,8 @@ var InlineText = {
 
     calcSizeMetrics: func (renderContext, parentMetrics) {
         var fontSize = me.metrics['font-size'];
-        var fontFamily = me.metrics['font-family'] or 'sans';
-        var fontWeight = me.metrics['font-weight'] or 'regular';
+        var fontFamily = denull(me.metrics['font-family'], 'sans');
+        var fontWeight = denull(me.metrics['font-weight'], 'regular');
 
         # Chop off borders, padding, and margin if this text node is the result
         # of splitting an element
@@ -759,8 +762,8 @@ var InlineText = {
 
     renderContent: func (renderContext) {
         var fontSize = me.metrics['font-size'];
-        var fontFamily = me.metrics['font-family'] or 'sans';
-        var fontWeight = me.metrics['font-weight'] or 'regular';
+        var fontFamily = denull(me.metrics['font-family'], 'sans');
+        var fontWeight = denull(me.metrics['font-weight'], 'regular');
 
         # horizontal alignment is taken care of in layout step
         var alignment = 'left-baseline';
@@ -804,7 +807,7 @@ var Block = {
         m.children = [];
 
         var inlineChildren = [];
-        foreach (var child; children or []) {
+        foreach (var child; denull(children, [])) {
             if (child.isBlock()) {
                 if (size(inlineChildren)) {
                     append(m.children, Block.new(domNode, inlineChildren));
@@ -842,7 +845,7 @@ var Block = {
     calcSizeMetrics: func (renderContext, parentMetrics) {
         # NB: We have to cater for the block being laid out in as inline-block.
 
-        var boxSizing = me.metrics['box-sizing'] or 'content-box';
+        var boxSizing = denull(me.metrics['box-sizing'], 'content-box');
         var paddingX = me.metrics['padding-left'] + me.metrics['padding-right'];
         var borderX = me.metrics['border-left-width'] + me.metrics['border-right-width'];
 

@@ -8,6 +8,37 @@ props.globals.getNode('/instrumentation/efb/keyboard-grabbed', 1).setValue(0);
 var systemAppBasedir = acdir ~ '/Nasal/efb/apps';
 var customAppBasedir = acdir ~ '/Nasal/efbapps';
 
+# Compatibility shims
+
+if (!contains(globals.canvas.Element, 'canvasToLocal')) {
+    globals.canvas.Element.canvasToLocal = func (xy) {
+        var tf = me._node.getChildren('tf');
+        if (tf == nil)
+            tf = [];
+        foreach (var tff; tf) {
+            var m = tff.getValues()['m'];
+            var t = [m[4], m[5]];
+            var s = [m[0], m[3]];
+            xy = [
+                xy[0] / s[0] - t[0],
+                xy[1] / s[1] - t[1],
+            ];
+        }
+        var p = me.getParent();
+        if (p == nil or !isa(p, globals.canvas.Element)) {
+            return xy;
+        }
+        else {
+            return p.canvasToLocal(xy);
+        }
+    };
+};
+
+globals.canvas.Image.imageSize = func {
+    var sizeNodes = me._node.getChildren('size');
+    return [sizeNodes[0].getValue(), sizeNodes[1].getValue()];
+};
+
 globals.efb.availableApps = {};
 globals.efb.registerApp_ = func(basedir, key, label, iconName, class) {
     globals.efb.availableApps[key] = {
@@ -35,7 +66,9 @@ globals.efb.downloadManager = DownloadManager.new();
 
 var loadAppDir = func (basedir) {
     printf("Scanning for apps in %s", basedir);
-    var appFiles = directory(basedir) or [];
+    var appFiles = directory(basedir);
+    if (appFiles == nil)
+        appFiles = [];
     foreach (var f; appFiles) {
         if (substr(f, 0, 1) != '.') {
             printf("Found app: %s", f);
@@ -147,7 +180,7 @@ var EFB = {
         me.carouselWidget = Widget.new();
         me.carouselGroup = me.master.createChild('group');
 
-        me.overlay = canvas.parsesvg(me.master, acdir ~ "/Models/EFB/overlay.svg", {'font-mapper': font_mapper});
+        me.overlay = canvas.parsesvg(me.master, acdirRel ~ "/Models/EFB/overlay.svg", {'font-mapper': font_mapper});
         me.keyboardGrabElem = me.master.getElementById('keyboardGrabIcon');
         me.clockElem = me.master.getElementById('clock.digital');
         me.shellNumPages = math.ceil(size(me.apps) / 20);

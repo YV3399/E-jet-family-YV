@@ -4,6 +4,17 @@ globals.html = {};
 var includes = {};
 
 var acdir = getprop('/sim/aircraft-dir');
+var findRelativeAircraftDir = func () {
+    var parts = split('/', acdir);
+    while (size(parts) > 0 and parts[0] != 'Aircraft')
+        parts = subvec(parts, 1);
+    if (size(parts) == 0)
+        return acdir;
+    else
+        return string.join('/', parts);
+};
+var acdirRel = findRelativeAircraftDir();
+
 
 var include = func (basename) {
     var namespace = 'efb';

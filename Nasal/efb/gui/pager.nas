@@ -18,7 +18,7 @@ var Pager = {
 
     initialize: func (parentGroup) {
         me.group = parentGroup.createChild('group');
-        canvas.parsesvg(me.group, acdir ~ "/Models/EFB/pager-overlay.svg", {'font-mapper': font_mapper});
+        canvas.parsesvg(me.group, acdirRel ~ "/Models/EFB/pager-overlay.svg", {'font-mapper': font_mapper});
         me.group.setCenter(54, 12);
         me.btnPgUp = me.group.getElementById('btnPgUp');
         me.btnPgDn = me.group.getElementById('btnPgDn');

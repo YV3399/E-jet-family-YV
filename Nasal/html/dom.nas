@@ -209,9 +209,9 @@ var DOM = (func {
 
         # TODO: parse attribs for style properties
         calcEffectiveStyle: func (parentStyle) {
-            var styleAttrib = me.attribs['style'] or '';
+            var styleAttrib = denull(me.attribs['style'], '');
             var elemStyle = CSS.parseStyleAttrib(styleAttrib);
-            var baseStyle = baseStyles[me.elemName] or {'display': 'inline'};
+            var baseStyle = denull(baseStyles[me.elemName], {'display': 'inline'});
             var ownStyle = mergeDicts(defaultStyle, baseStyle, me.cssStyle, elemStyle);
             me.effectiveStyle = cascadeStyle(parentStyle, ownStyle);
             foreach (var child; me.children) {

@@ -2,6 +2,13 @@ include('baseApp.nas');
 include('gui/pager.nas');
 include('gui/keyboard.nas');
 
+var denull = func (val, def) {
+    if (val == nil)
+        return def;
+    else
+        return val;
+};
+
 var PaperworkApp = {
     new: func(masterGroup) {
         var m = BaseApp.new(masterGroup);
@@ -539,8 +546,8 @@ var PaperworkApp = {
             plain('*** ETOPS/ETP FLIGHT ***', me.metrics.columns);
             separator();
         }
-        var remarks = (me.getOFPValues('general', 'dx_rmk') or []) ~
-                      (me.getOFPValues('general', 'sys_rmk') or []);
+        var remarks = (denull(me.getOFPValues('general', 'dx_rmk'), [])) ~
+                      (denull(me.getOFPValues('general', 'sys_rmk'), []));
         if (size(remarks) == 0)
             remarks = ['NIL'];
         var first = 1;

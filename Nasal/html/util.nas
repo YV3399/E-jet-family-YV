@@ -34,3 +34,10 @@ var nth = func(vector, n, def=nil) {
     else
         return vector[n];
 };
+
+var denull = func (val, def) {
+    if (val == nil)
+        return def;
+    else
+        return val;
+};
