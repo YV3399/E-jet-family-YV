@@ -139,7 +139,7 @@ var PaperworkApp = {
     },
 
     scrollIntoView: func(elem) {
-        var pos = elem.getBoundingBox();
+        var pos = elem.getTransformedBounds();
 
         var left = (pos[0] + me.metrics.marginLeft) * 1.5;
         var right = (pos[2] + me.metrics.marginLeft) * 1.5;
@@ -1771,7 +1771,10 @@ var PaperworkApp = {
     },
 
     handleBack: func {
-        me.showStartMenu();
+        if (me.entryMode == nil)
+            me.showStartMenu();
+        else
+            me.cancelEntry();
     },
 
 };

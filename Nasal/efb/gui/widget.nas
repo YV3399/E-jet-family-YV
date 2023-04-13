@@ -70,7 +70,7 @@ var Widget = {
         }
         else {
             var result = me.what(touchCoords);
-            if (result == nil)  
+            if (result == nil)
                 return 0;
             else
                 return result;
