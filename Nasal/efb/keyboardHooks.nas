@@ -58,10 +58,6 @@ var setupEFBKeys = func () {
         'U', 'v', 'V', 'w', 'W', 'x', 'X', 'y', 'Y', 'z', 'Z'
     ];
 
-    # 'backspace' ,
-    # 'enter' ,
-    # 'space',
-
     foreach (var char; normalKeys)
         registerKey(ord(char), char);
     registerKey(ord(' '), 'space', 1);
@@ -70,6 +66,15 @@ var setupEFBKeys = func () {
     registerKey(10, 'enter', 1);
     registerKey(13, 'enter', 1);
     registerKey(27, 'esc', 1);
+    registerKey(356, 'left', 1);
+    registerKey(357, 'up', 1);
+    registerKey(358, 'right', 1);
+    registerKey(359, 'down', 1);
+    registerKey(360, 'pgup', 1);
+    registerKey(361, 'pgdn', 1);
+    registerKey(362, 'home', 1);
+    registerKey(363, 'end', 1);
+    registerKey(364, 'insert', 1);
 };
 
 setupEFBKeys();

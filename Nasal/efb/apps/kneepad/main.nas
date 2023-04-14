@@ -174,11 +174,11 @@ var KneepadApp = {
         if (txt == nil or cursor.col == 0) {
             # just keep the left margin.
         }
-        elsif (cursor.col >= size(txt)) {
+        elsif (cursor.col >= utf8.size(txt)) {
             x += me.measureText(txt);
         }
         else {
-            x += me.measureText(substr(txt, 0, cursor.col));
+            x += me.measureText(utf8.substr(txt, 0, cursor.col));
         }
         return { x: x, y: y };
     },
@@ -189,10 +189,10 @@ var KneepadApp = {
         if (row < size(me.text)) {
             text = me.text[row];
         }
-        var col = size(text);
+        var col = utf8.size(text);
         var prevX = me.metrics.marginLeft;
-        for (var i = 0; i < size(text); i += 1) {
-            var curX = me.metrics.marginLeft + me.measureText(substr(text, 0, i + 1));
+        for (var i = 0; i < utf8.size(text); i += 1) {
+            var curX = me.metrics.marginLeft + me.measureText(utf8.substr(text, 0, i + 1));
             if (prevX <= x and curX >= x) {
                 col = i;
                 break;
@@ -239,12 +239,12 @@ var KneepadApp = {
         }
         if (me.cursor.row >= size(me.text))
             me.cursor.row = size(me.text) - 1;
-        if (me.cursor.col >= size(me.text[me.cursor.row]))
-            me.cursor.col = size(me.text[me.cursor.row]);
+        if (me.cursor.col >= utf8.size(me.text[me.cursor.row]))
+            me.cursor.col = utf8.size(me.text[me.cursor.row]);
         me.text[me.cursor.row] =
-            substr(me.text[me.cursor.row], 0, me.cursor.col) ~
+            utf8.substr(me.text[me.cursor.row], 0, me.cursor.col) ~
             c ~
-            substr(me.text[me.cursor.row], me.cursor.col);
+            utf8.substr(me.text[me.cursor.row], me.cursor.col);
         me.textElems[me.cursor.row].setText(me.text[me.cursor.row]);
         me.cursor.col += 1;
         me.scrollToRow(me.cursor.row);
@@ -259,8 +259,8 @@ var KneepadApp = {
         var linesAfter = subvec(me.text, me.cursor.row + 1);
         var currentLine = me.text[me.cursor.row];
         var linesMiddle = [
-            substr(me.text[me.cursor.row], 0, me.cursor.col),
-            substr(me.text[me.cursor.row], me.cursor.col),
+            utf8.substr(me.text[me.cursor.row], 0, me.cursor.col),
+            utf8.substr(me.text[me.cursor.row], me.cursor.col),
         ];
 
         me.text = linesBefore ~ linesMiddle ~ linesAfter;
@@ -297,7 +297,7 @@ var KneepadApp = {
             if (me.cursor.row >= size(me.text))
                 me.cursor.col = 0;
             else
-                me.cursor.col = size(me.text[me.cursor.row]);
+                me.cursor.col = utf8.size(me.text[me.cursor.row]);
         }
 
         if (me.cursor.col == 0 and me.cursor.row == 0) {
@@ -310,23 +310,113 @@ var KneepadApp = {
             var linesAfter = subvec(me.text, math.min(size(me.text), me.cursor.row + 1));
             me.text = linesBefore ~ [ string.join('', linesMiddle) ] ~ linesAfter;
             me.cursor.row -= 1;
-            me.cursor.col = size(linesMiddle[0]);
-            for (var row = 0; row < size(me.textElems); row += 1) {
-                if (row < size(me.text))
-                    me.textElems[row].setText(me.text[row]);
-                else
-                    me.textElems[row].setText('');
-            }
+            me.cursor.col = utf8.size(linesMiddle[0]);
+            me.syncTextElems();
         }
         elsif (me.cursor.col > 0) {
             # Delete from this row
             me.text[me.cursor.row] =
-                substr(me.text[me.cursor.row], 0, math.max(0, me.cursor.col - 1)) ~
-                substr(me.text[me.cursor.row], me.cursor.col);
+                utf8.substr(me.text[me.cursor.row], 0, math.max(0, me.cursor.col - 1)) ~
+                utf8.substr(me.text[me.cursor.row], me.cursor.col);
             me.textElems[me.cursor.row].setText(me.text[me.cursor.row]);
             me.cursor.col -= 1;
         }
         me.scrollToRow(me.cursor.row);
+        me.updateCursor();
+    },
+
+    del: func {
+        if (size(me.text) == 0)
+            return;
+        if (me.cursor.row >= size(me.text)) {
+            # At end of document: nothing to do.
+            return;
+        }
+        if (me.cursor.col >= utf8.size(me.text[me.cursor.row])) {
+            # At end of line: merge this row with the next one.
+            var linesBefore = subvec(me.text, 0, me.cursor.row);
+            var linesMiddle = subvec(me.text, me.cursor.row, 2);
+            var linesAfter = subvec(me.text, math.min(size(me.text), me.cursor.row + 2));
+            me.text = linesBefore ~ [ string.join('', linesMiddle) ] ~ linesAfter;
+            me.syncTextElems();
+        }
+        else {
+            # Delete from current line.
+            var currentLine = me.text[me.cursor.row];
+            me.text[me.cursor.row] =
+                utf8.substr(currentLine, 0, me.cursor.col) ~
+                utf8.substr(currentLine, me.cursor.col + 1);
+            me.textElems[me.cursor.row].setText(me.text[me.cursor.row]);
+        }
+        me.updateCursor();
+    },
+
+    # Helper function: make sure the text elements shown on screen match our
+    # internal text buffer after a larger edit.
+    syncTextElems: func {
+        for (var row = 0; row < size(me.textElems); row += 1) {
+            if (row < size(me.text))
+                me.textElems[row].setText(me.text[row]);
+            else
+                me.textElems[row].setText('');
+        }
+    },
+
+    moveCursorColTo: func (col) {
+        if (size(me.text) == 0) {
+            me.cursor.col = 0;
+        }
+        else {
+            me.cursor.col = math.max(0, math.min(utf8.size(me.text[me.cursor.row]), col));
+        }
+        me.updateCursor();
+    },
+
+    moveCursorCol: func (dx) {
+        me.cursor.col += dx;
+        if (me.cursor.col < 0) {
+            if (me.cursor.row == 0) {
+                # Already at start of document, nothing to do
+                me.cursor.col = 0;
+                return;
+            }
+            else {
+                # Jump one line up
+                me.cursor.row -= 1;
+                me.cursor.col = utf8.size(me.text[me.cursor.row]);
+            }
+        }
+        else {
+            if (size(me.text) == 0) {
+                me.cursor.row = 0;
+                me.cursor.col = 0;
+            }
+            elsif (me.cursor.col > utf8.size(me.text[me.cursor.row])) {
+                me.cursor.row += 1;
+                if (me.cursor.row >= size(me.text)) {
+                    me.cursor.row = size(me.text) - 1;
+                }
+                else {
+                    me.cursor.col = 0;
+                }
+            }
+        }
+        me.updateCursor();
+    },
+
+    moveCursorRow: func (dy) {
+        me.cursor.row += dy;
+        if (size(me.text) == 0 or me.cursor.row < 0) {
+            me.cursor.row = 0;
+            me.cursor.col = 0;
+        }
+        elsif (me.cursor.row >= size(me.text)) {
+            me.cursor.row = size(me.text) - 1;
+            me.cursor.col = utf8.size(me.text[me.cursor.row]);
+        }
+        else {
+            me.cursor.col = math.max(0, math.min(utf8.size(me.text[me.cursor.row]), me.cursor.col));
+        }
         me.updateCursor();
     },
 
@@ -337,14 +427,38 @@ var KneepadApp = {
         elsif (key == 'backspace') {
             me.backspace();
         }
+        elsif (key == 'delete') {
+            me.del();
+        }
         elsif (key == 'space') {
             me.insertChar(' ');
         }
         elsif (key == 'esc') {
             me.hideKeyboard();
         }
-        else {
+        elsif (key == 'up') {
+            me.moveCursorRow(-1);
+        }
+        elsif (key == 'down') {
+            me.moveCursorRow(1);
+        }
+        elsif (key == 'left') {
+            me.moveCursorCol(-1);
+        }
+        elsif (key == 'right') {
+            me.moveCursorCol(1);
+        }
+        elsif (key == 'home') {
+            me.moveCursorColTo(0);
+        }
+        elsif (key == 'end') {
+            me.moveCursorColTo(999999999);
+        }
+        elsif (utf8.size(key) == 1) {
             me.insertChar(key);
+        }
+        else {
+            printf("Key not handled: %s", key);
         }
     },
 
@@ -364,7 +478,7 @@ var KneepadApp = {
         if (me.cursor.row >= size(me.text)) {
             me.cursor.row = math.max(0, size(me.text) - 1);
             if (me.cursor.row < size(me.text)) {
-                me.cursor.col = size(me.text[me.cursor.row]);
+                me.cursor.col = utf8.size(me.text[me.cursor.row]);
             }
             else {
                 me.cursor.col = 0;

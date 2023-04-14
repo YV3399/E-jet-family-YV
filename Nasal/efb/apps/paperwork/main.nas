@@ -26,6 +26,9 @@ var PaperworkApp = {
         return m;
     },
 
+    autosaveFilename:
+        sprintf('%s/Export/paperwork_current.xml', getprop('/sim/fg-home')),
+
     handleBack: func () {
     },
 
@@ -232,6 +235,7 @@ var PaperworkApp = {
         me.entryMode.node.setValue(me.entryMode.value);
         me.entryMode.elem.setText(me.entryMode.value);
         me.entryMode.exit();
+        me.saveOFP();
         me.entryMode = nil;
     },
 
@@ -331,10 +335,33 @@ var PaperworkApp = {
     loadOFPFile: func (filename) {
         var err = [];
         me.ofp = call(io.readxml, [filename], io, {}, err);
-        return me.ofp != nil;
+        me.saveFilename = nil;
+        if (me.ofp != nil) {
+            return 1;
+        }
+        else {
+            return 0;
+        }
+    },
+
+    saveOFP: func (ofp=nil, filename=nil) {
+        if (ofp == nil)
+            ofp = me.ofp;
+        if (ofp == nil) {
+            logprint(4, 'No OFP loaded');
+            return 0;
+        }
+        if (filename == nil) {
+            filename = me.autosaveFilename;
+        }
+        logprint(3, sprintf('Saving OFP to %s', filename));
+        call(writexml, [filename, ofp], nil, {}, err);
     },
 
     getOFPNode: func(path) {
+        if (substr(path, 0, 4) != 'OFP/' and
+            substr(path, 0, 5) != '/OFP/')
+            path = 'OFP/' ~ path;
         return me.ofp.getNode(path, 1);
     },
 
@@ -1353,7 +1380,7 @@ var PaperworkApp = {
                         .hide();
             var text = pageGroup
                 .createChild('text')
-                .setText(substr(val, 0, item.w))
+                .setText(val)
                 .setFontSize(me.metrics.fontSize, 1)
                 .setFont(font_mapper('script'))
                 .setColor(0, 0, 1)
@@ -1490,6 +1517,21 @@ var PaperworkApp = {
             ofp.getValue('OFP/destination/iata_code'));
     },
 
+    getSaveFilename: func (ofp) {
+        var schedOut = unixToDateTime(ofp.getValue('OFP/times/sched_out'));
+        return sprintf(
+            '%s/Export/OFP/%s-%s-%s-%04i-%02i-%02i_%02i%02iz.xml',
+            getprop('/sim/fg-home'),
+            ofp.getValue('OFP/atc/callsign'),
+            ofp.getValue('OFP/origin/icao_code'),
+            ofp.getValue('OFP/destination/icao_code'),
+            getprop('/sim/time/utc/year'),
+            getprop('/sim/time/utc/month'),
+            getprop('/sim/time/utc/day'),
+            getprop('/sim/time/utc/hour'),
+            getprop('/sim/time/utc/minute'));
+    },
+
     renderPage: func(pageGroup, pageNumber, pageData, pageWidget) {
         var y = me.metrics.headerHeight + me.metrics.paddingTop + me.metrics.lineHeight;
         var pageHeading = me.pageHeading(me.ofp);
@@ -1522,6 +1564,7 @@ var PaperworkApp = {
 
     renderOFP: func () {
         var self = me;
+
         me.clear();
         me.pageWidgets = [];
 
@@ -1691,23 +1734,39 @@ var PaperworkApp = {
 
         var y = me.metrics.marginTop + me.metrics.paddingTop;
 
-        var makeMenuItem = func (label, what) {
+        var makeButton = func (x, w, label, what) {
             var box = me.contentGroup.createChild('path')
-                    .rect(me.metrics.marginLeft, y, me.metrics.pageWidth, me.metrics.menuLineHeight, {'border-radius': 6})
+                    .rect(x, y, w, me.metrics.menuLineHeight, {'border-radius': 6})
                     .setColorFill(0.2, 0.4, 0.8, 1);
             me.contentGroup.createChild('text')
                     .setColor(0.9, 0.9, 1)
                     .setText(label)
                     .setFont(font_mapper('sans', 'bold'))
                     .setFontSize(me.metrics.menuFontSize, 1)
-                    .setAlignment('center-top')
+                    .setAlignment('center-baseline')
                     .setTranslation(
-                        me.metrics.marginLeft + me.metrics.pageWidth / 2,
-                        y + (me.metrics.menuLineHeight - me.metrics.menuFontSize) / 2);
+                        x + w / 2,
+                        y + me.metrics.menuLineHeight * 0.5 + me.metrics.menuFontSize * 0.3);
             me.makeClickable(box, what, me.mainWidget);
+        };
+
+        var makeMenuItem = func (label, what) {
+            makeButton(me.metrics.marginLeft, me.metrics.pageWidth, label, what);
 
             y += me.metrics.menuLineHeight + me.metrics.menuItemPadding;
         };
+
+        var makeMenuItems = func (items) {
+            var x = me.metrics.marginLeft;
+            var w = (me.metrics.pageWidth - me.metrics.menuItemPadding * (size(items) - 1)) / size(items);
+            foreach (var item; items) {
+                makeButton(x, w, item.label, item.what);
+                x += w + me.metrics.menuItemPadding;
+            }
+
+            y += me.metrics.menuLineHeight + me.metrics.menuItemPadding;
+        };
+
 
         var makeMenuHeading = func (label) {
             me.contentGroup.createChild('text')
@@ -1740,10 +1799,26 @@ var PaperworkApp = {
         makeMenuHeading("Current OFP");
         if (me.ofp == nil) {
             makeMenuStatic('No OFP loaded');
+            y += me.metrics.menuLineHeight + me.metrics.menuItemPadding;
         }
         else {
             var name = me.pageHeading(me.ofp);
-            makeMenuItem(name, func { self.renderOFP(); });
+            makeMenuStatic(name);
+            makeMenuItems([
+                { label: 'Edit',
+                  what: func {
+                        self.renderOFP();
+                        return 0;
+                    }
+                },
+                { label: 'Save',
+                  what: func {
+                        self.saveOFP(self.ofp, self.getSaveFilename(self.ofp));
+                        self.showStartMenu();
+                        return 0;
+                    }
+                },
+            ]);
         }
         makeMenuHeading("Available OFP");
         makeMenuItem("Load from SimBrief", func {
@@ -1754,7 +1829,17 @@ var PaperworkApp = {
                 self.showSimbriefHelp();
             }
         });
+        makeMenuItem("Last edited", func {
+            if (self.loadOFPFile(self.autosaveFilename)) {
+                self.showStartMenu();
+            }
+            else {
+                self.showSimbriefHelp();
+            }
+        });
+        makeMenuHeading("Saved OFP");
         var ofpDir = getprop("/sim/fg-home") ~ '/Export/OFP/';
+        makeMenuStatic(ofpDir);
         var ofpList = directory(ofpDir);
         foreach (var ofpCandidate; ofpList) {
             if (substr(ofpCandidate, -4) == '.xml') {

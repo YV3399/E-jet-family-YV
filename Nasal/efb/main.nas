@@ -44,6 +44,60 @@ if (!contains(globals.canvas.Element, 'imageSize')) {
     };
 }
 
+# Fix: writexml() from Nasal's IO library is incorrect. This version here should
+# encode strings correctly.
+
+# Writes a property tree as returned by readxml() to a file. Children
+# with name starting with <prefix> are again turned into attributes of
+# their parent. <node> must contain exactly one child, which will
+# become the XML file's outermost element.
+#
+var writexml = func(path, node, indent = "\t", prefix = "___") {
+    var root = node.getChildren();
+    if (!size(root))
+        die("writexml(): tree doesn't have a root node");
+    if (substr(path, -4) != ".xml")
+        path ~= ".xml";
+    var file = io.open(path, "w");
+    io.write(file, "<?xml version=\"1.0\"?>\n\n");
+
+    var xmlencode = func (str) {
+        str = string.replace(str, '&', '&amp;');
+        str = string.replace(str, '"', '&quot;');
+        str = string.replace(str, '>', '&gt;');
+        str = string.replace(str, '<', '&lt;');
+        str = string.replace(str, '\'', '&apos;');
+        return str;
+    };
+
+    var writenode = func(n, ind = "") {
+        var name = n.getName();
+        var name_attr = name;
+        var children = [];
+        foreach (var c; n.getChildren()) {
+            var a = c.getName();
+            if (substr(a, 0, size(prefix)) == prefix)
+                name_attr ~= " " ~ substr(a, size(prefix)) ~ '="' ~  xmlencode(c.getValue()) ~ '"';
+            else
+                append(children, c);
+        }
+        if (size(children)) {
+            io.write(file, ind ~ "<" ~ name_attr ~ ">\n");
+            foreach (var c; children)
+                writenode(c, ind ~ indent);
+            io.write(file, ind ~ "</" ~ name ~ ">\n");
+        } elsif ((var value = n.getValue()) != nil) {
+            io.write(file, ind ~ "<" ~ name_attr ~ ">" ~ xmlencode(value) ~ "</" ~ name ~ ">\n");
+        } else {
+            io.write(file, ind ~ "<" ~ name_attr ~ "/>\n");
+        }
+    };
+    writenode(root[0]);
+    io.close(file);
+    if (size(root) != 1)
+        die("writexml(): tree has more than one root node");
+}
+
 globals.efb.availableApps = {};
 globals.efb.registerApp_ = func(basedir, key, label, iconName, class) {
     globals.efb.availableApps[key] = {
