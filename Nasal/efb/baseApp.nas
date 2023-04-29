@@ -1,4 +1,5 @@
 include('gui/widget.nas');
+include('gui/keyboard.nas');
 
 var BaseApp = {
     new: func (masterGroup) {
@@ -7,6 +8,8 @@ var BaseApp = {
             masterGroup: masterGroup,
             rootWidget: Widget.new(),
             assetDir: nil,
+            keyboard: nil,
+            keyboardGroup: nil,
         }
     },
 
@@ -54,4 +57,23 @@ var BaseApp = {
     background: func () {},
 
     initialize: func () {},
+
+    showKeyboard: func (handler) {
+        if (me.keyboardGroup == nil) {
+            me.keyboardGroup = me.masterGroup.createChild('group');
+        }
+        if (me.keyboard == nil) {
+            me.keyboard = Keyboard.new(me.keyboardGroup, 0);
+            me.rootWidget.appendChild(me.keyboard);
+        }
+        me.keyboardListenerID = me.keyboard.keyPressed.addListener(handler);
+        me.keyboard.setActive(1);
+    },
+
+    hideKeyboard: func {
+        if (me.keyboard) {
+            me.keyboard.keyPressed.removeListener(me.keyboardListenerID);
+            me.keyboard.setActive(0);
+        }
+    },
 };

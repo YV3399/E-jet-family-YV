@@ -88,13 +88,6 @@ var PaperworkApp = {
             }
         });
 
-        me.keyboardGroup = me.masterGroup.createChild('group');
-        me.keyboard = Keyboard.new(me.keyboardGroup, 0);
-        me.keyboard.keyPressed.addListener(func (key) {
-            self.handleKey(key);
-        });
-        me.rootWidget.appendChild(me.keyboard);
-
         me.tocPaneGroup = me.masterGroup.createChild('group');
         me.tocPaneGroup.createChild('path')
                 .rect(0, me.metrics.tocPaneTop, me.metrics.tocPaneWidth, me.metrics.tocPaneHeight)
@@ -135,7 +128,6 @@ var PaperworkApp = {
             }
         });
         me.tocAnimTimer.simulatedTime = 1;
-        me.hideKeyboard();
         me.tocAnimTimer.start();
 
         me.showStartMenu();
@@ -169,17 +161,6 @@ var PaperworkApp = {
                        .setScale(1, 1);
     },
 
-    showKeyboard: func (mode=nil) {
-        if (mode == nil)
-            mode = Keyboard.LAYER_UPPER;
-        me.keyboard.setActive(1);
-        me.keyboard.selectLayer(mode);
-    },
-
-    hideKeyboard: func () {
-        me.keyboard.setActive(0);
-    },
-
     showPager: func {
         me.pager.setActive(1);
         me.pagerGroup.show();
@@ -200,12 +181,14 @@ var PaperworkApp = {
     },
 
     startEntry: func (ident, elem, box, node, exitFunc, datatype=nil) {
+        var self = me;
         var kbmode = Keyboard.LAYER_LOWER;
         if (datatype == 'numeric')
             kbmode = Keyboard.LAYER_SYM2;
         elsif (datatype == 'uppercase')
             kbmode = Keyboard.LAYER_UPPER;
-        me.showKeyboard(kbmode);
+        # TODO: make kbmode work
+        me.showKeyboard(func(key) { self.handleKey(key); });
         me.scrollIntoView(box);
         if (typeof(node) == 'scalar') {
             var nodePath = node;

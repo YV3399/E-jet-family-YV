@@ -1,6 +1,5 @@
 include('baseApp.nas');
 include('gui/pager.nas');
-include('gui/keyboard.nas');
 
 var KneepadApp = {
     new: func(masterGroup) {
@@ -62,12 +61,6 @@ var KneepadApp = {
                          .setTranslation(10, 10)
             ).setHandler(func self.clearText()));
 
-        me.keyboardGroup = me.masterGroup.createChild('group');
-        me.keyboard = Keyboard.new(me.keyboardGroup, 0);
-        me.keyboard.keyPressed.addListener(func (key) {
-            self.handleKey(key);
-        });
-
         me.cursorElem = me.textGroup.createChild('path')
                         .setColorFill(0, 0, 0)
                         .rect(0, 0, 1, me.metrics.fontSize + 4);
@@ -82,8 +75,6 @@ var KneepadApp = {
         me.textElems = [];
 
         me.rootWidget.appendChild(me.menu);
-        me.rootWidget.appendChild(me.keyboard);
-        me.hideKeyboard();
         me.cursorBlinkTimer = maketimer(0.5, func {
             if (me.editing) {
                 me.cursorBlinkState = !me.cursorBlinkState;
@@ -93,20 +84,21 @@ var KneepadApp = {
         me.cursorBlinkTimer.start();
     },
 
-    showKeyboard: func () {
-        me.keyboard.setActive(1);
+    startEditing: func () {
+        var self = me;
+        me.showKeyboard(func (key) { self.handleKey(key); });
         me.editing = 1;
         me.updateCursor();
     },
 
-    hideKeyboard: func () {
-        me.keyboard.setActive(0);
+    stopEditing: func () {
+        me.hideKeyboard();
         me.editing = 0;
         me.updateCursor();
     },
 
     background: func {
-        me.hideKeyboard();
+        me.stopEditing();
         me.cursorBlinkTimer.stop();
     },
 
@@ -434,7 +426,7 @@ var KneepadApp = {
             me.insertChar(' ');
         }
         elsif (key == 'esc') {
-            me.hideKeyboard();
+            me.stopEditing();
         }
         elsif (key == 'up') {
             me.moveCursorRow(-1);
@@ -464,7 +456,7 @@ var KneepadApp = {
 
     handleBack: func {
         if (me.editing) {
-            me.hideKeyboard();
+            me.stopEditing();
         }
     },
 
@@ -488,7 +480,7 @@ var KneepadApp = {
             me.updateCursor();
         }
         else {
-            me.showKeyboard();
+            me.startEditing();
         }
     },
 };
