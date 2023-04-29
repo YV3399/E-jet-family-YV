@@ -54,23 +54,6 @@
         <object-name>wing.r.2</object-name>
         <object-name>wing.r.3</object-name>
     </effect>
-    <!--
-
-	<effect>
-		<inherits-from>Aircraft/E-jet-family/Models/Effects/reflect</inherits-from>
-		<parameters>
-			<texture n="1">
-				<image>Aircraft/E-jet-family/Models/Effects/lightmap190.png</image>
-			</texture>
-			<condition>
-				<use>controls/lighting/landing-lights[0]</use>
-			</condition>
-		</parameters>
-		<object-name>fuselage</object-name>
-        <object-name>fuselage.001</object-name>
-		<object-name>door.l1</object-name>
-		<object-name>door.l2</object-name>
-	</effect>-->
     
     <!-- Livery Selection Animation -->
     

@@ -1,7 +1,7 @@
 AC3Db
 MATERIAL "Case" rgb 1.000 1.000 1.000  amb 0.800 0.800 0.800  emis 0.000 0.000 0.000  spec 0.500 0.500 0.500  shi 64 trans 0.000
 MATERIAL "Screen" rgb 1.000 1.000 1.000  amb 0.800 0.800 0.800  emis 0.000 0.000 0.000  spec 0.500 0.500 0.500  shi 64 trans 0.000
-MATERIAL "ScreenOverlay" rgb 1.000 1.000 1.000  amb 0.800 0.800 0.800  emis 0.000 0.000 0.000  spec 0.500 0.500 0.500  shi 64 trans 0.900
+MATERIAL "ScreenOverlay" rgb 1.000 1.000 1.000  amb 0.800 0.800 0.800  emis 0.000 0.000 0.000  spec 0.500 0.500 0.500  shi 64 trans 0.000
 OBJECT world
 name "Blender_exporter_v3.3__efb.ac"
 kids 3
@@ -588,7 +588,7 @@ refs 4
 0 0 0
 kids 0
 OBJECT poly
-name "EFBScreen.Pane"
+name "Glass"
 data 8
 Cube.003
 crease 40.0

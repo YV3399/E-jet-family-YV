@@ -13,7 +13,28 @@
             <blue>0.9</blue>
             <factor-prop>/instrumentation/efb/brightness</factor-prop>
         </emission>
+        <diffuse>
+            <red>0</red>
+            <green>0</green>
+            <blue>0</blue>
+        </diffuse>
+        <ambient>
+            <red>0</red>
+            <green>0</green>
+            <blue>0</blue>
+        </ambient>
     </animation>
+
+    <animation>
+        <type>material</type>
+        <object-name>Glass</object-name>
+        <transparency>
+            <alpha-prop>/instrumentation/efb/brightness</alpha-prop>
+            <factor>-0.5</factor>
+            <offset>0.5</offset>
+        </transparency>
+    </animation>
+
 
     <animation>
         <type>touch</type>
@@ -33,9 +54,14 @@
         </action>
     </animation>
 
+    <effect>
+        <inherits-from>Effects/model-transparent</inherits-from>
+        <object-name>Glass</object-name>
+    </effect>
+
     <animation>
         <type>pick</type>
-        <object-name>EFBScreen.Pane</object-name>
+        <object-name>Glass</object-name>
         <action>
             <button>3</button>
             <binding>
