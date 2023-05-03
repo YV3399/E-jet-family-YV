@@ -568,6 +568,10 @@ var MFD = {
             self.elems['vnav.selectedalt'].setTranslation(0, offset);
         }, 1, 0);
 
+        me.addListener('main', '@cursor.y', func (node) {
+            self.updateCloseButtons(self.props['cursor.y'].getValue());
+        }, 1, 0, 1);
+
     },
 
     postInit: func () {
@@ -661,7 +665,9 @@ var MFD = {
             ];
         var guikeys = [
                 'mapMenu',
+                'mapMenu.closeBtn',
                 'submodeMenu',
+                'submodeMenu.closeBtn',
                 'checkNavaids',
                 'checkAirports',
                 'checkWptIdent',
@@ -690,6 +696,22 @@ var MFD = {
                 'weatherMenu.checkLX',
                 'weatherMenu.checkClrTst',
                 'weatherMenu.checkFsbyOvrd',
+
+                'checkNavaids.clickbox',
+                'checkAirports.clickbox',
+                'checkWptIdent.clickbox',
+                'checkProgress.clickbox',
+                'checkMissedAppr.clickbox',
+                'checkTCAS.clickbox',
+                'radioWeather.clickbox',
+                'radioTerrain.clickbox',
+                'radioOff.clickbox',
+
+                'submodeStatus.clickbox',
+                'submodeElectrical.clickbox',
+                'submodeFuel.clickbox',
+                'submodeHydraulic.clickbox',
+                'submodeFlightControls.clickbox',
             ];
         var vnavkeys = [
                 'vnav.vertical',
@@ -998,15 +1020,52 @@ var MFD = {
         me.elems['greenarc'].setColor(0, 1, 0, 1);
     },
 
+    updateCloseButtons: func (y) {
+        var mapMenuKeys = [
+                'checkNavaids',
+                'checkAirports',
+                'checkWptIdent',
+                'checkProgress',
+                'checkMissedAppr',
+                'checkTCAS',
+                'radioWeather',
+                'radioTerrain',
+                'radioOff'
+            ];
+        foreach (var k; mapMenuKeys) {
+            var box = me.elems[k ~ '.clickbox'].getTransformedBounds();
+            if (y >= box[1] and y <= box[3]) {
+                me.elems['mapMenu.closeBtn'].setTranslation(0, (box[1] + box[3]) * 0.5);
+                break;
+            }
+        }
+        var submodeMenuKeys = [
+                'submodeStatus',
+                'submodeElectrical',
+                'submodeFuel',
+                'submodeHydraulic',
+                'submodeFlightControls',
+            ];
+        foreach (var k; submodeMenuKeys) {
+            var box = me.elems[k ~ '.clickbox'].getTransformedBounds();
+            if (y >= box[1] and y <= box[3]) {
+                me.elems['submodeMenu.closeBtn'].setTranslation(0, (box[1] + box[3]) * 0.5);
+                break;
+            }
+        }
+    },
+
     makeWidgets: func () {
         call(canvas_base.BaseScreen.makeWidgets, [], me);
 
         var self = me;
 
         me.addWidget('btnMap', { onclick: func { self.touchMap(); } });
+        me.addWidget('mapMenu.closeBtn', { active: func { self.elems['mapMenu'].getVisible() }, onclick: func { self.closeMapMenu(); } });
         me.addWidget('btnPlan', { onclick: func { self.touchPlan(); } });
         me.addWidget('btnSystems.mode', { onclick: func { self.touchSystemsSubmode(); } });
         me.addWidget('btnSystems', { onclick: func { self.touchSystems(); } });
+        me.addWidget('submodeMenu.closeBtn', { active: func { self.elems['submodeMenu'].getVisible() }, onclick: func { self.closeSystemsSubmodeMenu(); } });
         me.addWidget('btnTCAS', { onclick: func { debug.dump("MFD TCAS menu not implemented yet"); } });
         me.addWidget('btnWeather', { onclick: func { self.elems['weatherMenu'].toggleVisibility(); } });
         me.addWidget('checkNavaids', { active: func { self.elems['mapMenu'].getVisible() }, onclick: func { self.toggleMapCheckbox('navaids'); } });
@@ -1536,11 +1595,15 @@ var MFD = {
 
     touchMap: func () {
         if (me.props['page'].getValue() == 0) {
-            me.elems['mapMenu'].toggleVisibility();
+            me.elems['mapMenu'].show();
         }
         else {
             me.props['page'].setValue(0);
         }
+    },
+
+    closeMapMenu: func () {
+        me.elems['mapMenu'].hide();
     },
 
     touchPlan: func () {
@@ -1553,8 +1616,13 @@ var MFD = {
 
     touchSystemsSubmode: func () {
         me.props['page'].setValue(2);
-        me.elems['submodeMenu'].toggleVisibility();
+        me.elems['submodeMenu'].show();
     },
+
+    closeSystemsSubmodeMenu: func () {
+        me.elems['submodeMenu'].hide();
+    },
+
 
     selectSystemsSubmode: func (submode) {
         me.props['submode'].setValue(submode);

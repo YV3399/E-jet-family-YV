@@ -255,10 +255,10 @@ var BaseScreen = {
             elem = me.elems[widget.key];
         var boxElem = group.getElementById(widget.key ~ ".clickbox");
         if (boxElem == nil) {
-            widget.box = elem.getTransformedBounds();
+            widget.boxElem = elem;
         }
         else {
-            widget.box = boxElem.getTransformedBounds();
+            widget.boxElem = boxElem;
         }
         widget.elem = elem;
         if (widget['visible'] != nil and widget.visible == 0) {
@@ -342,7 +342,7 @@ var BaseScreen = {
             if (isfunc(activeCond) and !activeCond()) {
                 continue;
             }
-            var box = widget.box;
+            var box = widget.boxElem.getTransformedBounds();
             if (x >= box[0] and x <= box[2] and
                 y >= box[1] and y <= box[3]) {
                 var f = widget['onclick'];
@@ -369,7 +369,7 @@ var BaseScreen = {
             if (isfunc(activeCond) and !activeCond()) {
                 continue;
             }
-            var box = widget.box;
+            var box = widget.boxElem.getTransformedBounds();
             if (x >= box[0] and x <= box[2] and
                 y >= box[1] and y <= box[3]) {
                 var f = widget['onscroll'];
