@@ -1598,6 +1598,10 @@ var MFD = {
         var navSrc = me.props['nav-src'].getValue();
         if (navSrc == 0) {
             var id = me.props['wp-id'].getValue();
+            var id = me.props['wp-id'].getValue();
+            if (id == nil or id == '' or id == 'DISCONTINUITY') {
+                id = '---';
+            }
             me.elems['nav.src'].setText('FMS' ~ (me.side + 1));
             me.elems['nav.src'].setColor(1, 0, 1);
             me.elems['nav.target.name'].setText(id);
@@ -2269,7 +2273,11 @@ var MFD = {
             else {
                 me.elems['next.eta'].setText(mcdu.formatZulu(now + (me.props['wp-ete'].getValue() or 0)));
             }
-            me.elems['next.wpt'].setText(me.props['wp-id'].getValue() or '---');
+            var nextName = me.props['wp-id'].getValue();
+            if (nextName == nil or nextName == '' or nextName == 'DISCONTINUITY') {
+                nextName = '---';
+            }
+            me.elems['next.wpt'].setText(nextName);
             if (nextEFOB != nil) {
                 me.elems['next.fuel'].setText(sprintf("%5.0f", nextEFOB));
             }

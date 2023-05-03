@@ -927,7 +927,12 @@ var PFDCanvas = {
             }, 1, 0);
 
         me.addListener('main', "@/autopilot/route-manager/wp/id", func (node) {
-            self.elems["waypoint.id"].setText(node.getValue() or "");
+                var id = node.getValue();
+                if (id == nil)
+                    id = '';
+                if (id == 'DISCONTINUITY')
+                    id = '----';
+                self.elems["waypoint.id"].setText(id);
             }, 1, 0);
 
         me.addListener('main', "@/instrumentation/pfd/waypoint/dist10", func (node) {
