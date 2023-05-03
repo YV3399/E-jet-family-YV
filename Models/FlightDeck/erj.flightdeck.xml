@@ -798,6 +798,9 @@
         <inherits-from>Effects/model-transparent</inherits-from>
         <object-name>e1.case</object-name>
         <object-name>e2.case</object-name>
+        <object-name>FCM.elevator.case</object-name>
+        <object-name>FCM.rudder.case</object-name>
+        <object-name>FCM.spoilers.case</object-name>
     </effect>
     
     <animation>
