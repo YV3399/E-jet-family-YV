@@ -268,7 +268,7 @@ var parseMCDULatlon = func(strDegMins, strFrac = '0') {
     return degs + mins / 60;
 }
 
-var parseWaypoint = func (ident, ref=nil) {
+var parseWaypoint = func (ident, ref=nil, forceWP=1) {
     var parts = split('/', ident);
     if (size(parts) == 2) {
         # this could be a lat/lon pair
@@ -285,12 +285,12 @@ var parseWaypoint = func (ident, ref=nil) {
         }
     }
 
-    # not a lat/lon pair, so the first part must be a named waypoint.
     var refPoints = findWaypointsByID(parts[0], ref);
-    # debug.dump(refPoints);
+    if (forceWP)
+        refPoints = map(createWPFrom, refPoints);
     if (size(parts) == 1) {
         # this is the only part, so just use the waypoint as-is
-        return map(createWPFrom, refPoints);
+        return refPoints;
     }
     else if (size(parts) == 3) {
         # 3 parts: this is probably a P/B/D triplet (Point / Bearing / Distance)
@@ -331,6 +331,42 @@ var formatDist = func (dist) {
     return "----";
 };
 
+var formatLat = func (lat) {
+    return formatGeo(lat, 'lat');
+};
+
+var formatLon = func (lon) {
+    return formatGeo(lon, 'lon');
+};
+
+var formatGeo = func (val, axis) {
+    var fmt = '';
+    var invalidFmt = '---';
+    var dirs = ['', ''];
+
+    if (axis == "LAT" or axis == 'lat' or axis == 0) {
+        fmt = "%1s%02d°%04.1f";
+        invalidFmt = "---°--.-";
+        dirs = ["S", "N"];
+    }
+    elsif (axis == "LON" or axis == 'lon' or axis == 1) {
+        fmt = "%1s%03d°%04.1f";
+        invalidFmt = "----°--.-";
+        dirs = ["W", "E"];
+    }
+    else {
+        return '!!!';
+    }
+    if (val == nil or val == '' or typeof(val) != 'scalar') {
+        return invalidFmt;
+    }
+    var dir = (val < 0) ? (dirs[0]) : (dirs[1]);
+    var degs = math.abs(val);
+    var mins = math.fmod(degs * 60, 60);
+
+    return sprintf(fmt, dir, degs, mins);
+};
+
 var findWaypointsByID = func (ident, ref=nil) {
     if (ref == nil) { ref = geo.aircraft_position(); }
 
@@ -343,21 +379,50 @@ var findWaypointsByID = func (ident, ref=nil) {
         # 3 = VOR/DME
         # ...but could also be a fix replacing a former navaid, such as LBE
         # near EDDH
-        var n = findNavaidsByID(ref, ident);
+        var v = findNavaidsByID(ref, ident, 'vor');
+        var d = findNavaidsByID(ref, ident, 'dme');
+        var n = findNavaidsByID(ref, ident, 'ndb');
         var f = findFixesByID(ref, ident);
-        foreach (var fix; f) {
-            append(n, fix);
-        }
-        return n;
+        return dedupAndSort(v ~ d ~ n ~ f, ref);
     }
     else if (size(ident) == 4) {
         # 4 = airport
         return findAirportsByICAO(ident);
     }
-    else if (size(ident) == 5) {
+    else if (size(ident) >= 5) {
         # 5 = a fix
         return findFixesByID(ref, ident);
     }
+};
+
+var dedupAndSort = func (points, ref=nil) {
+    if (ref == nil) { ref = geo.aircraft_position(); }
+    var resultSet = {};
+    var rawResults = [];
+
+    foreach (var wp; points) {
+        var coords = geo.Coord.new();
+        coords.set_latlon(wp.lat, wp.lon);
+        var dist = M2NM * coords.distance_to(ref);
+        var hash = md5(wp.id ~ wp.lat ~ wp.lon);
+        if (!contains(resultSet, hash)) {
+            resultSet[hash] = 1;
+            append(rawResults, { wp: wp, dist: dist });
+        }
+    }
+    var compare = func(a, b){
+        if (a.dist < b.dist) {
+            return -1;
+        }
+        elsif (a.dist == b.dist) {
+            return 0;
+        }
+        else {
+            return 1;
+        }
+    }
+    rawResults = sort(rawResults, compare);
+    return map(func (a) { return a.wp; }, rawResults);
 };
 
 var cpdlcDatalinkStatusName = func (status) {
@@ -423,3 +488,4 @@ var lineWrap = func (txt, maxLength, ellipse='..') {
     }
     return lines;
 };
+

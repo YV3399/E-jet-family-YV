@@ -8,7 +8,11 @@ var findWaypoint = func (wpID, near=nil) {
     }
     candidates = findFixesByID(near, wpID);
     if (candidates != nil and size(candidates) > 0) return candidates[0];
-    candidates = findNavaidsByID(near, wpID);
+    candidates = findNavaidsByID(near, wpID, 'vor');
+    if (candidates != nil and size(candidates) > 0) return candidates[0];
+    candidates = findNavaidsByID(near, wpID, 'dme');
+    if (candidates != nil and size(candidates) > 0) return candidates[0];
+    candidates = findNavaidsByID(near, wpID, 'ndb');
     if (candidates != nil and size(candidates) > 0) return candidates[0];
     candidates = findAirportsByICAO(wpID);
     if (candidates != nil and size(candidates) > 0) return candidates[0];

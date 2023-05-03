@@ -477,6 +477,7 @@ var FlightPlanModule = {
         var m = BaseModule.new(mcdu, parentModule);
         m.parents = prepended(FlightPlanModule, m.parents);
         m.specialMode = specialMode;
+        m.selectedWP = nil;
         if (fms.modifiedFlightplan != nil) {
             m.fp = fms.modifiedFlightplan;
             m.fpStatus = 'MOD';
@@ -552,6 +553,24 @@ var FlightPlanModule = {
             me.fp.deleteWP(wpi);
             fms.kickRouteManager();
         }
+    },
+
+    openDirectToModule: func (val, directFromIndex) {
+        var this = me;
+        me.startEditing();
+        debug.dump('Selected WP', me.selectedWP);
+        if (me.selectedWP != nil and me.selectedWP.wp.id == val) {
+            me.mcdu.pushModule(func (mcdu, parent) {
+                return DirectToModule.new(mcdu, parent, this.fp, me.selectedWP, directFromIndex);
+            });
+        }
+        else {
+            me.mcdu.pushModule(func (mcdu, parent) {
+                return DirectToModule.new(mcdu, parent, this.fp, val, directFromIndex);
+            });
+        }
+        me.selectedWP = nil;
+        me.mcdu.setScratchpad('');
     },
 
     loadPageItems: func (p) {
@@ -650,6 +669,7 @@ var FlightPlanModule = {
                                         return HoldModule.new(mcdu, parent, index);
                                     };
                                     owner.mcdu.pushModule(holdModule);
+                                    owner.selectedWP = nil;
                                     owner.mcdu.setScratchpad('');
                                 });
                         })(wpi);
@@ -657,34 +677,27 @@ var FlightPlanModule = {
                 }
                 else if (wpi == firstEntry) {
                     var this = me;
-                    me.controllers[lsk] = FuncController.new(func(owner, val) {
-                        owner.startEditing();
-                        var directToModule = func (mcdu, parent) {
-                            return DirectToModule.new(mcdu, parent, this.fp, val);
-                        };
-                        owner.mcdu.pushModule(directToModule);
-                        owner.mcdu.setScratchpad('');
-                    });
+                    me.controllers[lsk] = (func (wp, wpi) {
+                        return FuncController.new(func(owner, val) {
+                                    if (val != nil)
+                                        owner.openDirectToModule(val, nil);
+                                });
+                    })(wp, wpi);
                 }
                 else {
                     var this = me;
-                    me.controllers[lsk] = (func (wp, directFromIndex) {
+                    me.controllers[lsk] = (func (wp, wpi) {
                         return FuncController.new(
                             func (owner, val) {
                                 if (val == nil) {
+                                    owner.selectedWP = { wp: wp, index: wpi };
                                     owner.mcdu.setScratchpad(wp.id);
                                 }
                                 else {
-                                    owner.startEditing();
-                                    var directToModule = func (mcdu, parent) {
-                                        return DirectToModule.new(mcdu, parent, this.fp, val, directFromIndex);
-                                    };
-                                    owner.mcdu.pushModule(directToModule);
-                                    owner.mcdu.setScratchpad('');
+                                    owner.openDirectToModule(val, wpi);
                                 }
                             },
                             func (owner) {
-                                var wpi = owner.fp.indexOfWP(wp);
                                 owner.startEditing();
                                 owner.deleteWP(wpi);
                             }
@@ -695,18 +708,21 @@ var FlightPlanModule = {
                         return FuncController.new(
                             func (owner, val) {
                                 if (val == nil) {
+                                    owner.selectedWP = nil;
                                     owner.mcdu.setScratchpad(formatRestrictions(wp, transitionAlt, 0));
                                 }
                                 else {
                                     var parsed = parseRestrictions(val);
                                     var wpi = owner.fp.indexOfWP(wp);
                                     if (parsed == nil) {
+                                        owner.selectedWP = nil;
                                         owner.mcdu.setScratchpadMsg("INVALID", mcdu_yellow);
                                     }
                                     else {
                                         owner.startEditing();
                                         var wpx = owner.fp.getWP(wpi);
                                         if (wpx == nil) {
+                                            owner.selectedWP = nil;
                                             owner.mcdu.setScratchpadMsg("NO WAYPOINT", mcdu_yellow);
                                         }
                                         else {
@@ -716,6 +732,7 @@ var FlightPlanModule = {
                                             if (parsed.alt != nil) {
                                                 wpx.setAltitude(parsed.alt.val, parsed.alt.ty);
                                             }
+                                            owner.selectedWP = nil;
                                             owner.mcdu.setScratchpad('');
                                         }
                                     }
@@ -726,6 +743,7 @@ var FlightPlanModule = {
                                 owner.startEditing();
                                 var wpx = owner.fp.getWP(wpi);
                                 if (wpx == nil) {
+                                    owner.selectedWP = nil;
                                     owner.mcdu.setScratchpadMsg("NO WAYPOINT", mcdu_yellow);
                                 }
                                 else {
@@ -739,9 +757,11 @@ var FlightPlanModule = {
             y += 2;
         }
         if (me.specialMode == "FLYOVER") {
+            me.selectedWP = nil;
             me.mcdu.setScratchpadMsg("*FLYOVER*", mcdu_yellow);
         }
         elsif (me.specialMode == "HOLD") {
+            me.selectedWP = nil;
             me.mcdu.setScratchpadMsg("*HOLD*", mcdu_yellow);
         }
         if (me.fpStatus == 'ACT') {
@@ -1025,24 +1045,92 @@ var HoldModule = {
     },
 };
 
+var WaypointSelectModule = {
+    new: func (mcdu, parentModule, candidates, onSelect, onCancel) {
+        var m = BaseModule.new(mcdu, parentModule);
+        m.parents = prepended(WaypointSelectModule, m.parents);
+        m.candidates = candidates;
+        m.onSelect = onSelect;
+        m.onCancel = onCancel;
+        return m;
+    },
+
+    getNumPages: func () { return math.ceil((size(me.candidates)) / 5); },
+    getTitle: func () { return "SELECT WPT"; },
+
+    loadPageItems: func (p) {
+        var self = me;
+        var ref = geo.aircraft_position();
+        me.views = [];
+        me.controllers = {};
+        var i = p * 5;
+        for (var row = 0; row < 5; row += 1) {
+            var y = row * 2 + 2;
+            if (i >= size(me.candidates)) {
+                break;
+            }
+            else {
+                (func (wp) {
+                    var lat = formatLat(wp.lat);
+                    var lon = formatLon(wp.lon);
+                    var name = wp.id;
+                    if (ghosttype(wp) != 'waypoint') {
+                        name = wp.name;
+                    }
+                    var coords = geo.Coord.new();
+                    coords.set_latlon(wp.lat, wp.lon);
+                    var dist = M2NM * coords.distance_to(ref);
+                    var distFormatted = formatDist(dist);
+                    append(me.views, StaticView.new(0, y, substr(name, 0, 23), mcdu_large | mcdu_green));
+                    append(me.views, StaticView.new(23, y, mcdu.right_triangle, mcdu_large | mcdu_white));
+                    append(me.views, StaticView.new(0, y + 1, lat, mcdu_green));
+                    append(me.views, StaticView.new(8, y + 1, lon, mcdu_green));
+                    append(me.views, StaticView.new(18, y + 1, distFormatted ~ "NM", mcdu_green));
+                    me.controllers['R' ~ (row + 1)] = 
+                        FuncController.new(func (owner, ignored) {
+                            owner.mcdu.popModule();
+                            owner.onSelect(wp);
+                        });
+                })(me.candidates[i]);
+            }
+
+            i += 1;
+        }
+        append(me.views, StaticView.new(0, 12, mcdu.left_triangle ~ "CANCEL", mcdu_large | mcdu_white));
+        me.controllers['L6'] = 
+            FuncController.new(func (owner, val) {
+                self.onCancel();
+            });
+    },
+};
+
 var DirectToModule = {
-    new: func (mcdu, parentModule, fp, directToID, directFromIndex=nil) {
+    new: func (mcdu, parentModule, fp, directTo, directFromIndex=nil) {
         var m = BaseModule.new(mcdu, parentModule);
         m.parents = prepended(DirectToModule, m.parents);
         m.fp = fp;
-        m.directToID = directToID;
         m.directToIndex = nil;
-        m.directFromIndex = directFromIndex;
-        var wp = nil;
-        var fst = math.max(1, fp.current);
-        for (var i = fst; i < fp.getPlanSize(); i += 1) {
-            wp = fp.getWP(i);
-            if (wp.id == directToID) {
-                m.directToWP = wp;
-                m.directToIndex = i;
-                break;
-            }
+        m.directToWP = nil;
+        if (typeof(directTo) == 'scalar') {
+            # Manually entered
+            m.directToID = directTo;
+            # var wp = nil;
+            # var fst = math.max(1, fp.current);
+            # for (var i = fst; i < fp.getPlanSize(); i += 1) {
+            #     wp = fp.getWP(i);
+            #     if (wp.id == m.directToID) {
+            #         m.directToWP = wp;
+            #         m.directToIndex = i;
+            #         break;
+            #     }
+            # }
         }
+        else {
+            m.directToID = directTo.wp.id;
+            m.directToWP = directTo.wp;
+            m.directToIndex = directTo.index;
+        }
+        m.directFromIndex = directFromIndex;
         return m;
     },
 
@@ -1051,64 +1139,95 @@ var DirectToModule = {
 
     loadPageItems: func (p) {
         me.views = [];
+        me.controllers = {};
         append(me.views, StaticView.new(0, 2, left_triangle ~ "DIRECT", mcdu_large | mcdu_white));
+        me.controllers["L1"] = FuncController.new(func (owner, val) { owner.insertDirect(); });
         if (me.directToIndex != nil) {
             append(me.views, StaticView.new(0, 4, left_triangle ~ "ACTIVE", mcdu_large | mcdu_white));
             append(me.views, StaticView.new(0, 6, left_triangle ~ "MISSED APPROACH", mcdu_large | mcdu_white));
+            me.controllers["L2"] = FuncController.new(func (owner, val) { owner.insertActive(); });
+            me.controllers["L3"] = FuncController.new(func (owner, val) { owner.insertActive(); });
+            # TODO: Alternate flight plan
+            # "L4": FuncController.new(func (owner, val) { owner.insertAlternate(); owner.mcdu.popModule(); }),
         }
         # NOT IMPLEMENTED YET
         # StaticView.new(0, 8, left_triangle ~ "ALTERNATE", mcdu_large | mcdu_white),
-
-
-        me.controllers = {
-            "L1": FuncController.new(func (owner, val) { owner.insertDirect(); owner.mcdu.popModule(); }),
-            "L2": FuncController.new(func (owner, val) { owner.insertActive(); owner.mcdu.popModule(); }),
-            "L3": FuncController.new(func (owner, val) { owner.insertActive(); owner.mcdu.popModule(); }),
-            # TODO: Alternate flight plan
-            # "L4": FuncController.new(func (owner, val) { owner.insertAlternate(); owner.mcdu.popModule(); }),
-        };
     },
 
     insertActive: func () {
-        var directWP = createWP(geo.aircraft_position(), "DIRECT");
-        me.fp.insertWP(directWP, me.directToIndex);
-        for (var i = 0; i < me.directToIndex; i += 1) {
-            me.fp.deleteWP(0);
+        if (me.directFromIndex == nil) {
+            var directWP = createWP(geo.aircraft_position(), "DIRECT");
+            me.fp.insertWP(directWP, me.directToIndex);
+            for (var i = 0; i < me.directToIndex; i += 1) {
+                me.fp.deleteWP(0);
+            }
+            me.fp.getWP(0).setAltitude(getprop("/instrumentation/altimeter/indicated-altitude-ft"), 'at');
+            me.fp.current = 1;
         }
-        me.fp.getWP(0).setAltitude(getprop("/instrumentation/altimeter/indicated-altitude-ft"), 'at');
-        me.fp.current = 1;
+        else {
+            for (var i = me.directFromIndex + 1; i < me.directToIndex; i += 1) {
+                me.fp.deleteWP(me.directFromIndex + 1);
+            }
+        }
         fms.kickRouteManager();
+        me.mcdu.popModule();
+    },
+
+    doInsertDirect: func (newWP) {
+        var index = 1;
+        if (me.directFromIndex == nil) {
+            # max(1, ...) needed in order to avoid inserting the DIRECT before
+            # the departure waypoint
+            index = math.max(1, me.fp.current);
+            var directWP = createWP(geo.aircraft_position(), "DIRECT");
+            me.fp.insertWP(directWP, index);
+        }
+        else {
+            index = me.directFromIndex + 1;
+            me.fp.insertWP(createDiscontinuity(), index);
+        }
+        if (ghosttype(newWP) != 'waypoint' and ghosttype(newWP) != 'flightplan-leg') {
+            newWP = createWPFrom(newWP);
+        }
+        me.fp.insertWP(newWP, index + 1);
+        me.fp.insertWP(createDiscontinuity(), index + 2);
+        if (me.directFromIndex == nil) {
+            # if the direct-from index isn't given, then we're going direct
+            # from wherever we are right now; otherwise, it's a route
+            # amendment that's just sandwiched between two disconts.
+            me.fp.current = index + 1;
+        }
+        fms.kickRouteManager();
+        me.mcdu.popModule();
     },
 
     insertDirect: func () {
-        var candidates = parseWaypoint(me.directToID);
-        # debug.dump(me.directFromIndex, me.directToID, candidates);
-        if (size(candidates) > 0) {
-            var newWP = candidates[0];
-            var index = 1;
-            if (me.directFromIndex == nil) {
-                # max(1, ...) needed in order to avoid inserting the DIRECT before
-                # the departure waypoint
-                index = math.max(1, me.fp.current);
-                var directWP = createWP(geo.aircraft_position(), "DIRECT");
-                me.fp.insertWP(directWP, index);
-            }
-            else {
-                index = me.directFromIndex + 1;
-                me.fp.insertWP(createDiscontinuity(), index);
-            }
-            me.fp.insertWP(newWP, index + 1);
-            me.fp.insertWP(createDiscontinuity(), index + 2);
-            if (me.directFromIndex == nil) {
-                # if the direct-from index isn't given, then we're going direct
-                # from wherever we are right now; otherwise, it's a route
-                # amendment that's just sandwiched between two disconts.
-                me.fp.current = index + 1;
-            }
-            fms.kickRouteManager();
+        var self = me;
+        if (me.directToWP != nil) {
+            me.doInsertDirect(me.directToWP);
         }
         else {
-            me.mcdu.setScratchpadMsg("NO WAYPOINT", mcdu_yellow);
+            var candidates = parseWaypoint(me.directToID, nil, 0);
+            # debug.dump(me.directFromIndex, me.directToID, candidates);
+            if (size(candidates) == 1) {
+                var newWP = candidates[0];
+                me.doInsertDirect(newWP);
+            }
+            elsif (size(candidates) > 1) {
+                me.push(func (mcdu, parent) {
+                    return WaypointSelectModule.new(mcdu, parent, candidates,
+                        func (newWP) {
+                            self.doInsertDirect(newWP);
+                        },
+                        func {
+                            self.mcdu.popModule();
+                        });
+                });
+            }
+            else {
+                me.mcdu.setScratchpadMsg("NO WAYPOINT", mcdu_yellow);
+                me.mcdu.popModule();
+            }
         }
     },
 };

@@ -244,31 +244,18 @@ var GeoView = {
     new: func (x, y, flags, model, latlon) {
         var m = ModelView.new(x, y, flags, model);
         m.parents = prepended(GeoView, m.parents);
+        m.axis = latlon;
         if (latlon == "LAT") {
             m.w = 8;
-            m.fmt = "%1s%02d°%04.1f";
-            m.invalidFmt = "---°--.-";
-            m.dirs = ["S", "N"];
         }
         else {
             m.w = 9;
-            m.fmt = "%1s%03d°%04.1f";
-            m.invalidFmt = "----°--.-";
-            m.dirs = ["W", "E"];
         }
         return m;
     },
 
     draw: func (mcdu, val) {
-        if (val == nil or val == '') {
-            mcdu.print(me.x, me.y, me.invalidFmt, me.flags);
-        }
-        else {
-            var dir = (val < 0) ? (me.dirs[0]) : (me.dirs[1]);
-            var degs = math.abs(val);
-            var mins = math.fmod(degs * 60, 60);
-            mcdu.print(me.x, me.y, sprintf(me.fmt, dir, degs, mins), me.flags);
-        }
+        mcdu.print(me.x, me.y, formatGeo(val, me.axis), me.flags);
     },
 };
 
