@@ -2126,21 +2126,30 @@
         </fmc>
 
         <annun>
-            <spd-mode type="string"></spd-mode>
-            <spd-mode-armed type="string"></spd-mode-armed>
-            <spd-minor-mode type="string"></spd-minor-mode>
-            <spd-minor-mode-armed type="string"></spd-minor-mode-armed>
-
             <ap-engaged type="bool">false</ap-engaged>
             <at-engaged type="bool">false</at-engaged>
             <ap-disconnect-warning type="bool">false</ap-disconnect-warning>
             <at-disconnect-warning type="bool">false</at-disconnect-warning>
 
+            <spd-mode type="string"></spd-mode>
+            <spd-mode-armed type="string"></spd-mode-armed>
+            <spd-minor-mode type="string"></spd-minor-mode>
+            <spd-minor-mode-armed type="string"></spd-minor-mode-armed>
+            <spd-mode-changed type="bool">false</spd-mode-changed>
+            <spd-mode-managed type="bool">false</spd-mode-managed>
+            <spd-mode-blink type="int">0</spd-mode-blink>
+
             <lat-mode type="string"></lat-mode>
             <lat-mode-armed type="string"></lat-mode-armed>
+            <lat-mode-changed type="bool">false</lat-mode-changed>
+            <lat-mode-managed type="bool">false</lat-mode-managed>
+            <lat-mode-blink type="int">0</lat-mode-blink>
 
             <vert-mode type="string"></vert-mode>
             <vert-mode-armed type="string"></vert-mode-armed>
+            <vert-mode-changed type="bool">false</vert-mode-changed>
+            <vert-mode-managed type="bool">false</vert-mode-managed>
+            <vert-mode-blink type="int">0</vert-mode-blink>
 
             <appr-mode type="string"></appr-mode>
             <appr-mode-armed type="string"></appr-mode-armed>

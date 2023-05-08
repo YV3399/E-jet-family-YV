@@ -54,7 +54,7 @@ re-run build.sh.
             </filter>
             <filter>
                 <update-interval-secs type="double">0.1</update-interval-secs>
-                <name>AP Annunciator State</name>
+                <name>AT Annunciator State</name>
                 <type>gain</type>
                 <gain>1</gain>
                 <input>
@@ -82,6 +82,63 @@ re-run build.sh.
                     <value>0</value>
                 </input>
                 <output>instrumentation/pfd[<xsl:value-of select="$index"/>]/fma/at</output>
+            </filter>
+            <filter>
+                <update-interval-secs type="double">0.1</update-interval-secs>
+                <name>Lateral Mode Annunciator State</name>
+                <type>gain</type>
+                <gain>1</gain>
+                <input>
+                    <condition>
+                        <and>
+                            <property>instrumentation/annun/lat-mode-changed</property>
+                            <property>instrumentation/pfd[<xsl:value-of select="$index"/>]/blink-state</property>
+                        </and>
+                    </condition>
+                    <value>1</value>
+                </input>
+                <input>
+                    <value>0</value>
+                </input>
+                <output>instrumentation/pfd[<xsl:value-of select="$index"/>]/fma/lat-blink</output>
+            </filter>
+            <filter>
+                <update-interval-secs type="double">0.1</update-interval-secs>
+                <name>Vertical Mode Annunciator State</name>
+                <type>gain</type>
+                <gain>1</gain>
+                <input>
+                    <condition>
+                        <and>
+                            <property>instrumentation/annun/vert-mode-changed</property>
+                            <property>instrumentation/pfd[<xsl:value-of select="$index"/>]/blink-state</property>
+                        </and>
+                    </condition>
+                    <value>1</value>
+                </input>
+                <input>
+                    <value>0</value>
+                </input>
+                <output>instrumentation/pfd[<xsl:value-of select="$index"/>]/fma/vert-blink</output>
+            </filter>
+            <filter>
+                <update-interval-secs type="double">0.1</update-interval-secs>
+                <name>Speed Mode Annunciator State</name>
+                <type>gain</type>
+                <gain>1</gain>
+                <input>
+                    <condition>
+                        <and>
+                            <property>instrumentation/annun/spd-mode-changed</property>
+                            <property>instrumentation/pfd[<xsl:value-of select="$index"/>]/blink-state</property>
+                        </and>
+                    </condition>
+                    <value>1</value>
+                </input>
+                <input>
+                    <value>0</value>
+                </input>
+                <output>instrumentation/pfd[<xsl:value-of select="$index"/>]/fma/spd-blink</output>
             </filter>
             <!-- Altitude tape -->
             <filter>

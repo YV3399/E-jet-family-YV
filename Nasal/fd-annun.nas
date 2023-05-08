@@ -82,12 +82,22 @@ var spdMinorModeArmedMap = {
     "G/A CLB": "T"
 };
 
+var blinkCounters = {
+    'lat': 0,
+    'vert': 0,
+    'speed': 0,
+};
+
 var updateFMAVert = func () {
     var vertMode = myprops["/it-autoflight/mode/vert"].getValue() or "";
+    var managed = 0;
     var vertModeLabel = vertModeMap[vertMode] or "";
-    if (myprops["/controls/flight/vnav-enabled"].getValue()) {
-        vertModeLabel = "V" ~ vertModeLabel;
+    var vnavEnabled = myprops["/controls/flight/vnav-enabled"].getBoolValue();
+    if (myprops["vert-mode"].getValue() != vertModeLabel or myprops["vert-mode-managed"] != vnavEnabled) {
+        myprops["vert-mode-changed"].setBoolValue(1);
+        blinkCounters.vert = 5;
     }
+    myprops["vert-mode-managed"].setBoolValue(vnavEnabled);
     myprops["vert-mode"].setValue(vertModeLabel);
     if (myprops["/it-autoflight/output/appr-armed"].getValue() and vertMode != "G/S") {
         myprops["vert-mode-armed"].setValue("GS");
@@ -107,7 +117,12 @@ var updateFMALat = func () {
     if (latModeLabel == "LOC") {
         latModeLabel = vorOrLoc;
     }
+    if (myprops["lat-mode"].getValue() != latModeLabel) {
+        myprops["lat-mode-changed"].setBoolValue(1);
+        blinkCounters.lat = 5;
+    }
     myprops["lat-mode"].setValue(latModeLabel);
+    myprops["lat-mode-managed"].setBoolValue(latModeLabel == "LNAV");
     if (myprops["/it-autoflight/output/lnav-armed"].getValue()) {
         myprops["lat-mode-armed"].setValue("LNAV");
     }
@@ -126,15 +141,18 @@ var updateFMALat = func () {
 var updateFMASpeed = func () {
     var vertMode = myprops["/it-autoflight/mode/vert"].getValue() or "";
     var thrMode = myprops["/it-autoflight/mode/thr"].getValue() or "";
+    var spdModeLabel = spdModeMap[vertMode] or spdModeMap[thrMode] or "";
+    var spdMinorModeLabel = spdMinorModeMap[vertMode] or spdMinorModeMap[thrMode] or " ";
 
-    myprops["spd-mode"].setValue(
-            spdModeMap[vertMode] or
-            spdModeMap[thrMode] or
-            "");
-    myprops["spd-minor-mode"].setValue(
-            spdMinorModeMap[vertMode] or
-            spdMinorModeMap[thrMode] or
-            " ");
+    if (myprops["spd-mode"].getValue() != spdModeLabel and
+        myprops["spd-minor-mode"].getValue() != spdMinorModeLabel) {
+        myprops["spd-mode-changed"].setBoolValue(1);
+        blinkCounters.spd = 5;
+    }
+
+    myprops["spd-mode"].setValue(spdModeLabel);
+    myprops["spd-minor-mode"].setValue(spdMinorModeLabel);
+
     myprops["spd-mode-armed"].setValue(
             spdModeArmedMap[vertMode] or
             spdModeArmedMap[thrMode] or
@@ -185,16 +203,29 @@ var updateApprEngaged = func (node) {
 
 setlistener("sim/signals/fdm-initialized", func {
     # outputs
+    myprops['ap-engaged'] = props.globals.getNode('/instrumentation/annun/ap-engaged');
+    myprops['at-engaged'] = props.globals.getNode('/instrumentation/annun/at-engaged');
+
     myprops['spd-mode'] = props.globals.getNode('/instrumentation/annun/spd-mode');
     myprops['spd-mode-armed'] = props.globals.getNode('/instrumentation/annun/spd-mode-armed');
     myprops['spd-minor-mode'] = props.globals.getNode('/instrumentation/annun/spd-minor-mode');
     myprops['spd-minor-mode-armed'] = props.globals.getNode('/instrumentation/annun/spd-minor-mode-armed');
-    myprops['ap-engaged'] = props.globals.getNode('/instrumentation/annun/ap-engaged');
-    myprops['at-engaged'] = props.globals.getNode('/instrumentation/annun/at-engaged');
+    myprops['spd-mode-changed'] = props.globals.getNode('/instrumentation/annun/spd-mode-changed');
+    myprops['spd-mode-managed'] = props.globals.getNode('/instrumentation/annun/spd-mode-managed');
+    myprops['spd-mode-blink'] = props.globals.getNode('/instrumentation/annun/spd-mode-blink');
+
     myprops['lat-mode'] = props.globals.getNode('/instrumentation/annun/lat-mode');
     myprops['lat-mode-armed'] = props.globals.getNode('/instrumentation/annun/lat-mode-armed');
+    myprops['lat-mode-changed'] = props.globals.getNode('/instrumentation/annun/lat-mode-changed');
+    myprops['lat-mode-managed'] = props.globals.getNode('/instrumentation/annun/lat-mode-managed');
+    myprops['lat-mode-blink'] = props.globals.getNode('/instrumentation/annun/lat-mode-blink');
+
     myprops['vert-mode'] = props.globals.getNode('/instrumentation/annun/vert-mode');
     myprops['vert-mode-armed'] = props.globals.getNode('/instrumentation/annun/vert-mode-armed');
+    myprops['vert-mode-changed'] = props.globals.getNode('/instrumentation/annun/vert-mode-changed');
+    myprops['vert-mode-managed'] = props.globals.getNode('/instrumentation/annun/vert-mode-managed');
+    myprops['vert-mode-blink'] = props.globals.getNode('/instrumentation/annun/vert-mode-blink');
+
     myprops['appr-mode'] = props.globals.getNode('/instrumentation/annun/appr-mode');
     myprops['appr-mode-armed'] = props.globals.getNode('/instrumentation/annun/appr-mode-armed');
 
@@ -241,4 +272,19 @@ setlistener("sim/signals/fdm-initialized", func {
 
     setlistener("/autopilot/autoland/armed-mode", updateApprArmed, 1, 0);
     setlistener("/autopilot/autoland/engaged-mode", updateApprEngaged, 1, 0);
+
+    if (!contains(globals.annun, "blinkCounterTimer")) {
+        globals.annun.blinkCounterTimer = maketimer(1, func {
+            foreach (var k; ['vert', 'lat', 'spd']) {
+                if (blinkCounters[k] > 0) {
+                    blinkCounters[k] -= 1;
+                    if (blinkCounters[k] <= 0) {
+                        myprops[k ~ "-mode-changed"].setBoolValue(0);
+                    }
+                }
+            }
+        });
+        globals.annun.blinkCounterTimer.simulatedTime = 1;
+        globals.annun.blinkCounterTimer.start();
+    }
 });

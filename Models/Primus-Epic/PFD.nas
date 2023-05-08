@@ -16,83 +16,6 @@ var PFD_display = [nil, nil];
 
 setprop("/systems/electrical/outputs/efis", 0);
 
-var vertModeMap = {
-    "ALT HLD": "ALT",
-    "V/S": "VS",
-    "G/S": "GS",
-    "ALT CAP": "ASEL",
-    "SPD DES": "FLCH",
-    "SPD CLB": "FLCH",
-    "FPA": "PATH",
-    "LAND 3": "LAND",
-    "FLARE": "FLARE",
-    "ROLLOUT": "ROLLOUT",
-    "T/O CLB": "TO",
-    "G/A CLB": "GA"
-};
-var vertModeArmedMap = {
-    "V/S": "ASEL",
-    "G/S": "ASEL",
-    "ALT CAP": "ALT",
-    "SPD DES": "ASEL",
-    "SPD CLB": "ASEL",
-    "FPA": "ASEL",
-    "T/O CLB": "FLCH",
-    "G/A CLB": "FLCH"
-};
-
-var latModeMap = {
-    "HDG": "HDG",
-    "HDG HLD": "ROLL",
-    "HDG SEL": "HDG",
-    "LNAV": "LNAV",
-    "LOC": "LOC",
-    "ALGN": "ROLL",
-    "RLOU": "ROLL",
-    "T/O": "TRACK"
-};
-var latModeArmedMap = {
-    "LNV": "LNAV",
-    "LOC": "LOC",
-    "ILS": "LOC",
-    "HDG": "HDG",
-    "HDG HLD": "ROLL",
-    "HDG SEL": "HDG",
-    "T/O": "TRACK"
-};
-var spdModeMap = {
-    "THRUST": "SPD",
-    "PITCH": "SPD",
-    " PITCH": "SPD", # yes, this is correct, ITAF 4.0 is buggy here
-    "RETARD": "SPD",
-    "T/O CLB": " TO",
-    "G/A CLB": " GA"
-};
-var spdMinorModeMap = {
-    "THRUST": "T",
-    "PITCH": "E",
-    " PITCH": "E", # yes, this is correct, ITAF 4.0 is buggy here
-    "RETARD": "E",
-    "T/O CLB": " ",
-    "G/A CLB": " "
-};
-var spdModeArmedMap = {
-    "THRUST": "",
-    "PITCH": "SPD",
-    " PITCH": "SPD",
-    "RETARD": "SPD",
-    "T/O CLB": "SPD",
-    "G/A CLB": "SPD"
-};
-var spdMinorModeArmedMap = {
-    "THRUST": " ",
-    "PITCH": "T",
-    " PITCH": "T",
-    "RETARD": "T",
-    "T/O CLB": "T",
-    "G/A CLB": "T"
-};
-
 var odoDigitRaw = func(v, p) {
     if (p == 0) {
         var dy = math.fmod(v, 1.0);
@@ -172,6 +95,9 @@ var PFDCanvas = {
         me.registerProp("/fms/vspeeds-effective/departure/vfs", "/fms/vspeeds-effective/departure/vfs");
         me.registerProp("/fms/vspeeds-effective/departure/vr", "/fms/vspeeds-effective/departure/vr");
         me.registerProp("/gear/gear/wow", "/gear/gear/wow");
+        me.registerProp("/instrumentation/annun/vert-mode-managed", "/instrumentation/annun/vert-mode-managed");
+        me.registerProp("/instrumentation/annun/lat-mode-managed", "/instrumentation/annun/lat-mode-managed");
+        me.registerProp("/instrumentation/annun/spd-mode-managed", "/instrumentation/annun/spd-mode-managed");
         me.registerProp("/instrumentation/airspeed-indicator/indicated-mach", "/instrumentation/airspeed-indicator/indicated-mach");
         me.registerProp("/instrumentation/airspeed-indicator/indicated-speed-kt", "/instrumentation/airspeed-indicator/indicated-speed-kt");
         me.registerProp("/instrumentation/altimeter/indicated-altitude-ft", "/instrumentation/altimeter[" ~ me.side ~ "]/indicated-altitude-ft");
@@ -246,6 +172,9 @@ var PFDCanvas = {
         me.registerProp("/instrumentation/pfd/fd/pitch-bar-scale", "/instrumentation/pfd[" ~ me.side ~ "]/fd/pitch-bar-scale");
         me.registerProp("/instrumentation/pfd/fma/ap", "/instrumentation/pfd[" ~ me.side ~ "]/fma/ap");
         me.registerProp("/instrumentation/pfd/fma/at", "/instrumentation/pfd[" ~ me.side ~ "]/fma/at");
+        me.registerProp("/instrumentation/pfd/fma/vert-blink", "/instrumentation/pfd[" ~ me.side ~ "]/fma/vert-blink");
+        me.registerProp("/instrumentation/pfd/fma/lat-blink", "/instrumentation/pfd[" ~ me.side ~ "]/fma/lat-blink");
+        me.registerProp("/instrumentation/pfd/fma/spd-blink", "/instrumentation/pfd[" ~ me.side ~ "]/fma/spd-blink");
         me.registerProp("/instrumentation/pfd/groundspeed-kt", "/instrumentation/pfd[" ~ me.side ~ "]/groundspeed-kt");
         me.registerProp("/instrumentation/pfd/hsi/deflection", "/instrumentation/pfd[" ~ me.side ~ "]/hsi/deflection");
         me.registerProp("/instrumentation/pfd/hsi/from-flag", "/instrumentation/pfd[" ~ me.side ~ "]/hsi/from-flag");
@@ -402,6 +331,7 @@ var PFDCanvas = {
             "fma.lat.bg",
             "fma.latarmed",
             "fma.spd",
+            "fma.spd.bg",
             "fma.spdarmed",
             "fma.spdarmed.minor",
             "fma.spd.minor",
@@ -997,28 +927,41 @@ var PFDCanvas = {
                     self.elems["fma.at"].setColor(0, 0, 0);
                 }
             }, 1, 0);
+        me.addListener('main', "@/instrumentation/pfd/fma/vert-blink", func (node) {
+                self.updateFMAColorsVert();
+            }, 1, 0);
+        me.addListener('main', "@/instrumentation/pfd/fma/lat-blink", func (node) {
+                self.updateFMAColorsLat();
+            }, 1, 0);
+        me.addListener('main', "@/instrumentation/pfd/fma/spd-blink", func (node) {
+                self.updateFMAColorsSpd();
+            }, 1, 0);
         me.addListener('main', "/instrumentation/annun/lat-mode", func (node) {
                 self.elems["fma.lat"].setText(node.getValue());
-                self.elems["fma.lat.bg"].setColorFill(0, 0, 0); # TODO
+                self.updateFMAColorsLat();
             }, 1, 0);
         me.addListener('main', "/instrumentation/annun/lat-mode-armed", func (node) {
                 self.elems["fma.latarmed"].setText(node.getValue());
             }, 1, 0);
         me.addListener('main', "/instrumentation/annun/vert-mode", func (node) {
-                self.elems["fma.vert"].setText(node.getValue());
-                self.elems["fma.vert.bg"].setColorFill(0, 0, 0); # TODO
+                var mode = node.getValue();
+                self.elems["fma.vert"].setText(mode);
+                self.updateFMAColorsVert();
             }, 1, 0);
         me.addListener('main', "/instrumentation/annun/vert-mode-armed", func (node) {
-                self.elems["fma.vertarmed"].setText(node.getValue());
+                var mode = node.getValue();
+                self.elems["fma.vertarmed"].setText(mode);
             }, 1, 0);
         me.addListener('main', "/instrumentation/annun/spd-mode", func (node) {
                 self.elems["fma.spd"].setText(node.getValue());
+                self.updateFMAColorsSpd();
             }, 1, 0);
         me.addListener('main', "/instrumentation/annun/spd-mode-armed", func (node) {
                 self.elems["fma.spdarmed"].setText(node.getValue());
             }, 1, 0);
         me.addListener('main', "/instrumentation/annun/spd-minor-mode", func (node) {
                 self.elems["fma.spd.minor"].setText(node.getValue());
+                self.updateFMAColorsSpd();
             }, 1, 0);
         me.addListener('main', "/instrumentation/annun/spd-minor-mode-armed", func (node) {
                 self.elems["fma.spdarmed.minor"].setText(node.getValue());
@@ -1252,6 +1195,58 @@ var PFDCanvas = {
 
     toggleBlink: func() {
         me.props["/instrumentation/pfd/blink-state"].toggleBoolValue();
+    },
+
+    updateFMAColorsVert: func () {
+        var managed = me.props["/instrumentation/annun/vert-mode-managed"].getBoolValue();
+        var state = me.props["/instrumentation/pfd/fma/vert-blink"].getBoolValue();
+        if (state) {
+            me.elems["fma.vert"].setColor(0, 0, 0);
+            if (managed)
+                me.elems["fma.vert.bg"].setColorFill(1, 0, 1);
+            else
+                me.elems["fma.vert.bg"].setColorFill(0, 1, 0);
+        }
+        else {
+            me.elems["fma.vert.bg"].setColorFill(0, 0, 0);
+            if (managed)
+                me.elems["fma.vert"].setColor(1, 0, 1);
+            else
+                me.elems["fma.vert"].setColor(0, 1, 0);
+        }
+    },
+
+    updateFMAColorsLat: func () {
+        var managed = me.props["/instrumentation/annun/lat-mode-managed"].getBoolValue();
+        var state = me.props["/instrumentation/pfd/fma/lat-blink"].getBoolValue();
+        if (state) {
+            me.elems["fma.lat"].setColor(0, 0, 0);
+            if (managed)
+                me.elems["fma.lat.bg"].setColorFill(1, 0, 1);
+            else
+                me.elems["fma.lat.bg"].setColorFill(0, 1, 0);
+        }
+        else {
+            me.elems["fma.lat.bg"].setColorFill(0, 0, 0);
+            if (managed)
+                me.elems["fma.lat"].setColor(1, 0, 1);
+            else
+                me.elems["fma.lat"].setColor(0, 1, 0);
+        }
+    },
+
+    updateFMAColorsSpd: func () {
+        var state = me.props["/instrumentation/pfd/fma/spd-blink"].getBoolValue();
+        if (state) {
+            me.elems["fma.spd"].setColor(0, 0, 0);
+            me.elems["fma.spd.minor"].setColor(0, 0, 0);
+            me.elems["fma.spd.bg"].setColorFill(0, 1, 0);
+        }
+        else {
+            me.elems["fma.spd"].setColor(0, 1, 0);
+            me.elems["fma.spd.minor"].setColor(0, 1, 0);
+            me.elems["fma.spd.bg"].setColorFill(0, 0, 0);
+        }
     },
 
     updateSlow: func(dt) {
