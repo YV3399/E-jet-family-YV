@@ -511,18 +511,17 @@
     <!-- Pneumatics -->
     <animation>
         <type>select</type>
-        <object-name>ATBtnLt</object-name>
-        <object-name>ATBtnLt.001</object-name>
+        <object-name>xbleed.light</object-name>
         <condition>
-            <!-- currently unused, 'always' on -->
+            <property>controls/pneumatic/xbleed</property>
             <property>/systems/electrical/outputs/pushbutton-lights</property>
         </condition>
     </animation>
     <animation>
         <type>select</type>
-        <object-name>ATBtnLt.001</object-name>
+        <object-name>recirc.light</object-name>
         <condition>
-            <!-- currently unused, 'always' on -->
+            <property>controls/pressurization/recirc</property>
             <property>/systems/electrical/outputs/pushbutton-lights</property>
         </condition>
     </animation>
@@ -530,7 +529,7 @@
         <type>select</type>
         <object-name>pack.1.light</object-name>
         <condition>
-            <property>controls/pressurization/pack[0]/pack-on</property>
+            <property>controls/pressurization/pack[0]</property>
             <property>/systems/electrical/outputs/pushbutton-lights</property>
         </condition>
     </animation>
@@ -538,7 +537,7 @@
         <type>select</type>
         <object-name>bleed.1.light</object-name>
         <condition>
-            <property>controls/pneumatic/engine/bleed</property>
+            <property>controls/pneumatic/engine-bleed[0]</property>
             <property>/systems/electrical/outputs/pushbutton-lights</property>
         </condition>
     </animation>
@@ -546,7 +545,7 @@
         <type>select</type>
         <object-name>bleed.apu.light</object-name>
         <condition>
-            <property>controls/pneumatic/APU-bleed</property>
+            <property>controls/pneumatic/apu-bleed</property>
             <property>/systems/electrical/outputs/pushbutton-lights</property>
         </condition>
     </animation>
@@ -554,7 +553,7 @@
         <type>select</type>
         <object-name>bleed.2.light</object-name>
         <condition>
-            <property>controls/pneumatic/engine[1]/bleed</property>
+            <property>controls/pneumatic/engine-bleed[1]</property>
             <property>/systems/electrical/outputs/pushbutton-lights</property>
         </condition>
     </animation>
@@ -562,12 +561,29 @@
         <type>select</type>
         <object-name>pack.2.light</object-name>
         <condition>
-            <property>controls/pressurization/pack[1]/pack-on</property>
+            <property>controls/pressurization/pack[1]</property>
             <property>/systems/electrical/outputs/pushbutton-lights</property>
         </condition>
     </animation>
 
 
+    <animation>
+        <name>Recirculation pick</name>
+        <type>pick</type>
+        <object-name>recirc</object-name>
+        <action>
+            <button>0</button>
+            <repeatable type="bool">false</repeatable>
+            <binding>
+                <command>property-toggle</command>
+                <property>controls/pressurization/recirc</property>
+            </binding>
+            <binding>
+                <command>property-toggle</command>
+                <property>sim/sound/button1</property>
+            </binding>
+        </action>
+    </animation>
     <animation>
         <name>AC pack 1 pick</name>
         <type>pick</type>
@@ -577,58 +593,7 @@
             <repeatable type="bool">false</repeatable>
             <binding>
                 <command>property-toggle</command>
-                <property>controls/pressurization/pack[0]/pack-on</property>
-            </binding>
-            <binding>
-                <command>property-toggle</command>
-                <property>sim/sound/button1</property>
-            </binding>
-        </action>
-    </animation>
-    <animation>
-        <name>Engine 1 bleed pick</name>
-        <type>pick</type>
-        <object-name>bleed.1</object-name>
-        <action>
-            <button>0</button>
-            <repeatable type="bool">false</repeatable>
-            <binding>
-                <command>property-toggle</command>
-                <property>controls/pneumatic/engine/bleed</property>
-            </binding>
-            <binding>
-                <command>property-toggle</command>
-                <property>sim/sound/button1</property>
-            </binding>
-        </action>
-    </animation>
-    <animation>
-        <name>APU bleed pick</name>
-        <type>pick</type>
-        <object-name>bleed.apu</object-name>
-        <action>
-            <button>0</button>
-            <repeatable type="bool">false</repeatable>
-            <binding>
-                <command>property-toggle</command>
-                <property>controls/pneumatic/APU-bleed</property>
-            </binding>
-            <binding>
-                <command>property-toggle</command>
-                <property>sim/sound/button1</property>
-            </binding>
-        </action>
-    </animation>
-    <animation>
-        <name>Engine 2 bleed pick</name>
-        <type>pick</type>
-        <object-name>bleed.2</object-name>
-        <action>
-            <button>0</button>
-            <repeatable type="bool">false</repeatable>
-            <binding>
-                <command>property-toggle</command>
-                <property>controls/pneumatic/engine[1]/bleed</property>
+                <property>controls/pressurization/pack[0]</property>
             </binding>
             <binding>
                 <command>property-toggle</command>
@@ -645,7 +610,75 @@
             <repeatable type="bool">false</repeatable>
             <binding>
                 <command>property-toggle</command>
-                <property>controls/pressurization/pack[1]/pack-on</property>
+                <property>controls/pressurization/pack[1]</property>
+            </binding>
+            <binding>
+                <command>property-toggle</command>
+                <property>sim/sound/button1</property>
+            </binding>
+        </action>
+    </animation>
+    <animation>
+        <name>Engine 1 bleed pick</name>
+        <type>pick</type>
+        <object-name>bleed.1</object-name>
+        <action>
+            <button>0</button>
+            <repeatable type="bool">false</repeatable>
+            <binding>
+                <command>property-toggle</command>
+                <property>controls/pneumatic/engine-bleed[0]</property>
+            </binding>
+            <binding>
+                <command>property-toggle</command>
+                <property>sim/sound/button1</property>
+            </binding>
+        </action>
+    </animation>
+    <animation>
+        <name>APU bleed pick</name>
+        <type>pick</type>
+        <object-name>bleed.apu</object-name>
+        <action>
+            <button>0</button>
+            <repeatable type="bool">false</repeatable>
+            <binding>
+                <command>property-toggle</command>
+                <property>controls/pneumatic/apu-bleed</property>
+            </binding>
+            <binding>
+                <command>property-toggle</command>
+                <property>sim/sound/button1</property>
+            </binding>
+        </action>
+    </animation>
+    <animation>
+        <name>Engine 2 bleed pick</name>
+        <type>pick</type>
+        <object-name>bleed.2</object-name>
+        <action>
+            <button>0</button>
+            <repeatable type="bool">false</repeatable>
+            <binding>
+                <command>property-toggle</command>
+                <property>controls/pneumatic/engine-bleed[1]</property>
+            </binding>
+            <binding>
+                <command>property-toggle</command>
+                <property>sim/sound/button1</property>
+            </binding>
+        </action>
+    </animation>
+    <animation>
+        <name>X-Bleed pick</name>
+        <type>pick</type>
+        <object-name>xbleed</object-name>
+        <action>
+            <button>0</button>
+            <repeatable type="bool">false</repeatable>
+            <binding>
+                <command>property-toggle</command>
+                <property>controls/pneumatic/xbleed</property>
             </binding>
             <binding>
                 <command>property-toggle</command>

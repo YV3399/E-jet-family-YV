@@ -191,6 +191,10 @@
                 <path>Aircraft/E-jet-family/Systems/electrical/outputs.xml</path>
             </property-rule>
             <autopilot>
+                <name>Pneumatic</name>
+                <path>Aircraft/E-jet-family/Systems/pneumatic.xml</path>
+            </autopilot>
+            <autopilot>
                 <name>Fuel</name>
                 <path>Aircraft/E-jet-family/Systems/fuel.xml</path>
             </autopilot>
@@ -1654,6 +1658,37 @@
                 <apu type="double">0</apu>
             </external-flow>
         </fuel>
+        <pneumatic>
+            <valves>
+                <xbleed type="bool">false</xbleed>
+                <apu type="bool">false</apu>
+                <engine n="0" type="bool">false</engine>
+                <engine n="1" type="bool">false</engine>
+            </valves>
+            <sources>
+                <ground-cart type="double">0</ground-cart>
+                <apu type="double">0</apu>
+                <engine n="0" type="double">0</engine>
+                <engine n="1" type="double">0</engine>
+            </sources>
+            <buses>
+                <bus n="0">
+                    <pressure type="double">0</pressure>
+                </bus>
+                <bus n="1">
+                    <pressure type="double">0</pressure>
+                </bus>
+            </buses>
+            <outputs>
+                <starter n="0" type="double">0</starter>
+                <starter n="1" type="double">0</starter>
+                <engine-anti-ice n="0" type="double">0</engine-anti-ice>
+                <engine-anti-ice n="1" type="double">0</engine-anti-ice>
+                <wing-anti-ice n="0" type="double">0</wing-anti-ice>
+                <wing-anti-ice n="1" type="double">0</wing-anti-ice>
+                <pack n="0" type="double">0</pack>
+            </outputs>
+        </pneumatic>
     </systems>
 
     <controls>
@@ -1679,13 +1714,16 @@
         </anti-ice>
 
         <pressurization>
-            <pack n="0">
-                <pack-on type="bool">false</pack-on>
-            </pack>
-            <pack n="1">
-                <pack-on type="bool">false</pack-on>
-            </pack>
+            <pack n="0" type="bool">false</pack>
+            <pack n="1" type="bool">false</pack>
+            <recirc type="bool">false</recirc>
         </pressurization>
+        <pneumatic>
+            <apu-bleed type="bool">false</apu-bleed>
+            <engine-bleed n="0" type="bool">false</engine-bleed>
+            <engine-bleed n="1" type="bool">false</engine-bleed>
+            <xbleed type="bool">false</xbleed>
+        </pneumatic>
 
         <apu>
             <fire-switch type="bool">false</fire-switch>

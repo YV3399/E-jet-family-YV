@@ -5,19 +5,11 @@
         <input>
             <and>
                 <property>/controls/engines/engine[0]/starter-switch</property>
-                <or>
-                    <!-- we need bleed air from either the APU, the GPU, or the opposite engine -->
-                    <and>
-                        <property>/engines/apu/running</property>
-                        <property>/controls/pneumatic/APU-bleed</property>
-                    </and>
-                    <and>
-                        <property>/engines/engine[1]/running</property>
-                        <property>/controls/pneumatic/engine[1]/bleed</property>
-                    </and>
-                    <!-- GPU bleed is unswitched and assumed unlimited -->
-                    <property>/controls/electric/external-power-connected</property>
-                </or>
+                <!-- Must have bleed air on same side -->
+                <greater-than>
+                    <property>/systems/pneumatic/buses/bus[0]</property>
+                    <value>0.8</value>
+                </greater-than>
                 <!-- Starter control valve must be powered -->
                 <!-- TODO -->
             </and>
@@ -412,19 +404,11 @@
         <input>
             <and>
                 <property>/controls/engines/engine[1]/starter-switch</property>
-                <or>
-                    <!-- we need bleed air from either the APU, the GPU, or the opposite engine -->
-                    <and>
-                        <property>/engines/apu/running</property>
-                        <property>/controls/pneumatic/APU-bleed</property>
-                    </and>
-                    <and>
-                        <property>/engines/engine[0]/running</property>
-                        <property>/controls/pneumatic/engine[0]/bleed</property>
-                    </and>
-                    <!-- GPU bleed is unswitched and assumed unlimited -->
-                    <property>/controls/electric/external-power-connected</property>
-                </or>
+                <!-- Must have bleed air on same side -->
+                <greater-than>
+                    <property>/systems/pneumatic/buses/bus[1]</property>
+                    <value>0.8</value>
+                </greater-than>
                 <!-- Starter control valve must be powered -->
                 <!-- TODO -->
             </and>
