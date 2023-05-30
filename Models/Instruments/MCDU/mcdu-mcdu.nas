@@ -56,6 +56,7 @@ var MCDU = {
 
     powerOn: func () {
         if (!me.powered) {
+            printf("MCDU %i power on", me.num);
             me.powered = 1;
             me.gotoModule("RADIO");
         }
@@ -63,6 +64,7 @@ var MCDU = {
 
     powerOff: func () {
         if (me.powered) {
+            print("MCDU %i power off", me.num);
             me.powered = 0;
             me.gotoModule(nil);
         }

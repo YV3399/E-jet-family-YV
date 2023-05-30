@@ -86,11 +86,9 @@ globals.mcdu.initListener = setlistener("/sim/signals/fdm-initialized", func (no
     }, 1, 0);
     globals.mcdu.powerListener1 = setlistener("/systems/electrical/outputs/mcdu[1]", func () {
         if ((getprop("/systems/electrical/outputs/mcdu[1]") or 0) < 15.0) {
-            print("MCDU1 power off");
             globals.mcdu.mcdu1.powerOff();
         }
         else {
-            print("MCDU1 power on");
             globals.mcdu.mcdu1.powerOn();
         }
     }, 1, 0);
