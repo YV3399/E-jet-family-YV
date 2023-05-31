@@ -13,12 +13,18 @@ var SUBMODE_STATUS = 0;
 var SUBMODE_ELECTRICAL = 1;
 var SUBMODE_FUEL = 2;
 var SUBMODE_FLIGHT_CONTROLS = 3;
+var SUBMODE_ECS = 4;
+
+var PAGE_MAP = 0;
+var PAGE_PLAN = 1;
+var PAGE_SYSTEMS = 2;
 
 var submodeNames = [
     'Status',
     'Elec',
     'Fuel',
     'FltCtl',
+    'ECS',
 ];
 
 var currentFile = os.path.new(caller(0)[2]);
@@ -46,7 +52,7 @@ var radarColor = func (value) {
     return [ 0, 0, 0, 1 ];
 };
 
-# Set fill color for electrical and hydraulic nodes for a given status.
+# Set fill color for electrical, pneumatic and hydraulic nodes for a given status.
 # Status 0 is "off", rendered in white.
 # Status 1 is "live", rendered in bright green.
 # All other statuses default to 0 (white).
@@ -62,7 +68,7 @@ var fillColorByStatus = func (target, status) {
     }
 };
 
-# Set fill color for electrical and hydraulic connections depending on their
+# Set fill color for electrical, pneumatic and hydraulic connections depending on their
 # status.
 # Status 0 is "off", rendered in 25% gray.
 # Status 1 is "live", rendered in bright green.
@@ -74,6 +80,13 @@ var fillIfConnected = func (target, status) {
     else {
         target.setColorFill(0.25, 0.25, 0.25);
     }
+}
+
+var setValve = func (target, state) {
+    var c = (state == 0) ? [1,1,1] : [0,1,0];
+    target
+        .setRotation(state * math.pi * 0.5)
+        .setColorFill(c);
 }
 
 var clipTo = func (clippee, clipper) {
@@ -303,6 +316,8 @@ var MFD = {
         canvas.parsesvg(me.systemsPages.fuel, "Aircraft/E-jet-family/Models/Primus-Epic/MFD-systems-fuel.svg", {'font-mapper': me.font_mapper});
         me.systemsPages.flightControls = me.systemsContainer.createChild("group");
         canvas.parsesvg(me.systemsPages.flightControls, "Aircraft/E-jet-family/Models/Primus-Epic/MFD-systems-flight-controls.svg", {'font-mapper': me.font_mapper});
+        me.systemsPages.ecs = me.systemsContainer.createChild("group");
+        canvas.parsesvg(me.systemsPages.ecs, "Aircraft/E-jet-family/Models/Primus-Epic/MFD-systems-ecs.svg", {'font-mapper': me.font_mapper});
 
         me.underlay = me.pageContainer.createChild("group");
         me.terrainViz = me.underlay.createChild("image");
@@ -712,6 +727,7 @@ var MFD = {
                 'submodeFuel.clickbox',
                 'submodeHydraulic.clickbox',
                 'submodeFlightControls.clickbox',
+                'submodeECS.clickbox',
             ];
         var vnavkeys = [
                 'vnav.vertical',
@@ -989,6 +1005,60 @@ var MFD = {
                 'fctl.mfs10.cover',
                 'fctl.mfs10.dashedbox',
                 'fctl.mfs10.stripes',
+
+                'ecs.apu.symbol',
+                'ecs.fan.cargobay',
+                'ecs.fan.recirc1',
+                'ecs.fan.recirc2',
+                'ecs.groundcart.symbol',
+                'ecs.groundcart.text',
+                'ecs.ofv.pointer',
+                'ecs.ofv.scale',
+                'ecs.pack1.symbol',
+                'ecs.pack1.text',
+                'ecs.pack2.symbol',
+                'ecs.pack2.text',
+                'ecs.pipe.apu',
+                'ecs.pipe.apubleed',
+                'ecs.pipe.bleed1',
+                'ecs.pipe.bleed2',
+                'ecs.pipe.cargobay.in',
+                'ecs.pipe.cargobay.out',
+                'ecs.pipe.engine1',
+                'ecs.pipe.engine2',
+                'ecs.pipe.enginebleed1',
+                'ecs.pipe.enginebleed2',
+                'ecs.pipe.fcv1.in',
+                'ecs.pipe.fcv2.in',
+                'ecs.pipe.groundcart',
+                'ecs.pipe.pack1.combined',
+                'ecs.pipe.pack1.in',
+                'ecs.pipe.pack1.out',
+                'ecs.pipe.pack2.in',
+                'ecs.pipe.pack2.out',
+                'ecs.pipe.ramair',
+                'ecs.pipe.recirc1',
+                'ecs.pipe.recirc2',
+                'ecs.pipe.safety',
+                'ecs.pipe.xbleed1',
+                'ecs.pipe.xbleed2',
+                'ecs.pressure1.text',
+                'ecs.pressure2.text',
+                'ecs.temp.aft.actual',
+                'ecs.temp.aft.set',
+                'ecs.temp.cockpit.actual',
+                'ecs.temp.cockpit.set',
+                'ecs.temp.fwd.actual',
+                'ecs.temp.fwd.set',
+                'ecs.valve.apu',
+                'ecs.valve.cargobay',
+                'ecs.valve.engine1',
+                'ecs.valve.engine2',
+                'ecs.valve.fcv1',
+                'ecs.valve.fcv2',
+                'ecs.valve.ramair',
+                'ecs.valve.safety',
+                'ecs.valve.xbleed',
         ];
 
         me.registerElemsFrom(mapkeys, me.mapOverlay);
@@ -1045,6 +1115,7 @@ var MFD = {
                 'submodeFuel',
                 'submodeHydraulic',
                 'submodeFlightControls',
+                'submodeECS',
             ];
         foreach (var k; submodeMenuKeys) {
             var box = me.elems[k ~ '.clickbox'].getTransformedBounds();
@@ -1081,6 +1152,7 @@ var MFD = {
         me.addWidget('submodeElectrical', { active: func { self.elems['submodeMenu'].getVisible() }, onclick: func { self.selectSystemsSubmode(SUBMODE_ELECTRICAL); } });
         me.addWidget('submodeFuel', { active: func { self.elems['submodeMenu'].getVisible() }, onclick: func { self.selectSystemsSubmode(SUBMODE_FUEL); } });
         me.addWidget('submodeFlightControls', { active: func { self.elems['submodeMenu'].getVisible() }, onclick: func { self.selectSystemsSubmode(SUBMODE_FLIGHT_CONTROLS); } });
+        me.addWidget('submodeECS', { active: func { self.elems['submodeMenu'].getVisible() }, onclick: func { self.selectSystemsSubmode(SUBMODE_ECS); } });
         me.addWidget('weatherMenu.radioOff', { active: func { self.elems['weatherMenu'].getVisible() }, onclick: func { self.setWxMode(0); } });
         me.addWidget('weatherMenu.radioSTBY', { active: func { self.elems['weatherMenu'].getVisible() }, onclick: func { self.setWxMode(1); } });
         me.addWidget('weatherMenu.radioWX', { active: func { self.elems['weatherMenu'].getVisible() }, onclick: func { self.setWxMode(2); } });
@@ -1406,7 +1478,7 @@ var MFD = {
         me.elems['arc.range.left'].setText(halfRangeTxt);
         me.elems['arc.range.right'].setText(halfRangeTxt);
         me.elems['plan.range'].setText(halfRangeTxt);
-        if (me.props['page'].getValue() == 1) {
+        if (me.props['page'].getValue() == PAGE_PLAN) {
             # Plan mode
             me.elems['vnav.range.left.digital'].setText(halfRangeTxt);
             me.elems['vnav.range.right.digital'].setText(halfRangeTxt);
@@ -1513,7 +1585,7 @@ var MFD = {
     # knob: 0 = outer ring, 1 = inner ring
     masterScroll: func(direction, knob=0) {
         var page = me.props['page'].getValue();
-        if (page == 0) {
+        if (page == PAGE_MAP) {
             # map mode
             if (knob == 0) {
                 # range
@@ -1530,7 +1602,7 @@ var MFD = {
                 }
             }
         }
-        else if (page == 1) {
+        elsif (page == PAGE_PLAN) {
             # plan mode
             if (knob == 0) {
                 # range
@@ -1540,7 +1612,7 @@ var MFD = {
                 me.movePlanWpt(direction);
             }
         }
-        else {
+        elsif (page == PAGE_SYSTEMS) {
             # systems mode
         }
     },
@@ -1594,11 +1666,11 @@ var MFD = {
     },
 
     touchMap: func () {
-        if (me.props['page'].getValue() == 0) {
+        if (me.props['page'].getValue() == PAGE_MAP) {
             me.elems['mapMenu'].show();
         }
         else {
-            me.props['page'].setValue(0);
+            me.props['page'].setValue(PAGE_MAP);
         }
     },
 
@@ -1607,15 +1679,15 @@ var MFD = {
     },
 
     touchPlan: func () {
-       me.props['page'].setValue(1);
+       me.props['page'].setValue(PAGE_PLAN);
     },
 
     touchSystems: func () {
-       me.props['page'].setValue(2);
+       me.props['page'].setValue(PAGE_SYSTEMS);
     },
 
     touchSystemsSubmode: func () {
-        me.props['page'].setValue(2);
+        me.props['page'].setValue(PAGE_SYSTEMS);
         me.elems['submodeMenu'].show();
     },
 
@@ -1694,7 +1766,7 @@ var MFD = {
 
     updatePage: func() {
         var page = me.props['page'].getValue();
-        if (page == 0) {
+        if (page == PAGE_MAP) {
             # Arc ("Map")
             me.elems['arc.master'].show();
             me.map.show();
@@ -1713,7 +1785,7 @@ var MFD = {
             var viz = me.props['show-tcas'].getBoolValue();
             me.trafficGroup.setVisible(viz);
         }
-        else if (page == 1) {
+        elsif (page == PAGE_PLAN) {
             # Plan
             me.elems['arc.master'].hide();
             me.map.hide();
@@ -1733,7 +1805,7 @@ var MFD = {
             me.elems['vnav.range.center.digital'].hide();
             me.trafficGroup.setVisible(0);
         }
-        else {
+        elsif (page == PAGE_SYSTEMS) {
             # Systems
             me.elems['arc.master'].hide();
             me.map.hide();
@@ -1760,6 +1832,7 @@ var MFD = {
         me.systemsPages.electrical.setVisible(submode == SUBMODE_ELECTRICAL);
         me.systemsPages.fuel.setVisible(submode == SUBMODE_FUEL);
         me.systemsPages.flightControls.setVisible(submode == SUBMODE_FLIGHT_CONTROLS);
+        me.systemsPages.ecs.setVisible(submode == SUBMODE_ECS);
         me.clearListeners('systems');
         if (submode == SUBMODE_STATUS) {
             me.addListener('systems', me.props['flight-id'], func (node) {
@@ -2012,35 +2085,140 @@ var MFD = {
                     fillColorByStatus(self.elems['elec.dcgpu.symbol'], feed == 1);
                 }, 1, 0);
         }
+        elsif (submode == SUBMODE_ECS) {
+            # sources (pipes and symbols)
+            me.addListener('systems', '/systems/pneumatic/sources/engine[0]', func (node) {
+                    var pressure = node.getValue();
+                    fillIfConnected(self.elems['ecs.pipe.engine1'], pressure > 40);
+                }, 1, 0);
+            me.addListener('systems', '/systems/pneumatic/sources/engine[1]', func (node) {
+                    var pressure = node.getValue();
+                    fillIfConnected(self.elems['ecs.pipe.engine2'], pressure > 40);
+                }, 1, 0);
+            me.addListener('systems', '/systems/pneumatic/sources/apu', func (node) {
+                    var pressure = node.getValue();
+                    fillIfConnected(self.elems['ecs.pipe.apu'], pressure > 40);
+                    fillIfConnected(self.elems['ecs.apu.symbol'], pressure > 40);
+                }, 1, 0);
+            me.addListener('systems', '/systems/pneumatic/sources/ground-cart', func (node) {
+                    var pressure = node.getValue();
+                    fillIfConnected(self.elems['ecs.pipe.groundcart'], pressure > 40);
+                    fillIfConnected(self.elems['ecs.groundcart.symbol'], pressure > 40);
+                }, 1, 0);
+
+            # buses
+            me.addListener('systems', '/systems/pneumatic/buses/engine[0]', func (node) {
+                    var pressure = node.getValue();
+                    fillIfConnected(self.elems['ecs.pipe.enginebleed1'], pressure > 40);
+                }, 1, 0);
+            me.addListener('systems', '/systems/pneumatic/buses/engine[1]', func (node) {
+                    var pressure = node.getValue();
+                    fillIfConnected(self.elems['ecs.pipe.enginebleed2'], pressure > 40);
+                }, 1, 0);
+            me.addListener('systems', '/systems/pneumatic/buses/apu', func (node) {
+                    var pressure = node.getValue();
+                    fillIfConnected(self.elems['ecs.pipe.apubleed'], pressure > 40);
+                }, 1, 0);
+            me.addListener('systems', '/systems/pneumatic/buses/bleed[0]', func (node) {
+                    var pressure = node.getValue();
+                    fillIfConnected(self.elems['ecs.pipe.bleed1'], pressure > 40);
+                    self.elems['ecs.pressure1.text'].setText(sprintf('%2.0f', pressure));
+                }, 1, 0);
+            me.addListener('systems', '/systems/pneumatic/buses/bleed[1]', func (node) {
+                    var pressure = node.getValue();
+                    fillIfConnected(self.elems['ecs.pipe.bleed2'], pressure > 40);
+                    self.elems['ecs.pressure2.text'].setText(sprintf('%2.0f', pressure));
+                }, 1, 0);
+            me.addListener('systems', '/systems/pneumatic/buses/fcv[0]', func (node) {
+                    var pressure = node.getValue();
+                    fillIfConnected(self.elems['ecs.pipe.fcv1.in'], pressure > 40);
+                }, 1, 0);
+            me.addListener('systems', '/systems/pneumatic/buses/fcv[1]', func (node) {
+                    var pressure = node.getValue();
+                    fillIfConnected(self.elems['ecs.pipe.fcv2.in'], pressure > 40);
+                }, 1, 0);
+            me.addListener('systems', '/systems/pneumatic/buses/pack[0]', func (node) {
+                    var pressure = node.getValue();
+                    fillIfConnected(self.elems['ecs.pipe.pack1.in'], pressure > 40);
+                }, 1, 0);
+            me.addListener('systems', '/systems/pneumatic/buses/pack[1]', func (node) {
+                    var pressure = node.getValue();
+                    fillIfConnected(self.elems['ecs.pipe.pack2.in'], pressure > 40);
+                }, 1, 0);
+            me.addListener('systems', '/systems/pneumatic/buses/xbleed-both', func (node) {
+                    var pressure = node.getValue();
+                    fillIfConnected(self.elems['ecs.pipe.xbleed1'], pressure > 40);
+                    fillIfConnected(self.elems['ecs.pipe.xbleed2'], pressure > 40);
+                }, 1, 0);
+
+            # valves
+            me.addListener('systems', '/systems/pneumatic/valves/apu', func (node) {
+                    setValve(self.elems['ecs.valve.apu'], node.getBoolValue());
+                }, 1, 0);
+            me.addListener('systems', '/systems/pneumatic/valves/engine-bleed[0]', func (node) {
+                    setValve(self.elems['ecs.valve.engine1'], node.getBoolValue());
+                }, 1, 0);
+            me.addListener('systems', '/systems/pneumatic/valves/engine-bleed[1]', func (node) {
+                    setValve(self.elems['ecs.valve.engine2'], node.getBoolValue());
+                }, 1, 0);
+            me.addListener('systems', '/systems/pneumatic/valves/fcv[0]', func (node) {
+                    setValve(self.elems['ecs.valve.fcv1'], node.getBoolValue());
+                }, 1, 0);
+            me.addListener('systems', '/systems/pneumatic/valves/fcv[1]', func (node) {
+                    setValve(self.elems['ecs.valve.fcv2'], node.getBoolValue());
+                }, 1, 0);
+            me.addListener('systems', '/systems/pneumatic/valves/safety', func (node) {
+                    setValve(self.elems['ecs.valve.safety'], node.getBoolValue());
+                }, 1, 0);
+            me.addListener('systems', '/systems/pneumatic/valves/xbleed', func (node) {
+                    setValve(self.elems['ecs.valve.xbleed'], node.getBoolValue());
+                }, 1, 0);
+            me.addListener('systems', '/systems/pneumatic/valves/ramair', func (node) {
+                    setValve(self.elems['ecs.valve.ramair'], node.getBoolValue());
+                }, 1, 0);
+            me.addListener('systems', '/systems/pneumatic/valves/outflow', func (node) {
+                    self.elems['ecs.ofv.pointer'].setTranslation(0, -128 * node.getValue());
+                }, 1, 0);
+
+            # fans
+            me.addListener('systems', '/controls/pressurization/recirc', func (node) {
+                    var recirc = node.getBoolValue();
+                    fillIfConnected(self.elems['ecs.fan.recirc1'], recirc);
+                    fillIfConnected(self.elems['ecs.fan.recirc2'], recirc);
+                    fillIfConnected(self.elems['ecs.fan.cargobay'], recirc);
+                    fillIfConnected(self.elems['ecs.pipe.recirc1'], recirc);
+                    fillIfConnected(self.elems['ecs.pipe.recirc2'], recirc);
+                    fillIfConnected(self.elems['ecs.pipe.cargobay.in'], recirc);
+                }, 1, 0);
+
+            # packs: for now, just use controls directly.
+            # TODO: implement "pack running" logic and use that.
+            me.addListener('systems', '/controls/pressurization/pack[0]', func (node) {
+                    fillIfConnected(self.elems['ecs.pack1.symbol'], node.getBoolValue());
+                }, 1, 0);
+            me.addListener('systems', '/controls/pressurization/pack[1]', func (node) {
+                    fillIfConnected(self.elems['ecs.pack2.symbol'], node.getBoolValue());
+                }, 1, 0);
+
+            # temperatures: TODO
+        }
         elsif (submode == SUBMODE_FUEL) {
             me.addListener('systems', '/controls/fuel/crossfeed', func (node) {
                     var state = node.getValue();
-                    var c = (state == 0) ? [1,1,1] : [0,1,0];
-                    self.elems['fuel.valve.crossfeed']
-                        .setRotation(state * math.pi * 0.5)
-                        .setColorFill(c);
+                    setValve(self.elems['fuel.valve.crossfeed'], state);
                     self.elems['fuel.crossfeed.mode']
                         .setText((state == 1) ? "LOW 2" : "LOW 1")
                         .setVisible(state != 0);
 
                 }, 1, 0);
             me.addListener('systems', '/engines/engine[0]/cutoff', func (node) {
-                    var c = node.getBoolValue() ? [1,1,1] : [0,1,0];
-                    self.elems['fuel.valve.cutoffL']
-                        .setRotation(node.getValue() * math.pi * 0.5)
-                        .setColorFill(c[0], c[1], c[2]);
+                    setValve(self.elems['fuel.valve.cutoffL'], node.getBoolValue());
                 }, 1, 0);
             me.addListener('systems', '/engines/engine[1]/cutoff', func (node) {
-                    var c = node.getBoolValue() ? [1,1,1] : [0,1,0];
-                    self.elems['fuel.valve.cutoffR']
-                        .setRotation(node.getValue() * math.pi * 0.5)
-                        .setColorFill(c[0], c[1], c[2]);
+                    setValve(self.elems['fuel.valve.cutoffR'], node.getBoolValue());
                 }, 1, 0);
             me.addListener('systems', '/engines/apu/cutoff', func (node) {
-                    var c = node.getBoolValue() ? [1,1,1] : [0,1,0];
-                    self.elems['fuel.valve.apu']
-                        .setRotation(node.getValue() * math.pi * 0.5)
-                        .setColorFill(c[0], c[1], c[2]);
+                    setValve(self.elems['fuel.valve.apu'], node.getBoolValue());
                 }, 1, 0);
             me.addListener('systems', '/engines/engine[0]/running', func (node) {
                     var c = node.getBoolValue() ? [0,1,0] : [0.5, 0.5, 0.5];

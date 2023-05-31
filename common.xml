@@ -195,6 +195,10 @@
                 <path>Aircraft/E-jet-family/Systems/pneumatic.xml</path>
             </autopilot>
             <autopilot>
+                <name>Pressurization</name>
+                <path>Aircraft/E-jet-family/Systems/pressurization.xml</path>
+            </autopilot>
+            <autopilot>
                 <name>Fuel</name>
                 <path>Aircraft/E-jet-family/Systems/fuel.xml</path>
             </autopilot>
@@ -1664,6 +1668,11 @@
                 <apu type="bool">false</apu>
                 <engine n="0" type="bool">false</engine>
                 <engine n="1" type="bool">false</engine>
+                <fcv n="0" type="bool">false</fcv>
+                <fcv n="1" type="bool">false</fcv>
+                <safety type="bool">false</safety>
+                <ramair type="bool">false</ramair>
+                <outflow type="double">false</outflow>
             </valves>
             <sources>
                 <ground-cart type="double">0</ground-cart>
@@ -1672,12 +1681,17 @@
                 <engine n="1" type="double">0</engine>
             </sources>
             <buses>
-                <bus n="0">
-                    <pressure type="double">0</pressure>
-                </bus>
-                <bus n="1">
-                    <pressure type="double">0</pressure>
-                </bus>
+                <bleed n="0" type="double">0</bleed>
+                <bleed n="1" type="double">0</bleed>
+                <xbleed n="0" type="double">0</xbleed>
+                <xbleed n="1" type="double">0</xbleed>
+                <fcv n="0" type="double">0</fcv>
+                <fcv n="1" type="double">0</fcv>
+                <pack n="0" type="double">0</pack>
+                <pack n="1" type="double">0</pack>
+                <apu type="double">0</apu>
+                <engine n="0" type="double">0</engine>
+                <engine n="1" type="double">0</engine>
             </buses>
             <outputs>
                 <starter n="0" type="double">0</starter>

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <PropertyList>
+    <!-- SOURCES -->
     <filter>
         <type>gain</type>
         <gain>1</gain>
@@ -17,10 +18,10 @@
                                 <ind>10</ind><dep>0</dep>
                             </entry>
                             <entry>
-                                <ind>50</ind><dep>1</dep>
+                                <ind>50</ind><dep>45</dep>
                             </entry>
                             <entry>
-                                <ind>100</ind><dep>1</dep>
+                                <ind>100</ind><dep>45</dep>
                             </entry>
                         </table>
                         <table>
@@ -32,10 +33,10 @@
                                 <ind>10</ind><dep>0</dep>
                             </entry>
                             <entry>
-                                <ind>50</ind><dep>1</dep>
+                                <ind>50</ind><dep>45</dep>
                             </entry>
                             <entry>
-                                <ind>100</ind><dep>1</dep>
+                                <ind>100</ind><dep>45</dep>
                             </entry>
                         </table>
                     </max>
@@ -44,18 +45,6 @@
         </input>
         <output>systems/pneumatic/sources/engine[0]</output>
     </filter>
-    <logic>
-        <input>
-            <and>
-                <property>controls/pneumatic/engine-bleed[0]</property>
-                <greater-than>
-                    <property>systems/pneumatic/sources/engine[0]</property>
-                    <value>0.8</value>
-                </greater-than>
-            </and>
-        </input>
-        <output>systems/pneumatic/valves/engine-bleed[0]</output>
-    </logic>
     
     <filter>
         <type>gain</type>
@@ -73,10 +62,10 @@
                                 <ind>10</ind><dep>0</dep>
                             </entry>
                             <entry>
-                                <ind>50</ind><dep>1</dep>
+                                <ind>50</ind><dep>45</dep>
                             </entry>
                             <entry>
-                                <ind>100</ind><dep>1</dep>
+                                <ind>100</ind><dep>45</dep>
                             </entry>
                         </table>
                         <table>
@@ -88,10 +77,10 @@
                                 <ind>10</ind><dep>0</dep>
                             </entry>
                             <entry>
-                                <ind>50</ind><dep>1</dep>
+                                <ind>50</ind><dep>45</dep>
                             </entry>
                             <entry>
-                                <ind>100</ind><dep>1</dep>
+                                <ind>100</ind><dep>45</dep>
                             </entry>
                         </table>
                     </max>
@@ -100,18 +89,6 @@
         </input>
         <output>systems/pneumatic/sources/engine[1]</output>
     </filter>
-    <logic>
-        <input>
-            <and>
-                <property>controls/pneumatic/engine-bleed[1]</property>
-                <greater-than>
-                    <property>systems/pneumatic/sources/engine[1]</property>
-                    <value>0.8</value>
-                </greater-than>
-            </and>
-        </input>
-        <output>systems/pneumatic/valves/engine-bleed[1]</output>
-    </logic>
     
     <filter>
         <type>gain</type>
@@ -128,10 +105,10 @@
                             <ind>85</ind><dep>0</dep>
                         </entry>
                         <entry>
-                            <ind>95</ind><dep>1</dep>
+                            <ind>95</ind><dep>45</dep>
                         </entry>
                         <entry>
-                            <ind>100</ind><dep>1</dep>
+                            <ind>100</ind><dep>45</dep>
                         </entry>
                     </table>
                 </product>
@@ -140,17 +117,52 @@
         <output>systems/pneumatic/sources/apu</output>
     </filter>
     
+    
+    <filter>
+        <type>gain</type>
+        <gain>45</gain>
+        <input>
+            <property>/controls/electric/external-power-connected</property>
+        </input>
+        <output>systems/pneumatic/sources/ground-cart</output>
+    </filter>
+
+    <!-- VALVES -->
+    <logic>
+        <input>
+            <and>
+                <property>controls/pneumatic/engine-bleed[0]</property>
+                <greater-than>
+                    <property>systems/pneumatic/sources/engine[0]</property>
+                    <value>40</value>
+                </greater-than>
+            </and>
+        </input>
+        <output>systems/pneumatic/valves/engine-bleed[0]</output>
+    </logic>
+    <logic>
+        <input>
+            <and>
+                <property>controls/pneumatic/engine-bleed[1]</property>
+                <greater-than>
+                    <property>systems/pneumatic/sources/engine[1]</property>
+                    <value>40</value>
+                </greater-than>
+            </and>
+        </input>
+        <output>systems/pneumatic/valves/engine-bleed[1]</output>
+    </logic>
     <logic>
         <input>
             <and>
                 <property>controls/pneumatic/apu-bleed</property>
                 <greater-than>
                     <property>systems/pneumatic/sources/apu</property>
-                    <value>0.8</value>
+                    <value>40</value>
                 </greater-than>
                 <less-than>
-                    <property>systems/pneumatic/sources/engine[0]</property>
-                    <value>0.8</value>
+                    <property>systems/pneumatic/buses/engine[0]</property>
+                    <value>40</value>
                 </less-than>
                 <not>
                     <property>controls/anti-ice/engine[0]/inlet-heat</property>
@@ -159,9 +171,8 @@
                 </not>
             </and>
         </input>
-        <output>systems/pneumatic/valves/apu-bleed</output>
+        <output>systems/pneumatic/valves/apu</output>
     </logic>
-    
     <logic>
         <input>
             <and>
@@ -170,43 +181,23 @@
                     <!-- no pressure on left side -->
                     <and>
                         <less-than>
-                            <property>systems/pneumatic/sources/engine[0]</property>
-                            <value>0.8</value>
+                            <property>systems/pneumatic/buses/bleed[0]</property>
+                            <value>40</value>
                         </less-than>
-                        <less-than>
-                            <property>systems/pneumatic/sources/apu</property>
-                            <value>0.8</value>
-                        </less-than>
-                        <or>
-                            <greater-than>
-                                <property>systems/pneumatic/sources/engine[1]</property>
-                                <value>0.8</value>
-                            </greater-than>
-                            <greater-than>
-                                <property>systems/pneumatic/sources/ground-cart</property>
-                                <value>0.8</value>
-                            </greater-than>
-                        </or>
+                        <greater-than>
+                            <property>systems/pneumatic/buses/bleed[1]</property>
+                            <value>40</value>
+                        </greater-than>
                     </and>
                     <!-- no pressure on right side -->
                     <and>
-                        <or>
-                            <greater-than>
-                                <property>systems/pneumatic/sources/engine[0]</property>
-                                <value>0.8</value>
-                            </greater-than>
-                            <greater-than>
-                                <property>systems/pneumatic/sources/apu</property>
-                                <value>0.8</value>
-                            </greater-than>
-                        </or>
+                        <greater-than>
+                            <property>systems/pneumatic/buses/bleed[0]</property>
+                            <value>40</value>
+                        </greater-than>
                         <less-than>
-                            <property>systems/pneumatic/sources/engine[1]</property>
-                            <value>0.8</value>
-                        </less-than>
-                        <less-than>
-                            <property>systems/pneumatic/sources/ground-cart</property>
-                            <value>0.8</value>
+                            <property>systems/pneumatic/buses/bleed[1]</property>
+                            <value>40</value>
                         </less-than>
                     </and>
                     <!-- engine #2 start in air -->
@@ -224,7 +215,7 @@
                         <property>engines/engine[0]/starter</property>
                         <less-than>
                             <property>systems/pneumatic/sources/apu</property>
-                            <value>0.8</value>
+                            <value>40</value>
                         </less-than>
                     </and>
                 </or>
@@ -232,44 +223,87 @@
         </input>
         <output>systems/pneumatic/valves/xbleed</output>
     </logic>
+
+    <logic>
+        <input>
+            <greater-than>
+                <property>systems/pneumatic/buses/fcv[0]</property>
+                <value>10</value>
+            </greater-than>
+        </input>
+        <output>systems/pneumatic/valves/fcv[0]</output>
+    </logic>
+    <logic>
+        <input>
+            <greater-than>
+                <property>systems/pneumatic/buses/fcv[1]</property>
+                <value>10</value>
+            </greater-than>
+        </input>
+        <output>systems/pneumatic/valves/fcv[1]</output>
+    </logic>
+
+    <!-- BUSES -->
     
+    <!-- LEFT side -->
+
+    <!--
+        engine0 -> engine valve 0 -> engine bleed 0 -\     
+                                                      -> bleed0 -> fcv0 -> pack0
+        apu     -> apu valve      -> apu bleed      -/            /
+                                                         xbleed -/
+    -->
     <filter>
         <type>gain</type>
         <gain>1</gain>
         <input>
-            <property>/controls/electric/external-power-connected</property>
+            <expression>
+                <product>
+                    <property>systems/pneumatic/sources/engine[0]</property>
+                    <property>systems/pneumatic/valves/engine-bleed[0]</property>
+                </product>
+            </expression>
         </input>
-        <output>systems/pneumatic/sources/ground-cart</output>
+        <output>systems/pneumatic/buses/engine[0]</output>
     </filter>
-    
+    <filter>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <expression>
+                <product>
+                    <property>systems/pneumatic/sources/apu</property>
+                    <property>systems/pneumatic/valves/apu</property>
+                </product>
+            </expression>
+        </input>
+        <output>systems/pneumatic/buses/apu</output>
+    </filter>
     <filter>
         <type>gain</type>
         <gain>1</gain>
         <input>
             <expression>
                 <max>
-                    <product>
-                        <property>systems/pneumatic/sources/apu</property>
-                        <property>systems/pneumatic/valves/apu-bleed</property>
-                    </product>
-                    <product>
-                        <property>systems/pneumatic/sources/engine[0]</property>
-                        <property>systems/pneumatic/valves/engine-bleed[0]</property>
-                    </product>
-                    <product>
-                        <property>systems/pneumatic/valves/xbleed</property>
-                        <max>
-                            <property>systems/pneumatic/sources/ground-cart</property>
-                            <product>
-                                <property>systems/pneumatic/sources/engine[1]</property>
-                                <property>systems/pneumatic/valves/engine-bleed[1]</property>
-                            </product>
-                        </max>
-                    </product>
+                    <property>systems/pneumatic/buses/engine[0]</property>
+                    <property>systems/pneumatic/buses/apu</property>
                 </max>
             </expression>
         </input>
-        <output>systems/pneumatic/buses/bus[0]</output>
+        <output>systems/pneumatic/buses/bleed[0]</output>
+    </filter>
+    <filter>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <expression>
+                <product>
+                    <property>systems/pneumatic/buses/bleed[1]</property>
+                    <property>systems/pneumatic/valves/xbleed</property>
+                </product>
+            </expression>
+        </input>
+        <output>systems/pneumatic/buses/xbleed[0]</output>
     </filter>
     <filter>
         <type>gain</type>
@@ -277,27 +311,118 @@
         <input>
             <expression>
                 <max>
+                    <property>systems/pneumatic/buses/bleed[0]</property>
+                    <property>systems/pneumatic/buses/xbleed[0]</property>
+                </max>
+            </expression>
+        </input>
+        <output>systems/pneumatic/buses/fcv[0]</output>
+    </filter>
+    <filter>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <expression>
+                <min>
                     <product>
-                        <property>systems/pneumatic/valves/xbleed</property>
-                        <max>
-                            <product>
-                                <property>systems/pneumatic/sources/apu</property>
-                                <property>systems/pneumatic/valves/apu-bleed</property>
-                            </product>
-                            <product>
-                                <property>systems/pneumatic/sources/engine[0]</property>
-                                <property>systems/pneumatic/valves/engine-bleed[0]</property>
-                            </product>
-                        </max>
+                        <property>systems/pneumatic/buses/fcv[0]</property>
+                        <property>systems/pneumatic/valves/fcv[0]</property>
                     </product>
+                    <value>45</value>
+                </min>
+            </expression>
+        </input>
+        <output>systems/pneumatic/buses/pack[0]</output>
+    </filter>
+
+    <!-- RIGHT side -->
+
+    <!--
+        engine1 -> engine valve 1 -> engine bleed 1 -\     
+                                                      -> bleed1 -> fcv1 -> pack1
+                                     ground cart    -/            /
+                                                         xbleed -/
+    -->
+    <filter>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <expression>
+                <product>
+                    <property>systems/pneumatic/sources/engine[1]</property>
+                    <property>systems/pneumatic/valves/engine-bleed[1]</property>
+                </product>
+            </expression>
+        </input>
+        <output>systems/pneumatic/buses/engine[1]</output>
+    </filter>
+    <filter>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <expression>
+                <product>
+                    <property>systems/pneumatic/buses/bleed[0]</property>
+                    <property>systems/pneumatic/valves/xbleed</property>
+                </product>
+            </expression>
+        </input>
+        <output>systems/pneumatic/buses/xbleed[1]</output>
+    </filter>
+    <filter>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <expression>
+                <max>
+                    <property>systems/pneumatic/buses/engine[1]</property>
                     <property>systems/pneumatic/sources/ground-cart</property>
-                    <product>
-                        <property>systems/pneumatic/sources/engine[1]</property>
-                        <property>systems/pneumatic/valves/engine-bleed[1]</property>
-                    </product>
                 </max>
             </expression>
         </input>
-        <output>systems/pneumatic/buses/bus[1]</output>
+        <output>systems/pneumatic/buses/bleed[1]</output>
+    </filter>
+    <filter>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <expression>
+                <max>
+                    <property>systems/pneumatic/buses/bleed[1]</property>
+                    <property>systems/pneumatic/buses/xbleed[1]</property>
+                </max>
+            </expression>
+        </input>
+        <output>systems/pneumatic/buses/fcv[1]</output>
+    </filter>
+    <filter>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <expression>
+                <min>
+                    <product>
+                        <property>systems/pneumatic/buses/fcv[1]</property>
+                        <property>systems/pneumatic/valves/fcv[1]</property>
+                    </product>
+                    <value>45</value>
+                </min>
+            </expression>
+        </input>
+        <output>systems/pneumatic/buses/pack[1]</output>
+    </filter>
+
+    <filter>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <expression>
+                <max>
+                    <property>systems/pneumatic/buses/xbleed[0]</property>
+                    <property>systems/pneumatic/buses/xbleed[1]</property>
+                </max>
+            </expression>
+        </input>
+        <output>systems/pneumatic/buses/xbleed-both</output>
     </filter>
 </PropertyList>

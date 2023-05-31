@@ -7,8 +7,8 @@
                 <property>/controls/engines/engine[0]/starter-switch</property>
                 <!-- Must have bleed air on same side -->
                 <greater-than>
-                    <property>/systems/pneumatic/buses/bus[0]</property>
-                    <value>0.8</value>
+                    <property>/systems/pneumatic/buses/fcv[0]</property>
+                    <value>40</value>
                 </greater-than>
                 <!-- Starter control valve must be powered -->
                 <!-- TODO -->
@@ -406,8 +406,8 @@
                 <property>/controls/engines/engine[1]/starter-switch</property>
                 <!-- Must have bleed air on same side -->
                 <greater-than>
-                    <property>/systems/pneumatic/buses/bus[1]</property>
-                    <value>0.8</value>
+                    <property>/systems/pneumatic/buses/fcv[1]</property>
+                    <value>40</value>
                 </greater-than>
                 <!-- Starter control valve must be powered -->
                 <!-- TODO -->

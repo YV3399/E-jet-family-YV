@@ -71,9 +71,9 @@ var coldAndDark = func {
     setprop("/controls/lighting/strobe", 0);
     setprop("/controls/lighting/taxi-lights[0]", 0);
     setprop("/controls/lighting/taxi-lights[1]", 0);
-    setprop("/controls/pressurization/pack[0]/pack-on", 0);
-    setprop("/controls/pressurization/pack[1]/pack-on", 0);
-    setprop("/controls/pneumatic/APU-bleed", 0);
+    setprop("/controls/pressurization/pack[0]", 0);
+    setprop("/controls/pressurization/pack[1]", 0);
+    setprop("/controls/pneumatic/apu-bleed", 0);
     setprop("/controls/pneumatic/engine[0]/bleed", 0);
     setprop("/controls/pneumatic/engine[1]/bleed", 0);
     setprop("/controls/switches/chocks", 1);
@@ -118,9 +118,9 @@ var batteryPowered = func {
     setprop("/controls/lighting/strobe", 0);
     setprop("/controls/lighting/taxi-lights[0]", 0);
     setprop("/controls/lighting/taxi-lights[1]", 0);
-    setprop("/controls/pressurization/pack[0]/pack-on", 0);
-    setprop("/controls/pressurization/pack[1]/pack-on", 0);
-    setprop("/controls/pneumatic/APU-bleed", 0);
+    setprop("/controls/pressurization/pack[0]", 0);
+    setprop("/controls/pressurization/pack[1]", 0);
+    setprop("/controls/pneumatic/apu-bleed", 0);
     setprop("/controls/pneumatic/engine[0]/bleed", 0);
     setprop("/controls/pneumatic/engine[1]/bleed", 0);
     setprop("/controls/switches/chocks", 1);
@@ -166,9 +166,9 @@ var groundPowered = func {
     setprop("/controls/lighting/strobe", 0);
     setprop("/controls/lighting/taxi-lights[0]", 0);
     setprop("/controls/lighting/taxi-lights[1]", 0);
-    setprop("/controls/pressurization/pack[0]/pack-on", 0);
-    setprop("/controls/pressurization/pack[1]/pack-on", 0);
-    setprop("/controls/pneumatic/APU-bleed", 0);
+    setprop("/controls/pressurization/pack[0]", 0);
+    setprop("/controls/pressurization/pack[1]", 0);
+    setprop("/controls/pneumatic/apu-bleed", 0);
     setprop("/controls/pneumatic/engine[0]/bleed", 0);
     setprop("/controls/pneumatic/engine[1]/bleed", 0);
     setprop("/controls/switches/chocks", 1);
@@ -195,7 +195,7 @@ var startAPU = func (then = nil) {
         func (node) { return (node.getValue() == 1); },
         func {
             say("APU started");
-            setprop("/controls/pneumatic/APU-bleed", 1);
+            setprop("/controls/pneumatic/apu-bleed", 1);
             setprop("/controls/electric/apu-generator", 1);
             if (then != nil) then();
         });
@@ -203,7 +203,7 @@ var startAPU = func (then = nil) {
 
 var stopAPU = func (then = nil) {
     say("Stopping APU");
-    setprop("/controls/pneumatic/APU-bleed", 0);
+    setprop("/controls/pneumatic/apu-bleed", 0);
     setprop("/controls/electric/apu-generator", 0);
     setprop("/controls/apu/starter", 0);
     when(

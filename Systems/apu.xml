@@ -319,25 +319,8 @@
             <!-- APU bleed off: no bleed load. -->
             <condition>
                 <not>
-                    <property>controls/pneumatic/APU-bleed</property>
+                    <property>systems/pneumatic/valves/apu</property>
                 </not>
-            </condition>
-            <value>0</value>
-        </input>
-        <input>
-            <!-- Either engine running, or GPU connected: no bleed load, prefer bleed air from engines or GPU. -->
-            <condition>
-                <or>
-                    <property>controls/electric/external-power-connected</property>
-                    <and>
-                        <property>controls/pneumatic/engine[0]/bleed</property>
-                        <property>engines/engine[0]/running</property>
-                    </and>
-                    <and>
-                        <property>controls/pneumatic/engine[1]/bleed</property>
-                        <property>engines/engine[1]/running</property>
-                    </and>
-                </or>
             </condition>
             <value>0</value>
         </input>
@@ -354,11 +337,11 @@
                         <value>0.5</value>
                     </product>
                     <product>
-                        <property>controls/pressurization/pack[0]/pack-on</property>
+                        <property>controls/pressurization/pack[0]</property>
                         <value>0.1</value>
                     </product>
                     <product>
-                        <property>controls/pressurization/pack[1]/pack-on</property>
+                        <property>controls/pressurization/pack[1]</property>
                         <value>0.1</value>
                     </product>
                 </sum>
