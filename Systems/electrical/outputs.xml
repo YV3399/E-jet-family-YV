@@ -969,7 +969,7 @@
                                 <value>50</value>
                             </product>
                         </sum>
-                        <property>/systems/electrical/buses/ac[1]/volts</property>
+                        <property>/systems/electrical/buses/ac[2]/volts</property>
                     </div>
                     <property>/systems/electrical/buses/ac[2]/loads/exciter[3]</property>
                     <property>/systems/electrical/buses/ac[2]/loads/ac[0]</property>

@@ -1454,5 +1454,44 @@
         </action>
     </animation>
 
+    <animation>
+        <type>knob</type>
+        <object-name>cabin.alt</object-name>
+        <property>/controls/pressurization/alt</property>
+        <factor>5</factor>
+        <action>
+            <binding>
+                <command>property-adjust</command>
+                <property>/controls/pressurization/alt</property>
+                <factor>1</factor>
+                <min>-10</min>
+                <max>10</max>
+                <wrap>false</wrap>
+            </binding>
+        </action>
+        <axis>
+            <object-name>cabin.alt.axis</object-name>
+        </axis>
+    </animation>
+    <animation>
+        <type>knob</type>
+        <object-name>cabin.mode</object-name>
+        <property>/controls/pressurization/mode</property>
+        <factor>45</factor>
+        <action>
+            <binding>
+                <command>property-adjust</command>
+                <property>/controls/pressurization/mode</property>
+                <factor>1</factor>
+                <min>-1</min>
+                <max>1</max>
+                <wrap>false</wrap>
+            </binding>
+        </action>
+        <axis>
+            <object-name>cabin.mode.axis</object-name>
+        </axis>
+    </animation>
+
 
 </PropertyList>

@@ -1,4 +1,418 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <PropertyList>
+    <!-- LFE control -->
+    <filter>
+        <type>gain</type>
+        <gain>1</gain>
+        <enable>
+            <condition>
+                <equals>
+                    <property>controls/pressurization/mode</property>
+                    <value>1</value>
+                </equals>
+            </condition>
+        </enable>
+        <update-interval-secs>0.5</update-interval-secs>
+        <input>
+            <expression>
+                <sum>
+                    <property>systems/pressurization/pressures/lfe-ft</property>
+                    <product>
+                        <property>controls/pressurization/alt</property>
+                        <value>10</value>
+                    </product>
+                </sum>
+            </expression>
+        </input>
+        <output>systems/pressurization/pressures/lfe-ft</output>
+        <min>-1000</min>
+        <max>12400</max>
+    </filter>
+    
+    <!-- target rate control -->
+    <!-- manual mode -->
+    <filter>
+        <type>gain</type>
+        <gain>50</gain>
+        <enable>
+            <condition>
+                <equals>
+                    <property>controls/pressurization/mode</property>
+                    <value>-1</value>
+                </equals>
+            </condition>
+        </enable>
+        <input>controls/pressurization/alt</input>
+        <output>systems/pressurization/pressures/target-rate-fpm</output>
+    </filter>
+
+    <!-- automatic mode -->
+    <filter>
+        <type>gain</type>
+        <gain>1</gain>
+        <enable>
+            <condition>
+                <not>
+                    <equals>
+                        <property>controls/pressurization/mode</property>
+                        <value>-1</value>
+                    </equals>
+                </not>
+            </condition>
+        </enable>
+        <input>
+            <!-- ground mode: OFV full open by selecting ΔP = -0.01 -->
+            <condition>
+                <equals>
+                    <property>systems/pressurization/flight-phase</property>
+                    <value>0</value>
+                </equals>
+            </condition>
+            <value>-0.01</value>
+        </input>
+        <input>
+            <!-- taxi mode: ΔP = 0.11 -->
+            <condition>
+                <equals>
+                    <property>systems/pressurization/flight-phase</property>
+                    <value>1</value>
+                </equals>
+            </condition>
+            <value>0.11</value>
+        </input>
+        <input>
+            <!-- takeoff mode: ΔP = 0.15 -->
+            <condition>
+                <equals>
+                    <property>systems/pressurization/flight-phase</property>
+                    <value>2</value>
+                </equals>
+            </condition>
+            <value>0.15</value>
+        </input>
+        <input>
+            <!-- climb mode (cruise alt < 37000): ΔP = 7.8 -->
+            <condition>
+                <and>
+                    <equals>
+                        <property>systems/pressurization/flight-phase</property>
+                        <value>3</value>
+                    </equals>
+                    <less-than>
+                        <property>systems/pressurization/cruise-alt</property>
+                        <value>37500</value>
+                    </less-than>
+                </and>
+            </condition>
+            <value>7.8</value>
+        </input>
+        <input>
+            <!-- climb mode (cruise alt > 37000): ΔP = 8.4 -->
+            <condition>
+                <and>
+                    <equals>
+                        <property>systems/pressurization/flight-phase</property>
+                        <value>3</value>
+                    </equals>
+                </and>
+            </condition>
+            <value>8.4</value>
+        </input>
+        <input>
+            <!-- cruise mode (cruise alt < 37000): ΔP = 7.8 -->
+            <condition>
+                <and>
+                    <equals>
+                        <property>systems/pressurization/flight-phase</property>
+                        <value>4</value>
+                    </equals>
+                    <less-than>
+                        <property>systems/pressurization/cruise-alt</property>
+                        <value>37500</value>
+                    </less-than>
+                </and>
+            </condition>
+            <value>7.8</value>
+        </input>
+        <input>
+            <!-- cruise mode (cruise alt > 37000): ΔP = 8.4 -->
+            <condition>
+                <and>
+                    <equals>
+                        <property>systems/pressurization/flight-phase</property>
+                        <value>4</value>
+                    </equals>
+                </and>
+            </condition>
+            <value>8.4</value>
+        </input>
+        <input>
+            <!-- descent mode: ΔP = 0.11 -->
+            <condition>
+                <and>
+                    <equals>
+                        <property>systems/pressurization/flight-phase</property>
+                        <value>5</value>
+                    </equals>
+                </and>
+            </condition>
+            <value>0.11</value>
+        </input>
+        <output>systems/pressurization/pressures/target-diff-psi</output>
+    </filter>
+
+    <!-- flow error to ofv -->
+    <pi-simple-controller>
+        <input>systems/pressurization/pressures/rate-fpm</input>
+        <reference>systems/pressurization/pressures/target-rate-fpm</reference>
+        <output>systems/pressurization/valves/outflow</output>
+        <Kp>0.0</Kp>
+        <Ki>0.00004</Ki>
+        <min>0</min>
+        <max>1</max>
+    </pi-simple-controller>
+
+    <!-- packs -->
+    <logic>
+        <input>
+            <and>
+                <greater-than>
+                    <property>systems/pneumatic/buses/pack[0]</property>
+                    <value>10</value>
+                </greater-than>
+                <property>controls/pressurization/pack[0]</property>
+            </and>
+        </input>
+        <output>systems/pressurization/packs/pack[0]/running</output>
+    </logic>
+    <logic>
+        <input>
+            <and>
+                <greater-than>
+                    <property>systems/pneumatic/buses/pack[1]</property>
+                    <value>10</value>
+                </greater-than>
+                <property>controls/pressurization/pack[1]</property>
+            </and>
+        </input>
+        <output>systems/pressurization/packs/pack[1]/running</output>
+    </logic>
+    <filter>
+        <type>gain</type>
+        <gain>0.2</gain>
+        <input>systems/pressurization/packs/pack[0]/running</input>
+        <output>systems/pressurization/packs/pack[0]/flow</output>
+    </filter>
+    <filter>
+        <type>gain</type>
+        <gain>0.2</gain>
+        <input>systems/pressurization/packs/pack[1]/running</input>
+        <output>systems/pressurization/packs/pack[1]/flow</output>
+    </filter>
+
+    <!-- Safety valve -->
+    <filter>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <condition>
+                <greater-than>
+                    <property>systems/pressurization/pressures/diff-psi</property>
+                    <value>8.61</value>
+                </greater-than>
+            </condition>
+            <value>1</value>
+        </input>
+        <input>
+            <condition>
+                <less-than>
+                    <property>systems/pressurization/pressures/diff-psi</property>
+                    <value>8.55</value>
+                </less-than>
+            </condition>
+            <value>0</value>
+        </input>
+        <input>
+            <property>systems/pressurization/valves/safety</property>
+        </input>
+        <output>systems/pressurization/valves/safety</output>
+    </filter>
+    
+    
+    <!-- flow rates -->
+    
+    <filter>
+        <type>gain</type>
+        <gain>-0.4</gain>
+        <input>
+            <expression>
+                <product>
+                    <max>
+                        <property>systems/pressurization/pressures/diff-hpa</property>
+                        <value>0</value>
+                    </max>
+                    <property>systems/pressurization/valves/outflow</property>
+                </product>
+            </expression>
+        </input>
+        <output>systems/pressurization/flow/ofv-molps</output>
+        <min>-1.2</min>
+    </filter>
+
+    <filter>
+        <type>gain</type>
+        <gain>-0.2</gain>
+        <input>
+            <expression>
+                <product>
+                    <property>systems/pressurization/pressures/diff-hpa</property>
+                    <property>systems/pressurization/valves/safety</property>
+                </product>
+            </expression>
+        </input>
+        <output>systems/pressurization/flow/safety-molps</output>
+    </filter>
+    
+    <filter>
+        <type>gain</type>
+        <gain>-0.0005</gain>
+        <input>systems/pressurization/pressures/diff-hpa</input>
+        <output>systems/pressurization/flow/leak-molps</output>
+    </filter>
+    
+    <filter>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <expression>
+                <sum>
+                    <property>systems/pressurization/flow/ofv-molps</property>
+                    <property>systems/pressurization/flow/leak-molps</property>
+                    <property>systems/pressurization/flow/safety-molps</property>
+                    <property>systems/pressurization/packs/pack[0]/flow</property>
+                    <property>systems/pressurization/packs/pack[1]/flow</property>
+                </sum>
+            </expression>
+        </input>
+        <output>systems/pressurization/flow/total-molps</output>
+    </filter>
+    
+    <!-- air flow over time -->
+    <filter>
+        <type>integrator</type>
+        <gain>1</gain>
+        <input>
+            <property>systems/pressurization/flow/total-molps</property>
+        </input>
+        <output>systems/pressurization/volumes/cabin-air-mol</output>
+        <initialize-to>output</initialize-to>
+        <u_min>0</u_min>
+        <u_max>250</u_max>
+    </filter>
+    
+    <!-- current cabin pressure, from airmass and volume -->
+    <filter>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <expression>
+                <div>
+                    <product>
+                        <property>systems/pressurization/volumes/cabin-air-mol</property>
+                        <!-- gas constant -->
+                        <value>8.31446261815324</value>
+                        <!-- for now, assume cabin temperature is 20°C -->
+                        <value>293.15</value>
+                    </product>
+                    <property>systems/pressurization/volumes/cabin-m3</property>
+                </div>
+            </expression>
+        </input>
+        <output>systems/pressurization/pressures/cabin-hpa</output>
+    </filter>
+    
+    <!-- indicated rate, fpm -->
+    
+    <filter>
+        <type>derivative</type>
+        <debug type="bool">false</debug>
+        <input>systems/pressurization/pressures/cabin-ft</input>
+        <filter-time>60.0</filter-time>
+        <output>systems/pressurization/pressures/rate-fpm</output>
+    </filter>
+    
+    <!-- Outside pressure, from environment -->
+    
+    <filter>
+        <type>gain</type>
+        <gain>33.86530748663101</gain>
+        <input>environment/pressure-inhg</input>
+        <output>systems/pressurization/pressures/outside-hpa</output>
+    </filter>
+    
+    <!-- Pressure differential -->
+    
+    <filter>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>systems/pressurization/pressures/cabin-hpa</input>
+        <reference>systems/pressurization/pressures/outside-hpa</reference>
+        <output>systems/pressurization/pressures/diff-hpa</output>
+    </filter>
+
+    <!-- Unit conversions for display -->
+    
+    <filter>
+        <type>gain</type>
+        <gain>0.01450377</gain>
+        <input>systems/pressurization/pressures/diff-hpa</input>
+        <output>systems/pressurization/pressures/diff-psi</output>
+    </filter>
+    
+    <filter>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <expression>
+                <product>
+                    <value>145366.45</value>
+                    <difference>
+                        <value>1</value>
+                        <pow>
+                            <div>
+                                <property>systems/pressurization/pressures/cabin-hpa</property>
+                                <value>1013.25</value>
+                            </div>
+                            <value>0.190284</value>
+                        </pow>
+                    </difference>
+                </product>
+            </expression>
+        </input>
+        <output>systems/pressurization/pressures/cabin-ft</output>
+    </filter>
+    <filter>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <expression>
+                <product>
+                    <value>145366.45</value>
+                    <difference>
+                        <value>1</value>
+                        <pow>
+                            <div>
+                                <property>systems/pressurization/pressures/outside-hpa</property>
+                                <value>1013.25</value>
+                            </div>
+                            <value>0.190284</value>
+                        </pow>
+                    </difference>
+                </product>
+            </expression>
+        </input>
+        <output>systems/pressurization/pressures/outside-ft</output>
+    </filter>
+    
 </PropertyList>

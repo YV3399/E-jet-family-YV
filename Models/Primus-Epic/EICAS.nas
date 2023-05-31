@@ -123,6 +123,10 @@ var EICAS = {
         me.registerProp("blink", "/instrumentation/eicas/blink-state");
         me.registerProp("messages-changed", "/instrumentation/eicas/signals/messages-changed");
         me.registerProp("declutter", "/instrumentation/eicas/declutter/active");
+        me.registerProp("/systems/pressurization/pressures/diff-psi");
+        me.registerProp("/systems/pressurization/pressures/cabin-ft");
+        me.registerProp("/systems/pressurization/pressures/rate-fpm");
+        me.registerProp("/systems/pressurization/pressures/lfe-ft");
     },
 
     makeMasterGroup: func (group) {
@@ -249,6 +253,10 @@ var EICAS = {
             "oil.section",
             "gear.section",
             "apu.section",
+            "pressure.cabinalt.text",
+            "pressure.rate.text",
+            "pressure.diff.text",
+            "pressure.lfe.text",
         ]);
 
         me.registerElem("N1L.target", func (group) { return group.createChild('path'); })
@@ -850,6 +858,11 @@ var EICAS = {
 		var aputmp = me.props["/engines/apu/temp-c"].getValue() or 0;
 		me.elems["apu.PCT"].setText(sprintf("%3i", apurpm));
 		me.elems["apu.DEGC"].setText(sprintf("%3i", aputmp));
+
+        me.elems["pressure.cabinalt.text"].setText(sprintf("%5.0f", me.props["/systems/pressurization/pressures/cabin-ft"].getValue() or 0));
+        me.elems["pressure.rate.text"].setText(sprintf("%+1.0f", me.props["/systems/pressurization/pressures/rate-fpm"].getValue() or 0));
+        me.elems["pressure.diff.text"].setText(sprintf("%4.1f", me.props["/systems/pressurization/pressures/diff-psi"].getValue() or 0));
+        me.elems["pressure.lfe.text"].setText(sprintf("%5.0f", me.props["/systems/pressurization/pressures/lfe-ft"].getValue() or 0));
 		
 	},
 };

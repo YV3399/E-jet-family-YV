@@ -1670,9 +1670,6 @@
                 <engine n="1" type="bool">false</engine>
                 <fcv n="0" type="bool">false</fcv>
                 <fcv n="1" type="bool">false</fcv>
-                <safety type="bool">false</safety>
-                <ramair type="bool">false</ramair>
-                <outflow type="double">false</outflow>
             </valves>
             <sources>
                 <ground-cart type="double">0</ground-cart>
@@ -1703,6 +1700,54 @@
                 <pack n="0" type="double">0</pack>
             </outputs>
         </pneumatic>
+        <pressurization>
+            <packs>
+                <pack n="0">
+                    <running type="bool">false</running>
+                    <flow type="double">0</flow>
+                </pack>
+                <pack n="1">
+                    <running type="bool">false</running>
+                    <flow type="double">0</flow>
+                </pack>
+            </packs>
+
+            <valves>
+                <safety type="bool">false</safety>
+                <ramair type="bool">false</ramair>
+                <outflow type="double">false</outflow>
+            </valves>
+
+            <volumes>
+                <cabin-m3 type="double">250</cabin-m3>
+                <!-- volume based on 1013.25 hPa and 20°C, rounded to 104 mol -->
+                <cabin-air-mol type="double">104</cabin-air-mol>
+            </volumes>
+
+            <pressures>
+                <outside-hpa type="double">1013.25</outside-hpa>
+                <cabin-hpa type="double">1013.25</cabin-hpa>
+                <lfe-hpa type="double">1013.25</lfe-hpa>
+                <diff-hpa type="double">0</diff-hpa>
+
+                <outside-ft type="double">0</outside-ft>
+                <cabin-ft type="double">0</cabin-ft>
+                <lfe-ft type="double">0</lfe-ft>
+                <diff-psi type="double">0</diff-psi>
+                <rate-fpm type="double">0</rate-fpm>
+
+                <target-rate-fpm type="double">0</target-rate-fpm>
+                <target-diff-psi type="double">0</target-diff-psi>
+                <rate-min-fpm type="double">-750</rate-min-fpm>
+                <rate-max-fpm type="double">750</rate-max-fpm>
+            </pressures>
+
+            <flow>
+                <ofv-molps type="double">0</ofv-molps>
+            </flow>
+
+            <flight-phase type="int">0</flight-phase>
+        </pressurization>
     </systems>
 
     <controls>
@@ -1731,6 +1776,8 @@
             <pack n="0" type="bool">false</pack>
             <pack n="1" type="bool">false</pack>
             <recirc type="bool">false</recirc>
+            <mode type="int">0</mode>
+            <alt type="int">0</alt>
         </pressurization>
         <pneumatic>
             <apu-bleed type="bool">false</apu-bleed>

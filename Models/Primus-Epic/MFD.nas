@@ -2056,8 +2056,12 @@ var MFD = {
                     fillIfConnected(self.elems['elec.feed.tru2-ac2'], status == 1);
                 }, 1, 0);
 
-            me.addListener('systems', '/systems/electrical/buses/dc[1]/feed', func self.updateDCshared, 1, 0);
-            me.addListener('systems', '/systems/electrical/buses/dc[2]/feed', func self.updateDCshared, 1, 0);
+            me.addListener('systems', '/systems/electrical/buses/dc[1]/feed', func (node) {
+                    self.updateDCshared();
+                }, 1, 0);
+            me.addListener('systems', '/systems/electrical/buses/dc[2]/feed', func (node) {
+                    self.updateDCshared();
+                }, 1, 0);
             me.addListener('systems', '/systems/electrical/buses/dc[3]/feed', func (node) {
                     var feed = node.getValue();
                     fillIfConnected(self.elems['elec.feed.dcess1-dc1'], feed == 1);
@@ -2167,16 +2171,16 @@ var MFD = {
             me.addListener('systems', '/systems/pneumatic/valves/fcv[1]', func (node) {
                     setValve(self.elems['ecs.valve.fcv2'], node.getBoolValue());
                 }, 1, 0);
-            me.addListener('systems', '/systems/pneumatic/valves/safety', func (node) {
-                    setValve(self.elems['ecs.valve.safety'], node.getBoolValue());
-                }, 1, 0);
             me.addListener('systems', '/systems/pneumatic/valves/xbleed', func (node) {
                     setValve(self.elems['ecs.valve.xbleed'], node.getBoolValue());
                 }, 1, 0);
-            me.addListener('systems', '/systems/pneumatic/valves/ramair', func (node) {
+            me.addListener('systems', '/systems/pressurization/valves/safety', func (node) {
+                    setValve(self.elems['ecs.valve.safety'], node.getBoolValue());
+                }, 1, 0);
+            me.addListener('systems', '/systems/pressurization/valves/ramair', func (node) {
                     setValve(self.elems['ecs.valve.ramair'], node.getBoolValue());
                 }, 1, 0);
-            me.addListener('systems', '/systems/pneumatic/valves/outflow', func (node) {
+            me.addListener('systems', '/systems/pressurization/valves/outflow', func (node) {
                     self.elems['ecs.ofv.pointer'].setTranslation(0, -128 * node.getValue());
                 }, 1, 0);
 
