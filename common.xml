@@ -1714,6 +1714,7 @@
 
             <valves>
                 <safety type="bool">false</safety>
+                <safety-neg type="bool">false</safety-neg>
                 <ramair type="bool">false</ramair>
                 <outflow type="double">false</outflow>
             </valves>

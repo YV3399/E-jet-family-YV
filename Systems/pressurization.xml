@@ -46,7 +46,7 @@
         <input>controls/pressurization/alt</input>
         <output>systems/pressurization/pressures/target-rate-fpm</output>
     </filter>
-
+    
     <!-- automatic mode -->
     <filter>
         <type>gain</type>
@@ -161,7 +161,7 @@
         </input>
         <output>systems/pressurization/pressures/target-diff-psi</output>
     </filter>
-
+    
     <!-- OFV flow rate controller -->
     <pi-simple-controller>
         <input>systems/pressurization/pressures/rate-fpm</input>
@@ -172,7 +172,7 @@
         <min>0</min>
         <max>1</max>
     </pi-simple-controller>
-
+    
     <!-- packs -->
     <logic>
         <input>
@@ -210,8 +210,8 @@
         <input>systems/pressurization/packs/pack[1]/running</input>
         <output>systems/pressurization/packs/pack[1]/flow</output>
     </filter>
-
-    <!-- Safety valve trigger -->
+    
+    <!-- Safety valves -->
     <filter>
         <type>gain</type>
         <gain>1</gain>
@@ -238,6 +238,32 @@
         </input>
         <output>systems/pressurization/valves/safety</output>
     </filter>
+    <filter>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <condition>
+                <less-than>
+                    <property>systems/pressurization/pressures/diff-psi</property>
+                    <value>-0.5</value>
+                </less-than>
+            </condition>
+            <value>1</value>
+        </input>
+        <input>
+            <condition>
+                <greater-than>
+                    <property>systems/pressurization/pressures/diff-psi</property>
+                    <value>-0.49</value>
+                </greater-than>
+            </condition>
+            <value>0</value>
+        </input>
+        <input>
+            <property>systems/pressurization/valves/safety-neg</property>
+        </input>
+        <output>systems/pressurization/valves/safety-neg</output>
+    </filter>
     
     
     <!-- flow rates -->
@@ -258,7 +284,7 @@
         </input>
         <output>systems/pressurization/flow/ofv-molps</output>
     </filter>
-
+    
     <filter>
         <type>gain</type>
         <gain>-1.5</gain>
@@ -275,7 +301,27 @@
         </input>
         <output>systems/pressurization/flow/safety-molps</output>
     </filter>
-
+    
+    <filter>
+        <type>gain</type>
+        <gain>-1.5</gain>
+        <input>
+            <expression>
+                <min>
+                    <max>
+                        <property>systems/pressurization/pressures/diff-hpa</property>
+                        <product>
+                            <property>systems/pressurization/valves/safety-neg</property>
+                            <value>-1</value>
+                        </product>
+                    </max>
+                    <value>0</value>
+                </min>
+            </expression>
+        </input>
+        <output>systems/pressurization/flow/safety-neg-molps</output>
+    </filter>
+    
     <filter>
         <type>gain</type>
         <gain>-10</gain>
@@ -311,6 +357,7 @@
                     <property>systems/pressurization/flow/ofv-molps</property>
                     <property>systems/pressurization/flow/leak-molps</property>
                     <property>systems/pressurization/flow/safety-molps</property>
+                    <property>systems/pressurization/flow/safety-neg-molps</property>
                     <property>systems/pressurization/flow/doors-molps</property>
                     <property>systems/pressurization/packs/pack[0]/flow</property>
                     <property>systems/pressurization/packs/pack[1]/flow</property>
@@ -382,7 +429,7 @@
         <reference>systems/pressurization/pressures/outside-hpa</reference>
         <output>systems/pressurization/pressures/diff-hpa</output>
     </filter>
-
+    
     <!-- Unit conversions for display -->
     
     <filter>
