@@ -119,10 +119,15 @@
     
     
     <filter>
-        <type>gain</type>
-        <gain>45</gain>
+        <type>noise-spike</type>
+        <max-rate-of-change>45</max-rate-of-change>
         <input>
-            <property>/controls/electric/external-power-connected</property>
+            <expression>
+                <product>
+                    <property>/controls/electric/external-power-connected</property>
+                    <value>45</value>
+                </product>
+            </expression>
         </input>
         <output>systems/pneumatic/sources/ground-cart</output>
     </filter>
@@ -134,11 +139,11 @@
                 <property>controls/pneumatic/engine-bleed[0]</property>
                 <greater-than>
                     <property>systems/pneumatic/sources/engine[0]</property>
-                    <value>40</value>
+                    <value>20</value>
                 </greater-than>
             </and>
         </input>
-        <output>systems/pneumatic/valves/engine-bleed[0]</output>
+        <output>systems/pneumatic/valves/engine-bleed[0]/target</output>
     </logic>
     <logic>
         <input>
@@ -146,11 +151,11 @@
                 <property>controls/pneumatic/engine-bleed[1]</property>
                 <greater-than>
                     <property>systems/pneumatic/sources/engine[1]</property>
-                    <value>40</value>
+                    <value>20</value>
                 </greater-than>
             </and>
         </input>
-        <output>systems/pneumatic/valves/engine-bleed[1]</output>
+        <output>systems/pneumatic/valves/engine-bleed[1]/target</output>
     </logic>
     <logic>
         <input>
@@ -158,7 +163,7 @@
                 <property>controls/pneumatic/apu-bleed</property>
                 <greater-than>
                     <property>systems/pneumatic/sources/apu</property>
-                    <value>40</value>
+                    <value>20</value>
                 </greater-than>
                 <less-than>
                     <property>systems/pneumatic/buses/engine[0]</property>
@@ -171,7 +176,7 @@
                 </not>
             </and>
         </input>
-        <output>systems/pneumatic/valves/apu</output>
+        <output>systems/pneumatic/valves/apu/target</output>
     </logic>
     <logic>
         <input>
@@ -186,14 +191,14 @@
                         </less-than>
                         <greater-than>
                             <property>systems/pneumatic/buses/bleed[1]</property>
-                            <value>40</value>
+                            <value>20</value>
                         </greater-than>
                     </and>
                     <!-- no pressure on right side -->
                     <and>
                         <greater-than>
                             <property>systems/pneumatic/buses/bleed[0]</property>
-                            <value>40</value>
+                            <value>20</value>
                         </greater-than>
                         <less-than>
                             <property>systems/pneumatic/buses/bleed[1]</property>
@@ -221,7 +226,7 @@
                 </or>
             </and>
         </input>
-        <output>systems/pneumatic/valves/xbleed</output>
+        <output>systems/pneumatic/valves/xbleed/target</output>
     </logic>
 
     <logic>
@@ -231,7 +236,7 @@
                 <value>10</value>
             </greater-than>
         </input>
-        <output>systems/pneumatic/valves/fcv[0]</output>
+        <output>systems/pneumatic/valves/fcv[0]/target</output>
     </logic>
     <logic>
         <input>
@@ -240,8 +245,189 @@
                 <value>10</value>
             </greater-than>
         </input>
-        <output>systems/pneumatic/valves/fcv[1]</output>
+        <output>systems/pneumatic/valves/fcv[1]/target</output>
     </logic>
+
+    <filter>
+        <type>noise-spike</type>
+        <max-rate-of-change>2</max-rate-of-change>
+        <input>systems/pneumatic/valves/apu/target</input>
+        <output>systems/pneumatic/valves/apu/position</output>
+    </filter>
+    <filter>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <condition>
+                <equals>
+                    <property>systems/pneumatic/valves/apu/position</property>
+                    <value>0</value>
+                </equals>
+            </condition>
+            <value>0</value>
+        </input>
+        <input>
+            <condition>
+                <equals>
+                    <property>systems/pneumatic/valves/apu/position</property>
+                    <value>1</value>
+                </equals>
+            </condition>
+            <value>2</value>
+        </input>
+        <input><value>1</value></input>
+        <output>systems/pneumatic/valves/apu/state</output>
+    </filter>
+    <filter>
+        <type>noise-spike</type>
+        <max-rate-of-change>2</max-rate-of-change>
+        <input>systems/pneumatic/valves/fcv[0]/target</input>
+        <output>systems/pneumatic/valves/fcv[0]/position</output>
+    </filter>
+    <filter>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <condition>
+                <equals>
+                    <property>systems/pneumatic/valves/fcv[0]/position</property>
+                    <value>0</value>
+                </equals>
+            </condition>
+            <value>0</value>
+        </input>
+        <input>
+            <condition>
+                <equals>
+                    <property>systems/pneumatic/valves/fcv[0]/position</property>
+                    <value>1</value>
+                </equals>
+            </condition>
+            <value>2</value>
+        </input>
+        <input><value>1</value></input>
+        <output>systems/pneumatic/valves/fcv[0]/state</output>
+    </filter>
+    <filter>
+        <type>noise-spike</type>
+        <max-rate-of-change>2</max-rate-of-change>
+        <input>systems/pneumatic/valves/fcv[1]/target</input>
+        <output>systems/pneumatic/valves/fcv[1]/position</output>
+    </filter>
+    <filter>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <condition>
+                <equals>
+                    <property>systems/pneumatic/valves/fcv[1]/position</property>
+                    <value>0</value>
+                </equals>
+            </condition>
+            <value>0</value>
+        </input>
+        <input>
+            <condition>
+                <equals>
+                    <property>systems/pneumatic/valves/fcv[1]/position</property>
+                    <value>1</value>
+                </equals>
+            </condition>
+            <value>2</value>
+        </input>
+        <input><value>1</value></input>
+        <output>systems/pneumatic/valves/fcv[1]/state</output>
+    </filter>
+    <filter>
+        <type>noise-spike</type>
+        <max-rate-of-change>2</max-rate-of-change>
+        <input>systems/pneumatic/valves/engine-bleed[0]/target</input>
+        <output>systems/pneumatic/valves/engine-bleed[0]/position</output>
+    </filter>
+    <filter>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <condition>
+                <equals>
+                    <property>systems/pneumatic/valves/engine-bleed[0]/position</property>
+                    <value>0</value>
+                </equals>
+            </condition>
+            <value>0</value>
+        </input>
+        <input>
+            <condition>
+                <equals>
+                    <property>systems/pneumatic/valves/engine-bleed[0]/position</property>
+                    <value>1</value>
+                </equals>
+            </condition>
+            <value>2</value>
+        </input>
+        <input><value>1</value></input>
+        <output>systems/pneumatic/valves/engine-bleed[0]/state</output>
+    </filter>
+    <filter>
+        <type>noise-spike</type>
+        <max-rate-of-change>2</max-rate-of-change>
+        <input>systems/pneumatic/valves/engine-bleed[1]/target</input>
+        <output>systems/pneumatic/valves/engine-bleed[1]/position</output>
+    </filter>
+    <filter>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <condition>
+                <equals>
+                    <property>systems/pneumatic/valves/engine-bleed[1]/position</property>
+                    <value>0</value>
+                </equals>
+            </condition>
+            <value>0</value>
+        </input>
+        <input>
+            <condition>
+                <equals>
+                    <property>systems/pneumatic/valves/engine-bleed[1]/position</property>
+                    <value>1</value>
+                </equals>
+            </condition>
+            <value>2</value>
+        </input>
+        <input><value>1</value></input>
+        <output>systems/pneumatic/valves/engine-bleed[1]/state</output>
+    </filter>
+    <filter>
+        <type>noise-spike</type>
+        <max-rate-of-change>2</max-rate-of-change>
+        <input>systems/pneumatic/valves/xbleed/target</input>
+        <output>systems/pneumatic/valves/xbleed/position</output>
+    </filter>
+    <filter>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <condition>
+                <equals>
+                    <property>systems/pneumatic/valves/xbleed/position</property>
+                    <value>0</value>
+                </equals>
+            </condition>
+            <value>0</value>
+        </input>
+        <input>
+            <condition>
+                <equals>
+                    <property>systems/pneumatic/valves/xbleed/position</property>
+                    <value>1</value>
+                </equals>
+            </condition>
+            <value>2</value>
+        </input>
+        <input><value>1</value></input>
+        <output>systems/pneumatic/valves/xbleed/state</output>
+    </filter>
 
     <!-- BUSES -->
     
@@ -260,7 +446,7 @@
             <expression>
                 <product>
                     <property>systems/pneumatic/sources/engine[0]</property>
-                    <property>systems/pneumatic/valves/engine-bleed[0]</property>
+                    <property>systems/pneumatic/valves/engine-bleed[0]/position</property>
                 </product>
             </expression>
         </input>
@@ -273,7 +459,7 @@
             <expression>
                 <product>
                     <property>systems/pneumatic/sources/apu</property>
-                    <property>systems/pneumatic/valves/apu</property>
+                    <property>systems/pneumatic/valves/apu/position</property>
                 </product>
             </expression>
         </input>
@@ -299,7 +485,7 @@
             <expression>
                 <product>
                     <property>systems/pneumatic/buses/bleed[1]</property>
-                    <property>systems/pneumatic/valves/xbleed</property>
+                    <property>systems/pneumatic/valves/xbleed/position</property>
                 </product>
             </expression>
         </input>
@@ -326,7 +512,7 @@
                 <min>
                     <product>
                         <property>systems/pneumatic/buses/fcv[0]</property>
-                        <property>systems/pneumatic/valves/fcv[0]</property>
+                        <property>systems/pneumatic/valves/fcv[0]/position</property>
                     </product>
                     <value>45</value>
                 </min>
@@ -350,7 +536,7 @@
             <expression>
                 <product>
                     <property>systems/pneumatic/sources/engine[1]</property>
-                    <property>systems/pneumatic/valves/engine-bleed[1]</property>
+                    <property>systems/pneumatic/valves/engine-bleed[1]/position</property>
                 </product>
             </expression>
         </input>
@@ -363,7 +549,7 @@
             <expression>
                 <product>
                     <property>systems/pneumatic/buses/bleed[0]</property>
-                    <property>systems/pneumatic/valves/xbleed</property>
+                    <property>systems/pneumatic/valves/xbleed/position</property>
                 </product>
             </expression>
         </input>
@@ -403,7 +589,7 @@
                 <min>
                     <product>
                         <property>systems/pneumatic/buses/fcv[1]</property>
-                        <property>systems/pneumatic/valves/fcv[1]</property>
+                        <property>systems/pneumatic/valves/fcv[1]/position</property>
                     </product>
                     <value>45</value>
                 </min>

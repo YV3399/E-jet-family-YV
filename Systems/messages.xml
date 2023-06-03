@@ -355,7 +355,7 @@
         <input>
             <less-than>
                 <property>/systems/pneumatic/buses/fcv[0]</property>
-                <value>40</value>
+                <value>20</value>
             </less-than>
         </input>
         <output>/instrumentation/eicas/signals/bleed-fail[0]</output>
@@ -364,7 +364,7 @@
         <input>
             <less-than>
                 <property>/systems/pneumatic/buses/fcv[1]</property>
-                <value>40</value>
+                <value>20</value>
             </less-than>
         </input>
         <output>/instrumentation/eicas/signals/bleed-fail[1]</output>

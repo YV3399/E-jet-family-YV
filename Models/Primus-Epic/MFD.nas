@@ -82,10 +82,17 @@ var fillIfConnected = func (target, status) {
     }
 }
 
-var setValve = func (target, state) {
-    var c = (state == 0) ? [1,1,1] : [0,1,0];
+var setValve = func (target, state, inverted=0) {
+    var c = ((state ^ inverted) == 0) ? [1,1,1] : [0,1,0];
     target
         .setRotation(state * math.pi * 0.5)
+        .setColorFill(c);
+}
+
+var setValve3 = func (target, state, sense = 1) {
+    var c = (state != 2) ? [1,1,1] : [0,1,0];
+    target
+        .setRotation(state * sense * math.pi * 0.25)
         .setColorFill(c);
 }
 
@@ -2093,92 +2100,99 @@ var MFD = {
             # sources (pipes and symbols)
             me.addListener('systems', '/systems/pneumatic/sources/engine[0]', func (node) {
                     var pressure = node.getValue();
-                    fillIfConnected(self.elems['ecs.pipe.engine1'], pressure > 40);
+                    fillIfConnected(self.elems['ecs.pipe.engine1'], pressure > 20);
                 }, 1, 0);
             me.addListener('systems', '/systems/pneumatic/sources/engine[1]', func (node) {
                     var pressure = node.getValue();
-                    fillIfConnected(self.elems['ecs.pipe.engine2'], pressure > 40);
+                    fillIfConnected(self.elems['ecs.pipe.engine2'], pressure > 20);
                 }, 1, 0);
             me.addListener('systems', '/systems/pneumatic/sources/apu', func (node) {
                     var pressure = node.getValue();
-                    fillIfConnected(self.elems['ecs.pipe.apu'], pressure > 40);
-                    fillIfConnected(self.elems['ecs.apu.symbol'], pressure > 40);
+                    fillIfConnected(self.elems['ecs.pipe.apu'], pressure > 20);
+                    fillIfConnected(self.elems['ecs.apu.symbol'], pressure > 20);
                 }, 1, 0);
             me.addListener('systems', '/systems/pneumatic/sources/ground-cart', func (node) {
                     var pressure = node.getValue();
-                    fillIfConnected(self.elems['ecs.pipe.groundcart'], pressure > 40);
-                    fillIfConnected(self.elems['ecs.groundcart.symbol'], pressure > 40);
+                    fillIfConnected(self.elems['ecs.pipe.groundcart'], pressure > 20);
+                    fillIfConnected(self.elems['ecs.groundcart.symbol'], pressure > 20);
+                }, 1, 0);
+            me.addListener('systems', '/controls/electric/external-power-connected', func (node) {
+                    var visible = node.getBoolValue();
+                    self.elems['ecs.pipe.groundcart'].setVisible(visible);
+                    self.elems['ecs.groundcart.symbol'].setVisible(visible);
+                    self.elems['ecs.groundcart.text'].setVisible(visible);
                 }, 1, 0);
 
             # buses
             me.addListener('systems', '/systems/pneumatic/buses/engine[0]', func (node) {
                     var pressure = node.getValue();
-                    fillIfConnected(self.elems['ecs.pipe.enginebleed1'], pressure > 40);
+                    fillIfConnected(self.elems['ecs.pipe.enginebleed1'], pressure > 20);
                 }, 1, 0);
             me.addListener('systems', '/systems/pneumatic/buses/engine[1]', func (node) {
                     var pressure = node.getValue();
-                    fillIfConnected(self.elems['ecs.pipe.enginebleed2'], pressure > 40);
+                    fillIfConnected(self.elems['ecs.pipe.enginebleed2'], pressure > 20);
                 }, 1, 0);
             me.addListener('systems', '/systems/pneumatic/buses/apu', func (node) {
                     var pressure = node.getValue();
-                    fillIfConnected(self.elems['ecs.pipe.apubleed'], pressure > 40);
+                    fillIfConnected(self.elems['ecs.pipe.apubleed'], pressure > 20);
                 }, 1, 0);
             me.addListener('systems', '/systems/pneumatic/buses/bleed[0]', func (node) {
                     var pressure = node.getValue();
-                    fillIfConnected(self.elems['ecs.pipe.bleed1'], pressure > 40);
+                    fillIfConnected(self.elems['ecs.pipe.bleed1'], pressure > 20);
                     self.elems['ecs.pressure1.text'].setText(sprintf('%2.0f', pressure));
                 }, 1, 0);
             me.addListener('systems', '/systems/pneumatic/buses/bleed[1]', func (node) {
                     var pressure = node.getValue();
-                    fillIfConnected(self.elems['ecs.pipe.bleed2'], pressure > 40);
+                    fillIfConnected(self.elems['ecs.pipe.bleed2'], pressure > 20);
                     self.elems['ecs.pressure2.text'].setText(sprintf('%2.0f', pressure));
                 }, 1, 0);
             me.addListener('systems', '/systems/pneumatic/buses/fcv[0]', func (node) {
                     var pressure = node.getValue();
-                    fillIfConnected(self.elems['ecs.pipe.fcv1.in'], pressure > 40);
+                    fillIfConnected(self.elems['ecs.pipe.fcv1.in'], pressure > 20);
                 }, 1, 0);
             me.addListener('systems', '/systems/pneumatic/buses/fcv[1]', func (node) {
                     var pressure = node.getValue();
-                    fillIfConnected(self.elems['ecs.pipe.fcv2.in'], pressure > 40);
+                    fillIfConnected(self.elems['ecs.pipe.fcv2.in'], pressure > 20);
                 }, 1, 0);
             me.addListener('systems', '/systems/pneumatic/buses/pack[0]', func (node) {
                     var pressure = node.getValue();
-                    fillIfConnected(self.elems['ecs.pipe.pack1.in'], pressure > 40);
+                    fillIfConnected(self.elems['ecs.pipe.pack1.in'], pressure > 20);
                 }, 1, 0);
             me.addListener('systems', '/systems/pneumatic/buses/pack[1]', func (node) {
                     var pressure = node.getValue();
-                    fillIfConnected(self.elems['ecs.pipe.pack2.in'], pressure > 40);
+                    fillIfConnected(self.elems['ecs.pipe.pack2.in'], pressure > 20);
                 }, 1, 0);
             me.addListener('systems', '/systems/pneumatic/buses/xbleed-both', func (node) {
                     var pressure = node.getValue();
-                    fillIfConnected(self.elems['ecs.pipe.xbleed1'], pressure > 40);
-                    fillIfConnected(self.elems['ecs.pipe.xbleed2'], pressure > 40);
+                    fillIfConnected(self.elems['ecs.pipe.xbleed1'], pressure > 20);
+                    fillIfConnected(self.elems['ecs.pipe.xbleed2'], pressure > 20);
                 }, 1, 0);
 
             # valves
-            me.addListener('systems', '/systems/pneumatic/valves/apu', func (node) {
-                    setValve(self.elems['ecs.valve.apu'], node.getBoolValue());
+            me.addListener('systems', '/systems/pneumatic/valves/apu/state', func (node) {
+                    setValve3(self.elems['ecs.valve.apu'], node.getValue());
                 }, 1, 0);
-            me.addListener('systems', '/systems/pneumatic/valves/engine-bleed[0]', func (node) {
-                    setValve(self.elems['ecs.valve.engine1'], node.getBoolValue());
+            me.addListener('systems', '/systems/pneumatic/valves/engine-bleed[0]/state', func (node) {
+                    setValve3(self.elems['ecs.valve.engine1'], node.getValue());
                 }, 1, 0);
-            me.addListener('systems', '/systems/pneumatic/valves/engine-bleed[1]', func (node) {
-                    setValve(self.elems['ecs.valve.engine2'], node.getBoolValue());
+            me.addListener('systems', '/systems/pneumatic/valves/engine-bleed[1]/state', func (node) {
+                    setValve3(self.elems['ecs.valve.engine2'], node.getValue());
                 }, 1, 0);
-            me.addListener('systems', '/systems/pneumatic/valves/fcv[0]', func (node) {
-                    setValve(self.elems['ecs.valve.fcv1'], node.getBoolValue());
+            me.addListener('systems', '/systems/pneumatic/valves/fcv[0]/state', func (node) {
+                    setValve3(self.elems['ecs.valve.fcv1'], node.getValue());
                 }, 1, 0);
-            me.addListener('systems', '/systems/pneumatic/valves/fcv[1]', func (node) {
-                    setValve(self.elems['ecs.valve.fcv2'], node.getBoolValue());
+            me.addListener('systems', '/systems/pneumatic/valves/fcv[1]/state', func (node) {
+                    setValve3(self.elems['ecs.valve.fcv2'], node.getValue());
                 }, 1, 0);
-            me.addListener('systems', '/systems/pneumatic/valves/xbleed', func (node) {
-                    setValve(self.elems['ecs.valve.xbleed'], node.getBoolValue());
+            me.addListener('systems', '/systems/pneumatic/valves/xbleed/state', func (node) {
+                    setValve3(self.elems['ecs.valve.xbleed'], node.getValue());
                 }, 1, 0);
-            me.addListener('systems', '/systems/pressurization/valves/safety', func (node) {
-                    setValve(self.elems['ecs.valve.safety'], node.getBoolValue());
+
+            me.addListener('systems', '/systems/pressurization/valves/safety/state', func (node) {
+                    setValve3(self.elems['ecs.valve.safety'], node.getValue());
                 }, 1, 0);
-            me.addListener('systems', '/systems/pressurization/valves/ramair', func (node) {
-                    setValve(self.elems['ecs.valve.ramair'], node.getBoolValue());
+            me.addListener('systems', '/systems/pressurization/valves/ramair/state', func (node) {
+                    setValve3(self.elems['ecs.valve.ramair'], node.getValue());
                 }, 1, 0);
             me.addListener('systems', '/systems/pressurization/valves/outflow', func (node) {
                     self.elems['ecs.ofv.pointer'].setTranslation(0, -128 * node.getValue());
@@ -2216,13 +2230,13 @@ var MFD = {
 
                 }, 1, 0);
             me.addListener('systems', '/engines/engine[0]/cutoff', func (node) {
-                    setValve(self.elems['fuel.valve.cutoffL'], node.getBoolValue());
+                    setValve(self.elems['fuel.valve.cutoffL'], node.getBoolValue(), 1);
                 }, 1, 0);
             me.addListener('systems', '/engines/engine[1]/cutoff', func (node) {
-                    setValve(self.elems['fuel.valve.cutoffR'], node.getBoolValue());
+                    setValve(self.elems['fuel.valve.cutoffR'], node.getBoolValue(), 1);
                 }, 1, 0);
             me.addListener('systems', '/engines/apu/cutoff', func (node) {
-                    setValve(self.elems['fuel.valve.apu'], node.getBoolValue());
+                    setValve(self.elems['fuel.valve.apu'], node.getBoolValue(), 1);
                 }, 1, 0);
             me.addListener('systems', '/engines/engine[0]/running', func (node) {
                     var c = node.getBoolValue() ? [0,1,0] : [0.5, 0.5, 0.5];

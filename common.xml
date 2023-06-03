@@ -1664,12 +1664,36 @@
         </fuel>
         <pneumatic>
             <valves>
-                <xbleed type="bool">false</xbleed>
-                <apu type="bool">false</apu>
-                <engine n="0" type="bool">false</engine>
-                <engine n="1" type="bool">false</engine>
-                <fcv n="0" type="bool">false</fcv>
-                <fcv n="1" type="bool">false</fcv>
+                <xbleed>
+                    <target type="bool">false</target>
+                    <position type="double">0</position>
+                    <state type="int">0</state>
+                </xbleed>
+                <apu>
+                    <target type="bool">false</target>
+                    <position type="double">0</position>
+                    <state type="int">0</state>
+                </apu>
+                <engine n="0">
+                    <target type="bool">false</target>
+                    <position type="double">0</position>
+                    <state type="int">0</state>
+                </engine>
+                <engine n="1">
+                    <target type="bool">false</target>
+                    <position type="double">0</position>
+                    <state type="int">0</state>
+                </engine>
+                <fcv n="0">
+                    <target type="bool">false</target>
+                    <position type="double">0</position>
+                    <state type="int">0</state>
+                </fcv>
+                <fcv n="1">
+                    <target type="bool">false</target>
+                    <position type="double">0</position>
+                    <state type="int">0</state>
+                </fcv>
             </valves>
             <sources>
                 <ground-cart type="double">0</ground-cart>
@@ -1713,9 +1737,21 @@
             </packs>
 
             <valves>
-                <safety type="bool">false</safety>
-                <safety-neg type="bool">false</safety-neg>
-                <ramair type="bool">false</ramair>
+                <safety>
+                    <target type="bool">false</target>
+                    <position type="double">0</position>
+                    <state type="int">0</state>
+                </safety>
+                <safety-neg>
+                    <target type="bool">false</target>
+                    <position type="double">0</position>
+                    <state type="int">0</state>
+                </safety-neg>
+                <ramair>
+                    <target type="bool">false</target>
+                    <position type="double">0</position>
+                    <state type="int">0</state>
+                </ramair>
                 <outflow type="double">false</outflow>
             </valves>
 

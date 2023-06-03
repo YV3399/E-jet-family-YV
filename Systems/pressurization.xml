@@ -671,9 +671,9 @@
             <value>0</value>
         </input>
         <input>
-            <property>systems/pressurization/valves/safety</property>
+            <property>systems/pressurization/valves/safety/target</property>
         </input>
-        <output>systems/pressurization/valves/safety</output>
+        <output>systems/pressurization/valves/safety/target</output>
     </filter>
     <filter>
         <type>gain</type>
@@ -697,11 +697,101 @@
             <value>0</value>
         </input>
         <input>
-            <property>systems/pressurization/valves/safety-neg</property>
+            <property>systems/pressurization/valves/safety-neg/target</property>
         </input>
-        <output>systems/pressurization/valves/safety-neg</output>
+        <output>systems/pressurization/valves/safety-neg/target</output>
     </filter>
-    
+
+    <filter>
+        <type>noise-spike</type>
+        <max-rate-of-change>2</max-rate-of-change>
+        <input>systems/pressurization/valves/safety/target</input>
+        <output>systems/pressurization/valves/safety/position</output>
+    </filter>
+    <filter>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <condition>
+                <equals>
+                    <property>systems/pressurization/valves/safety/position</property>
+                    <value>0</value>
+                </equals>
+            </condition>
+            <value>0</value>
+        </input>
+        <input>
+            <condition>
+                <equals>
+                    <property>systems/pressurization/valves/safety/position</property>
+                    <value>1</value>
+                </equals>
+            </condition>
+            <value>2</value>
+        </input>
+        <input><value>1</value></input>
+        <output>systems/pressurization/valves/safety/state</output>
+    </filter>
+    <filter>
+        <type>noise-spike</type>
+        <max-rate-of-change>2</max-rate-of-change>
+        <input>systems/pressurization/valves/safety-neg/target</input>
+        <output>systems/pressurization/valves/safety-neg/position</output>
+    </filter>
+    <filter>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <condition>
+                <equals>
+                    <property>systems/pressurization/valves/safety-neg/position</property>
+                    <value>0</value>
+                </equals>
+            </condition>
+            <value>0</value>
+        </input>
+        <input>
+            <condition>
+                <equals>
+                    <property>systems/pressurization/valves/safety-neg/position</property>
+                    <value>1</value>
+                </equals>
+            </condition>
+            <value>2</value>
+        </input>
+        <input><value>1</value></input>
+        <output>systems/pressurization/valves/safety-neg/state</output>
+    </filter>
+    <filter>
+        <type>noise-spike</type>
+        <max-rate-of-change>2</max-rate-of-change>
+        <input>systems/pressurization/valves/ramair/target</input>
+        <output>systems/pressurization/valves/ramair/position</output>
+    </filter>
+    <filter>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <condition>
+                <equals>
+                    <property>systems/pressurization/valves/ramair/position</property>
+                    <value>0</value>
+                </equals>
+            </condition>
+            <value>0</value>
+        </input>
+        <input>
+            <condition>
+                <equals>
+                    <property>systems/pressurization/valves/ramair/position</property>
+                    <value>1</value>
+                </equals>
+            </condition>
+            <value>2</value>
+        </input>
+        <input><value>1</value></input>
+        <output>systems/pressurization/valves/ramair/state</output>
+    </filter>
     
     <!-- flow rates -->
     
@@ -730,7 +820,7 @@
                 <max>
                     <min>
                         <property>systems/pressurization/pressures/diff-hpa</property>
-                        <property>systems/pressurization/valves/safety</property>
+                        <property>systems/pressurization/valves/safety/position</property>
                     </min>
                     <value>0</value>
                 </max>
@@ -748,7 +838,7 @@
                     <max>
                         <property>systems/pressurization/pressures/diff-hpa</property>
                         <product>
-                            <property>systems/pressurization/valves/safety-neg</property>
+                            <property>systems/pressurization/valves/safety-neg/position</property>
                             <value>-1</value>
                         </product>
                     </max>
