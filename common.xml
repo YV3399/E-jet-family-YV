@@ -1766,6 +1766,7 @@
                 <cabin-hpa type="double">1013.25</cabin-hpa>
                 <lfe-hpa type="double">1013.25</lfe-hpa>
                 <diff-hpa type="double">0</diff-hpa>
+                <ram-air-hpa type="double">0</ram-air-hpa>
 
                 <outside-ft type="double">0</outside-ft>
                 <cabin-ft type="double">0</cabin-ft>
@@ -1820,7 +1821,19 @@
 
             <flow>
                 <ofv-molps type="double">0</ofv-molps>
+                <safety-molps type="double">0</safety-molps>
+                <safety-neg-molps type="double">0</safety-neg-molps>
+                <doors-molps type="double">0</doors-molps>
+                <leak-molps type="double">0</leak-molps>
             </flow>
+
+            <pipes>
+                <safety type="bool">0</safety>
+                <pack n="0" type="bool">0</pack>
+                <pack n="1" type="bool">0</pack>
+                <pack-combined type="bool">0</pack-combined>
+                <ramair type="bool">0</ramair>
+            </pipes>
 
             <automatic>
                 <flight-phase type="int">0</flight-phase>

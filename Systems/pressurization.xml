@@ -701,6 +701,31 @@
         </input>
         <output>systems/pressurization/valves/safety-neg/target</output>
     </filter>
+    <filter>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <condition>
+                <and>
+                    <greater-than>
+                        <property>systems/pressurization/pressures/ram-air-hpa</property>
+                        <property>systems/pressurization/pressures/cabin-hpa</property>
+                    </greater-than>
+                    <not><property>systems/pressurization/packs/pack[0]/running</property></not>
+                    <not><property>systems/pressurization/packs/pack[1]/running</property></not>
+                    <less-than>
+                        <property>systems/pressurization/pressures/outside-ft</property>
+                        <value>25000</value>
+                    </less-than>
+                </and>
+            </condition>
+            <value>1</value>
+        </input>
+        <input>
+            <value>0</value>
+        </input>
+        <output>systems/pressurization/valves/ramair/target</output>
+    </filter>
 
     <filter>
         <type>noise-spike</type>
@@ -893,6 +918,44 @@
         </input>
         <output>systems/pressurization/flow/total-molps</output>
     </filter>
+
+    <!-- pressurization pipe flow -->
+    <logic>
+        <input>
+            <greater-than>
+                <property>systems/pressurization/packs/pack[0]/flow</property>
+                <value>0.05</value>
+            </greater-than>
+        </input>
+        <output>systems/pressurization/pipes/pack[0]</output>
+    </logic>
+    <logic>
+        <input>
+            <greater-than>
+                <property>systems/pressurization/packs/pack[1]/flow</property>
+                <value>0.05</value>
+            </greater-than>
+        </input>
+        <output>systems/pressurization/pipes/pack[1]</output>
+    </logic>
+    <logic>
+        <input>
+            <greater-than>
+                <property>systems/pressurization/valves/ramair/position</property>
+                <value>0.2</value>
+            </greater-than>
+        </input>
+        <output>systems/pressurization/pipes/ramair</output>
+    </logic>
+    <logic>
+        <input>
+            <or>
+                <property>systems/pressurization/pipes/pack[0]</property>
+                <property>systems/pressurization/pipes/ramair</property>
+            </or>
+        </input>
+        <output>systems/pressurization/pipes/pack-combined[0]</output>
+    </logic>
     
     <!-- air flow over time -->
     <filter>
@@ -953,6 +1016,24 @@
         <input>systems/pressurization/pressures/outside-ft</input>
         <filter-time>60.0</filter-time>
         <output>systems/pressurization/pressures/outside-rate-fpm</output>
+    </filter>
+
+    <!-- Ram air pressure (dynamic) -->
+    <filter>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <expression>
+                <sum>
+                    <product>
+                        <property>fdm/jsbsim/aero/qbar-psf</property>
+                        <value>0.47880258977532</value>
+                    </product>
+                    <property>systems/pressurization/pressures/outside-hpa</property>
+                </sum>
+            </expression>
+        </input>
+        <output>systems/pressurization/pressures/ram-air-hpa</output>
     </filter>
     
     <!-- Pressure differential -->

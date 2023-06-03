@@ -2168,6 +2168,27 @@ var MFD = {
                     fillIfConnected(self.elems['ecs.pipe.xbleed2'], pressure > 20);
                 }, 1, 0);
 
+            me.addListener('systems', '/systems/pressurization/pipes/safety', func (node) {
+                    var pressure = node.getValue();
+                    fillIfConnected(self.elems['ecs.pipe.safety'], node.getBoolValue());
+                }, 1, 0);
+            me.addListener('systems', '/systems/pressurization/pipes/ramair', func (node) {
+                    var pressure = node.getValue();
+                    fillIfConnected(self.elems['ecs.pipe.ramair'], node.getBoolValue());
+                }, 1, 0);
+            me.addListener('systems', '/systems/pressurization/pipes/pack[0]', func (node) {
+                    var pressure = node.getValue();
+                    fillIfConnected(self.elems['ecs.pipe.pack1.out'], node.getBoolValue());
+                }, 1, 0);
+            me.addListener('systems', '/systems/pressurization/pipes/pack-combined[0]', func (node) {
+                    var pressure = node.getValue();
+                    fillIfConnected(self.elems['ecs.pipe.pack1.combined'], node.getBoolValue());
+                }, 1, 0);
+            me.addListener('systems', '/systems/pressurization/pipes/pack[1]', func (node) {
+                    var pressure = node.getValue();
+                    fillIfConnected(self.elems['ecs.pipe.pack2.out'], node.getBoolValue());
+                }, 1, 0);
+
             # valves
             me.addListener('systems', '/systems/pneumatic/valves/apu/state', func (node) {
                     setValve3(self.elems['ecs.valve.apu'], node.getValue());
@@ -2210,11 +2231,10 @@ var MFD = {
                 }, 1, 0);
 
             # packs: for now, just use controls directly.
-            # TODO: implement "pack running" logic and use that.
-            me.addListener('systems', '/controls/pressurization/pack[0]', func (node) {
+            me.addListener('systems', '/systems/pressurization/packs/pack[0]/running', func (node) {
                     fillIfConnected(self.elems['ecs.pack1.symbol'], node.getBoolValue());
                 }, 1, 0);
-            me.addListener('systems', '/controls/pressurization/pack[1]', func (node) {
+            me.addListener('systems', '/systems/pressurization/packs/pack[1]/running', func (node) {
                     fillIfConnected(self.elems['ecs.pack2.symbol'], node.getBoolValue());
                 }, 1, 0);
 
