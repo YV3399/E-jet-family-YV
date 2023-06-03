@@ -122,7 +122,7 @@ var myprops = expandNodeCatalog({
                 'cabin-ft-caution-max': nil,
                 'cabin-ft-warning-max': nil,
                 'rate-fpm-caution-max': nil,
-            }
+            },
             'targets': {
                 'type': nil,
                 'rate-fpm': nil,
