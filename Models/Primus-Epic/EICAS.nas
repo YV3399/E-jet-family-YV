@@ -127,6 +127,12 @@ var EICAS = {
         me.registerProp("/systems/pressurization/pressures/cabin-ft");
         me.registerProp("/systems/pressurization/pressures/rate-fpm");
         me.registerProp("/systems/pressurization/pressures/lfe-ft");
+        me.registerProp("/systems/pressurization/pressures/lfe-from-fms");
+        me.registerProp("/systems/pressurization/signals/cabin-ft-caution");
+        me.registerProp("/systems/pressurization/signals/cabin-ft-warning");
+        me.registerProp("/systems/pressurization/signals/diff-psi-caution");
+        me.registerProp("/systems/pressurization/signals/diff-psi-warning");
+        me.registerProp("/systems/pressurization/signals/rate-fpm-caution");
     },
 
     makeMasterGroup: func (group) {
@@ -300,6 +306,64 @@ var EICAS = {
             self.elems['msg.highlight'].setVisible(visible);
             self.elems['msg.status.highlight'].setVisible(visible);
         }, 1, 0);
+        me.addListener('main', '/systems/pressurization/pressures/lfe-ft', func { self.updateLFE(); });
+        me.addListener('main', '/systems/pressurization/pressures/lfe-from-fms', func { self.updateLFE(); }, 1);
+        me.addListener('main', '/systems/pressurization/signals/cabin-ft-caution', func { self.updateCabinFtColor(); }, 1);
+        me.addListener('main', '/systems/pressurization/signals/cabin-ft-warning', func { self.updateCabinFtColor(); }, 1);
+        me.addListener('main', '/systems/pressurization/signals/diff-psi-caution', func { self.updateDiffPsiColor(); }, 1);
+        me.addListener('main', '/systems/pressurization/signals/diff-psi-warning', func { self.updateDiffPsiColor(); }, 1);
+        me.addListener('main', '/systems/pressurization/signals/rate-fpm-caution', func { self.updateRateFpmColor(); }, 1);
+    },
+
+    updateLFE: func () {
+        var fromFMS = me.props["/systems/pressurization/pressures/lfe-from-fms"].getBoolValue();
+        var lfe = me.props["/systems/pressurization/pressures/lfe-ft"].getValue();
+        if (fromFMS) {
+            me.elems["pressure.lfe.text"]
+                .setText(sprintf("%5.0f", me.props["/systems/pressurization/pressures/lfe-ft"].getValue() or 0))
+                .setColor(0, 1, 0);
+        }
+        else {
+            me.elems["pressure.lfe.text"]
+                .setText(sprintf("M%5.0f", me.props["/systems/pressurization/pressures/lfe-ft"].getValue() or 0))
+                .setColor(0, 1, 1);
+        }
+    },
+
+    updateCabinFtColor: func () {
+        var e = me.elems["pressure.cabinalt.text"];
+        if (me.props["/systems/pressurization/signals/cabin-ft-warning"].getBoolValue()) {
+            e.setColor(1, 0, 0);
+        }
+        elsif (me.props["/systems/pressurization/signals/cabin-ft-caution"].getBoolValue()) {
+            e.setColor(1, 1, 0);
+        }
+        else {
+            e.setColor(0, 1, 0);
+        }
+    },
+
+    updateDiffPsiColor: func () {
+        var e = me.elems["pressure.diff.text"];
+        if (me.props["/systems/pressurization/signals/diff-psi-warning"].getBoolValue()) {
+            e.setColor(1, 0, 0);
+        }
+        elsif (me.props["/systems/pressurization/signals/diff-psi-caution"].getBoolValue()) {
+            e.setColor(1, 1, 0);
+        }
+        else {
+            e.setColor(0, 1, 0);
+        }
+    },
+
+    updateRateFpmColor: func () {
+        var e = me.elems["pressure.rate.text"];
+        if (me.props["/systems/pressurization/signals/rate-fpm-caution"].getBoolValue()) {
+            e.setColor(1, 1, 0);
+        }
+        else {
+            e.setColor(0, 1, 0);
+        }
     },
 
     makeWidgets: func () {
@@ -862,7 +926,6 @@ var EICAS = {
         me.elems["pressure.cabinalt.text"].setText(sprintf("%5.0f", me.props["/systems/pressurization/pressures/cabin-ft"].getValue() or 0));
         me.elems["pressure.rate.text"].setText(sprintf("%+1.0f", me.props["/systems/pressurization/pressures/rate-fpm"].getValue() or 0));
         me.elems["pressure.diff.text"].setText(sprintf("%4.1f", me.props["/systems/pressurization/pressures/diff-psi"].getValue() or 0));
-        me.elems["pressure.lfe.text"].setText(sprintf("%5.0f", me.props["/systems/pressurization/pressures/lfe-ft"].getValue() or 0));
 		
 	},
 };

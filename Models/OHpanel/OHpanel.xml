@@ -1459,13 +1459,14 @@
         <object-name>cabin.alt</object-name>
         <property>/controls/pressurization/alt</property>
         <factor>5</factor>
+        <shift-repeat>5</shift-repeat>
         <action>
             <binding>
                 <command>property-adjust</command>
                 <property>/controls/pressurization/alt</property>
                 <factor>1</factor>
-                <min>-10</min>
-                <max>10</max>
+                <min>-15</min>
+                <max>15</max>
                 <wrap>false</wrap>
             </binding>
         </action>

@@ -338,6 +338,7 @@ var PaperworkApp = {
             filename = me.autosaveFilename;
         }
         logprint(3, sprintf('Saving OFP to %s', filename));
+        var err = [];
         call(writexml, [filename, ofp], nil, {}, err);
     },
 

@@ -212,8 +212,12 @@ setlistener("sim/signals/fdm-initialized", func {
     }
 
     var listenOnProp = func (prop, cond, level, text, priority, rootEicas=0, inhibit=nil) {
-        if (typeof(prop) == 'scalar')
+        if (typeof(prop) == 'scalar') {
+            var path = prop;
             prop = props.globals.getNode(prop);
+            if (prop == nil)
+                printf("Property not found: %s", path);
+        }
         if (typeof(inhibit) == 'vector')
             inhibit = vec2boolmap(inhibit);
 
@@ -298,6 +302,17 @@ setlistener("sim/signals/fdm-initialized", func {
     listenOnProp("/controls/flight/steep-approach", yes, MSG_STATUS, 'STEEP APPR', 0);
     listenOnProp("/cpdlc/unread", yes, MSG_STATUS, 'ATC UPLINK', 0, 0, [K3, K5]);
     listenOnProp("/acars/telex/unread", yes, MSG_STATUS, 'ACARS MSG', 0, 0, [K3, K5]);
+
+    listenOnProp("/systems/pressurization/signals/cabin-ft-warning", yes, MSG_WARNING, 'CABIN ALTITUDE HIGH', 0, 0, [K1, K2a, K2b, K3, K5]);
+    listenOnProp("/systems/pressurization/signals/diff-psi-warning", yes, MSG_CAUTION, 'CABIN DIFF PRESS FAIL', 0, 0, [K2b, K3, K5]);
+    listenOnProp("/instrumentation/eicas/signals/bleed-fail[0]", yes, MSG_CAUTION, 'BLEED 1 FAIL', 0, 0, [K2b, K3, K5]);
+    listenOnProp("/instrumentation/eicas/signals/bleed-fail[1]", yes, MSG_CAUTION, 'BLEED 2 FAIL', 0, 0, [K2b, K3, K5]);
+    listenOnProp("/controls/pneumatic/engine-bleed[0]", no, MSG_ADVISORY, 'BLEED 1 OFF', 0, 0, [K2b, K3, K5]);
+    listenOnProp("/controls/pneumatic/engine-bleed[1]", no, MSG_ADVISORY, 'BLEED 2 OFF', 0, 0, [K2b, K3, K5]);
+    listenOnProp("/instrumentation/eicas/signals/pack-off[0]", yes, MSG_ADVISORY, 'PACK 1 OFF', 0, 0, [K2b, K3, K5]);
+    listenOnProp("/instrumentation/eicas/signals/pack-off[1]", yes, MSG_ADVISORY, 'PACK 2 OFF', 0, 0, [K2b, K3, K5]);
+    listenOnProp("/controls/pneumatic/xbleed", no, MSG_ADVISORY, 'XBLEED SW OFF', 0, 0, [K2b, K3, K5]);
+    listenOnProp("/systems/pneumatic/valves/apu", yes, MSG_STATUS, 'BLEED APU VLV OPEN', 0, 0, [K2b, K3, K5]);
 
     listenOnProp("/instrumentation/eicas/messages/debug", yes, MSG_WARNING, 'DEBUG WARN 1', 0);
     listenOnProp("/instrumentation/eicas/messages/debug", yes, MSG_WARNING, 'DEBUG WARN 2', 0);

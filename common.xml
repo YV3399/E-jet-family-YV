@@ -1734,20 +1734,86 @@
                 <outside-ft type="double">0</outside-ft>
                 <cabin-ft type="double">0</cabin-ft>
                 <lfe-ft type="double">0</lfe-ft>
+                <lfe-man-ft type="double">0</lfe-man-ft>
+                <lfe-man-rate type="double">0</lfe-man-rate>
+                <lfe-from-fms type="bool">false</lfe-from-fms>
                 <diff-psi type="double">0</diff-psi>
                 <rate-fpm type="double">0</rate-fpm>
+                <outside-rate-fpm type="double">0</outside-rate-fpm>
+            </pressures>
 
-                <target-rate-fpm type="double">0</target-rate-fpm>
-                <target-diff-psi type="double">0</target-diff-psi>
+            <limits>
+                <diff-psi-caution-max type="double">8.4</diff-psi-caution-max>
+                <diff-psi-caution-min type="double">-0.3</diff-psi-caution-min>
+                <diff-psi-warning-max type="double">8.5</diff-psi-warning-max>
+                <diff-psi-warning-min type="double">-0.5</diff-psi-warning-min>
+
+                <cabin-ft-caution-max type="double">9700</cabin-ft-caution-max>
+                <cabin-ft-warning-max type="double">12400</cabin-ft-warning-max>
+
+                <rate-fpm-caution-max type="double">800</rate-fpm-caution-max>
+                <rate-fpm-caution-min type="double">-800</rate-fpm-caution-min>
+            </limits>
+
+            <signals>
+                <diff-psi-caution type="bool">false</diff-psi-caution>
+                <diff-psi-warning type="bool">false</diff-psi-warning>
+                <cabin-ft-caution type="bool">false</cabin-ft-caution>
+                <cabin-ft-warning type="bool">false</cabin-ft-warning>
+                <rate-fpm-caution type="bool">false</rate-fpm-caution>
+            </signals>
+
+            <targets>
+                <!-- type:
+                        0 = target ΔP now
+                        1 = target ΔP by ref alt
+                        2 = cabin altitude now
+                        3 = cabin altitude by ref alt
+                -->
+                <type type="int">0</type>
+
+                <rate-fpm type="double">0</rate-fpm>
+
+                <diff-psi type="double">0</diff-psi>
+
+                <cabin-alt-ft type="double">0</cabin-alt-ft>
+                <reference-alt-ft type="double">0</reference-alt-ft>
                 <rate-min-fpm type="double">-750</rate-min-fpm>
                 <rate-max-fpm type="double">750</rate-max-fpm>
-            </pressures>
+            </targets>
 
             <flow>
                 <ofv-molps type="double">0</ofv-molps>
             </flow>
 
-            <flight-phase type="int">0</flight-phase>
+            <automatic>
+                <flight-phase type="int">0</flight-phase>
+                <conditions>
+                    <!-- flags for phase detection -->
+                    <wow type="bool">true</wow>
+                    <doors-closed type="bool">true</doors-closed>
+                    <vertical type="int">0</vertical>
+                    <engines-running type="bool">false</engines-running>
+                    <engines-60n2 type="bool">false</engines-60n2>
+                    <engines-takeoff type="bool">false</engines-takeoff>
+                    <cruise-alt type="bool">false</cruise-alt>
+                </conditions>
+                <profile>
+                    <takeoff-alt type="double">0</takeoff-alt>
+                    <takeoff-alt-from-fms type="bool">false</takeoff-alt-from-fms>
+
+                    <cruise-alt type="double">0</cruise-alt>
+                    <cruise-alt-from-fms type="bool">false</cruise-alt-from-fms>
+
+                    <landing-alt type="double">0</landing-alt>
+                    <landing-alt-from-fms type="bool">false</landing-alt-from-fms>
+                </profile>
+                <internal>
+                    <time-to-target-min type="double">0</time-to-target-min>
+                    <alt-diff-ft type="double">0</alt-diff-ft>
+                    <matched-alt-ft type="double">0</matched-alt-ft>
+                </internal>
+            </automatic>
         </pressurization>
     </systems>
 
@@ -2132,6 +2198,8 @@
                 <below30kt type="bool">false</below30kt>
                 <landed-30sec type="double">1</landed-30sec>
                 <landed type="bool">false</landed>
+                <pack-off n="0" type="bool">false</pack-off>
+                <pack-off n="1" type="bool">false</pack-off>
             </signals>
             <blink-state type="bool">false</blink-state>
             <master>
@@ -2976,6 +3044,9 @@
             <file>Aircraft/E-jet-family/Nasal/fms/airways.nas</file>
             <file>Aircraft/E-jet-family/Nasal/fms/oooi.nas</file>
         </fms>
+        <pressurization>
+            <file>Aircraft/E-jet-family/Nasal/pressurization.nas</file>
+        </pressurization>
 
         <autopush>
             <file>Nasal/Autopush/autopush.nas</file>

@@ -332,4 +332,42 @@
         <output>/instrumentation/eicas/master/cpdlc-incoming</output>
     </flipflop>
 
+    <logic>
+        <input>
+            <and>
+                <not><property>/systems/pressurization/packs/pack[0]/running</property></not>
+                <not><property>/gear/gear[0]/wow</property></not>
+            </and>
+        </input>
+        <output>/instrumentation/eicas/signals/pack-off[0]</output>
+    </logic>
+    <logic>
+        <input>
+            <and>
+                <not><property>/systems/pressurization/packs/pack[1]/running</property></not>
+                <not><property>/gear/gear[0]/wow</property></not>
+            </and>
+        </input>
+        <output>/instrumentation/eicas/signals/pack-off[1]</output>
+    </logic>
+
+    <logic>
+        <input>
+            <less-than>
+                <property>/systems/pneumatic/buses/fcv[0]</property>
+                <value>40</value>
+            </less-than>
+        </input>
+        <output>/instrumentation/eicas/signals/bleed-fail[0]</output>
+    </logic>
+    <logic>
+        <input>
+            <less-than>
+                <property>/systems/pneumatic/buses/fcv[1]</property>
+                <value>40</value>
+            </less-than>
+        </input>
+        <output>/instrumentation/eicas/signals/bleed-fail[1]</output>
+    </logic>
+
 </PropertyList>

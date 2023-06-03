@@ -1,7 +1,200 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <PropertyList>
+    <!-- limits -->
+    <filter>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <condition>
+                <or>
+                    <greater-than>
+                        <property>systems/pressurization/pressures/outside-ft</property>
+                        <value>37000</value>
+                    </greater-than>
+                    <and>
+                        <greater-than>
+                            <property>systems/pressurization/automatic/profile/cruise-alt</property>
+                            <value>37000</value>
+                        </greater-than>
+                        <property>systems/pressurization/automatic/profile/cruise-alt-from-fms</property>
+                    </and>
+                </or>
+            </condition>
+            <value>8.4</value>
+        </input>
+        <input>
+            <value>7.8</value>
+        </input>
+        <output>systems/pressurization/limits/diff-psi-caution-max</output>
+    </filter>
+
+    <filter>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <condition>
+                <or>
+                    <and>
+                        <property>systems/pressurization/automatic/profile/takeoff-alt-from-fms</property>
+                        <greater-than>
+                            <property>systems/pressurization/automatic/profile/takeoff-alt</property>
+                            <value>9400</value>
+                        </greater-than>
+                    </and>
+                    <and>
+                        <property>systems/pressurization/automatic/profile/landing-alt-from-fms</property>
+                        <greater-than>
+                            <property>systems/pressurization/automatic/profile/landing-alt</property>
+                            <value>9400</value>
+                        </greater-than>
+                    </and>
+                </or>
+            </condition>
+            <expression>
+                <sum>
+                    <max>
+                        <property>systems/pressurization/automatic/profile/takeoff-alt</property>
+                        <property>systems/pressurization/automatic/profile/landing-alt</property>
+                    </max>
+                    <value>500</value>
+                </sum>
+            </expression>
+        </input>
+        <input>
+            <value>9700</value>
+        </input>
+        <output>systems/pressurization/limits/cabin-ft-caution-max</output>
+    </filter>
+
+    <!-- caution / warning signals -->
+    <logic>
+        <output>systems/pressurization/signals/diff-psi-caution</output>
+        <input>
+            <or>
+                <greater-than>
+                    <property>systems/pressurization/pressures/diff-psi</property>
+                    <property>systems/pressurization/limits/diff-psi-caution-max</property>
+                </greater-than>
+                <less-than>
+                    <property>systems/pressurization/pressures/diff-psi</property>
+                    <property>systems/pressurization/limits/diff-psi-caution-min</property>
+                </less-than>
+            </or>
+        </input>
+    </logic>
+    <logic>
+        <output>systems/pressurization/signals/diff-psi-warning</output>
+        <input>
+            <or>
+                <greater-than>
+                    <property>systems/pressurization/pressures/diff-psi</property>
+                    <property>systems/pressurization/limits/diff-psi-warning-max</property>
+                </greater-than>
+                <less-than>
+                    <property>systems/pressurization/pressures/diff-psi</property>
+                    <property>systems/pressurization/limits/diff-psi-warning-min</property>
+                </less-than>
+            </or>
+        </input>
+    </logic>
+    <logic>
+        <output>systems/pressurization/signals/cabin-ft-caution</output>
+        <input>
+            <greater-than>
+                <property>systems/pressurization/pressures/cabin-ft</property>
+                <property>systems/pressurization/limits/cabin-ft-caution-max</property>
+            </greater-than>
+        </input>
+    </logic>
+    <logic>
+        <output>systems/pressurization/signals/cabin-ft-warning</output>
+        <input>
+            <greater-than>
+                <property>systems/pressurization/pressures/cabin-ft</property>
+                <property>systems/pressurization/limits/cabin-ft-warning-max</property>
+            </greater-than>
+        </input>
+    </logic>
+    <logic>
+        <output>systems/pressurization/signals/rate-fpm-caution</output>
+        <input>
+            <or>
+                <greater-than>
+                    <property>systems/pressurization/pressures/rate-fpm</property>
+                    <property>systems/pressurization/limits/rate-fpm-caution-max</property>
+                </greater-than>
+                <less-than>
+                    <property>systems/pressurization/pressures/rate-fpm</property>
+                    <property>systems/pressurization/limits/rate-fpm-caution-min</property>
+                </less-than>
+            </or>
+        </input>
+    </logic>
+
     <!-- LFE control -->
+    <filter>
+        <type>gain</type>
+        <gain>100</gain>
+        <enable>
+            <condition>
+                <equals>
+                    <property>controls/pressurization/mode</property>
+                    <value>1</value>
+                </equals>
+            </condition>
+        </enable>
+        <input>controls/pressurization/alt</input>
+        <output>systems/pressurization/pressures/lfe-man-rate</output>
+    </filter>
+    
+    <filter>
+        <type>integrator</type>
+        <gain>1</gain>
+        <input>systems/pressurization/pressures/lfe-man-rate</input>
+        <output>systems/pressurization/pressures/lfe-man-ft</output>
+        <initialize-to>output</initialize-to>
+        <enable>
+            <condition>
+                <and>
+                    <equals>
+                        <property>controls/pressurization/mode</property>
+                        <value>1</value>
+                    </equals>
+                    <not>
+                        <equals>
+                            <property>controls/pressurization/alt</property>
+                            <value>0</value>
+                        </equals>
+                    </not>
+                </and>
+            </condition>
+        </enable>
+        <u_min>-1000</u_min>
+        <u_max>12400</u_max>
+    </filter>
+    <filter>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>systems/pressurization/pressures/lfe-ft</input>
+        <output>systems/pressurization/pressures/lfe-man-ft</output>
+        <enable>
+            <condition>
+                <or>
+                    <not>
+                        <equals>
+                            <property>controls/pressurization/mode</property>
+                            <value>1</value>
+                        </equals>
+                    </not>
+                    <equals>
+                        <property>controls/pressurization/alt</property>
+                        <value>0</value>
+                    </equals>
+                </or>
+            </condition>
+        </enable>
+    </filter>
     <filter>
         <type>gain</type>
         <gain>1</gain>
@@ -13,16 +206,20 @@
                 </equals>
             </condition>
         </enable>
-        <update-interval-secs>0.5</update-interval-secs>
         <input>
             <expression>
-                <sum>
-                    <property>systems/pressurization/pressures/lfe-ft</property>
-                    <product>
-                        <property>controls/pressurization/alt</property>
-                        <value>10</value>
-                    </product>
-                </sum>
+                <product>
+                    <value>100</value>
+                    <floor>
+                        <sum>
+                            <value>0.5</value>
+                            <div>
+                                <property>systems/pressurization/pressures/lfe-man-ft</property>
+                                <value>100</value>
+                            </div>
+                        </sum>
+                    </floor>
+                </product>
             </expression>
         </input>
         <output>systems/pressurization/pressures/lfe-ft</output>
@@ -44,13 +241,100 @@
             </condition>
         </enable>
         <input>controls/pressurization/alt</input>
-        <output>systems/pressurization/pressures/target-rate-fpm</output>
+        <output>systems/pressurization/targets/rate-fpm</output>
     </filter>
     
     <!-- automatic mode -->
     <filter>
         <type>gain</type>
+        <gain>-1</gain>
+        <input>systems/pressurization/pressures/outside-ft</input>
+        <reference>systems/pressurization/targets/reference-alt-ft</reference>
+        <output>systems/pressurization/automatic/internal/alt-diff-ft</output>
+    </filter>
+    
+    <filter>
+        <type>gain</type>
         <gain>1</gain>
+        <input>
+            <!-- absolute V/S exceeds 100 fpm: perform actual calculation. -->
+            <expression>
+                <div>
+                    <property>systems/pressurization/automatic/internal/alt-diff-ft</property>
+                    <property>instrumentation/vertical-speed-indicator/indicated-speed-fpm</property>
+                </div>
+            </expression>
+            <condition>
+                <or>
+                    <greater-than>
+                        <property>instrumentation/vertical-speed-indicator/indicated-speed-fpm</property>
+                        <value>100</value>
+                    </greater-than>
+                    <less-than>
+                        <property>instrumentation/vertical-speed-indicator/indicated-speed-fpm</property>
+                        <value>-100</value>
+                    </less-than>
+                </or>
+            </condition>
+        </input>
+        <input>
+            <!-- descending at less than 100 fpm: clamp to -100 fpm. -->
+            <expression>
+                <div>
+                    <property>systems/pressurization/automatic/internal/alt-diff-ft</property>
+                    <value>-100</value>
+                </div>
+            </expression>
+            <condition>
+                <less-than>
+                    <property>instrumentation/vertical-speed-indicator/indicated-speed-fpm</property>
+                    <value>0</value>
+                </less-than>
+            </condition>
+        </input>
+        <input>
+            <!-- climbing at less than 100 fpm, or flying level: clamp to +100 fpm. -->
+            <expression>
+                <div>
+                    <property>systems/pressurization/automatic/internal/alt-diff-ft</property>
+                    <value>100</value>
+                </div>
+            </expression>
+        </input>
+        <output>systems/pressurization/automatic/internal/time-to-target-min</output>
+        <min>0</min>
+        <max>240</max>
+    </filter>
+    
+    <filter>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <expression>
+                <table>
+                    <property>systems/pressurization/pressures/outside-ft</property>
+                    <entry>
+                        <ind>-10000</ind><dep>-9500</dep>
+                    </entry>
+                    <entry>
+                        <ind>1000</ind><dep>1500</dep>
+                    </entry>
+                    <entry>
+                        <ind>37000</ind><dep>7000</dep>
+                    </entry>
+                    <entry>
+                        <ind>41000</ind><dep>8000</dep>
+                    </entry>
+                </table>
+            </expression>
+        </input>
+        <output>systems/pressurization/automatic/internal/matched-alt-ft</output>
+    </filter>
+    
+    <filter>
+        <type>gain</type>
+        <gain>1</gain>
+        <debug type="bool">false</debug>
         <enable>
             <condition>
                 <not>
@@ -61,114 +345,245 @@
                 </not>
             </condition>
         </enable>
-        <input>
-            <!-- ground mode: OFV full open by selecting ΔP = -0.01 -->
+        <output>systems/pressurization/targets/rate-fpm</output>
+        <min>
+            <property>systems/pressurization/targets/rate-min-fpm</property>
+        </min>
+        <max>
             <condition>
-                <equals>
-                    <property>systems/pressurization/flight-phase</property>
-                    <value>0</value>
-                </equals>
+                <and>
+                    <greater-than>
+                        <property>systems/pressurization/pressures/cabin-ft</property>
+                        <property>systems/pressurization/pressures/lfe-ft</property>
+                    </greater-than>
+                    <less-than>
+                        <property>systems/pressurization/pressures/diff-psi</property>
+                        <value>7.8</value>
+                    </less-than>
+                </and>
             </condition>
-            <value>-0.01</value>
+            <property>systems/pressurization/targets/rate-max-fpm</property>
+        </max>
+        <max>
+            <value>300</value>
+        </max>
+        
+        <!--
+    TARGET_DIFF = 0;
+    TARGET_ALT = 1;
+    TARGET_ALT_BY = 2;
+    TARGET_MATCH_ALT = 3;
+-->
+        <input>
+            <!-- TARGET_DIFF -->
+            <condition>
+                <or>
+                    <equals>
+                        <property>systems/pressurization/targets/type</property>
+                        <value>0</value>
+                    </equals>
+                    <greater-than>
+                        <property>systems/pressurization/pressures/diff-psi</property>
+                        <expression>
+                            <difference>
+                                <property>systems/pressurization/targets/diff-psi</property>
+                                <value>0.1</value>
+                            </difference>
+                        </expression>
+                    </greater-than>
+                </or>
+            </condition>
+            <expression>
+                <product>
+                    <difference>
+                        <property>systems/pressurization/targets/diff-psi</property>
+                        <property>systems/pressurization/pressures/diff-psi</property>
+                    </difference>
+                    <value>-100000</value>
+                </product>
+            </expression>
         </input>
         <input>
-            <!-- taxi mode: ΔP = 0.11 -->
+            <!-- TARGET_ALT -->
             <condition>
                 <equals>
-                    <property>systems/pressurization/flight-phase</property>
+                    <property>systems/pressurization/targets/type</property>
                     <value>1</value>
                 </equals>
             </condition>
-            <value>0.11</value>
+            <expression>
+                <product>
+                    <difference>
+                        <property>systems/pressurization/targets/cabin-alt-ft</property>
+                        <property>systems/pressurization/pressures/cabin-ft</property>
+                    </difference>
+                    <value>10</value>
+                </product>
+            </expression>
         </input>
         <input>
-            <!-- takeoff mode: ΔP = 0.15 -->
+            <!-- TARGET_ALT_BY -->
             <condition>
                 <equals>
-                    <property>systems/pressurization/flight-phase</property>
+                    <property>systems/pressurization/targets/type</property>
                     <value>2</value>
                 </equals>
             </condition>
-            <value>0.15</value>
+            <expression>
+                <div>
+                    <difference>
+                        <property>systems/pressurization/targets/cabin-alt-ft</property>
+                        <property>systems/pressurization/pressures/cabin-ft</property>
+                    </difference>
+                    <property>systems/pressurization/automatic/internal/time-to-target-min</property>
+                </div>
+            </expression>
         </input>
         <input>
-            <!-- climb mode (cruise alt < 37000): ΔP = 7.8 -->
+            <!-- TARGET_MATCH_ALT -->
             <condition>
-                <and>
-                    <equals>
-                        <property>systems/pressurization/flight-phase</property>
-                        <value>3</value>
-                    </equals>
-                    <less-than>
-                        <property>systems/pressurization/cruise-alt</property>
-                        <value>37500</value>
-                    </less-than>
-                </and>
+                <equals>
+                    <property>systems/pressurization/targets/type</property>
+                    <value>3</value>
+                </equals>
             </condition>
-            <value>7.8</value>
+            <expression>
+                <div>
+                    <difference>
+                        <property>systems/pressurization/automatic/internal/matched-alt-ft</property>
+                        <property>systems/pressurization/pressures/cabin-ft</property>
+                    </difference>
+                    <value>10</value>
+                </div>
+            </expression>
         </input>
-        <input>
-            <!-- climb mode (cruise alt > 37000): ΔP = 8.4 -->
-            <condition>
-                <and>
-                    <equals>
-                        <property>systems/pressurization/flight-phase</property>
-                        <value>3</value>
-                    </equals>
-                </and>
-            </condition>
-            <value>8.4</value>
-        </input>
-        <input>
-            <!-- cruise mode (cruise alt < 37000): ΔP = 7.8 -->
-            <condition>
-                <and>
-                    <equals>
-                        <property>systems/pressurization/flight-phase</property>
-                        <value>4</value>
-                    </equals>
-                    <less-than>
-                        <property>systems/pressurization/cruise-alt</property>
-                        <value>37500</value>
-                    </less-than>
-                </and>
-            </condition>
-            <value>7.8</value>
-        </input>
-        <input>
-            <!-- cruise mode (cruise alt > 37000): ΔP = 8.4 -->
-            <condition>
-                <and>
-                    <equals>
-                        <property>systems/pressurization/flight-phase</property>
-                        <value>4</value>
-                    </equals>
-                </and>
-            </condition>
-            <value>8.4</value>
-        </input>
-        <input>
-            <!-- descent mode: ΔP = 0.11 -->
-            <condition>
-                <and>
-                    <equals>
-                        <property>systems/pressurization/flight-phase</property>
-                        <value>5</value>
-                    </equals>
-                </and>
-            </condition>
-            <value>0.11</value>
-        </input>
-        <output>systems/pressurization/pressures/target-diff-psi</output>
     </filter>
+    
+    <!-- conditions -->
+    <logic>
+        <input>
+            <property>gear/gear[0]/wow</property>
+        </input>
+        <output>systems/pressurization/automatic/conditions/wow</output>
+    </logic>
+    <logic>
+        <input>
+            <and>
+                <property>sim/model/door-positions/l1/closed</property>
+                <property>sim/model/door-positions/l2/closed</property>
+                <property>sim/model/door-positions/r1/closed</property>
+                <property>sim/model/door-positions/r2/closed</property>
+            </and>
+        </input>
+        <output>systems/pressurization/automatic/conditions/doors-closed</output>
+    </logic>
+    <filter>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <condition>
+                <greater-than>
+                    <property>instrumentation/vertical-speed-indicator/indicated-speed-fpm</property>
+                    <value>250</value>
+                </greater-than>
+            </condition>
+            <value>1</value>
+        </input>
+        <input>
+            <condition>
+                <less-than>
+                    <property>instrumentation/vertical-speed-indicator/indicated-speed-fpm</property>
+                    <value>-250</value>
+                </less-than>
+            </condition>
+            <value>-1</value>
+        </input>
+        <input>
+            <value>0</value>
+        </input>
+        <output>systems/pressurization/automatic/conditions/vertical</output>
+    </filter>
+    <logic>
+        <input>
+            <or>
+                <property>engines/engine[0]/running</property>
+                <property>engines/engine[1]/running</property>
+            </or>
+        </input>
+        <output>systems/pressurization/automatic/conditions/engines-running</output>
+    </logic>
+    <logic>
+        <input>
+            <or>
+                <greater-than>
+                    <property>engines/engine[0]/n2</property>
+                    <value>60</value>
+                </greater-than>
+                <greater-than>
+                    <property>engines/engine[1]/n2</property>
+                    <value>60</value>
+                </greater-than>
+            </or>
+        </input>
+        <output>systems/pressurization/automatic/conditions/engines-60n2</output>
+    </logic>
+    <logic>
+        <input>
+            <or>
+                <not>
+                    <less-than>
+                        <property>/fadec/lever[0]</property>
+                        <expression>
+                            <min>
+                                <property>trs/thrust/to</property>
+                                <property>fadec/trs-limit</property>
+                            </min>
+                        </expression>
+                    </less-than>
+                </not>
+                <not>
+                    <less-than>
+                        <property>/fadec/lever[1]</property>
+                        <expression>
+                            <min>
+                                <property>trs/thrust/to</property>
+                                <property>fadec/trs-limit</property>
+                            </min>
+                        </expression>
+                    </less-than>
+                </not>
+            </or>
+        </input>
+        <output>systems/pressurization/automatic/conditions/engines-takeoff</output>
+    </logic>
+    <logic>
+        <input>
+            <and>
+                <greater-than>
+                    <property>instrumentation/altimeter/indicated-altitude-ft</property>
+                    <expression>
+                        <difference>
+                            <property>systems/pressurization/automatic/profile/cruise-alt</property>
+                            <value>500</value>
+                        </difference>
+                    </expression>
+                </greater-than>
+                <greater-than>
+                    <property>systems/pressurization/automatic/profile/cruise-alt</property>
+                    <value>0</value>
+                </greater-than>
+            </and>
+        </input>
+        <output>systems/pressurization/automatic/conditions/cruise-alt</output>
+    </logic>
     
     <!-- OFV flow rate controller -->
     <pi-simple-controller>
         <input>systems/pressurization/pressures/rate-fpm</input>
-        <reference>systems/pressurization/pressures/target-rate-fpm</reference>
+        <reference>systems/pressurization/targets/rate-fpm</reference>
         <output>systems/pressurization/valves/outflow</output>
         <Kp>0.0</Kp>
-        <Ki>0.00004</Ki>
+        <Ki>0.001</Ki>
         <min>0</min>
         <max>1</max>
     </pi-simple-controller>
@@ -199,16 +614,32 @@
         <output>systems/pressurization/packs/pack[1]/running</output>
     </logic>
     <filter>
-        <type>gain</type>
-        <gain>0.2</gain>
-        <input>systems/pressurization/packs/pack[0]/running</input>
+        <type>noise-spike</type>
+        <max-rate-of-change>0.2</max-rate-of-change>
+        <input>
+            <expression>
+                <product>
+                    <property>systems/pressurization/packs/pack[0]/running</property>
+                    <value>0.2</value>
+                </product>
+            </expression>
+        </input>
         <output>systems/pressurization/packs/pack[0]/flow</output>
+        <initialize-to>output</initialize-to>
     </filter>
     <filter>
-        <type>gain</type>
-        <gain>0.2</gain>
-        <input>systems/pressurization/packs/pack[1]/running</input>
+        <type>noise-spike</type>
+        <max-rate-of-change>0.2</max-rate-of-change>
+        <input>
+            <expression>
+                <product>
+                    <property>systems/pressurization/packs/pack[1]/running</property>
+                    <value>0.2</value>
+                </product>
+            </expression>
+        </input>
         <output>systems/pressurization/packs/pack[1]/flow</output>
+        <initialize-to>output</initialize-to>
     </filter>
     
     <!-- Safety valves -->
@@ -418,6 +849,14 @@
         <gain>33.86530748663101</gain>
         <input>environment/pressure-inhg</input>
         <output>systems/pressurization/pressures/outside-hpa</output>
+    </filter>
+    
+    <filter>
+        <type>derivative</type>
+        <debug type="bool">false</debug>
+        <input>systems/pressurization/pressures/outside-ft</input>
+        <filter-time>60.0</filter-time>
+        <output>systems/pressurization/pressures/outside-rate-fpm</output>
     </filter>
     
     <!-- Pressure differential -->
