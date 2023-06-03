@@ -603,6 +603,25 @@
                     <value>10</value>
                 </greater-than>
                 <property>controls/pressurization/pack[0]</property>
+                <not>
+                    <and>
+                        <or>
+                            <property>engines/engine[0]/starter</property>
+                            <property>engines/engine[1]/starter</property>
+                        </or>
+                        <or>
+                            <property>gear/gear[0]/wow</property>
+                            <property>systems/pneumatic/valves/apu/target</property>
+                        </or>
+                    </and>
+                </not>
+                <not>
+                    <and>
+                        <property>engines/engine[0]/starter</property>
+                        <not><property>engines/engine[1]/starter</property></not>
+                        <not><property>gear/gear[0]/wow</property></not>
+                    </and>
+                </not>
             </and>
         </input>
         <output>systems/pressurization/packs/pack[0]/running</output>
@@ -615,6 +634,25 @@
                     <value>10</value>
                 </greater-than>
                 <property>controls/pressurization/pack[1]</property>
+                <not>
+                    <and>
+                        <or>
+                            <property>engines/engine[0]/starter</property>
+                            <property>engines/engine[1]/starter</property>
+                        </or>
+                        <or>
+                            <property>gear/gear[0]/wow</property>
+                            <property>systems/pneumatic/valves/apu/target</property>
+                        </or>
+                    </and>
+                </not>
+                <not>
+                    <and>
+                        <property>engines/engine[1]/starter</property>
+                        <not><property>engines/engine[0]/starter</property></not>
+                        <not><property>gear/gear[0]/wow</property></not>
+                    </and>
+                </not>
             </and>
         </input>
         <output>systems/pressurization/packs/pack[1]/running</output>
