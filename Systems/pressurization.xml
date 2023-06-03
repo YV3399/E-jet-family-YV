@@ -144,7 +144,7 @@
                 </equals>
             </condition>
         </enable>
-        <input>controls/pressurization/alt</input>
+        <input>controls/pressurization/lfe</input>
         <output>systems/pressurization/pressures/lfe-man-rate</output>
     </filter>
     
@@ -163,7 +163,7 @@
                     </equals>
                     <not>
                         <equals>
-                            <property>controls/pressurization/alt</property>
+                            <property>controls/pressurization/lfe</property>
                             <value>0</value>
                         </equals>
                     </not>
@@ -188,7 +188,7 @@
                         </equals>
                     </not>
                     <equals>
-                        <property>controls/pressurization/alt</property>
+                        <property>controls/pressurization/lfe</property>
                         <value>0</value>
                     </equals>
                 </or>

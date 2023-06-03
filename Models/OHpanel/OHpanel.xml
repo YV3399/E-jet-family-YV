@@ -19,10 +19,32 @@
         <object-name>labels.passenger-signs</object-name>
         <object-name>labels.pneumatic</object-name>
         <object-name>labels.pressurization</object-name>
+        <object-name>labels.lfe</object-name>
         <object-name>labels.system3</object-name>
         <object-name>labels.wipers</object-name>
         <object-name>extg.left.001</object-name>
         <object-name>extg.right.001</object-name>
+        <object-name>hydraulic.pump.ptu.light</object-name>
+        <object-name>hydraulic.pump.left.light</object-name>
+        <object-name>hydraulic.pump.right.light</object-name>
+        <object-name>electric.pump.left.light</object-name>
+        <object-name>electric.pump.right.light</object-name>
+        <object-name>generator1.light</object-name>
+        <object-name>generator2.light</object-name>
+        <object-name>acbusties.light</object-name>
+        <object-name>BATT1.light</object-name>
+        <object-name>BATT2.light</object-name>
+        <object-name>fuel.crossfeed.light</object-name>
+        <object-name>fuel.pump.dc.light</object-name>
+        <object-name>fuel.pump.left.light</object-name>
+        <object-name>fuel.pump.right.light</object-name>
+        <object-name>fuel.pump.center.light</object-name>
+        <object-name>APU.knob.light</object-name>
+        <object-name>wiper.left.light</object-name>
+        <object-name>wiper.right.light</object-name>
+        <object-name>cabin.alt.light</object-name>
+        <object-name>cabin.mode.light</object-name>
+        <object-name>lfe.light</object-name>
         <object-name>PanelMarkings_1</object-name>
         <object-name>PanelMarkings_1.001</object-name>
         <object-name>PanelMarkings_1.002</object-name>
@@ -1472,6 +1494,32 @@
         </action>
         <axis>
             <object-name>cabin.alt.axis</object-name>
+        </axis>
+    </animation>
+    <animation>
+        <type>knob</type>
+        <object-name>lfe</object-name>
+        <property>/controls/pressurization/lfe</property>
+        <factor>45</factor>
+        <action>
+            <binding>
+                <command>property-adjust</command>
+                <property>/controls/pressurization/lfe</property>
+                <factor>1</factor>
+                <min>-1</min>
+                <max>1</max>
+                <wrap>false</wrap>
+            </binding>
+        </action>
+        <release>
+            <binding>
+                <command>property-assign</command>
+                <property>/controls/pressurization/lfe</property>
+                <value>0</value>
+            </binding>
+        </release>
+        <axis>
+            <object-name>lfe.axis</object-name>
         </axis>
     </animation>
     <animation>
