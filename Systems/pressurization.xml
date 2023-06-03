@@ -490,7 +490,7 @@
             <condition>
                 <greater-than>
                     <property>instrumentation/vertical-speed-indicator/indicated-speed-fpm</property>
-                    <value>250</value>
+                    <value>500</value>
                 </greater-than>
             </condition>
             <value>1</value>
@@ -499,7 +499,7 @@
             <condition>
                 <less-than>
                     <property>instrumentation/vertical-speed-indicator/indicated-speed-fpm</property>
-                    <value>-250</value>
+                    <value>-500</value>
                 </less-than>
             </condition>
             <value>-1</value>
@@ -933,7 +933,7 @@
     
     <filter>
         <type>gain</type>
-        <gain>-0.0005</gain>
+        <gain>-0.00005</gain>
         <input>systems/pressurization/pressures/diff-hpa</input>
         <output>systems/pressurization/flow/leak-molps</output>
     </filter>
