@@ -182,8 +182,8 @@ var splitDimensional = func (str) {
         return [0, ''];
     var result = [];
     var i = 0;
-    if (typeof(str) != 'scalar')
-        debug.dump(str);
+    # if (typeof(str) != 'scalar')
+    #     debug.dump(str);
     str = str ~ '';
     while (i < size(str) and (string.isdigit(str[i]) or str[i] == '-'[0] or str[i] == '.'[0])) {
         i += 1;

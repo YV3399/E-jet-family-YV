@@ -159,8 +159,6 @@ var myprops = expandNodeCatalog({
 var initListener = nil;
 
 var updateFlightPhase = func (node) {
-    printf("updateFlightPhase [%s]", (node == nil) ? '---' : node.getPath());
-
     var current = myprops.systems.pressurization.automatic.flightPhase.getValue();
     var next = current;
 

@@ -558,7 +558,7 @@ var FlightPlanModule = {
     openDirectToModule: func (val, directFromIndex) {
         var this = me;
         me.startEditing();
-        debug.dump('Selected WP', me.selectedWP);
+        # debug.dump('Selected WP', me.selectedWP);
         if (me.selectedWP != nil and me.selectedWP.wp.id == val) {
             me.mcdu.pushModule(func (mcdu, parent) {
                 return DirectToModule.new(mcdu, parent, this.fp, me.selectedWP, directFromIndex);

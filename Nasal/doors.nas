@@ -25,7 +25,6 @@ var Door = {
             parents: [Door],
             node: node,
         };
-        debug.dump(m);
         return m;
     },
 
