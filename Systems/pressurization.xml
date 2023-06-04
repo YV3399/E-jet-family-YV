@@ -21,10 +21,10 @@
                     </and>
                 </or>
             </condition>
-            <value>8.4</value>
+            <value>8.41</value>
         </input>
         <input>
-            <value>7.8</value>
+            <value>7.81</value>
         </input>
         <output>systems/pressurization/limits/diff-psi-caution-max</output>
     </filter>
@@ -490,7 +490,7 @@
             <condition>
                 <greater-than>
                     <property>instrumentation/vertical-speed-indicator/indicated-speed-fpm</property>
-                    <value>500</value>
+                    <value>900</value>
                 </greater-than>
             </condition>
             <value>1</value>
@@ -499,7 +499,7 @@
             <condition>
                 <less-than>
                     <property>instrumentation/vertical-speed-indicator/indicated-speed-fpm</property>
-                    <value>-500</value>
+                    <value>-900</value>
                 </less-than>
             </condition>
             <value>-1</value>
@@ -536,28 +536,28 @@
     <logic>
         <input>
             <or>
-                <not>
-                    <less-than>
-                        <property>/fadec/lever[0]</property>
-                        <expression>
-                            <min>
-                                <property>trs/thrust/to</property>
-                                <property>fadec/trs-limit</property>
-                            </min>
-                        </expression>
-                    </less-than>
-                </not>
-                <not>
-                    <less-than>
-                        <property>/fadec/lever[1]</property>
-                        <expression>
-                            <min>
-                                <property>trs/thrust/to</property>
-                                <property>fadec/trs-limit</property>
-                            </min>
-                        </expression>
-                    </less-than>
-                </not>
+                <and>
+                    <not>
+                        <less-than>
+                            <property>/fadec/target[0]</property>
+                            <property>trs/thrust/to</property>
+                        </less-than>
+                    </not>
+                    <not>
+                        <property>/controls/engines/engine[0]/reverser</property>
+                    </not>
+                </and>
+                <and>
+                    <not>
+                        <less-than>
+                            <property>/fadec/target[1]</property>
+                            <property>trs/thrust/to</property>
+                        </less-than>
+                    </not>
+                    <not>
+                        <property>/controls/engines/engine[1]/reverser</property>
+                    </not>
+                </and>
             </or>
         </input>
         <output>systems/pressurization/automatic/conditions/engines-takeoff</output>

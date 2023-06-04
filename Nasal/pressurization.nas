@@ -36,13 +36,23 @@ var TARGET_MATCH_ALT = 3;
 
 var flightPhaseNames = [
         'GROUND',
-        'TAXI',
+        'TAXI-OUT',
         'TAKEOFF',
         'CLIMB',
         'CRUISE',
         'DESCENT',
         'ABORT',
+        'TAXI-IN',
     ];
+
+var getFlightPhaseName = func (phase) {
+    if (phase < 0 or phase >= size(flightPhaseNames)) {
+        return sprintf('UNKNOWN_%i', phase);
+    }
+    else {
+        return flightPhaseNames[phase];
+    }
+};
 
 var expandNodeCatalog = func (node, path) {
     if (node == nil) {
@@ -165,17 +175,6 @@ var updateFlightPhase = func (node) {
     if (next < 0) {
         next = PHASE_GROUND;
     }
-    if (next > PHASE_TAKEOFF) {
-        if (myprops.systems.pressurization.automatic.conditions.wow.getBoolValue()) {
-            next = PHASE_TAXI_IN;
-        }
-    }
-    if (next == PHASE_TAXI_IN) {
-        if (!(myprops.systems.pressurization.automatic.conditions.enginesRunning.getBoolValue()) or
-            !(myprops.systems.pressurization.automatic.conditions.doorsClosed.getBoolValue())) {
-            next = PHASE_GROUND;
-        }
-    }
     if (next == PHASE_GROUND) {
         if (myprops.systems.pressurization.automatic.conditions.doorsClosed.getBoolValue() and
             myprops.systems.pressurization.automatic.conditions.engines60n2.getBoolValue()) {
@@ -208,8 +207,24 @@ var updateFlightPhase = func (node) {
             next = PHASE_DESCENT;
         }
     }
+    if (next == PHASE_ABORT) {
+        if (myprops.systems.pressurization.automatic.conditions.vertical.getValue() > 0) {
+            next = PHASE_CLIMB;
+        }
+    }
+    if (next > PHASE_TAKEOFF) {
+        if (myprops.systems.pressurization.automatic.conditions.wow.getBoolValue()) {
+            next = PHASE_TAXI_IN;
+        }
+    }
+    if (next == PHASE_TAXI_IN) {
+        if (!(myprops.systems.pressurization.automatic.conditions.enginesRunning.getBoolValue()) or
+            !(myprops.systems.pressurization.automatic.conditions.doorsClosed.getBoolValue())) {
+            next = PHASE_GROUND;
+        }
+    }
     if (next != current) {
-        printf("%s -> %s", flightPhaseNames[current], flightPhaseNames[next]);
+        printf("%s -> %s", getFlightPhaseName(current), getFlightPhaseName(next));
         myprops.systems.pressurization.automatic.flightPhase.setValue(next);
     }
     updateTargets();
