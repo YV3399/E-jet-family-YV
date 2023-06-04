@@ -1316,10 +1316,12 @@ re-run build.sh.
       <property>instrumentation/nav[1]/heading-needle-deflection-norm</property>
     </input>
     <input>
-      <product>
-        <property>instrumentation/gps/cdi-deflection</property>
-        <value>0.1</value>
-      </product>
+      <expression>
+        <product>
+          <property>instrumentation/gps/cdi-deflection</property>
+          <value>0.1</value>
+        </product>
+      </expression>
     </input>
   </filter>
   <filter>
