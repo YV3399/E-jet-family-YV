@@ -302,6 +302,11 @@ var keyProps = {
     "TO-WIND-DIR": "/fms/takeoff-conditions/wind-dir",
     "TO-WIND-SPEED": "/fms/takeoff-conditions/wind-speed",
     "TO-TRS-MODE": "/controls/flight/trs/to",
+    "TO-ATTCS": "/controls/flight/trs/attcs",
+    "TO-REF-ECS": "/controls/pressurization/takeoff-ref-ecs",
+    "TO-REF-AI": "/controls/anti-ice/takeoff-ref-ai",
+    "TO-FLEX": "/controls/flight/trs/flex-to",
+    "TO-FLEX-TEMP": "/controls/flight/trs/flex-temp",
 
     # Landing parameters
     "APPROACH-CAT": "/fms/landing-conditions/approach-cat",
@@ -320,6 +325,9 @@ var keyProps = {
     "TRS-THRUST-CLB": "/trs/thrust/climb",
     "TRS-THRUST-CRZ": "/trs/thrust/crz",
     "TRS-THRUST-LIMIT": "/fadec/configuration/max-n1",
+    "TRS-TO1-NOMINAL": "/trs/thrust/to1-nominal",
+    "TRS-TO2-NOMINAL": "/trs/thrust/to2-nominal",
+    "TRS-TO3-NOMINAL": "/trs/thrust/to3-nominal",
 
     # Route
     "DEPARTURE-AIRPORT": "/autopilot/route-manager/departure/airport",

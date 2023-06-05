@@ -96,6 +96,7 @@ var MCDU = {
 
         # TRS
         "TRS": func (mcdu, parent) { return TRSModule.new(mcdu, parent); },
+        "TO-DATASET": func (mcdu, parent) { return TakeoffDatasetModule.new(mcdu, parent); },
 
         # ACARS modules
         "ACARS-RCVD": func (mcdu, parent) { return ACARSLogModule.new(mcdu, parent, 'RECEIVED'); },

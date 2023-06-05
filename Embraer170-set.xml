@@ -184,4 +184,12 @@
         </configuration>
     </fadec>
 
+    <trs>
+        <thrust n="0">
+            <to1-nominal type="double">14500</to1-nominal>
+            <to2-nominal type="double">13500</to2-nominal>
+            <to3-nominal type="double">12200</to3-nominal>
+        </thrust>
+    </trs>
+
 </PropertyList>

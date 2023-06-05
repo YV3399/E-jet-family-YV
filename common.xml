@@ -1060,12 +1060,18 @@
     <trs>
         <phase type="int">0</phase>
         <mode type="int">0</mode>
+
         <thrust>
             <to1 type="double">97.1</to1>
             <to2 type="double">91.4</to2>
             <to3 type="double">83.0</to3>
+
             <climb1 type="double">87.6</climb1>
             <climb2 type="double">78.3</climb2>
+
+            <to1-nominal type="double">18500</to1-nominal>
+            <to2-nominal type="double">17100</to2-nominal>
+            <to3-nominal type="double">15500</to3-nominal>
 
             <to type="double">97.1</to>
             <climb type="double">87.6</climb>
@@ -1889,6 +1895,9 @@
             <engine n="1">
                 <inlet-heat type="bool">false</inlet-heat>
             </engine>
+
+            <!-- 0 = OFF, 1 = ENG, 2 = ALL -->
+            <takeoff-ref-ai type="int">0</takeoff-ref-ai>
         </anti-ice>
 
         <pressurization>
@@ -1897,12 +1906,16 @@
             <recirc type="bool">false</recirc>
             <mode type="int">0</mode>
             <alt type="int">0</alt>
+
+            <takeoff-ref-ecs type="bool">true</takeoff-ref-ecs>
         </pressurization>
+
         <pneumatic>
             <apu-bleed type="bool">false</apu-bleed>
             <engine-bleed n="0" type="bool">false</engine-bleed>
             <engine-bleed n="1" type="bool">false</engine-bleed>
             <xbleed type="bool">false</xbleed>
+
         </pneumatic>
 
         <apu>
@@ -2018,7 +2031,11 @@
                 <!-- true = FLEX-TO-n, false = TO-n -->
                 <flex-to type="bool">false</flex-to>
 
+                <flex-temp type="double">25</flex-temp>
+
                 <mode>AUTO</mode>
+
+                <attcs type="bool">false</attcs>
             </trs>
 
             <!-- FMS speed mode: 0 = manual, 1 = managed -->
