@@ -88,6 +88,8 @@ var right_triangle = "►";
 var left_right_arrow = "↔";
 var up_down_arrow = "↕";
 var black_square = "■";
+var radio_selected = "●";
+var radio_empty = "○";
 var hollow_square =  "▯";
 var hollow_squares =  "▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯";
 

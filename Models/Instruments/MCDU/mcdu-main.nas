@@ -11,8 +11,23 @@
 var acdir = getprop('/sim/aircraft-dir');
 var include = func (basename) {
     var path = acdir ~ '/Models/Instruments/MCDU/' ~ basename;
-    printf("--- loading " ~ path ~ " ---");
+    logprint(3, "--- loading " ~ path ~ " ---");
     io.load_nasal(path, 'mcdu');
+}
+
+var includeAll = func (dirname) {
+    logprint(3, "--- loading " ~ dirname ~ " ---");
+    var basedir = acdir ~ '/Models/Instruments/MCDU/' ~ dirname;
+    var paths = directory(basedir) or [];
+    foreach (var path; paths) {
+        if (substr(path, -4) == '.nas') {
+            logprint(3, "--- loading " ~ path ~ " ---");
+            io.load_nasal(basedir ~ '/' ~ path, 'mcdu');
+        }
+        else {
+            logprint(2, "--- skipping " ~ path ~ "---");
+        }
+    }
 }
 
 var reload = func {
@@ -49,11 +64,12 @@ if (globals.mcdu.mcdu1 != nil) {
 # (re-)load submodules
 include('util.nas');
 include('defs.nas');
-include('mcdu-models.nas');
-include('mcdu-views.nas');
-include('mcdu-controllers.nas');
-include('mcdu-modules.nas');
-include('mcdu-mcdu.nas');
+include('model-factory.nas');
+includeAll('models');
+includeAll('controllers');
+includeAll('modules');
+includeAll('views');
+include('device.nas');
 
 # initialize
 var initialized = 0;
