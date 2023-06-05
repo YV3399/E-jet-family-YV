@@ -94,6 +94,9 @@ var MCDU = {
             return CPDLCMessageModule.new(mcdu, parent, newestMessage);
         },
 
+        # TRS
+        "TRS": func (mcdu, parent) { return TRSModule.new(mcdu, parent); },
+
         # ACARS modules
         "ACARS-RCVD": func (mcdu, parent) { return ACARSLogModule.new(mcdu, parent, 'RECEIVED'); },
         "ACARS-SENT": func (mcdu, parent) { return ACARSLogModule.new(mcdu, parent, 'SENT'); },

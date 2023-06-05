@@ -1066,6 +1066,9 @@
             <to3 type="double">83.0</to3>
             <climb1 type="double">87.6</climb1>
             <climb2 type="double">78.3</climb2>
+
+            <to type="double">97.1</to>
+            <climb type="double">87.6</climb>
             <con type="double">90.8</con>
             <crz type="double">73.5</crz>
         </thrust>
@@ -2008,8 +2011,13 @@
             <trs>
                 <!-- 1 = TO-1, 2 = TO-2, 3 = TO-3 -->
                 <to type="int">1</to>
+
+                <!-- 1 = CLB-1, 2 = CLB-2 -->
+                <climb type="int">1</climb>
+
                 <!-- true = FLEX-TO-n, false = TO-n -->
-                <flex-to type="bool">true</flex-to>
+                <flex-to type="bool">false</flex-to>
+
                 <mode>AUTO</mode>
             </trs>
 

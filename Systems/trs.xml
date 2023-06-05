@@ -221,7 +221,7 @@
 	<output>/trs/phase</output>
 </filter>
 
-<!-- selecting specific TO, GA, and CLB settings -->
+<!-- selecting specific TO / GA settings -->
 <filter>
     <!-- TODO: FLEX-TO -->
     <name>Select TO thrust</name>
@@ -327,22 +327,23 @@
 </filter>
 
 <filter>
-    <name>Select CLB thrust submode</name>
+    <name>Inhibit CLB1 on ground unless TO1 selected</name>
     <type>gain</type>
-    <gain>1</gain>
-    <input>
+    <enable>
         <condition>
-            <less-than>
-                <property>/trs/thrust/to</property>
-                <property>/trs/thrust/climb1</property>
-            </less-than>
+            <and>
+                <property>gear/gear[0]/wow</property>
+                <not>
+                    <equals>
+                        <property>/controls/flight/trs/to</property>
+                        <value>1</value>
+                    </equals>
+                </not>
+            </and>
         </condition>
-        <value>2</value>
-    </input>
-    <input>
-        <value>1</value>
-    </input>
-    <output>/trs/thrust/climb-submode</output>
+    </enable>
+    <input><value>2</value></input>
+    <output>/controls/flight/trs/climb</output>
 </filter>
 
 <filter>
@@ -352,9 +353,18 @@
     <input>
         <condition>
             <equals>
-                <property>/trs/thrust/climb-submode</property>
+                <property>/controls/flight/trs/climb</property>
                 <value>2</value>
             </equals>
+        </condition>
+        <property>/trs/thrust/climb2</property>
+    </input>
+    <input>
+        <condition>
+            <less-than>
+                <property>/trs/thrust/to</property>
+                <property>/trs/thrust/climb1</property>
+            </less-than>
         </condition>
         <property>/trs/thrust/climb2</property>
     </input>

@@ -108,6 +108,27 @@ var iruStatusNames = [
     '    NO REFERENCE    ',
 ];
 
+var trsModeNames = [
+    'TOGA',
+    'TOGA',
+    'CLB',
+    '---',
+    'CRZ',
+    'CON',
+];
+
+var getTRSModeName = func (mode) {
+    if (mode == nil) {
+        return 'NONE';
+    }
+    if (mode < 0 or mode >= size(trsModeNames)) {
+        return sprintf('?%i', mode);
+    }
+    else {
+        return trsModeNames[mode];
+    }
+};
+
 var keyProps = {
     # Radios
     "NAV1A": "/instrumentation/nav[0]/frequencies/selected-mhz",
@@ -288,6 +309,17 @@ var keyProps = {
     "LANDING-FLAPS": "/fms/landing-conditions/landing-flaps",
     "LANDING-ICE": "/fms/landing-conditions/ice-accretion",
     "LANDING-OAT": "/fms/landing-conditions/oat",
+
+    # TRS
+    "TRS-MODE": "/trs/mode",
+    "TRS-MODE-SEL": "/controls/flight/trs/mode",
+    "TRS-CLIMB-MODE-SEL": "/controls/flight/trs/climb",
+    "TRS-PHASE": "/trs/phase",
+    "TRS-THRUST-TO": "/trs/thrust/to",
+    "TRS-THRUST-CON": "/trs/thrust/con",
+    "TRS-THRUST-CLB": "/trs/thrust/climb",
+    "TRS-THRUST-CRZ": "/trs/thrust/crz",
+    "TRS-THRUST-LIMIT": "/fadec/configuration/max-n1",
 
     # Route
     "DEPARTURE-AIRPORT": "/autopilot/route-manager/departure/airport",
