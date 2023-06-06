@@ -10,7 +10,7 @@ var trsModeLabels = {
 	2: "CLB",
 	4: "CRZ",
 	5: "CON",
-	6: "TOGA-RES",
+	6: "RSV",
 };
 
 var msgColors = [

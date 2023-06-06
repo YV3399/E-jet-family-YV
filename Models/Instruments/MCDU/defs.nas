@@ -109,12 +109,13 @@ var iruStatusNames = [
 ];
 
 var trsModeNames = [
-    'TOGA',
-    'TOGA',
+    'TO',
+    'GA',
     'CLB',
     '---',
     'CRZ',
     'CON',
+    'RSV',
 ];
 
 var getTRSModeName = func (mode) {
