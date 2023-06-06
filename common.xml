@@ -1051,6 +1051,10 @@
         <ignition-switch type="int">1</ignition-switch>
         <ignition-switch type="int">1</ignition-switch>
         <trs-limit type="double">100.0</trs-limit>
+        <attcs>
+            <armed type="bool">false</armed>
+            <engaged type="bool">false</engaged>
+        </attcs>
         <configuration>
             <throttle-toga-norm type="double">0.72</throttle-toga-norm>
             <throttle-toga-reserve type="double">0.82</throttle-toga-reserve>
@@ -1060,6 +1064,7 @@
     <trs>
         <phase type="int">0</phase>
         <mode type="int">0</mode>
+        <rsv type="bool">false</rsv>
 
         <thrust>
             <to1 type="double">97.1</to1>
@@ -2035,7 +2040,7 @@
 
                 <mode>AUTO</mode>
 
-                <attcs type="bool">false</attcs>
+                <attcs type="bool">true</attcs>
             </trs>
 
             <!-- FMS speed mode: 0 = manual, 1 = managed -->

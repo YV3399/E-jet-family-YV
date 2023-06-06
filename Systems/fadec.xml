@@ -1,4 +1,71 @@
 <PropertyList>
+    <!-- ATTCS -->
+    <logic>
+        <output>fadec/attcs/armed</output>
+        <input>
+            <or>
+                <!-- ATTCS ON selected in MCDU, and TRS in TO mode -->
+                <and>
+                    <equals>
+                        <property>trs/mode</property>
+                        <value>0</value>
+                    </equals>
+                    <property>controls/flight/trs/attcs</property>
+                </and>
+                <!-- TRS in GA mode -->
+                <and>
+                    <equals>
+                        <property>trs/mode</property>
+                        <value>1</value>
+                    </equals>
+                </and>
+            </or>
+        </input>
+    </logic>
+    <logic>
+        <output>fadec/attcs/engaged</output>
+        <input>
+            <and>
+                <property>fadec/attcs/armed</property>
+                <or>
+                    <greater-than>
+                        <property>controls/engines/engine[0]/throttle</property>
+                        <property>fadec/configuration/throttle-toga-norm</property>
+                    </greater-than>
+                    <greater-than>
+                        <property>controls/engines/engine[1]/throttle</property>
+                        <property>fadec/configuration/throttle-toga-norm</property>
+                    </greater-than>
+                </or>
+                <or>
+                    <!-- difference between both engine N1 values is greater than 15% -->
+                    <greater-than>
+                        <expression>
+                            <abs>
+                                <difference>
+                                    <property>engines/engine[0]/n1</property>
+                                    <property>engines/engine[1]/n1</property>
+                                </difference>
+                            </abs>
+                        </expression>
+                        <value>15</value>
+                    </greater-than>
+                    <!-- left engine failure in flight -->
+                    <and>
+                        <not><property>engines/engine[0]/running</property></not>
+                        <not><property>gear/gear[1]/wow</property></not>
+                    </and>
+                    <!-- right engine failure in flight -->
+                    <and>
+                        <not><property>engines/engine[1]/running</property></not>
+                        <not><property>gear/gear[1]/wow</property></not>
+                    </and>
+                    <!-- todo: windshear detection -->
+                </or>
+            </and>
+        </input>
+    </logic>
+
     <!-- LEFT ENGINE -->
     <logic>
         <output>/controls/engines/engine[0]/starter</output>

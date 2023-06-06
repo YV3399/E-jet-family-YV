@@ -115,7 +115,6 @@ var trsModeNames = [
     '---',
     'CRZ',
     'CON',
-    'RSV',
 ];
 
 var getTRSModeName = func (mode) {

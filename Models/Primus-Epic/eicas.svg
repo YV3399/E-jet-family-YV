@@ -123,9 +123,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.85216448"
-     inkscape:cx="755.56711"
-     inkscape:cy="985.37869"
+     inkscape:zoom="0.42585247"
+     inkscape:cx="478.87529"
+     inkscape:cy="639.27606"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -281,41 +281,29 @@
            x="23.427999"
            y="890.97998">OIL</tspan></text>
       <text
-         transform="scale(0.98232,1.018)"
+         transform="scale(0.98231914,1.0179991)"
          id="text4452"
-         y="954.45001"
-         x="248.28"
+         y="954.45087"
+         x="282.97757"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:12.0002px;line-height:0%;font-family:'Liberation Mono';-inkscape-font-specification:'Liberation Mono';letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1.00002px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
          xml:space="preserve"><tspan
            style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:19.2572px;line-height:1.25;font-family:'Liberation Mono';-inkscape-font-specification:'Liberation Mono';stroke-width:1.00002px"
-           y="954.45001"
-           x="248.28"
+           y="954.45087"
+           x="282.97757"
            id="tspan4454"
            sodipodi:role="line">TEMP</tspan></text>
       <text
          xml:space="preserve"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:12.0002px;line-height:0%;font-family:'Liberation Mono';-inkscape-font-specification:'Liberation Mono';letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1.00002px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-         x="251.33"
-         y="902.15002"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:12.0002px;line-height:0%;font-family:'Liberation Mono';-inkscape-font-specification:'Liberation Mono';text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1.00002px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         x="306.12756"
+         y="902.15082"
          id="text4456"
-         transform="scale(0.98232,1.018)"><tspan
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:19.2572px;line-height:1.25;font-family:'Liberation Mono';-inkscape-font-specification:'Liberation Mono';stroke-width:1.00002px"
+         transform="scale(0.98231914,1.0179991)"><tspan
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:19.2572px;line-height:1.25;font-family:'Liberation Mono';-inkscape-font-specification:'Liberation Mono';text-align:center;text-anchor:middle;stroke-width:1.00002px"
            sodipodi:role="line"
            id="tspan4458"
-           x="251.33"
-           y="902.15002">PRESS</tspan></text>
-      <text
-         transform="scale(0.98232,1.018)"
-         id="text4460"
-         y="902.15002"
-         x="348.04001"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:12.0002px;line-height:0%;font-family:'Liberation Mono';-inkscape-font-specification:'Liberation Mono';letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1.00002px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-         xml:space="preserve"><tspan
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:19.2572px;line-height:1.25;font-family:'Liberation Mono';-inkscape-font-specification:'Liberation Mono';stroke-width:1.00002px"
-           y="902.15002"
-           x="348.04001"
-           id="tspan4462"
-           sodipodi:role="line">PSI</tspan></text>
+           x="306.12756"
+           y="902.15082">PRESSPSI</tspan></text>
       <text
          inkscape:label="#text4464"
          xml:space="preserve"
@@ -1666,7 +1654,7 @@
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:22.8097px;line-height:100%;font-family:'Liberation Mono';-inkscape-font-specification:'Liberation Mono';text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.57024px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
        x="293.07999"
        y="70.220001"
-       id="text1065"><tspan
+       id="attcs"><tspan
          sodipodi:role="line"
          id="tspan1063"
          x="293.07999"
@@ -1721,39 +1709,39 @@
     <text
        id="trsMode"
        y="38.220001"
-       x="281.07999"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:22.8097px;line-height:100%;font-family:'Liberation Mono';-inkscape-font-specification:'Liberation Mono';text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#009eff;fill-opacity:0.99609;stroke:none;stroke-width:0.57024px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="292.24466"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:22.8097px;line-height:100%;font-family:'Liberation Mono';-inkscape-font-specification:'Liberation Mono';text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#00ffff;fill-opacity:0.99609;stroke:none;stroke-width:0.57024px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
        xml:space="preserve"
        inkscape:label="#text2685"><tspan
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Liberation Mono';-inkscape-font-specification:'Liberation Mono';fill:#009eff;fill-opacity:0.99609;stroke-width:0.57024px"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Liberation Mono';-inkscape-font-specification:'Liberation Mono';fill:#00ffff;fill-opacity:0.99609;stroke-width:0.57024px"
          y="38.220001"
-         x="281.07999"
+         x="292.24466"
          id="tspan2683"
          sodipodi:role="line">FLEX TO-2</tspan></text>
     <text
        xml:space="preserve"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:22.8097px;line-height:100%;font-family:'Liberation Mono';-inkscape-font-specification:'Liberation Mono';text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#009eff;fill-opacity:0.99609;stroke:none;stroke-width:0.57024px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       x="127.08"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:22.8097px;line-height:100%;font-family:'Liberation Mono';-inkscape-font-specification:'Liberation Mono';text-align:end;letter-spacing:0px;word-spacing:0px;text-anchor:end;fill:#00ffff;fill-opacity:0.99609;stroke:none;stroke-width:0.57024px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="114.78196"
        y="38.220001"
        id="limitL.digital"
        inkscape:label="#text2689"><tspan
          sodipodi:role="line"
          id="tspan2687"
-         x="127.08"
+         x="114.78196"
          y="38.220001"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Liberation Mono';-inkscape-font-specification:'Liberation Mono';fill:#009eff;fill-opacity:0.99609;stroke-width:0.57024px">99.9</tspan></text>
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Liberation Mono';-inkscape-font-specification:'Liberation Mono';text-align:end;text-anchor:end;fill:#00ffff;fill-opacity:0.99609;stroke-width:0.57024px">199.9</tspan></text>
     <text
        id="limitR.digital"
        y="38.220001"
-       x="476.62"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:22.8097px;line-height:100%;font-family:'Liberation Mono';-inkscape-font-specification:'Liberation Mono';text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#009eff;fill-opacity:0.99609;stroke:none;stroke-width:0.57024px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="511.06747"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:22.8097px;line-height:100%;font-family:'Liberation Mono';-inkscape-font-specification:'Liberation Mono';text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#00ffff;fill-opacity:0.99609;stroke:none;stroke-width:0.57024px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
        xml:space="preserve"
        inkscape:label="#text2693"><tspan
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Liberation Mono';-inkscape-font-specification:'Liberation Mono';fill:#009eff;fill-opacity:0.99609;stroke-width:0.57024px"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Liberation Mono';-inkscape-font-specification:'Liberation Mono';fill:#00ffff;fill-opacity:0.99609;stroke-width:0.57024px"
          y="38.220001"
-         x="476.62"
+         x="511.06747"
          id="tspan2691"
-         sodipodi:role="line">99.9</tspan></text>
+         sodipodi:role="line">199.9</tspan></text>
     <g
        id="g1497">
       <rect
@@ -2254,5 +2242,17 @@
         </g>
       </g>
     </g>
+    <text
+       id="trsTemp"
+       y="98.220001"
+       x="292.5231"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:22.8097px;line-height:100%;font-family:'Liberation Mono';-inkscape-font-specification:'Liberation Mono';text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#00ffff;fill-opacity:0.99609;stroke:none;stroke-width:0.57024px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;"
+       xml:space="preserve"
+       inkscape:label="#text2693"><tspan
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Liberation Mono';-inkscape-font-specification:'Liberation Mono';fill:#00ffff;fill-opacity:0.99609;stroke-width:0.57024px;"
+         y="98.220001"
+         x="292.5231"
+         id="tspan1253"
+         sodipodi:role="line">20°</tspan></text>
   </g>
 </svg>

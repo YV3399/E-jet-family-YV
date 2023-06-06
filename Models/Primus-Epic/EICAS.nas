@@ -10,7 +10,6 @@ var trsModeLabels = {
 	2: "CLB",
 	4: "CRZ",
 	5: "CON",
-	6: "RSV",
 };
 
 var msgColors = [
@@ -109,15 +108,19 @@ var EICAS = {
         me.registerProp("/engines/engine[1]/oil-pressure-psi");
         me.registerProp("/engines/engine[1]/oil-temperature-degc");
         me.registerProp("/fadec/trs-limit");
+        me.registerProp("/fadec/attcs/armed");
+        me.registerProp("/fadec/attcs/engaged");
         me.registerProp("/fdm/jsbsim/fcs/flap-cmd-int-deg");
         me.registerProp("/fdm/jsbsim/fcs/flap-pos-deg");
         me.registerProp("/fdm/jsbsim/fcs/slat-cmd-int-deg");
         me.registerProp("/fdm/jsbsim/fcs/slat-pos-deg");
+        me.registerProp("/fms/takeoff-conditions/oat");
         me.registerProp("/gear/gear[0]/position-norm");
         me.registerProp("/gear/gear[1]/position-norm");
         me.registerProp("/gear/gear[2]/position-norm");
         me.registerProp("/surface-positions/speedbrake-pos-norm");
         me.registerProp("/trs/mode");
+        me.registerProp("/trs/rsv");
         me.registerProp("/trs/thrust/climb-submode");
         me.registerProp("/trs/thrust/to-submode");
         me.registerProp("blink", "/instrumentation/eicas/blink-state");
@@ -143,126 +146,128 @@ var EICAS = {
     registerElems: func () {
         call(canvas_base.BaseScreen.registerElems, [], me);
         me.registerElemsFrom([
-            "flaps.UP",
-            "flaps.IND",
-            "flaps.SCALE",
-            "flaps.TGT",
-            "slat.IND",
-            "slat.TGT",
-            "slat.SCALE",
-            "spoilers.IND",
-            "spoilers.ANN",
-            "spoilers.DOWN",
-            "fs",
-            "N1L",
-            "N1R",
-            "N2L",
-            "N2R",
-            "ITTL",
-            "ITTR",
-            "ITTL.needle",
-            "ITTR.needle",
+            "AB",
+            "ailerontrim.pointer",
+            "apu.DEGC",
+            "apu.PCT",
+            "apu.section",
+            "attcs",
+            "engL.off",
+            "engR.off",
             "FFL",
             "FFR",
+            "flaps.IND",
+            "flaps.SCALE",
+            "flaps-spoilers.section",
+            "flaps.TGT",
+            "flaps.UP",
+            "FQC",
             "FQL",
             "FQR",
-            "FQC",
+            "fs",
+            "gearF.C",
+            "gearF.T",
+            "gearL.C",
+            "gearL.T",
+            "gearR.C",
+            "gearR.T",
+            "gear.section",
+            "ITTL",
+            "ITTL.needle",
+            "ITTR",
+            "ITTR.needle",
+            "limitL.digital",
+            "limitR.digital",
+            "msg.0",
+            "msg.0.bg",
+            "msg.1",
+            "msg.10",
+            "msg.10.bg",
+            "msg.11",
+            "msg.11.bg",
+            "msg.12",
+            "msg.12.bg",
+            "msg.13",
+            "msg.13.bg",
+            "msg.14",
+            "msg.14.bg",
+            "msg.1.bg",
+            "msg.2",
+            "msg.2.bg",
+            "msg.3",
+            "msg.3.bg",
+            "msg.4",
+            "msg.4.bg",
+            "msg.5",
+            "msg.5.bg",
+            "msg.6",
+            "msg.6.bg",
+            "msg.7",
+            "msg.7.bg",
+            "msg.8",
+            "msg.8.bg",
+            "msg.9",
+            "msg.9.bg",
+            "msg.count-above.advisory",
+            "msg.count-above.advisory.bg",
+            "msg.count-above.advisory.ptr",
+            "msg.count-above.advisory.text",
+            "msg.count-above.caution",
+            "msg.count-above.caution.bg",
+            "msg.count-above.caution.ptr",
+            "msg.count-above.caution.text",
+            "msg.count-above.status",
+            "msg.count-above.status.bg",
+            "msg.count-above.status.ptr",
+            "msg.count-above.status.text",
+            "msg.count-below.advisory",
+            "msg.count-below.advisory.bg",
+            "msg.count-below.advisory.ptr",
+            "msg.count-below.advisory.text",
+            "msg.count-below.caution",
+            "msg.count-below.caution.bg",
+            "msg.count-below.caution.ptr",
+            "msg.count-below.caution.text",
+            "msg.count-below.status",
+            "msg.count-below.status.bg",
+            "msg.count-below.status.ptr",
+            "msg.count-below.status.text",
+            "msg.highlight",
+            "msg.status",
+            "msg.status.highlight",
+            "N1L",
+            "N1L.lever",
+            "N1L.needle",
+            "N1L.rated-max",
+            "N1R",
+            "N1R.lever",
+            "N1R.needle",
+            "N1R.rated-max",
+            "N2L",
+            "N2R",
+            "oil.section",
             "OPL",
             "OPR",
             "OTL",
             "OTR",
-            "revL",
-            "revR",
-            "gearL.T",
-            "gearL.C",
-            "gearR.T",
-            "gearR.C",
-            "gearF.C",
-            "gearF.T",
-            "AB",
-            "apu.PCT",
-            "apu.DEGC",
-            "N1L.needle",
-            "N1R.needle",
-            "N1L.rated-max",
-            "N1R.rated-max",
-            "N1L.lever",
-            "N1R.lever",
-            "engL.off",
-            "engR.off",
             "pitchtrim.digital",
             "pitchtrim.pointer",
-            "ailerontrim.pointer",
-            "ruddertrim.pointer",
-            "limitL.digital",
-            "limitR.digital",
-            "trsMode",
-            "msg.0",
-            "msg.1",
-            "msg.2",
-            "msg.3",
-            "msg.4",
-            "msg.5",
-            "msg.6",
-            "msg.7",
-            "msg.8",
-            "msg.9",
-            "msg.10",
-            "msg.11",
-            "msg.12",
-            "msg.13",
-            "msg.14",
-            "msg.0.bg",
-            "msg.1.bg",
-            "msg.2.bg",
-            "msg.3.bg",
-            "msg.4.bg",
-            "msg.5.bg",
-            "msg.6.bg",
-            "msg.7.bg",
-            "msg.8.bg",
-            "msg.9.bg",
-            "msg.10.bg",
-            "msg.11.bg",
-            "msg.12.bg",
-            "msg.13.bg",
-            "msg.14.bg",
-            "msg.highlight",
-            "msg.status",
-            "msg.status.highlight",
-            "msg.count-above.caution",
-            "msg.count-above.caution.text",
-            "msg.count-above.caution.bg",
-            "msg.count-above.caution.ptr",
-            "msg.count-above.advisory",
-            "msg.count-above.advisory.text",
-            "msg.count-above.advisory.bg",
-            "msg.count-above.advisory.ptr",
-            "msg.count-above.status",
-            "msg.count-above.status.text",
-            "msg.count-above.status.bg",
-            "msg.count-above.status.ptr",
-            "msg.count-below.caution",
-            "msg.count-below.caution.text",
-            "msg.count-below.caution.bg",
-            "msg.count-below.caution.ptr",
-            "msg.count-below.advisory",
-            "msg.count-below.advisory.text",
-            "msg.count-below.advisory.bg",
-            "msg.count-below.advisory.ptr",
-            "msg.count-below.status",
-            "msg.count-below.status.text",
-            "msg.count-below.status.bg",
-            "msg.count-below.status.ptr",
-            "flaps-spoilers.section",
-            "vib.section",
-            "oil.section",
-            "gear.section",
-            "apu.section",
             "pressure.cabinalt.text",
-            "pressure.rate.text",
             "pressure.diff.text",
             "pressure.lfe.text",
+            "pressure.rate.text",
+            "revL",
+            "revR",
+            "ruddertrim.pointer",
+            "slat.IND",
+            "slat.SCALE",
+            "slat.TGT",
+            "spoilers.ANN",
+            "spoilers.DOWN",
+            "spoilers.IND",
+            "trsMode",
+            "trsTemp",
+            "vib.section",
         ]);
 
         me.registerElem("N1L.target", func (group) { return group.createChild('path'); })
@@ -698,6 +703,9 @@ var EICAS = {
             }
             var submode = me.props["/trs/thrust/to-submode"].getValue() or 1;
             modeLabel = modeLabel ~ "-" ~ submode;
+            if (me.props["/trs/rsv"].getBoolValue()) {
+                modeLabel = modeLabel ~ "-RSV";
+            }
         }
         else if (modeLabel == "CLB") {
             var submode = me.props["/trs/thrust/climb-submode"].getValue() or 1;
@@ -713,6 +721,18 @@ var EICAS = {
             me.elems["limitL.digital"].setText(sprintf("%5.1f", limit));
             me.elems["limitR.digital"].setText(sprintf("%5.1f", limit));
         }
+
+        if (me.props["/fadec/attcs/engaged"].getBoolValue()) {
+            me.elems["attcs"].setColor(0, 1, 0).show();
+        }
+        elsif (me.props["/fadec/attcs/armed"].getBoolValue()) {
+            me.elems["attcs"].setColor(1, 1, 1).show();
+        }
+        else {
+            me.elems["attcs"].hide();
+        }
+
+        me.elems["trsTemp"].setText(sprintf("%2i°", me.props["/fms/takeoff-conditions/oat"].getValue()));
 		
 		#Engine off
 		me.elems["engL.off"].setVisible(me.props["offL"].getBoolValue());

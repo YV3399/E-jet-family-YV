@@ -106,38 +106,40 @@
 	<output>/trs/crz-90sec</output>
 </flipflop>
 
+<logic>
+    <name>RSV logic</name>
+    <output>trs/rsv</output>
+    <input>
+        <and>
+            <or>
+                <greater-than>
+                    <property>controls/engines/engine[0]/throttle</property>
+                    <property>fadec/configuration/throttle-toga-reserve</property>
+                </greater-than>
+                <greater-than>
+                    <property>controls/engines/engine[1]/throttle</property>
+                    <property>fadec/configuration/throttle-toga-reserve</property>
+                </greater-than>
+                <property>fadec/attcs/engaged</property>
+            </or>
+            <or>
+                <equals>
+                    <property>trs/mode</property>
+                    <value>0</value>
+                </equals>
+                <equals>
+                    <property>trs/mode</property>
+                    <value>1</value>
+                </equals>
+            </or>
+        </and>
+    </input>
+</logic>
+
 <filter>
 	<name>Flight phase logic</name>
 	<type>gain</type>
 	<gain>1</gain>
-    <input>
-        <!-- TOGA reserve -->
-        <condition>
-            <and>
-                <or>
-                    <greater-than>
-                        <property>controls/engines/engine[0]/throttle</property>
-                        <property>fadec/configuration/throttle-toga-reserve</property>
-                    </greater-than>
-                    <greater-than>
-                        <property>controls/engines/engine[1]/throttle</property>
-                        <property>fadec/configuration/throttle-toga-reserve</property>
-                    </greater-than>
-                </or>
-                <or>
-                    <equals>
-                        <property>/it-autoflight/mode/vert</property>
-                        <value>T/O CLB</value>
-                    </equals>
-                    <greater-than>
-                        <property>/gear/gear[1]/position-norm</property>
-                        <value>0</value>
-                    </greater-than>
-                </or>
-            </and>
-        </condition>
-        <value>6</value>
-    </input>
 	<input>
 		<condition>
 			<equals>
@@ -436,6 +438,13 @@
 	<type>gain</type>
 	<gain>1</gain>
 	<input>
+        <!-- TO/GA reserve (firewall) -->
+		<condition>
+            <property>/trs/rsv</property>
+		</condition>
+		<property>/fadec/configuration/max-n1</property>
+	</input>
+	<input>
 		<condition>
 			<equals>
 				<property>/trs/mode</property>
@@ -479,16 +488,6 @@
 			</equals>
 		</condition>
 		<property>/trs/thrust/con</property>
-	</input>
-	<input>
-        <!-- T/O reserve (firewall) -->
-		<condition>
-			<equals>
-				<property>/trs/mode</property>
-				<value>6</value>
-			</equals>
-		</condition>
-		<property>/fadec/configuration/max-n1</property>
 	</input>
     <output>/fadec/trs-limit</output>
 </filter>
