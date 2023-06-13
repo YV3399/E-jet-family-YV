@@ -74,8 +74,9 @@ var coldAndDark = func {
     setprop("/controls/pressurization/pack[0]", 0);
     setprop("/controls/pressurization/pack[1]", 0);
     setprop("/controls/pneumatic/apu-bleed", 0);
-    setprop("/controls/pneumatic/engine[0]/bleed", 0);
-    setprop("/controls/pneumatic/engine[1]/bleed", 0);
+    setprop("/controls/pneumatic/xbleed", 0);
+    setprop("/controls/pneumatic/engine-bleed[0]", 0);
+    setprop("/controls/pneumatic/engine-bleed[1]", 0);
     setprop("/controls/switches/chocks", 1);
     setprop("/controls/switches/cones", 1);
     setprop("/controls/switches/cones", 1);
@@ -121,8 +122,9 @@ var batteryPowered = func {
     setprop("/controls/pressurization/pack[0]", 0);
     setprop("/controls/pressurization/pack[1]", 0);
     setprop("/controls/pneumatic/apu-bleed", 0);
-    setprop("/controls/pneumatic/engine[0]/bleed", 0);
-    setprop("/controls/pneumatic/engine[1]/bleed", 0);
+    setprop("/controls/pneumatic/xbleed", 0);
+    setprop("/controls/pneumatic/engine-bleed[0]", 0);
+    setprop("/controls/pneumatic/engine-bleed[1]", 0);
     setprop("/controls/switches/chocks", 1);
     setprop("/controls/switches/cones", 1);
     setprop("/controls/switches/cones", 1);
@@ -169,8 +171,9 @@ var groundPowered = func {
     setprop("/controls/pressurization/pack[0]", 0);
     setprop("/controls/pressurization/pack[1]", 0);
     setprop("/controls/pneumatic/apu-bleed", 0);
-    setprop("/controls/pneumatic/engine[0]/bleed", 0);
-    setprop("/controls/pneumatic/engine[1]/bleed", 0);
+    setprop("/controls/pneumatic/xbleed", 1);
+    setprop("/controls/pneumatic/engine-bleed[0]", 0);
+    setprop("/controls/pneumatic/engine-bleed[1]", 0);
     setprop("/controls/switches/chocks", 1);
     setprop("/controls/switches/cones", 1);
     setprop("/controls/switches/cones", 1);
@@ -196,7 +199,11 @@ var startAPU = func (then = nil) {
         func {
             say("APU started");
             setprop("/controls/pneumatic/apu-bleed", 1);
+            setprop("/controls/pneumatic/xbleed", 1);
             setprop("/controls/electric/apu-generator", 1);
+            setprop("/controls/electric/tru-switch[0]", 1);
+            setprop("/controls/electric/tru-switch[1]", 1);
+            setprop("/controls/electric/tru-switch[2]", 1);
             if (then != nil) then();
         });
 };
@@ -217,6 +224,7 @@ var stopAPU = func (then = nil) {
 
 var startEngine = func (n, then = nil) {
     say(sprintf("Starting Engine #%i", n + 1));
+    setprop("/controls/pneumatic/xbleed", 1);
     setprop("/controls/fuel/tank[" ~ n ~ "]/boost-pump[0]", 1);
     setprop("/fadec/engine-switch[" ~ n ~ "]", 2);
     when(
@@ -225,7 +233,7 @@ var startEngine = func (n, then = nil) {
         func {
             say(sprintf("Engine #%i started", n + 1));
             setprop("/controls/electric/engine[" ~ n ~ "]/generator", 1);
-            setprop("/controls/electric/engine[" ~ n ~ "]/bleed", 1);
+            setprop("/controls/pneumatic/engine-bleed[" ~ n ~ "]", 1);
             if (then != nil) then();
         });
 };
@@ -247,6 +255,9 @@ var alignAllIRUs = func () {
 var readyToTaxi = func (method) {
     printf("Ready To Taxi, Method: %i", method);
     var whenReady = func {
+        setprop("/controls/electric/tru-switch[0]", 1);
+        setprop("/controls/electric/tru-switch[1]", 1);
+        setprop("/controls/electric/tru-switch[2]", 1);
         setprop("/controls/lighting/landing-lights[0]", 0);
         setprop("/controls/lighting/landing-lights[1]", 0);
         setprop("/controls/lighting/landing-lights[2]", 0);
