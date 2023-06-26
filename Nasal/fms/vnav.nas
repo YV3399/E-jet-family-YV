@@ -495,7 +495,7 @@ var VNAV = {
             # New waypoint has been selected, so update our targets.
             me.jumpTo();
         }
-        if (!me.desNowTriggered and me.desNowAvailable and distanceRemaining <= profile.topOfDescent + 50.0) {
+        if (!me.desNowTriggered and distanceRemaining <= profile.topOfDescent + 50.0) {
             me.desNowAvailable = 1;
         }
         if (me.current < size(profile.waypoints)) {
