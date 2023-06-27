@@ -162,9 +162,17 @@ var RouteDriver = {
         return fp.getWP(idx)
     },
 
-    hasDiscontinuity: func(fpNum, wptID) {
-        # todo
-        return 0;
+    hasDiscontinuity: func(fpNum, idx) {
+        logprint(LOG_DEBUG, sprintf("hasDiscontinuity(%i, %s)", fpNum, idx));
+        var fp = me.getFlightPlan(fpNum);
+        if (fp == nil) return 0;
+        var wpt = nil;
+        if (isint(idx))
+            wpt = fp.getWP(idx);
+        else
+            wpt = findFPWaypointByName(fp, idx);
+        if (wpt == nil) return 0;
+        return (wpt.wp_type == 'discontinuity' or wpt.wp_type == 'vectors');
     },
 
     getListeners: func(){[
@@ -172,7 +180,18 @@ var RouteDriver = {
 		"/autopilot/route-manager/active",
     ]},
 
-    shouldUpdate: func 1
+    shouldUpdate: func() {
+        return 1;
+    },
+};
+
+var findFPWaypointByName = func (fp, name) {
+    for (var i = 0; i < fp.getPlanSize(); i += 1) {
+        var wpt = fp.getWP(i);
+        if (wpt != nil and wpt.wp_name == name)
+            return wpt;
+    }
+    return nil;
 };
 
 var MFD = {
@@ -1650,9 +1669,26 @@ var MFD = {
         else {
             wp = fp.getWP(me.planIndex)
         }
+        var i = me.planIndex;
+        while (wp != nil and (wp.wp_type == 'discontinuity' or wp.wp_type == 'vectors')) {
+            i -= 1;
+            if (i < 0)
+                wp = nil;
+            else
+                wp = fp.getWP(i);
+        }
         if (wp != nil) {
-            lat = wp.lat;
-            lon = wp.lon;
+            if (wp.lat != 0 and wp.lon != 0) {
+                lat = wp.lat;
+                lon = wp.lon;
+            }
+            else {
+                var path = wp.path();
+                if (path != nil and size(path) > 0) {
+                    lat = path[0].lat;
+                    lon = path[0].lon;
+                }
+            }
         }
         me.plan.controller.setPosition(lat, lon);
     },
@@ -1660,6 +1696,7 @@ var MFD = {
     movePlanWpt: func (direction) {
         var fp = fms.getVisibleFlightplan();
         me.planIndex += direction;
+        
         if (me.planIndex < 0) {
             me.planIndex = 0;
         }
