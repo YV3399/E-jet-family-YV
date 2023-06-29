@@ -386,9 +386,9 @@ var MFD = {
         #                     },
         #                 } );
         me.map.addLayer(factory: canvas.SymbolLayer, type_arg: "WPT", visible: 1, priority: 6,
-                        opts: { 'route_driver': me.dualRouteDriver },);
+                        opts: { 'route_driver': me.dualRouteDriver }, style: { 'line_width': 3 });
         me.map.addLayer(factory: canvas.SymbolLayer, type_arg: "RTE", visible: 1, priority: 5,
-                        opts: { 'route_driver': me.dualRouteDriver }, style: { 'line_dash_modified': func (arg=nil) { return [32,16]; } },);
+                        opts: { 'route_driver': me.dualRouteDriver }, style: { 'line_width': 3, 'line_dash_modified': func (arg=nil) { return [32,16]; } },);
         me.map.addLayer(factory: canvas.SymbolLayer, type_arg: "APT", visible: 1, priority: 4,);
         me.map.addLayer(factory: canvas.SymbolLayer, type_arg: "VOR", visible: 1, priority: 4,);
         me.map.addLayer(factory: canvas.SymbolLayer, type_arg: "NDB", visible: 1, priority: 4,);
@@ -1092,7 +1092,7 @@ var MFD = {
 
         me.elems['vnav-flightplan'] = me.elems['vnav.lateral'].createChild("group");
         me.elems['vnav-flightplan.path'] = me.elems['vnav-flightplan'].createChild("path");
-        me.elems['vnav-flightplan.path'].setStrokeLineWidth(2);
+        me.elems['vnav-flightplan.path'].setStrokeLineWidth(3);
         me.elems['vnav-flightplan.path'].setColor(1, 0, 1);
         me.elems['vnav-flightplan.waypoints'] = me.elems['vnav-flightplan'].createChild("group");
 
@@ -1617,18 +1617,18 @@ var MFD = {
         for (var i = 0; i < 8; i += 1) {
             g.createChild('path')
              .setColor(1, 1, 1)
-             .setStrokeLineWidth(1)
+             .setStrokeLineWidth(2)
              .moveTo(120, y)
              .lineTo(140, y);
             g.createChild('path')
              .setColor(1, 1, 1)
-             .setStrokeLineWidth(1)
+             .setStrokeLineWidth(2)
              .moveTo(130, y - 40)
              .lineTo(140, y - 40);
             g.createChild('text')
              .setColor(1, 1, 1)
              .setFontSize(20, 1)
-             .setFont("LiberationFonts/LiberationSans-Regular.ttf")
+             .setFont("e190.ttf")
              .setText("00")
              .setAlignment('left-bottom')
              .setTranslation(100, y+8);
