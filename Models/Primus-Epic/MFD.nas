@@ -604,9 +604,7 @@ var MFD = {
             }
         }, 1, 0);
         me.addListener('main', me.props['altitude-selected'], func (node) {
-            var alt = node.getValue();
-            var offset = -alt * 0.04;
-            self.elems['vnav.selectedalt'].setTranslation(0, offset);
+            self.updateVnavSelectedAlt();
         }, 1, 0);
 
         me.addListener('main', '@cursor.y', func (node) {
@@ -757,9 +755,9 @@ var MFD = {
             ];
         var vnavkeys = [
                 'vnav.vertical',
+                'vnav.vertical.scale',
                 'vnav.lateral',
                 'vnav.selectedalt',
-                'vnav.alt.scale',
                 'vnav.range.left',
                 'vnav.range.center',
                 'vnav.range.right',
@@ -1101,6 +1099,8 @@ var MFD = {
         me.elems['vnav-flightpath'] = me.elems['vnav.lateral'].createChild("path");
         me.elems['vnav-flightpath'].setStrokeLineWidth(3);
         me.elems['vnav-flightpath'].setColor(0, 1, 0);
+
+        me.buildVnavScale(1);
 
         me.elems['arc'].set("clip", "rect(0px, 1024px, 540px, 0px)");
         me.elems['arc'].set("clip-frame", canvas.Element.PARENT);
@@ -1512,6 +1512,16 @@ var MFD = {
         else {
             me.elems['vnav.range.center.digital'].setText(halfRangeTxt);
         }
+        me.updateVnavSelectedAlt();
+    },
+
+    updateVnavSelectedAlt: func() {
+        var alt = me.props['altitude-selected'].getValue();
+        var latRange = me.props['range'].getValue();
+        var vertZoom = 0.8 / latRange;
+
+        var offset = -alt * vertZoom;
+        me.elems['vnav.selectedalt'].setTranslation(0, offset);
     },
 
     updateVnavFlightplan: func() {
@@ -1528,10 +1538,13 @@ var MFD = {
         }
         else {
             var progress = me.props['route-progress'].getValue();
-            var range = me.props['range'].getValue();
-            var zoom = 720.0 / range;
+            var latRange = me.props['range'].getValue();
+            var vertZoom = 0.8 / latRange;
+            var zoom = 720.0 / latRange;
             var trX = func(dist) { return 220 + dist * zoom; };
-            var trY = func(alt) { return 1266 - alt * 0.04; };
+            var trY = func(alt) {
+                        return 1266 - alt * vertZoom;
+                    };
 
             var drawWaypoint = func (name, dist, alt) {
                 var group = wpElem.createChild("group");
@@ -1594,12 +1607,69 @@ var MFD = {
         }
     },
 
-    setVnavVerticalScroll: func(vertical) {
-        # crop to range of vertical scale
-        vertical = math.min(34000, math.max(-2000, vertical));
+    buildVnavScale: func(zoom) {
+        var g = me.elems['vnav.vertical.scale'].createChild("group");
+        me.elems['vnav.alt.scale'] = g;
+        me.elems['vnav.scale.major'] = [];
+        me.vnavScrollMin = 0;
+        var y = 1266;
+        var a = 0;
+        for (var i = 0; i < 8; i += 1) {
+            g.createChild('path')
+             .setColor(1, 1, 1)
+             .setStrokeLineWidth(1)
+             .moveTo(120, y)
+             .lineTo(140, y);
+            g.createChild('path')
+             .setColor(1, 1, 1)
+             .setStrokeLineWidth(1)
+             .moveTo(130, y - 40)
+             .lineTo(140, y - 40);
+            g.createChild('text')
+             .setColor(1, 1, 1)
+             .setFontSize(20, 1)
+             .setFont("LiberationFonts/LiberationSans-Regular.ttf")
+             .setText("00")
+             .setAlignment('left-bottom')
+             .setTranslation(100, y+8);
+            var t = g.createChild('text')
+             .setColor(1, 1, 1)
+             .setFontSize(32, 1)
+             .setFont("LiberationFonts/LiberationSans-Regular.ttf")
+             .setText(sprintf("%i", a / 100))
+             .setAlignment('right-bottom')
+             .setTranslation(100, y+8);
+            append(me.elems['vnav.scale.major'], t);
+            y -= 80;
+            a += 2000 / zoom;
+        }
+    },
 
-        # map 1000 ft steps to 40 px
-        me.elems['vnav.vertical'].setTranslation(0, vertical * 0.04);
+    updateVnavScale: func (scroll, force=1) {
+        var latRange = me.props['range'].getValue();
+        var zoom = 20 / latRange; # factor
+        var vertZoom = 0.8 / latRange; # projection onto Y axis
+
+        var astep = 2000 / zoom;
+        var azero = math.floor(scroll / astep - 0.5) * astep;
+        var offset = (scroll - azero) * vertZoom;
+        if (azero != me.vnavScrollMin) {
+            var a = azero;
+            foreach (var t; me.elems['vnav.scale.major']) {
+                t.setText(sprintf("%i", a / 100));
+                a += astep;
+            }
+            me.vnavScrollMin = azero;
+        }
+        me.elems['vnav.alt.scale'].setTranslation(0, offset);
+    },
+
+    setVnavVerticalScroll: func(vertical) {
+        var latRange = me.props['range'].getValue();
+        var vertZoom = 0.8 / latRange;
+
+        me.elems['vnav.vertical'].setTranslation(0, vertical * vertZoom);
+        me.updateVnavScale(vertical);
     },
 
     adjustProp: func (key, delta, min, max) {
@@ -2466,6 +2536,8 @@ var MFD = {
         var salt = me.props['altitude-selected'].getValue();
         var range = me.props['range'].getValue();
         var latZoom = 720.0 / range;
+        var vertZoom = 0.8 / range;
+        var zoom = 20.0 / range;
         var page = me.props['page'].getValue();
         var progress = me.props['route-progress'].getValue();
         var progress = me.props['route-progress'].getValue();
@@ -2480,8 +2552,8 @@ var MFD = {
         if (gspd > 40) {
             me.elems['vnav-flightpath']
                 .reset()
-                .moveTo(220 + progress * latZoom,  1266 - alt * 0.04)
-                .lineTo(220 + (progress + range) * latZoom, 1266 - talt * 0.04)
+                .moveTo(220 + progress * latZoom,  1266 - alt * vertZoom)
+                .lineTo(220 + (progress + range) * latZoom, 1266 - talt * vertZoom)
                 .show();
         }
         else {
@@ -2499,7 +2571,7 @@ var MFD = {
             else {
                 var wp = fp.getWP(wpi);
                 var wpAlt = fms.vnav.nominalProfileAltAt(wp.distance_along_route);
-                me.setVnavVerticalScroll(wpAlt - 5000);
+                me.setVnavVerticalScroll(wpAlt - 5000 / zoom);
                 me.elems['vnav.lateral'].setTranslation((0.5 * range - wp.distance_along_route) * latZoom, 0.0);
             }
         }
@@ -2507,12 +2579,16 @@ var MFD = {
             # Map or Systems mode: put aircraft to the left, and scroll to
             # current lateral position
             var delta = 0.5 * (salt - alt);
-            if (delta > 4000) { delta = 4000; }
-            if (delta < -4000) { delta = -4000; }
-            me.setVnavVerticalScroll(alt + delta - 5000);
+            var limit = 4000 / zoom;
+            if (delta > limit) { delta = limit; }
+            if (delta < -limit) { delta = -limit; }
+            var vertical = alt + delta - 5000 / zoom;
+            if (vertical < -2000) { vertical = -2000; }
+            if (vertical > 45000) { vertical = 45000; }
+            me.setVnavVerticalScroll(alt + delta - 5000 / zoom);
             me.elems['vnav.lateral'].setTranslation(-progress * latZoom, 0.0);
         }
-        me.elems['vnav.aircraft.symbol'].setTranslation(progress * latZoom, -alt * 0.04);
+        me.elems['vnav.aircraft.symbol'].setTranslation(progress * latZoom, -alt * vertZoom);
 
         var alt = me.props['altitude'].getValue();
         me.trafficLayer.setRefAlt(alt);

@@ -528,7 +528,10 @@ var VNAV = {
                     var corrected = math.min(0, wp["fpa"] - correction);
                     me.props["/fms/vnav/selected-fpa"].setValue(corrected);
                 }
-                else if (altitude < profileAlt - 50) {
+                # The first condition will also capture late descent; the
+                # second condition is needed for early descent.
+                else if (altitude < profileAlt - 50 or
+                         (me.desNowMode and distanceRemaining <= profile.topOfDescent)) {
                     if (me.desNowMode) {
                         # If early descent selected, maintain constant 1000 fpm
                         # descent until capturing the profile.

@@ -326,7 +326,7 @@ var FlightPlanModule = {
         elsif (fms.vnav.desNowAvailable) {
             label = "DES NOW";
             key = FuncController.new(func (owner, val) {
-                if (!vnav.desNow()) {
+                if (!fms.vnav.desNow()) {
                     owner.mcdu.setScratchpadMsg("NO DES NOW");
                 }
             });
