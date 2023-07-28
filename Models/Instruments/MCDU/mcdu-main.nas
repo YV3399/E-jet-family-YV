@@ -18,7 +18,8 @@ var include = func (basename) {
 var includeAll = func (dirname) {
     logprint(3, "--- loading " ~ dirname ~ " ---");
     var basedir = acdir ~ '/Models/Instruments/MCDU/' ~ dirname;
-    var paths = directory(basedir) or [];
+    var paths = directory(basedir);
+    if (paths == nil) paths = [];
     foreach (var path; paths) {
         if (substr(path, -4) == '.nas') {
             logprint(3, "--- loading " ~ path ~ " ---");
