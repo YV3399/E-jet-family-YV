@@ -7,6 +7,10 @@ var DC = 0.01744;
 var sin30 = math.sin(30 * D2R);
 var cos30 = math.cos(30 * D2R);
 
+var latZoomFactor = 720.0;
+var vertZoomFactor = 4.0;
+var vertZoomRefRange = 100.0;
+
 var noTakeoffBrakeTemp = 300.0;
 
 var SUBMODE_STATUS = 0;
@@ -1518,7 +1522,7 @@ var MFD = {
     updateVnavSelectedAlt: func() {
         var alt = me.props['altitude-selected'].getValue();
         var latRange = me.props['range'].getValue();
-        var vertZoom = 0.8 / latRange;
+        var vertZoom = vertZoomFactor / latRange;
 
         var offset = -alt * vertZoom;
         me.elems['vnav.selectedalt'].setTranslation(0, offset);
@@ -1539,14 +1543,17 @@ var MFD = {
         else {
             var progress = me.props['route-progress'].getValue();
             var latRange = me.props['range'].getValue();
-            var vertZoom = 0.8 / latRange;
-            var zoom = 720.0 / latRange;
+            var vertZoom = vertZoomFactor / latRange;
+            var zoom = latZoomFactor / latRange;
             var trX = func(dist) { return 220 + dist * zoom; };
             var trY = func(alt) {
                         return 1266 - alt * vertZoom;
                     };
 
-            var drawWaypoint = func (name, dist, alt) {
+            var drawWaypoint = func (wp, alt, isNext=1) {
+                var name = wp.id;
+                var dist = wp.distance_along_route;
+                var color = isNext ? [1, 0, 1] : [1, 1, 1];
                 var group = wpElem.createChild("group");
 
                 var path =
@@ -1560,17 +1567,32 @@ var MFD = {
                             .lineTo(5,5)
                             .lineTo(25,0)
                             .lineTo(5,-5)
-                            .setColor(1,0,1)
+                            .setColor(color[0], color[1], color[2])
                             .close();
 
                 var text =
                         group.createChild("text")
                             .setText(name)
-                            .setAlignment('left-bottom')
+                            .setAlignment('center-bottom')
                             .setFontSize(28)
-                            .setColor(1,0,1)
+                            .setColorFill(0,0,0,1)
+                            .setColor(color[0], color[1], color[2])
+                            .setDrawMode(canvas.Text.TEXT + canvas.Text.FILLEDBOUNDINGBOX)
                             .setFont("LiberationFonts/LiberationSans-Regular.ttf")
-                            .setTranslation(25, 35);
+                            .setTranslation(0, -32);
+
+                if (wp.alt_cstr != nil and wp.alt_cstr_type != nil and wp.alt_cstr_type != 'delete') {
+                    var altText =
+                        group.createChild("text")
+                            .setText(sprintf('%i', wp.alt_cstr))
+                            .setAlignment('center-top')
+                            .setFontSize(28)
+                            .setColorFill(0,0,0,1)
+                            .setColor(color[0], color[1], color[2])
+                            .setDrawMode(canvas.Text.TEXT + canvas.Text.FILLEDBOUNDINGBOX)
+                            .setFont("LiberationFonts/LiberationSans-Regular.ttf")
+                            .setTranslation(0, 32);
+                }
                 group.setTranslation(trX(dist), trY(alt));
             };
 
@@ -1578,7 +1600,7 @@ var MFD = {
             for (var i = 0; i < fp.getPlanSize(); i += 1) {
                 var wp = fp.getWP(i);
                 var alt = fms.vnav.nominalProfileAltAt(wp.distance_along_route);
-                drawWaypoint(wp.id, wp.distance_along_route, alt);
+                drawWaypoint(wp, alt, i == fp.current);
             };
 
             var wp = profile.waypoints[0];
@@ -1617,12 +1639,12 @@ var MFD = {
         for (var i = 0; i < 8; i += 1) {
             g.createChild('path')
              .setColor(1, 1, 1)
-             .setStrokeLineWidth(2)
+             .setStrokeLineWidth(3)
              .moveTo(120, y)
              .lineTo(140, y);
             g.createChild('path')
              .setColor(1, 1, 1)
-             .setStrokeLineWidth(2)
+             .setStrokeLineWidth(3)
              .moveTo(130, y - 40)
              .lineTo(140, y - 40);
             g.createChild('text')
@@ -1638,7 +1660,7 @@ var MFD = {
              .setFont("LiberationFonts/LiberationSans-Regular.ttf")
              .setText(sprintf("%i", a / 100))
              .setAlignment('right-bottom')
-             .setTranslation(100, y+8);
+             .setTranslation(90, y+8);
             append(me.elems['vnav.scale.major'], t);
             y -= 80;
             a += 2000 / zoom;
@@ -1647,8 +1669,8 @@ var MFD = {
 
     updateVnavScale: func (scroll, force=1) {
         var latRange = me.props['range'].getValue();
-        var zoom = 20 / latRange; # factor
-        var vertZoom = 0.8 / latRange; # projection onto Y axis
+        var zoom = vertZoomRefRange / latRange; # factor
+        var vertZoom = vertZoomFactor / latRange; # projection onto Y axis
 
         var astep = 2000 / zoom;
         var azero = math.floor(scroll / astep - 0.5) * astep;
@@ -1666,7 +1688,7 @@ var MFD = {
 
     setVnavVerticalScroll: func(vertical) {
         var latRange = me.props['range'].getValue();
-        var vertZoom = 0.8 / latRange;
+        var vertZoom = vertZoomFactor / latRange;
 
         me.elems['vnav.vertical'].setTranslation(0, vertical * vertZoom);
         me.updateVnavScale(vertical);
@@ -2535,9 +2557,9 @@ var MFD = {
         call(canvas_base.BaseScreen.updateSlow, [dt], me);
         var salt = me.props['altitude-selected'].getValue();
         var range = me.props['range'].getValue();
-        var latZoom = 720.0 / range;
-        var vertZoom = 0.8 / range;
-        var zoom = 20.0 / range;
+        var latZoom = latZoomFactor / range;
+        var vertZoom = vertZoomFactor / range;
+        var zoom = vertZoomRefRange / range;
         var page = me.props['page'].getValue();
         var progress = me.props['route-progress'].getValue();
         var progress = me.props['route-progress'].getValue();
