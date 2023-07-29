@@ -71,7 +71,7 @@ var BaseApp = {
     },
 
     hideKeyboard: func {
-        if (me.keyboard) {
+        if (me.keyboard != nil) {
             me.keyboard.keyPressed.removeListener(me.keyboardListenerID);
             me.keyboard.setActive(0);
         }

@@ -1825,6 +1825,8 @@ var PaperworkApp = {
         var ofpDir = getprop("/sim/fg-home") ~ '/Export/OFP/';
         makeMenuStatic(ofpDir);
         var ofpList = directory(ofpDir);
+        if (ofpList == nil)
+            ofpList = [];
         foreach (var ofpCandidate; ofpList) {
             if (substr(ofpCandidate, -4) == '.xml') {
                 makeMenuItem(ofpCandidate, func {
