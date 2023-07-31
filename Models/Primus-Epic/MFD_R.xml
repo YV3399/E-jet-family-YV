@@ -1,7 +1,7 @@
 <?xml version = '1.0' encoding = 'UTF-8' ?>
 <PropertyList>
 
-    <path>../../Models/Primus-Epic/primus_epic_mfd1.ac</path>
+    <path>../../Models/Primus-Epic/generic-efis-screen.ac</path>
 
     <!-- Power on/off -->
     <animation>
@@ -17,8 +17,19 @@
     </animation>
 
     <animation>
+        <type>textranslate</type>
+        <object-name>screen</object-name>
+        <bias>1.8027756377319946</bias>
+        <factor>0.25</factor>
+        <axis>
+            <x>1</x>
+            <y>-1.5</y>
+        </axis>
+    </animation>
+
+    <animation>
         <type>touch</type>
-        <object-name>MFD1</object-name>
+        <object-name>screen</object-name>
         <action>
             <touch>0</touch>
             <repeatable>false</repeatable>
@@ -39,7 +50,7 @@
 
     <animation>
         <type>knob</type>
-        <object-name>MFD1_frame</object-name>
+        <object-name>frame</object-name>
         <decrease>
             <binding>
                 <condition>

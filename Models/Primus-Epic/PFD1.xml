@@ -1,13 +1,11 @@
 <?xml version = '1.0' encoding = 'UTF-8' ?>
 <PropertyList>
     
-    <path>../../Models/Primus-Epic/primus_epic_pfd1.ac</path>
+    <path>../../Models/Primus-Epic/generic-efis-screen.ac</path>
     
     <params>
         <index>0</index>
     </params>
-    
-    <path>mcdu-td.ac</path>
     
     <!-- Power on/off -->
     <animation>
@@ -21,10 +19,31 @@
             </less-than>
         </condition>
     </animation>
+
+    <animation>
+        <type>textranslate</type>
+        <object-name>screen</object-name>
+        <bias>0</bias>
+        <factor>0.25</factor>
+        <axis>
+            <x>1</x>
+            <y>0</y>
+        </axis>
+    </animation>
+    <animation>
+        <type>textranslate</type>
+        <object-name>screen</object-name>
+        <bias>1</bias>
+        <factor>0.375</factor>
+        <axis>
+            <x>0</x>
+            <y>-1</y>
+        </axis>
+    </animation>
     
     <animation>
         <type>touch</type>
-        <object-name>PFD1</object-name>
+        <object-name>screen</object-name>
         <action>
             <touch>0</touch>
             <repeatable>false</repeatable>
@@ -45,7 +64,7 @@
     
     <animation>
         <type>knob</type>
-        <object-name>PFD1_frame</object-name>
+        <object-name>frame</object-name>
         <decrease>
             <binding>
                 <condition>

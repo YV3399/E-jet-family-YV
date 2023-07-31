@@ -61,6 +61,21 @@ var initializeAtlas = func {
     atlas = Atlas.new();
 };
 
+var masterCanvas = nil;
+
+var getMasterCanvas = func {
+    if (masterCanvas == nil) {
+        masterCanvas = canvas.new({
+            "name": "EFIS_Master",
+            "size": [4096, 4096],
+            "view": [4096, 4096],
+            "mipmapping": 1
+        });
+        masterCanvas.addPlacement({"texture": "efis-screens.png"});
+    }
+    return masterCanvas;
+};
+
 var BaseScreen = {
 
     # Args:

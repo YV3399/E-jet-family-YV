@@ -2765,15 +2765,12 @@ var teardown = func {
 var initialize = func {
     if (initialized) { teardown(); }
     initialized = 1;
+
+    var masterCanvas = canvas_base.getMasterCanvas();
+
     for (var i = 0; i <= 1; i += 1) {
-        mfd_display[i] = canvas.new({
-            "name": "MFD" ~ i,
-            "size": [512, 1024],
-            "view": [1024, 1560],
-            "mipmapping": 1
-        });
-        mfd_display[i].addPlacement({"node": "MFD" ~ i});
-        mfd_master[i] = mfd_display[i].createGroup();
+        mfd_master[i] = masterCanvas.createGroup();
+        mfd_master[i].setTranslation(1024, i * 1536);
         mfd[i] = MFD.new(i).init(mfd_master[i]);
         (func (j) {
             outputProp = props.globals.getNode("systems/electrical/outputs/mfd[" ~ j ~ "]");

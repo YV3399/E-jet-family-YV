@@ -36,20 +36,20 @@
         <layout>hbox</layout>
 		<canvas>
 			<name>mfd</name>
-			<valign>fill</valign>
-			<halign>fill</halign>
 			<stretch>false</stretch>
-			<pref-width>508</pref-width>
-			<pref-height>680</pref-height>
+			<pref-width>250</pref-width>
+			<pref-height>384</pref-height>
 			<nasal>
 				<load>
 					<![CDATA[
 						var mfd_canvas_dlg = canvas.get(cmdarg());
 						var root = mfd_canvas_dlg.createGroup();
-                        var canvas_path = canvas_mfd.mfd_display[0].getPath();
-						root.setScale(0.5, 0.5);
+                        var canvas_path = canvas_base.masterCanvas.getPath();
 						mfd_canvas_dlg.setColorBackground(0, 0, 0, 1.0);
-						root.createChild("image").setFile(canvas_path);
+						root.createChild("image")
+                            .setFile(canvas_path)
+                            .setSourceRect(0.25, 0.625, 0.5, 1)
+                            .setSize(256, 384);
 					]]>
 				</load>
 				<unload>

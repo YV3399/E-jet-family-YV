@@ -169,17 +169,17 @@
      borderopacity="1.0"
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.49690262"
-     inkscape:cx="290.10266"
-     inkscape:cy="-87.856863"
+     inkscape:zoom="0.35431783"
+     inkscape:cx="283.25467"
+     inkscape:cy="767.02192"
      inkscape:document-units="px"
-     inkscape:current-layer="layer11"
+     inkscape:current-layer="layer7"
      showgrid="false"
      units="px"
-     inkscape:window-width="1920"
-     inkscape:window-height="1080"
-     inkscape:window-x="1440"
-     inkscape:window-y="0"
+     inkscape:window-width="1440"
+     inkscape:window-height="884"
+     inkscape:window-x="0"
+     inkscape:window-y="16"
      inkscape:window-maximized="1"
      showguides="true"
      inkscape:guide-bbox="true"
@@ -208,6 +208,13 @@
        position="0,436"
        orientation="0,1"
        id="guide3249"
+       inkscape:label=""
+       inkscape:locked="false"
+       inkscape:color="rgb(0,0,255)" />
+    <sodipodi:guide
+       position="0,762"
+       orientation="0,1"
+       id="guide5789"
        inkscape:label=""
        inkscape:locked="false"
        inkscape:color="rgb(0,0,255)" />
@@ -249,10 +256,10 @@
     <rect
        style="display:inline;opacity:0.99;fill:#0000c0;fill-opacity:1;stroke:none;stroke-width:2.0038;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        id="rect5901"
-       width="2000"
-       height="1918.0663"
-       x="-540.77002"
-       y="-1152" />
+       width="1024"
+       height="768"
+       x="0"
+       y="0" />
     <g
        id="horizon"
        inkscape:transform-center-x="13.5"
@@ -1313,8 +1320,7 @@
      inkscape:groupmode="layer"
      id="layer7"
      inkscape:label="HSI"
-     style="display:inline"
-     sodipodi:insensitive="true">
+     style="display:inline">
     <g
        id="compass"
        inkscape:transform-center-x="0.0066027577"

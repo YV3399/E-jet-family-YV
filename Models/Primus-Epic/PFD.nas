@@ -1681,15 +1681,11 @@ initialize = func {
     var timerSlow = [];
     var blinkTimer = [];
 
+    var masterCanvas = canvas_base.getMasterCanvas();
+
     for (var i = 0; i < 2; i += 1) {
-        PFD_display[i] = canvas.new({
-            "name": "PFD" ~ i,
-            "size": [1024, 1560],
-            "view": [1024, 1560],
-            "mipmapping": 1
-        });
-        PFD_display[i].addPlacement({"node": "PFD" ~ i});
-        PFD_master[i] = PFD_display[i].createGroup();
+        PFD_master[i] = masterCanvas.createGroup();
+        PFD_master[i].setTranslation(0, i * 1536);
         pfd[i] = PFDCanvas.new(i).init(PFD_master[i]);
         (func (j) {
             var outputProp = props.globals.getNode("systems/electrical/outputs/pfd[" ~ j ~ "]");
