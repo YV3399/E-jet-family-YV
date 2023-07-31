@@ -14,6 +14,165 @@ var pfd = [nil, nil];
 var PFD_master = [nil, nil];
 var PFD_display = [nil, nil];
 
+var atlasItems = {
+    'alt.tape.scale': {
+        srcRect: [ 0, 0, 128, 1538 ],
+        refOffset: [ 32, 896 ],
+        refPos: [ 776, 446 ],
+    },
+    'asi.tape': {
+        srcRect: [ 128, 0, 256, 3144 ],
+        refOffset: [ 248, 3136 ],
+        refPos: [ 160, 448 ],
+    },
+    'horizon.scale': {
+        srcRect: [ 256, 0, 512, 1408 ],
+        refOffset: [ 384, 704 ],
+        refPos: [ 473, 447 ],
+    },
+    'mask': {
+        srcRect: [ 512, 1024, 1024, 1280 ],
+        refOffset: [ 512, 1024 ],
+        refPos: [ 0, 0 ],
+    },
+    'compass.rose': {
+        srcRect: [ 512, 0, 1024, 512 ],
+        refOffset: [ 768, 256 ],
+        refPos: [ 472, 1094 ],
+    },
+    'compass.numbers': {
+        srcRect: [ 512, 512, 1024, 1024 ],
+        refOffset: [ 768, 768 ],
+        refPos: [ 472, 1094 ],
+    },
+
+    'alt.10000.nonzero': {
+        srcRect: [ 256, 1536, 286, 2024 ],
+        refOffset: [ 256, 2048 ],
+        refPos: [ 804, 446 ],
+    },
+    'alt.10000.z': {
+        srcRect: [ 256, 2024, 286, 2112 ],
+        refOffset: [ 256, 2048 ],
+        refPos: [ 804, 446 ],
+    },
+    'alt.10000.pos': {
+        srcRect: [ 256, 2304, 286, 2368 ],
+        refOffset: [ 256, 2336 ],
+        refPos: [ 804, 446 ],
+    },
+    'alt.10000.neg': {
+        srcRect: [ 256, 2112, 286, 2176 ],
+        refOffset: [ 256, 2144 ],
+        refPos: [ 804, 484 ],
+    },
+
+    'alt.1000.nonzero': {
+        srcRect: [ 256, 1536, 286, 2024 ],
+        refOffset: [ 256, 2048 ],
+        refPos: [ 826, 446 ],
+    },
+    'alt.1000.z': {
+        srcRect: [ 256, 2024, 286, 2112 ],
+        refOffset: [ 256, 2048 ],
+        refPos: [ 826, 446 ],
+    },
+    'alt.1000.pos': {
+        srcRect: [ 256, 2304, 286, 2368 ],
+        refOffset: [ 256, 2336 ],
+        refPos: [ 826, 446 ],
+    },
+    'alt.1000.neg': {
+        srcRect: [ 256, 2176, 286, 2440 ],
+        refOffset: [ 256, 2208 ],
+        refPos: [ 826, 484 ],
+    },
+
+    'alt.100.nonzero': {
+        srcRect: [ 256, 1536, 286, 2024 ],
+        refOffset: [ 256, 2048 ],
+        refPos: [ 848, 446 ],
+    },
+    'alt.100.z': {
+        srcRect: [ 256, 2024, 286, 2112 ],
+        refOffset: [ 256, 2048 ],
+        refPos: [ 848, 446 ],
+    },
+    'alt.100.pos': {
+        srcRect: [ 256, 2304, 286, 2368 ],
+        refOffset: [ 256, 2336 ],
+        refPos: [ 848, 446 ],
+    },
+    'alt.100.neg': {
+        srcRect: [ 256, 2240, 286, 2304 ],
+        refOffset: [ 256, 2272 ],
+        refPos: [ 848, 484 ],
+    },
+
+    'alt.rollingdigits.pos': {
+        srcRect: [ 320, 1728, 368, 2048 ],
+        refOffset: [ 320, 1984 ],
+        refPos: [ 871, 446 ],
+    },
+    'alt.rollingdigits.neg': {
+        srcRect: [ 320, 2048, 368, 2384 ],
+        refOffset: [ 320, 2144 ],
+        refPos: [ 871, 446 ],
+    },
+    'alt.rollingdigits.zero': {
+        srcRect: [ 384, 1792, 432, 2304 ],
+        refOffset: [ 384, 2048 ],
+        refPos: [ 871, 446 ],
+    },
+};
+
+var atlas = nil;
+
+var initializeAtlas = func {
+    if (atlas != nil)
+        return;
+    atlas = canvas.new({
+                "size": [4096, 4096],
+                "view": [4096, 4096],
+                "mipmapping": 0,
+            });
+    atlas.setColorBackground(0, 0, 0, 0);
+    var atlasMaster = atlas.createGroup();
+    var font_mapper = func(family, weight) {
+        return "e190.ttf";
+    };
+    canvas.parsesvg(atlasMaster, "Aircraft/E-jet-family/Models/Primus-Epic/PFD-symbols.svg", { 'font-mapper': font_mapper });
+};
+
+var applyAtlas = func (masterGroup) {
+    # masterGroup.createChild('image')
+    #     .setFile(atlas.getPath());
+    foreach (var k; keys(atlasItems)) {
+        var elem = masterGroup.getElementById(k);
+        var atlasItem = atlasItems[k];
+        if (elem != nil) {
+            debug.dump(k);
+            elem.removeAllChildren();
+            elem.createChild('image')
+                    .setFile(atlas.getPath())
+                    .setSourceRect(
+                        atlasItem.srcRect[0],
+                        4096 - atlasItem.srcRect[3],
+                        atlasItem.srcRect[2],
+                        4096 - atlasItem.srcRect[1],
+                        0)
+                    .setSize([
+                        atlasItem.srcRect[2] - atlasItem.srcRect[0],
+                        atlasItem.srcRect[3] - atlasItem.srcRect[1],
+                    ])
+                    .setTranslation(
+                        atlasItem.refPos[0] - atlasItem.refOffset[0] + atlasItem.srcRect[0],
+                        atlasItem.refPos[1] - atlasItem.refOffset[1] + atlasItem.srcRect[1]
+                    );
+        }
+    }
+};
+
 setprop("/systems/electrical/outputs/efis", 0);
 
 var odoDigitRaw = func(v, p) {
@@ -250,6 +409,7 @@ var PFDCanvas = {
     makeMasterGroup: func (group) {
         call(canvas_base.BaseScreen.makeMasterGroup, [group], me);
         canvas.parsesvg(group, "Aircraft/E-jet-family/Models/Primus-Epic/PFD.svg", { 'font-mapper': me.font_mapper });
+        applyAtlas(group);
     },
 
     registerElems: func () {
@@ -1066,7 +1226,7 @@ var PFDCanvas = {
         }, 1, 0);
         me.addListener('main', "@/instrumentation/pfd/fpa-pitch-scale", func (node) {
             var fpaPitch = (self.props["/instrumentation/pfd/fpa-pitch-scale"].getValue() or 0);
-            self.elems["fpa.target"].setTranslation(0,-fpaPitch*8.05);
+            self.elems["fpa.target"].setTranslation(0,-fpaPitch*8.0);
         }, 1, 0);
         me.addListener('main', "@/instrumentation/pfd/vsi-target-deg", func (node) {
             var vneedle = self.props["/instrumentation/pfd/vsi-target-deg"].getValue() or 0;
@@ -1263,7 +1423,7 @@ var PFDCanvas = {
         var slip = me.props["/instrumentation/slip-skid-ball/indicated-slip-skid"].getValue() or 0;
         var trackError = me.props["/instrumentation/pfd/track-error-deg"].getValue() or 0;
         var fpaScaled = me.props["/instrumentation/pfd/fpa-scale"].getValue() or 0;
-        me.h_trans.setTranslation(0,pitch*8.05);
+        me.h_trans.setTranslation(0,pitch*8.0);
         me.h_rot.setRotation(-roll*D2R,me.elems["horizon"].getCenter());
         if(math.abs(roll)<=45){
             me.elems["roll.pointer"].setRotation(roll*(-D2R));
@@ -1295,7 +1455,7 @@ var PFDCanvas = {
 
         # FPV
         me.elems["fpv"]
-            .setTranslation(geo.normdeg180(trackError) * 8.05, -fpaScaled * 8.05)
+            .setTranslation(geo.normdeg180(trackError) * 8.0, -fpaScaled * 8.0)
             .setRotation(roll * D2R);
 
         # FD
@@ -1305,12 +1465,12 @@ var PFDCanvas = {
         var fdPitch = me.props["/instrumentation/pfd/fd/pitch-scale"].getValue() or 0;
         var fdRoll = me.props["/instrumentation/pfd/fd/lat-offset-deg"].getValue() or 0;
 
-        me.elems["fd.pitch"].setTranslation(0, (pitch - barPitch) * 8.05);
-        me.elems["fd.roll"].setTranslation(barRoll * 8.05, 0);
+        me.elems["fd.pitch"].setTranslation(0, (pitch - barPitch) * 8.0);
+        me.elems["fd.roll"].setTranslation(barRoll * 8.0, 0);
         me.elems["fd.icon"]
             .setTranslation(
-                geo.normdeg180(trackError + fdRoll) * 8.05,
-                fdPitch * -8.05)
+                geo.normdeg180(trackError + fdRoll) * 8.0,
+                fdPitch * -8.0)
             .setRotation(roll * D2R);
 
         # V/S
@@ -1548,6 +1708,8 @@ initialize = func {
     var timer = [];
     var timerSlow = [];
     var blinkTimer = [];
+
+    initializeAtlas();
 
     for (var i = 0; i < 2; i += 1) {
         PFD_display[i] = canvas.new({

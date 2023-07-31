@@ -550,13 +550,13 @@ re-run build.sh.
                                 <ind>90</ind><dep>90</dep>
                             </entry>
                             <entry>
-                                <ind>10</ind><dep>16.666</dep>
+                                <ind>10</ind><dep>16</dep>
                             </entry>
                             <entry>
                                 <ind>0</ind><dep>0</dep>
                             </entry>
                             <entry>
-                                <ind>-10</ind><dep>-16.666</dep>
+                                <ind>-10</ind><dep>-16</dep>
                             </entry>
                             <entry>
                                 <ind>-90</ind><dep>-90</dep>
@@ -580,13 +580,13 @@ re-run build.sh.
                                 <ind>90</ind><dep>90</dep>
                             </entry>
                             <entry>
-                                <ind>10</ind><dep>16.666</dep>
+                                <ind>10</ind><dep>16</dep>
                             </entry>
                             <entry>
                                 <ind>0</ind><dep>0</dep>
                             </entry>
                             <entry>
-                                <ind>-10</ind><dep>-16.666</dep>
+                                <ind>-10</ind><dep>-16</dep>
                             </entry>
                             <entry>
                                 <ind>-90</ind><dep>-90</dep>
@@ -610,13 +610,13 @@ re-run build.sh.
                                 <ind>90</ind><dep>90</dep>
                             </entry>
                             <entry>
-                                <ind>10</ind><dep>16.666</dep>
+                                <ind>10</ind><dep>16</dep>
                             </entry>
                             <entry>
                                 <ind>0</ind><dep>0</dep>
                             </entry>
                             <entry>
-                                <ind>-10</ind><dep>-16.666</dep>
+                                <ind>-10</ind><dep>-16</dep>
                             </entry>
                             <entry>
                                 <ind>-90</ind><dep>-90</dep>
@@ -643,13 +643,13 @@ re-run build.sh.
                                 <ind>90</ind><dep>90</dep>
                             </entry>
                             <entry>
-                                <ind>10</ind><dep>16.666</dep>
+                                <ind>10</ind><dep>16</dep>
                             </entry>
                             <entry>
                                 <ind>0</ind><dep>0</dep>
                             </entry>
                             <entry>
-                                <ind>-10</ind><dep>-16.666</dep>
+                                <ind>-10</ind><dep>-16</dep>
                             </entry>
                             <entry>
                                 <ind>-90</ind><dep>-90</dep>
@@ -698,13 +698,13 @@ re-run build.sh.
                                 <ind>90</ind><dep>90</dep>
                             </entry>
                             <entry>
-                                <ind>10</ind><dep>16.666</dep>
+                                <ind>10</ind><dep>16</dep>
                             </entry>
                             <entry>
                                 <ind>0</ind><dep>0</dep>
                             </entry>
                             <entry>
-                                <ind>-10</ind><dep>-16.666</dep>
+                                <ind>-10</ind><dep>-16</dep>
                             </entry>
                             <entry>
                                 <ind>-90</ind><dep>-90</dep>
