@@ -1,3 +1,66 @@
+var Atlas = {
+    new: func {
+        var atlas = canvas.new({
+                    "size": [4096, 4096],
+                    "view": [4096, 4096],
+                    "mipmapping": 0,
+                });
+        atlas.setColorBackground(0, 0, 0, 0);
+        var atlasMaster = atlas.createGroup();
+        var font_mapper = func(family, weight) {
+            return "e190.ttf";
+        };
+        canvas.parsesvg(atlasMaster, "Aircraft/E-jet-family/Models/Primus-Epic/EFIS-symbols.svg", { 'font-mapper': font_mapper });
+        return {
+            parents: [me],
+            atlas: atlas,
+            groups: {},
+        };
+    },
+
+    registerGroup: func (name, items) {
+        me.groups[name] = items;
+    },
+
+    apply: func (groupKey, masterGroup) {
+        var atlasItems = me.groups[groupKey];
+        var atlasPath = me.atlas.getPath();
+
+        # masterGroup.createChild('image')
+        #                 .setSize([4096, 4096])
+        #                 .setFile(atlasPath);
+        foreach (var k; keys(atlasItems)) {
+            var elem = masterGroup.getElementById(k);
+            var atlasItem = atlasItems[k];
+            if (elem != nil) {
+                elem.removeAllChildren();
+                var (x, y, w, h) = atlasItem.srcRect;
+                printf("%s: %ix%i:%ix%i", k, x, y, w, h);
+                var left = x;
+                var top = y;
+                var right = x + w;
+                var bottom = y + h;
+                elem.createChild('image')
+                        .setFile(atlasPath)
+                        .setSourceRect(left, 4096 - bottom, right, 4096 - top, 0)
+                        .setSize([ w, h ])
+                        .setTranslation(
+                            atlasItem.refPos[0] - atlasItem.refOffset[0] + x,
+                            atlasItem.refPos[1] - atlasItem.refOffset[1] + y
+                        );
+            }
+        }
+    },
+};
+
+var atlas = nil;
+
+var initializeAtlas = func {
+    if (atlas != nil)
+        return;
+    atlas = Atlas.new();
+};
+
 var BaseScreen = {
 
     # Args:
@@ -36,6 +99,21 @@ var BaseScreen = {
     registerElems: func () {
     },
 
+    # Override to register atlas items.
+    getAtlasGroupName: func nil,
+
+    # Override to report atlas items.
+    # Should return a dictionary of SVG ID's to atlas item specs. An atlas item
+    # spec is a dictionary of the following structure:
+    # {
+    #   # Source rectangle in the atlas texture
+    #   srcRect: [ left, top, width, height ],
+    #   # Position of anchor in the atlas texture
+    #   refOffset: [ x, y ],
+    #   # Position of anchor in the target canvas group
+    #   refPos: [ x, y ],
+    # }
+    getAtlasItems: func nil,
 
     font_mapper: func(family, weight) {
         return "LiberationFonts/LiberationSans-Regular.ttf";
@@ -407,6 +485,18 @@ var BaseScreen = {
         me.active = 0;
     },
 
+    ############### Internal symbol atlas code. Do not override. ############### 
+    
+    setupAtlas: func {
+        initializeAtlas();
+        var atlasGroupName = me.getAtlasGroupName();
+        var atlasItems = me.getAtlasItems();
+        if (atlasGroupName != nil and atlasItems != nil) {
+            atlas.registerGroup(atlasGroupName, atlasItems);
+            atlas.apply(atlasGroupName, me.master);
+        }
+    },
+
     init: func (canvas_group) {
         var self = me; # for listeners
 
@@ -422,6 +512,8 @@ var BaseScreen = {
         me.makeMasterGroup(canvas_group);
         me.makeGroups();
         me.registerElems();
+        me.setupAtlas();
+
         me.makeWidgets();
         me.cursor = me.guiOverlay.createChild("group");
         if (me.ccdIndex >= 0)
