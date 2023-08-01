@@ -307,6 +307,103 @@ var MFD = {
         }
     },
 
+    getAtlasGroupName: func "PFD",
+
+    getAtlasItems: func {
+        return {
+            'menuContainerTop': {
+                srcRect: [ 1024, 0, 1024, 100 ],
+                refOffset: [ 1024, 0 ],
+                refPos: [ 0, 0 ],
+            },
+            'menuContainerBottom': {
+                srcRect: [ 1024, 100, 1024, 100 ],
+                refOffset: [ 1024, 100 ],
+                refPos: [ 0, 1266 ],
+            },
+            'mapMenu.background': {
+                srcRect: [ 1024, 200, 338, 612 ],
+                refOffset: [ 1024, 200 ],
+                refPos: [ 4, 100 ],
+            },
+            'mapMenu.closeBtn': {
+                srcRect: [ 0, 2372, 68, 68 ],
+                refOffset: [ 0, 2372 ],
+                refPos: [ 342, 100 ],
+            },
+            'submodeMenu.background': {
+                srcRect: [ 1362, 200, 338, 612 ],
+                refOffset: [ 1362, 200 ],
+                refPos: [ 686, 100 ],
+            },
+            'submodeMenu.closeBtn': {
+                srcRect: [ 0, 2372, 68, 68 ],
+                refOffset: [ 0, 2372 ],
+                refPos: [ 618, 100 ],
+            },
+            'weatherMenu.background': {
+                srcRect: [ 512, 2048, 972, 376 ],
+                refOffset: [ 512, 2048 ],
+                refPos: [ 26, 882 ],
+            },
+            'arc.compass': {
+                srcRect: [ 2048, 0, 1024, 1024 ],
+                refOffset: [ 2048, 0 ],
+                refPos: [ 0, 0 ],
+            },
+            'weather.background': {
+                srcRect: [ 1710, 208, 189, 140 ],
+                refOffset: [ 1710, 208 ],
+                refPos: [ 0, 608 ],
+            },
+            'terrain.background': {
+                srcRect: [ 1710, 352, 189, 140 ],
+                refOffset: [ 1710, 352 ],
+                refPos: [ 0, 608 ],
+            },
+            'tcas.background': {
+                srcRect: [ 1710, 496, 183, 140 ],
+                refOffset: [ 1710, 496 ],
+                refPos: [ 841, 608 ],
+            },
+            'progress.background': {
+                srcRect: [ 1028, 880, 656, 140 ],
+                refOffset: [ 1028, 880 ],
+                refPos: [ 187, 608 ],
+            },
+            'radarMask': {
+                srcRect: [ 2048, 1024, 1024, 768 ],
+                refOffset: [ 2048, 1024 ],
+                refPos: [ 0, 0 ],
+            },
+            'ecs.engineSymbolLeft': {
+                srcRect: [ 0, 2752, 90, 166 ],
+                refOffset: [ 0, 2752 ],
+                refPos: [ 33, 490 ],
+            },
+            'ecs.engineSymbolRight': {
+                srcRect: [ 0, 2752, 90, 166 ],
+                refOffset: [ 0, 2752 ],
+                refPos: [ 901, 490 ],
+            },
+            'flightControls.static': {
+                srcRect: [ 512, 2560, 1024, 768 ],
+                refOffset: [ 512, 2560 ],
+                refPos: [ 0, 0 ],
+            },
+            'fuel.engineSymbolLeft': {
+                srcRect: [ 0, 2752, 90, 166 ],
+                refOffset: [ 0, 2752 ],
+                refPos: [ 117.5, 20 ],
+            },
+            'fuel.engineSymbolRight': {
+                srcRect: [ 0, 2752, 90, 166 ],
+                refOffset: [ 0, 2752 ],
+                refPos: [ 817.5, 20 ],
+            },
+        };
+    },
+
     # makeMasterGroup: func (group) {
     #     call(canvas_base.BaseScreen.makeMasterGroup, [group], me);
     #     canvas.parsesvg(group, "Aircraft/E-jet-family/Models/Primus-Epic/MFD.svg", { 'font-mapper': me.font_mapper });

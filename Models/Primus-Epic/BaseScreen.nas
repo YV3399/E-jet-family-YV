@@ -1,3 +1,10 @@
+var font_mapper = func(family, weight) {
+    if (family == 'E190')
+        return "e190.ttf";
+    else
+        return "LiberationFonts/LiberationSans-Regular.ttf";
+};
+
 var Atlas = {
     new: func {
         var atlas = canvas.new({
@@ -7,9 +14,6 @@ var Atlas = {
                 });
         atlas.setColorBackground(0, 0, 0, 0);
         var atlasMaster = atlas.createGroup();
-        var font_mapper = func(family, weight) {
-            return "e190.ttf";
-        };
         canvas.parsesvg(atlasMaster, "Aircraft/E-jet-family/Models/Primus-Epic/EFIS-symbols.svg", { 'font-mapper': font_mapper });
         return {
             parents: [me],
@@ -130,9 +134,7 @@ var BaseScreen = {
     # }
     getAtlasItems: func nil,
 
-    font_mapper: func(family, weight) {
-        return "LiberationFonts/LiberationSans-Regular.ttf";
-    },
+    font_mapper: font_mapper,
 
     makeMasterGroup: func (group) {
     },

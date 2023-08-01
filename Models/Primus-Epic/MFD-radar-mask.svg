@@ -1,6 +1,4 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!-- Created with Inkscape (http://www.inkscape.org/) -->
-
 <svg
    xmlns:dc="http://purl.org/dc/elements/1.1/"
    xmlns:cc="http://creativecommons.org/ns#"
@@ -15,7 +13,7 @@
    viewBox="0 0 1024 768"
    version="1.1"
    id="svg8"
-   inkscape:version="0.92.4 (5da689c313, 2019-01-14)"
+   inkscape:version="1.0.2 (e86c870879, 2021-01-15)"
    sodipodi:docname="MFD-radar-mask.svg">
   <defs
      id="defs2">
@@ -127,7 +125,8 @@
      showguides="false"
      inkscape:guide-bbox="true"
      inkscape:snap-global="false"
-     inkscape:pagecheckerboard="true">
+     inkscape:pagecheckerboard="true"
+     inkscape:document-rotation="0">
     <sodipodi:guide
        position="-278,236"
        orientation="0,1"
@@ -161,24 +160,27 @@
      sodipodi:insensitive="true">
     <image
        sodipodi:absref="/home/tobias/flightgear/fgdata-standalone/Aircraft/E-jet-family/raw-assets/mfd.png"
-       y="-107.25"
-       x="3.0102"
-       id="image893"
-       xlink:href="file:///home/tobias/flightgear/fgdata-standalone/Aircraft/E-jet-family/raw-assets/mfd.png"
-       style="stroke-width:0.12639;image-rendering:optimizeQuality"
-       preserveAspectRatio="none"
+       xlink:href="../../raw-assets/mfd.png"
+       width="1027.9"
        height="1354.5"
-       width="1027.9" />
+       preserveAspectRatio="none"
+       style="stroke-width:0.12639;image-rendering:optimizeQuality"
+       id="image893"
+       x="3.0102"
+       y="-107.25" />
   </g>
   <g
      inkscape:groupmode="layer"
      id="layer2"
      inkscape:label="Layer 2">
-    <path
-       style="opacity:1;fill:#000000;fill-opacity:1;stroke:none;stroke-width:3;stroke-linecap:butt;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       d="M 1024,0 V 768 H 887.62 c 45.44,-71.4 69.6,-154.27 69.63,-238.9 0,-118.09 -46.91,-231.34 -130.41,-314.84 C 743.34,130.76 630.09,83.85 512,83.85 393.91,83.85 280.66,130.76 197.16,214.26 113.66,297.76 66.75,411.01 66.75,529.1 66.924,613.78 91.241,696.65 136.85,768 H 0 V 0 Z"
-       id="rect3215"
-       inkscape:connector-curvature="0"
-       sodipodi:nodetypes="ccccsssccccc" />
+    <g
+       id="radarMask">
+      <path
+         style="opacity:1;fill:#000000;fill-opacity:1;stroke:none;stroke-width:3;stroke-linecap:butt;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         d="M 1024,0 V 768 H 887.62 c 45.44,-71.4 69.6,-154.27 69.63,-238.9 0,-118.09 -46.91,-231.34 -130.41,-314.84 C 743.34,130.76 630.09,83.85 512,83.85 393.91,83.85 280.66,130.76 197.16,214.26 113.66,297.76 66.75,411.01 66.75,529.1 66.924,613.78 91.241,696.65 136.85,768 H 0 V 0 Z"
+         id="rect3215"
+         inkscape:connector-curvature="0"
+         sodipodi:nodetypes="ccccsssccccc" />
+    </g>
   </g>
 </svg>

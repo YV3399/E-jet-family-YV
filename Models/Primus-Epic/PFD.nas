@@ -246,10 +246,6 @@ var PFDCanvas = {
         me.ilscolor = [0,1,0];
     },
 
-    font_mapper: func(family, weight) {
-        return "e190.ttf";
-    },
-
     makeMasterGroup: func (group) {
         call(canvas_base.BaseScreen.makeMasterGroup, [group], me);
         canvas.parsesvg(group, "Aircraft/E-jet-family/Models/Primus-Epic/PFD.svg", { 'font-mapper': me.font_mapper });
