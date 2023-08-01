@@ -108,16 +108,19 @@ var PFDCanvas = {
         me.registerProp("/instrumentation/comm[0]/frequencies/selected-mhz", "/instrumentation/comm[0]/frequencies/selected-mhz");
         me.registerProp("/instrumentation/comm[0]/frequencies/standby-mhz", "/instrumentation/comm[0]/frequencies/standby-mhz");
         me.registerProp("/instrumentation/comm[0]/spacing", "/instrumentation/comm[0]/spacing");
-        me.registerProp("/instrumentation/dme.elems[0]/frequencies/selected-mhz", "/instrumentation/dme.elems[0]/frequencies/selected-mhz");
-        me.registerProp("/instrumentation/dme.elems[0]/frequencies/source", "/instrumentation/dme.elems[0]/frequencies/source");
-        me.registerProp("/instrumentation/dme.elems[0]/indicated-distance-nm", "/instrumentation/dme.elems[0]/indicated-distance-nm");
-        me.registerProp("/instrumentation/dme.elems[0]/indicated-time-min", "/instrumentation/dme.elems[0]/indicated-time-min");
-        me.registerProp("/instrumentation/dme.elems[0]/in-range", "/instrumentation/dme.elems[0]/in-range");
-        me.registerProp("/instrumentation/dme.elems[1]/frequencies/selected-mhz", "/instrumentation/dme.elems[1]/frequencies/selected-mhz");
-        me.registerProp("/instrumentation/dme.elems[1]/frequencies/source", "/instrumentation/dme.elems[1]/frequencies/source");
-        me.registerProp("/instrumentation/dme.elems[1]/indicated-distance-nm", "/instrumentation/dme.elems[1]/indicated-distance-nm");
-        me.registerProp("/instrumentation/dme.elems[1]/indicated-time-min", "/instrumentation/dme.elems[1]/indicated-time-min");
-        me.registerProp("/instrumentation/dme.elems[1]/in-range", "/instrumentation/dme.elems[1]/in-range");
+        me.registerProp("/instrumentation/comm[1]/frequencies/selected-mhz", "/instrumentation/comm[1]/frequencies/selected-mhz");
+        me.registerProp("/instrumentation/comm[1]/frequencies/standby-mhz", "/instrumentation/comm[1]/frequencies/standby-mhz");
+        me.registerProp("/instrumentation/comm[1]/spacing", "/instrumentation/comm[1]/spacing");
+        me.registerProp("/instrumentation/dme[0]/frequencies/selected-mhz", "/instrumentation/dme[0]/frequencies/selected-mhz");
+        me.registerProp("/instrumentation/dme[0]/frequencies/source", "/instrumentation/dme[0]/frequencies/source");
+        me.registerProp("/instrumentation/dme[0]/indicated-distance-nm", "/instrumentation/dme[0]/indicated-distance-nm");
+        me.registerProp("/instrumentation/dme[0]/indicated-time-min", "/instrumentation/dme[0]/indicated-time-min");
+        me.registerProp("/instrumentation/dme[0]/in-range", "/instrumentation/dme[0]/in-range");
+        me.registerProp("/instrumentation/dme[1]/frequencies/selected-mhz", "/instrumentation/dme[1]/frequencies/selected-mhz");
+        me.registerProp("/instrumentation/dme[1]/frequencies/source", "/instrumentation/dme[1]/frequencies/source");
+        me.registerProp("/instrumentation/dme[1]/indicated-distance-nm", "/instrumentation/dme[1]/indicated-distance-nm");
+        me.registerProp("/instrumentation/dme[1]/indicated-time-min", "/instrumentation/dme[1]/indicated-time-min");
+        me.registerProp("/instrumentation/dme[1]/in-range", "/instrumentation/dme[1]/in-range");
         me.registerProp("/instrumentation/eicas/master/caution", "/instrumentation/eicas/master/caution");
         me.registerProp("/instrumentation/eicas/master/warning", "/instrumentation/eicas/master/warning");
         me.registerProp("/instrumentation/gps/cdi-deflection", "/instrumentation/gps/cdi-deflection");
@@ -574,19 +577,22 @@ var PFDCanvas = {
 
         me.elems["VNAV.constraints1"].hide();
         me.elems["VNAV.constraints2"].hide();
+
+        me.elems['vhf1.label'].setText('VHF' ~ (me.side + 1));
+        me.elems['nav1.label'].setText('NAV' ~ (me.side + 1));
     },
 
     swapCommFreqs: func () {
-        var sby = me.props['/instrumentation/comm[0]/frequencies/standby-mhz'];
-        var act = me.props['/instrumentation/comm[0]/frequencies/selected-mhz'];
+        var sby = me.props['/instrumentation/comm[' ~ me.side ~ ']/frequencies/standby-mhz'];
+        var act = me.props['/instrumentation/comm[' ~ me.side ~ ']/frequencies/selected-mhz'];
         var buf = act.getValue();
         act.setValue(sby.getValue());
         sby.setValue(buf);
     },
 
     swapNavFreqs: func () {
-        var sby = me.props['/instrumentation/nav[0]/frequencies/standby-mhz'];
-        var act = me.props['/instrumentation/nav[0]/frequencies/selected-mhz'];
+        var sby = me.props['/instrumentation/nav[' ~ me.side ~ ']/frequencies/standby-mhz'];
+        var act = me.props['/instrumentation/nav[' ~ me.side ~ ']/frequencies/selected-mhz'];
         var buf = act.getValue();
         act.setValue(sby.getValue());
         sby.setValue(buf);
@@ -729,16 +735,16 @@ var PFDCanvas = {
         # comm/nav
         var vhfFormat = "%7.3f";
         var vorFormat = "%6.2f";
-        me.addListener('main', "@/instrumentation/comm[0]/frequencies/selected-mhz", func (node) {
+        me.addListener('main', "@/instrumentation/comm[" ~ me.side ~ "]/frequencies/selected-mhz", func (node) {
             self.elems["vhf1.act"].setText(sprintf(vhfFormat, node.getValue() or 0));
         }, 1, 0);
-        me.addListener('main', "@/instrumentation/comm[0]/frequencies/standby-mhz", func (node) {
+        me.addListener('main', "@/instrumentation/comm[" ~ me.side ~ "]/frequencies/standby-mhz", func (node) {
             self.elems["vhf1.sby"].setText(sprintf(vhfFormat, node.getValue() or 0));
         }, 1, 0);
-        me.addListener('main', "@/instrumentation/nav[0]/frequencies/selected-mhz", func (node) {
+        me.addListener('main', "@/instrumentation/nav[" ~ me.side ~ "]/frequencies/selected-mhz", func (node) {
             self.elems["nav1.act"].setText(sprintf(vorFormat, node.getValue() or 0));
         }, 1, 0);
-        me.addListener('main', "@/instrumentation/nav[0]/frequencies/standby-mhz", func (node) {
+        me.addListener('main', "@/instrumentation/nav[" ~ me.side ~ "]/frequencies/standby-mhz", func (node) {
             self.elems["nav1.sby"].setText(sprintf(vorFormat, node.getValue() or 0));
         }, 1, 0);
 
