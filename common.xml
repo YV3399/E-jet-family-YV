@@ -190,18 +190,18 @@
                 <name>Electrical: Outputs</name>
                 <path>Aircraft/E-jet-family/Systems/electrical/outputs.xml</path>
             </property-rule>
-            <autopilot>
+            <property-rule n="203">
                 <name>Pneumatic</name>
                 <path>Aircraft/E-jet-family/Systems/pneumatic.xml</path>
-            </autopilot>
+            </property-rule>
             <autopilot>
                 <name>Pressurization</name>
                 <path>Aircraft/E-jet-family/Systems/pressurization.xml</path>
             </autopilot>
-            <autopilot>
+            <property-rule n="205">
                 <name>Fuel</name>
                 <path>Aircraft/E-jet-family/Systems/fuel.xml</path>
-            </autopilot>
+            </property-rule>
             <property-rule n="100">
                 <path>Aircraft/E-jet-family/Systems/pfd1.xml</path>
             </property-rule>
