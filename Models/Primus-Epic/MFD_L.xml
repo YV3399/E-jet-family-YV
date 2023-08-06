@@ -17,15 +17,28 @@
     </animation>
 
     <animation>
-        <type>textranslate</type>
+        <type>texmultiple</type>
         <object-name>screen</object-name>
-        <bias>1</bias>
-        <factor>0.25</factor>
-        <axis>
-            <x>1</x>
-            <y>0</y>
-        </axis>
+        <transform>
+            <subtype>textranslate</subtype>
+            <bias>1</bias>
+            <factor>0.25</factor>
+            <axis>
+                <x>1</x>
+                <y>0</y>
+            </axis>
+        </transform>
+        <transform>
+            <subtype>textranslate</subtype>
+            <bias>0</bias>
+            <factor>0.375</factor>
+            <axis>
+                <x>0</x>
+                <y>-1</y>
+            </axis>
+        </transform>
     </animation>
+
 
     <animation>
         <type>touch</type>

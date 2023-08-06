@@ -951,7 +951,6 @@ var EICAS = {
 };
 
 var initialized = 0;
-var eicas_display = nil;
 var eicas_master = nil;
 var eicas = nil;
 
@@ -972,14 +971,11 @@ var teardown = func {
 var initialize = func {
     if (initialized) { teardown(); }
     initialized = 1;
-    eicas_display = canvas.new({
-        "name": "EICAS",
-        "size": [1024, 2048],
-        "view": [1024, 1404],
-        "mipmapping": 1
-    });
-    eicas_display.addPlacement({"node": "EICAS"});
-    eicas_master = eicas_display.createGroup();
+
+    var masterCanvas = canvas_base.getMasterCanvas();
+
+    eicas_master = masterCanvas.createGroup();
+    eicas_master.setTranslation(2048, 0);
     eicas = EICAS.new().init(eicas_master);
     outputProp = props.globals.getNode("systems/electrical/outputs/eicas");
     enabledProp = props.globals.getNode("instrumentation/eicas/enabled");

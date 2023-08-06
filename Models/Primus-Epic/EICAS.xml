@@ -1,7 +1,7 @@
 <?xml version = '1.0' encoding = 'UTF-8' ?>
 <PropertyList>
   
-  <path>../../Models/Primus-Epic/primus_epic_eicas.ac</path>
+    <path>../../Models/Primus-Epic/generic-efis-screen.ac</path>
 
 	<!-- Power on/off -->
 	<animation>
@@ -17,8 +17,31 @@
 	</animation>
 
     <animation>
+        <type>texmultiple</type>
+        <object-name>screen</object-name>
+        <transform>
+            <subtype>textranslate</subtype>
+            <bias>2</bias>
+            <factor>0.25</factor>
+            <axis>
+                <x>1</x>
+                <y>0</y>
+            </axis>
+        </transform>
+        <transform>
+            <subtype>textranslate</subtype>
+            <bias>0</bias>
+            <factor>0.375</factor>
+            <axis>
+                <x>0</x>
+                <y>-1</y>
+            </axis>
+        </transform>
+    </animation>
+
+    <animation>
         <type>touch</type>
-        <object-name>EICAS</object-name>
+        <object-name>screen</object-name>
         <action>
             <touch>0</touch>
             <repeatable>false</repeatable>
@@ -39,7 +62,7 @@
 
     <animation>
         <type>knob</type>
-        <object-name>EICAS_frame</object-name>
+        <object-name>frame</object-name>
         <decrease>
             <binding>
                 <condition>
