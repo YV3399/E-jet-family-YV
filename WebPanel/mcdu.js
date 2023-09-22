@@ -228,7 +228,7 @@ function initScreen() {
         screenElem.appendChild(tr);
         for (var x = 0; x < screenW; x++) {
             var td = null;
-            if (x == 11 && y > 0) {
+            if (x == 12 && y > 0) {
                 td = document.createElement('td');
                 if (y <= 4)
                     td.className = 'divider divider0'; 
