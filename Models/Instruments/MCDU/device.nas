@@ -9,12 +9,18 @@ var MCDU = {
             display: nil,
             scratchpad: "",
             scratchpadElem: nil,
+            scratchpadProp: props.globals.getNode("/instrumentation/mcdu[" ~ n ~ "]/scratchpad", 1),
             scratchpadBorderElem: nil,
             scratchpadMsg: "",
             scratchpadMsgColor: mcdu_white,
             dividers: [],
+            dividersProp: props.globals.getNode("/instrumentation/mcdu[" ~ n ~ "]/dividers", 1),
             screenbuf: [],
             screenbufElems: {fg: [], bg: []},
+            screenbufProp: nil,
+            screenDirty: 0,
+            screenPropTimer: nil,
+            screenUpdateCounter: 0,
             activeModule: nil,
             moduleStack: [],
             powered: 0,
@@ -22,6 +28,7 @@ var MCDU = {
             g: nil
         };
         m.initCanvas();
+        m.initProps();
         var unreadProp = props.globals.getNode('/cpdlc/incoming', 1);
         append(m.listeners,
             setlistener(unreadProp, func(node) {
@@ -43,6 +50,12 @@ var MCDU = {
                     m.handleKeyboardRelease();
                 }
             }, 1, 0));
+        m.dividersProp.setValue('');
+        append(m.listeners,
+            setlistener("/instrumentation/mcdu[" ~ n ~ "]/dividers", func (node) {
+                var selection = node.getValue();
+                debug.dump(selection);
+            }));
         return m;
     },
 
@@ -56,9 +69,16 @@ var MCDU = {
 
     powerOn: func () {
         if (!me.powered) {
+            var self = me;
             printf("MCDU %i power on", me.num);
             me.powered = 1;
             me.gotoModule("RADIO");
+            if (me.screenPropTimer == nil) {
+                me.screenPropTimer = maketimer(0.5, func {
+                    self.updateScreenProp();
+                });
+            }
+            me.screenPropTimer.restart(0.5);
         }
     },
 
@@ -67,6 +87,7 @@ var MCDU = {
             printf("MCDU %i power off", me.num);
             me.powered = 0;
             me.gotoModule(nil);
+            me.screenPropTimer.stop();
         }
     },
 
@@ -518,6 +539,7 @@ var MCDU = {
         var val = me.scratchpad;
         me.scratchpad = '';
         me.scratchpadElem.setText(me.scratchpad);
+        me.scratchpadProp.setValue('');
         return val;
     },
 
@@ -530,6 +552,7 @@ var MCDU = {
         me.scratchpadElem.setText(me.scratchpad);
         me.scratchpadElem.setColor(1, 1, 1);
         me.scratchpadMsg = '';
+        me.scratchpadProp.setValue(me.scratchpad);
     },
 
     setScratchpadMsg: func (str, color = 0) {
@@ -539,6 +562,7 @@ var MCDU = {
         me.scratchpadMsg = str ~ '';
         me.scratchpadElem.setText(me.scratchpadMsg);
         me.scratchpadElem.setColor(c[0], c[1], c[2]);
+        me.scratchpadProp.setValue(me.scratchpadMsg);
     },
 
     handleDEL: func () {
@@ -566,17 +590,20 @@ var MCDU = {
             me.scratchpad = me.scratchpad ~ cmd;
             me.scratchpadElem.setText(me.scratchpad);
             me.scratchpadElem.setColor(1, 1, 1);
+            me.scratchpadProp.setValue(me.scratchpad);
         }
         else if (cmd == "SP") {
             me.scratchpad = me.scratchpad ~ ' ';
             me.scratchpadElem.setText(me.scratchpad);
             me.scratchpadElem.setColor(1, 1, 1);
+            me.scratchpadProp.setValue(me.scratchpad);
         }
         else if (cmd == "CLR") {
             if (me.scratchpad == '*DELETE*') {
                 me.scratchpad = '';
                 me.scratchpadElem.setText(me.scratchpad);
                 me.scratchpadElem.setColor(1, 1, 1);
+                me.scratchpadProp.setValue(me.scratchpad);
             }
             else {
                 var l = size(me.scratchpad);
@@ -584,6 +611,7 @@ var MCDU = {
                     me.scratchpad = substr(me.scratchpad, 0, l - 1);
                     me.scratchpadElem.setText(me.scratchpad);
                     me.scratchpadElem.setColor(1, 1, 1);
+                    me.scratchpadProp.setValue(me.scratchpad);
                 }
             }
         }
@@ -638,6 +666,12 @@ var MCDU = {
                 me.activeModule.handleCommand(cmd);
             }
         }
+    },
+
+    initProps: func () {
+        me.screenbufProp = props.globals.getNode('/instrumentation/mcdu[' ~ me.num ~ ']/screen', 1);
+        me.screenbufProp.setValue('');
+        me.updateScreenProp();
     },
 
     initCanvas: func () {
@@ -788,17 +822,33 @@ var MCDU = {
             me.dividers[i].hide();
         }
         me.clearFocusBox();
+        me.screenDirty = 1;
     },
 
     showDivider: func (i) {
         if (i >= 0 and i < size(me.dividers)) {
+            var dividersStr = me.dividersProp.getValue();
+            if (dividersStr == nil)
+                dividersStr = '';
             me.dividers[i].show();
+            if (!string.match(dividersStr, sprintf('*%i*', i))) {
+                dividersStr ~= i;
+                me.dividersProp.setValue(dividersStr);
+            }
         }
     },
 
     hideDivider: func (i) {
         if (i >= 0 and i < size(me.dividers)) {
+            var dividersStr = me.dividersProp.getValue();
+            if (dividersStr == nil)
+                dividersStr = '';
             me.dividers[i].hide();
+            var pattern = sprintf('*%i*', i);
+            if (string.match(dividersStr, pattern)) {
+                dividersStr = string.replace(dividersStr, i ~ '', '');
+                me.dividersProp.setValue(dividersStr);
+            }
         }
     },
 
@@ -809,16 +859,31 @@ var MCDU = {
         }
     },
 
+    updateScreenProp: func () {
+        var str = '';
+        for (var i = 0; i < cells_x * cells_y; i += 1) {
+            var char = me.screenbuf[i][0];
+            var flags = me.screenbuf[i][1];
+            str = str ~ sprintf("%02x%1s", flags, char);
+        }
+        print("SCREEN: " ~ str);
+        me.screenbufProp.setValue(str ~ me.screenUpdateCounter);
+        me.screenUpdateCounter += 1;
+        me.screenDirty = 0;
+    },
+
     repaintCell: func (i) {
         var fgElem = me.screenbufElems.fg[i];
         var bgElem = me.screenbufElems.bg[i];
+        var char = me.screenbuf[i][0];
         var flags = me.screenbuf[i][1];
         var colorIndex = flags & 0x07;
         var largeSize = flags & mcdu_large;
         var inverted = flags & mcdu_reverse;
         var color = mcdu_colors[colorIndex];
 
-        fgElem.setText(me.screenbuf[i][0]);
+        fgElem.setText(char);
+
         if (inverted) {
             fgElem.setColor(0, 0, 0);
             bgElem.setColorFill(color[0], color[1], color[2]);
@@ -860,6 +925,7 @@ var MCDU = {
                 break;
             }
         }
+        me.screenDirty = 1;
     }
 };
 

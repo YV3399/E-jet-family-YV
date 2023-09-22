@@ -65,7 +65,22 @@ button {
 
 .lsk-container {
     vertical-align: bottom;
-    padding: 0.5rem 0;
+    padding: 0;
+}
+
+.lsk-container hr {
+    border: solid 1px white;
+    display: inline-block;
+    width: 1rem;
+    height: 0;
+}
+
+.lsk-container:first-child {
+    padding-left: 1.5rem;
+}
+
+.lsk-container:last {
+    padding-right: 1.5rem;
 }
 
 .lsk {
@@ -102,25 +117,82 @@ button {
 }
 
 .screen-container {
-    width: 29rem;
-    height: 23rem;
+    width: 24rem;
+    height: 22rem;
     background-color: #111;
     border-radius: 1rem;
-    padding: -1rem 0;
+    padding: 0rem;
+    box-sizing: border-box;
     margin: 0;
     overflow: hidden;
     vertical-align: top;
 }
 
-#mcduScreen {
-    width: 29rem;
-    height: 29rem;
-    display: block;
+.mcduScreen {
+    width: 24.1rem;
+    height: 22rem;
     border-radius: 1rem;
     padding: 0;
     margin: 0;
-    vertical-align: top;
+    vertical-align: bottom;
+    color: white;
+    line-height: 1;
+    display: block;
+    overflow: hidden;
+    font-family: monospace;
+    font-size: 1.4rem;
 }
+
+.mcduScreen tr {
+    height: 1.5rem;
+    display: block;
+    margin: 0;
+    padding: 0;
+}
+
+.mcduScreen td {
+    display: inline-block;
+    margin: 0;
+    padding: 0;
+    height: 1.5rem;
+    padding: 0;
+    line-height: 1;
+    box-sizing: border-box;
+}
+
+.mcduScreen td.divider {
+    width: 0;
+}
+
+.scratchpad {
+    text-align: left;
+    width: 24rem;
+}
+
+.cell {
+    background-color: transparent;
+    text-align: center;
+    width: 1rem;
+    /* outline: dotted 1px yellow; */
+}
+
+.cell.large {
+    font-size: 1.4rem;
+    line-height: 1;
+}
+
+.cell.small {
+    font-size: 1rem;
+    padding-top: 0.4rem;
+}
+
+.cell.white { color: white; }
+.cell.red { color: red; }
+.cell.green { color: lime; }
+.cell.yellow { color: yellow; }
+.cell.cyan { color: cyan; }
+.cell.blue { color: lightblue; }
+.cell.magenta { color: magenta; }
 
 #statusLight {
     position: absolute;
@@ -131,4 +203,29 @@ button {
     border: inset 0.125rem silver;
     right: 0.5rem;
     top: 0.5rem;
+}
+
+.enable-divider0 .divider0 {
+    border-right: solid 0.125rem white;
+    margin-right: -0.125rem;
+}
+
+.enable-divider1 .divider1 {
+    border-right: solid 0.125rem white;
+    margin-right: -0.125rem;
+}
+
+.enable-divider2 .divider2 {
+    border-right: solid 0.125rem white;
+    margin-right: -0.125rem;
+}
+
+.enable-divider3 .divider3 {
+    border-bottom: solid 0.125rem white;
+    margin-bottom: -0.125rem;
+}
+
+.enable-divider4 .divider4 {
+    border-bottom: solid 0.125rem white;
+    margin-bottom: -0.125rem;
 }
