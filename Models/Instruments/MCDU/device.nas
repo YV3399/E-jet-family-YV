@@ -866,7 +866,7 @@ var MCDU = {
             var flags = me.screenbuf[i][1];
             str = str ~ sprintf("%02x%1s", flags, char);
         }
-        print("SCREEN: " ~ str);
+        # print("SCREEN: " ~ str);
         me.screenbufProp.setValue(str ~ me.screenUpdateCounter);
         me.screenUpdateCounter += 1;
         me.screenDirty = 0;
