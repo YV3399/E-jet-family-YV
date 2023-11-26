@@ -775,8 +775,9 @@
                 <td>0.001</td>
             </pitch>
             <cmd>
+				<alt>-5</alt>
+				<flch-accel>1.5</flch-accel>
                 <roll>1.2</roll>
-                <alt-gain>-5</alt-gain>
             </cmd>
             <autoland>
                 <pitch-kp>0.0051</pitch-kp>
@@ -799,12 +800,14 @@
             <custom-fma type="bool">false</custom-fma>
             <disable-final type="bool">false</disable-final>
 			<fd-starts-on type="bool">0</fd-starts-on> <!-- Enable/Disable Flight Director being on by default -->
+			<fd-takeoff-offset type="double">0</fd-takeoff-offset> <!-- Adjust the Flight Director Pitch Bar on ground -->
             <hdg-hld-separate type="bool">false</hdg-hld-separate> <!-- Separates the HDG HLD mode from the HDG SEL mode -->
             <land-enable type="bool">true</land-enable> <!-- Enable/Disable Autoland -->
             <land-flap type="double">0.5</land-flap> <!-- Minimum Flap used for Landing -->
             <lnav-ft type="double">200</lnav-ft> <!-- Set to 999999 if you do not want T/O to change automatically to HDG, or LNAV -->
             <retard-enable type="bool">true</retard-enable> <!-- AGL to Thrust Retard -->
             <retard-ft type="double">30</retard-ft> <!-- Enable Thrust Retard -->
+			<takeoff-hdg-cap type="double">5</takeoff-hdg-cap> <!-- Maximum bank to capture current hdg in T/O mode -->
             <toga-spd type="double">165</toga-spd> <!-- V2 + 10kts -->
             <use-controls-engines type="bool">false</use-controls-engines>
             <use-controls-flight type="bool">false</use-controls-flight>
