@@ -392,6 +392,9 @@ var System = {
     sendHoppieInfoRequest: func (what, station) {
         if (what == nil or what == '') return 0;
         if (station == nil or station == '') return 0;
+        # Make it possible to send requests to nonstandard VATSIM stations,
+        # e.g. EDDF_A; these must be entered as EDDF-A.
+        station = string.replace(station, '-', '_');
         var self = me;
         globals.hoppieAcars.send('SERVER', 'inforeq', what ~ ' ' ~ station,
             func (response) {

@@ -137,7 +137,7 @@ var ACARSInfoReqModule = {
     loadPageItems: func(n) {
         me.views = [
             StaticView.new(15, 1, "STATION", mcdu_white),
-            FormatView.new(19, 2, mcdu_green | mcdu_large, "ACARS-INFOREQ-STATION", 4, orBoxes(4, 1)),
+            FormatView.new(18, 2, mcdu_green | mcdu_large, "ACARS-INFOREQ-STATION", 6, orBoxes(6, 1)),
 
             StaticView.new( 0, 12, left_triangle ~ "DLK INDEX", mcdu_white | mcdu_large),
             FormatView.new(19, 12, mcdu_white | mcdu_large, "ACARS-INFOREQ-STATION", 5,
