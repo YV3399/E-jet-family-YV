@@ -47,7 +47,7 @@ var BaseApp = {
 
         return parentWidget.appendChild(
             Widget.new(elem)
-                  .setHandler(what)
+                  .setClickHandler(what)
         );
     },
 

@@ -100,7 +100,7 @@ var HTMLTestApp = {
             var cb = 
                 Checkbox.new(me.uiGroup, x + 15, y + 15)
                         .setAlignment('center-center')
-                        .setHandler(what);
+                        .setClickHandler(what);
             me.rootWidget.appendChild(cb);
             return func(isset) {
                 cb.setState(isset);

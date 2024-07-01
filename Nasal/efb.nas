@@ -15,6 +15,8 @@ var findRelativeAircraftDir = func () {
 };
 var acdirRel = findRelativeAircraftDir();
 
+var fgdir = getprop('/sim/fg-home');
+
 
 var include = func (basename) {
     var namespace = 'efb';

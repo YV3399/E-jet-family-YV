@@ -135,7 +135,7 @@ var Keyboard = {
             var frame = layerGroup.createChild('path')
                       .rect(0, 0, me.metrics.width, me.metrics.height)
                       .setColorFill(0.7, 0.7, 0.7);
-            var layerWidget = Widget.new(frame).setHandler(func 0);
+            var layerWidget = Widget.new(frame).setClickHandler(func 0);
             me.appendChild(layerWidget);
             var layer = me.layerDefs[i];
             # We will assume that the first row has the most keys, and thus
@@ -212,7 +212,7 @@ var Keyboard = {
                     (func (key, keyElem, keyColor) {
                         layerWidget.appendChild(
                             Widget.new(keyElem)
-                                .setHandler(func () {
+                                .setClickHandler(func () {
                                     self.startKeyGlow(keyElem, keyColor[0], keyColor[1], keyColor[2]);
                                     self.handleKey(key);
                                 }));

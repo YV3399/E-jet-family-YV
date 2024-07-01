@@ -21,14 +21,6 @@ var Button = {
         return m;
     },
 
-    foreground: func {
-        me.animationTimer.start();
-    },
-
-    background: func {
-        me.animationTimer.stop();
-    },
-
     initialize: func (parentGroup) {
         var self = me;
         me.group = parentGroup.createChild('group');

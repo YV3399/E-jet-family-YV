@@ -28,12 +28,12 @@ var Pager = {
         var self = me;
         me.appendChild(
             Widget.new(me.btnPgUp)
-                  .setHandler(func () {
+                  .setClickHandler(func () {
                       self.prevPage();
                   }));
         me.appendChild(
             Widget.new(me.btnPgDn)
-                  .setHandler(func () {
+                  .setClickHandler(func () {
                       self.nextPage();
                   }));
     },
@@ -83,8 +83,10 @@ var Pager = {
             me.currentPage = math.min(me.numPages - 1, me.currentPage);
         }
         me.currentPage = math.max(0, me.currentPage);
-        me.updatePageIndicator();
-        me.pageChanged.raise({page: me.currentPage, previousPage: oldPage, numPages: me.numPages});
+        if (oldPage != me.currentPage) {
+            me.updatePageIndicator();
+            me.pageChanged.raise({page: me.currentPage, previousPage: oldPage, numPages: me.numPages});
+        }
     },
 
     nextPage: func () {

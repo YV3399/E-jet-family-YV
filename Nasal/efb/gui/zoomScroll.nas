@@ -93,43 +93,43 @@ var ZoomScroll = {
         var self = me;
         me.appendChild(
             Widget.new(me.btnZoomIn)
-                .setHandler(func () {
+                .setClickHandler(func () {
                     self.onZoom.raise({amount: 1});
                     return 0;
                 }));
         me.appendChild(
             Widget.new(me.btnZoomOut)
-                .setHandler(func () {
+                .setClickHandler(func () {
                     self.onZoom.raise({amount: -1});
                     return 0;
                 }));
         me.appendChild(
             Widget.new(me.btnScrollN)
-                .setHandler(func () {
+                .setClickHandler(func () {
                     self.onScroll.raise({x: 0, y: -1});
                     return 0;
                 }));
         me.appendChild(
             Widget.new(me.btnScrollS)
-                .setHandler(func () {
+                .setClickHandler(func () {
                     self.onScroll.raise({x: 0, y: 1});
                     return 0;
                 }));
         me.appendChild(
             Widget.new(me.btnScrollE)
-                .setHandler(func () {
+                .setClickHandler(func () {
                     self.onScroll.raise({x: 1, y: 0});
                     return 0;
                 }));
         me.appendChild(
             Widget.new(me.btnScrollW)
-                .setHandler(func () {
+                .setClickHandler(func () {
                     self.onScroll.raise({x: -1, y: 0});
                     return 0;
                 }));
         me.appendChild(
             Widget.new(me.btnScrollReset)
-                .setHandler(func () {
+                .setClickHandler(func () {
                     self.onReset.raise({});
                     return 0;
                 }));

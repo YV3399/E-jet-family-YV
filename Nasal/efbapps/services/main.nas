@@ -72,7 +72,7 @@ var GroundServicesApp = {
 
         var mkButton = func (action, label) {
             var button = Button.new(me.masterGroup, label, x, y, buttonWidth, 32);
-            button.setHandler(action);
+            button.setClickHandler(action);
             me.rootWidget.appendChild(button);
 
             x += buttonWidth;

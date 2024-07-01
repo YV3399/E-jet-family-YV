@@ -49,7 +49,7 @@ var KneepadApp = {
                     .setColor(0.5, 0.5, 0.5);
 
         # Menu widget eats clicks on the menu area.
-        me.menu = Widget.new(menuBox).setHandler(func {
+        me.menu = Widget.new(menuBox).setClickHandler(func {
             return 0;
         });
 
@@ -59,7 +59,7 @@ var KneepadApp = {
                          .set('src', acdir ~ '/Models/EFB/icons/trash.png')
                          .setScale(0.75, 0.75)
                          .setTranslation(10, 10)
-            ).setHandler(func self.clearText()));
+            ).setClickHandler(func self.clearText()));
 
         me.cursorElem = me.textGroup.createChild('path')
                         .setColorFill(0, 0, 0)

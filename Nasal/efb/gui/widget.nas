@@ -5,7 +5,8 @@ var Widget = {
         return {
             parents: [Widget],
             where: where,
-            what: nil,
+            onClick: nil,
+            onFocus: nil,
             children: [],
             parentWidget: nil,
             active: 1,
@@ -19,13 +20,20 @@ var Widget = {
         return me;
     },
 
-    setHandler: func (what) {
-        me.what = what;
+    setClickHandler: func (onClick) {
+        me.onClick = onClick;
+        return me;
+    },
+
+    setFocusHandler: func (onFocus) {
+        me.onFocus = onFocus;
         return me;
     },
 
     setActive: func (active) {
         me.active = active;
+        me.handleFocus(active);
+        if (me.onFocus != nil) me.onFocus(active);
         return me;
     },
 
@@ -70,12 +78,12 @@ var Widget = {
     },
 
     handleTouch: func(touchCoords) {
-        if (me.what == nil) {
+        if (me.onClick == nil) {
             # We don't have a handler of our own; bubble.
             return 1;
         }
         else {
-            var result = me.what(touchCoords);
+            var result = me.onClick(touchCoords);
             if (result == nil)
                 return 0;
             else
@@ -98,6 +106,10 @@ var Widget = {
         return 1;
     },
 
+    handleFocus: func (active) {
+        # Override to implement custom responses to gaining/losing focus
+    },
+
     wantWheel: func {
         # Override if you want to capture scroll wheel events
         return 0;
@@ -118,6 +130,10 @@ var Widget = {
 
     wheel: func (axis, amount) {
         return me._event({type: 'wheel', data: {axis: axis, amount: amount}});
+    },
+
+    key: func (key) {
+        return me._event({type: 'key', data: {'key': key}});
     },
 
     _handleEvent: func (event) {
