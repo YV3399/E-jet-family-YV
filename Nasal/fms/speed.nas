@@ -22,7 +22,7 @@ var update_speed_restrictions = func (fp, phase) {
     # First, find the end of the departure
     i = 1;
     wp = fp.getWP(i);
-    while (wp != nil and wp.wp_parent != nil and wp.wp_parent.tp_type == "sid") {
+    while (wp != nil and wp.wp_parent != nil and contains(wp.wp_parent, 'tp_type') and wp.wp_parent.tp_type == "sid") {
         i += 1;
         wp = fp.getWP(i);
     }
@@ -43,7 +43,7 @@ var update_speed_restrictions = func (fp, phase) {
     # Search ahead for speed limits for the climb
     i = fp.current;
     wp = fp.getWP(i);
-    while (wp != nil and wp.wp_parent != nil and wp.wp_parent.tp_type == "sid") {
+    while (wp != nil and wp.wp_parent != nil and contains(wp.wp_parent, 'tp_type') and wp.wp_parent.tp_type == "sid") {
         if (wp.speed_cstr_type == "at" or wp.speed_cstr_type == "below") {
             climbLimit = wp.speed_cstr;
             break;
