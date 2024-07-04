@@ -433,8 +433,6 @@ var ChartsApp = {
         var dx = x * me.imgDimensions[1];
         var dy = y * me.imgDimensions[1];
 
-        debug.dump(me.imgDimensions);
-
         if (me.centerOnAircraft) {
             me.sx = dx - me.imgDimensions[0] * 0.5;
             me.sy = dy - me.imgDimensions[1] * 0.5;
