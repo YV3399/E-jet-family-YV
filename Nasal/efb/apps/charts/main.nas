@@ -39,6 +39,7 @@ var ChartsApp = {
         m.zoomScroll = nil;
         m.aircraftMarker = nil;
         m.aircraftMarkerTimer = nil;
+        m.centerOnAircraft = 0;
         m.favorites = [];
         m.xhr = nil;
         m.rotation = 0;
@@ -74,8 +75,8 @@ var ChartsApp = {
         me.contentGroup = me.masterGroup.createChild('group');
 
         me.loadListing("", "Charts", 0, 0);
-        me.aircraftMarkerTimer = maketimer(1, func {
-            self.updateAircraftMarker();
+        me.aircraftMarkerTimer = maketimer(0.1, func {
+            self.updateScroll();
         });
 
     },
@@ -419,24 +420,30 @@ var ChartsApp = {
         }
         var index = (me.currentPage + 1) ~ '';
         var geoRef = me.geoRefs[index];
-        debug.dump(geoRef, me.geoRefs);
+        # debug.dump(geoRef, me.geoRefs);
         if (geoRef == nil) {
             # no georef data for this page
-            debug.dump(me.geoRefs, index);
+            # debug.dump(me.geoRefs, index);
             me.aircraftMarker.hide();
             return;
         }
         (var x, var y) = geoMap(geoRef,
                             getprop('/position/latitude-deg'),
                             getprop('/position/longitude-deg'));
-        debug.dump(x, y);
+        var dx = x * me.imgDimensions[1];
+        var dy = y * me.imgDimensions[1];
+
         debug.dump(me.imgDimensions);
+
+        if (me.centerOnAircraft) {
+            me.sx = dx - me.imgDimensions[0] * 0.5;
+            me.sy = dy - me.imgDimensions[1] * 0.5;
+        }
+
         me.aircraftMarker
             .setTranslation(
-                256 - (me.imgDimensions[0] * 0.5 + me.sx) * me.getZoom()
-                    + (x * me.imgDimensions[1] * me.getZoom()),
-                384 - (me.imgDimensions[1] * 0.5 + me.sy) * me.getZoom()
-                    + (y * me.imgDimensions[1] * me.getZoom()))
+                256 - (me.imgDimensions[0] * 0.5 + me.sx - dx) * me.getZoom(),
+                384 - (me.imgDimensions[1] * 0.5 + me.sy - dy) * me.getZoom())
             .setRotation(getprop('/orientation/heading-deg') * D2R + geoRef.ta)
             .show();
     },
@@ -444,10 +451,11 @@ var ChartsApp = {
     updateScroll: func () {
         if (me.img == nil)
             return;
+        me.zoomScroll.setAutoCenter(me.centerOnAircraft);
+        me.updateAircraftMarker();
         me.img.setTranslation(
             256 - (me.imgDimensions[0] * 0.5 + me.sx) * me.getZoom(),
             384 - (me.imgDimensions[1] * 0.5 + me.sy) * me.getZoom());
-        me.updateAircraftMarker();
     },
 
     updateZoom: func () {
@@ -466,6 +474,7 @@ var ChartsApp = {
         me.zoomScroll = ZoomScroll.new(me.contentGroup, 1);
         me.zoomScroll.rotate(me.rotation, 1);
         me.zoomScroll.setZoom(me.getZoom());
+        me.zoomScroll.setAutoCenter(me.centerOnAircraft);
         me.zoomScroll.setZoomFormat(
             func (zoom) {
                 return sprintf("%i", 100 * zoom);
@@ -482,6 +491,7 @@ var ChartsApp = {
                 self.sx += data.x * 16;
                 self.sy += data.y * 16;
             }
+            me.centerOnAircraft = 0;
             self.updateScroll();
         });
         me.zoomScroll.onZoom.addListener(func (data) {
@@ -492,6 +502,7 @@ var ChartsApp = {
         me.zoomScroll.onReset.addListener(func {
             self.sx = 0.0;
             self.sy = 0.0;
+            me.centerOnAircraft = !me.centerOnAircraft;
             self.updateScroll();
         });
 
@@ -540,38 +551,39 @@ var ChartsApp = {
         me.currentTitle = title;
         me.currentPage = page;
 
-        var imageGroup = me.contentGroup.createChild('group');
-
-        me.aircraftMarker = imageGroup.createChild('path')
-                                           .moveTo(0, -10)
-                                           .lineTo(8, 10)
-                                           .lineTo(0, 5)
-                                           .lineTo(-8, 10)
-                                           .close()
-                                           .setColor(0, 0, 0)
-                                           .setColorFill(0, 1, 0)
-                                           .set('z-index', 1);
-        # me.aircraftMarker = imageGroup.createChild('path')
-        #                                    .circle(4, 0, 0)
-        #                                    .setColor(1, 0, 0)
-        #                                    .set('z-index', 1);
-
-        var makePager = func {
-            self.pager = Pager.new(self.contentGroup, 1);
-            self.pager.rotate(me.rotation, 1);
-            self.rootWidget.appendChild(self.pager);
-            self.pager.setCurrentPage(self.currentPage);
-            self.pager.setNumPages(self.numPages);
-            self.pager.pageChanged.addListener(func (data) {
-                self.currentPage = data.page;
-                self.loadChart(self.currentPath, metaPath, self.currentTitle, data.page, 0); # this will remove the pager
-            });
-        };
-
-        makePager();
-
         downloadManager.get(url, '/efb-charts/' ~ md5(path ~ '$' ~ page) ~ '.jpg',
             func (path) {
+                me.contentGroup.removeAllChildren();
+                var imageGroup = me.contentGroup.createChild('group');
+
+                me.aircraftMarker = imageGroup.createChild('path')
+                                                   .moveTo(0, -10)
+                                                   .lineTo(8, 10)
+                                                   .lineTo(0, 5)
+                                                   .lineTo(-8, 10)
+                                                   .close()
+                                                   .setColor(0, 0, 0)
+                                                   .setColorFill(1, 0, 0)
+                                                   .set('z-index', 1);
+                # me.aircraftMarker = imageGroup.createChild('path')
+                #                                    .circle(4, 0, 0)
+                #                                    .setColor(1, 0, 0)
+                #                                    .set('z-index', 1);
+
+                var makePager = func {
+                    self.pager = Pager.new(self.contentGroup, 1);
+                    self.pager.rotate(me.rotation, 1);
+                    self.rootWidget.appendChild(self.pager);
+                    self.pager.setCurrentPage(self.currentPage);
+                    self.pager.setNumPages(self.numPages);
+                    self.pager.pageChanged.addListener(func (data) {
+                        self.currentPage = data.page;
+                        self.loadChart(self.currentPath, metaPath, self.currentTitle, data.page, 0); # this will remove the pager
+                    });
+                };
+
+                makePager();
+
                 var w = 768;
                 var h = 768;
                 if (self.aspectRatio > 1.0)
