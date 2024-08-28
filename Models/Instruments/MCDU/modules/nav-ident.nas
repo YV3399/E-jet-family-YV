@@ -9,6 +9,8 @@ var NavIdentModule = {
     getNumPages: func () { return 1; },
 
     loadPageItems: func (n) {
+        var airacColor = mcdu_large | (getprop('/fms/airac/valid') ? mcdu_green : mcdu_red);
+
         if (n == 0) { 
             me.views = [
                 StaticView.new( 2,  1, "DATE", mcdu_white),
@@ -19,12 +21,12 @@ var NavIdentModule = {
 
                 StaticView.new(12, 1, "ACTIVE NDB", mcdu_white),
 
-                FormatView.new(10, 2, mcdu_large | mcdu_green, "NDBFROM_DAY", 2, "%02d"),
-                FormatView.new(12, 2, mcdu_large | mcdu_green, "NDBFROM_MON", 3, "%3s", datetime.monthName3),
-                FormatView.new(16, 2, mcdu_large | mcdu_green, "NDBUNTIL_DAY", 2, "%02d"),
-                FormatView.new(18, 2, mcdu_large | mcdu_green, "NDBUNTIL_MON", 3, "%3s", datetime.monthName3),
-                StaticView.new(21, 2, "/", mcdu_large | mcdu_green),
-                FormatView.new(22, 2, mcdu_large | mcdu_green, "NDBUNTIL_YEAR", 2, "%02d",
+                FormatView.new(10, 2, airacColor, "NDBFROM_DAY", 2, "%02d"),
+                FormatView.new(12, 2, airacColor, "NDBFROM_MON", 3, "%3s", datetime.monthName3),
+                FormatView.new(16, 2, airacColor, "NDBUNTIL_DAY", 2, "%02d"),
+                FormatView.new(18, 2, airacColor, "NDBUNTIL_MON", 3, "%3s", datetime.monthName3),
+                StaticView.new(21, 2, "/", airacColor),
+                FormatView.new(22, 2, airacColor, "NDBUNTIL_YEAR", 2, "%02d",
                     func (y) { return math.mod(y or 0, 100); }),
 
                 StaticView.new( 2,  3, "UTC", mcdu_white),
