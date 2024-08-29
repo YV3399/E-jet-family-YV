@@ -10,6 +10,7 @@ var BaseApp = {
             assetDir: nil,
             keyboard: nil,
             keyboardGroup: nil,
+            efb: nil, # will be set by the EFB itself
         }
     },
 

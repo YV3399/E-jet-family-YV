@@ -180,6 +180,8 @@ var EFB = {
         m.metrics = {
             screenW: 512,
             screenH: 768,
+            effectiveScreenW: 512,
+            effectiveScreenH: 768,
             buttonRowH: 32,
             carouselScale: 0.5,
             carouselPadding: 32,
@@ -320,9 +322,13 @@ var EFB = {
 
         if (rotationNorm > 0.75) {
             me.reportedRotation = 1;
+            me.metrics.effectiveScreenW = me.metrics.screenH;
+            me.metrics.effectiveScreenH = me.metrics.screenW;
         }
         elsif (rotationNorm < 0.25) {
             me.reportedRotation = 0;
+            me.metrics.effectiveScreenW = me.metrics.screenW;
+            me.metrics.effectiveScreenH = me.metrics.screenH;
         }
         if (prevRotation != me.reportedRotation) {
             if (me.currentApp == nil) {
@@ -589,6 +595,7 @@ var EFB = {
             var masterGroup = me.clientGroup.createChild('group');
             appInfo.app = appInfo.loader(masterGroup);
             appInfo.app.setAssetDir(appInfo.basedir ~ '/');
+            appInfo.app.efb = me;
             appInfo.app.initialize();
         }
         me.currentApp = appInfo;

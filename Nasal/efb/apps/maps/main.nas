@@ -98,7 +98,7 @@ var MapsApp = {
                         .rect(0, 0, 512, 768)
                         .setColorFill(128, 128, 192);
         me.contentGroup = me.masterGroup.createChild('group');
-        me.contentGroup.setCenter(256, 384);
+        me.contentGroup.setCenter(me.efb.metrics.screenW / 2, me.efb.metrics.screenH / 2);
         me.initializeTiles();
         me.makeZoomScrollOverlay();
         me.updateTimer = maketimer(0.1, func {
@@ -212,8 +212,8 @@ var MapsApp = {
         ];
         # This is the sub-tile correction we need to apply
         var shift = [
-            256 - math.mod(math.floor(slippyCenterFloat[0] * me.tileSize * me.tileScale), me.tileSize * me.tileScale),
-            384 - math.mod(math.floor(slippyCenterFloat[1] * me.tileSize * me.tileScale), me.tileSize * me.tileScale),
+            me.efb.metrics.screenW / 2 - math.mod(math.floor(slippyCenterFloat[0] * me.tileSize * me.tileScale), me.tileSize * me.tileScale),
+            me.efb.metrics.screenH / 2 - math.mod(math.floor(slippyCenterFloat[1] * me.tileSize * me.tileScale), me.tileSize * me.tileScale),
         ];
 
         var acCenterFloat = [
@@ -221,8 +221,8 @@ var MapsApp = {
             (1 - math.ln(math.tan(acpos.lat() * math.pi/180.0) + 1 / math.cos(acpos.lat() * math.pi/180.0)) / math.pi) / 2.0 * ymax
         ];
         var acOffset = [
-            256 + (acCenterFloat[0] - slippyCenterFloat[0]) * me.tileSize * me.tileScale + 0.5,
-            384 + (acCenterFloat[1] - slippyCenterFloat[1]) * me.tileSize * me.tileScale + 0.5,
+            me.efb.metrics.screenW / 2 + (acCenterFloat[0] - slippyCenterFloat[0]) * me.tileSize * me.tileScale + 0.5,
+            me.efb.metrics.screenH / 2 + (acCenterFloat[1] - slippyCenterFloat[1]) * me.tileSize * me.tileScale + 0.5,
         ];
 
         me.aircraftMarker.setRotation(getprop('/orientation/true-heading-deg') * D2R);

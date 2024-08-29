@@ -25,26 +25,30 @@ var KneepadApp = {
             font: 'sans',
             marginTop: 40,
             marginLeft: 5,
+            screenW: me.efb.metrics.screenW,
+            screenH: me.efb.metrics.screenH,
+            menuHeight: 96,
+            verticalScrollMargin: 256,
         };
 
         me.pageWidgets = [];
 
         me.bgfill = me.masterGroup.createChild('path')
-                        .rect(0, 0, 512, 768)
+                        .rect(0, 0, me.metrics.screenW, me.metrics.screenH)
                         .setColorFill(1, 0.95, 0.8);
         me.textGroup = me.masterGroup.createChild('group')
                          .setTranslation(0, 0);
         me.dummyGroup = me.masterGroup.createChild('group')
-                          .setTranslation(-1000, -1000);
+                          .setTranslation(-4100, -4100);
         me.dummyText = me.dummyGroup.createChild('text')
                          .setFont(font_mapper(me.metrics.font, 'normal'))
                          .setFontSize(me.metrics.fontSize)
                          .setAlignment('left-baseline');
         
         me.menuGroup = me.masterGroup.createChild('group')
-                         .setTranslation(0, 768-96);
+                         .setTranslation(0, me.metrics.screenH - me.metrics.menuHeight);
         var menuBox = me.menuGroup.createChild('path')
-                    .rect(-1, 0, 514, 256)
+                    .rect(-1, 0, me.metrics.screenW + 2, me.metrics.menuHeight + 2)
                     .setColorFill(0.9, 0.9, 0.9)
                     .setColor(0.5, 0.5, 0.5);
 
@@ -69,7 +73,7 @@ var KneepadApp = {
                          .setFontSize(16)
                          .setColor(0, 0, 0)
                          .setText('')
-                         .setTranslation(510, 60)
+                         .setTranslation(me.metrics.screenW - 2, 60)
                          .setAlignment('right-baseline');
 
         me.textElems = [];
@@ -116,7 +120,8 @@ var KneepadApp = {
     },
 
     confineScroll: func {
-        me.maxScrollY = (size(me.text) + 1) * me.metrics.lineHeight - (768 - 256);
+        var scrollLimit = me.metrics.screenH - me.metrics.verticalScrollMargin;
+        me.maxScrollY = (size(me.text) + 1) * me.metrics.lineHeight - scrollLimit;
         me.scrollY = math.min(me.maxScrollY, me.scrollY);
         me.scrollY = math.max(0, me.scrollY);
     },
@@ -131,12 +136,13 @@ var KneepadApp = {
     },
 
     scrollToRow: func (row) {
+        var scrollLimit = me.metrics.screenH - me.metrics.verticalScrollMargin - me.metrics.fontSize - 4; # WHY?
         var y = me.rowToY(row);
         if (y - me.scrollY < me.metrics.marginTop + me.metrics.lineHeight) {
             me.scrollY = y;
         }
-        if (y - me.scrollY >= 740 - 256 - me.metrics.lineHeight) {
-            me.scrollY = y - 740 + 256 + me.metrics.lineHeight;
+        if (y - me.scrollY >= scrollLimit - me.metrics.lineHeight) {
+            me.scrollY = y - scrollLimit + me.metrics.lineHeight;
         }
         me.confineScroll();
         me.textGroup.setTranslation(0, -me.scrollY);
@@ -376,6 +382,7 @@ var KneepadApp = {
                 # Jump one line up
                 me.cursor.row -= 1;
                 me.cursor.col = utf8.size(me.text[me.cursor.row]);
+                me.scrollToRow(me.cursor.row);
             }
         }
         else {
@@ -387,6 +394,7 @@ var KneepadApp = {
                 me.cursor.row += 1;
                 if (me.cursor.row >= size(me.text)) {
                     me.cursor.row = size(me.text) - 1;
+                    me.scrollToRow(me.cursor.row);
                 }
                 else {
                     me.cursor.col = 0;
@@ -410,6 +418,7 @@ var KneepadApp = {
             me.cursor.col = math.max(0, math.min(utf8.size(me.text[me.cursor.row]), me.cursor.col));
         }
         me.updateCursor();
+        me.scrollToRow(me.cursor.row);
     },
 
     handleKey: func (key) {

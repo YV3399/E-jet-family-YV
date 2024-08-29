@@ -38,6 +38,8 @@ var PaperworkApp = {
             pageWidth: 414,
             pageHeight: 670,
             fontSize: 10,
+            headerFontSize: 16,
+            pageFontSize: 12,
             charWidth: 5.935,
             lineHeight: 10.5,
             headerHeight: 22,
@@ -49,13 +51,15 @@ var PaperworkApp = {
             tocPadding: 10,
             tocFontSize: 14,
             tocLineHeight: 20,
+            tocButtonSize: 64,
             inputPadding: 1,
             menuFontSize: 16,
             menuLineHeight: 32,
             menuItemPadding: 4,
+            screenPaddingTop: 30,
         };
-        me.metrics.marginLeft = (512 - me.metrics.pageWidth) / 2;
-        me.metrics.marginTop = (738 - me.metrics.pageHeight) / 2;
+        me.metrics.marginLeft = (me.efb.metrics.screenW - me.metrics.pageWidth) / 2;
+        me.metrics.marginTop = (me.efb.metrics.screenH - me.metrics.screenPaddingTop - me.metrics.pageHeight) / 2;
         me.metrics.paddingTop = (me.metrics.pageHeight - me.metrics.headerHeight - me.metrics.lineHeight * me.metrics.rows) / 2;
         me.metrics.paddingLeft = (me.metrics.pageWidth - me.metrics.charWidth * me.metrics.columns) / 2;
 
@@ -71,7 +75,7 @@ var PaperworkApp = {
 
         me.simbriefUsernameProp = props.globals.getNode('/sim/simbrief/username');
         me.bgfill = me.masterGroup.createChild('path')
-                        .rect(0, 0, 512, 768)
+                        .rect(0, 0, me.efb.metrics.screenW, me.metrics.efb.screenH)
                         .setColorFill(0.8, 0.9, 1.0);
         me.contentGroup = me.masterGroup.createChild('group');
 
@@ -88,6 +92,8 @@ var PaperworkApp = {
             }
         });
 
+        var tbSize = me.metrics.tocButtonSize;
+        var tbUnit = tbSize / 16;
         me.tocPaneGroup = me.masterGroup.createChild('group');
         me.tocPaneGroup.createChild('path')
                 .rect(0, me.metrics.tocPaneTop, me.metrics.tocPaneWidth, me.metrics.tocPaneHeight)
@@ -96,19 +102,19 @@ var PaperworkApp = {
         me.tocPaneButton = me.tocPaneGroup.createChild('group');
         me.tocPaneButton.createChild('path')
                 .moveTo(me.metrics.tocPaneWidth - 1, me.metrics.tocPaneTop + me.metrics.tocPaneHeight / 2 - 32)
-                .arcLargeCW(32, 32, 0, 0, 64)
+                .arcLargeCW(tbSize / 2, tbSize / 2, 0, 0, tbSize)
                 .setColor(0.5, 0.5, 0.5)
                 .setColorFill(1, 1, 1);
         me.tocPaneButtonArrow = me.tocPaneButton.createChild('path')
-                .setTranslation(me.metrics.tocPaneWidth + 12, me.metrics.tocPaneTop + me.metrics.tocPaneHeight / 2)
-                .moveTo(-16, 0)
-                .line(16, -12)
-                .line(0, 8)
-                .line(12, 0)
-                .line(0, 8)
-                .line(-12, 0)
-                .line(0, 8)
-                .line(-16, -12)
+                .setTranslation(me.metrics.tocPaneWidth + tbUnit * 3, me.metrics.tocPaneTop + me.metrics.tocPaneHeight / 2)
+                .moveTo(-tbUnit * 4, 0)
+                .line(tbUnit * 4, -tbUnit * 3)
+                .line(0, tbUnit * 3)
+                .line(tbUnit * 3, 0)
+                .line(0, tbUnit * 2)
+                .line(-tbUnit * 3, 0)
+                .line(0, tbUnit * 2)
+                .line(-tbUnit * 4, -tbUnit * 3)
                 .setColorFill(0.3, 0.3, 0.3);
         me.tocContentsGroup = me.tocPaneGroup.createChild('group').setTranslation(0, me.metrics.tocPaneTop);
         me.makeClickable(me.tocPaneButton, func {
@@ -144,14 +150,18 @@ var PaperworkApp = {
         var dx = 0;
         var dy = 0;
 
+        var limitRight = me.efb.metrics.screenW - me.metrics.fontSize;
         if (left < 0)
             dx = -left;
-        elsif (right > 498)
-            dx = 498 - right;
-        if (top < 32)
-            dy = 32-top;
-        elsif (bottom > 450)
-            dy = 450 - bottom;
+        elsif (right > limitRight)
+            dx = limitRight - right;
+
+        var limitTop = me.metrics.menuLineHeight;
+        var limitBottom = me.efb.metrics.screenH - 318; # ???
+        if (top < limitTop)
+            dy = limitTop - top;
+        elsif (bottom > limitBottom)
+            dy = limitBottom - bottom;
         me.contentGroup.setTranslation(dx, dy)
                        .setScale(1.5, 1.5);
     },
@@ -1529,17 +1539,17 @@ var PaperworkApp = {
                  .setMaxWidth(me.metrics.pageWidth)
                  .setText(pageHeading)
                  .setFont(font_mapper('sans', 'bold'))
-                 .setFontSize(16, 1)
+                 .setFontSize(me.metrics.headerFontSize, 1)
                  .setColor(0, 0, 0)
-                 .setTranslation(me.metrics.pageWidth / 2, (me.metrics.headerHeight - 13) / 2);
+                 .setTranslation(me.metrics.pageWidth / 2, (me.metrics.headerHeight - me.metrics.headerFontSize * 0.8) / 2);
         pageGroup.createChild('text')
                  .setAlignment('right-top')
                  .setMaxWidth(me.metrics.pageWidth)
                  .setText(sprintf('Page %i', pageNumber))
                  .setFont(font_mapper('sans', 'normal'))
-                 .setFontSize(12, 1)
+                 .setFontSize(me.metrics.pageFontSize, 1)
                  .setColor(0, 0, 0)
-                 .setTranslation(me.metrics.pageWidth - me.metrics.paddingLeft, (me.metrics.headerHeight - 10) / 2);
+                 .setTranslation(me.metrics.pageWidth - me.metrics.paddingLeft, (me.metrics.headerHeight - me.metrics.pageFontSize * 0.8) / 2);
         foreach (var item; pageData) {
             var h = me.renderItem(pageGroup, y, item, pageWidget);
             y += h;
@@ -1554,7 +1564,7 @@ var PaperworkApp = {
 
         me.zoomScrollPane =
                 me.contentGroup.createChild('group')
-                    .setTranslation(256, 384)
+                    .setTranslation(me.efb.metrics.screenW / 2, me.efb.metrics.screenH / 2)
                     .setScale(1, 1);
         me.zoomScrollPane.createChild('path')
                        .rect(-me.metrics.pageWidth / 2, -me.metrics.pageHeight / 2, me.metrics.pageWidth, me.metrics.pageHeight)
@@ -1652,13 +1662,14 @@ var PaperworkApp = {
                        .setFontSize(me.metrics.menuFontSize * 1.5, 1)
                        .setText('SimBrief OFP Not Found')
                        .setAlignment('center-top')
-                       .setTranslation(256, y);
+                       .setTranslation(me.efb.metrics.screenW / 2, y);
 
         y += me.metrics.menuFontSize * 2.5 + me.metrics.menuItemPadding;
         foreach (var h; helpLines) {
             if (substr(h, 0, 6) == 'https:') {
+                var border = 2;
                 var box = me.contentGroup.createChild('path')
-                        .rect(2, y, 508, me.metrics.menuLineHeight)
+                        .rect(border, y, me.efb.metrics.screenW - 2 * border, me.metrics.menuLineHeight)
                         .setColorFill(1, 1, 1, 0.5);
                 me.contentGroup.createChild('text')
                                .setColor(0, 0, 1)
@@ -1666,7 +1677,7 @@ var PaperworkApp = {
                                .setFontSize(me.metrics.menuFontSize, 1)
                                .setText(h)
                                .setAlignment('center-top')
-                               .setTranslation(256, y + (me.metrics.menuLineHeight - me.metrics.menuFontSize) * 0.5);
+                               .setTranslation(me.efb.metrics.screenW / 2, y + (me.metrics.menuLineHeight - me.metrics.menuFontSize) * 0.5);
                 (func (url) {
                     me.makeClickable(box, func { fgcommand('open-browser', props.Node.new({url: url})); },
                         me.mainWidget);
@@ -1679,7 +1690,7 @@ var PaperworkApp = {
                                .setFontSize(me.metrics.menuFontSize, 1)
                                .setText(h)
                                .setAlignment('center-top')
-                               .setTranslation(256, y + (me.metrics.menuLineHeight - me.metrics.menuFontSize) * 0.5);
+                               .setTranslation(me.efb.metrics.screenW / 2, y + (me.metrics.menuLineHeight - me.metrics.menuFontSize) * 0.5);
             }
             y += me.metrics.menuLineHeight + me.metrics.menuItemPadding;
         }
@@ -1698,7 +1709,7 @@ var PaperworkApp = {
                        .setFontSize(me.metrics.menuFontSize * 1.5, 1)
                        .setText('ERROR')
                        .setAlignment('center-top')
-                       .setTranslation(256, y);
+                       .setTranslation(me.efb.metrics.screenW / 2, y);
         y += me.metrics.menuFontSize * 1.5 + me.metrics.menuItemPadding;
         foreach (var msg; args) {
             me.contentGroup.createChild('text')
@@ -1707,7 +1718,7 @@ var PaperworkApp = {
                            .setFontSize(me.metrics.menuFontSize, 1)
                            .setText(msg)
                            .setAlignment('center-top')
-                           .setTranslation(256, y);
+                           .setTranslation(me.efb.metrics.screenW / 2, y);
             y += me.metrics.menuFontSize + me.metrics.menuItemPadding;
         }
     },
