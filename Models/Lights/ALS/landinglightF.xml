@@ -76,6 +76,33 @@
             <roll-deg>0</roll-deg>
             <pitch-deg>88</pitch-deg>
         </direction>
+        <dim-factor>
+            <property>systems/electrical/outputs/landing-lights-norm[0]</property>
+            <factor>1</factor>
+            <offset>0</offset>
+            <min>0</min>
+            <max>1</max>
+        </dim-factor>
+        <spot-exponent>100</spot-exponent>
+        <spot-cutoff>20.0</spot-cutoff>
+        <range-m>1000</range-m>
+        <near-m>0.1</near-m>
+        <far-m>1000</far-m>
+
+        <color>
+            <r>1.0</r>
+            <g>1.0</g>
+            <b>1.0</b>
+        </color>
+        <intensity>
+            <expression>
+                <product>
+                    <property>systems/electrical/outputs/landing-lights-norm[0]</property>
+                    <value>200000</value>
+                </product>
+            </expression>
+        </intensity>
+
         <ambient>
             <r>1.0</r>
             <g>1.0</g>
@@ -94,23 +121,11 @@
             <b>1.0</b>
             <a>0.7</a>
         </specular>
-        <dim-factor>
-            <property>systems/electrical/outputs/landing-lights-norm[0]</property>
-            <factor>1</factor>
-            <offset>0</offset>
-            <min>0</min>
-            <max>1</max>
-        </dim-factor>
         <attenuation>
             <c>2</c>
             <l>0.01</l>
             <q>0.0001</q>
         </attenuation>
-        <spot-exponent>100</spot-exponent>
-        <spot-cutoff>20.0</spot-cutoff>
-        <range-m>1000</range-m>
-        <near-m>0.1</near-m>
-        <far-m>1000</far-m>
     </light>
 
 	<!-- Nose gear steering -->

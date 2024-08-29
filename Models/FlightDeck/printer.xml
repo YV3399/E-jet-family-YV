@@ -155,5 +155,10 @@
             <factor-prop>/instrumentation/printer/lights/PPR_ADV</factor-prop>
         </emission>
     </animation>
+
+    <effect>
+        <inherits-from>Effects/model-transparent</inherits-from>
+        <object-name>paper</object-name>
+    </effect>
 </PropertyList>
 

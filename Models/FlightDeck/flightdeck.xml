@@ -1,8 +1,36 @@
 <?xml version="1.0"?>
 
 <PropertyList>
-    <path>Aircraft/E-jet-family/Models/FlightDeck/erj-flightdeck.ac</path>
-    
+    <model>
+        <name>FlightdeckALS</name>
+        <path>flightdeck-als.xml</path>
+    </model>
+    <model>
+        <name>FlightdeckPBR</name>
+        <path>flightdeck-pbr.xml</path>
+    </model>
+
+    <animation>
+        <type>select</type>
+        <object-name>FlightdeckPBR</object-name>
+        <condition>
+            <equals>
+                <property>/sim/rendering/default-compositor</property>
+                <value>/Compositor/HDR/hdr</value>
+            </equals>
+        </condition>
+    </animation>
+    <animation>
+        <type>select</type>
+        <object-name>FlightdeckALS</object-name>
+        <condition>
+            <not-equals>
+                <property>/sim/rendering/default-compositor</property>
+                <value>/Compositor/HDR/hdr</value>
+            </not-equals>
+        </condition>
+    </animation>
+
     <!-- dome light -->
     <light>
         <type>spot</type>
@@ -17,6 +45,31 @@
             <roll-deg>0</roll-deg>
             <pitch-deg>50</pitch-deg>
         </direction>
+        <spot-exponent>10.0</spot-exponent>
+        <spot-cutoff>40</spot-cutoff>
+        <range-m>2</range-m>
+        <dim-factor>
+            <property>/systems/electrical/outputs/dome-light</property>
+            <factor>1</factor>
+            <offset>0</offset>
+            <min>0</min>
+            <max>1</max>
+        </dim-factor>
+
+        <color>
+            <r>1.0</r>
+            <g>0.9</g>
+            <b>0.8</b>
+        </color>
+        <intensity>
+            <expression>
+                <product>
+                    <value>4</value>
+                    <property>/systems/electrical/outputs/dome-light</property>
+                </product>
+            </expression>
+        </intensity>
+
         <ambient>
             <r>1.0</r>
             <g>0.9</g>
@@ -35,21 +88,11 @@
             <b>0.8</b>
             <a>0.7</a>
         </specular>
-        <dim-factor>
-            <property>/systems/electrical/outputs/dome-light</property>
-            <factor>1</factor>
-            <offset>0</offset>
-            <min>0</min>
-            <max>1</max>
-        </dim-factor>
         <attenuation>
             <c>10</c>
             <l>0.01</l>
             <q>0.01</q>
         </attenuation>
-        <spot-exponent>10.0</spot-exponent>
-        <spot-cutoff>40</spot-cutoff>
-        <range-m>2</range-m>
     </light>
     <light>
         <type>spot</type>
@@ -64,6 +107,10 @@
             <roll-deg>0</roll-deg>
             <pitch-deg>50</pitch-deg>
         </direction>
+        <spot-exponent>10.0</spot-exponent>
+        <spot-cutoff>40</spot-cutoff>
+        <range-m>2</range-m>
+
         <ambient>
             <r>1.0</r>
             <g>0.9</g>
@@ -94,24 +141,62 @@
             <l>0.01</l>
             <q>0.01</q>
         </attenuation>
-        <spot-exponent>10.0</spot-exponent>
-        <spot-cutoff>40</spot-cutoff>
-        <range-m>2</range-m>
+
+        <color>
+            <r>1.0</r>
+            <g>0.9</g>
+            <b>0.8</b>
+        </color>
+        <intensity>
+            <expression>
+                <product>
+                    <value>4</value>
+                    <property>/systems/electrical/outputs/dome-light</property>
+                </product>
+            </expression>
+        </intensity>
     </light>
-    
+
     <light>
         <type>spot</type>
         <name>MainPanelSpotlight.Reading</name>
         <position>
             <x-m>-12.3</x-m>
             <y-m>-0.65</y-m>
-            <z-m>1.10</z-m>
+            <z-m>1.05</z-m>
         </position>
         <direction>
             <heading-deg>0</heading-deg>
             <roll-deg>0</roll-deg>
             <pitch-deg>45</pitch-deg>
         </direction>
+        <spot-exponent>2</spot-exponent>
+        <spot-cutoff>75.0</spot-cutoff>
+        <range-m>0.5</range-m>
+        <near-m>0.1</near-m>
+        <far-m>0.5</far-m>
+        <dim-factor>
+            <property>/systems/electrical/outputs/main-panel-light</property>
+            <factor>1</factor>
+            <offset>0</offset>
+            <min>0</min>
+            <max>1</max>
+        </dim-factor>
+
+        <color>
+            <r>1.0</r>
+            <g>0.9</g>
+            <b>0.8</b>
+        </color>
+        <intensity>
+            <expression>
+                <product>
+                    <value>1</value>
+                    <property>/systems/electrical/outputs/main-panel-light</property>
+                </product>
+            </expression>
+        </intensity>
+
         <ambient>
             <r>1.0</r>
             <g>0.9</g>
@@ -130,23 +215,11 @@
             <b>0.8</b>
             <a>0.7</a>
         </specular>
-        <dim-factor>
-            <property>/systems/electrical/outputs/main-panel-light</property>
-            <factor>1</factor>
-            <offset>0</offset>
-            <min>0</min>
-            <max>1</max>
-        </dim-factor>
         <attenuation>
             <c>4</c>
             <l>3</l>
             <q>3</q>
         </attenuation>
-        <spot-exponent>2</spot-exponent>
-        <spot-cutoff>75.0</spot-cutoff>
-        <range-m>0.5</range-m>
-        <near-m>0.1</near-m>
-        <far-m>0.5</far-m>
     </light>
     <light>
         <type>spot</type>
@@ -154,13 +227,41 @@
         <position>
             <x-m>-12.4</x-m>
             <y-m>-0.4</y-m>
-            <z-m>1.14</z-m>
+            <z-m>1.125</z-m>
         </position>
         <direction>
             <heading-deg>0</heading-deg>
             <roll-deg>0</roll-deg>
             <pitch-deg>45</pitch-deg>
         </direction>
+        <spot-exponent>2</spot-exponent>
+        <spot-cutoff>75.0</spot-cutoff>
+        <range-m>0.5</range-m>
+        <near-m>0.1</near-m>
+        <far-m>0.5</far-m>
+        <dim-factor>
+            <property>/systems/electrical/outputs/main-panel-light</property>
+            <factor>1</factor>
+            <offset>0</offset>
+            <min>0</min>
+            <max>1</max>
+        </dim-factor>
+
+        <color>
+            <r>1.0</r>
+            <g>0.9</g>
+            <b>0.8</b>
+            <a>1.0</a>
+        </color>
+        <intensity>
+            <expression>
+                <product>
+                    <value> 5 </value>
+                    <property>/systems/electrical/outputs/main-panel-light</property>
+                </product>
+            </expression>
+        </intensity>
+
         <ambient>
             <r>1.0</r>
             <g>0.9</g>
@@ -179,6 +280,30 @@
             <b>0.8</b>
             <a>0.7</a>
         </specular>
+        <attenuation>
+            <c>4</c>
+            <l>3</l>
+            <q>3</q>
+        </attenuation>
+    </light>
+    <light>
+        <type>spot</type>
+        <name>MainPanelSpotlight.Center</name>
+        <position>
+            <x-m>-12.4</x-m>
+            <y-m>0.0</y-m>
+            <z-m>1.125</z-m>
+        </position>
+        <direction>
+            <heading-deg>0</heading-deg>
+            <roll-deg>0</roll-deg>
+            <pitch-deg>45</pitch-deg>
+        </direction>
+        <spot-exponent>2</spot-exponent>
+        <spot-cutoff>75.0</spot-cutoff>
+        <range-m>0.5</range-m>
+        <near-m>0.1</near-m>
+        <far-m>0.5</far-m>
         <dim-factor>
             <property>/systems/electrical/outputs/main-panel-light</property>
             <factor>1</factor>
@@ -186,16 +311,45 @@
             <min>0</min>
             <max>1</max>
         </dim-factor>
+
+        <color>
+            <r>1.0</r>
+            <g>0.9</g>
+            <b>0.8</b>
+            <a>1.0</a>
+        </color>
+        <intensity>
+            <expression>
+                <product>
+                    <value> 5 </value>
+                    <property>/systems/electrical/outputs/main-panel-light</property>
+                </product>
+            </expression>
+        </intensity>
+
+        <ambient>
+            <r>1.0</r>
+            <g>0.9</g>
+            <b>0.8</b>
+            <a>1.0</a>
+        </ambient>
+        <diffuse>
+            <r>1.0</r>
+            <g>0.9</g>
+            <b>0.8</b>
+            <a>0.7</a>
+        </diffuse>
+        <specular>
+            <r>1.0</r>
+            <g>0.9</g>
+            <b>0.8</b>
+            <a>0.7</a>
+        </specular>
         <attenuation>
             <c>4</c>
             <l>3</l>
             <q>3</q>
         </attenuation>
-        <spot-exponent>2</spot-exponent>
-        <spot-cutoff>75.0</spot-cutoff>
-        <range-m>0.5</range-m>
-        <near-m>0.1</near-m>
-        <far-m>0.5</far-m>
     </light>
     <light>
         <type>spot</type>
@@ -203,13 +357,41 @@
         <position>
             <x-m>-12.4</x-m>
             <y-m>0.4</y-m>
-            <z-m>1.14</z-m>
+            <z-m>1.125</z-m>
         </position>
         <direction>
             <heading-deg>0</heading-deg>
             <roll-deg>0</roll-deg>
             <pitch-deg>45</pitch-deg>
         </direction>
+        <spot-exponent>2</spot-exponent>
+        <spot-cutoff>75.0</spot-cutoff>
+        <range-m>0.5</range-m>
+        <near-m>0.1</near-m>
+        <far-m>0.5</far-m>
+        <dim-factor>
+            <property>/systems/electrical/outputs/main-panel-light</property>
+            <factor>1</factor>
+            <offset>0</offset>
+            <min>0</min>
+            <max>1</max>
+        </dim-factor>
+
+        <color>
+            <r>1.0</r>
+            <g>0.9</g>
+            <b>0.8</b>
+            <a>1.0</a>
+        </color>
+        <intensity>
+            <expression>
+                <product>
+                    <value> 5 </value>
+                    <property>/systems/electrical/outputs/main-panel-light</property>
+                </product>
+            </expression>
+        </intensity>
+
         <ambient>
             <r>1.0</r>
             <g>0.9</g>
@@ -228,25 +410,13 @@
             <b>0.8</b>
             <a>0.7</a>
         </specular>
-        <dim-factor>
-            <property>/systems/electrical/outputs/main-panel-light</property>
-            <factor>1</factor>
-            <offset>0</offset>
-            <min>0</min>
-            <max>1</max>
-        </dim-factor>
         <attenuation>
             <c>4</c>
             <l>3</l>
             <q>3</q>
         </attenuation>
-        <spot-exponent>2</spot-exponent>
-        <spot-cutoff>75.0</spot-cutoff>
-        <range-m>0.5</range-m>
-        <near-m>0.1</near-m>
-        <far-m>0.5</far-m>
     </light>
-    
+
     <light>
         <type>spot</type>
         <name>PedestalSpotlight</name>
@@ -260,6 +430,33 @@
             <roll-deg>0</roll-deg>
             <pitch-deg>-60</pitch-deg>
         </direction>
+        <dim-factor>
+            <property>/systems/electrical/outputs/pedestal-light</property>
+            <factor>1</factor>
+            <offset>0</offset>
+            <min>0</min>
+            <max>1</max>
+        </dim-factor>
+        <spot-exponent>2</spot-exponent>
+        <spot-cutoff>75.0</spot-cutoff>
+        <range-m>0.5</range-m>
+        <near-m>0.1</near-m>
+        <far-m>0.5</far-m>
+
+        <color>
+            <r>1.0</r>
+            <g>0.9</g>
+            <b>0.8</b>
+        </color>
+        <intensity>
+            <expression>
+                <product>
+                    <value> 30 </value>
+                    <property>/systems/electrical/outputs/pedestal-light</property>
+                </product>
+            </expression>
+        </intensity>
+
         <ambient>
             <r>1.0</r>
             <g>0.9</g>
@@ -278,25 +475,13 @@
             <b>0.8</b>
             <a>0.7</a>
         </specular>
-        <dim-factor>
-            <property>/systems/electrical/outputs/pedestal-light</property>
-            <factor>1</factor>
-            <offset>0</offset>
-            <min>0</min>
-            <max>1</max>
-        </dim-factor>
         <attenuation>
             <c>4</c>
             <l>3</l>
             <q>3</q>
         </attenuation>
-        <spot-exponent>2</spot-exponent>
-        <spot-cutoff>75.0</spot-cutoff>
-        <range-m>0.5</range-m>
-        <near-m>0.1</near-m>
-        <far-m>0.5</far-m>
     </light>
-    
+
     <animation>
         <type>select</type>
         <object-name>DomeLight.Left</object-name>
@@ -306,237 +491,6 @@
         <condition>
             <property>/sim/current-view/internal</property>
         </condition>
-    </animation>
-    
-    <animation>
-        <name>BacklitObjectsMain</name>
-        <object-name>ALT.knob.001</object-name>
-        <object-name>ALT</object-name>
-        <object-name>AP</object-name>
-        <object-name>APP</object-name>
-        <object-name>AT.001</object-name>
-        <object-name>AT.002</object-name>
-        <object-name>AT.003</object-name>
-        <object-name>AT.004</object-name>
-        <object-name>AT.005</object-name>
-        <object-name>AT.006</object-name>
-        <object-name>AT.007</object-name>
-        <object-name>AT.008</object-name>
-        <object-name>AT.009</object-name>
-        <object-name>AT.010</object-name>
-        <object-name>AT.011</object-name>
-        <object-name>AT.012</object-name>
-        <object-name>AT.013</object-name>
-        <object-name>AT.014</object-name>
-        <object-name>AT.015</object-name>
-        <object-name>AT.016</object-name>
-        <object-name>AT</object-name>
-        <object-name>BANK</object-name>
-        <object-name>CRS2.knob.001</object-name>
-        <object-name>CRS.knob.001</object-name>
-        <object-name>CRS2.knob.002</object-name>
-        <object-name>CRS2.knob.003</object-name>
-        <object-name>CRS2.knob.004</object-name>
-        <object-name>CRS2.knob.005</object-name>
-        <object-name>FD2</object-name>
-        <object-name>FD</object-name>
-        <object-name>FLCH</object-name>
-        <object-name>FPA.knob.001</object-name>
-        <object-name>FPA</object-name>
-        <object-name>HDG.knob.001</object-name>
-        <object-name>HDG</object-name>
-        <object-name>IAS-MACH</object-name>
-        <object-name>MCPlts.001</object-name>
-        <object-name>MCPlts.002</object-name>
-        <object-name>MCPlts.003</object-name>
-        <object-name>MCPlts.004</object-name>
-        <object-name>MCPlts.005</object-name>
-        <object-name>MCPlts.006</object-name>
-        <object-name>MCPlts.007</object-name>
-        <object-name>MCPlts.008</object-name>
-        <object-name>MCPlts.009</object-name>
-        <object-name>MCPlts.010</object-name>
-        <object-name>MCPlts.011</object-name>
-        <object-name>MCPlts.012</object-name>
-        <object-name>MCPlts.014</object-name>
-        <object-name>MCPlts.015</object-name>
-        <object-name>MCPlts.016</object-name>
-        <object-name>MCPlts.017</object-name>
-        <object-name>MCPlts.018</object-name>
-        <object-name>MCPlts.019</object-name>
-        <object-name>MCPlts.020</object-name>
-        <object-name>MCPlts.021</object-name>
-        <object-name>MCPlts.022</object-name>
-        <object-name>MCPlts.023</object-name>
-        <object-name>MCPlts.024</object-name>
-        <object-name>MCPlts.027</object-name>
-        <object-name>MCPlts.028</object-name>
-        <object-name>MCPlts.029</object-name>
-        <object-name>MCPlts.030</object-name>
-        <object-name>MCPlts.031</object-name>
-        <object-name>MCPlts.032</object-name>
-        <object-name>MCPlts.033</object-name>
-        <object-name>MCPlts.034</object-name>
-        <object-name>MCPlts.035</object-name>
-        <object-name>MCPlts.036</object-name>
-        <object-name>MCPlts.037</object-name>
-        <object-name>MCPlts.038</object-name>
-        <object-name>MCPlts.039</object-name>
-        <object-name>MCPlts</object-name>
-        <object-name>NAV</object-name>
-        <object-name>SPD.knob.001</object-name>
-        <object-name>SRC</object-name>
-        <object-name>VNAV</object-name>
-        <object-name>VS</object-name>
-        <object-name>YD</object-name>
-        <object-name>compass.indicator</object-name>
-    </animation>
-    
-    <animation>
-        <name>BacklightMain</name>
-        <type>material</type>
-        <object-name>BacklitObjectsMain</object-name>
-        <emission>
-            <red>1.0</red>
-            <green>0.75</green>
-            <blue>0.5</blue>
-            <factor-prop>/systems/electrical/outputs/main-panel-light</factor-prop>
-        </emission>
-    </animation>
-    
-    <animation>
-        <name>BacklitObjectsPedestal</name>
-        <object-name>pedestal</object-name>
-        <object-name>pedestal.001</object-name>
-        <object-name>pedestal.002</object-name>
-        <object-name>pedestal.005</object-name>
-        <object-name>pedestal.008</object-name>
-        <object-name>box.004</object-name>
-        <object-name>rat-deploy</object-name>
-    </animation>
-    
-    <animation>
-        <name>BacklightPedestal</name>
-        <type>material</type>
-        <object-name>BacklitObjectsPedestal</object-name>
-        <emission>
-            <red>1.0</red>
-            <green>0.75</green>
-            <blue>0.5</blue>
-            <factor-prop>/systems/electrical/outputs/pedestal-light</factor-prop>
-        </emission>
-    </animation>
-    
-    <animation>
-        <name>BacklightEngineControl</name>
-        <type>material</type>
-        <object-name>engines.plate</object-name>
-        <object-name>e1.case</object-name>
-        <object-name>e2.case</object-name>
-        <emission>
-            <red>1.0</red>
-            <green>1.0</green>
-            <blue>1.0</blue>
-        </emission>
-    </animation>
-    
-    <!-- master warning/caution buttons -->
-    
-    <animation>
-        <type>material</type>
-        <object-name>MasterWarningBtn.left</object-name>
-        
-        <condition>
-            <and>
-                <property>/instrumentation/eicas/master/warning</property>
-                <greater-than>
-                    <property>systems/electrical/outputs/master-warn-caution[0]</property>
-                    <value>15</value>
-                </greater-than>
-            </and>
-        </condition>
-        <emission>
-            <red>1</red>
-            <green>1</green>
-            <blue>1</blue>
-        </emission>
-    </animation>
-    
-    <animation>
-        <type>material</type>
-        <object-name>MasterCautionBtn.left</object-name>
-        <condition>
-            <and>
-                <property>/instrumentation/eicas/master/caution</property>
-                <greater-than>
-                    <property>systems/electrical/outputs/master-warn-caution[0]</property>
-                    <value>15</value>
-                </greater-than>
-            </and>
-        </condition>
-        <emission>
-            <red>1</red>
-            <green>1</green>
-            <blue>1</blue>
-        </emission>
-    </animation>
-    
-    <animation>
-        <type>material</type>
-        <object-name>MasterWarningBtn.right</object-name>
-        
-        <condition>
-            <and>
-                <property>/instrumentation/eicas/master/warning</property>
-                <greater-than>
-                    <property>systems/electrical/outputs/master-warn-caution[1]</property>
-                    <value>15</value>
-                </greater-than>
-            </and>
-        </condition>
-        <emission>
-            <red>1</red>
-            <green>1</green>
-            <blue>1</blue>
-        </emission>
-    </animation>
-    
-    <animation>
-        <type>material</type>
-        <object-name>MasterCautionBtn.right</object-name>
-        <condition>
-            <and>
-                <property>/instrumentation/eicas/master/caution</property>
-                <greater-than>
-                    <property>systems/electrical/outputs/master-warn-caution[1]</property>
-                    <value>15</value>
-                </greater-than>
-            </and>
-        </condition>
-        <emission>
-            <red>1</red>
-            <green>1</green>
-            <blue>1</blue>
-        </emission>
-    </animation>
-    
-    <animation>
-        <type>material</type>
-        <object-name>MasterWarningBtn.left</object-name>
-        <object-name>MasterCautionBtn.left</object-name>
-        <object-name>MasterWarningBtn.right</object-name>
-        <object-name>MasterCautionBtn.right</object-name>
-        
-        <ambient>
-            <red>0.2</red>
-            <green>0.2</green>
-            <blue>0.2</blue>
-        </ambient>
-        <diffuse>
-            <red>0.2</red>
-            <green>0.2</green>
-            <blue>0.2</blue>
-        </diffuse>
     </animation>
 
     <animation>
@@ -567,7 +521,7 @@
             </binding>
         </action>
     </animation>
-    
+
     <!-- EFB -->
     <model>
         <path>Aircraft/E-jet-family/Models/EFB/EFB.xml</path>
@@ -591,7 +545,7 @@
             <heading-deg>-30</heading-deg>
         </offsets>
     </model>
-    
+
     <!-- HUD -->
     <model>
         <path>hud_L.xml</path>
@@ -611,7 +565,7 @@
             <z-m>1.42</z-m>
         </offsets>
     </model>
-    
+
     <animation>
         <type>select</type>
         <object-name>HUD_L</object-name>
@@ -633,8 +587,8 @@
             </or>
         </condition>
     </animation>
-    
-    
+
+
     <animation>
         <type>rotate</type>
         <object-name>LHwiper</object-name>
@@ -736,9 +690,9 @@
             <z2-m>1.1967</z2-m>
         </axis>
     </animation>
-    
+
     <!-- Overhead Compass -->
-    
+
     <animation>
         <type>textranslate</type>
         <object-name>compass.indicator</object-name>
@@ -749,9 +703,9 @@
             <y>0</y>
         </axis>
     </animation>
-    
+
     <!-- Cockpit Door Animation -->
-    
+
     <animation>
         <type>pick</type>
         <object-name>cockpit-door</object-name>
@@ -766,7 +720,7 @@
             </binding>
         </action>
     </animation>
-    
+
     <animation>
         <name>Cockpit Door</name>
         <type>rotate</type>
@@ -791,21 +745,12 @@
             <z>1</z>
         </axis>
     </animation>
-    
+
     <!-- Engine Starter Case Animations -->
-    
-    <effect>
-        <inherits-from>Effects/model-transparent</inherits-from>
-        <object-name>e1.case</object-name>
-        <object-name>e2.case</object-name>
-        <object-name>FCM.elevator.case</object-name>
-        <object-name>FCM.rudder.case</object-name>
-        <object-name>FCM.spoilers.case</object-name>
-    </effect>
-    
+
     <animation>
         <type>pick</type>
-        <object-name>e1.case</object-name>
+        <object-name>r1.case</object-name>
         <action>
             <button>0</button>
             <repeatable type="bool">false</repeatable>
@@ -817,7 +762,7 @@
             </binding>
         </action>
     </animation>
-    
+
     <animation>
         <name>Engine Cover Left</name>
         <type>rotate</type>
@@ -835,7 +780,7 @@
             <object-name>e1.case.axis</object-name>
         </axis>
     </animation>
-    
+
     <animation>
         <type>pick</type>
         <object-name>e2.case</object-name>
@@ -850,7 +795,7 @@
             </binding>
         </action>
     </animation>
-    
+
     <animation>
         <name>Engine Cover Right</name>
         <type>rotate</type>
@@ -868,16 +813,16 @@
             <object-name>e2.case.axis</object-name>
         </axis>
     </animation>
-    
+
     <!-- Overhead Panel -->
-    
+
     <model>
         <name>Overhead Panel</name>
         <path>Aircraft/E-jet-family/Models/OHpanel/OHpanel.xml</path>
     </model>
-    
+
     <!-- Yokes Animation -->
-    
+
     <animation>
         <type>rotate</type>
         <object-name>yoke.roll.left</object-name>
@@ -958,9 +903,9 @@
             <pitch-deg>-13.5</pitch-deg>
         </offsets>
     </model>
-    
+
     <!-- Flight Displays -->
-    
+
     <model>
         <name>Standby AI</name>
         <path>Aircraft/E-jet-family/Models/Primus-Epic/stby-ai.xml</path>
@@ -981,7 +926,7 @@
             <pitch-deg>-13.5</pitch-deg>
         </offsets>
     </model>
-    
+
     <model>
         <name>Standby Altimeter</name>
         <path>Aircraft/E-jet-family/Models/Primus-Epic/stby-alt.xml</path>
@@ -992,7 +937,7 @@
             <pitch-deg>-13.5</pitch-deg>
         </offsets>
     </model>
-    
+
     <model>
         <name>Primary Flight Display Left</name>
         <path>Aircraft/E-jet-family/Models/Primus-Epic/PFD0.xml</path>
@@ -1003,7 +948,7 @@
             <pitch-deg>-13</pitch-deg>
         </offsets>
     </model>
-    
+
     <model>
         <name>Primary Flight Display Right</name>
         <path>Aircraft/E-jet-family/Models/Primus-Epic/PFD1.xml</path>
@@ -1014,7 +959,7 @@
             <pitch-deg>-13</pitch-deg>
         </offsets>
     </model>
-    
+
     <model>
         <name>Main Flight Display Right</name>
         <path>Aircraft/E-jet-family/Models/Primus-Epic/MFD_R.xml</path>
@@ -1025,7 +970,7 @@
             <pitch-deg>-13</pitch-deg>
         </offsets>
     </model>
-    
+
     <model>
         <name>Main Flight Display Left</name>
         <path>Aircraft/E-jet-family/Models/Primus-Epic/MFD_L.xml</path>
@@ -1036,7 +981,7 @@
             <pitch-deg>-13</pitch-deg>
         </offsets>
     </model>
-    
+
     <model>
         <name>EICAS Panel</name>
         <path>Aircraft/E-jet-family/Models/Primus-Epic/EICAS.xml</path>
@@ -1047,9 +992,9 @@
             <pitch-deg>-13</pitch-deg>
         </offsets>
     </model>
-    
+
     <!-- MCDUs -->
-    
+
     <model>
         <path>Aircraft/E-jet-family/Models/Instruments/MCDU/mcdu-e-jets.xml</path>
         <object-name>MCDU0</object-name>
@@ -1067,7 +1012,7 @@
             <pitch-deg>-69</pitch-deg>
         </offsets>
     </model>
-    
+
     <model>
         <path>Aircraft/E-jet-family/Models/Instruments/MCDU/mcdu-e-jets.xml</path>
         <object-name>MCDU1</object-name>
@@ -1085,13 +1030,13 @@
             <pitch-deg>-69</pitch-deg>
         </offsets>
     </model>
-    
+
     <!-- Autopilot Control Panel -->
-    
+
     <!-- Knobs Pick Animations -->
-    
+
     <!-- MINIMUMS -->
-    
+
     <animation>
         <type>knob</type>
         <object-name>MINIMUMS.left.knob</object-name>
@@ -1131,7 +1076,7 @@
             </binding>
         </action>
     </animation>
-    
+
     <animation>
         <type>knob</type>
         <object-name>MINIMUMS.left.ring</object-name>
@@ -1150,8 +1095,8 @@
             </binding>
         </action>
     </animation>
-    
-    
+
+
     <animation>
         <type>knob</type>
         <object-name>MINIMUMS.right.knob</object-name>
@@ -1191,7 +1136,7 @@
             </binding>
         </action>
     </animation>
-    
+
     <animation>
         <type>knob</type>
         <object-name>MINIMUMS.right.ring</object-name>
@@ -1210,9 +1155,9 @@
             </binding>
         </action>
     </animation>
-    
+
     <!-- QNH -->
-    
+
     <animation>
         <type>pick</type>
         <object-name>QNH.left.knob</object-name>
@@ -1287,8 +1232,8 @@
             </binding>
         </action>
     </animation>
-    
-    
+
+
     <!-- CRS Knob 1 Pick Animation -->
     <animation>
         <type>pick</type>
@@ -1307,7 +1252,7 @@
             </binding>
         </action>
     </animation>
-    
+
     <animation>
         <type>knob</type>
         <object-name>CRS.knob</object-name>
@@ -1402,7 +1347,7 @@
             </binding>
         </shift-action>
     </animation>
-    
+
     <!-- CRS Knob 2 Pick Animations -->
     <animation>
         <type>pick</type>
@@ -1421,7 +1366,7 @@
             </binding>
         </action>
     </animation>
-    
+
     <animation>
         <type>knob</type>
         <object-name>CRS2.knob</object-name>
@@ -1516,9 +1461,9 @@
             </binding>
         </shift-action>
     </animation>
-    
+
     <!-- HDG Knob Pick Animations -->
-    
+
     <animation>
         <type>pick</type>
         <object-name>HDG.knob</object-name>
@@ -1530,7 +1475,7 @@
             </binding>
         </action>
     </animation>
-    
+
     <animation>
         <type>knob</type>
         <object-name>HDG.knob</object-name>
@@ -1560,9 +1505,9 @@
             </binding>
         </shift-action>
     </animation>
-    
+
     <!-- SPD Knob Pick Animations -->
-    
+
     <animation>
         <type>pick</type>
         <object-name>SPD.knob</object-name>
@@ -1576,7 +1521,7 @@
             </binding>
         </action>
     </animation>
-    
+
     <animation>
         <type>knob</type>
         <object-name>SPD.knob</object-name>
@@ -1646,7 +1591,7 @@
             </binding>
         </shift-action>
     </animation>
-    
+
     <animation>
         <type>knob</type>
         <object-name>SPD.ring</object-name>
@@ -1665,9 +1610,9 @@
             </binding>
         </action>
     </animation>
-    
+
     <!-- ALT Knob Pick Animations -->
-    
+
     <animation>
         <type>knob</type>
         <object-name>ALT.knob</object-name>
@@ -1697,7 +1642,7 @@
             </binding>
         </shift-action>
     </animation>
-    
+
     <!-- VS Knob Pick Animations -->
     <animation>
         <type>knob</type>
@@ -1718,7 +1663,7 @@
             </binding>
         </action>
     </animation>
-    
+
     <!-- FPA Knob Pick Animations -->
     <animation>
         <type>knob</type>
@@ -1749,11 +1694,11 @@
             </binding>
         </shift-action>
     </animation>
-    
+
     <!-- Buttons and Lights Animations -->
-    
+
     <!-- IAS-MACH -->
-    
+
     <animation>
         <type>pick</type>
         <object-name>IAS-MACH</object-name>
@@ -1768,9 +1713,9 @@
             </binding>
         </action>
     </animation>
-    
+
     <!-- FD -->
-    
+
     <animation>
         <type>pick</type>
         <object-name>FD</object-name>
@@ -1791,7 +1736,7 @@
             <property>/systems/electrical/outputs/pushbutton-lights</property>
         </condition>
     </animation>
-    
+
     <animation>
         <type>pick</type>
         <object-name>FD2</object-name>
@@ -1887,8 +1832,8 @@
             </binding>
         </action>
     </animation>
-    
-    
+
+
     <!-- CRS Knob 1 Pick Animation -->
     <animation>
         <type>pick</type>
@@ -1907,7 +1852,7 @@
             </binding>
         </action>
     </animation>
-    
+
     <animation>
         <type>knob</type>
         <object-name>CRS.knob</object-name>
@@ -2002,7 +1947,7 @@
             </binding>
         </shift-action>
     </animation>
-    
+
     <!-- CRS Knob 2 Pick Animations -->
     <animation>
         <type>pick</type>
@@ -2021,7 +1966,7 @@
             </binding>
         </action>
     </animation>
-    
+
     <animation>
         <type>knob</type>
         <object-name>CRS2.knob</object-name>
@@ -2116,9 +2061,9 @@
             </binding>
         </shift-action>
     </animation>
-    
+
     <!-- HDG Knob Pick Animations -->
-    
+
     <animation>
         <type>pick</type>
         <object-name>HDG.knob</object-name>
@@ -2130,7 +2075,7 @@
             </binding>
         </action>
     </animation>
-    
+
     <animation>
         <type>knob</type>
         <object-name>HDG.knob</object-name>
@@ -2160,9 +2105,9 @@
             </binding>
         </shift-action>
     </animation>
-    
+
     <!-- SPD Knob Pick Animations -->
-    
+
     <animation>
         <type>pick</type>
         <object-name>SPD.knob</object-name>
@@ -2176,7 +2121,7 @@
             </binding>
         </action>
     </animation>
-    
+
     <animation>
         <type>knob</type>
         <object-name>SPD.knob</object-name>
@@ -2246,7 +2191,7 @@
             </binding>
         </shift-action>
     </animation>
-    
+
     <animation>
         <type>knob</type>
         <object-name>SPD.ring</object-name>
@@ -2265,9 +2210,9 @@
             </binding>
         </action>
     </animation>
-    
+
     <!-- ALT Knob Pick Animations -->
-    
+
     <animation>
         <type>knob</type>
         <object-name>ALT.knob</object-name>
@@ -2297,7 +2242,7 @@
             </binding>
         </shift-action>
     </animation>
-    
+
     <!-- VS Knob Pick Animations -->
     <animation>
         <type>knob</type>
@@ -2318,7 +2263,7 @@
             </binding>
         </action>
     </animation>
-    
+
     <!-- FPA Knob Pick Animations -->
     <animation>
         <type>knob</type>
@@ -2349,11 +2294,11 @@
             </binding>
         </shift-action>
     </animation>
-    
+
     <!-- Buttons and Lights Animations -->
-    
+
     <!-- IAS-MACH -->
-    
+
     <animation>
         <type>pick</type>
         <object-name>IAS-MACH</object-name>
@@ -2368,9 +2313,9 @@
             </binding>
         </action>
     </animation>
-    
+
     <!-- FD -->
-    
+
     <animation>
         <type>pick</type>
         <object-name>FD</object-name>
@@ -2391,7 +2336,7 @@
             <property>/systems/electrical/outputs/pushbutton-lights</property>
         </condition>
     </animation>
-    
+
     <animation>
         <type>pick</type>
         <object-name>FD2</object-name>
@@ -2443,9 +2388,9 @@
             <property>/systems/electrical/outputs/pushbutton-lights</property>
         </condition>
     </animation>
-    
+
     <!-- HDG -->
-    
+
     <animation>
         <type>pick</type>
         <object-name>HDG</object-name>
@@ -2469,9 +2414,9 @@
             <property>/systems/electrical/outputs/pushbutton-lights</property>
         </condition>
     </animation>
-    
+
     <!-- APP -->
-    
+
     <animation>
         <type>pick</type>
         <object-name>APP</object-name>
@@ -2501,9 +2446,9 @@
             <property>/systems/electrical/outputs/pushbutton-lights</property>
         </condition>
     </animation>
-    
+
     <!-- BANK -->
-    
+
     <animation>
         <type>pick</type>
         <object-name>BANK</object-name>
@@ -2529,9 +2474,9 @@
             <property>/systems/electrical/outputs/pushbutton-lights</property>
         </condition>
     </animation>
-    
+
     <!-- AP -->
-    
+
     <animation>
         <type>pick</type>
         <object-name>AP</object-name>
@@ -2590,9 +2535,9 @@
             <property>/systems/electrical/outputs/pushbutton-lights</property>
         </condition>
     </animation>
-    
+
     <!-- YD -->
-    
+
     <animation>
         <type>pick</type>
         <object-name>YD</object-name>
@@ -2616,9 +2561,9 @@
             <property>/systems/electrical/outputs/pushbutton-lights</property>
         </condition>
     </animation>
-    
+
     <!-- SRC -->
-    
+
     <animation>
         <type>pick</type>
         <object-name>SRC</object-name>
@@ -2655,7 +2600,7 @@
             <property>/systems/electrical/outputs/pushbutton-lights</property>
         </condition>
     </animation>
-    
+
     <!-- Captain-side PFD controls -->
     <animation>
         <type>pick</type>
@@ -2774,7 +2719,7 @@
             </not>
         </condition>
     </animation>
-    
+
     <animation>
         <type>pick</type>
         <object-name>BRG.circle.left.btn</object-name>
@@ -2807,7 +2752,7 @@
             </binding>
         </action>
     </animation>
-    
+
     <!-- FO-side PFD controls -->
     <animation>
         <type>pick</type>
@@ -2926,7 +2871,7 @@
             </not>
         </condition>
     </animation>
-    
+
     <animation>
         <type>pick</type>
         <object-name>BRG.circle.right.btn</object-name>
@@ -2959,9 +2904,9 @@
             </binding>
         </action>
     </animation>
-    
+
     <!-- A/T -->
-    
+
     <animation>
         <type>pick</type>
         <object-name>AT</object-name>
@@ -2996,7 +2941,7 @@
             <property>/systems/electrical/outputs/pushbutton-lights</property>
         </condition>
     </animation>
-    
+
     <!-- VNAV -->
     <animation>
         <type>pick</type>
@@ -3010,7 +2955,7 @@
             </binding>
         </action>
     </animation>
-    
+
     <animation>
         <type>select</type>
         <object-name>VNAV.light</object-name>
@@ -3019,9 +2964,9 @@
             <property>/systems/electrical/outputs/pushbutton-lights</property>
         </condition>
     </animation>
-    
+
     <!-- FLCH -->
-    
+
     <animation>
         <type>pick</type>
         <object-name>FLCH</object-name>
@@ -3045,10 +2990,10 @@
             <property>/systems/electrical/outputs/pushbutton-lights</property>
         </condition>
     </animation>
-    
-    
+
+
     <!-- ALT -->
-    
+
     <animation>
         <type>pick</type>
         <object-name>ALT</object-name>
@@ -3074,9 +3019,9 @@
             <property>/systems/electrical/outputs/pushbutton-lights</property>
         </condition>
     </animation>
-    
+
     <!-- FPA -->
-    
+
     <animation>
         <type>pick</type>
         <object-name>FPA</object-name>
@@ -3100,9 +3045,9 @@
             <property>/systems/electrical/outputs/pushbutton-lights</property>
         </condition>
     </animation>
-    
+
     <!-- VS -->
-    
+
     <animation>
         <type>pick</type>
         <object-name>VS</object-name>
@@ -3128,11 +3073,11 @@
             <property>/systems/electrical/outputs/pushbutton-lights</property>
         </condition>
     </animation>
-    
+
     <!-- FCM - Flight Control Modes -->
-    
+
     <!-- FCM - Elevator -->
-    
+
     <animation>
         <type>pick</type>
         <object-name>FCM.elevator.case</object-name>
@@ -3164,7 +3109,7 @@
             <object-name>FCM.elevator.case.axis</object-name>
         </axis>
     </animation>
-    
+
     <animation>
         <type>pick</type>
         <object-name>FCM.elevator.switch</object-name>
@@ -3193,7 +3138,7 @@
             </binding>
         </action>
     </animation>
-    
+
     <animation>
         <type>select</type>
         <object-name>FCM.elevator.light</object-name>
@@ -3203,9 +3148,9 @@
             </not>
         </condition>
     </animation>
-    
+
     <!-- FCM - Rudder -->
-    
+
     <animation>
         <type>pick</type>
         <object-name>FCM.rudder.case</object-name>
@@ -3237,7 +3182,7 @@
             <object-name>FCM.rudder.case.axis</object-name>
         </axis>
     </animation>
-    
+
     <animation>
         <type>pick</type>
         <object-name>FCM.rudder.switch</object-name>
@@ -3266,7 +3211,7 @@
             </binding>
         </action>
     </animation>
-    
+
     <animation>
         <type>select</type>
         <object-name>FCM.rudder.light</object-name>
@@ -3276,9 +3221,9 @@
             </not>
         </condition>
     </animation>
-    
+
     <!-- FCM - Spoilers -->
-    
+
     <animation>
         <type>pick</type>
         <object-name>FCM.spoilers.case</object-name>
@@ -3310,7 +3255,7 @@
             <object-name>FCM.spoilers.case.axis</object-name>
         </axis>
     </animation>
-    
+
     <animation>
         <type>pick</type>
         <object-name>FCM.spoilers.switch</object-name>
@@ -3339,7 +3284,7 @@
             </binding>
         </action>
     </animation>
-    
+
     <animation>
         <type>select</type>
         <object-name>FCM.spoilers.light</object-name>
@@ -3349,11 +3294,11 @@
             </not>
         </condition>
     </animation>
-    
+
     <!-- Throttle, Gear-Lever, Flaps-Lever, Speedbrake-Lever and Parking Brake Lever Animations -->
-    
+
     <!-- Parking Brake Lever -->
-    
+
     <animation>
         <type>rotate</type>
         <object-name>park.brake</object-name>
@@ -3370,7 +3315,7 @@
             <z>0</z>
         </axis>
     </animation>
-    
+
     <animation>
         <type>pick</type>
         <object-name>park.brake</object-name>
@@ -3383,9 +3328,9 @@
             </binding>
         </action>
     </animation>
-    
+
     <!-- Speedbrake Lever -->
-    
+
     <animation>
         <type>rotate</type>
         <object-name>BrkLever</object-name>
@@ -3402,7 +3347,7 @@
             <z>0</z>
         </axis>
     </animation>
-    
+
     <animation>
         <type>pick</type>
         <object-name>BrkLever</object-name>
@@ -3418,9 +3363,9 @@
             </binding>
         </action>
     </animation>
-    
+
     <!-- Flaps Lever -->
-    
+
     <animation>
         <type>translate</type>
         <object-name>FlapLever</object-name>
@@ -3462,9 +3407,9 @@
             </binding>
         </action>
     </animation>
-    
+
     <!-- Throttles -->
-    
+
     <animation>
         <type>rotate</type>
         <object-name>ThrottleLeft</object-name>
@@ -3481,7 +3426,7 @@
             <z>0</z>
         </axis>
     </animation>
-    
+
     <animation>
         <type>rotate</type>
         <object-name>ThrottleRight</object-name>
@@ -3498,7 +3443,7 @@
             <z>0</z>
         </axis>
     </animation>
-    
+
     <animation>
         <name>Left Throttle pick</name>
         <type>pick</type>
@@ -3526,7 +3471,7 @@
             </binding>
         </action>
     </animation>
-    
+
     <animation>
         <name>Right Throttle pick</name>
         <type>pick</type>
@@ -3554,9 +3499,9 @@
             </binding>
         </action>
     </animation>
-    
+
     <!-- Trimmers -->
-    
+
     <animation>
         <name>Rudder trim pick</name>
         <type>pick</type>
@@ -3584,7 +3529,7 @@
             </binding>
         </action>
     </animation>
-    
+
     <animation>
         <name>Aileron trim pick</name>
         <type>pick</type>
@@ -3612,7 +3557,7 @@
             </binding>
         </action>
     </animation>
-    
+
     <animation>
         <name>Elevator trim pick</name>
         <type>pick</type>
@@ -3641,7 +3586,7 @@
             </binding>
         </action>
     </animation>
-    
+
     <animation>
         <type>rotate</type>
         <object-name>trim.rudder</object-name>
@@ -3658,9 +3603,9 @@
             <z>-1</z>
         </axis>
     </animation>
-    
+
     <!-- Brakes Pedal Animation -->
-    
+
     <animation>
         <type>translate</type>
         <object-name>pedal.left</object-name>
@@ -3685,7 +3630,7 @@
     </animation>
 
     <!-- Rudder Foot Pedal Animations -->
-    
+
     <animation>
         <type>translate</type>
         <object-name>pedal.left</object-name>
@@ -3697,7 +3642,7 @@
             <z>0.0</z>
         </axis>
     </animation>
-    
+
     <animation>
         <type>translate</type>
         <object-name>pedal.right</object-name>
@@ -3709,8 +3654,8 @@
             <z>0.0</z>
         </axis>
     </animation>
-    
-    
+
+
     <!-- Engine controls -->
     <animation>
         <name>Engine start knob 1 rotate</name>
@@ -3758,7 +3703,7 @@
             </binding>
         </action>
     </animation>
-    
+
     <animation>
         <name>Engine start knob 2 rotate</name>
         <type>knob</type>
@@ -3820,9 +3765,9 @@
             </binding>
         </action>
     </animation>
-    
+
     <!-- Ram Air Turbine Manual Deploy -->
-    
+
     <animation>
         <name>Ram Air Turbine Manual Deploy pick</name>
         <type>pick</type>
@@ -3858,7 +3803,7 @@
     <!-- Printout clipboard -->
     <model>
         <path>Aircraft/E-jet-family/Models/FlightDeck/clipboard.xml</path>
-        <name>Clipboard 1</name>
+        <name>Clipboard1</name>
         <offsets>
             <x-m>-12.51</x-m>
             <y-m>-0.71</y-m>
@@ -3868,5 +3813,5 @@
             <roll-deg>-5</roll-deg>
         </offsets>
     </model>
-    
+
 </PropertyList>
