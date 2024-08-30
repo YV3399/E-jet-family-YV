@@ -64,6 +64,8 @@
     <effect>
         <inherits-from>Effects/model-transparent</inherits-from>
         <object-name>clipPaper</object-name>
+        <object-name>clipArrowRight</object-name>
+        <object-name>clipArrowLeft</object-name>
     </effect>
 </PropertyList>
 

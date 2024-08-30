@@ -42,9 +42,7 @@
         <inherits-from>Models/Effects/lcd</inherits-from>
         <object-name>EICAS</object-name>
         <parameters>
-            <dirt-factor>0</dirt-factor>
-            <brightness>10.0</brightness>
-            <threshold>0.01</threshold>
+            <gamma>0.4</gamma>
         </parameters>
     </effect>
 

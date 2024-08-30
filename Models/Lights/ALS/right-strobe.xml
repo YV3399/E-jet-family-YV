@@ -1,45 +1,45 @@
 <?xml version="1.0"?>
 <PropertyList>
-
- <path>right-strobe.ac</path>
- <nopreview/>
-
-
- 
-<effect>
-   <inherits-from>Aircraft/E-jet-family/Models/Lights/ALS/right-strobe</inherits-from>
-   <object-name>right-strobe</object-name>
- </effect>
- 
- 
- <animation>
-  <type>scale</type>
-  <x-offset>0.75</x-offset>
-  <y-offset>0.75</y-offset>
-  <z-offset>0.75</z-offset>
- </animation>
- 
-
- 
-<animation>
-  <type>dist-scale</type>
-  <object-name>right-strobe</object-name>
-  <interpolation>
-   <entry>
-    <ind>0</ind>
-    <dep>1</dep>
-   </entry>
-   <entry>
-    <ind>300</ind>
-    <dep>4</dep>
-   </entry>
-   <entry>
-    <ind>1500</ind>
-    <dep>8</dep>
-   </entry>
-  </interpolation>
- </animation>
- 
+    
+    <path>right-strobe.ac</path>
+    <nopreview/>
+    
+    
+    
+    <effect>
+        <inherits-from>Aircraft/E-jet-family/Models/Lights/ALS/right-strobe</inherits-from>
+        <object-name>right-strobe</object-name>
+    </effect>
+    
+    
+    <animation>
+        <type>scale</type>
+        <x-offset>0.75</x-offset>
+        <y-offset>0.75</y-offset>
+        <z-offset>0.75</z-offset>
+    </animation>
+    
+    
+    
+    <animation>
+        <type>dist-scale</type>
+        <object-name>right-strobe</object-name>
+        <interpolation>
+            <entry>
+                <ind>0</ind>
+                <dep>1</dep>
+            </entry>
+            <entry>
+                <ind>300</ind>
+                <dep>4</dep>
+            </entry>
+            <entry>
+                <ind>1500</ind>
+                <dep>8</dep>
+            </entry>
+        </interpolation>
+    </animation>
+    
     <light>
         <type>point</type>
         <name>Spotlight</name>
@@ -86,7 +86,27 @@
         <range-m>30</range-m>
         <near-m>0.1</near-m>
         <far-m>30</far-m>
+        <color>
+            <r>1.0</r>
+            <g>1.0</g>
+            <b>1.0</b>
+        </color>
+        <intensity>
+            <expression>
+                <product>
+                    <property>/systems/electrical/outputs/strobe-norm</property>
+                    <value>1000</value>
+                    <difference>
+                        <value>1</value>
+                        <product>
+                            <property>/sim/current-view/internal</property>
+                            <value>0.9</value>
+                        </product>
+                    </difference>
+                </product>
+            </expression>
+        </intensity>
     </light>
-
-
+    
+    
 </PropertyList>

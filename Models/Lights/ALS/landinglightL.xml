@@ -115,7 +115,7 @@
             <expression>
                 <product>
                     <property>systems/electrical/outputs/landing-lights-norm[1]</property>
-                    <value>200000</value>
+                    <value>1000000</value>
                 </product>
             </expression>
         </intensity>

@@ -173,7 +173,7 @@
         <direction>
             <heading-deg>0</heading-deg>
             <roll-deg>0</roll-deg>
-            <pitch-deg>45</pitch-deg>
+            <pitch-deg>20</pitch-deg>
         </direction>
         <spot-exponent>2</spot-exponent>
         <spot-cutoff>75.0</spot-cutoff>
@@ -231,13 +231,13 @@
         <name>MainPanelSpotlight.Left</name>
         <position>
             <x-m>-12.4</x-m>
-            <y-m>-0.4</y-m>
+            <y-m>-0.45</y-m>
             <z-m>1.125</z-m>
         </position>
         <direction>
             <heading-deg>0</heading-deg>
             <roll-deg>0</roll-deg>
-            <pitch-deg>45</pitch-deg>
+            <pitch-deg>20</pitch-deg>
         </direction>
         <spot-exponent>2</spot-exponent>
         <spot-cutoff>75.0</spot-cutoff>
@@ -293,16 +293,16 @@
     </light>
     <light>
         <type>spot</type>
-        <name>MainPanelSpotlight.Center</name>
+        <name>MainPanelSpotlight.CenterLeft</name>
         <position>
             <x-m>-12.4</x-m>
-            <y-m>0.0</y-m>
+            <y-m>-0.2</y-m>
             <z-m>1.125</z-m>
         </position>
         <direction>
             <heading-deg>0</heading-deg>
             <roll-deg>0</roll-deg>
-            <pitch-deg>45</pitch-deg>
+            <pitch-deg>20</pitch-deg>
         </direction>
         <spot-exponent>2</spot-exponent>
         <spot-cutoff>75.0</spot-cutoff>
@@ -326,7 +326,72 @@
         <intensity>
             <expression>
                 <product>
-                    <value> 5 </value>
+                    <value> 2 </value>
+                    <property>/systems/electrical/outputs/main-panel-light</property>
+                </product>
+            </expression>
+        </intensity>
+
+        <ambient>
+            <r>1.0</r>
+            <g>0.9</g>
+            <b>0.8</b>
+            <a>1.0</a>
+        </ambient>
+        <diffuse>
+            <r>1.0</r>
+            <g>0.9</g>
+            <b>0.8</b>
+            <a>0.7</a>
+        </diffuse>
+        <specular>
+            <r>1.0</r>
+            <g>0.9</g>
+            <b>0.8</b>
+            <a>0.7</a>
+        </specular>
+        <attenuation>
+            <c>4</c>
+            <l>3</l>
+            <q>3</q>
+        </attenuation>
+    </light>
+    <light>
+        <type>spot</type>
+        <name>MainPanelSpotlight.CenterRight</name>
+        <position>
+            <x-m>-12.4</x-m>
+            <y-m>0.2</y-m>
+            <z-m>1.125</z-m>
+        </position>
+        <direction>
+            <heading-deg>0</heading-deg>
+            <roll-deg>0</roll-deg>
+            <pitch-deg>20</pitch-deg>
+        </direction>
+        <spot-exponent>2</spot-exponent>
+        <spot-cutoff>75.0</spot-cutoff>
+        <range-m>0.5</range-m>
+        <near-m>0.1</near-m>
+        <far-m>0.5</far-m>
+        <dim-factor>
+            <property>/systems/electrical/outputs/main-panel-light</property>
+            <factor>1</factor>
+            <offset>0</offset>
+            <min>0</min>
+            <max>1</max>
+        </dim-factor>
+
+        <color>
+            <r>1.0</r>
+            <g>0.9</g>
+            <b>0.8</b>
+            <a>1.0</a>
+        </color>
+        <intensity>
+            <expression>
+                <product>
+                    <value> 2 </value>
                     <property>/systems/electrical/outputs/main-panel-light</property>
                 </product>
             </expression>
@@ -361,7 +426,7 @@
         <name>MainPanelSpotlight.Right</name>
         <position>
             <x-m>-12.4</x-m>
-            <y-m>0.4</y-m>
+            <y-m>0.45</y-m>
             <z-m>1.125</z-m>
         </position>
         <direction>
@@ -493,6 +558,8 @@
         <object-name>DomeLight.Right</object-name>
         <object-name>MainPanelSpotlight.Left</object-name>
         <object-name>MainPanelSpotlight.Right</object-name>
+        <object-name>MainPanelSpotlight.CenterLeft</object-name>
+        <object-name>MainPanelSpotlight.CenterRight</object-name>
         <condition>
             <property>/sim/current-view/internal</property>
         </condition>

@@ -16,6 +16,7 @@ uniform sampler2D color_tex;
 uniform sampler2D dirt_tex;
 
 uniform float Brightness;
+uniform float Gamma;
 uniform float Threshold;
 uniform float DirtFactor;
 
@@ -39,6 +40,14 @@ vec3 backlight(vec3 color)
     return color;
 }
 
+vec3 gamma_adjust(vec3 color)
+{
+    color.r = pow(color.r, 1.0 / Gamma);
+    color.g = pow(color.g, 1.0 / Gamma);
+    color.b = pow(color.b, 1.0 / Gamma);
+    return color;
+}
+
 void main()
 {
     vec3 texel = vec3(0.5);
@@ -46,9 +55,10 @@ void main()
 
     if(position.x > 0.0 && position.y > 0.0 && position.x < 1.0 && position.y < 1.0) {
         texel = texture(color_tex, position).rgb;
+        texel = gamma_adjust(texel);
         texel = backlight(texel);
     }
-    // texel = mix(texel, vec3(1.0), DirtFactor * texture(dirt_tex, fs_in.texcoord).r);
+    texel = mix(texel, vec3(1.0), DirtFactor * texture(dirt_tex, fs_in.texcoord).r);
 
     // vec3 color = eotf_inverse_sRGB(texel) * fs_in.material_color.rgb;
     vec3 color = vec3(Threshold);

@@ -12,8 +12,9 @@
             <wrap-t>clamp</wrap-t>
             <internal-format>normalized</internal-format>
         </texture>
-        <brightness type="float">5.0</brightness>
-        <threshold type="float">0.0</threshold>
+        <brightness type="float">20.0</brightness>
+        <gamma type="float">0.6</gamma>
+        <threshold type="float">0.01</threshold>
         <dirt-factor type="float">0.0</dirt-factor>
     </parameters>
     
@@ -117,6 +118,13 @@
                 <type>float</type>
                 <value>
                     <use>brightness</use>
+                </value>
+            </uniform>
+            <uniform>
+                <name>Gamma</name>
+                <type>float</type>
+                <value>
+                    <use>gamma</use>
                 </value>
             </uniform>
             <uniform>

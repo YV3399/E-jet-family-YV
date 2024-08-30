@@ -11,7 +11,7 @@
         <direction>
             <heading-deg>-20</heading-deg>
             <roll-deg>0</roll-deg>
-            <pitch-deg>78</pitch-deg>
+            <pitch-deg>70</pitch-deg>
         </direction>
         <ambient>
             <r>1.0</r>
@@ -43,11 +43,43 @@
             <l>0.1</l>
             <q>0.0004</q>
         </attenuation>
-        <spot-exponent>15.0</spot-exponent>
+        <spot-exponent>30.0</spot-exponent>
         <spot-cutoff>50.0</spot-cutoff>
         <range-m>200</range-m>
         <near-m>0.1</near-m>
         <far-m>200</far-m>
+
+        <color>
+            <r>1.0</r>
+            <g>1.0</g>
+            <b>1.0</b>
+        </color>
+        <intensity>
+            <expression>
+                <product>
+                    <property>systems/electrical/outputs/taxi-lights[0]</property>
+                    <value>3000</value>
+                </product>
+            </expression>
+        </intensity>
     </light>
+
+    <!-- Because the landing light cones intersect with the cockpit, and the
+         fuselage does not block the light in the simulation like it would IRL,
+         we move the landing light a bit forward and down when in an internal
+         view. This will look almost the same from the pilot's perspective,
+         but avoid illuminating the cockpit too much.
+    -->
+    <animation>
+        <type>translate</type>
+        <object-name>Spotlight</object-name>
+        <property>sim/current-view/internal</property>
+        <factor>-6</factor>
+        <axis>
+            <x>1.0</x>
+            <y>0.0</y>
+            <z>0.1</z>
+        </axis>
+    </animation>
     
 </PropertyList>

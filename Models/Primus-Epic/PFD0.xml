@@ -46,9 +46,6 @@
         <inherits-from>Models/Effects/lcd</inherits-from>
         <object-name>PFD0</object-name>
         <parameters>
-            <dirt-factor>0</dirt-factor>
-            <brightness>10.0</brightness>
-            <threshold>0.01</threshold>
         </parameters>
     </effect>
 

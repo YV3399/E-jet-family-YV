@@ -85,6 +85,19 @@
         <range-m>50</range-m>
         <near-m>0.02</near-m>
         <far-m>50</far-m>
+        <color>
+            <r>1.0</r>
+            <g>0.2</g>
+            <b>0.1</b>
+        </color>
+        <intensity>
+            <expression>
+                <product>
+                    <property>systems/electrical/outputs/nav-lights-norm</property>
+                    <value>2000</value>
+                </product>
+            </expression>
+        </intensity>
     </light>
 
 
