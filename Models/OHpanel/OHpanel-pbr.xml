@@ -92,7 +92,7 @@
                             <property>/systems/electrical/outputs/overhead-panel-light</property>
                             <value>10</value>
                         </product>
-                        <value>0.2</value>
+                        <value>0.05</value>
                     </max>
                 </expression>
             </red>
@@ -103,7 +103,7 @@
                             <property>/systems/electrical/outputs/overhead-panel-light</property>
                             <value>7.5</value>
                         </product>
-                        <value>0.5</value>
+                        <value>0.1</value>
                     </max>
                 </expression>
             </green>
@@ -160,6 +160,91 @@
                         <property>/systems/electrical/outputs/pushbutton-lights</property>
                         <value>0.35</value>
                         <value>5</value>
+                    </product>
+                </expression>
+            </blue>
+        </emissive-factor>
+    </animation>
+
+    <animation>
+        <name>EXTG Left Light</name>
+        <type>pbr</type>
+        <object-name>extg.left.light</object-name>
+        <base-color-factor>
+            <red>0.5</red>
+            <green>0</green>
+            <blue>0</blue>
+        </base-color-factor>
+        <emissive-factor>
+            <red>
+                <expression>
+                    <product>
+                        <property>/systems/electrical/outputs/pushbutton-lights</property>
+                        <value>0.35</value>
+                        <property>controls/engines/engine/fire-bottle-discharge</property>
+                        <value>50</value>
+                    </product>
+                </expression>
+            </red>
+            <green>
+                <expression>
+                    <product>
+                        <property>/systems/electrical/outputs/pushbutton-lights</property>
+                        <value>0.35</value>
+                        <property>controls/engines/engine/fire-bottle-discharge</property>
+                        <value>0</value>
+                    </product>
+                </expression>
+            </green>
+            <blue>
+                <expression>
+                    <product>
+                        <property>/systems/electrical/outputs/pushbutton-lights</property>
+                        <value>0.35</value>
+                        <property>controls/engines/engine/fire-bottle-discharge</property>
+                        <value>0</value>
+                    </product>
+                </expression>
+            </blue>
+        </emissive-factor>
+    </animation>
+    <animation>
+        <name>EXTG Right Light</name>
+        <type>pbr</type>
+        <object-name>extg.right.light</object-name>
+        <base-color-factor>
+            <red>0.5</red>
+            <green>0</green>
+            <blue>0</blue>
+        </base-color-factor>
+        <emissive-factor>
+            <red>
+                <expression>
+                    <product>
+                        <property>/systems/electrical/outputs/pushbutton-lights</property>
+                        <value>0.35</value>
+                        <property>controls/engines/engine[1]/fire-bottle-discharge</property>
+                        <value>50</value>
+                    </product>
+                </expression>
+            </red>
+            <green>
+                <expression>
+                    <product>
+                        <property>/systems/electrical/outputs/pushbutton-lights</property>
+                        <value>0.35</value>
+                        <property>controls/engines/engine[1]/fire-bottle-discharge</property>
+                        <value>0</value>
+                    </product>
+                </expression>
+            </green>
+            <blue>
+                <expression>
+                    <product>
+                        <property>/systems/electrical/outputs/pushbutton-lights</property>
+                        <value>0.35</value>
+                        <property>controls/engines/engine[1]/fire-bottle-discharge</property>
+                        <value>0</value>
                     </product>
                 </expression>
             </blue>
@@ -262,4 +347,1435 @@
         <object-name>APUGen.light</object-name>
 
     </effect>
+
+    <effect>
+        <inherits-from>Models/Effects/model-pbr-transparent-ejet</inherits-from>
+
+        <object-name>extg.left.light</object-name>
+        <object-name>extg.right.light</object-name>
+    </effect>
+
+    <!-- Common stuff that needs to be copied or it won't work -->
+
+    <!-- Cockpit lighting controls -->
+
+    <animation>
+        <type>knob</type>
+        <object-name>Brightness.MainPanel</object-name>
+        <property>/controls/lighting/main-panel</property>
+        <factor>-270</factor>
+        <offset-deg>135</offset-deg>
+        <axis>
+            <x1-m>-12.29645</x1-m>
+            <y1-m>-0.44536</y1-m>
+            <z1-m>1.63108</z1-m>
+            <x2-m>-12.28200</x2-m>
+            <y2-m>-0.43902</y2-m>
+            <z2-m>1.60500</z2-m>
+        </axis>
+        <action>
+            <binding>
+                <command>property-adjust</command>
+                <property>/controls/lighting/main-panel</property>
+                <factor>0.05</factor>
+                <min>0</min>
+                <max>1</max>
+                <wrap>false</wrap>
+            </binding>
+        </action>
+    </animation>
+    <animation>
+        <type>knob</type>
+        <object-name>Brightness.OHP</object-name>
+        <property>/controls/lighting/overhead-panel</property>
+        <factor>-270</factor>
+        <offset-deg>135</offset-deg>
+        <axis>
+            <x1-m>-12.29940</x1-m>
+            <y1-m>-0.39552</y1-m>
+            <z1-m>1.63935</z1-m>
+            <x2-m>-12.28495</x2-m>
+            <y2-m>-0.38918</y2-m>
+            <z2-m>1.61328</z2-m>
+        </axis>
+        <action>
+            <binding>
+                <command>property-adjust</command>
+                <property>/controls/lighting/overhead-panel</property>
+                <factor>0.05</factor>
+                <min>0</min>
+                <max>1</max>
+                <wrap>false</wrap>
+            </binding>
+        </action>
+    </animation>
+    <animation>
+        <type>knob</type>
+        <object-name>Brightness.Pedestal</object-name>
+        <property>/controls/lighting/pedestal</property>
+        <factor>-270</factor>
+        <offset-deg>135</offset-deg>
+        <axis>
+            <x1-m>-12.30602</x1-m>
+            <y1-m>-0.34423</y1-m>
+            <z1-m>1.64819</z1-m>
+            <x2-m>-12.29157</x2-m>
+            <y2-m>-0.33789</y2-m>
+            <z2-m>1.62211</z2-m>
+        </axis>
+        <action>
+            <binding>
+                <command>property-adjust</command>
+                <property>/controls/lighting/pedestal</property>
+                <factor>0.05</factor>
+                <min>0</min>
+                <max>1</max>
+                <wrap>false</wrap>
+            </binding>
+        </action>
+    </animation>
+
+    <!-- Overhead Panel Knob, Pick and Select Animations -->
+
+    <!-- Windshield Wiper Controls -->
+
+    <animation>
+        <name>Wiper Left</name>
+        <type>knob</type>
+        <object-name>wiper.left</object-name>
+        <property>controls/switches/wiper-left</property>
+        <factor>60</factor>
+        <axis>
+            <object-name>wiper.left.axis</object-name>
+        </axis>
+        <action>
+            <binding>
+                <command>property-cycle</command>
+                <property>controls/switches/wiper-left</property>
+                <value>0</value>
+                <value>1</value>
+                <value>2</value>
+                <value>3</value>
+                <wrap>false</wrap>
+            </binding>
+        </action>
+    </animation>
+
+    <animation>
+        <name>Wiper Right</name>
+        <type>knob</type>
+        <object-name>wiper.right</object-name>
+        <property>controls/switches/wiper-right</property>
+        <factor>60</factor>
+        <axis>
+            <object-name>wiper.right.axis</object-name>
+        </axis>
+        <action>
+            <binding>
+                <command>property-cycle</command>
+                <property>controls/switches/wiper-right</property>
+                <value>0</value>
+                <value>1</value>
+                <value>2</value>
+                <value>3</value>
+                <wrap>false</wrap>
+            </binding>
+        </action>
+    </animation>
+
+    <!-- Fire Controls -->
+
+    <animation>
+        <name>EXTG Left</name>
+        <type>pick</type>
+        <object-name>extg.left</object-name>
+        <object-name>extg.left.light</object-name>
+        <action>
+            <button>0</button>
+            <repeatable type="bool">false</repeatable>
+            <binding>
+                <command>property-toggle</command>
+                <property>controls/engines/engine/fire-bottle-discharge</property>
+            </binding>
+        </action>
+    </animation>
+    <animation>
+        <name>EXTG Right</name>
+        <type>pick</type>
+        <object-name>extg.right</object-name>
+        <object-name>extg.right.light</object-name>
+        <action>
+            <button>0</button>
+            <repeatable type="bool">false</repeatable>
+            <binding>
+                <command>property-toggle</command>
+                <property>controls/engines/engine[1]/fire-bottle-discharge</property>
+            </binding>
+        </action>
+    </animation>
+
+    <!-- Fuel Pumps -->
+
+    <animation>
+        <type>knob</type>
+        <object-name>fuel.pump.left</object-name>
+        <property>/controls/fuel/tank[0]/boost-pump</property>
+        <factor>90</factor>
+        <axis>
+            <object-name>fuel.pump.left.axis</object-name>
+        </axis>
+        <action>
+            <binding>
+                <command>property-cycle</command>
+                <property>/controls/fuel/tank[0]/boost-pump</property>
+                <value>0</value>
+                <value>1</value>
+                <wrap>false</wrap>
+            </binding>
+        </action>
+    </animation>
+    <animation>
+        <type>knob</type>
+        <object-name>fuel.pump.right</object-name>
+        <property>/controls/fuel/tank[1]/boost-pump</property>
+        <factor>90</factor>
+        <axis>
+            <object-name>fuel.pump.right.axis</object-name>
+        </axis>
+        <action>
+            <binding>
+                <command>property-cycle</command>
+                <property>/controls/fuel/tank[1]/boost-pump</property>
+                <value>0</value>
+                <value>1</value>
+                <wrap>false</wrap>
+            </binding>
+        </action>
+    </animation>
+    <animation>
+        <type>knob</type>
+        <object-name>fuel.pump.dc</object-name>
+        <property>/controls/fuel/tank[1]/boost-pump[1]</property>
+        <factor>90</factor>
+        <axis>
+            <object-name>fuel.pump.dc.axis</object-name>
+        </axis>
+        <action>
+            <binding>
+                <command>property-cycle</command>
+                <property>/controls/fuel/tank[1]/boost-pump[1]</property>
+                <value>0</value>
+                <value>1</value>
+                <wrap>false</wrap>
+            </binding>
+        </action>
+    </animation>
+    <animation>
+        <type>knob</type>
+        <object-name>fuel.pump.center</object-name>
+        <property>/controls/fuel/tank[2]/boost-pump</property>
+        <factor>90</factor>
+        <axis>
+            <object-name>fuel.pump.center.axis</object-name>
+        </axis>
+        <enable>
+            <condition>
+                <equals>
+                    <property>/sim/aircraft</property>
+                    <value>EmbraerLineage1000</value>
+                </equals>
+            </condition>
+        </enable>
+        <action>
+            <binding>
+                <command>property-cycle</command>
+                <property>/controls/fuel/tank[2]/boost-pump</property>
+                <value>0</value>
+                <value>1</value>
+                <wrap>false</wrap>
+            </binding>
+        </action>
+    </animation>
+    <animation>
+        <name>Center fuel tank pump visible</name>
+        <type>select</type>
+        <object-name>fuel.pump.center</object-name>
+        <condition>
+            <equals>
+                <property>/sim/aircraft</property>
+                <value>EmbraerLineage1000</value>
+            </equals>
+        </condition>
+    </animation>
+
+    <!-- Electrical -->
+    <animation>
+        <type>knob</type>
+        <object-name>BATT1</object-name>
+        <property>controls/electric/battery-switch</property>
+        <factor>90</factor>
+        <axis>
+            <object-name>BATT1.axis</object-name>
+        </axis>
+        <action>
+            <binding>
+                <command>property-cycle</command>
+                <property>controls/electric/battery-switch</property>
+                <value>0</value>
+                <value>1</value>
+                <wrap>false</wrap>
+            </binding>
+        </action>
+    </animation>
+    <animation>
+        <type>knob</type>
+        <object-name>BATT2</object-name>
+        <property>controls/electric/battery-switch[1]</property>
+        <factor>90</factor>
+        <axis>
+            <object-name>BATT2.axis</object-name>
+        </axis>
+        <action>
+            <binding>
+                <command>property-cycle</command>
+                <property>controls/electric/battery-switch[1]</property>
+                <value>0</value>
+                <value>1</value>
+                <wrap>false</wrap>
+            </binding>
+        </action>
+    </animation>
+    <animation>
+        <name>TRU 1 pick</name>
+        <type>pick</type>
+        <object-name>tru1</object-name>
+        <action>
+            <button>0</button>
+            <repeatable type="bool">false</repeatable>
+            <binding>
+                <command>property-toggle</command>
+                <property>controls/electric/tru-switch[1]</property>
+            </binding>
+            <binding>
+                <command>property-toggle</command>
+                <property>sim/sound/switch2</property>
+            </binding>
+        </action>
+    </animation>
+    <animation>
+        <name>TRU ESS pick</name>
+        <type>pick</type>
+        <object-name>truess</object-name>
+        <action>
+            <button>0</button>
+            <repeatable type="bool">false</repeatable>
+            <binding>
+                <command>property-toggle</command>
+                <property>controls/electric/tru-switch[0]</property>
+            </binding>
+            <binding>
+                <command>property-toggle</command>
+                <property>sim/sound/switch2</property>
+            </binding>
+        </action>
+    </animation>
+    <animation>
+        <name>TRU 2 pick</name>
+        <type>pick</type>
+        <object-name>tru2</object-name>
+        <action>
+            <button>0</button>
+            <repeatable type="bool">false</repeatable>
+            <binding>
+                <command>property-toggle</command>
+                <property>controls/electric/tru-switch[2]</property>
+            </binding>
+            <binding>
+                <command>property-toggle</command>
+                <property>sim/sound/switch2</property>
+            </binding>
+        </action>
+    </animation>
+    <animation>
+        <name>DC BUS TIES pick</name>
+        <type>pick</type>
+        <object-name>dcbusties</object-name>
+        <action>
+            <button>0</button>
+            <repeatable type="bool">false</repeatable>
+            <binding>
+                <command>property-toggle</command>
+                <property>controls/electric/bus-tie-dc</property>
+            </binding>
+            <binding>
+                <command>property-toggle</command>
+                <property>sim/sound/knob1</property>
+            </binding>
+        </action>
+    </animation>
+    <animation>
+        <type>knob</type>
+        <object-name>generator.1</object-name>
+        <property>controls/electric/engine/generator</property>
+        <factor>50</factor>
+        <axis>
+            <object-name>generator.1.axis</object-name>
+        </axis>
+        <action>
+            <binding>
+                <command>property-cycle</command>
+                <property>controls/electric/engine/generator</property>
+                <value>0</value>
+                <value>1</value>
+                <wrap>false</wrap>
+            </binding>
+        </action>
+    </animation>
+    <animation>
+        <type>knob</type>
+        <object-name>generator.2</object-name>
+        <property>controls/electric/engine[1]/generator</property>
+        <factor>50</factor>
+        <axis>
+            <object-name>generator.2.axis</object-name>
+        </axis>
+        <action>
+            <binding>
+                <command>property-cycle</command>
+                <property>controls/electric/engine[1]/generator</property>
+                <value>0</value>
+                <value>1</value>
+                <wrap>false</wrap>
+            </binding>
+        </action>
+    </animation>
+    <animation>
+        <name>APU generator pick</name>
+        <type>pick</type>
+        <object-name>APUGen.switch</object-name>
+        <action>
+            <button>0</button>
+            <repeatable type="bool">false</repeatable>
+            <binding>
+                <command>property-toggle</command>
+                <property>controls/electric/apu-generator</property>
+            </binding>
+            <binding>
+                <command>property-toggle</command>
+                <property>sim/sound/button1</property>
+            </binding>
+        </action>
+    </animation>
+
+    <!-- Pneumatics -->
+    <animation>
+        <type>select</type>
+        <object-name>xbleed.light</object-name>
+        <condition>
+            <property>controls/pneumatic/xbleed</property>
+            <property>/systems/electrical/outputs/pushbutton-lights</property>
+        </condition>
+    </animation>
+    <animation>
+        <type>select</type>
+        <object-name>recirc.light</object-name>
+        <condition>
+            <property>controls/pressurization/recirc</property>
+            <property>/systems/electrical/outputs/pushbutton-lights</property>
+        </condition>
+    </animation>
+    <animation>
+        <type>select</type>
+        <object-name>pack.1.light</object-name>
+        <condition>
+            <property>controls/pressurization/pack[0]</property>
+            <property>/systems/electrical/outputs/pushbutton-lights</property>
+        </condition>
+    </animation>
+    <animation>
+        <type>select</type>
+        <object-name>bleed.1.light</object-name>
+        <condition>
+            <property>controls/pneumatic/engine-bleed[0]</property>
+            <property>/systems/electrical/outputs/pushbutton-lights</property>
+        </condition>
+    </animation>
+    <animation>
+        <type>select</type>
+        <object-name>bleed.apu.light</object-name>
+        <condition>
+            <property>controls/pneumatic/apu-bleed</property>
+            <property>/systems/electrical/outputs/pushbutton-lights</property>
+        </condition>
+    </animation>
+    <animation>
+        <type>select</type>
+        <object-name>bleed.2.light</object-name>
+        <condition>
+            <property>controls/pneumatic/engine-bleed[1]</property>
+            <property>/systems/electrical/outputs/pushbutton-lights</property>
+        </condition>
+    </animation>
+    <animation>
+        <type>select</type>
+        <object-name>pack.2.light</object-name>
+        <condition>
+            <property>controls/pressurization/pack[1]</property>
+            <property>/systems/electrical/outputs/pushbutton-lights</property>
+        </condition>
+    </animation>
+
+
+    <animation>
+        <name>Recirculation pick</name>
+        <type>pick</type>
+        <object-name>recirc</object-name>
+        <action>
+            <button>0</button>
+            <repeatable type="bool">false</repeatable>
+            <binding>
+                <command>property-toggle</command>
+                <property>controls/pressurization/recirc</property>
+            </binding>
+            <binding>
+                <command>property-toggle</command>
+                <property>sim/sound/button1</property>
+            </binding>
+        </action>
+    </animation>
+    <animation>
+        <name>AC pack 1 pick</name>
+        <type>pick</type>
+        <object-name>pack.1</object-name>
+        <action>
+            <button>0</button>
+            <repeatable type="bool">false</repeatable>
+            <binding>
+                <command>property-toggle</command>
+                <property>controls/pressurization/pack[0]</property>
+            </binding>
+            <binding>
+                <command>property-toggle</command>
+                <property>sim/sound/button1</property>
+            </binding>
+        </action>
+    </animation>
+    <animation>
+        <name>AC pack 2 pick</name>
+        <type>pick</type>
+        <object-name>pack.2</object-name>
+        <action>
+            <button>0</button>
+            <repeatable type="bool">false</repeatable>
+            <binding>
+                <command>property-toggle</command>
+                <property>controls/pressurization/pack[1]</property>
+            </binding>
+            <binding>
+                <command>property-toggle</command>
+                <property>sim/sound/button1</property>
+            </binding>
+        </action>
+    </animation>
+    <animation>
+        <name>Engine 1 bleed pick</name>
+        <type>pick</type>
+        <object-name>bleed.1</object-name>
+        <action>
+            <button>0</button>
+            <repeatable type="bool">false</repeatable>
+            <binding>
+                <command>property-toggle</command>
+                <property>controls/pneumatic/engine-bleed[0]</property>
+            </binding>
+            <binding>
+                <command>property-toggle</command>
+                <property>sim/sound/button1</property>
+            </binding>
+        </action>
+    </animation>
+    <animation>
+        <name>APU bleed pick</name>
+        <type>pick</type>
+        <object-name>bleed.apu</object-name>
+        <action>
+            <button>0</button>
+            <repeatable type="bool">false</repeatable>
+            <binding>
+                <command>property-toggle</command>
+                <property>controls/pneumatic/apu-bleed</property>
+            </binding>
+            <binding>
+                <command>property-toggle</command>
+                <property>sim/sound/button1</property>
+            </binding>
+        </action>
+    </animation>
+    <animation>
+        <name>Engine 2 bleed pick</name>
+        <type>pick</type>
+        <object-name>bleed.2</object-name>
+        <action>
+            <button>0</button>
+            <repeatable type="bool">false</repeatable>
+            <binding>
+                <command>property-toggle</command>
+                <property>controls/pneumatic/engine-bleed[1]</property>
+            </binding>
+            <binding>
+                <command>property-toggle</command>
+                <property>sim/sound/button1</property>
+            </binding>
+        </action>
+    </animation>
+    <animation>
+        <name>X-Bleed pick</name>
+        <type>pick</type>
+        <object-name>xbleed</object-name>
+        <action>
+            <button>0</button>
+            <repeatable type="bool">false</repeatable>
+            <binding>
+                <command>property-toggle</command>
+                <property>controls/pneumatic/xbleed</property>
+            </binding>
+            <binding>
+                <command>property-toggle</command>
+                <property>sim/sound/button1</property>
+            </binding>
+        </action>
+    </animation>
+
+    <!-- Anti-Icing -->
+
+    <animation>
+        <type>select</type>
+        <object-name>heat.wing.light</object-name>
+        <condition>
+            <property>controls/anti-ice/wing-heat</property>
+            <property>/systems/electrical/outputs/pushbutton-lights</property>
+        </condition>
+    </animation>
+    <animation>
+        <type>select</type>
+        <object-name>heat.e1.light</object-name>
+        <condition>
+            <property>controls/anti-ice/engine/inlet-heat</property>
+            <property>/systems/electrical/outputs/pushbutton-lights</property>
+        </condition>
+    </animation>
+    <animation>
+        <type>select</type>
+        <object-name>heat.e2.light</object-name>
+        <condition>
+            <property>controls/anti-ice/engine[1]/inlet-heat</property>
+            <property>/systems/electrical/outputs/pushbutton-lights</property>
+        </condition>
+    </animation>
+    <animation>
+        <type>select</type>
+        <object-name>heat.w1.l</object-name>
+        <object-name>heat.w2.l</object-name>
+        <condition>
+            <property>controls/anti-ice/pitot-heat</property>
+            <property>/systems/electrical/outputs/pushbutton-lights</property>
+        </condition>
+    </animation>
+
+    <animation>
+        <name>Wing anti-ice pick</name>
+        <type>pick</type>
+        <object-name>heat.wing</object-name>
+        <action>
+            <button>0</button>
+            <repeatable type="bool">false</repeatable>
+            <binding>
+                <command>property-toggle</command>
+                <property>controls/anti-ice/wing-heat</property>
+            </binding>
+            <binding>
+                <command>property-toggle</command>
+                <property>sim/sound/button1</property>
+            </binding>
+        </action>
+    </animation>
+
+    <animation>
+        <name>Engine 1 anti-ice pick</name>
+        <type>pick</type>
+        <object-name>heat.e1</object-name>
+        <action>
+            <button>0</button>
+            <repeatable type="bool">false</repeatable>
+            <binding>
+                <command>property-toggle</command>
+                <property>controls/anti-ice/engine/inlet-heat</property>
+            </binding>
+            <binding>
+                <command>property-toggle</command>
+                <property>sim/sound/button1</property>
+            </binding>
+        </action>
+    </animation>
+    <animation>
+        <name>Engine 2 anti-ice pick</name>
+        <type>pick</type>
+        <object-name>heat.e2</object-name>
+        <action>
+            <button>0</button>
+            <repeatable type="bool">false</repeatable>
+            <binding>
+                <command>property-toggle</command>
+                <property>controls/anti-ice/engine[1]/inlet-heat</property>
+            </binding>
+            <binding>
+                <command>property-toggle</command>
+                <property>sim/sound/button1</property>
+            </binding>
+        </action>
+    </animation>
+    <animation>
+        <name>Probe/window heat pick</name>
+        <type>pick</type>
+        <object-name>heat.w1</object-name>
+        <object-name>heat.w2</object-name>
+        <action>
+            <button>0</button>
+            <repeatable type="bool">false</repeatable>
+            <binding>
+                <command>property-toggle</command>
+                <property>controls/anti-ice/pitot-heat</property>
+            </binding>
+            <binding>
+                <command>property-assign</command>
+                <property>controls/anti-ice/window-heat</property>
+                <property>controls/anti-ice/pitot-heat</property>
+            </binding>
+            <binding>
+                <command>property-toggle</command>
+                <property>sim/sound/button1</property>
+            </binding>
+        </action>
+    </animation>
+
+    <!-- Auxiliary Power Unit Controls -->
+
+    <animation>
+        <type>select</type>
+        <object-name>master.light</object-name>
+        <condition>
+            <and>
+                <property>controls/electric/external-power</property>
+                <property>controls/electric/external-power-connected</property>
+                <property>/systems/electrical/outputs/pushbutton-lights</property>
+            </and>
+        </condition>
+    </animation>
+
+    <animation>
+        <type>select</type>
+        <object-name>APUGen.light</object-name>
+        <condition>
+            <property>controls/electric/apu-generator</property>
+            <property>/systems/electrical/outputs/pushbutton-lights</property>
+        </condition>
+    </animation>
+
+    <animation>
+        <name>GPU switch</name>
+        <type>pick</type>
+        <object-name>master</object-name>
+        <action>
+            <button>0</button>
+            <repeatable type="bool">false</repeatable>
+            <binding>
+                <command>property-toggle</command>
+                <property>controls/electric/external-power</property>
+            </binding>
+            <binding>
+                <command>property-toggle</command>
+                <property>sim/sound/button1</property>
+            </binding>
+        </action>
+    </animation>
+    <animation>
+        <type>knob</type>
+        <object-name>APU.knob</object-name>
+        <property>controls/apu/starter</property>
+        <factor>45</factor>
+        <axis>
+            <object-name>APU.knob.axis</object-name>
+        </axis>
+        <action>
+            <binding>
+                <command>property-cycle</command>
+                <property>controls/apu/starter</property>
+                <value>0</value>
+                <value>2</value>
+                <wrap>false</wrap>
+            </binding>
+        </action>
+    </animation>
+
+    <!-- Cockpit lights -->
+    <animation>
+        <name>Dome lights pick</name>
+        <type>pick</type>
+        <object-name>domelt.switch</object-name>
+        <action>
+            <button>0</button>
+            <repeatable type="bool">false</repeatable>
+            <binding>
+                <command>property-toggle</command>
+                <property>controls/lighting/dome</property>
+            </binding>
+            <binding>
+                <command>property-toggle</command>
+                <property>sim/sound/switch1</property>
+            </binding>
+        </action>
+    </animation>
+    <animation>
+        <name>Dome lights rotate</name>
+        <type>rotate</type>
+        <object-name>domelt.switch</object-name>
+        <property>controls/lighting/dome</property>
+        <interpolation>
+            <entry>
+                <ind>0</ind><dep>-15</dep>
+            </entry>
+            <entry>
+                <ind>1</ind><dep>15</dep>
+            </entry>
+        </interpolation>
+        <axis>
+            <x1-m>-12.33875</x1-m>
+            <y1-m>-0.34089</y1-m>
+            <z1-m>1.63076</z1-m>
+            <x2-m>-12.33765</x2-m>
+            <y2-m>-0.34570</y2-m>
+            <z2-m>1.62977</z2-m>
+        </axis>
+    </animation>
+
+    <!-- Passenger signs -->
+    <animation>
+        <name>Seatbelt sign pick</name>
+        <type>pick</type>
+        <object-name>seat.belt</object-name>
+        <action>
+            <button>0</button>
+            <repeatable type="bool">false</repeatable>
+            <binding>
+                <command>property-toggle</command>
+                <property>controls/switches/seatbelt-sign</property>
+            </binding>
+            <binding>
+                <command>property-toggle</command>
+                <property>sim/sound/switch1</property>
+            </binding>
+        </action>
+    </animation>
+    <animation>
+        <name>Seatbelt sign rotate</name>
+        <type>rotate</type>
+        <object-name>seat.belt</object-name>
+        <property>controls/switches/seatbelt-sign</property>
+        <interpolation>
+            <entry>
+                <ind>0</ind><dep>15</dep>
+            </entry>
+            <entry>
+                <ind>1</ind><dep>-15</dep>
+            </entry>
+        </interpolation>
+        <axis>
+            <x>0</x>
+            <y>1</y>
+            <z>0</z>
+        </axis>
+        <center>
+            <x-m>-12.3127</x-m>
+            <y-m>0</y-m>
+            <z-m>1.6549</z-m>
+        </center>
+    </animation>
+
+    <!-- Exterior lights -->
+    <animation>
+        <name>Strobe lights pick</name>
+        <type>pick</type>
+        <object-name>strobe.switch</object-name>
+        <action>
+            <button>0</button>
+            <repeatable type="bool">false</repeatable>
+            <binding>
+                <command>property-toggle</command>
+                <property>controls/lighting/strobe</property>
+            </binding>
+            <binding>
+                <command>property-toggle</command>
+                <property>sim/sound/switch2</property>
+            </binding>
+        </action>
+    </animation>
+    <animation>
+        <name>Strobe lights rotate</name>
+        <type>rotate</type>
+        <object-name>strobe.switch</object-name>
+        <property>controls/lighting/strobe</property>
+        <interpolation>
+            <entry>
+                <ind>0</ind><dep>15</dep>
+            </entry>
+            <entry>
+                <ind>1</ind><dep>-15</dep>
+            </entry>
+        </interpolation>
+        <axis>
+            <x>0</x>
+            <y>1</y>
+            <z>0</z>
+        </axis>
+        <center>
+            <x-m>-12.2669</x-m>
+            <y-m>0</y-m>
+            <z-m>1.6802</z-m>
+        </center>
+    </animation>
+
+    <animation>
+        <name>Beacon lights pick</name>
+        <type>pick</type>
+        <object-name>bcn.switch</object-name>
+        <action>
+            <button>0</button>
+            <repeatable type="bool">false</repeatable>
+            <binding>
+                <command>property-toggle</command>
+                <property>controls/lighting/beacon</property>
+            </binding>
+            <binding>
+                <command>property-toggle</command>
+                <property>sim/sound/switch1</property>
+            </binding>
+        </action>
+    </animation>
+    <animation>
+        <name>Beacon lights rotate</name>
+        <type>rotate</type>
+        <object-name>bcn.switch</object-name>
+        <property>controls/lighting/beacon</property>
+        <interpolation>
+            <entry>
+                <ind>0</ind><dep>15</dep>
+            </entry>
+            <entry>
+                <ind>1</ind><dep>-15</dep>
+            </entry>
+        </interpolation>
+        <axis>
+            <x>0</x>
+            <y>1</y>
+            <z>0</z>
+        </axis>
+        <center>
+            <x-m>-12.2669</x-m>
+            <y-m>0</y-m>
+            <z-m>1.6802</z-m>
+        </center>
+    </animation>
+
+    <animation>
+        <name>Logo lights pick</name>
+        <type>pick</type>
+        <object-name>logo.switch</object-name>
+        <action>
+            <button>0</button>
+            <repeatable type="bool">false</repeatable>
+            <binding>
+                <command>property-toggle</command>
+                <property>controls/lighting/logo-lights</property>
+            </binding>
+            <binding>
+                <command>property-toggle</command>
+                <property>sim/sound/switch1</property>
+            </binding>
+        </action>
+    </animation>
+    <animation>
+        <name>logo lights rotate</name>
+        <type>rotate</type>
+        <object-name>logo.switch</object-name>
+        <property>controls/lighting/logo-lights</property>
+        <interpolation>
+            <entry>
+                <ind>0</ind><dep>15</dep>
+            </entry>
+            <entry>
+                <ind>1</ind><dep>-15</dep>
+            </entry>
+        </interpolation>
+        <axis>
+            <x>0</x>
+            <y>1</y>
+            <z>0</z>
+        </axis>
+        <center>
+            <x-m>-12.29677</x-m>
+            <y-m>0</y-m>
+            <z-m>1.66274</z-m>
+        </center>
+    </animation>
+
+    <animation>
+        <name>nose lights pick</name>
+        <type>pick</type>
+        <object-name>nose.switch</object-name>
+        <action>
+            <button>0</button>
+            <repeatable type="bool">false</repeatable>
+            <binding>
+                <command>property-toggle</command>
+                <property>controls/lighting/taxi-lights[0]</property>
+            </binding>
+            <binding>
+                <command>property-toggle</command>
+                <property>sim/sound/switch2</property>
+            </binding>
+        </action>
+    </animation>
+    <animation>
+        <name>nose lights rotate</name>
+        <type>rotate</type>
+        <object-name>nose.switch</object-name>
+        <property>controls/lighting/taxi-lights[0]</property>
+        <interpolation>
+            <entry>
+                <ind>0</ind><dep>15</dep>
+            </entry>
+            <entry>
+                <ind>1</ind><dep>-15</dep>
+            </entry>
+        </interpolation>
+        <axis>
+            <x>0</x>
+            <y>1</y>
+            <z>0</z>
+        </axis>
+        <center>
+            <x-m>-12.29677</x-m>
+            <y-m>0</y-m>
+            <z-m>1.66274</z-m>
+        </center>
+    </animation>
+
+    <animation>
+        <name>sides lights pick</name>
+        <type>pick</type>
+        <object-name>sides.switch</object-name>
+        <action>
+            <button>0</button>
+            <repeatable type="bool">false</repeatable>
+            <binding>
+                <command>property-toggle</command>
+                <property>controls/lighting/taxi-lights[1]</property>
+            </binding>
+            <binding>
+                <command>property-toggle</command>
+                <property>sim/sound/switch2</property>
+            </binding>
+        </action>
+    </animation>
+    <animation>
+        <name>sides lights rotate</name>
+        <type>rotate</type>
+        <object-name>sides.switch</object-name>
+        <property>controls/lighting/taxi-lights[1]</property>
+        <interpolation>
+            <entry>
+                <ind>0</ind><dep>15</dep>
+            </entry>
+            <entry>
+                <ind>1</ind><dep>-15</dep>
+            </entry>
+        </interpolation>
+        <axis>
+            <x>0</x>
+            <y>1</y>
+            <z>0</z>
+        </axis>
+        <center>
+            <x-m>-12.29677</x-m>
+            <y-m>0</y-m>
+            <z-m>1.66274</z-m>
+        </center>
+    </animation>
+
+    <animation>
+        <name>Nav/logo lights pick</name>
+        <type>pick</type>
+        <object-name>nav.switch</object-name>
+        <action>
+            <button>0</button>
+            <repeatable type="bool">false</repeatable>
+            <binding>
+                <command>property-cycle</command>
+                <property>controls/lighting/nav-lights-switch</property>
+                <value type="int">0</value>
+                <value type="int">1</value>
+            </binding>
+            <binding>
+                <command>property-toggle</command>
+                <property>sim/sound/switch1</property>
+            </binding>
+        </action>
+    </animation>
+    <animation>
+        <name>Nav/logo lights rotate</name>
+        <type>rotate</type>
+        <object-name>nav.switch</object-name>
+        <property>controls/lighting/nav-lights-switch</property>
+        <interpolation>
+            <entry>
+                <ind>0</ind><dep>15</dep>
+            </entry>
+            <entry>
+                <ind>1</ind><dep>-15</dep>
+            </entry>
+        </interpolation>
+        <axis>
+            <x>0</x>
+            <y>1</y>
+            <z>0</z>
+        </axis>
+        <center>
+            <x-m>-12.2669</x-m>
+            <y-m>0</y-m>
+            <z-m>1.6802</z-m>
+        </center>
+    </animation>
+
+    <!--
+    <animation>
+        <name>landing lights pick</name>
+        <type>pick</type>
+        <object-name>landing.nose</object-name>
+        <object-name>landing.left</object-name>
+        <object-name>landing.right</object-name>
+        <action>
+            <button>0</button>
+            <repeatable type="bool">false</repeatable>
+            <binding>
+                <command>property-toggle</command>
+                <property>controls/lighting/landing-lights[0]</property>
+            </binding>
+            <binding>
+                <command>property-toggle</command>
+                <property>controls/lighting/landing-lights[1]</property>
+            </binding>
+            <binding>
+                <command>property-toggle</command>
+                <property>controls/lighting/landing-lights[2]</property>
+            </binding>
+        </action>
+    </animation>
+    -->
+
+    <animation>
+        <name>landing lights pick</name>
+        <type>pick</type>
+        <object-name>landing.nose</object-name>
+        <action>
+            <button>0</button>
+            <repeatable type="bool">false</repeatable>
+            <binding>
+                <command>property-toggle</command>
+                <property>controls/lighting/landing-lights[0]</property>
+            </binding>
+            <binding>
+                <command>property-toggle</command>
+                <property>sim/sound/switch1</property>
+            </binding>
+        </action>
+    </animation>
+    <animation>
+        <name>landing lights pick1</name>
+        <type>pick</type>
+        <object-name>landing.left</object-name>
+        <action>
+            <button>0</button>
+            <repeatable type="bool">false</repeatable>
+            <binding>
+                <command>property-toggle</command>
+                <property>controls/lighting/landing-lights[1]</property>
+            </binding>
+            <binding>
+                <command>property-toggle</command>
+                <property>sim/sound/switch2</property>
+            </binding>
+        </action>
+    </animation>
+    <animation>
+        <name>landing lights pick2</name>
+        <type>pick</type>
+        <object-name>landing.right</object-name>
+        <action>
+            <button>0</button>
+            <repeatable type="bool">false</repeatable>
+            <binding>
+                <command>property-toggle</command>
+                <property>controls/lighting/landing-lights[2]</property>
+            </binding>
+            <binding>
+                <command>property-toggle</command>
+                <property>sim/sound/switch2</property>
+            </binding>
+        </action>
+    </animation>
+
+    <animation>
+        <name>landing lights rotate</name>
+        <type>rotate</type>
+        <object-name>landing.nose</object-name>
+        <property>controls/lighting/landing-lights[0]</property>
+        <interpolation>
+            <entry>
+                <ind>0</ind><dep>15</dep>
+            </entry>
+            <entry>
+                <ind>1</ind><dep>-15</dep>
+            </entry>
+        </interpolation>
+        <axis>
+            <x>0</x>
+            <y>1</y>
+            <z>0</z>
+        </axis>
+        <center>
+            <x-m>-12.3355</x-m>
+            <y-m>0</y-m>
+            <z-m>1.6439</z-m>
+        </center>
+    </animation>
+    <animation>
+        <name>landing lights rotate1</name>
+        <type>rotate</type>
+        <object-name>landing.left</object-name>
+        <property>controls/lighting/landing-lights[1]</property>
+        <interpolation>
+            <entry>
+                <ind>0</ind><dep>15</dep>
+            </entry>
+            <entry>
+                <ind>1</ind><dep>-15</dep>
+            </entry>
+        </interpolation>
+        <axis>
+            <x>0</x>
+            <y>1</y>
+            <z>0</z>
+        </axis>
+        <center>
+            <x-m>-12.3355</x-m>
+            <y-m>0</y-m>
+            <z-m>1.6439</z-m>
+        </center>
+    </animation>
+    <animation>
+        <name>landing lights rotate2</name>
+        <type>rotate</type>
+        <object-name>landing.right</object-name>
+        <property>controls/lighting/landing-lights[2]</property>
+        <interpolation>
+            <entry>
+                <ind>0</ind><dep>15</dep>
+            </entry>
+            <entry>
+                <ind>1</ind><dep>-15</dep>
+            </entry>
+        </interpolation>
+        <axis>
+            <x>0</x>
+            <y>1</y>
+            <z>0</z>
+        </axis>
+        <center>
+            <x-m>-12.3355</x-m>
+            <y-m>0</y-m>
+            <z-m>1.6439</z-m>
+        </center>
+    </animation>
+
+    <!-- Knobs Rotate Animation -->
+
+    <animation>
+        <type>knob</type>
+        <object-name>acbusties</object-name>
+        <property>/controls/electric/bus-tie-ac</property>
+        <factor>45</factor>
+        <action>
+            <binding>
+                <command>property-adjust</command>
+                <property>/controls/electric/bus-tie-ac</property>
+                <factor>1</factor>
+                <min>-1</min>
+                <max>1</max>
+                <wrap>false</wrap>
+            </binding>
+        </action>
+        <axis>
+            <object-name>acbusties.axis</object-name>
+        </axis>
+    </animation>
+    <animation>
+        <type>rotate</type>
+        <object-name>dcbusties</object-name>
+        <property>controls/electric/bus-tie-dc</property>
+        <factor>30</factor>
+        <offset-deg>-30</offset-deg>
+        <axis>
+            <x>0</x>
+            <y>1</y>
+            <z>0</z>
+        </axis>
+        <center>
+            <x-m>-12.2223</x-m>
+            <y-m>0</y-m>
+            <z-m>1.67925</z-m>
+        </center>
+    </animation>
+    <animation>
+        <type>rotate</type>
+        <object-name>tru1</object-name>
+        <property>controls/electric/tru-switch[1]</property>
+        <factor>-30</factor>
+        <axis>
+            <x>0</x>
+            <y>1</y>
+            <z>0</z>
+        </axis>
+        <center>
+            <x-m>-12.15942</x-m>
+            <y-m>-0.44422</y-m>
+            <z-m>1.70377</z-m>
+        </center>
+    </animation>
+    <animation>
+        <type>rotate</type>
+        <object-name>tru2</object-name>
+        <property>controls/electric/tru-switch[2]</property>
+        <factor>-30</factor>
+        <axis>
+            <x>0</x>
+            <y>1</y>
+            <z>0</z>
+        </axis>
+        <center>
+            <x-m>-12.16962</x-m>
+            <y-m>-0.34205</y-m>
+            <z-m>1.72089</z-m>
+        </center>
+    </animation>
+    <animation>
+        <type>rotate</type>
+        <object-name>truess</object-name>
+        <property>controls/electric/tru-switch[0]</property>
+        <factor>-30</factor>
+        <axis>
+            <x>0</x>
+            <y>1</y>
+            <z>0</z>
+        </axis>
+        <center>
+            <x-m>-12.16412</x-m>
+            <y-m>-0.39250</y-m>
+            <z-m>1.71217</z-m>
+        </center>
+    </animation>
+    <animation>
+        <type>knob</type>
+        <object-name>fuel.crossfeed</object-name>
+        <property>/controls/fuel/crossfeed</property>
+        <factor>45</factor>
+        <offset-deg>0</offset-deg>
+        <axis>
+            <object-name>fuel.crossfeed.axis</object-name>
+        </axis>
+        <action>
+            <binding>
+                <command>property-adjust</command>
+                <property>/controls/fuel/crossfeed</property>
+                <min>-1</min>
+                <max>1</max>
+                <wrap>false</wrap>
+            </binding>
+        </action>
+    </animation>
+
+    <animation>
+        <type>knob</type>
+        <object-name>cabin.alt</object-name>
+        <property>/controls/pressurization/alt</property>
+        <factor>5</factor>
+        <shift-repeat>5</shift-repeat>
+        <action>
+            <binding>
+                <command>property-adjust</command>
+                <property>/controls/pressurization/alt</property>
+                <factor>1</factor>
+                <min>-15</min>
+                <max>15</max>
+                <wrap>false</wrap>
+            </binding>
+        </action>
+        <axis>
+            <object-name>cabin.alt.axis</object-name>
+        </axis>
+    </animation>
+    <animation>
+        <type>knob</type>
+        <object-name>lfe</object-name>
+        <property>/controls/pressurization/lfe</property>
+        <factor>45</factor>
+        <action>
+            <binding>
+                <command>property-adjust</command>
+                <property>/controls/pressurization/lfe</property>
+                <factor>1</factor>
+                <min>-1</min>
+                <max>1</max>
+                <wrap>false</wrap>
+            </binding>
+        </action>
+        <release>
+            <binding>
+                <command>property-assign</command>
+                <property>/controls/pressurization/lfe</property>
+                <value>0</value>
+            </binding>
+        </release>
+        <axis>
+            <object-name>lfe.axis</object-name>
+        </axis>
+    </animation>
+    <animation>
+        <type>knob</type>
+        <object-name>cabin.mode</object-name>
+        <property>/controls/pressurization/mode</property>
+        <factor>45</factor>
+        <action>
+            <binding>
+                <command>property-adjust</command>
+                <property>/controls/pressurization/mode</property>
+                <factor>1</factor>
+                <min>-1</min>
+                <max>1</max>
+                <wrap>false</wrap>
+            </binding>
+        </action>
+        <axis>
+            <object-name>cabin.mode.axis</object-name>
+        </axis>
+    </animation>
 </PropertyList>
