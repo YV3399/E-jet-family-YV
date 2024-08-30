@@ -108,6 +108,18 @@
     <text>
         <label>Cockpit Lights</label>
     </text>
+
+    <hrule />
+    
+    <checkbox>
+        <label>Flashlight (handheld)</label>
+        <property>controls/lighting/flashlight</property>
+        <binding>
+            <command>dialog-apply</command>
+        </binding>
+        <live>true</live>
+    </checkbox>
+
     <hrule />
     
     <checkbox>

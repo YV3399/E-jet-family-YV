@@ -1,6 +1,17 @@
 <PropertyList>
     <path>../../Models/Instruments/Chrono/chronometer.ac</path>
-    
+
+    <effect>
+        <name>LCD</name>
+        <inherits-from>Models/Effects/lcd</inherits-from>
+        <object-name>chrono_screen</object-name>
+        <parameters>
+            <dirt-factor>0</dirt-factor>
+            <brightness>10.0</brightness>
+            <threshold>0.01</threshold>
+        </parameters>
+    </effect>
+        
     <animation>
         <type>pick</type>
         <object-name>chrono_screen</object-name>

@@ -1,14 +1,12 @@
 <?xml version = '1.0' encoding = 'UTF-8' ?>
 <PropertyList>
-    
+
     <path>../../Models/Primus-Epic/primus_epic_pfd1.ac</path>
-    
+
     <params>
         <index>0</index>
     </params>
-    
-    <path>mcdu-td.ac</path>
-    
+
     <!-- Power on/off -->
     <animation>
         <name>Power on/off</name>
@@ -21,7 +19,7 @@
             </less-than>
         </condition>
     </animation>
-    
+
     <animation>
         <type>touch</type>
         <object-name>PFD1</object-name>
@@ -42,7 +40,18 @@
             </binding>
         </action>
     </animation>
-    
+
+    <effect>
+        <name>LCD</name>
+        <inherits-from>Models/Effects/lcd</inherits-from>
+        <object-name>PFD1</object-name>
+        <parameters>
+            <dirt-factor>0</dirt-factor>
+            <brightness>10.0</brightness>
+            <threshold>0.01</threshold>
+        </parameters>
+    </effect>
+
     <animation>
         <type>knob</type>
         <object-name>PFD1_frame</object-name>

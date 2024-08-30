@@ -1,0 +1,17 @@
+<?xml version = '1.0' encoding = 'UTF-8' ?>
+<PropertyList>
+    <path>../../Models/OHpanel/OHpanel.ac</path>
+
+    <animation>
+        <name>Backlight</name>
+        <type>material</type>
+        <object-name>BacklitObjects</object-name>
+        <emission>
+            <red>1.0</red>
+            <green>0.75</green>
+            <blue>0.5</blue>
+            <factor-prop>/systems/electrical/outputs/overhead-panel-light</factor-prop>
+        </emission>
+    </animation>
+    
+</PropertyList>

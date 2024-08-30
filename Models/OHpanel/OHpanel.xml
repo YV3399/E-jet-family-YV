@@ -1,6 +1,35 @@
 <?xml version = '1.0' encoding = 'UTF-8' ?>
 <PropertyList>
-    <path>../../Models/OHpanel/OHpanel.ac</path>
+    <model>
+        <name>OHPanelALS</name>
+        <path>OHpanel-als.xml</path>
+    </model>
+    <model>
+        <name>OHPanelPBR</name>
+        <path>OHpanel-pbr.xml</path>
+    </model>
+
+    <animation>
+        <type>select</type>
+        <object-name>OHPanelPBR</object-name>
+        <condition>
+            <equals>
+                <property>/sim/rendering/default-compositor</property>
+                <value>/Compositor/HDR/hdr</value>
+            </equals>
+        </condition>
+    </animation>
+    <animation>
+        <type>select</type>
+        <object-name>OHPanelALS</object-name>
+        <condition>
+            <not-equals>
+                <property>/sim/rendering/default-compositor</property>
+                <value>/Compositor/HDR/hdr</value>
+            </not-equals>
+        </condition>
+    </animation>
+
 
     <!-- backlight -->
     <animation>
@@ -84,18 +113,6 @@
         <object-name>PanelMarkings_1.036</object-name>
         <object-name>PanelMarkings_1.037</object-name>
         <object-name>PanelMarkings_1.038</object-name>
-    </animation>
-
-    <animation>
-        <name>Backlight</name>
-        <type>material</type>
-        <object-name>BacklitObjects</object-name>
-        <emission>
-            <red>1.0</red>
-            <green>0.75</green>
-            <blue>0.5</blue>
-            <factor-prop>/systems/electrical/outputs/overhead-panel-light</factor-prop>
-        </emission>
     </animation>
 
     <!-- Cockpit lighting controls -->

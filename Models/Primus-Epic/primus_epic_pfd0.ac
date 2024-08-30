@@ -229,7 +229,7 @@ OBJECT poly
 name "PFD0"
 loc 0.0328034 -0.0067238 -0.0000001
 crease 45.0
-texture "PFD0.png"
+texture "cockpit-panel.png"
 texrep 1 1
 numvert 4
 -0.0279480 0.1387010 0.0889425

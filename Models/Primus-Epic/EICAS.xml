@@ -1,20 +1,20 @@
 <?xml version = '1.0' encoding = 'UTF-8' ?>
 <PropertyList>
-  
-  <path>../../Models/Primus-Epic/primus_epic_eicas.ac</path>
 
-	<!-- Power on/off -->
-	<animation>
-		<name>Power on/off</name>
-		<type>select</type>
-		<object-name>off</object-name>
-		<condition>
-			<less-than>
-				<property>systems/electrical/outputs/eicas</property>
-				<value>15</value>
-			</less-than>
-		</condition>
-	</animation>
+    <path>../../Models/Primus-Epic/primus_epic_eicas.ac</path>
+
+    <!-- Power on/off -->
+    <animation>
+        <name>Power on/off</name>
+        <type>select</type>
+        <object-name>off</object-name>
+        <condition>
+            <less-than>
+                <property>systems/electrical/outputs/eicas</property>
+                <value>15</value>
+            </less-than>
+        </condition>
+    </animation>
 
     <animation>
         <type>touch</type>
@@ -36,6 +36,17 @@
             </binding>
         </action>
     </animation>
+
+    <effect>
+        <name>LCD</name>
+        <inherits-from>Models/Effects/lcd</inherits-from>
+        <object-name>EICAS</object-name>
+        <parameters>
+            <dirt-factor>0</dirt-factor>
+            <brightness>10.0</brightness>
+            <threshold>0.01</threshold>
+        </parameters>
+    </effect>
 
     <animation>
         <type>knob</type>

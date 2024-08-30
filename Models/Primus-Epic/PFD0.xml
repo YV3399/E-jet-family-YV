@@ -7,8 +7,6 @@
         <index>0</index>
     </params>
 
-    <path>mcdu-td.ac</path>
-
     <!-- Power on/off -->
     <animation>
         <name>Power on/off</name>
@@ -42,6 +40,17 @@
             </binding>
         </action>
     </animation>
+
+    <effect>
+        <name>LCD</name>
+        <inherits-from>Models/Effects/lcd</inherits-from>
+        <object-name>PFD0</object-name>
+        <parameters>
+            <dirt-factor>0</dirt-factor>
+            <brightness>10.0</brightness>
+            <threshold>0.01</threshold>
+        </parameters>
+    </effect>
 
     <animation>
         <type>knob</type>
