@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<PropertyList>
+    <filter>
+        <update-interval-secs type="double">0.1</update-interval-secs>
+        <name>MFD1 PBR Brightness</name>
+        <type>gain</type>
+        <gain>20</gain>
+        <output>instrumentation/mfd[0]/brightness-pbr</output>
+        <input>controls/lighting/mfd[0]</input>
+    </filter>
+    <filter>
+        <update-interval-secs type="double">0.1</update-interval-secs>
+        <name>MFD2 PBR Brightness</name>
+        <type>gain</type>
+        <gain>20</gain>
+        <output>instrumentation/mfd[1]/brightness-pbr</output>
+        <input>controls/lighting/mfd[1]</input>
+    </filter>
+    <filter>
+        <update-interval-secs type="double">0.1</update-interval-secs>
+        <name>EICAS PBR Brightness</name>
+        <type>gain</type>
+        <gain>20</gain>
+        <output>instrumentation/eicas/brightness-pbr</output>
+        <input>controls/lighting/eicas</input>
+    </filter>
+</PropertyList>
+

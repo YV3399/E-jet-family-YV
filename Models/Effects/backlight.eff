@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <PropertyList>
-    <name>Effects/model-pbr-transparent-ejet</name>
+    <name>Effects/backlight</name>
     <inherits-from>Effects/model-pbr-transparent</inherits-from>
     <parameters>
         <emissive-factor>1 1 0</emissive-factor>

@@ -42,7 +42,8 @@
         <inherits-from>Models/Effects/lcd</inherits-from>
         <object-name>EICAS</object-name>
         <parameters>
-            <gamma>0.4</gamma>
+            <gamma>0.5</gamma>
+            <brightness><use>/instrumentation/eicas/brightness-pbr</use></brightness>
         </parameters>
     </effect>
 

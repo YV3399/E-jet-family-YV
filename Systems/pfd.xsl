@@ -1903,6 +1903,15 @@ re-run build.sh.
                 </input>
             </filter>
 
+            <filter>
+                <update-interval-secs type="double">0.1</update-interval-secs>
+                <name>PBR Brightness</name>
+                <type>gain</type>
+                <gain>20</gain>
+                <output>instrumentation/pfd[<xsl:value-of select="$index"/>]/brightness-pbr</output>
+                <input>controls/lighting/pfd[<xsl:value-of select="$index"/>]</input>
+            </filter>
+
         </PropertyList>
     </xsl:template>
 </xsl:stylesheet>

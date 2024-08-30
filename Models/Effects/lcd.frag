@@ -60,8 +60,8 @@ void main()
     }
     texel = mix(texel, vec3(1.0), DirtFactor * texture(dirt_tex, fs_in.texcoord).r);
 
-    // vec3 color = eotf_inverse_sRGB(texel) * fs_in.material_color.rgb;
-    vec3 color = vec3(Threshold);
+    vec3 color = eotf_inverse_sRGB(texel) * fs_in.material_color.rgb * 0.05;
+    // vec3 color = vec3(Threshold);
 
     vec3 N = normalize(fs_in.vertex_normal);
 

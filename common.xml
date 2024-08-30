@@ -211,31 +211,34 @@
             <property-rule n="102">
                 <path>Aircraft/E-jet-family/Systems/eicas.xml</path>
             </property-rule>
+            <property-rule n="102">
+                <path>Aircraft/E-jet-family/Systems/efis.xml</path>
+            </property-rule>
             <autopilot>
                 <path>Aircraft/E-jet-family/Systems/fms.xml</path>
             </autopilot>
-            <property-rule n="104">
+            <property-rule n="105">
                 <path>Aircraft/E-jet-family/Systems/wxr-rules.xml</path>
             </property-rule>
-            <property-rule n="105">
+            <property-rule n="106">
                 <path>Aircraft/E-jet-family/Systems/doors.xml</path>
             </property-rule>
-            <property-rule n="106">
+            <property-rule n="107">
                 <path>Aircraft/E-jet-family/Systems/brakes.xml</path>
             </property-rule>
-            <property-rule n="107">
+            <property-rule n="108">
                 <path>Aircraft/E-jet-family/Systems/ap-trip.xml</path>
             </property-rule>
-            <property-rule n="108">
+            <property-rule n="109">
                 <path>Aircraft/E-jet-family/Systems/messages.xml</path>
             </property-rule>
-            <property-rule n="109">
+            <property-rule n="110">
                 <path>Aircraft/E-jet-family/Systems/services.xml</path>
             </property-rule>
-            <property-rule n="110">
+            <property-rule n="111">
                 <path>Aircraft/E-jet-family/Systems/EFB.xml</path>
             </property-rule>
-            <property-rule n="111">
+            <property-rule n="112">
                 <path>Aircraft/E-jet-family/Systems/electrical/batteries.xml</path>
             </property-rule>
             <autopilot>
@@ -252,19 +255,19 @@
             <autopilot>
                 <path>Aircraft/E-jet-family/Systems/oooi.xml</path>
             </autopilot>
-            <property-rule n="112">
+            <property-rule n="113">
                 <path>Aircraft/E-jet-family/Systems/iess.xml</path>
             </property-rule>
-            <property-rule n="114">
+            <property-rule n="115">
                 <path>Aircraft/E-jet-family/Systems/cockpit-animations.xml</path>
             </property-rule>
-            <property-rule n="115">
+            <property-rule n="116">
                 <path>Aircraft/E-jet-family/Systems/views.xml</path>
             </property-rule>
-            <property-rule n="116">
+            <property-rule n="117">
                 <path>Aircraft/E-jet-family/Systems/callouts.xml</path>
             </property-rule>
-            <property-rule n="117">
+            <property-rule n="118">
                 <path>Aircraft/E-jet-family/Systems/gui3d.xml</path>
             </property-rule>
 
@@ -2083,6 +2086,16 @@
             <cockpit type="bool">false</cockpit>
             <cones type="bool">true</cones>
             <dome type="double">0</dome>
+            <chart-light n="0" type="double">0</chart-light>
+            <chart-light n="1" type="double">0</chart-light>
+            <floodlight n="0" type="double">0</floodlight>
+            <floodlight n="1" type="double">0</floodlight>
+            <pfd n="0" type="double">0.5</pfd>
+            <pfd n="1" type="double">0.5</pfd>
+            <mfd n="0" type="double">0.5</mfd>
+            <mfd n="1" type="double">0.5</mfd>
+            <eicas type="double">0.5</eicas>
+            <standby-clock type="double">0.5</standby-clock>
             <flashlight type="double">0</flashlight>
             <landing-lights n="0" type="bool">false</landing-lights>
             <landing-lights n="1" type="bool">false</landing-lights>
@@ -2303,6 +2316,7 @@
                 <eicas-full type="bool">false</eicas-full>
                 <inhibit type="bool">false</inhibit>
             </declutter>
+            <brightness-pbr type="double">0</brightness-pbr>
         </eicas>
 
         <mcdu>
@@ -2312,6 +2326,7 @@
             <serviceable type="bool">true</serviceable>
             <command type="string"></command>
             <brightness type="double">0.8</brightness>
+            <brightness-pbr type="double">0</brightness-pbr>
         </mcdu>
         <mcdu>
             <enabled type="bool">true</enabled>
@@ -2320,6 +2335,7 @@
             <serviceable type="bool">true</serviceable>
             <command type="string"></command>
             <brightness type="double">0.8</brightness>
+            <brightness-pbr type="double">0</brightness-pbr>
         </mcdu>
 
         <wxr>
@@ -2495,6 +2511,7 @@
                 <at type="int">0</at>
             </fma>
             <blink-state type="bool">false</blink-state>
+            <brightness-pbr type="double">0</brightness-pbr>
         </pfd>
 
         <pfd>
@@ -2585,6 +2602,7 @@
                 <at type="int">0</at>
             </fma>
             <blink-state type="bool">false</blink-state>
+            <brightness-pbr type="double">0</brightness-pbr>
         </pfd>
 
         <mfd>
@@ -2603,6 +2621,7 @@
             <wx-mode-indicated type="int">0</wx-mode-indicated>
             <scan-rate type="int">1</scan-rate>
             <resolution type="int">6</resolution>
+            <brightness-pbr type="double">0</brightness-pbr>
         </mfd>
 
         <mfd>
@@ -2621,6 +2640,7 @@
             <wx-mode-indicated type="int">0</wx-mode-indicated>
             <scan-rate type="int">1</scan-rate>
             <resolution type="int">6</resolution>
+            <brightness-pbr type="double">0</brightness-pbr>
         </mfd>
 
         <nav-compass>

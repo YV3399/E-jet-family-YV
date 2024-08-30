@@ -46,6 +46,7 @@
         <inherits-from>Models/Effects/lcd</inherits-from>
         <object-name>PFD1</object-name>
         <parameters>
+            <brightness><use>/instrumentation/pfd[1]/brightness-pbr</use></brightness>
         </parameters>
     </effect>
 

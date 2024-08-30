@@ -164,7 +164,7 @@
 
     <light>
         <type>spot</type>
-        <name>MainPanelSpotlight.Reading</name>
+        <name>MainPanelSpotlight.ReadingLeft</name>
         <position>
             <x-m>-12.3</x-m>
             <y-m>-0.65</y-m>
@@ -181,7 +181,7 @@
         <near-m>0.1</near-m>
         <far-m>0.5</far-m>
         <dim-factor>
-            <property>/systems/electrical/outputs/main-panel-light</property>
+            <property>/systems/electrical/outputs/chart-light[0]</property>
             <factor>1</factor>
             <offset>0</offset>
             <min>0</min>
@@ -197,7 +197,73 @@
             <expression>
                 <product>
                     <value>1</value>
-                    <property>/systems/electrical/outputs/main-panel-light</property>
+                    <property>/systems/electrical/outputs/chart-light[0]</property>
+                    <value>1</value>
+                </product>
+            </expression>
+        </intensity>
+
+        <ambient>
+            <r>1.0</r>
+            <g>0.9</g>
+            <b>0.8</b>
+            <a>1.0</a>
+        </ambient>
+        <diffuse>
+            <r>1.0</r>
+            <g>0.9</g>
+            <b>0.8</b>
+            <a>0.7</a>
+        </diffuse>
+        <specular>
+            <r>1.0</r>
+            <g>0.9</g>
+            <b>0.8</b>
+            <a>0.7</a>
+        </specular>
+        <attenuation>
+            <c>4</c>
+            <l>3</l>
+            <q>3</q>
+        </attenuation>
+    </light>
+    <light>
+        <type>spot</type>
+        <name>MainPanelSpotlight.ReadingRight</name>
+        <position>
+            <x-m>-12.3</x-m>
+            <y-m>0.65</y-m>
+            <z-m>1.05</z-m>
+        </position>
+        <direction>
+            <heading-deg>0</heading-deg>
+            <roll-deg>0</roll-deg>
+            <pitch-deg>20</pitch-deg>
+        </direction>
+        <spot-exponent>2</spot-exponent>
+        <spot-cutoff>75.0</spot-cutoff>
+        <range-m>0.5</range-m>
+        <near-m>0.1</near-m>
+        <far-m>0.5</far-m>
+        <dim-factor>
+            <property>/systems/electrical/outputs/chart-light[1]</property>
+            <factor>1</factor>
+            <offset>0</offset>
+            <min>0</min>
+            <max>1</max>
+        </dim-factor>
+
+        <color>
+            <r>1.0</r>
+            <g>0.9</g>
+            <b>0.8</b>
+        </color>
+        <intensity>
+            <expression>
+                <product>
+                    <value>1</value>
+                    <property>/systems/electrical/outputs/chart-light[1]</property>
+                    <value>1</value>
                 </product>
             </expression>
         </intensity>
@@ -245,7 +311,7 @@
         <near-m>0.1</near-m>
         <far-m>0.5</far-m>
         <dim-factor>
-            <property>/systems/electrical/outputs/main-panel-light</property>
+            <property>/systems/electrical/outputs/floodlight[0]</property>
             <factor>1</factor>
             <offset>0</offset>
             <min>0</min>
@@ -262,7 +328,7 @@
             <expression>
                 <product>
                     <value> 5 </value>
-                    <property>/systems/electrical/outputs/main-panel-light</property>
+                    <property>/systems/electrical/outputs/floodlight[0]</property>
                 </product>
             </expression>
         </intensity>
@@ -310,7 +376,7 @@
         <near-m>0.1</near-m>
         <far-m>0.5</far-m>
         <dim-factor>
-            <property>/systems/electrical/outputs/main-panel-light</property>
+            <property>/systems/electrical/outputs/floodlight[0]</property>
             <factor>1</factor>
             <offset>0</offset>
             <min>0</min>
@@ -327,7 +393,7 @@
             <expression>
                 <product>
                     <value> 2 </value>
-                    <property>/systems/electrical/outputs/main-panel-light</property>
+                    <property>/systems/electrical/outputs/floodlight[0]</property>
                 </product>
             </expression>
         </intensity>
@@ -375,7 +441,7 @@
         <near-m>0.1</near-m>
         <far-m>0.5</far-m>
         <dim-factor>
-            <property>/systems/electrical/outputs/main-panel-light</property>
+            <property>/systems/electrical/outputs/floodlight[1]</property>
             <factor>1</factor>
             <offset>0</offset>
             <min>0</min>
@@ -392,7 +458,7 @@
             <expression>
                 <product>
                     <value> 2 </value>
-                    <property>/systems/electrical/outputs/main-panel-light</property>
+                    <property>/systems/electrical/outputs/floodlight[1]</property>
                 </product>
             </expression>
         </intensity>
@@ -440,7 +506,7 @@
         <near-m>0.1</near-m>
         <far-m>0.5</far-m>
         <dim-factor>
-            <property>/systems/electrical/outputs/main-panel-light</property>
+            <property>/systems/electrical/outputs/floodlight[1]</property>
             <factor>1</factor>
             <offset>0</offset>
             <min>0</min>
@@ -457,7 +523,7 @@
             <expression>
                 <product>
                     <value> 5 </value>
-                    <property>/systems/electrical/outputs/main-panel-light</property>
+                    <property>/systems/electrical/outputs/floodlight[1]</property>
                 </product>
             </expression>
         </intensity>
@@ -501,7 +567,7 @@
             <pitch-deg>-60</pitch-deg>
         </direction>
         <dim-factor>
-            <property>/systems/electrical/outputs/pedestal-light</property>
+            <property>/systems/electrical/outputs/floodlight[0]</property>
             <factor>1</factor>
             <offset>0</offset>
             <min>0</min>
@@ -522,7 +588,7 @@
             <expression>
                 <product>
                     <value> 30 </value>
-                    <property>/systems/electrical/outputs/pedestal-light</property>
+                    <property>/systems/electrical/outputs/floodlight[0]</property>
                 </product>
             </expression>
         </intensity>

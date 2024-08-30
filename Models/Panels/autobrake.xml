@@ -2,12 +2,13 @@
     <path>../../Models/Panels/autobrake.ac</path>
 
     <effect>
-        <inherits-from>Aircraft/E-jet-family/Models/Effects/panel-lighting</inherits-from>
+        <inherits-from>Models/Effects/implicit-backlight</inherits-from>
         <object-name>base</object-name>
+        <object-name>lever</object-name>
         <parameters>
-            <implicit-lightmap-intensity>
-                <use>/systems/electrical/outputs/main-panel-light</use>
-            </implicit-lightmap-intensity>
+            <brightness><use>/systems/electrical/outputs/main-panel-light</use></brightness>
+            <emissive-factor>20 15 10</emissive-factor>
+            <threshold>0.65</threshold>
         </parameters>
     </effect>
 

@@ -252,7 +252,7 @@
     </animation>
 
     <effect>
-        <inherits-from>Models/Effects/model-pbr-transparent-ejet</inherits-from>
+        <inherits-from>Models/Effects/backlight</inherits-from>
         <object-name>labels.apu</object-name>
         <object-name>labels.cockpit-lights</object-name>
         <object-name>labels.dvdr</object-name>
@@ -349,7 +349,7 @@
     </effect>
 
     <effect>
-        <inherits-from>Models/Effects/model-pbr-transparent-ejet</inherits-from>
+        <inherits-from>Models/Effects/backlight</inherits-from>
 
         <object-name>extg.left.light</object-name>
         <object-name>extg.right.light</object-name>

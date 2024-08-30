@@ -4,6 +4,34 @@
     <!-- AFT ENTRANCE LIGHTS -->
     <!-- AFT FLASH LIGHTS CHARGER / AFT LAV LIGHTS -->
     <!-- COCKPIT CHART LIGHTS -->
+    <filter>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <condition>
+                <greater-than>
+                    <property>/systems/electrical/buses/dc[1]/volts</property>
+                    <value>18</value>
+                </greater-than>
+            </condition>
+            <property>/controls/lighting/chart-light[0]</property>
+        </input>
+        <output>/systems/electrical/outputs/chart-light[0]</output>
+    </filter>
+    <filter>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <condition>
+                <greater-than>
+                    <property>/systems/electrical/buses/dc[1]/volts</property>
+                    <value>18</value>
+                </greater-than>
+            </condition>
+            <property>/controls/lighting/chart-light[1]</property>
+        </input>
+        <output>/systems/electrical/outputs/chart-light[1]</output>
+    </filter>
     <!-- DIGITAL AUDIO CONTROL PANEL 3 -->
     <!-- EFB 1 and 2 -->
     <filter>
@@ -305,6 +333,35 @@
     </filter>
 
     <!-- DC BUS 2 OUTPUTS -->
+    <!-- COCKPIT FLOOD/STORM LIGHTS -->
+    <filter>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <condition>
+                <greater-than>
+                    <property>/systems/electrical/buses/dc[2]/volts</property>
+                    <value>18</value>
+                </greater-than>
+            </condition>
+            <property>/controls/lighting/floodlight[0]</property>
+        </input>
+        <output>/systems/electrical/outputs/floodlight[0]</output>
+    </filter>
+    <filter>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <condition>
+                <greater-than>
+                    <property>/systems/electrical/buses/dc[2]/volts</property>
+                    <value>18</value>
+                </greater-than>
+            </condition>
+            <property>/controls/lighting/floodlight[1]</property>
+        </input>
+        <output>/systems/electrical/outputs/floodlight[1]</output>
+    </filter>
     <!-- MAU 2/3 -->
     <filter>
         <type>gain</type>

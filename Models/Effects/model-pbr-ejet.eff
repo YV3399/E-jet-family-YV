@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-
-<PropertyList>
-    <name>Effects/model-pbr-ejet</name>
-    <inherits-from>Effects/model-pbr</inherits-from>
-    <parameters>
-        <emissive-factor>1 1 1</emissive-factor>
-    </parameters>
-</PropertyList>

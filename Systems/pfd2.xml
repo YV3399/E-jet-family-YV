@@ -1920,4 +1920,12 @@ re-run build.sh.
       <value>-3.0</value>
     </input>
   </filter>
+  <filter>
+    <update-interval-secs type="double">0.1</update-interval-secs>
+    <name>PBR Brightness</name>
+    <type>gain</type>
+    <gain>20</gain>
+    <output>instrumentation/pfd[1]/brightness-pbr</output>
+    <input>controls/lighting/pfd[1]</input>
+  </filter>
 </PropertyList>
