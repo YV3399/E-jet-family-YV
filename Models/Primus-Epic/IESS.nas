@@ -90,7 +90,7 @@ var canvas_ED_base = {
 	},
 	update: func() {
 		if (getprop("systems/electrical/outputs/iess") >= 15) {
-				ED_only.page.show();
+            ED_only.page.show();
 		} else {
 			ED_only.page.hide();
 		}
@@ -226,7 +226,7 @@ var canvas_ED_only = {
 
 setlistener("sim/signals/fdm-initialized", func {
 	IESS_display = canvas.new({
-		"name": "EICAS",
+		"name": "IESS",
 		"size": [1024, 1024],
 		"view": [1024, 1024],
 		"mipmapping": 1

@@ -1,16 +1,40 @@
 <PropertyList>
     <path>../../Models/Instruments/Chrono/chronometer.ac</path>
 
+    <!-- HDR -->
     <effect>
         <name>LCD</name>
         <inherits-from>Models/Effects/lcd</inherits-from>
         <object-name>chrono_screen</object-name>
         <parameters>
             <dirt-factor>0</dirt-factor>
-            <brightness>10.0</brightness>
             <threshold>0.01</threshold>
+            <brightness><use>/instrumentation/chrono/brightness-pbr</use></brightness>
         </parameters>
     </effect>
+
+    <!-- ALS -->
+    <animation>
+        <type>material</type>
+        <object-name>chrono_screen</object-name>
+        <emission>
+            <red>0.5</red>
+            <green>0.9</green>
+            <blue>1.0</blue>
+            <factor-prop>/controls/lighting/standby-clock</factor-prop>
+        </emission>
+        <ambient>
+            <red>0.01</red>
+            <green>0.01</green>
+            <blue>0.01</blue>
+        </ambient>
+        <diffuse>
+            <red>0.01</red>
+            <green>0.01</green>
+            <blue>0.01</blue>
+        </diffuse>
+    </animation>
+
         
     <animation>
         <type>pick</type>
@@ -84,18 +108,6 @@
                 </binding>
             </mod-up>
         </action>
-    </animation>
-    
-    <animation> 
-        <type>material</type> 
-        <object-name>chrono_screen</object-name>
-        <property-base>instrumentation/IESS/</property-base>
-        <emission>
-            <red>0.9</red>
-            <green>1.0</green>
-            <blue>1.0</blue>
-            <factor-prop>brightness</factor-prop>
-        </emission>
     </animation>
     
 </PropertyList>

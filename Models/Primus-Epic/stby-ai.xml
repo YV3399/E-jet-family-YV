@@ -101,41 +101,39 @@
         </action>
     </animation>
 
-
-
-    <animation>
-        <type>material</type>
-        <object-name>IESS_screen</object-name>
-        <property-base>instrumentation/IESS/</property-base>
-        <emission>
-            <red>1.0</red>
-            <green>1.0</green>
-            <blue>1.0</blue>
-            <factor-prop>brightness</factor-prop>
-        </emission>
-        <ambient>
-            <red>1.0</red>
-            <green>1.0</green>
-            <blue>1.0</blue>
-            <factor-prop>brightness</factor-prop>
-        </ambient>
-        <diffuse>
-            <red>1.0</red>
-            <green>1.0</green>
-            <blue>1.0</blue>
-            <factor-prop>brightness</factor-prop>
-        </diffuse>
-    </animation>
-
+    <!-- HDR -->
     <effect>
         <name>LCD</name>
         <inherits-from>Models/Effects/lcd</inherits-from>
         <object-name>IESS_screen</object-name>
         <parameters>
             <dirt-factor>0</dirt-factor>
-            <brightness>5.0</brightness>
-            <threshold>0.0</threshold>
+            <threshold>0.01</threshold>
+            <brightness><use>/instrumentation/IESS/brightness-pbr</use></brightness>
         </parameters>
     </effect>
+
+    <!-- ALS -->
+    <animation>
+        <type>material</type>
+        <object-name>IESS_screen</object-name>
+        <emission>
+            <red>1.0</red>
+            <green>1.0</green>
+            <blue>1.0</blue>
+            <factor-prop>/instrumentation/IESS/brightness</factor-prop>
+        </emission>
+        <ambient>
+            <red>0.01</red>
+            <green>0.01</green>
+            <blue>0.01</blue>
+        </ambient>
+        <diffuse>
+            <red>0.01</red>
+            <green>0.01</green>
+            <blue>0.01</blue>
+        </diffuse>
+    </animation>
+
 
 </PropertyList>

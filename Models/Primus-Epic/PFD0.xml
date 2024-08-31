@@ -41,6 +41,7 @@
         </action>
     </animation>
 
+    <!-- HDR -->
     <effect>
         <name>LCD</name>
         <inherits-from>Models/Effects/lcd</inherits-from>
@@ -49,6 +50,18 @@
             <brightness><use>/instrumentation/pfd[0]/brightness-pbr</use></brightness>
         </parameters>
     </effect>
+
+    <!-- ALS -->
+    <animation>
+        <type>material</type>
+        <object-name>PFD0</object-name>
+        <emission>
+            <red>1</red>
+            <green>1</green>
+            <blue>1</blue>
+            <factor-prop>/controls/lighting/pfd[0]</factor-prop>
+        </emission>
+    </animation>
 
     <animation>
         <type>knob</type>

@@ -37,6 +37,7 @@
         </action>
     </animation>
 
+    <!-- HDR -->
     <effect>
         <name>LCD</name>
         <inherits-from>Models/Effects/lcd</inherits-from>
@@ -46,6 +47,18 @@
             <brightness><use>/instrumentation/mfd[1]/brightness-pbr</use></brightness>
         </parameters>
     </effect>
+
+    <!-- ALS -->
+    <animation>
+        <type>material</type>
+        <object-name>MFD1</object-name>
+        <emission>
+            <red>1</red>
+            <green>1</green>
+            <blue>1</blue>
+            <factor-prop>/controls/lighting/mfd[1]</factor-prop>
+        </emission>
+    </animation>
 
     <animation>
         <type>knob</type>

@@ -3346,5 +3346,206 @@
         <transparency><alpha>1</alpha></transparency>
     </animation>
 
+    <animation>
+        <name>Chart Light Left</name>
+        <type>knob</type>
+        <object-name>ChartLightKnob.Left</object-name>
+        <axis>
+            <x>  1 </x>
+            <y>  0 </y>
+            <z>  0 </z>
+        </axis>
+        <action>
+            <binding>
+                <command>property-adjust</command>
+                <property>controls/lighting/chart-light[0]</property>
+                <min>0</min>
+                <max>1</max>
+                <wrap>false</wrap>
+                <factor>0.05</factor>
+            </binding>
+        </action>
+    </animation>
+    <animation>
+        <name>Chart Light Right</name>
+        <type>knob</type>
+        <object-name>ChartLightKnob.Right</object-name>
+        <axis>
+            <x>  1 </x>
+            <y>  0 </y>
+            <z>  0 </z>
+        </axis>
+        <action>
+            <binding>
+                <command>property-adjust</command>
+                <property>controls/lighting/chart-light[1]</property>
+                <min>0</min>
+                <max>1</max>
+                <wrap>false</wrap>
+                <factor>0.05</factor>
+            </binding>
+        </action>
+    </animation>
+    <animation>
+        <name>Flood Light Left</name>
+        <type>knob</type>
+        <object-name>FloodlightKnob.Left</object-name>
+        <axis>
+            <x>  1 </x>
+            <y>  0 </y>
+            <z>  0 </z>
+        </axis>
+        <action>
+            <binding>
+                <command>property-adjust</command>
+                <property>controls/lighting/floodlight[0]</property>
+                <min>0</min>
+                <max>1</max>
+                <wrap>false</wrap>
+                <factor>0.05</factor>
+            </binding>
+        </action>
+    </animation>
+    <animation>
+        <name>Flood Light Right</name>
+        <type>knob</type>
+        <object-name>FloodlightKnob.Right</object-name>
+        <axis>
+            <x>  1 </x>
+            <y>  0 </y>
+            <z>  0 </z>
+        </axis>
+        <action>
+            <binding>
+                <command>property-adjust</command>
+                <property>controls/lighting/floodlight[1]</property>
+                <min>0</min>
+                <max>1</max>
+                <wrap>false</wrap>
+                <factor>0.05</factor>
+            </binding>
+        </action>
+    </animation>
+    <animation>
+        <name>PFD Brightness Left</name>
+        <type>knob</type>
+        <object-name>PFDKnob.Left</object-name>
+        <axis>
+            <x>  1 </x>
+            <y>  0 </y>
+            <z>  0 </z>
+        </axis>
+        <action>
+            <binding>
+                <command>property-adjust</command>
+                <property>controls/lighting/pfd[0]</property>
+                <min>0</min>
+                <max>1</max>
+                <wrap>false</wrap>
+                <factor>0.05</factor>
+            </binding>
+        </action>
+    </animation>
+    <animation>
+        <name>PFD Brightness Right</name>
+        <type>knob</type>
+        <object-name>PFDKnob.Right</object-name>
+        <axis>
+            <x>  1 </x>
+            <y>  0 </y>
+            <z>  0 </z>
+        </axis>
+        <action>
+            <binding>
+                <command>property-adjust</command>
+                <property>controls/lighting/pfd[1]</property>
+                <min>0</min>
+                <max>1</max>
+                <wrap>false</wrap>
+                <factor>0.05</factor>
+            </binding>
+        </action>
+    </animation>
+    <animation>
+        <name>MFD Brightness Left</name>
+        <type>knob</type>
+        <object-name>MFDKnob.Left</object-name>
+        <axis>
+            <x>  1 </x>
+            <y>  0 </y>
+            <z>  0 </z>
+        </axis>
+        <action>
+            <binding>
+                <command>property-adjust</command>
+                <property>controls/lighting/mfd[0]</property>
+                <min>0</min>
+                <max>1</max>
+                <wrap>false</wrap>
+                <factor>0.05</factor>
+            </binding>
+        </action>
+    </animation>
+    <animation>
+        <name>MFD Brightness Right</name>
+        <type>knob</type>
+        <object-name>MFDKnob.Right</object-name>
+        <axis>
+            <x>  1 </x>
+            <y>  0 </y>
+            <z>  0 </z>
+        </axis>
+        <action>
+            <binding>
+                <command>property-adjust</command>
+                <property>controls/lighting/mfd[1]</property>
+                <min>0</min>
+                <max>1</max>
+                <wrap>false</wrap>
+                <factor>0.05</factor>
+            </binding>
+        </action>
+    </animation>
+    <animation>
+        <name>EICAS Brightness</name>
+        <type>knob</type>
+        <object-name>EICASKnob</object-name>
+        <axis>
+            <x>  1 </x>
+            <y>  0 </y>
+            <z>  0 </z>
+        </axis>
+        <action>
+            <binding>
+                <command>property-adjust</command>
+                <property>controls/lighting/eicas</property>
+                <min>0</min>
+                <max>1</max>
+                <wrap>false</wrap>
+                <factor>0.05</factor>
+            </binding>
+        </action>
+    </animation>
+    <animation>
+        <name>Standby and Clock Brightness</name>
+        <type>knob</type>
+        <object-name>StandbyClockLightKnob</object-name>
+        <axis>
+            <x>  1 </x>
+            <y>  0 </y>
+            <z>  0 </z>
+        </axis>
+        <action>
+            <binding>
+                <command>property-adjust</command>
+                <property>controls/lighting/standby-clock</property>
+                <min>0</min>
+                <max>1</max>
+                <wrap>false</wrap>
+                <factor>0.05</factor>
+            </binding>
+        </action>
+    </animation>
+
 
 </PropertyList>

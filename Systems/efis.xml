@@ -24,5 +24,21 @@
         <output>instrumentation/eicas/brightness-pbr</output>
         <input>controls/lighting/eicas</input>
     </filter>
+    <filter>
+        <update-interval-secs type="double">0.1</update-interval-secs>
+        <name>Clock PBR Brightness</name>
+        <type>gain</type>
+        <gain>20</gain>
+        <output>instrumentation/chrono/brightness-pbr</output>
+        <input>controls/lighting/standby-clock</input>
+    </filter>
+    <filter>
+        <update-interval-secs type="double">0.1</update-interval-secs>
+        <name>Standby instrument PBR Brightness</name>
+        <type>gain</type>
+        <gain>20</gain>
+        <output>instrumentation/IESS/brightness-pbr</output>
+        <input>instrumentation/IESS/brightness</input>
+    </filter>
 </PropertyList>
 
