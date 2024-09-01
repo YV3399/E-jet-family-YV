@@ -7,8 +7,8 @@ var DC = 0.01744;
 var sin30 = math.sin(30 * D2R);
 var cos30 = math.cos(30 * D2R);
 
-var latZoomFactor = 720.0;
-var vertZoomFactor = 4.0;
+var latZoomFactor = 640.0;
+var vertZoomFactor = 0.8;
 var vertZoomRefRange = 100.0;
 
 var noTakeoffBrakeTemp = 300.0;
@@ -1545,7 +1545,7 @@ var MFD = {
             var latRange = me.props['range'].getValue();
             var vertZoom = vertZoomFactor / latRange;
             var zoom = latZoomFactor / latRange;
-            var trX = func(dist) { return 220 + dist * zoom; };
+            var trX = func(dist) { return 260 + dist * zoom; };
             var trY = func(alt) {
                         return 1266 - alt * vertZoom;
                     };
@@ -1634,8 +1634,11 @@ var MFD = {
         me.elems['vnav.alt.scale'] = g;
         me.elems['vnav.scale.major'] = [];
         me.vnavScrollMin = 0;
+        var latRange = me.props['range'].getValue();
         var y = 1266;
         var a = 0;
+        var vertZoom = vertZoomFactor / latRange;
+        var astep = 80 / vertZoom;
         for (var i = 0; i < 8; i += 1) {
             g.createChild('path')
              .setColor(1, 1, 1)
@@ -1663,7 +1666,7 @@ var MFD = {
              .setTranslation(90, y+8);
             append(me.elems['vnav.scale.major'], t);
             y -= 80;
-            a += 2000 / zoom;
+            a += astep;
         }
     },
 
@@ -1672,7 +1675,8 @@ var MFD = {
         var zoom = vertZoomRefRange / latRange; # factor
         var vertZoom = vertZoomFactor / latRange; # projection onto Y axis
 
-        var astep = 2000 / zoom;
+        var vertZoom = vertZoomFactor / latRange;
+        var astep = 80 / vertZoom;
         var azero = math.floor(scroll / astep - 0.5) * astep;
         var offset = (scroll - azero) * vertZoom;
         if (azero != me.vnavScrollMin) {
@@ -2574,8 +2578,8 @@ var MFD = {
         if (gspd > 40) {
             me.elems['vnav-flightpath']
                 .reset()
-                .moveTo(220 + progress * latZoom,  1266 - alt * vertZoom)
-                .lineTo(220 + (progress + range) * latZoom, 1266 - talt * vertZoom)
+                .moveTo(260 + progress * latZoom,  1266 - alt * vertZoom)
+                .lineTo(260 + (progress + range) * latZoom, 1266 - talt * vertZoom)
                 .show();
         }
         else {
@@ -2593,7 +2597,7 @@ var MFD = {
             else {
                 var wp = fp.getWP(wpi);
                 var wpAlt = fms.vnav.nominalProfileAltAt(wp.distance_along_route);
-                me.setVnavVerticalScroll(wpAlt - 5000 / zoom);
+                me.setVnavVerticalScroll(wpAlt - 20000 / zoom);
                 me.elems['vnav.lateral'].setTranslation((0.5 * range - wp.distance_along_route) * latZoom, 0.0);
             }
         }
@@ -2604,7 +2608,7 @@ var MFD = {
             var limit = 4000 / zoom;
             if (delta > limit) { delta = limit; }
             if (delta < -limit) { delta = -limit; }
-            var vertical = alt + delta - 5000 / zoom;
+            var vertical = alt + delta - 20000 / zoom;
             if (vertical < -2000) { vertical = -2000; }
             if (vertical > 45000) { vertical = 45000; }
             me.setVnavVerticalScroll(alt + delta - 5000 / zoom);
