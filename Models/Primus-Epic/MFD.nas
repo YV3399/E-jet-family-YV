@@ -1104,6 +1104,8 @@ var MFD = {
         me.elems['vnav-flightpath'].setStrokeLineWidth(3);
         me.elems['vnav-flightpath'].setColor(0, 1, 0);
 
+        me.elems['vnav.aircraft.symbol'].set('z-index', 10);
+
         me.buildVnavScale(1);
 
         me.elems['arc'].set("clip", "rect(0px, 1024px, 540px, 0px)");
@@ -1505,6 +1507,7 @@ var MFD = {
         me.updateVnavFlightplan();
 
         var halfRangeTxt = sprintf(fmt, range / 2);
+        var rangeTxt = sprintf(fmt, range);
         me.elems['arc.range.left'].setText(halfRangeTxt);
         me.elems['arc.range.right'].setText(halfRangeTxt);
         me.elems['plan.range'].setText(halfRangeTxt);
@@ -1515,6 +1518,7 @@ var MFD = {
         }
         else {
             me.elems['vnav.range.center.digital'].setText(halfRangeTxt);
+            me.elems['vnav.range.right.digital'].setText(rangeTxt);
         }
         me.updateVnavSelectedAlt();
     },
@@ -1592,6 +1596,23 @@ var MFD = {
                             .setDrawMode(canvas.Text.TEXT + canvas.Text.FILLEDBOUNDINGBOX)
                             .setFont("LiberationFonts/LiberationSans-Regular.ttf")
                             .setTranslation(0, 32);
+                    var textBox = altText.getBoundingBox();
+                    if (wp.alt_cstr_type != nil and (wp.alt_cstr_type == 'at' or wp.alt_cstr_type == 'below' or wp.alt_cstr_type == 'between')) {
+                        var lineAbove =
+                                group.createChild("path")
+                                     .moveTo(textBox[0], textBox[1] - 4 + 32)
+                                     .horizTo(textBox[2])
+                                     .setColor(color[0], color[1], color[2])
+                                     .setStrokeLineWidth(3);
+                    }
+                    if (wp.alt_cstr_type != nil and (wp.alt_cstr_type == 'at' or wp.alt_cstr_type == 'above')) {
+                        var lineBelow =
+                                group.createChild("path")
+                                     .moveTo(textBox[0], textBox[3] + 4 + 32)
+                                     .horizTo(textBox[2])
+                                     .setColor(color[0], color[1], color[2])
+                                     .setStrokeLineWidth(3);
+                    }
                 }
                 group.setTranslation(trX(dist), trY(alt));
             };
@@ -1916,10 +1937,10 @@ var MFD = {
             me.plan.hide();
             me.systemsContainer.hide();
             me.elems['submodeMenu'].hide();
-            me.elems['vnav.range.left'].hide();
+            me.elems['vnav.range.left'].show();
             me.elems['vnav.range.left.digital'].hide();
-            me.elems['vnav.range.right'].hide();
-            me.elems['vnav.range.right.digital'].hide();
+            me.elems['vnav.range.right'].show();
+            me.elems['vnav.range.right.digital'].show();
             me.elems['vnav.range.center'].show();
             me.elems['vnav.range.center.digital'].show();
             var viz = me.props['show-tcas'].getBoolValue();
@@ -1941,7 +1962,7 @@ var MFD = {
             me.elems['vnav.range.left.digital'].show();
             me.elems['vnav.range.right'].show();
             me.elems['vnav.range.right.digital'].show();
-            me.elems['vnav.range.center'].hide();
+            me.elems['vnav.range.center'].show();
             me.elems['vnav.range.center.digital'].hide();
             me.trafficGroup.setVisible(0);
         }
