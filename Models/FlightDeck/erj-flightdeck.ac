@@ -34,7 +34,7 @@ MATERIAL "ac3dmat1.025" rgb 1.000 1.000 1.000  amb 0.800 0.800 0.800  emis 0.000
 MATERIAL "ac3dmat1.026" rgb 1.000 1.000 1.000  amb 0.800 0.800 0.800  emis 0.000 0.000 0.000  spec 0.500 0.500 0.500  shi 64 trans 0.000
 OBJECT world
 name "Blender_exporter_v3.3__erj-flightdeck.ac"
-kids 530
+kids 537
 OBJECT poly
 name "ALT"
 data 12
@@ -22697,16 +22697,6 @@ refs 4
 11 0.665442 0.847976
 kids 0
 OBJECT poly
-name "e1.case.axis"
-data 16
-e1.case.mesh.001
-crease 45.0
-texture "engine-control.png"
-numvert 2
--12.28821 0.70226 0.05658
--12.28821 0.70226 0.00632
-kids 0
-OBJECT poly
 name "e1.ign"
 data 15
 e1.ign.mesh.004
@@ -23268,16 +23258,6 @@ refs 4
 19 0.295433 0.040957
 60 0.279856 0.043528
 80 0.274144 0.032333
-kids 1
-OBJECT poly
-name "e1.ign.axis"
-data 15
-e1.ign.mesh.001
-crease 45.0
-texture "engine-control.png"
-numvert 2
--12.25551 0.69352 0.03547
--12.25699 0.68929 0.03565
 kids 0
 OBJECT poly
 name "e1.start"
@@ -23847,15 +23827,6 @@ refs 4
 41 0.32013 0.039402
 43 0.29231 0.030019
 79 0.29231 0.030019
-kids 1
-OBJECT poly
-name "e1.start.axis"
-data 17
-e1.start.mesh.000
-crease 45.0
-numvert 2
--12.31027 0.71018 0.03534
--12.30656 0.72003 0.0357
 kids 0
 OBJECT poly
 name "e2.case"
@@ -23940,16 +23911,6 @@ refs 4
 3 0.655858 0.992392
 2 0.655858 0.843885
 5 0.655858 0.843885
-kids 0
-OBJECT poly
-name "e2.case.axis"
-data 16
-e2.case.mesh.001
-crease 45.0
-texture "engine-control.png"
-numvert 2
--12.28791 0.70216 -0.05066
--12.28791 0.70216 -0.0004
 kids 0
 OBJECT poly
 name "e2.ign"
@@ -24514,16 +24475,6 @@ refs 4
 40 0.32013 0.039402
 42 0.29231 0.030019
 78 0.29231 0.030019
-kids 1
-OBJECT poly
-name "e2.ign.axis"
-data 15
-e2.ign.mesh.001
-crease 45.0
-texture "engine-control.png"
-numvert 2
--12.25538 0.69385 -0.02797
--12.25699 0.68929 -0.02797
 kids 0
 OBJECT poly
 name "e2.start"
@@ -25093,15 +25044,6 @@ refs 4
 20 0.295433 0.040957
 61 0.279856 0.043528
 82 0.274144 0.032333
-kids 1
-OBJECT poly
-name "e2.start.axis"
-data 17
-e2.start.mesh.000
-crease 45.0
-numvert 2
--12.31027 0.71018 -0.02829
--12.30663 0.72006 -0.02803
 kids 0
 OBJECT poly
 name "EICASKnob"
@@ -26251,16 +26193,6 @@ refs 4
 9 0.205881 0.998877
 12 0.198668 0.998877
 13 0.198668 0.9373
-kids 1
-OBJECT poly
-name "FCM.elevator.case.axis"
-data 16
-box.002.mesh.002
-crease 45.0
-texture "engine-control.png"
-numvert 2
--12.39602 0.74349 0.02154
--12.39591 0.74341 0.04779
 kids 0
 OBJECT poly
 name "FCM.elevator.switch"
@@ -26428,16 +26360,6 @@ refs 4
 9 0.205881 0.998877
 12 0.198668 0.998877
 13 0.198668 0.9373
-kids 1
-OBJECT poly
-name "FCM.rudder.case.axis"
-data 16
-box.002.mesh.005
-crease 45.0
-texture "engine-control.png"
-numvert 2
--12.39601 0.74339 -0.01078
--12.39591 0.74355 0.01547
 kids 0
 OBJECT poly
 name "FCM.rudder.switch"
@@ -26605,16 +26527,6 @@ refs 4
 9 0.205881 0.998877
 12 0.198668 0.998877
 13 0.198668 0.9373
-kids 1
-OBJECT poly
-name "FCM.spoilers.case.axis"
-data 16
-box.002.mesh.007
-crease 45.0
-texture "engine-control.png"
-numvert 2
--12.396 0.74338 -0.04213
--12.39592 0.7436 -0.01588
 kids 0
 OBJECT poly
 name "FCM.spoilers.switch"
@@ -166639,4 +166551,146 @@ refs 4
 92 0.538122 0.668055
 93 0.547046 0.648592
 123 0.547046 0.648592
+kids 0
+OBJECT poly
+name "e1.case.axis"
+data 16
+e1.case.mesh.001
+crease 45.0
+texture "engine-control.png"
+numvert 2
+-12.28821 0.70226 0.05658
+-12.28821 0.70226 0.00632
+numsurf 1
+SURF 0X12
+mat 6
+refs 2
+0 0 0
+1 0 0
+kids 0
+OBJECT poly
+name "e1.ign.axis"
+data 15
+e1.ign.mesh.001
+crease 45.0
+texture "engine-control.png"
+numvert 2
+-12.25551 0.69352 0.03547
+-12.25699 0.68929 0.03565
+numsurf 1
+SURF 0X12
+mat 5
+refs 2
+0 0 0
+1 0 0
+kids 0
+OBJECT poly
+name "e1.start.axis"
+data 17
+e1.start.mesh.000
+crease 45.0
+numvert 2
+-12.31027 0.71018 0.03534
+-12.30656 0.72003 0.0357
+numsurf 1
+SURF 0X12
+mat 17
+refs 2
+0 0 0
+1 0 0
+kids 0
+OBJECT poly
+name "e2.case.axis"
+data 16
+e2.case.mesh.001
+crease 45.0
+texture "engine-control.png"
+numvert 2
+-12.28791 0.70216 -0.05066
+-12.28791 0.70216 -0.0004
+numsurf 1
+SURF 0X12
+mat 6
+refs 2
+1 0 0
+0 0 0
+kids 0
+OBJECT poly
+name "e2.ign.axis"
+data 15
+e2.ign.mesh.001
+crease 45.0
+texture "engine-control.png"
+numvert 2
+-12.25538 0.69385 -0.02797
+-12.25699 0.68929 -0.02797
+numsurf 1
+SURF 0X12
+mat 5
+refs 2
+0 0 0
+1 0 0
+kids 0
+OBJECT poly
+name "e2.start.axis"
+data 17
+e2.start.mesh.000
+crease 45.0
+numvert 2
+-12.31027 0.71018 -0.02829
+-12.30663 0.72006 -0.02803
+numsurf 1
+SURF 0X12
+mat 17
+refs 2
+0 0 0
+1 0 0
+kids 0
+OBJECT poly
+name "FCM.elevator.case.axis"
+data 16
+box.002.mesh.002
+crease 45.0
+texture "engine-control.png"
+numvert 2
+-12.39602 0.74349 0.02154
+-12.39591 0.74341 0.04779
+numsurf 1
+SURF 0X12
+mat 5
+refs 2
+0 0 0
+1 0 0
+kids 0
+OBJECT poly
+name "FCM.rudder.case.axis"
+data 16
+box.002.mesh.005
+crease 45.0
+texture "engine-control.png"
+numvert 2
+-12.39601 0.74339 -0.01078
+-12.39591 0.74355 0.01547
+numsurf 1
+SURF 0X12
+mat 5
+refs 2
+0 0 0
+1 0 0
+kids 0
+OBJECT poly
+name "FCM.spoilers.case.axis"
+data 16
+box.002.mesh.007
+crease 45.0
+texture "engine-control.png"
+numvert 2
+-12.396 0.74338 -0.04213
+-12.39592 0.7436 -0.01588
+numsurf 1
+SURF 0X12
+mat 5
+refs 2
+0 0 0
+1 0 0
 kids 0
