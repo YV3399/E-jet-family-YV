@@ -18,6 +18,14 @@
     </animation>
 
     <animation>
+        <type>material</type>
+        <object-name>clipPaper</object-name>
+        <transparency>
+            <alpha>0.9999</alpha>
+        </transparency>
+    </animation>
+
+    <animation>
         <type>pick</type>
         <object-name>clipArrowRight</object-name>
         <object-name>clipArrowLeft</object-name>
@@ -63,9 +71,9 @@
 
     <effect>
         <inherits-from>Effects/model-transparent</inherits-from>
-        <object-name>clipPaper</object-name>
         <object-name>clipArrowRight</object-name>
         <object-name>clipArrowLeft</object-name>
+        <object-name>clipPaper</object-name>
     </effect>
 </PropertyList>
 
