@@ -1978,6 +1978,7 @@
             <speedbrake-lever type="double">0</speedbrake-lever>
             <steep-approach type="bool">false</steep-approach>
             <tcs type="bool">false</tcs>
+            <takeoff-config-check type="bool">false</takeoff-config-check>
 
             <!--
                 These are the pilot-selected v-speeds; any non-zero setting
@@ -2298,6 +2299,15 @@
                 <fuel-low-right type="bool">false</fuel-low-right>
                 <fuel-imbalance type="bool">false</fuel-imbalance>
                 <parking-brake type="bool">false</parking-brake>
+                <no-takeoff>
+                    <flaps type="bool">false</flaps>
+                    <brakes type="bool">false</brakes>
+                    <trim type="bool">false</trim>
+                    <spoiler type="bool">false</spoiler>
+                    <master type="bool">false</master>
+                    <checking type="bool">false</checking>
+                    <ok type="bool">false</ok>
+                </no-takeoff>
                 <doors>
                     <l1><open type="bool">false</open></l1>
                     <l2><open type="bool">false</open></l2>

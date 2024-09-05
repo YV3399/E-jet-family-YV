@@ -253,6 +253,26 @@
     <!-- Common stuff that only works when copied over -->
     <animation>
         <type>pick</type>
+        <object-name>TOCheck.button</object-name>
+        <action>
+            <button>0</button>
+            <repeatable type="bool">false</repeatable>
+            <binding>
+                <command>property-assign</command>
+                <property>/controls/flight/takeoff-config-check</property>
+                <value type="bool">true</value>
+            </binding>
+            <mod-up>
+                <binding>
+                    <command>property-assign</command>
+                    <property>/controls/flight/takeoff-config-check</property>
+                    <value type="bool">false</value>
+                </binding>
+            </mod-up>
+        </action>
+    </animation>
+    <animation>
+        <type>pick</type>
         <object-name>MasterWarningBtn.left</object-name>
         <object-name>MasterWarningBtn.right</object-name>
         <action>

@@ -2,6 +2,93 @@
 
     <logic>
         <input>
+            <or>
+                <and>
+                    <property>/gear/gear[1]/wow</property>
+                    <or>
+                        <greater-than>
+                            <property>/controls/engines/engine[0]/throttle</property>
+                            <value>0.5</value>
+                        </greater-than>
+                        <greater-than>
+                            <property>/controls/engines/engine[1]/throttle</property>
+                            <value>0.5</value>
+                        </greater-than>
+                    </or>
+                </and>
+                <property>/controls/flight/takeoff-config-check</property>
+            </or>
+        </input>
+        <output>/instrumentation/eicas/messages/no-takeoff/checking</output>
+    </logic>
+
+    <logic>
+        <input>
+            <and>
+                <property>/instrumentation/eicas/messages/no-takeoff/checking</property>
+                <not-equals>
+                    <property>/fms/takeoff-conditions/flaps</property>
+                    <property>/controls/flight/flaps</property>
+                </not-equals>
+            </and>
+        </input>
+        <output>/instrumentation/eicas/messages/no-takeoff/flaps</output>
+    </logic>
+    <logic>
+        <input>
+            <and>
+                <property>/instrumentation/eicas/messages/no-takeoff/checking</property>
+                <not-equals>
+                    <property>/autopilot/autobrake/step</property>
+                    <value>-1</value>
+                </not-equals>
+            </and>
+        </input>
+        <output>/instrumentation/eicas/messages/no-takeoff/brakes</output>
+    </logic>
+
+    <logic>
+        <input>
+            <and>
+                <property>/instrumentation/eicas/messages/no-takeoff/checking</property>
+                <or>
+                    <greater-than>
+                        <property>/controls/flight/ground-spoilers</property>
+                        <value>0.001</value>
+                    </greater-than>
+                    <greater-than>
+                        <property>/controls/flight/speedbrake-lever</property>
+                        <value>0.001</value>
+                    </greater-than>
+                </or>
+            </and>
+        </input>
+        <output>/instrumentation/eicas/messages/no-takeoff/spoiler</output>
+    </logic>
+    <logic>
+        <input>
+            <or>
+                <property>/instrumentation/eicas/messages/no-takeoff/flaps</property>
+                <property>/instrumentation/eicas/messages/no-takeoff/brakes</property>
+                <property>/instrumentation/eicas/messages/no-takeoff/spoiler</property>
+                <property>/instrumentation/eicas/messages/no-takeoff/trim</property>
+            </or>
+        </input>
+        <output>/instrumentation/eicas/messages/no-takeoff/master</output>
+    </logic>
+    <logic>
+        <input>
+            <and>
+                <not><property>/instrumentation/eicas/messages/no-takeoff/master</property></not>
+                <property>/controls/flight/takeoff-config-check</property>
+            </and>
+        </input>
+        <output>/instrumentation/eicas/messages/no-takeoff/ok</output>
+    </logic>
+
+
+    <logic>
+        <input>
             <and>
                 <property>/controls/gear/brake-parking</property>
                 <or>

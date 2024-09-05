@@ -54,8 +54,8 @@ var PerfInitModule = {
                 StaticView.new(1, 3, "FUEL RESERVE", mcdu_white),
                 FormatView.new(0, 4, mcdu_large | mcdu_green, "FUEL-RESERVE", 3, "%3.0f KG"),
                 StaticView.new(1, 5, "TO/LDG FUEL", mcdu_white),
-                FormatView.new(0, 6, mcdu_large | mcdu_green, "FUEL-TAKEOFF", 3, "%3.0f/"),
-                FormatView.new(4, 6, mcdu_large | mcdu_green, "FUEL-LANDING", 3, "%1.0f KG"),
+                FormatView.new(0, 6, mcdu_large | mcdu_green, "FUEL-TAKEOFF", 3, "%5.0f/"),
+                FormatView.new(6, 6, mcdu_large | mcdu_green, "FUEL-LANDING", 3, "%1.0f KG"),
                 StaticView.new(1, 7, "CONTINGENCY FUEL", mcdu_white),
                 FormatView.new(0, 8, mcdu_large | mcdu_green, "FUEL-CONTINGENCY", 3, "%3.0f KG"),
             ];

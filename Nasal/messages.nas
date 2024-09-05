@@ -258,6 +258,8 @@ setlistener("sim/signals/fdm-initialized", func {
     var yes = func (val) { return !!val; }
     var no = func (val) { return !val; }
 
+    listenOnProp("/instrumentation/eicas/messages/no-takeoff/master", yes, MSG_WARNING, 'NO TAKEOFF CONFIG', 0, 0, [K3, K4, K5]);
+    listenOnProp("/instrumentation/eicas/messages/no-takeoff/ok", yes, MSG_STATUS, 'TAKEOFF OK', 0, 0, [K3, K4, K5]);
     listenOnProp("/engines/engine[0]/running", no, MSG_CAUTION, 'ENG 1 FAIL', 0, 0, [K3]);
     listenOnProp("/engines/engine[1]/running", no, MSG_CAUTION, 'ENG 2 FAIL', 0, 0, [K3]);
     listenOnProp("/gear/brake-overheat", yes, MSG_CAUTION, 'BRK OVERHEAT', 0, 0, [K3]);
