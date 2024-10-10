@@ -2632,7 +2632,7 @@ var MFD = {
             var vertical = alt + delta - 20000 / zoom;
             if (vertical < -2000) { vertical = -2000; }
             if (vertical > 45000) { vertical = 45000; }
-            me.setVnavVerticalScroll(alt + delta - 5000 / zoom);
+            me.setVnavVerticalScroll(vertical);
             me.elems['vnav.lateral'].setTranslation(-progress * latZoom, 0.0);
         }
         me.elems['vnav.aircraft.symbol'].setTranslation(progress * latZoom, -alt * vertZoom);

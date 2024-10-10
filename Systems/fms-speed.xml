@@ -494,7 +494,7 @@
                                     <div>
                                         <difference>
                                             <property>/instrumentation/altimeter/indicated-altitude-ft</property>
-                                            <value>10000</value>
+                                            <property>/controls/flight/speed-schedule/climb-limit-alt</property>
                                         </difference>
                                         <value>2000</value>
                                     </div>
