@@ -2,18 +2,18 @@
 rm -rf ./release
 mkdir -p ./release/E-jet-family
 cp -R \
+    common.xml \
+    COPYING.md \
     Data \
     Documentation \
     DualControl \
+    E17x-copilot-set.xml \
     Embraer170-set.xml \
     Embraer175-set.xml \
     Embraer190-set.xml \
     Embraer195-set.xml \
     EmbraerLineage1000-set.xml \
     Engines \
-    E17x-copilot-set.xml \
-    common.xml \
-    sound.xml \
     FDM \
     Fonts \
     gui \
@@ -22,6 +22,7 @@ cp -R \
     Nasal \
     README.md \
     Sounds \
+    sound.xml \
     Splash \
     Systems \
     Thanks.txt \
