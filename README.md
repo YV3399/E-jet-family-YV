@@ -41,8 +41,10 @@ Original version:
 
 ## Recommended Method
 
+Use this method unless you are sure you need / want something else.
+
 - Get the latest release from
-  https://github.com/YV3399/E-jet-family-YV/releases/latest
+  https://github.com/tdammers/E-jet-family-YV/releases/latest
 - Unzip in your Aircraft directory
 
 Other installation methods: see bottom of this document. This is necessary
@@ -84,33 +86,73 @@ only thing it did was confuse people.
 
 # Further Documentation
 
-See https://github.com/YV3399/E-jet-family-YV/blob/master/Documentation/guide.markdown
+See https://github.com/tdammers/E-jet-family-YV/blob/master/Documentation/guide.markdown
 
 This document includes some essential procedures and a quick guide to the
 aircraft. It is not a substitute for a full Flight Crew Operating Manual
 (FCOM), but it should be enough to get you flying.
 
 
-# Alternate Installation Instructions
+# Alternative Installation Instructions
 
-The installation instructions should only be used if you know what you are
-doing. If you have made it here and haven't read any installation instructions
-yet, then please scroll back up and read again.
+**The installation instructions should only be used if you know what you are
+doing.** If you have made it here and haven't read any installation
+instructions yet, then please scroll back up and read again.
+
+If you decide to use one of these methods, and it "doesn't work", please
+re-read the installation instructions carefully, and especially make sure that
+you have run the build script (`build.sh`), and that it was successful.
 
 ## From a github source bundle
 
 - Get a source bundle from
-  https://github.com/YV3399/E-jet-family-YV/archive/master.zip (or go to
-  https://github.com/YV3399/E-jet-family-YV and click the green "Code" button)
+  https://github.com/tdammers/E-jet-family-YV/archive/master.zip (or go to
+  https://github.com/tdammers/E-jet-family-YV and click the green "Code" button)
 - Unzip in your Aircraft directory
 - **REMOVE THE `-YV-master` PART FROM THE DIRECTORY NAME**. The aircraft won't
   work properly if you don't do this.
+- **In the aircraft directory, run the `build.sh` script (see below).**
 
 ## Using `git`
 
-- `git clone https://github.com/YV3399/E-jet-family-YV $FGROOT/Aircraft/E-jet-family-YV`
+- `git clone https://github.com/tdammers/E-jet-family-YV $FGROOT/Aircraft/E-jet-family-YV`
   (replace `$FGROOT` with whatever is suitable - if you don't know what it
   should be, then you probably shouldn't be using this method). If you have a
   github account, you can also clone from
-  `git@github.com/YV3399/E-jet-family-YV`, or fork on github and clone from
+  `git@github.com/tdammers/E-jet-family-YV`, or fork on github and clone from
   your fork instead.
+- **In the aircraft directory, run the `build.sh` script (see below).**
+
+# Building From Source
+
+This procedure is required if you want to do development work on the aircraft,
+or if you have downloaded the source code rather than a release bundle.
+
+## Prerequisites
+
+- A POSIX environment with a `bash` compatible shell. Practically all normal
+  Linux distributions qualify; OS X will probably work but hasn't been tested;
+  on Windows, it might work in Git Bash, MSYS, or WSL, but this hasn't been
+  tested either.
+- `xsltproc`, available via most Linux distributions' package repositories, or
+  from http://xmlsoft.org/xslt/xsltproc.html
+- The `zip` command, available from your Linux distribution's package
+  repository (only for making release bundles).
+
+## Running the build script
+
+```
+$> cd $AIRCRAFT_DIR/E-jet-family/
+$> ./build.sh
+```
+
+
+# Making A Release Bundle
+
+```
+$> cd $AIRCRAFT_DIR/E-jet-family/
+$> ./make-release.sh
+```
+
+This will create a directory `release/E-jet-family`, and a zip file that is the
+actual release bundle, named `E-jet-family.zip`.
