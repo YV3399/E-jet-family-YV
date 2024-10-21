@@ -588,6 +588,7 @@
             <max-dist>2.0</max-dist>
         </wind>
 
+        <!--
         <stall>
             <name>stall</name>
             <mode>looped</mode>
@@ -614,6 +615,7 @@
             <reference-dist>0.5</reference-dist>
             <max-dist>1.0</max-dist>
         </speedbrake>
+        -->
 
         <!-- Seatbelt/No smoking signs -->
         <seatbelt>
@@ -701,6 +703,7 @@
 
         <!-- Announcements -->
 
+        <!--
         <announcement>
             <name>welcome</name>
             <path>Aircraft/E-jet-family/Sounds/announce/welcome.wav</path>
@@ -949,6 +952,7 @@
             <reference-dist>10.0</reference-dist>
             <max-dist>100.0</max-dist>
         </announcement>
+        -->
 
         <avionics>
             <name>avionics</name>
